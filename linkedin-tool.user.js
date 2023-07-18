@@ -13,11 +13,11 @@
 
 (function () {
   'use strict';
-  
+
   const navbar = document.querySelector('#global-nav');
   // The current rule for scroll-margin-top is overly broad.
   GM_addStyle(`div { scroll-margin-top: 56px }`);
-  
+
   let current = -1;
 
   function scrollBy(index, recursed = false) {
@@ -40,7 +40,7 @@
       el.focus();
     }
   }
-  
+
   VM.shortcut.register('j', () => {
     scrollBy(1);
   });
