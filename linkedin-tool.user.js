@@ -2,21 +2,18 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.02.1
+// @version     0.02.2
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/issues
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
+// @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // ==/UserScript==
 
 (function () {
   'use strict';
-
-  const navbar = document.querySelector('#global-nav');
-  // TODO(https://github.com/nexushoratio/userscripts/issues/4)
-  GM_addStyle(`div { scroll-margin-top: 56px }`);
 
   let current = -1;
 
@@ -47,4 +44,15 @@
     scrollBy(-1);
   });
   VM.shortcut.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');});
+
+  VM.observe(document.body, () => {
+    const navbar = document.querySelector('#global-nav');
+
+    if (navbar) {
+      // TODO(https://github.com/nexushoratio/userscripts/issues/4)
+      GM_addStyle(`div { scroll-margin-top: ${navbar.clientHeight + 4}px }`);
+
+      return true;
+    }
+  });
 })();
