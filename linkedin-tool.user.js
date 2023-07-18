@@ -2,11 +2,13 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @grant       GM_addStyle
-// @version     0.01
+// @version     0.01.1
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
-// @require https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
+// @grant       GM_addStyle
+// @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
+// @supportURL  https://github.com/nexushoratio/userscripts/issues
+// @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // ==/UserScript==
 
 (function () {
