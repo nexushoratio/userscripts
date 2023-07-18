@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.02.2
+// @version     0.02.3
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -15,7 +15,15 @@
 (function () {
   'use strict';
 
+  const kbService = new VM.shortcut.KeyboardService();
+  const navOption = {condition: '!inputFocus'};
+  kbService.enable();
+
   let current = -1;
+
+  function isInput(element) {
+    return (element.isContentEditable || element.tagName === 'INPUT');
+  }
 
   function scrollBy(index, recursed = false) {
     console.debug('scrolling by %d', index);
@@ -37,13 +45,13 @@
     }
   }
 
-  VM.shortcut.register('j', () => {
+  kbService.register('j', () => {
     scrollBy(1);
-  });
-  VM.shortcut.register('k', () => {
+  }, navOption);
+  kbService.register('k', () => {
     scrollBy(-1);
-  });
-  VM.shortcut.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');});
+  }, navOption);
+  kbService.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');}, navOption);
 
   VM.observe(document.body, () => {
     const navbar = document.querySelector('#global-nav');
@@ -55,4 +63,15 @@
       return true;
     }
   });
+  document.addEventListener('focus', (e) => {
+    if (isInput(e.target)) {
+      console.debug(VM);
+      kbService.setContext('inputFocus', true);
+    }
+  }, true);
+  document.addEventListener('blur', (e) => {
+    if (isInput(e.target)) {
+      kbService.setContext('inputFocus', false);
+    }
+  }, true);
 })();
