@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.01.1
+// @version     0.02
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -14,8 +14,9 @@
 (function () {
   'use strict';
   
+  const navbar = document.querySelector('#global-nav');
   // The current rule for scroll-margin-top is overly broad.
-  GM_addStyle('div { scroll-margin-top: 76px }');
+  GM_addStyle(`div { scroll-margin-top: ${navbar.clientHeight + 4}px }`);
   
   let current = -1;
 
