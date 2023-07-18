@@ -15,7 +15,7 @@
   'use strict';
 
   const navbar = document.querySelector('#global-nav');
-  // The current rule for scroll-margin-top is overly broad.
+  // TODO(https://github.com/nexushoratio/userscripts/issues/4)
   GM_addStyle(`div { scroll-margin-top: 56px }`);
 
   let current = -1;
@@ -34,8 +34,7 @@
       scrollBy(index, true);
     } else {
       el.scrollIntoView();
-      // XXX: Ugly hack.  Get rid of this.
-      // https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex#accessibility_concerns
+      // TODO(https://github.com/nexushoratio/userscripts/issues/9)
       el.setAttribute('tabindex', 0);
       el.focus();
     }
