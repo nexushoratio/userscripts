@@ -21,13 +21,28 @@
 
   let current = -1;
 
+  kbService.register('j', () => {
+    scrollBy(1);
+  }, navOption);
+  kbService.register('k', () => {
+    scrollBy(-1);
+  }, navOption);
+  kbService.register('x', () => {
+    togglePost();
+  }, navOption);
+  kbService.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');}, navOption);
+
   function isInput(element) {
     return (element.isContentEditable || element.tagName === 'INPUT');
   }
 
+  function getRelatives() {
+    return document.querySelectorAll('#voyager-feed div[data-id]');
+  }
+
   function scrollBy(index, recursed = false) {
     console.debug('scrolling by %d', index);
-    const relatives = document.querySelectorAll('#voyager-feed div[data-id]');
+    const relatives = getRelatives();
     current = Math.max(Math.min(current + index, relatives.length), 0);
     console.debug('current: %d of %d', current, relatives.length);
     const el = relatives[current];
@@ -45,13 +60,20 @@
     }
   }
 
-  kbService.register('j', () => {
-    scrollBy(1);
-  }, navOption);
-  kbService.register('k', () => {
-    scrollBy(-1);
-  }, navOption);
-  kbService.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');}, navOption);
+  function togglePost() {
+    const post = getRelatives()[current];
+    if (post) {
+      const dismiss = post.querySelector('button[aria-label^="Dismiss post"]');
+      if (dismiss) {
+	dismiss.click();
+      } else {
+	const undo = post.querySelector('button[aria-label^="Undo and show"]');
+	if (undo) {
+	  undo.click();
+	}
+      }
+    }
+  }
 
   VM.observe(document.body, () => {
     const navbar = document.querySelector('#global-nav');
