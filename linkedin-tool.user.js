@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.03
+// @version     0.03.1
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -27,7 +27,7 @@
   kbService.register('k', () => {
     scrollBy(-1);
   }, navOption);
-  kbService.register('x', () => {
+  kbService.register('s-x', () => {
     togglePost();
   }, navOption);
   kbService.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');}, navOption);
