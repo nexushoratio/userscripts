@@ -27,6 +27,14 @@
   kbService.register('k', () => {
     scrollBy(-1);
   }, navOption);
+  kbService.register('s-j', () => {
+    togglePost();
+    scrollBy(1);
+  }, navOption);
+  kbService.register('s-k', () => {
+    togglePost();
+    scrollBy(-1);
+  }, navOption);
   kbService.register('s-x', () => {
     togglePost();
   }, navOption);
