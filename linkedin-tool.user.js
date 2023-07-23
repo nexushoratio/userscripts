@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.09
+// @version     0.10
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -71,8 +71,8 @@
   kbService.register('m', () => {
     seeMore();
   }, navOption);
-  kbService.register('n', () => {
-    newPosts();
+  kbService.register('l', () => {
+    loadNewPosts();
   }, navOption);
 
   function isInput(element) {
@@ -157,11 +157,18 @@
     }
   }
 
-  function newPosts() {
-    const post = getRelatives()[0].querySelector('div.feed-new-update-pill button');
-    if (post) {
-      post.click();
+  function loadNewPosts() {
+    const posts = getRelatives();
+    const first_post = posts[0].querySelector('div.feed-new-update-pill button');
+    if (first_post) {
+      first_post.click();
       current = -1;
+    } else {
+      const show_more = document.querySelector('#voyager-feed button.scaffold-finite-scroll__load-button');
+      if (show_more) {
+	show_more.click();
+	posts[current].focus();
+      }
     }
   }
 
