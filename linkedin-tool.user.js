@@ -24,6 +24,30 @@
   kbService.register('/', () => {
     gotoSearch();
   }, navOption);
+  kbService.register('g h', () => {
+    gotoNavLink('feed');
+  }, navOption);
+  kbService.register('g m', () => {
+    gotoNavLink('mynetwork');
+  }, navOption);
+  kbService.register('g j', () => {
+    gotoNavLink('jobs');
+  }, navOption);
+  kbService.register('g g', () => {
+    gotoNavLink('messaging');
+  }, navOption);
+  kbService.register('g n', () => {
+    gotoNavLink('notifications');
+  }, navOption);
+  kbService.register('g p', () => {
+    gotoNavButton('Me');
+  }, navOption);
+  kbService.register('g b', () => {
+    gotoNavButton('Business');
+  }, navOption);
+  kbService.register('g l', () => {
+    gotoNavLink('learning');
+  }, navOption);
   kbService.register('j', () => {
     scrollBy(1);
   }, navOption);
@@ -50,7 +74,6 @@
   kbService.register('n', () => {
     newPosts();
   }, navOption);
-  kbService.register('g n', () => {alert('Pressed <g><n>.  Someday it might do something.');}, navOption);
 
   function isInput(element) {
     return (element.isContentEditable || element.tagName === 'INPUT');
@@ -62,6 +85,21 @@
 
   function gotoSearch() {
     document.querySelector('#global-nav-search input').focus();
+  }
+
+  function gotoNavLink(item) {
+    const el = document.querySelector(`#global-nav a[href*="/${item}"`);
+    el.click();
+  }
+
+  function gotoNavButton(item) {
+    const buttons = document.querySelectorAll('#global-nav button');
+    for (const el of buttons) {
+      if (el.textContent.includes(item)) {
+	el.click();
+	break;
+      }
+    }
   }
 
   function scrollBy(index, recursed = false) {
