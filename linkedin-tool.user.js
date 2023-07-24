@@ -22,6 +22,12 @@
   const current = {
     _post: -1,
     get post() {
+      const post = document.activeElement.closest('div[data-id]');
+      if (post && post !== document.activeElement) {
+	const relatives = getRelatives();
+	const n = Array.prototype.findIndex.call(relatives, element => element === post);
+	this._post = n;
+      }
       return this._post;
     },
     set post(v) {
