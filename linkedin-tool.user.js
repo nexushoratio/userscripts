@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.11
+// @version     0.12
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -105,6 +105,14 @@
     }
   }
 
+  function scrollToCurrent(relatives) {
+    const el = relatives[current];
+    el.scrollIntoView();
+    // TODO(https://github.com/nexushoratio/userscripts/issues/9)
+    el.setAttribute('tabindex', 0);
+    el.focus();
+  }
+
   function scrollBy(index, recursed = false) {
     console.debug('scrolling by %d', index);
     const relatives = getRelatives();
@@ -115,10 +123,7 @@
       console.debug('Skipping...', el);
       scrollBy(index, true);
     } else {
-      el.scrollIntoView();
-      // TODO(https://github.com/nexushoratio/userscripts/issues/9)
-      el.setAttribute('tabindex', 0);
-      el.focus();
+      scrollToCurrent(relatives);
     }
   }
 
@@ -191,6 +196,26 @@
       return true;
     }
   });
+
+  VM.observe(document.body, () => {
+    console.debug('observer for main');
+    const main = document.querySelector('main');
+    if (main) {
+      // TODO: factor this into standalone function.
+      main.addEventListener('click', (e) => {
+	const post = e.target.closest('div[data-id]');
+	if (post) {
+	  const relatives = getRelatives();
+	  const n = Array.prototype.findIndex.call(relatives, element => element === post);
+	  current = n;
+	  scrollToCurrent(relatives);
+	}
+      });
+
+      return true
+    }
+  });
+
   document.addEventListener('focus', (e) => {
     if (isInput(e.target)) {
       kbService.setContext('inputFocus', true);
@@ -201,4 +226,5 @@
       kbService.setContext('inputFocus', false);
     }
   }, true);
+
 })();
