@@ -20,12 +20,12 @@
   kbService.enable();
 
   const current = {
-    _val: -1,
-    get val() {
-      return this._val;
+    _post: -1,
+    get post() {
+      return this._post;
     },
-    set val(v) {
-      this._val = v;
+    set post(v) {
+      this._post = v;
     }
   };
 
@@ -114,7 +114,7 @@
   }
 
   function scrollToCurrent(relatives) {
-    const el = relatives[current.val];
+    const el = relatives[current.post];
     el.scrollIntoView();
     // TODO(https://github.com/nexushoratio/userscripts/issues/9)
     el.setAttribute('tabindex', 0);
@@ -124,8 +124,8 @@
   function scrollBy(index, recursed = false) {
     console.debug('scrolling by %d', index);
     const relatives = getRelatives();
-    current.val = Math.max(Math.min(current.val + index, relatives.length), 0);
-    const el = relatives[current.val];
+    current.post = Math.max(Math.min(current.post + index, relatives.length), 0);
+    const el = relatives[current.post];
     // Some posts are hidden.  So far, seems like just ads.
     if (el.clientHeight === 0 && !recursed) {
       console.debug('Skipping...', el);
@@ -136,7 +136,7 @@
   }
 
   function togglePost() {
-    const post = getRelatives()[current.val];
+    const post = getRelatives()[current.post];
     if (post) {
       const dismiss = post.querySelector('button[aria-label^="Dismiss post"]');
       if (dismiss) {
@@ -151,7 +151,7 @@
   }
 
   function showComments() {
-    const post = getRelatives()[current.val];
+    const post = getRelatives()[current.post];
     if (post) {
       const comments = post.querySelector('button[aria-label*="comment"]');
       if (comments) {
@@ -161,7 +161,7 @@
   }
 
   function seeMore() {
-    const post = getRelatives()[current.val];
+    const post = getRelatives()[current.post];
     if (post) {
       const see_more = post.querySelector('button[aria-label^="see more"]');
       if (see_more) {
@@ -171,7 +171,7 @@
   }
 
   function likeElement() {
-    const post = getRelatives()[current.val];
+    const post = getRelatives()[current.post];
     console.debug(post);
     if (post) {
       const like_button = post.querySelector('button[aria-label^="Open reactions menu"]');
@@ -184,12 +184,12 @@
     const first_post = posts[0].querySelector('div.feed-new-update-pill button');
     if (first_post) {
       first_post.click();
-      current.val = -1;
+      current.post = -1;
     } else {
       const show_more = document.querySelector('#voyager-feed button.scaffold-finite-scroll__load-button');
       if (show_more) {
 	show_more.click();
-	posts[current.val].focus();
+	posts[current.post].focus();
       }
     }
   }
@@ -215,7 +215,7 @@
 	if (post) {
 	  const relatives = getRelatives();
 	  const n = Array.prototype.findIndex.call(relatives, element => element === post);
-	  current.val = n;
+	  current.post = n;
 	  scrollToCurrent(relatives);
 	}
       });
