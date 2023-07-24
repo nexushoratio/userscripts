@@ -83,7 +83,7 @@
   }
 
   function getRelatives() {
-    return document.querySelectorAll('#voyager-feed div[data-id]');
+    return document.querySelectorAll('main div[data-id]');
   }
 
   function gotoSearch() {
