@@ -109,13 +109,10 @@
     console.debug('scrolling by %d', index);
     const relatives = getRelatives();
     current = Math.max(Math.min(current + index, relatives.length), 0);
-    console.debug('current: %d of %d', current, relatives.length);
     const el = relatives[current];
-    console.debug(el);
-    console.debug(el.clientHeight);
     // Some posts are hidden.  So far, seems like just ads.
     if (el.clientHeight === 0 && !recursed) {
-      console.debug('Skipping...');
+      console.debug('Skipping...', el);
       scrollBy(index, true);
     } else {
       el.scrollIntoView();
@@ -196,7 +193,6 @@
   });
   document.addEventListener('focus', (e) => {
     if (isInput(e.target)) {
-      console.debug(VM);
       kbService.setContext('inputFocus', true);
     }
   }, true);
