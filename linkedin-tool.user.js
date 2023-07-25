@@ -230,6 +230,16 @@
     }
   });
 
+  let oldUrl = new URL(window.location);
+  VM.observe(document.body, () => {
+    const newUrl = new URL(window.location);
+    if (oldUrl.href !== newUrl.href) {
+      const evt = new CustomEvent('href', {detail: {old: oldUrl, new: newUrl}})
+      oldUrl = newUrl;
+      document.dispatchEvent(evt);
+    }
+  });
+
   document.addEventListener('focus', (e) => {
     if (isInput(e.target)) {
       kbService.setContext('inputFocus', true);
@@ -239,6 +249,9 @@
     if (isInput(e.target)) {
       kbService.setContext('inputFocus', false);
     }
+  }, true);
+  document.addEventListener('href', (e) => {
+    console.debug('href event handler', e.detail.old, e.detail.new);
   }, true);
 
 })();
