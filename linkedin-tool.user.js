@@ -87,9 +87,7 @@
     }
   };
 
-  kbService.register('/', () => {
-    gotoSearch();
-  }, navOption);
+  kbService.register('/', gotoSearch, navOption);
   kbService.register('g h', () => {
     gotoNavLink('feed');
   }, navOption);
@@ -128,21 +126,11 @@
     togglePost();
     scrollBy(-1);
   }, navOption);
-  kbService.register('X', () => {
-    togglePost();
-  }, navOption);
-  kbService.register('c', () => {
-    showComments();
-  }, navOption);
-  kbService.register('m', () => {
-    seeMore();
-  }, navOption);
-  kbService.register('l', () => {
-    loadNewPosts();
-  }, navOption);
-  kbService.register('L', () => {
-    likeElement();
-  }, navOption);
+  kbService.register('X', togglePost, navOption);
+  kbService.register('c', showComments, navOption);
+  kbService.register('m', seeMore, navOption);
+  kbService.register('l', loadNewPosts, navOption);
+  kbService.register('L', likeElement, navOption);
 
   function isInput(element) {
     return (element.isContentEditable || element.tagName === 'INPUT');
