@@ -15,6 +15,55 @@
 (function () {
   'use strict';
 
+  // I'm lazy.  The version of emacs I'm using does not support
+  // #private variables out of the box, so using underscores until I
+  // get a working configuration.
+  class Page {
+    _pathname;
+    _keyboard;
+
+    constructor(pathname) {
+      this._pathname = pathname;
+      this._keyboard = new VM.shortcut.KeyboardService();
+    }
+
+    get pathname() {
+      return this._pathname;
+    }
+
+    activate() {
+      this._keyboard.enable();
+    }
+  }
+
+  class Pages {
+    _pages = [];
+
+    constructor() {
+      this.register('/');
+    }
+
+    register(pathname) {
+      const page = new Page(pathname);
+      this._pages.push(page);
+    }
+
+    activate(pathname) {
+      const candidates = this._pages.filter(page => pathname.startsWith(page.pathname));
+      const page = candidates.reduce((a, b) => {
+	  return a.length > b.length ? a : b;
+	}
+      );
+      console.log(page);
+    }
+  }
+
+  const pages = new Pages();
+  pages.register('/feed/');
+  pages.register('/jobs/');
+  pages.register('/jobs/collections/');
+  pages.activate(window.location.pathname);
+
   const kbService = new VM.shortcut.KeyboardService();
   const navOption = {condition: '!inputFocus'};
   kbService.enable();
@@ -251,7 +300,7 @@
     }
   }, true);
   document.addEventListener('href', (e) => {
-    console.debug('href event handler', e.detail.old, e.detail.new);
+    pages.activate(e.detail.new.pathname);
   }, true);
 
 })();
