@@ -65,7 +65,10 @@
   pages.activate(window.location.pathname);
 
   const kbService = new VM.shortcut.KeyboardService();
-  const navOption = {condition: '!inputFocus'};
+  const navOption = {
+    caseSensitive: true,
+    condition: '!inputFocus',
+  };
   kbService.enable();
 
   const current = {
@@ -117,15 +120,15 @@
   kbService.register('k', () => {
     scrollBy(-1);
   }, navOption);
-  kbService.register('s-j', () => {
+  kbService.register('J', () => {
     togglePost();
     scrollBy(1);
   }, navOption);
-  kbService.register('s-k', () => {
+  kbService.register('K', () => {
     togglePost();
     scrollBy(-1);
   }, navOption);
-  kbService.register('s-x', () => {
+  kbService.register('X', () => {
     togglePost();
   }, navOption);
   kbService.register('c', () => {
@@ -137,7 +140,7 @@
   kbService.register('l', () => {
     loadNewPosts();
   }, navOption);
-  kbService.register('s-l', () => {
+  kbService.register('L', () => {
     likeElement();
   }, navOption);
 
