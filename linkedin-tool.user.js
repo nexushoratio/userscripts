@@ -20,13 +20,20 @@
   // get a working configuration.
   class Page {
     _pathname;
-    _keyboard = new VM.shortcut.KeyboardService();
+    _click_handler_selector = null;
     _auto_keys = [];
+    _keyboard = new VM.shortcut.KeyboardService();
+
+    _click_handler_element = null;
 
     static _navOption = {
       caseSensitive: true,
       condition: '!inputFocus',
     };
+
+    constructor() {
+      this._boundClickHandler = this._clickHandler.bind(this);
+    }
 
     start() {
       for (const {key, func} of this._auto_keys) {
@@ -44,14 +51,43 @@
 
     activate() {
       this._keyboard.enable();
+      this._enableClickHandler();
     }
 
     deactivate() {
       this._keyboard.disable();
+      this._disableClickHandler();
     }
 
     _addKey(key, func) {
       this._keyboard.register(key, func, Page._navOption);
+    }
+
+    _enableClickHandler() {
+      if (this._click_handler_selector) {
+	// Page is dynamically building, so keep watching it until the
+	// element shows up.
+	VM.observe(document.body, () => {
+	  const element = document.querySelector(this._click_handler_selector);
+	  if (element) {
+	    this._click_handler_element = element;
+	    this._click_handler_element.addEventListener('click', this._boundClickHandler, true);
+
+	    return true;
+	  }
+	});
+      }
+    }
+
+    _disableClickHandler() {
+      if (this._click_handler_element) {
+	this._click_handler_element.removeEventListener('click', this._boundClickHandler, true);
+	this._click_handler_element = null
+      }
+    }
+
+    _clickHandler(evt) {
+      alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
     }
 
   }
@@ -129,6 +165,7 @@
 
   class Feed extends Page {
     _pathname = '/feed/';
+    _click_handler_selector = 'main';
     _auto_keys = [
       {key: 'j', description: 'Next post', func: this._nextPost},
       {key: 'J', description: 'Toggle hiding then next post', func: this._nextPostPlus},
@@ -143,6 +180,16 @@
 
     _postIndex = -1;
     _postId = null;
+
+    _clickHandler(evt) {
+      const post = evt.target.closest('div[data-id]');
+      if (post) {
+	const n = Array.prototype.findIndex.call(this._getPosts(),
+						 el => el === post);
+	this._postIndex = n;
+	this._scrollToPost(post);
+      }
+    }
 
     _getPosts() {
       return document.querySelectorAll('main div[data-id]');
@@ -355,26 +402,6 @@
       return true;
     }
   });
-
-  // TODO: Move this to Pages.
-  // VM.observe(document.body, () => {
-  //   console.debug('observer for main');
-  //   const main = document.querySelector('main');
-  //   if (main) {
-  //     // TODO: factor this into standalone function.
-  //     main.addEventListener('click', (e) => {
-  // 	const post = e.target.closest('div[data-id]');
-  // 	if (post) {
-  // 	  const relatives = getRelatives();
-  // 	  const n = Array.prototype.findIndex.call(relatives, element => element === post);
-  // 	  current.post = n;
-  // 	  scrollToCurrent(relatives);
-  // 	}
-  //     });
-
-  //     return true
-  //   }
-  // });
 
   let oldUrl = new URL(window.location);
   VM.observe(document.body, () => {
