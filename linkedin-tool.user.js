@@ -38,6 +38,10 @@
       return this._pathname;
     }
 
+    get keyboard() {
+      return this._keyboard;
+    }
+
     activate() {
       this._keyboard.enable();
     }
@@ -255,6 +259,33 @@
     _page = null;
     _pages = new Map();
 
+    constructor() {
+      document.addEventListener('focus', this._onFocus.bind(this), true);
+      document.addEventListener('blur', this._onBlur.bind(this), true);
+    }
+
+    _setInputFocus(state) {
+      const pages = Array.from(this._pages.values());
+      pages.push(this._global);
+      for (const page of pages) {
+	if (page) {
+	  page.keyboard.setContext('inputFocus', state);
+	}
+      }
+    }
+
+    _onFocus(evt) {
+      if (isInput(evt.target)) {
+	this._setInputFocus(true);
+      }
+    }
+
+    _onBlur(evt) {
+      if (isInput(evt.target)) {
+	this._setInputFocus(false);
+      }
+    }
+
     register(page) {
       page.start();
       if (page.pathname === null) {
@@ -354,18 +385,6 @@
       document.dispatchEvent(evt);
     }
   });
-
-  // TODO: Most likely needs to go into Pages and inform all Page instances.
-  // document.addEventListener('focus', (e) => {
-  //   if (isInput(e.target)) {
-  //     kbService.setContext('inputFocus', true);
-  //   }
-  // }, true);
-  // document.addEventListener('blur', (e) => {
-  //   if (isInput(e.target)) {
-  //     kbService.setContext('inputFocus', false);
-  //   }
-  // }, true);
 
   document.addEventListener('href', (e) => {
     pages.activate(e.detail.new.pathname);
