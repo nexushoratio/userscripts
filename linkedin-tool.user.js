@@ -290,15 +290,8 @@
   pages.register(new Global());
   pages.register(new Feed());
   pages.register(new Jobs());
-  pages.register(new JobsCollections);
+  pages.register(new JobsCollections());
   pages.activate(window.location.pathname);
-
-  const kbService = new VM.shortcut.KeyboardService();
-  const navOption = {
-    caseSensitive: true,
-    condition: '!inputFocus',
-  };
-  // kbService.enable();
 
   // TODO: Likely move into Pages.
   // const current = {
