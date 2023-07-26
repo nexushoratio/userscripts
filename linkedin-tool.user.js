@@ -19,13 +19,35 @@
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
   class Page {
+    // The immediate following can be set if derived classes
+
+    // What pathname part of the URL this page should handle.  The
+    // special case of null is used by the Pages class to represent
+    // global keys.
     _pathname;
+
+    // CSS selector for capturing clicks on this page.  If overridden,
+    // then the class should also provide a _clickHandler() method.
     _click_handler_selector = null;
+
+    // List of keystrokes to register automatically.  They are objects
+    // with keys of `seq`, `desc`, and `func`.  The `seq` is used to
+    // define they keystroke sequence to trigger the function.  The
+    // `desc` is used to create the help screen.  The `func` is a
+    // function, usually in the form of `this.methodName`.  The
+    // function is bound to `this` before registering it with
+    // VM.shortcut.
     _auto_keys = [];
+
+    // Private members.
+
     _keyboard = new VM.shortcut.KeyboardService();
 
+    // Tracks which HTMLElement holds the `onclick` function.
     _click_handler_element = null;
 
+    // Magic for VM.shortcut.  This disables keys when focus is on an
+    // input type field.
     static _navOption = {
       caseSensitive: true,
       condition: '!inputFocus',
@@ -36,8 +58,8 @@
     }
 
     start() {
-      for (const {key, func} of this._auto_keys) {
-	this._addKey(key, func.bind(this));
+      for (const {seq, func} of this._auto_keys) {
+	this._addKey(seq, func.bind(this));
       }
     }
 
@@ -59,8 +81,8 @@
       this._disableClickHandler();
     }
 
-    _addKey(key, func) {
-      this._keyboard.register(key, func, Page._navOption);
+    _addKey(seq, func) {
+      this._keyboard.register(seq, func, Page._navOption);
     }
 
     _enableClickHandler() {
@@ -86,6 +108,9 @@
       }
     }
 
+    // Override this function in derived classes that want to react to
+    // random clicks on a page, say to update current element in
+    // focus.
     _clickHandler(evt) {
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
     }
@@ -95,16 +120,16 @@
   class Global extends Page {
     _pathname = null;
     _auto_keys = [
-      {key: '?', description: 'Help', func: this._help},
-      {key: '/', description: 'Search', func: this._gotoSearch},
-      {key: 'g h', description: 'Go Home (aka, Feed)', func: this._goHome},
-      {key: 'g m', description: 'Go to My Network', func: this._gotoMyNetwork},
-      {key: 'g j', description: 'Go to Jobs', func: this._gotoJobs},
-      {key: 'g g', description: 'Go to Messaging', func: this._gotoMessaging},
-      {key: 'g n', description: 'Go to Notifications', func: this._gotoNotifications},
-      {key: 'g p', description: 'Go to Profile (aka, Me)', func: this._gotoProfile},
-      {key: 'g b', description: 'Go to Business', func: this._gotoBusiness},
-      {key: 'g l', description: 'Go to Learning', func: this._gotoLearning},
+      {seq: '?', desc: 'Help', func: this._help},
+      {seq: '/', desc: 'Search', func: this._gotoSearch},
+      {seq: 'g h', desc: 'Go Home (aka, Feed)', func: this._goHome},
+      {seq: 'g m', desc: 'Go to My Network', func: this._gotoMyNetwork},
+      {seq: 'g j', desc: 'Go to Jobs', func: this._gotoJobs},
+      {seq: 'g g', desc: 'Go to Messaging', func: this._gotoMessaging},
+      {seq: 'g n', desc: 'Go to Notifications', func: this._gotoNotifications},
+      {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: this._gotoProfile},
+      {seq: 'g b', desc: 'Go to Business', func: this._gotoBusiness},
+      {seq: 'g l', desc: 'Go to Learning', func: this._gotoLearning},
     ];
 
     _gotoNavLink(item) {
@@ -167,15 +192,15 @@
     _pathname = '/feed/';
     _click_handler_selector = 'main';
     _auto_keys = [
-      {key: 'j', description: 'Next post', func: this._nextPost},
-      {key: 'J', description: 'Toggle hiding then next post', func: this._nextPostPlus},
-      {key: 'k', description: 'Previous post', func: this._prevPost},
-      {key: 'K', description: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {key: 'X', description: 'Toggle hiding post', func: this._togglePost},
-      {key: 'c', description: 'Show comments', func: this._showComments},
-      {key: 'm', description: 'Show more of the post', func: this._seeMore},
-      {key: 'l', description: 'Load more posts (if [New Posts] button is available, load those)', func: this._loadMorePosts},
-      {key: 'L', description: 'Like post', func: this._likePost},
+      {seq: 'j', desc: 'Next post', func: this._nextPost},
+      {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
+      {seq: 'k', desc: 'Previous post', func: this._prevPost},
+      {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
+      {seq: 'X', desc: 'Toggle hiding post', func: this._togglePost},
+      {seq: 'c', desc: 'Show comments', func: this._showComments},
+      {seq: 'm', desc: 'Show more of the post', func: this._seeMore},
+      {seq: 'l', desc: 'Load more posts (if [New Posts] button is available, load those)', func: this._loadMorePosts},
+      {seq: 'L', desc: 'Like post', func: this._likePost},
     ];
 
     _postIndex = -1;
