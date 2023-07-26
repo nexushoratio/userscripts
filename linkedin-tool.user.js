@@ -15,6 +15,8 @@
 (function () {
   'use strict';
 
+  console.debug('Parsing successful.');
+
   // I'm lazy.  The version of emacs I'm using does not support
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
