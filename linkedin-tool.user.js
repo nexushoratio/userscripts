@@ -61,7 +61,7 @@
 
     start() {
       for (const {seq, func} of this._auto_keys) {
-	this._addKey(seq, func.bind(this));
+        this._addKey(seq, func.bind(this));
       }
     }
 
@@ -89,24 +89,24 @@
 
     _enableClickHandler() {
       if (this._click_handler_selector) {
-	// Page is dynamically building, so keep watching it until the
-	// element shows up.
-	VM.observe(document.body, () => {
-	  const element = document.querySelector(this._click_handler_selector);
-	  if (element) {
-	    this._click_handler_element = element;
-	    this._click_handler_element.addEventListener('click', this._boundClickHandler, true);
+        // Page is dynamically building, so keep watching it until the
+        // element shows up.
+        VM.observe(document.body, () => {
+          const element = document.querySelector(this._click_handler_selector);
+          if (element) {
+            this._click_handler_element = element;
+            this._click_handler_element.addEventListener('click', this._boundClickHandler, true);
 
-	    return true;
-	  }
-	});
+            return true;
+          }
+        });
       }
     }
 
     _disableClickHandler() {
       if (this._click_handler_element) {
-	this._click_handler_element.removeEventListener('click', this._boundClickHandler, true);
-	this._click_handler_element = null
+        this._click_handler_element.removeEventListener('click', this._boundClickHandler, true);
+        this._click_handler_element = null
       }
     }
 
@@ -141,10 +141,10 @@
     _gotoNavButton(item) {
       const buttons = document.querySelectorAll('#global-nav button');
       for (const el of buttons) {
-	if (el.textContent.includes(item)) {
-	  el.click();
-	  break;
-	}
+        if (el.textContent.includes(item)) {
+          el.click();
+          break;
+        }
       }
     }
 
@@ -210,7 +210,7 @@
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
       if (post) {
-	this._post = post;
+        this._post = post;
       }
     }
 
@@ -244,15 +244,15 @@
       const posts = this._getPosts();
       console.debug(posts.length);
       if (posts.length) {
-	let idx = Array.prototype.findIndex.call(posts, el => el === this._post);
-	let post = null;
-	// Some posts are hidden (ads, suggestions).  Skip over thoses.
-	do {
-	  idx = Math.max(Math.min(idx + n, posts.length), 0);
-	  console.debug(idx);
-	  post = posts[idx];
-	} while (!post.clientHeight);
-	this._post = post;
+        let idx = Array.prototype.findIndex.call(posts, el => el === this._post);
+        let post = null;
+        // Some posts are hidden (ads, suggestions).  Skip over thoses.
+        do {
+          idx = Math.max(Math.min(idx + n, posts.length), 0);
+          console.debug(idx);
+          post = posts[idx];
+        } while (!post.clientHeight);
+        this._post = post;
       }
     }
 
@@ -276,40 +276,40 @@
 
     _togglePost() {
       if (this._post) {
-	const dismiss = this._post.querySelector('button[aria-label^="Dismiss post"]');
-	if (dismiss) {
-	  dismiss.click();
-	} else {
-	  const undo = this._post.querySelector('button[aria-label^="Undo and show"]');
-	  if (undo) {
-	    undo.click();
-	  }
-	}
+        const dismiss = this._post.querySelector('button[aria-label^="Dismiss post"]');
+        if (dismiss) {
+          dismiss.click();
+        } else {
+          const undo = this._post.querySelector('button[aria-label^="Undo and show"]');
+          if (undo) {
+            undo.click();
+          }
+        }
       }
     }
 
     _showComments() {
       if (this._post) {
-	const comments = this._post.querySelector('button[aria-label*="comment"]');
-	if (comments) {
-	  comments.click();
-	}
+        const comments = this._post.querySelector('button[aria-label*="comment"]');
+        if (comments) {
+          comments.click();
+        }
       }
     }
 
     _seeMore() {
       if (this._post) {
-	const see_more = this._post.querySelector('button[aria-label^="see more"]');
-	if (see_more) {
-	  see_more.click();
-	}
+        const see_more = this._post.querySelector('button[aria-label^="see more"]');
+        if (see_more) {
+          see_more.click();
+        }
       }
     }
 
     _likePost() {
       if (this._post) {
-	const like_button = this._post.querySelector('button[aria-label^="Open reactions menu"]');
-	like_button.click();
+        const like_button = this._post.querySelector('button[aria-label^="Open reactions menu"]');
+        like_button.click();
       }
     }
 
@@ -317,15 +317,15 @@
       const posts = this._getPosts();
       const new_updates = posts[0].querySelector('div.feed-new-update-pill button');
       if (new_updates) {
-	new_updates.click();
-	this._postIndex = 0;
-	this._scrollToCurrentPost();
+        new_updates.click();
+        this._postIndex = 0;
+        this._scrollToCurrentPost();
       } else {
-	const show_more = document.querySelector('main button.scaffold-finite-scroll__load-button');
-	if (show_more) {
-	  show_more.click();
-	  this._scrollToCurrentPost();
-	}
+        const show_more = document.querySelector('main button.scaffold-finite-scroll__load-button');
+        if (show_more) {
+          show_more.click();
+          this._scrollToCurrentPost();
+        }
       }
     }
 
@@ -354,21 +354,21 @@
       const pages = Array.from(this._pages.values());
       pages.push(this._global);
       for (const page of pages) {
-	if (page) {
-	  page.keyboard.setContext('inputFocus', state);
-	}
+        if (page) {
+          page.keyboard.setContext('inputFocus', state);
+        }
       }
     }
 
     _onFocus(evt) {
       if (isInput(evt.target)) {
-	this._setInputFocus(true);
+        this._setInputFocus(true);
       }
     }
 
     _onBlur(evt) {
       if (isInput(evt.target)) {
-	this._setInputFocus(false);
+        this._setInputFocus(false);
       }
     }
 
@@ -379,10 +379,10 @@
     register(page) {
       page.start();
       if (page.pathname === null) {
-	this._global = page;
-	this._global.activate();
+        this._global = page;
+        this._global.activate();
       } else {
-	this._pages.set(page.pathname, page);
+        this._pages.set(page.pathname, page);
       }
     }
 
@@ -390,19 +390,19 @@
       const pathnames = Array.from(this._pages.keys());
       const candidates = pathnames.filter(p => pathname.startsWith(p));
       const candidate = candidates.reduce((a, b) => {
-	  return a.length > b.length ? a : b;
+        return a.length > b.length ? a : b;
       }, '');
       return this._pages.get(pathname) || null;
     }
 
     activate(pathname) {
       if (this._page) {
-	this._page.deactivate();
+        this._page.deactivate();
       }
       const page = this._findPage(pathname);
       this._page = page;
       if (page) {
-	page.activate();
+        page.activate();
       }
     }
   }
