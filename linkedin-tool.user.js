@@ -205,8 +205,7 @@
       {seq: 'L', desc: 'Like post', func: this._likePost},
     ];
 
-    _postIndex = -1;
-    _postId = null;
+    _currentPostIndex = -1;
 
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
@@ -214,31 +213,47 @@
 	const n = Array.prototype.findIndex.call(this._getPosts(),
 						 el => el === post);
 	this._postIndex = n;
-	this._scrollToPost(post);
+	this._scrollToCurrentPost();
       }
+    }
+
+    get _postIndex() {
+      return this._currentPostIndex;
+    }
+
+    set _postIndex(val) {
+      this._currentPostIndex = val;
+      this._currentPostElement = this._getPosts()[val];
+      this._currentPostId = this._currentPostElement.dataset.id;
+    }
+
+    get _postId() {
+      return this._currentPostId;
+    }
+
+    get _post() {
+      return this._currentPostElement;
     }
 
     _getPosts() {
       return document.querySelectorAll('main div[data-id]');
     }
 
-    _scrollToPost(post) {
-      post.scrollIntoView();
+    _scrollToCurrentPost() {
+      this._post.scrollIntoView();
       // TODO(https://github.com/nexushoratio/userscripts/issues/9)
-      post.setAttribute('tabindex', 0);
-      post.focus();
-      this._postId = post.dataset.id;
+      this._post.setAttribute('tabindex', 0);
+      this._post.focus();
     }
 
     _scrollBy(n, recursed = false) {
       const posts = this._getPosts();
-      this._postIndex = Math.max(Math.min(this._postIndex +n, posts.length), 0);
-      const post = posts[this._postIndex];
+      this._postIndex = Math.max(Math.min(this._postIndex + n, posts.length), 0);
       // Some posts are hidden, (ads, suggestions).  Skip over at least one.
-      if (post.clientHeight === 0 && !recursed) {
+      if (this._post.clientHeight === 0 && !recursed) {
 	this._scrollBy(n, true);
       } else {
-	this._scrollToPost(post);
+	this._scrollToCurrentPost();
       }
     }
 
@@ -261,13 +276,12 @@
     }
 
     _togglePost() {
-      const post = this._getPosts()[this._postIndex];
-      if (post) {
-	const dismiss = post.querySelector('button[aria-label^="Dismiss post"]');
+      if (this._post) {
+	const dismiss = this._post.querySelector('button[aria-label^="Dismiss post"]');
 	if (dismiss) {
 	  dismiss.click();
 	} else {
-	  const undo = post.querySelector('button[aria-label^="Undo and show"]');
+	  const undo = this._post.querySelector('button[aria-label^="Undo and show"]');
 	  if (undo) {
 	    undo.click();
 	  }
@@ -276,9 +290,8 @@
     }
 
     _showComments() {
-      const post = this._getPosts()[this._postIndex];
-      if (post) {
-	const comments = post.querySelector('button[aria-label*="comment"]');
+      if (this._post) {
+	const comments = this._post.querySelector('button[aria-label*="comment"]');
 	if (comments) {
 	  comments.click();
 	}
@@ -286,9 +299,8 @@
     }
 
     _seeMore() {
-      const post = this._getPosts()[this._postIndex];
-      if (post) {
-	const see_more = post.querySelector('button[aria-label^="see more"]');
+      if (this._post) {
+	const see_more = this._post.querySelector('button[aria-label^="see more"]');
 	if (see_more) {
 	  see_more.click();
 	}
@@ -296,9 +308,8 @@
     }
 
     _likePost() {
-      const post = this._getPosts()[this._postIndex];
-      if (post) {
-	const like_button = post.querySelector('button[aria-label^="Open reactions menu"]');
+      if (this._post) {
+	const like_button = this._post.querySelector('button[aria-label^="Open reactions menu"]');
 	like_button.click();
       }
     }
@@ -308,12 +319,13 @@
       const new_updates = posts[0].querySelector('div.feed-new-update-pill button');
       if (new_updates) {
 	new_updates.click();
-	this._postIndex = -1;
+	this._postIndex = 0;
+	this._scrollToCurrentPost();
       } else {
 	const show_more = document.querySelector('main button.scaffold-finite-scroll__load-button');
 	if (show_more) {
 	  show_more.click();
-	  posts[this._postIndex].focus();
+	  this._scrollToCurrentPost();
 	}
       }
     }
