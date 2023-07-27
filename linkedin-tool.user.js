@@ -347,6 +347,7 @@
     constructor() {
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('blur', this._onBlur.bind(this), true);
+      document.addEventListener('href', this._onHref.bind(this), true);
     }
 
     _setInputFocus(state) {
@@ -369,6 +370,10 @@
       if (isInput(evt.target)) {
 	this._setInputFocus(false);
       }
+    }
+
+    _onHref(evt) {
+      this.activate(evt.detail.url.pathname);
     }
 
     register(page) {
@@ -428,14 +433,10 @@
   VM.observe(document.body, () => {
     const newUrl = new URL(window.location);
     if (oldUrl.href !== newUrl.href) {
-      const evt = new CustomEvent('href', {detail: {old: oldUrl, new: newUrl}})
+      const evt = new CustomEvent('href', {detail: {url: newUrl}})
       oldUrl = newUrl;
       document.dispatchEvent(evt);
     }
   });
-
-  document.addEventListener('href', (e) => {
-    pages.activate(e.detail.new.pathname);
-  }, true);
 
 })();
