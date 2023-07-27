@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.12
+// @version     0.13
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
