@@ -205,34 +205,27 @@
       {seq: 'L', desc: 'Like post', func: this._likePost},
     ];
 
-    _currentPostIndex = -1;
+    _currentPostElement = null;
 
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
       if (post) {
-	const n = Array.prototype.findIndex.call(this._getPosts(),
-						 el => el === post);
-	this._postIndex = n;
-	this._scrollToCurrentPost();
+	this._post = post;
       }
-    }
-
-    get _postIndex() {
-      return this._currentPostIndex;
-    }
-
-    set _postIndex(val) {
-      this._currentPostIndex = val;
-      this._currentPostElement = this._getPosts()[val];
-      this._currentPostId = this._currentPostElement.dataset.id;
-    }
-
-    get _postId() {
-      return this._currentPostId;
     }
 
     get _post() {
       return this._currentPostElement;
+    }
+
+    set _post(val) {
+      this._currentPostElement = val;
+      this._currentPostId = this._currentPostElement.dataset.id;
+      this._scrollToCurrentPost();
+    }
+
+    get _postId() {
+      return this._currentPostId;
     }
 
     _getPosts() {
@@ -246,14 +239,20 @@
       this._post.focus();
     }
 
-    _scrollBy(n, recursed = false) {
+    _scrollBy(n) {
+      console.debug('scrolling by', n);
       const posts = this._getPosts();
-      this._postIndex = Math.max(Math.min(this._postIndex + n, posts.length), 0);
-      // Some posts are hidden, (ads, suggestions).  Skip over at least one.
-      if (this._post.clientHeight === 0 && !recursed) {
-	this._scrollBy(n, true);
-      } else {
-	this._scrollToCurrentPost();
+      console.debug(posts.length);
+      if (posts.length) {
+	let idx = Array.prototype.findIndex.call(posts, el => el === this._post);
+	let post = null;
+	// Some posts are hidden (ads, suggestions).  Skip over thoses.
+	do {
+	  idx = Math.max(Math.min(idx + n, posts.length), 0);
+	  console.debug(idx);
+	  post = posts[idx];
+	} while (!post.clientHeight);
+	this._post = post;
       }
     }
 
@@ -409,23 +408,6 @@
   pages.register(new Jobs());
   pages.register(new JobsCollections());
   pages.activate(window.location.pathname);
-
-  // TODO: Likely move into Pages.
-  // const current = {
-  //   _post: -1,
-  //   get post() {
-  //     const post = document.activeElement.closest('div[data-id]');
-  //     if (post && post !== document.activeElement) {
-  // 	const relatives = getRelatives();
-  // 	const n = Array.prototype.findIndex.call(relatives, element => element === post);
-  // 	this._post = n;
-  //     }
-  //     return this._post;
-  //   },
-  //   set post(v) {
-  //     this._post = v;
-  //   }
-  // };
 
   function isInput(element) {
     return (element.isContentEditable || element.tagName === 'INPUT');
