@@ -5,7 +5,6 @@
 // @version     0.14
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
-// @grant       GM_addStyle
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/issues
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
@@ -482,7 +481,9 @@
 
     if (navbar) {
       // TODO(https://github.com/nexushoratio/userscripts/issues/4)
-      GM_addStyle(`div { scroll-margin-top: ${navbar.clientHeight + 4}px }`);
+      const style = document.createElement('style');
+      style.textContent = `div { scroll-margin-top: ${navbar.clientHeight + 4}px }`;
+      document.head.append(style);
 
       return true;
     }
