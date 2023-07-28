@@ -122,8 +122,8 @@
   class Global extends Page {
     _pathname = null;
     _auto_keys = [
-      {seq: '?', desc: 'Help', func: this._help},
-      {seq: '/', desc: 'Search', func: this._gotoSearch},
+      {seq: '?', desc: 'Show keyboard help', func: this._help},
+      {seq: '/', desc: 'Go to Search box', func: this._gotoSearch},
       {seq: 'g h', desc: 'Go Home (aka, Feed)', func: this._goHome},
       {seq: 'g m', desc: 'Go to My Network', func: this._gotoMyNetwork},
       {seq: 'g j', desc: 'Go to Jobs', func: this._gotoJobs},
@@ -194,14 +194,14 @@
     _pathname = '/feed/';
     _click_handler_selector = 'main';
     _auto_keys = [
+      {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
       {seq: 'j', desc: 'Next post', func: this._nextPost},
       {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
       {seq: 'k', desc: 'Previous post', func: this._prevPost},
       {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {seq: 'X', desc: 'Toggle hiding post', func: this._togglePost},
       {seq: 'c', desc: 'Show comments', func: this._showComments},
       {seq: 'm', desc: 'Show more of the post', func: this._seeMore},
-      {seq: 'l', desc: 'Load more posts (if [New Posts] button is available, load those)', func: this._loadMorePosts},
+      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post', func: this._likePost},
     ];
 
