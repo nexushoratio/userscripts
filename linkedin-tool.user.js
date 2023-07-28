@@ -257,16 +257,13 @@
     }
 
     _scrollBy(n) {
-      console.debug('scrolling by', n);
       const posts = this._getPosts();
-      console.debug(posts.length);
       if (posts.length) {
         let idx = Array.prototype.findIndex.call(posts, el => el === this._post);
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
           idx = Math.max(Math.min(idx + n, posts.length), 0);
-          console.debug(idx);
           post = posts[idx];
         } while (!post.clientHeight);
         this._post = post;
