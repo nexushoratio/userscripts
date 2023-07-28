@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.13
+// @version     0.14
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @grant       GM_addStyle
@@ -83,6 +83,14 @@
       this._disableClickHandler();
     }
 
+    get helpHeader() {
+      return this.constructor.name;
+    }
+
+    get helpContent() {
+      return this._auto_keys;
+    }
+
     _addKey(seq, func) {
       this._keyboard.register(seq, func, Page._navOption);
     }
@@ -134,6 +142,14 @@
       {seq: 'g l', desc: 'Go to Learning', func: this._gotoLearning},
     ];
 
+    get helpId() {
+      return this._helpId;
+    }
+
+    set helpId(val) {
+      this._helpId = val;
+    }
+
     _gotoNavLink(item) {
       document.querySelector(`#global-nav a[href*="/${item}"`).click();
     }
@@ -149,7 +165,9 @@
     }
 
     _help() {
-      alert('The help is in another castle.');
+      const help = document.querySelector(`#${this.helpId}`);
+      help.showModal();
+      help.focus();
     }
 
     _gotoSearch() {
@@ -345,6 +363,8 @@
     _pages = new Map();
 
     constructor() {
+      this._id = crypto.randomUUID();
+      this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('blur', this._onBlur.bind(this), true);
       document.addEventListener('href', this._onHref.bind(this), true);
@@ -376,9 +396,48 @@
       this.activate(evt.detail.url.pathname);
     }
 
+    _initializeHelpMenu() {
+      this._helpId = `help-${this._id}`;
+      const dialog = document.createElement('dialog');
+      dialog.id = this._helpId
+      dialog.innerHTML = '<table><caption>' +
+        '<span style="float: left">Keyboard shortcuts</span>' +
+        '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
+        '</caption><tbody></tbody></table>';
+      document.body.append(dialog);
+    }
+
+    // ThisPage -> This Page
+    _parseHeader(text) {
+      return text.replace(/([A-Z])/g, ' $1').trim();
+    }
+
+    // 'a b' -> '<kbd>a</kbd> then <kbd>b</kbd>'
+    _parseSeq(seq) {
+      const letters = seq.split(' ').map(w => `<kbd>${w}</kbd>`);
+      const s = letters.join(' then ');
+      return s;
+    }
+
+    _addHelp(page) {
+      const help = document.querySelector(`#${this._helpId} tbody`);
+      const section = this._parseHeader(page.helpHeader);
+      let s = `<tr><th></th><th style="float: left">${section}</th></tr>`;
+      for (const {seq, desc} of page.helpContent) {
+        const keys = this._parseSeq(seq);
+        s += `<tr><td style="white-space: nowrap;">${keys}:</td><td>${desc}</td></tr>`;
+      }
+      // Don't include works in progress that have no keys yet.
+      if (page.helpContent.length) {
+        help.innerHTML += s;
+      }
+    }
+
     register(page) {
       page.start();
+      this._addHelp(page);
       if (page.pathname === null) {
+        page.helpId = this._helpId
         this._global = page;
         this._global.activate();
       } else {
