@@ -403,7 +403,7 @@
         '<span style="float: left">Keyboard shortcuts</span>' +
         '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</caption><tbody></tbody></table>';
-      document.body.append(dialog);
+      document.body.prepend(dialog);
     }
 
     // ThisPage -> This Page
@@ -483,7 +483,7 @@
       // TODO(https://github.com/nexushoratio/userscripts/issues/4)
       const style = document.createElement('style');
       style.textContent = `div { scroll-margin-top: ${navbar.clientHeight + 4}px }`;
-      document.head.append(style);
+      document.head.prepend(style);
 
       return true;
     }
