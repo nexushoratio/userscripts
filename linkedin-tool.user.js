@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.14
+// @version     0.15
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
@@ -394,6 +394,12 @@
 
     _initializeHelpMenu() {
       this._helpId = `help-${this._id}`;
+      const style = document.createElement('style');
+      style.textContent += `#${this._helpId} kbd {font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
+      style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
+      style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
+      style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 0.25em; }`;
+      document.head.prepend(style);
       const dialog = document.createElement('dialog');
       dialog.id = this._helpId
       dialog.innerHTML = '<table><caption>' +
@@ -418,10 +424,10 @@
     _addHelp(page) {
       const help = document.querySelector(`#${this._helpId} tbody`);
       const section = this._parseHeader(page.helpHeader);
-      let s = `<tr><th></th><th style="float: left">${section}</th></tr>`;
+      let s = `<tr><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.helpContent) {
         const keys = this._parseSeq(seq);
-        s += `<tr><td style="white-space: nowrap;">${keys}:</td><td>${desc}</td></tr>`;
+        s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
       if (page.helpContent.length) {
