@@ -102,7 +102,7 @@
           const element = document.querySelector(this._click_handler_selector);
           if (element) {
             this._click_handler_element = element;
-            this._click_handler_element.addEventListener('click', this._boundClickHandler, true);
+            this._click_handler_element.addEventListener('click', this._boundClickHandler);
 
             return true;
           }
@@ -112,7 +112,7 @@
 
     _disableClickHandler() {
       if (this._click_handler_element) {
-        this._click_handler_element.removeEventListener('click', this._boundClickHandler, true);
+        this._click_handler_element.removeEventListener('click', this._boundClickHandler);
         this._click_handler_element = null
       }
     }
