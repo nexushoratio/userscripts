@@ -261,7 +261,7 @@
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
-          idx = Math.max(Math.min(idx + n, posts.length), 0);
+          idx = Math.max(Math.min(idx + n, posts.length - 1), 0);
           post = posts[idx];
         } while (!post.clientHeight);
         this._post = post;
