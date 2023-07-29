@@ -216,13 +216,16 @@
       {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
       {seq: 'k', desc: 'Previous post', func: this._prevPost},
       {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {seq: 'c', desc: 'Show comments', func: this._showComments},
       {seq: 'm', desc: 'Show more of the post', func: this._seeMore},
+      {seq: 'c', desc: 'Show comments', func: this._showComments},
+      {seq: 'n', desc: 'Next comment', func: this._nextComment},
+      {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post', func: this._likePost},
     ];
 
     _currentPostElement = null;
+    _currentCommentElement = null;
 
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
@@ -237,12 +240,7 @@
 
     set _post(val) {
       this._currentPostElement = val;
-      this._currentPostId = this._currentPostElement.dataset.id;
       this._scrollToCurrentPost();
-    }
-
-    get _postId() {
-      return this._currentPostId;
     }
 
     _getPosts() {
