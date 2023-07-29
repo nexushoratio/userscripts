@@ -483,9 +483,8 @@
     const navbar = document.querySelector('#global-nav');
 
     if (navbar) {
-      // TODO(https://github.com/nexushoratio/userscripts/issues/4)
       const style = document.createElement('style');
-      style.textContent = `div { scroll-margin-top: ${navbar.clientHeight + 4}px }`;
+      style.textContent = `main div { scroll-margin-top: ${navbar.clientHeight + 4}px }`;
       document.head.prepend(style);
 
       return true;
