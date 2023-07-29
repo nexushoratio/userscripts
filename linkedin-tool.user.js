@@ -170,7 +170,7 @@
     }
 
     _gotoSearch() {
-      document.querySelector('#global-nav-search input').focus();
+      document.querySelector('#global-nav-search button').click();
     }
 
     _goHome() {
