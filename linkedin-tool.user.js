@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.15
+// @version     0.16
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
@@ -216,12 +216,12 @@
       {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
       {seq: 'k', desc: 'Previous post', func: this._prevPost},
       {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {seq: 'm', desc: 'Show more of the post', func: this._seeMore},
+      {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
       {seq: 'c', desc: 'Show comments', func: this._showComments},
       {seq: 'n', desc: 'Next comment', func: this._nextComment},
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
-      {seq: 'L', desc: 'Like post', func: this._likePost},
+      {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
     ];
 
     _currentPostElement = null;
@@ -241,10 +241,30 @@
     set _post(val) {
       this._currentPostElement = val;
       this._scrollToCurrentPost();
+      this._comment = null;
+    }
+
+    get _comment() {
+      return this._currentCommentElement;
+    }
+
+    set _comment(val) {
+      this._currentCommentElement = val;
+      if (val) {
+        this._scrollToCurrentComment();
+      }
     }
 
     _getPosts() {
       return document.querySelectorAll('main div[data-id]');
+    }
+
+    _getComments() {
+      if (this._post) {
+        return this._post.querySelectorAll('article.comments-comment-item');
+      } else {
+        return [];
+      }
     }
 
     _scrollToCurrentPost() {
@@ -252,6 +272,26 @@
       // TODO(https://github.com/nexushoratio/userscripts/issues/9)
       this._post.setAttribute('tabindex', 0);
       this._post.focus();
+    }
+
+    _scrollToCurrentComment() {
+      const rect = this._comment.getBoundingClientRect();
+      // Arbitrary number.  But I'm still learning about scroll-*
+      // stuff.
+      this._comment.style.scrollMarginTop = '100px';
+      this._comment.style.scrollMarginBottom = '3em';
+      // If both scrolling happens, that means the comment is too long
+      // to fit on the page, so the top is preferred.
+      if (rect.bottom > document.documentElement.clientHeight) {
+        this._comment.scrollIntoView(false);
+      }
+      // 50 is arbitrary as well.
+      if (rect.top < 50) {
+        this._comment.scrollIntoView();
+      }
+      // TODO(https://github.com/nexushoratio/userscripts/issues/9)
+      this._comment.setAttribute('tabindex', 0);
+      this._comment.focus();
     }
 
     _scrollBy(n) {
@@ -265,6 +305,21 @@
           post = posts[idx];
         } while (!post.clientHeight);
         this._post = post;
+      }
+    }
+
+    _scrollCommentsBy(n) {
+      const comments = this._getComments();
+      if (comments.length) {
+        let idx = Array.prototype.findIndex.call(comments, el => el === this._comment);
+        idx = Math.min(idx + n, comments.length - 1);
+        if (idx < 0) {
+          // focus back to post
+          this._comment = null;
+          this._post = this._post;
+        } else {
+          this._comment = comments[idx];
+        }
       }
     }
 
@@ -284,6 +339,14 @@
     _prevPostPlus() {
       this._togglePost();
       this._prevPost();
+    }
+
+    _nextComment() {
+      this._scrollCommentsBy(1);
+    }
+
+    _prevComment() {
+      this._scrollCommentsBy(-1);
     }
 
     _togglePost() {
@@ -310,17 +373,19 @@
     }
 
     _seeMore() {
-      if (this._post) {
-        const see_more = this._post.querySelector('button[aria-label^="see more"]');
+      const el = this._comment ? this._comment : this._post;
+      if (el) {
+        const see_more = el.querySelector('button[aria-label^="see more"]');
         if (see_more) {
           see_more.click();
         }
       }
     }
 
-    _likePost() {
-      if (this._post) {
-        const like_button = this._post.querySelector('button[aria-label^="Open reactions menu"]');
+    _likePostOrComment() {
+      const el = this._comment ? this._comment : this._post;
+      if (el) {
+        const like_button = el.querySelector('button[aria-label^="Open reactions menu"]');
         like_button.click();
       }
     }
