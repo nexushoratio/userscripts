@@ -11,6 +11,8 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // ==/UserScript==
 
+/* global VM */
+
 (function () {
   'use strict';
 
