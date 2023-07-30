@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.16
+// @version     0.17
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
@@ -268,6 +268,7 @@
     }
 
     _scrollToCurrentPost() {
+      this._post.style.scrollMarginTop = navBarHeightCss;
       this._post.scrollIntoView();
       // TODO(https://github.com/nexushoratio/userscripts/issues/9)
       this._post.setAttribute('tabindex', 0);
@@ -276,17 +277,14 @@
 
     _scrollToCurrentComment() {
       const rect = this._comment.getBoundingClientRect();
-      // Arbitrary number.  But I'm still learning about scroll-*
-      // stuff.
-      this._comment.style.scrollMarginTop = '100px';
+      this._comment.style.scrollMarginTop = navBarHeightCss;
       this._comment.style.scrollMarginBottom = '3em';
       // If both scrolling happens, that means the comment is too long
       // to fit on the page, so the top is preferred.
       if (rect.bottom > document.documentElement.clientHeight) {
         this._comment.scrollIntoView(false);
       }
-      // 50 is arbitrary as well.
-      if (rect.top < 50) {
+      if (rect.top < navBarHeightPixels) {
         this._comment.scrollIntoView();
       }
       // TODO(https://github.com/nexushoratio/userscripts/issues/9)
@@ -542,13 +540,14 @@
     return (element.isContentEditable || element.tagName === 'INPUT');
   }
 
+  let navBarHeightPixels = 0;
+  let navBarHeightCss = '0';
   VM.observe(document.body, () => {
     const navbar = document.querySelector('#global-nav');
 
     if (navbar) {
-      const style = document.createElement('style');
-      style.textContent = `main div { scroll-margin-top: ${navbar.clientHeight + 4}px }`;
-      document.head.prepend(style);
+      navBarHeightPixels = navbar.clientHeight + 4;
+      navBarHeightCss = `${navBarHeightPixels}px`;
 
       return true;
     }
