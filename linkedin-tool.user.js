@@ -2,9 +2,10 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.18
+// @version     0.18.1
 // @author      Mike Castle
 // @description Add some stuff to LinkedIn.  So far, just keystrokes.
+// @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/issues
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
