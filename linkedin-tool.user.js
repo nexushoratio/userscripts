@@ -239,9 +239,15 @@
     }
 
     set _post(val) {
+      if (this._currentPostElement) {
+        this._currentPostElement.classList.remove('tom');
+      }
       this._currentPostElement = val;
-      this._scrollToCurrentPost();
       this._comment = null;
+      if (val) {
+        val.classList.add('tom');
+        this._scrollToCurrentPost();
+      }
     }
 
     get _comment() {
@@ -249,8 +255,12 @@
     }
 
     set _comment(val) {
+      if (this._currentCommentElement) {
+        this._currentCommentElement.classList.remove('dick');
+      }
       this._currentCommentElement = val;
       if (val) {
+        val.classList.add('dick');
         this._scrollToCurrentComment();
       }
     }
@@ -270,9 +280,6 @@
     _scrollToCurrentPost() {
       this._post.style.scrollMarginTop = navBarHeightCss;
       this._post.scrollIntoView();
-      // TODO(https://github.com/nexushoratio/userscripts/issues/9)
-      this._post.setAttribute('tabindex', 0);
-      this._post.focus();
     }
 
     _scrollToCurrentComment() {
@@ -287,9 +294,6 @@
       if (rect.top < navBarHeightPixels) {
         this._comment.scrollIntoView();
       }
-      // TODO(https://github.com/nexushoratio/userscripts/issues/9)
-      this._comment.setAttribute('tabindex', 0);
-      this._comment.focus();
     }
 
     _scrollBy(n) {
@@ -421,6 +425,7 @@
 
     constructor() {
       this._id = crypto.randomUUID();
+      this._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('blur', this._onBlur.bind(this), true);
@@ -451,6 +456,13 @@
 
     _onHref(evt) {
       this.activate(evt.detail.url.pathname);
+    }
+
+    _installNavStyle() {
+      const style = document.createElement('style');
+      style.textContent += '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }';
+      style.textContent += '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }';
+      document.head.append(style);
     }
 
     _initializeHelpMenu() {
