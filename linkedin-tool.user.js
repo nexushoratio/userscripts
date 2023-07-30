@@ -395,7 +395,7 @@
       const new_updates = posts[0].querySelector('div.feed-new-update-pill button');
       if (new_updates) {
         new_updates.click();
-        this._postIndex = 0;
+        this._post = posts[0];
         this._scrollToCurrentPost();
       } else {
         const show_more = document.querySelector('main button.scaffold-finite-scroll__load-button');
