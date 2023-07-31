@@ -9,6 +9,7 @@ A secondary reason is, being my first userscript, it provides me with a platform
 ## Installation
 
 * Via [Greasy Fork](https://greasyfork.org/en/scripts/472097-linkedin-tool)
+* Via [GitHub](https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js)
 
 After installing and reloading the LinkedIn web page, hitting the `?` key will bring up a help menu.
 
