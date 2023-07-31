@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.18.5
+// @version     0.19
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -225,6 +225,7 @@
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+      {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
     _currentPostElement = null;
@@ -408,6 +409,18 @@
           show_more.click();
           this._scrollToCurrentPost();
         }
+      }
+    }
+
+    _openMeatballMenu() {
+      if (this._comment) {
+        // XXX In this case, the aria-label is on the svg element, not the button
+        const button = this._comment.querySelector('[aria-label^="Open options"]').parentElement;
+        button.click();
+      } else if (this._post) {
+        // Yeah, I don't get it.  This one isn't the button either, but the click works.
+        const button = this._post.querySelector('[aria-label^="Open control menu"]');
+        button.click();
       }
     }
 
