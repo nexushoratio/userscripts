@@ -552,7 +552,11 @@
   pages.activate(window.location.pathname);
 
   function isInput(element) {
-    return (element.isContentEditable || ['input', 'textarea'].includes(element.tagName.toLowerCase()));
+    let tagName = '';
+    if ('tagName' in element) {
+      tagName = element.tagName.toLowerCase();
+    }
+    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
   }
 
   let navBarHeightPixels = 0;
