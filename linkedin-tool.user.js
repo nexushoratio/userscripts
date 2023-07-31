@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.19
+// @version     0.20
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -225,6 +225,7 @@
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+      {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -421,6 +422,20 @@
         // Yeah, I don't get it.  This one isn't the button either, but the click works.
         const button = this._post.querySelector('[aria-label^="Open control menu"]');
         button.click();
+      }
+    }
+
+    _focusBrowser() {
+      const el = this._comment ? this._comment : this._post;
+      if (el) {
+        const tabIndex = el.getAttribute('tabindex');
+        el.setAttribute('tabindex', 0);
+        el.focus();
+        if (tabIndex) {
+          el.setAttribute('tabindex', tabIndex);
+        } else {
+          el.removeAttribute('tabindex');
+        }
       }
     }
 
