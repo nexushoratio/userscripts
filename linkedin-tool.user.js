@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.20.2
+// @version     1.0.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -454,6 +454,126 @@
     _pathname = '/jobs/collections/';
   }
 
+  class Notifications extends Page {
+    _pathname = '/notifications/';
+    _auto_keys = [
+      {seq: 'j', desc: 'Next notification', func: this._nextNotification},
+      {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
+      {seq: 'a', desc: 'Activate the notification (click on it)', func: this._activateNotification},
+      {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
+    ];
+
+    // Ugh.  When notifications are deleted, the entire element, and
+    // parent elements, are deleted and replaced by new elements.  So
+    // the only way to track them is by array position.
+    _currentNotificationIndex = -1;
+
+    get _notification() {
+      if (this._currentNotificationIndex >= 0) {
+        return this._getNotifications()[this._currentNotificationIndex];
+      } else {
+        return null;
+      }
+    }
+
+    set _notification(val) {
+      if (this._notification) {
+        this._notification.classList.remove('tom');
+      }
+      if (val) {
+        const notifications = this._getNotifications();
+        this._currentNotificationIndex = Array.prototype.findIndex.call(notifications, el => el === val);
+        val.classList.add('tom');
+        this._scrollToCurrentNotification();
+      }
+    }
+
+    _getNotifications() {
+      return document.querySelectorAll('main section div.nt-card-list article');
+    }
+
+    _scrollToCurrentNotification() {
+      const rect = this._notification.getBoundingClientRect();
+      this._notification.style.scrollMarginTop = navBarHeightCss;
+      this._notification.style.scrollMarginBottom = '3em';
+      if (rect.bottom > document.documentElement.clientHeight) {
+        this._notification.scrollIntoView(false);
+      }
+      if (rect.top < navBarHeightPixels) {
+        this._notification.scrollIntoView();
+      }
+    }
+
+    _scrollBy(n) {
+      const notifications = this._getNotifications();
+      if (notifications.length) {
+        const idx = Math.max(Math.min(this._currentNotificationIndex + n, notifications.length - 1), 0);
+        this._notification = notifications[idx];
+      }
+    }
+
+    _nextNotification() {
+      this._scrollBy(1);
+    }
+
+    _prevNotification() {
+      this._scrollBy(-1);
+    }
+
+    _openMeatballMenu() {
+      if (this._notification) {
+        const button = this._notification.querySelector('button[aria-label^="Settings menu"]');
+        if (button) {
+          button.click();
+        } else {
+          const undo = this._notification.querySelector('button[aria-label^="Undo notification deletion"]');
+          if (undo) {
+            undo.click();
+          }
+        }
+      }
+    }
+
+    _activateNotification() {
+      if (this._notification) {
+        // Every notification is different.
+        function matchesKnownText(el) {
+          if (el.innerText === 'Apply early') return true;
+          if (el.innerText.match(/View \d+ Job/)) return true;
+          return false;
+        }
+
+        let button = this._notification.querySelector('button.message-anywhere-button');
+        if (button) {
+          button.click();
+        } else {
+          const buttons = Array.from(this._notification.querySelectorAll('button'));
+          const button = buttons.find(matchesKnownText);
+          if (button) {
+            button.click();
+          } else {
+            const links = this._notification.querySelectorAll('a');
+            if (links.length === 1) {
+              links[0].click();
+            } else {
+              console.debug(this._notification);
+              console.debug(this._notification.querySelectorAll('*'));
+              const msg = [
+                'You tried to activate an unsupported notification',
+                'element.  Please file a bug.  If you are comfortable',
+                'with using the browser\'s Developer Tools (often the',
+                'F12 key), consider sharing the information just logged',
+                'in the console / debug view.',
+              ];
+              alert(msg.join(' '));
+            }
+          }
+        }
+      }
+    }
+
+  }
+
   class Pages {
     _global = null;
     _page = null;
@@ -582,6 +702,7 @@
   pages.register(new Feed());
   pages.register(new Jobs());
   pages.register(new JobsCollections());
+  pages.register(new Notifications());
   pages.activate(window.location.pathname);
 
   function isInput(element) {
