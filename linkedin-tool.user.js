@@ -418,11 +418,13 @@
 
     _openMeatballMenu() {
       if (this._comment) {
-        // XXX In this case, the aria-label is on the svg element, not the button
+        // XXX In this case, the aria-label is on the svg element, not
+        // the button, so use the parentElement.
         const button = this._comment.querySelector('[aria-label^="Open options"]').parentElement;
         button.click();
       } else if (this._post) {
-        // Yeah, I don't get it.  This one isn't the button either, but the click works.
+        // Yeah, I don't get it.  This one isn't the button either,
+        // but the click works.
         const button = this._post.querySelector('[aria-label^="Open control menu"]');
         button.click();
       }
