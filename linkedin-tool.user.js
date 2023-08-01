@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     0.20.1
+// @version     0.20.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -459,12 +459,13 @@
     _page = null;
     _pages = new Map();
 
+    _lastInputElement = null;
+
     constructor() {
       this._id = crypto.randomUUID();
       this._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
-      document.addEventListener('blur', this._onBlur.bind(this), true);
       document.addEventListener('href', this._onHref.bind(this), true);
     }
 
@@ -479,14 +480,13 @@
     }
 
     _onFocus(evt) {
+      if (this._lastInputElement && evt.target !== this._lastInputElement) {
+        this._lastInputElement = null
+        this._setInputFocus(false);
+      }
       if (isInput(evt.target)) {
         this._setInputFocus(true);
-      }
-    }
-
-    _onBlur(evt) {
-      if (isInput(evt.target)) {
-        this._setInputFocus(false);
+        this._lastInputElement = evt.target;
       }
     }
 
