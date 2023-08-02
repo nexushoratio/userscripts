@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.0.2
+// @version     1.0.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -153,7 +153,7 @@
     }
 
     _gotoNavLink(item) {
-      document.querySelector(`#global-nav a[href*="/${item}"`).click();
+      clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
     _gotoNavButton(item) {
@@ -171,7 +171,7 @@
     }
 
     _gotoSearch() {
-      document.querySelector('#global-nav-search button').click();
+      clickElement(document, ['#global-nav-search button']);
     }
 
     _goHome() {
@@ -358,60 +358,31 @@
     }
 
     _togglePost() {
-      if (this._post) {
-        const dismiss = this._post.querySelector('button[aria-label^="Dismiss post"]');
-        if (dismiss) {
-          dismiss.click();
-        } else {
-          const undo = this._post.querySelector('button[aria-label^="Undo and show"]');
-          if (undo) {
-            undo.click();
-          }
-        }
-      }
+      clickElement(this._post, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
     }
 
     _showComments() {
-      if (this._post) {
-        const comments = this._post.querySelector('button[aria-label*="comment"]');
-        if (comments) {
-          comments.click();
-        }
-      }
+      clickElement(this._post, ['button[aria-label*="comment"]']);
     }
 
     _seeMore() {
       const el = this._comment ? this._comment : this._post;
-      if (el) {
-        const see_more = el.querySelector('button[aria-label^="see more"]');
-        if (see_more) {
-          see_more.click();
-        }
-      }
+      clickElement(el, ['button[aria-label^="see more"]']);
     }
 
     _likePostOrComment() {
       const el = this._comment ? this._comment : this._post;
-      if (el) {
-        const like_button = el.querySelector('button[aria-label^="Open reactions menu"]');
-        like_button.click();
-      }
+      clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     }
 
     _loadMorePosts() {
       const posts = this._getPosts();
-      const new_updates = posts[0].querySelector('div.feed-new-update-pill button');
-      if (new_updates) {
-        new_updates.click();
+      if (clickElement(posts[0], ['div.feed-new-update-pill button'])) {
         this._post = posts[0];
-        this._scrollToCurrentPost();
       } else {
-        const show_more = document.querySelector('main button.scaffold-finite-scroll__load-button');
-        if (show_more) {
-          show_more.click();
-          this._scrollToCurrentPost();
-        }
+        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
+      this._scrollToCurrentPost();
     }
 
     _openMeatballMenu() {
@@ -423,8 +394,7 @@
       } else if (this._post) {
         // Yeah, I don't get it.  This one isn't the button either,
         // but the click works.
-        const button = this._post.querySelector('[aria-label^="Open control menu"]');
-        button.click();
+        clickElement(this._post, ['[aria-label^="Open control menu"]']);
       }
     }
 
@@ -519,17 +489,7 @@
     }
 
     _openMeatballMenu() {
-      if (this._notification) {
-        const button = this._notification.querySelector('button[aria-label^="Settings menu"]');
-        if (button) {
-          button.click();
-        } else {
-          const undo = this._notification.querySelector('button[aria-label^="Undo notification deletion"]');
-          if (undo) {
-            undo.click();
-          }
-        }
-      }
+      clickElement(this._notification, ['button[aria-label^="Settings menu"]', 'button[aria-label^="Undo notification deletion"]']);
     }
 
     _activateNotification() {
@@ -541,10 +501,7 @@
           return false;
         }
 
-        let button = this._notification.querySelector('button.message-anywhere-button');
-        if (button) {
-          button.click();
-        } else {
+        if (!clickElement(this._notification, ['button.message-anywhere-button'])) {
           const buttons = Array.from(this._notification.querySelectorAll('button'));
           const button = buttons.find(matchesKnownText);
           if (button) {
@@ -709,6 +666,20 @@
       tagName = element.tagName.toLowerCase();
     }
     return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
+  }
+
+  // Run querySelector to get an element, then click it.
+  function clickElement(base, selectorArray) {
+    if (base) {
+      for (const selector of selectorArray) {
+        const el = base.querySelector(selector);
+        if (el) {
+          el.click();
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   let navBarHeightPixels = 0;
