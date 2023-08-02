@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.0.1
+// @version     1.0.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -157,12 +157,10 @@
     }
 
     _gotoNavButton(item) {
-      const buttons = document.querySelectorAll('#global-nav button');
-      for (const el of buttons) {
-        if (el.textContent.includes(item)) {
-          el.click();
-          break;
-        }
+      const buttons = Array.from(document.querySelectorAll('#global-nav button'));
+      const button = buttons.find(el => el.textContent.includes(item));
+      if (button) {
+        button.click();
       }
     }
 
@@ -274,12 +272,12 @@
     }
 
     _getPosts() {
-      return document.querySelectorAll('main div[data-id]');
+      return Array.from(document.querySelectorAll('main div[data-id]'));
     }
 
     _getComments() {
       if (this._post) {
-        return this._post.querySelectorAll('article.comments-comment-item');
+        return Array.from(this._post.querySelectorAll('article.comments-comment-item'));
       } else {
         return [];
       }
@@ -307,7 +305,7 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = Array.prototype.indexOf.call(posts, this._post);
+        let idx = posts.indexOf(this._post);
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
@@ -321,7 +319,7 @@
     _scrollCommentsBy(n) {
       const comments = this._getComments();
       if (comments.length) {
-        let idx = Array.prototype.indexOf.call(comments, this._comment);
+        let idx = comments.indexOf(this._comment);
         idx = Math.min(idx + n, comments.length - 1);
         if (idx < 0) {
           // focus back to post
@@ -482,14 +480,14 @@
       }
       if (val) {
         const notifications = this._getNotifications();
-        this._currentNotificationIndex = Array.prototype.indexOf.call(notifications, val);
+        this._currentNotificationIndex = notifications.indexOf(val);
         val.classList.add('tom');
         this._scrollToCurrentNotification();
       }
     }
 
     _getNotifications() {
-      return document.querySelectorAll('main section div.nt-card-list article');
+      return Array.from(document.querySelectorAll('main section div.nt-card-list article'));
     }
 
     _scrollToCurrentNotification() {
