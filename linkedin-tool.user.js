@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.0.0
+// @version     1.0.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -307,7 +307,7 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = Array.prototype.findIndex.call(posts, el => el === this._post);
+        let idx = Array.prototype.indexOf.call(posts, this._post);
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
@@ -321,7 +321,7 @@
     _scrollCommentsBy(n) {
       const comments = this._getComments();
       if (comments.length) {
-        let idx = Array.prototype.findIndex.call(comments, el => el === this._comment);
+        let idx = Array.prototype.indexOf.call(comments, this._comment);
         idx = Math.min(idx + n, comments.length - 1);
         if (idx < 0) {
           // focus back to post
@@ -482,7 +482,7 @@
       }
       if (val) {
         const notifications = this._getNotifications();
-        this._currentNotificationIndex = Array.prototype.findIndex.call(notifications, el => el === val);
+        this._currentNotificationIndex = Array.prototype.indexOf.call(notifications, val);
         val.classList.add('tom');
         this._scrollToCurrentNotification();
       }
