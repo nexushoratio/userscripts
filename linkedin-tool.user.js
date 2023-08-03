@@ -522,9 +522,9 @@
     _activateNotification() {
       if (this._notification) {
         // Every notification is different.
+        // It may be that notifications are settling on 'a.nt-card__headline'.
         function matchesKnownText(el) {
           if (el.innerText === 'Apply early') return true;
-          if (el.innerText.match(/View \d+ Job/)) return true;
           return false;
         }
 
