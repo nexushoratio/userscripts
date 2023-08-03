@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.1.0
+// @version     1.2.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -225,6 +225,7 @@
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
+      {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -426,6 +427,15 @@
           this._post.append(a);
         }
         a.click();
+      }
+    }
+
+    _viewReactions() {
+      // Bah!  The queries are annoyingly different.
+      if (this._comment) {
+        clickElement(this._comment, ['button.comments-comment-social-bar__reactions-count']);
+      } else if (this._post) {
+        clickElement(this._post, ['button.social-details-social-counts__count-value']);
       }
     }
 
