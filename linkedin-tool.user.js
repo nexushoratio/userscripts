@@ -528,6 +528,12 @@
           return false;
         }
 
+        // Debugging code.
+        if (this._notification.querySelectorAll('a.nt-card__headline').length === 1 && this._notification.querySelector('button.message-anywhere-button')) {
+          console.debug(this._notification);
+          alert('Yes, can be simplified');
+        }
+
         if (!clickElement(this._notification, ['button.message-anywhere-button'])) {
           const buttons = Array.from(this._notification.querySelectorAll('button'));
           const button = buttons.find(matchesKnownText);
