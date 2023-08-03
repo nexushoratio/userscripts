@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.3.0
+// @version     1.4.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -455,6 +455,7 @@
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
       {seq: 'a', desc: 'Activate the notification (click on it)', func: this._activateNotification},
+      {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -516,7 +517,7 @@
     }
 
     _openMeatballMenu() {
-      clickElement(this._notification, ['button[aria-label^="Settings menu"]', 'button[aria-label^="Undo notification deletion"]']);
+      clickElement(this._notification, ['button[aria-label^="Settings menu"]']);
     }
 
     _activateNotification() {
@@ -558,6 +559,20 @@
               alert(msg.join(' '));
             }
           }
+        }
+      }
+    }
+
+    _deleteNotification() {
+      if (this._notification) {
+        // Hah.  Unlike in other places, these buttons already exist,
+        // just hidden under the menu.
+        const buttons = Array.from(this._notification.querySelectorAll('button'));
+        const button = buttons.find(el => el.textContent.includes('Delete this notification'));
+        if (button) {
+          button.click();
+        } else {
+          clickElement(this._notification, ['button[aria-label^="Undo notification deletion"]']);
         }
       }
     }
