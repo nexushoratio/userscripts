@@ -539,7 +539,9 @@
               links[0].click();
             } else {
               console.debug(this._notification);
-              console.debug(this._notification.querySelectorAll('*'));
+              for (const el of this._notification.querySelectorAll('*')) {
+                console.debug(el);
+              }
               const msg = [
                 'You tried to activate an unsupported notification',
                 'element.  Please file a bug.  If you are comfortable',
