@@ -322,8 +322,11 @@
       const comments = this._getComments();
       if (comments.length) {
         let idx = comments.indexOf(this._comment);
-        idx = Math.min(idx + n, comments.length - 1);
-        if (idx < 0) {
+        idx += n
+        if (idx < -1) {
+          idx = comments.length - 1
+        }
+        if (idx === -1 || idx >= comments.length) {
           // focus back to post
           this._comment = null;
           this._post = this._post;
