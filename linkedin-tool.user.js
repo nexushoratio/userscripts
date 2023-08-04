@@ -448,7 +448,6 @@
         const urn = this._post.dataset.id;
         const id = `lt-${urn.replaceAll(':', '-')}`;
         let a = this._post.querySelector(`#${id}`);
-        console.debug('queried a', a);
         if (!a) {
           a = document.createElement('a');
           a.href = `/feed/update/${urn}/`;
