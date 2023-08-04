@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.8.0
+// @version     1.8.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -479,6 +479,7 @@
 
   class Notifications extends Page {
     _pathname = '/notifications/';
+    _click_handler_selector = 'main';
     _auto_keys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
@@ -494,6 +495,13 @@
     // parent elements, are deleted and replaced by new elements.  So
     // the only way to track them is by array position.
     _currentNotificationIndex = -1;
+
+    _clickHandler(evt) {
+      const notification = evt.target.closest('div.nt-card-list article');
+      if (notification) {
+        this._notification = notification;
+      }
+    }
 
     get _notification() {
       if (this._currentNotificationIndex >= 0) {
