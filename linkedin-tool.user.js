@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.6.0
+// @version     1.7.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -486,6 +486,8 @@
       {seq: 'a', desc: 'Activate the notification (click on it)', func: this._activateNotification},
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
+      {seq: '<', desc: 'First notification', func: this._firstNotification},
+      {seq: '>', desc: 'Last notification', func: this._lastNotification},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -547,6 +549,22 @@
 
     _prevNotification() {
       this._scrollBy(-1);
+    }
+
+    _jumpToNotification(first) {
+      const notifications = this._getNotifications();
+      if (notifications.length) {
+        const idx = first ? 0 : (notifications.length - 1);
+        this._notification = notifications[idx];
+      }
+    }
+
+    _firstNotification() {
+      this._jumpToNotification(true);
+    }
+
+    _lastNotification() {
+      this._jumpToNotification(false);
     }
 
     _openMeatballMenu() {
