@@ -223,6 +223,8 @@
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+      {seq: '<', desc: 'First post or comment', func: this._firstPostOrComment},
+      {seq: '>', desc: 'Last post or comment', func: this._lastPostOrComment},
       {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
@@ -378,6 +380,30 @@
     _likePostOrComment() {
       const el = this._comment ? this._comment : this._post;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
+    }
+
+    _jumpToPostOrComment(first) {
+      if (this._comment) {
+        var comments = this._getComments();
+        if (comments.length) {
+          const idx = first ? 0 : (comments.length - 1);
+          this._comment = comments[idx];
+        }
+      } else {
+        const posts = this._getPosts();
+        if (posts.length) {
+          const idx = first ? 0 : (posts.length - 1);
+          this._post = posts[idx];
+        }
+      }
+    }
+
+    _firstPostOrComment() {
+      this._jumpToPostOrComment(true);
+    }
+
+    _lastPostOrComment() {
+      this._jumpToPostOrComment(false);
     }
 
     _loadMorePosts() {
