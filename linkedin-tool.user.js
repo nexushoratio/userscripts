@@ -244,7 +244,7 @@
     }
 
     set _post(val) {
-      if (val === this._currentPostElement) {
+      if (val === this._currentPostElement && this._comment) {
         return;
       }
       if (this._currentPostElement) {
