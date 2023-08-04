@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.7.0
+// @version     1.8.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -482,7 +482,7 @@
     _auto_keys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
-      {seq: 'a', desc: 'Activate the notification (click on it)', func: this._activateNotification},
+      {seq: 'Enter', desc: 'Activate the notification (click on it)', func: this._activateNotification},
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
       {seq: '<', desc: 'First notification', func: this._firstNotification},
