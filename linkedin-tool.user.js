@@ -309,7 +309,7 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = posts.indexOf(this._post);
+        let idx = Math.max(posts.indexOf(this._post), 0);
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
