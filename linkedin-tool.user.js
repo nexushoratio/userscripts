@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.0
+// @version     1.10.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -820,18 +820,56 @@
     return false;
   }
 
+  // One time mutation observer with timeout
+  // base - element to observe
+  // options - MutationObserver().observe options
+  // monitor - function that takes [MutationRecord] and returns a {done, results} object
+  // trigger - function to call that triggers observable results, can be null
+  // timeout - time to wait for completion in milliseconds, 0 disables
+  // Returns promise that will resolve with the results from monitor.
+  function otmot(base, options, monitor, trigger, timeout) {
+    const prom = new Promise((resolve, reject) => {
+      let timeoutID = null;
+      trigger = trigger || function () {};
+      const observer = new MutationObserver((records) => {
+        const {done, results} = monitor(records);
+        if (done) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          resolve(results);
+        }
+      });
+      if (timeout) {
+        timeoutID = setTimeout(() => {
+          observer.disconnect();
+          reject('timed out');
+        }, timeout);
+      }
+      observer.observe(base, options);
+      trigger();
+    });
+    return prom;
+  }
+
+  function navBarMonitor(records) {
+    const navbar = document.querySelector('#global-nav');
+    if (navbar) {
+      return {done: true, results: navbar};
+    }
+    return {done: false, results: null};
+  }
+
   let navBarHeightPixels = 0;
   let navBarHeightCss = '0';
-  VM.observe(document.body, () => {
-    const navbar = document.querySelector('#global-nav');
 
-    if (navbar) {
-      navBarHeightPixels = navbar.clientHeight + 4;
+  // In this case, the trigger was the page load.  It already happened
+  // by the time we got here.
+  otmot(document.body, {childList: true, subtree: true}, navBarMonitor,
+        null, 0)
+    .then((el) => {
+      navBarHeightPixels = el.clientHeight + 4;
       navBarHeightCss = `${navBarHeightPixels}px`;
-
-      return true;
-    }
-  });
+    });
 
   let oldUrl = new URL(window.location);
   VM.observe(document.body, () => {
