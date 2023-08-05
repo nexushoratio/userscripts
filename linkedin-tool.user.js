@@ -874,7 +874,6 @@
 
   let oldUrl = new URL(window.location);
   function registerUrlMonitor(element) {
-    console.debug('monitoring', element);
     const observer = new MutationObserver((records) => {
       const newUrl = new URL(window.location);
       if (oldUrl.href !== newUrl.href) {
