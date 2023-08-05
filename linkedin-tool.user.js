@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.1
+// @version     1.10.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -779,6 +779,7 @@
     }
 
     activate(pathname) {
+      console.debug('activating', pathname);
       if (this._page) {
         this._page.deactivate();
       }
@@ -872,13 +873,28 @@
     });
 
   let oldUrl = new URL(window.location);
-  VM.observe(document.body, () => {
-    const newUrl = new URL(window.location);
-    if (oldUrl.href !== newUrl.href) {
-      const evt = new CustomEvent('href', {detail: {url: newUrl}})
-      oldUrl = newUrl;
-      document.dispatchEvent(evt);
+  function registerUrlMonitor(element) {
+    console.debug('monitoring', element);
+    const observer = new MutationObserver((records) => {
+      const newUrl = new URL(window.location);
+      if (oldUrl.href !== newUrl.href) {
+        const evt = new CustomEvent('href', {detail: {url: newUrl}})
+        oldUrl = newUrl;
+        document.dispatchEvent(evt);
+      }
+    });
+    observer.observe(element, {childList: true, subtree: true});
+  }
+
+  function authenticationOutletMonitor() {
+    const div = document.body.querySelector('div.authentication-outlet');
+    if (div) {
+      return {done: true, results: div};
     }
-  });
+    return {done: false, results: null};
+  }
+
+  otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
+    .then((el) => registerUrlMonitor(el));
 
 })();
