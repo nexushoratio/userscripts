@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.8.1
+// @version     1.9.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -369,7 +369,21 @@
     }
 
     _showComments() {
-      clickElement(this._post, ['button[aria-label*="comment"]']);
+      function tryComment(comment) {
+        if (comment) {
+          const buttons = Array.from(comment.querySelectorAll('button'));
+          const button = buttons.find(el => el.textContent.includes('Load previous replies'));
+          if (button) {
+            button.click();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      if (!tryComment(this._comment)) {
+        clickElement(this._post, ['button[aria-label*="comment"]']);
+      }
     }
 
     _seeMore() {
