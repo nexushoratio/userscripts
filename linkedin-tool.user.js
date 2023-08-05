@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.9.0
+// @version     1.10.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -228,6 +228,7 @@
       {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
+      {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: this._gotoShare},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -428,6 +429,13 @@
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
       this._scrollToCurrentPost();
+    }
+
+    _gotoShare() {
+      const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
+      share.style.scrollMarginTop = navBarHeightCss;
+      share.scrollIntoView();
+      share.querySelector('button').focus();
     }
 
     _openMeatballMenu() {
