@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.4
+// @version     1.10.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -289,8 +289,10 @@
     }
 
     _scrollToCurrentPost() {
-      this._post.style.scrollMarginTop = navBarHeightCss;
-      this._post.scrollIntoView();
+      if (this._post) {
+        this._post.style.scrollMarginTop = navBarHeightCss;
+        this._post.scrollIntoView();
+      }
     }
 
     _scrollToCurrentComment() {
@@ -436,13 +438,18 @@
     }
 
     _loadMorePosts() {
-      const posts = this._getPosts();
-      if (clickElement(posts[0], ['div.feed-new-update-pill button'])) {
-        this._post = posts[0];
-      } else {
-        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+      const container = document.querySelector('div.scaffold-finite-scroll__content');
+      function f() {
+        const posts = this._getPosts();
+        if (clickElement(posts[0], ['div.feed-new-update-pill button'])) {
+          this._post = posts[0];
+        } else {
+          clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+        }
       }
-      this._scrollToCurrentPost();
+      otrot(container, f.bind(this), 3000).then(() => {
+        this._scrollToCurrentPost();
+      });
     }
 
     _gotoShare() {
