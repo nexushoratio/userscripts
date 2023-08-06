@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.3
+// @version     1.10.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -310,7 +310,12 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = Math.max(posts.indexOf(this._post), 0);
+        let idx = posts.indexOf(this._post);
+        // If the post isn't found, set idx to a value so the incr+mod
+        // below does the right thing.
+        if (idx === -1 && n === -1) {
+          idx = 0;
+        }
         let post = null;
         // Some posts are hidden (ads, suggestions).  Skip over thoses.
         do {
