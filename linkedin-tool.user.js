@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.2
+// @version     1.10.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -344,8 +344,17 @@
     }
 
     _nextPostPlus() {
-      this._togglePost();
-      this._nextPost();
+      const lastPost = this._post;
+      function f() {
+        this._togglePost();
+        this._nextPost();
+      }
+      // XXX Need to remove the highlight before otrot sees it because
+      // it affects the .clientHeight.
+      this._post.classList.remove('tom');
+      otrot(this._post, f.bind(this), 3000).then(() => {
+        this._scrollToCurrentPost();
+      }).catch(e => console.error(e));
     }
 
     _prevPost() {
@@ -847,6 +856,37 @@
         }, timeout);
       }
       observer.observe(base, options);
+      trigger();
+    });
+    return prom;
+  }
+
+  // One time resize observer with timeout
+  // Will resolve automatically upon resize change.
+  // base - element to observe
+  // trigger - function to call that triggers observable events, can be null
+  // timeout - time to wait for completion in milliseconds, 0 disables
+  // Returns promise that will resolve with the results from monitor.
+  function otrot(base, trigger, timeout) {
+    const prom = new Promise((resolve, reject) => {
+      let timeoutID = null;
+      const initialHeight = base.clientHeight;
+      const initialWidth = base.clientWidth;
+      trigger = trigger || function () {};
+      const observer = new ResizeObserver(() => {
+        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          resolve(base);
+        }
+      });
+      if (timeout) {
+        timeoutID = setTimeout(() => {
+          observer.disconnect();
+          reject('timed out');
+        }, timeout);
+      }
+      observer.observe(base);
       trigger();
     });
     return prom;
