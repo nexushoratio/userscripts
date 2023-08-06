@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.5
+// @version     1.10.6
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -224,7 +224,7 @@
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: '<', desc: 'First post or comment', func: this._firstPostOrComment},
-      {seq: '>', desc: 'Last post or comment', func: this._lastPostOrComment},
+      {seq: '>', desc: 'Last post or comment currently loaded', func: this._lastPostOrComment},
       {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
@@ -423,8 +423,17 @@
       } else {
         const posts = this._getPosts();
         if (posts.length) {
-          const idx = first ? 0 : (posts.length - 1);
-          this._post = posts[idx];
+          let idx = first ? 0 : (posts.length - 1);
+          let post = posts[idx];
+          // Post content can be loaded lazily and can be detected by
+          // having no innerText yet.  So go to the last one that is
+          // loaded.  By the time we scroll to it, the next posts may
+          // have content, but it will close.
+          while (!post.innerText.length && !first) {
+            idx--;
+            post = posts[idx];
+          }
+          this._post = post;
         }
       }
     }
