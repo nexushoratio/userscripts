@@ -788,7 +788,6 @@
     }
 
     activate(pathname) {
-      console.debug('activating', pathname);
       if (this._page) {
         this._page.deactivate();
       }
