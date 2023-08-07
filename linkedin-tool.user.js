@@ -232,8 +232,8 @@
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
-    _currentPostElement = null;
-    _currentCommentElement = null;
+    _currentPostId = null;
+    _currentCommentId = null;
 
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
@@ -243,17 +243,17 @@
     }
 
     get _post() {
-      return this._currentPostElement;
+      return this._getPosts().find(this._matchPost.bind(this));
     }
 
     set _post(val) {
-      if (val === this._currentPostElement && this._comment) {
+      if (val === this._post && this._comment) {
         return;
       }
-      if (this._currentPostElement) {
-        this._currentPostElement.classList.remove('tom');
+      if (this._post) {
+        this._post.classList.remove('tom');
       }
-      this._currentPostElement = val;
+      this._currentPostId = this._uniqueIdentifier(val);
       this._comment = null;
       if (val) {
         val.classList.add('tom');
@@ -262,14 +262,14 @@
     }
 
     get _comment() {
-      return this._currentCommentElement;
+      return this._getComments().find(this._matchComment.bind(this));
     }
 
     set _comment(val) {
-      if (this._currentCommentElement) {
-        this._currentCommentElement.classList.remove('dick');
+      if (this._comment) {
+        this._comment.classList.remove('dick');
       }
-      this._currentCommentElement = val;
+      this._currentCommentId = this._uniqueIdentifier(val);
       if (val) {
         val.classList.add('dick');
         this._scrollToCurrentComment();
@@ -286,6 +286,22 @@
       } else {
         return [];
       }
+    }
+
+    _uniqueIdentifier(element) {
+      if (element) {
+        return element.dataset.id;
+      } else {
+        return null;
+      }
+    }
+
+    _matchPost(el) {
+      return this._currentPostId === this._uniqueIdentifier(el);
+    }
+
+    _matchComment(el) {
+      return this._currentCommentId === this._uniqueIdentifier(el);
     }
 
     _scrollToCurrentPost() {
@@ -312,7 +328,7 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = posts.indexOf(this._post);
+        let idx = posts.findIndex(this._matchPost.bind(this));
         // If the post isn't found, set idx to a value so the incr+mod
         // below does the right thing.
         if (idx === -1 && n === -1) {
@@ -331,7 +347,7 @@
     _scrollCommentsBy(n) {
       const comments = this._getComments();
       if (comments.length) {
-        let idx = comments.indexOf(this._comment);
+        let idx = comments.findIndex(this._matchComment.bind(this));
         idx += n
         if (idx < -1) {
           idx = comments.length - 1
