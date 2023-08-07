@@ -328,18 +328,25 @@
     _scrollBy(n) {
       const posts = this._getPosts();
       if (posts.length) {
-        let idx = posts.findIndex(this._matchPost.bind(this));
-        // If the post isn't found, set idx to a value so the incr+mod
-        // below does the right thing.
-        if (idx === -1 && n === -1) {
-          idx = 0;
-        }
         let post = null;
-        // Some posts are hidden (ads, suggestions).  Skip over thoses.
-        do {
-          idx = (idx + n + posts.length) % posts.length;
+        let idx = posts.findIndex(this._matchPost.bind(this)) + n;
+        if (idx < -1) {
+          idx = posts.length - 1;
+        }
+        if (idx === -1 || idx >= posts.length) {
+          // focus back to sidebar
+          const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+          sidebar.style.scrollMarginTop = navBarHeightCss;
+          sidebar.scrollIntoView();
+          sidebar.focus();
+        } else {
+          // Some posts are hidden (ads, suggestions).  Skip over thoses.
           post = posts[idx];
-        } while (!post.clientHeight);
+          while (!post.clientHeight) {
+            idx += n;
+            post = posts[idx];
+          }
+        }
         this._post = post;
       }
     }
