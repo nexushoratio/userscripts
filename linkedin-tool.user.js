@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.1.0
+// @version     2.1.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -334,11 +334,7 @@
           idx = posts.length - 1;
         }
         if (idx === -1 || idx >= posts.length) {
-          // focus back to sidebar
-          const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-          sidebar.style.scrollMarginTop = navBarHeightCss;
-          sidebar.scrollIntoView();
-          sidebar.focus();
+          focusOnSidebar();
         } else {
           // Some posts are hidden (ads, suggestions).  Skip over thoses.
           post = posts[idx];
@@ -596,9 +592,8 @@
           idx = sections.length - 1;
         }
         if (idx === -1 || idx >= sections.length) {
-          // focus back to sidebar
+          focusOnSidebar();
           this._section = null;
-          document.querySelector('div.scaffold-layout__sidebar').focus();
         } else {
           this._section = sections[idx];
         }
@@ -693,11 +688,7 @@
           idx = notifications.length - 1;
         }
         if (idx === -1 || idx >= notifications.length) {
-          // focus back to sidebar
-          const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-          sidebar.style.scrollMarginTop = navBarHeightCss;
-          sidebar.scrollIntoView();
-          sidebar.focus();
+          focusOnSidebar();
           this._notification = null;
         } else {
           this._notification = notifications[idx];
@@ -968,6 +959,13 @@
         element.removeAttribute('tabindex');
       }
     }
+  }
+
+  function focusOnSidebar() {
+    const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+    sidebar.style.scrollMarginTop = navBarHeightCss;
+    sidebar.scrollIntoView();
+    sidebar.focus();
   }
 
   // One time mutation observer with timeout
