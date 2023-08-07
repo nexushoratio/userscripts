@@ -225,7 +225,7 @@
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: '<', desc: 'First post or comment', func: this._firstPostOrComment},
       {seq: '>', desc: 'Last post or comment currently loaded', func: this._lastPostOrComment},
-      {seq: 'f', desc: 'Focus on current post or comment (causes browser to change focus)', func: this._focusBrowser},
+      {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
       {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: this._gotoShare},
@@ -483,16 +483,7 @@
 
     _focusBrowser() {
       const el = this._comment ? this._comment : this._post;
-      if (el) {
-        const tabIndex = el.getAttribute('tabindex');
-        el.setAttribute('tabindex', 0);
-        el.focus();
-        if (tabIndex) {
-          el.setAttribute('tabindex', tabIndex);
-        } else {
-          el.removeAttribute('tabindex');
-        }
-      }
+      focusOnElement(el);
     }
 
     _viewPost() {
@@ -526,7 +517,7 @@
     _auto_keys = [
       {seq: 'j', desc: 'Next section', func: this._nextSection},
       {seq: 'k', desc: 'Previous section', func: this._prevSection},
-      {seq: 'f', desc: 'Focus on current section', func: this._focusBrowser},
+      {seq: 'f', desc: 'Change browser focus to current section', func: this._focusBrowser},
     ];
 
     _currentSectionId = null;
@@ -601,17 +592,7 @@
     }
 
     _focusBrowser() {
-      const el = this._section
-      if (el) {
-        const tabIndex = el.getAttribute('tabindex');
-        el.setAttribute('tabindex', 0);
-        el.focus();
-        if (tabIndex) {
-          el.setAttribute('tabindex', tabIndex);
-        } else {
-          el.removeAttribute('tabindex');
-        }
-      }
+      focusOnElement(this._section);
     }
   }
 
@@ -628,6 +609,7 @@
       {seq: 'Enter', desc: 'Activate the notification (click on it)', func: this._activateNotification},
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
+      {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
       {seq: '<', desc: 'First notification', func: this._firstNotification},
       {seq: '>', desc: 'Last notification', func: this._lastNotification},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
@@ -706,6 +688,10 @@
         const idx = first ? 0 : (notifications.length - 1);
         this._notification = notifications[idx];
       }
+    }
+
+    _focusBrowser() {
+      focusOnElement(this._notification);
     }
 
     _firstNotification() {
@@ -938,6 +924,19 @@
       }
     }
     return false;
+  }
+
+  function focusOnElement(element) {
+    if (element) {
+      const tabIndex = element.getAttribute('tabindex');
+      element.setAttribute('tabindex', 0);
+      element.focus();
+      if (tabIndex) {
+        element.setAttribute('tabindex', tabIndex);
+      } else {
+        element.removeAttribute('tabindex');
+      }
+    }
   }
 
   // One time mutation observer with timeout
