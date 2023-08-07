@@ -347,8 +347,7 @@
     _scrollCommentsBy(n) {
       const comments = this._getComments();
       if (comments.length) {
-        let idx = comments.findIndex(this._matchComment.bind(this));
-        idx += n
+        let idx = comments.findIndex(this._matchComment.bind(this)) + n;
         if (idx < -1) {
           idx = comments.length - 1
         }
