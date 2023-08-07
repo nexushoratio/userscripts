@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.1.1
+// @version     2.1.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -730,6 +730,12 @@
 
     _activateNotification() {
       if (this._notification) {
+        // Because we are using Enter as the hotkey here, if the
+        // active element is inside the current card, we want that to
+        // take precedence.
+        if (document.activeElement.closest('article') === this._notification) {
+          return;
+        }
         // Every notification is different.
         // It may be that notifications are settling on 'a.nt-card__headline'.
         function matchesKnownText(el) {
@@ -768,6 +774,9 @@
             }
           }
         }
+      } else {
+        // Again, because we use Enter as the hotkey for this action.
+        document.activeElement.click();
       }
     }
 
