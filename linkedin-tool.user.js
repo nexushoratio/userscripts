@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.0.2
+// @version     2.1.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -661,9 +661,9 @@
       if (this._notification) {
         this._notification.classList.remove('tom');
       }
+      const notifications = this._getNotifications();
+      this._currentNotificationIndex = notifications.indexOf(val);
       if (val) {
-        const notifications = this._getNotifications();
-        this._currentNotificationIndex = notifications.indexOf(val);
         val.classList.add('tom');
         this._scrollToCurrentNotification();
       }
@@ -688,11 +688,20 @@
     _scrollBy(n) {
       const notifications = this._getNotifications();
       if (notifications.length) {
-        if (this._currentNotificationIndex === -1 && n === -1) {
-          this._currentNotificationIndex = 0;
+        let idx = this._currentNotificationIndex + n;
+        if (idx < -1) {
+          idx = notifications.length - 1;
         }
-        const idx = (this._currentNotificationIndex + n + notifications.length) % notifications.length;
-        this._notification = notifications[idx];
+        if (idx === -1 || idx >= notifications.length) {
+          // focus back to sidebar
+          const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+          sidebar.style.scrollMarginTop = navBarHeightCss;
+          sidebar.scrollIntoView();
+          sidebar.focus();
+          this._notification = null;
+        } else {
+          this._notification = notifications[idx];
+        }
       }
     }
 
