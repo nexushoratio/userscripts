@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     1.10.6
+// @version     2.0.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -523,6 +523,96 @@
 
   class Jobs extends Page {
     _pathname = '/jobs/';
+    _auto_keys = [
+      {seq: 'j', desc: 'Next section', func: this._nextSection},
+      {seq: 'k', desc: 'Previous section', func: this._prevSection},
+      {seq: 'f', desc: 'Focus on current section', func: this._focusBrowser},
+    ];
+
+    _currentSectionId = null;
+
+    get _section() {
+      return this._getSections().find(this._match.bind(this));
+    }
+
+    set _section(val) {
+      if (this._section) {
+        this._section.classList.remove('tom');
+      }
+      this._currentSectionId = this._uniqueIdentifier(val);
+      if (val) {
+        val.classList.add('tom');
+        this._scrollToCurrentSection();
+      }
+    }
+
+    _getSections() {
+      return Array.from(document.querySelectorAll('main section'));
+    }
+
+    _uniqueIdentifier(element) {
+      if (element) {
+        const h2 = element.querySelector('h2');
+        if (h2) {
+          return h2.innerText;
+        } else {
+          return element.innerText;
+        }
+      } else {
+        return null;
+      }
+    }
+
+    _match(el) {
+      const res = this._currentSectionId === this._uniqueIdentifier(el);
+      return res;
+    }
+
+    _scrollToCurrentSection() {
+      if (this._section) {
+        this._section.style.scrollMarginTop = navBarHeightCss;
+        this._section.scrollIntoView();
+      }
+    }
+
+    _scrollBy(n) {
+      const sections = this._getSections();
+      if (sections.length) {
+        let idx = sections.findIndex(this._match.bind(this)) + n;
+        if (idx < -1) {
+          idx = sections.length - 1;
+        }
+        if (idx === -1 || idx >= sections.length) {
+          // focus back to sidebar
+          this._section = null;
+          document.querySelector('div.scaffold-layout__sidebar').focus();
+        } else {
+          this._section = sections[idx];
+        }
+      }
+    }
+
+    _nextSection() {
+      this._scrollBy(1);
+    }
+
+    _prevSection() {
+      this._scrollBy(-1);
+    }
+
+    _focusBrowser() {
+      const el = this._section
+      if (el) {
+        const tabIndex = el.getAttribute('tabindex');
+        el.setAttribute('tabindex', 0);
+        el.focus();
+        if (tabIndex) {
+          el.setAttribute('tabindex', tabIndex);
+        } else {
+          el.removeAttribute('tabindex');
+        }
+      }
+    }
   }
 
   class JobsCollections extends Page {
