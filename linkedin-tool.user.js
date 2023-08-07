@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.1.2
+// @version     2.1.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -632,10 +632,14 @@
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
-    // Ugh.  When notifications are deleted, the entire element, and
-    // parent elements, are deleted and replaced by new elements.  So
-    // the only way to track them is by array position.
-    _currentNotificationIndex = -1;
+    // Ugh.  When notification cards are deleted or restored, the
+    // entire element, and parent elements, are deleted and replaced
+    // by new elements.  And the deleted versions have nothing in
+    // common with the original ones.  Since we can't detect when a
+    // card is deleted, we need to track where it was so maybe we can
+    // refind it again later.
+    _currentNotificationId = null;
+    _historicalNotificationIdToIndex = new Map();
 
     _clickHandler(evt) {
       const notification = evt.target.closest('div.nt-card-list article');
@@ -645,19 +649,31 @@
     }
 
     get _notification() {
-      if (this._currentNotificationIndex >= 0) {
-        return this._getNotifications()[this._currentNotificationIndex];
-      } else {
-        return null;
+      const notifications = this._getNotifications();
+      let notification = notifications.find(this._match.bind(this));
+      if (!notification) {
+        // Couldn't find the old id.  Maybe the card was modified, so
+        // try the old index.
+        const idx = this._historicalNotificationIdToIndex.get(this._currentNotificationId);
+        if (typeof idx === 'number' && 0 <= idx && idx < notifications.length) {
+          notification = notifications[idx];
+          this._setBottomHalf(notification);
+        }
       }
+      return notification;
     }
 
     set _notification(val) {
       if (this._notification) {
         this._notification.classList.remove('tom');
       }
-      const notifications = this._getNotifications();
-      this._currentNotificationIndex = notifications.indexOf(val);
+      this._setBottomHalf(val);
+    }
+
+    _setBottomHalf(val) {
+      this._currentNotificationId = this._uniqueIdentifier(val);
+      const idx = this._getNotifications().indexOf(val);
+      this._historicalNotificationIdToIndex.set(this._currentNotificationId, idx);
       if (val) {
         val.classList.add('tom');
         this._scrollToCurrentNotification();
@@ -668,9 +684,9 @@
       return Array.from(document.querySelectorAll('main section div.nt-card-list article'));
     }
 
-    // Complicated because so many variations in notification cards,
-    // and we do not want to use reaction counts because they can
-    // change too quickly.
+    // Complicated because there are so many variations in
+    // notification cards.  We do not want to use reaction counts
+    // because they can change too quickly.
     _uniqueIdentifier(element) {
       if (element) {
         if (!element.dataset.litId) {
@@ -686,12 +702,20 @@
               }
             }
           }
+          if (content.startsWith('Notification deleted.')) {
+            // Mix in something unique from the parent.
+            content += element.parentElement.dataset.finiteScrollHotkeyItem;
+          }
           element.dataset.litId = strHash(content);
         }
         return element.dataset.litId;
       } else {
         return null;
       }
+    }
+
+    _match(el) {
+      return this._currentNotificationId === this._uniqueIdentifier(el);
     }
 
     _scrollToCurrentNotification() {
@@ -707,9 +731,13 @@
     }
 
     _scrollBy(n) {
+      // XXX This standalone line invokes the magic code in the
+      // getter.  Necessary when scrolling is the first thing after
+      // deleting a card.
+      this._notification;
       const notifications = this._getNotifications();
       if (notifications.length) {
-        let idx = this._currentNotificationIndex + n;
+        let idx = notifications.findIndex(this._match.bind(this)) + n;
         if (idx < -1) {
           idx = notifications.length - 1;
         }
