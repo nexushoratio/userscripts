@@ -668,6 +668,32 @@
       return Array.from(document.querySelectorAll('main section div.nt-card-list article'));
     }
 
+    // Complicated because so many variations in notification cards,
+    // and we do not want to use reaction counts because they can
+    // change too quickly.
+    _uniqueIdentifier(element) {
+      if (element) {
+        if (!element.dataset.litId) {
+          let content = element.innerText;
+          if (element.childElementCount === 3) {
+            let content = element.children[1].innerText;
+            if (content.includes('Reactions')) {
+              for (const el of element.children[1].querySelectorAll('*')) {
+                if (el.innerText) {
+                  content = el.innerText;
+                  break;
+                }
+              }
+            }
+          }
+          element.dataset.litId = strHash(content);
+        }
+        return element.dataset.litId;
+      } else {
+        return null;
+      }
+    }
+
     _scrollToCurrentNotification() {
       const rect = this._notification.getBoundingClientRect();
       this._notification.style.scrollMarginTop = navBarHeightCss;
@@ -934,6 +960,15 @@
   pages.register(new JobsCollections());
   pages.register(new Notifications());
   pages.activate(window.location.pathname);
+
+  // Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
+  function strHash(s) {
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
+      hash = ((hash << 5) - hash) + s.charCodeAt(i) | 0;
+    }
+    return hash;
+  }
 
   function isInput(element) {
     let tagName = '';
