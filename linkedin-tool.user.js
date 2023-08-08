@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.2.0
+// @version     2.3.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -538,6 +538,7 @@
       {seq: '<', desc: 'Go to to first section', func: this._firstSection},
       {seq: '>', desc: 'Go to last section currently loaded', func: this._lastSection},
       {seq: 'f', desc: 'Change browser focus to current section', func: this._focusBrowser},
+      {seq: 'l', desc: 'Load more sections', func: this._loadMoreSections},
     ];
 
     _currentSectionId = null;
@@ -628,6 +629,18 @@
 
     _focusBrowser() {
       focusOnElement(this._section);
+    }
+
+    _loadMoreSections() {
+      const container = document.querySelector('div.scaffold-finite-scroll__content');
+      function f() {
+        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+      }
+      otrot(container, f.bind(this), 3000).then(() => {
+        // This forces a scrolling and highlighting because the
+        // elements were remade.
+        this._section = this._section;
+      });
     }
   }
 
