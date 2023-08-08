@@ -223,8 +223,8 @@
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
       {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
-      {seq: '<', desc: 'First post or comment', func: this._firstPostOrComment},
-      {seq: '>', desc: 'Last post or comment currently loaded', func: this._lastPostOrComment},
+      {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
+      {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
       {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
@@ -645,8 +645,8 @@
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
       {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
-      {seq: '<', desc: 'First notification', func: this._firstNotification},
-      {seq: '>', desc: 'Last notification', func: this._lastNotification},
+      {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
+      {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
