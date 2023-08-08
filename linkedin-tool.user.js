@@ -433,7 +433,7 @@
 
     _jumpToPostOrComment(first) {
       if (this._comment) {
-        var comments = this._getComments();
+        const comments = this._getComments();
         if (comments.length) {
           const idx = first ? 0 : (comments.length - 1);
           this._comment = comments[idx];
