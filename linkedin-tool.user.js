@@ -576,8 +576,7 @@
     }
 
     _match(el) {
-      const res = this._currentSectionId === this._uniqueIdentifier(el);
-      return res;
+      return this._currentSectionId === this._uniqueIdentifier(el);
     }
 
     _scrollToCurrentSection() {
