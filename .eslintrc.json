@@ -6,5 +6,10 @@
   "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "rules": {
+    "array-callback-return": "error",
+    "no-self-compare": "error",
+    "no-template-curly-in-string": "error",
+    "no-unmodified-loop-condition": "error",
+    "no-use-before-define": "off"  // TODO: enable, but will require moving functions around
   }
 }

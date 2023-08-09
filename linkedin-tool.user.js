@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.3.1
+// @version     2.3.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -446,9 +446,11 @@
           // having no innerText yet.  So go to the last one that is
           // loaded.  By the time we scroll to it, the next posts may
           // have content, but it will close.
-          while (!post.innerText.length && !first) {
-            idx--;
-            post = posts[idx];
+          if (!first) {
+            while (!post.innerText.length) {
+              idx--;
+              post = posts[idx];
+            }
           }
           this._post = post;
         }
