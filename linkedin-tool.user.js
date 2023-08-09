@@ -123,7 +123,7 @@
     // Override this function in derived classes that want to react to
     // random clicks on a page, say to update current element in
     // focus.
-    _clickHandler(evt) {
+    _clickHandler(evt) {  // eslint-disable-line no-unused-vars
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
     }
 
@@ -369,7 +369,6 @@
     }
 
     _nextPostPlus() {
-      const lastPost = this._post;
       function f() {
         this._togglePost();
         this._nextPost();
@@ -822,7 +821,7 @@
         }
         // Every notification is different.
         // It may be that notifications are settling on 'a.nt-card__headline'.
-        function matchesKnownText(el) {
+        function matchesKnownText(el) { // eslint-disable-line no-inner-declarations
           if (el.innerText === 'Apply early') return true;
           return false;
         }
@@ -1132,7 +1131,7 @@
     return prom;
   }
 
-  function navBarMonitor(records) {
+  function navBarMonitor() {
     const navbar = document.querySelector('#global-nav');
     if (navbar) {
       return {done: true, results: navbar};
@@ -1154,7 +1153,7 @@
 
   let oldUrl = new URL(window.location);
   function registerUrlMonitor(element) {
-    const observer = new MutationObserver((records) => {
+    const observer = new MutationObserver(() => {
       const newUrl = new URL(window.location);
       if (oldUrl.href !== newUrl.href) {
         const evt = new CustomEvent('href', {detail: {url: newUrl}})
