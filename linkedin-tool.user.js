@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.3.0
+// @version     2.3.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -995,7 +995,7 @@
       const candidate = candidates.reduce((a, b) => {
         return a.length > b.length ? a : b;
       }, '');
-      return this._pages.get(pathname) || null;
+      return this._pages.get(candidate) || null;
     }
 
     activate(pathname) {
