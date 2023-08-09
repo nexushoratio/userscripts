@@ -17,7 +17,7 @@
 (function () {
   'use strict';
 
-  console.debug('Parsing successful.');
+  console.debug('Parsing successful.');  // eslint-disable-line no-console
 
   // I'm lazy.  The version of emacs I'm using does not support
   // #private variables out of the box, so using underscores until I
@@ -378,7 +378,7 @@
       this._post.classList.remove('tom');
       otrot(this._post, f.bind(this), 3000).then(() => {
         this._scrollToCurrentPost();
-      }).catch(e => console.error(e));
+      }).catch(e => console.error(e));  // eslint-disable-line no-console
     }
 
     _prevPost() {
@@ -828,7 +828,7 @@
 
         // Debugging code.
         if (this._notification.querySelectorAll('a.nt-card__headline').length === 1 && this._notification.querySelector('button.message-anywhere-button')) {
-          console.debug(this._notification);
+          console.debug(this._notification);  // eslint-disable-line no-console
           alert('Yes, can be simplified');
         }
 
@@ -842,9 +842,9 @@
             if (links.length === 1) {
               links[0].click();
             } else {
-              console.debug(this._notification);
+              console.debug(this._notification);  // eslint-disable-line no-console
               for (const el of this._notification.querySelectorAll('*')) {
-                console.debug(el);
+                console.debug(el);  // eslint-disable-line no-console
               }
               const msg = [
                 'You tried to activate an unsupported notification',
