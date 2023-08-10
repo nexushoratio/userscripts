@@ -116,7 +116,7 @@
     _disableClickHandler() {
       if (this._click_handler_element) {
         this._click_handler_element.removeEventListener('click', this._boundClickHandler);
-        this._click_handler_element = null
+        this._click_handler_element = null;
       }
     }
 
