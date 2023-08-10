@@ -4,13 +4,73 @@
     "es6": true
   },
   "parser": "babel-eslint",
-  "extends": "eslint:recommended",
+  "extends": "eslint:all",
   "rules": {
-    "valid-jsdoc": "error",
+    // Possible Problems
     "array-callback-return": "error",
     "no-self-compare": "error",
     "no-template-curly-in-string": "error",
     "no-unmodified-loop-condition": "error",
-    "no-use-before-define": "off"  // TODO: enable, but will require moving functions around
+    "no-use-before-define": "off",  // TODO(#67): enable, but will require moving functions around
+    // Suggestions
+    "arrow-body-style": "off",  // TODO(#68): investigate
+    "camelcase": "off",  // TODO(#68): investigate
+    "capitalized-comments": "off",  // TODO(#68): investigate
+    "class-methods-use-this": "off",  // TODO(#68): investigate
+    "consistent-return": "off",  // TODO(#68): investigate
+    "curly": "off",  // TODO(#68): investigate
+    "func-names": "off",  // TODO(#68): investigate
+    "func-style": "off",  // TODO(#68): investigate
+    "id-length": "off",  // TODO(#68): investigate
+    "max-classes-per-file": "off",  // TODO(#68): investigate
+    "max-depth": "off",  // TODO(#68): investigate
+    "max-lines": "off",  // TODO(#68): investigate
+    "max-lines-per-function": "off",  // TODO(#68): investigate
+    "max-params": "off",  // TODO(#68): investigate
+    "max-statements": "off",  // TODO(#68): investigate
+    "multiline-comment-style": "off",  // TODO(#68): investigate
+    "no-alert": "off",  // TODO(#68): investigate
+    "no-bitwise": "off",  // TODO(#68): investigate
+    "no-else-return": "off",  // TODO(#68): investigate
+    "no-empty-function": "off",  // TODO(#68): investigate
+    "no-invalid-this": "off",  // TODO(#68): investigate
+    "no-magic-numbers": "off",  // TODO(#68): investigate
+    "no-param-reassign": "off",  // TODO(#68): investigate
+    "no-plusplus": "off",  // TODO(#68): investigate
+    "no-shadow": "off",  // TODO(#68): investigate
+    "no-ternary": "off",  // TODO(#68): investigate
+    "no-underscore-dangle": "off",  // TODO(#68): investigate
+    "no-unused-expressions": "off",  // TODO(#68): investigate
+    "no-warning-comments": "off",  // TODO(#68): investigate
+    "one-var": "off",  // TODO(#68): investigate
+    "prefer-destructuring": "off",  // TODO(#68): investigate
+    "prefer-named-capture-group": "off",  // TODO(#68): investigate
+    "prefer-promise-reject-errors": "off",  // TODO(#68): investigate
+    "quote-props": "off",  // TODO(#68): investigate
+    "require-unicode-regexp": "off",  // TODO(#68): investigate
+    "sort-keys": "off",  // TODO(#68): investigate
+    "strict": "off",  // TODO(#68): investigate
+    "yoda": "off",  // TODO(#68): investigate
+    // Layout & Formatting
+    "array-element-newline": "off",  // TODO(#69): investigate
+    "arrow-parens": "off",  // TODO(#69): investigate
+    "comma-dangle": "off",  // TODO(#69): investigate
+    "dot-location": "off",  // TODO(#69): investigate
+    "function-paren-newline": "off",  // TODO(#69): investigate
+    "indent": "off",  // TODO(#69): investigate
+    "lines-between-class-members": "off",  // TODO(#69): investigate
+    "max-len": "off",  // TODO(#69): investigate
+    "multiline-ternary": "off",  // TODO(#69): investigate
+    "newline-per-chained-call": "off",  // TODO(#69): investigate
+    "no-extra-parens": "off",  // TODO(#69): investigate
+    "no-multi-spaces": "off",  // TODO(#69): investigate
+    "object-property-newline": "off",  // TODO(#69): investigate
+    "padded-blocks": "off",  // TODO(#69): investigate
+    "quotes": "off",  // TODO(#69): investigate
+    "semi": "off",  // TODO(#69): investigate
+    "space-before-function-paren": "off",  // TODO(#69): investigate
+    "wrap-iife": "off",  // TODO(#69): investigate
+    // Deprecated
+    "valid-jsdoc": "error"
   }
 }
