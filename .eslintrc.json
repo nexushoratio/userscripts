@@ -35,11 +35,13 @@
     "no-empty-function": "off",  // TODO(#68): investigate
     "no-invalid-this": "off",  // TODO(#68): investigate
     "no-magic-numbers": "off",  // TODO(#68): investigate
+    "no-nested-ternary": "off",
     "no-param-reassign": "off",  // TODO(#68): investigate
     "no-plusplus": "off",  // TODO(#68): investigate
     "no-shadow": "off",  // TODO(#68): investigate
-    "no-ternary": "off",  // TODO(#68): investigate
+    "no-ternary": "off",  // TODO(#68): revisit
     "no-underscore-dangle": "off",  // TODO(#68): investigate
+    "no-unneeded-ternary": "error",
     "no-unused-expressions": "off",  // TODO(#68): investigate
     "no-warning-comments": "off",  // TODO(#68): investigate
     "one-var": "off",  // TODO(#68): investigate
