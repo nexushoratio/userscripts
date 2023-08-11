@@ -52,6 +52,7 @@
     "require-unicode-regexp": "off",  // TODO(#68): investigate
     "sort-keys": "off",  // TODO(#68): investigate
     "strict": "off",  // TODO(#68): investigate
+    "valid-typeof": ["error", {"requireStringLiterals": true}],
     "yoda": "off",  // TODO(#68): investigate
     // Layout & Formatting
     "array-element-newline": "off",  // TODO(#69): investigate
@@ -73,6 +74,10 @@
     "space-before-function-paren": "off",  // TODO(#69): investigate
     "wrap-iife": "off",  // TODO(#69): investigate
     // Deprecated
-    "valid-jsdoc": "error"
+    "valid-jsdoc": ["error", {
+      "prefer": {
+        "return": "returns"
+      }
+    }]
   }
 }
