@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.0
+// @version     2.4.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -31,8 +31,8 @@
     _pathname;
 
     // CSS selector for capturing clicks on this page.  If overridden,
-    // then the class should also provide a _clickHandler() method.
-    _click_handler_selector = null;
+    // then the class should also provide a _onClick() method.
+    _on_click_selector = null;
 
     // List of keystrokes to register automatically.  They are objects
     // with keys of `seq`, `desc`, and `func`.  The `seq` is used to
@@ -48,7 +48,7 @@
     _keyboard = new VM.shortcut.KeyboardService();
 
     // Tracks which HTMLElement holds the `onclick` function.
-    _click_handler_element = null;
+    _on_click_element = null;
 
     // Magic for VM.shortcut.  This disables keys when focus is on an
     // input type field.
@@ -58,7 +58,7 @@
     };
 
     constructor() {
-      this._boundClickHandler = this._clickHandler.bind(this);
+      this._boundOnClick = this._onClick.bind(this);
     }
 
     start() {
@@ -77,12 +77,12 @@
 
     activate() {
       this._keyboard.enable();
-      this._enableClickHandler();
+      this._enableOnClick();
     }
 
     deactivate() {
       this._keyboard.disable();
-      this._disableClickHandler();
+      this._disableOnClick();
     }
 
     get helpHeader() {
@@ -97,15 +97,15 @@
       this._keyboard.register(seq, func, Page._navOption);
     }
 
-    _enableClickHandler() {
-      if (this._click_handler_selector) {
+    _enableOnClick() {
+      if (this._on_click_selector) {
         // Page is dynamically building, so keep watching it until the
         // element shows up.
         VM.observe(document.body, () => {
-          const element = document.querySelector(this._click_handler_selector);
+          const element = document.querySelector(this._on_click_selector);
           if (element) {
-            this._click_handler_element = element;
-            this._click_handler_element.addEventListener('click', this._boundClickHandler);
+            this._on_click_element = element;
+            this._on_click_element.addEventListener('click', this._boundOnClick);
 
             return true;
           }
@@ -113,17 +113,17 @@
       }
     }
 
-    _disableClickHandler() {
-      if (this._click_handler_element) {
-        this._click_handler_element.removeEventListener('click', this._boundClickHandler);
-        this._click_handler_element = null;
+    _disableOnClick() {
+      if (this._on_click_element) {
+        this._on_click_element.removeEventListener('click', this._boundOnClick);
+        this._on_click_element = null;
       }
     }
 
     // Override this function in derived classes that want to react to
     // random clicks on a page, say to update current element in
     // focus.
-    _clickHandler(evt) {  // eslint-disable-line no-unused-vars
+    _onClick(evt) {  // eslint-disable-line no-unused-vars
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
     }
 
@@ -210,7 +210,7 @@
 
   class Feed extends Page {
     _pathname = '/feed/';
-    _click_handler_selector = 'main';
+    _on_click_selector = 'main';
     _auto_keys = [
       {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
       {seq: 'j', desc: 'Next post', func: this._nextPost},
@@ -235,7 +235,7 @@
     _currentPostId = null;
     _commentScroller = null;
 
-    _clickHandler(evt) {
+    _onClick(evt) {
       const post = evt.target.closest('div[data-id]');
       if (post) {
         this._post = post;
@@ -610,7 +610,7 @@
 
   class Notifications extends Page {
     _pathname = '/notifications/';
-    _click_handler_selector = 'main';
+    _on_click_selector = 'main';
     _auto_keys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
@@ -632,7 +632,7 @@
     _currentNotificationId = null;
     _historicalNotificationIdToIndex = new Map();
 
-    _clickHandler(evt) {
+    _onClick(evt) {
       const notification = evt.target.closest('div.nt-card-list article');
       if (notification) {
         this._notification = notification;
