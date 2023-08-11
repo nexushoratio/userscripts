@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.3.3
+// @version     2.4.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -233,7 +233,7 @@
     ];
 
     _currentPostId = null;
-    _currentCommentId = null;
+    _commentScroller = null;
 
     _clickHandler(evt) {
       const post = evt.target.closest('div[data-id]');
@@ -247,7 +247,7 @@
     }
 
     set _post(val) {
-      if (val === this._post && this._comment) {
+      if (val === this._post && this._comment.item) {
         return;
       }
       if (this._post) {
@@ -262,30 +262,21 @@
     }
 
     get _comment() {
-      return this._getComments().find(this._matchComment.bind(this));
+      if (!this._commentScroller) {
+        this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, this._returnToPost.bind(this), ['dick'], false, {enabled: true});
+      }
+      return this._commentScroller;
     }
 
     set _comment(val) {
-      if (this._comment) {
-        this._comment.classList.remove('dick');
-      }
-      this._currentCommentId = this._uniqueIdentifier(val);
-      if (val) {
-        val.classList.add('dick');
-        this._scrollToCurrentComment();
+      if (this._commentScroller) {
+        this._commentScroller.destroy();
+        this._commentScroller = null;
       }
     }
 
     _getPosts() {
       return Array.from(document.querySelectorAll('main div[data-id]'));
-    }
-
-    _getComments() {
-      if (this._post) {
-        return Array.from(this._post.querySelectorAll('article.comments-comment-item'));
-      } else {
-        return [];
-      }
     }
 
     _uniqueIdentifier(element) {
@@ -300,28 +291,10 @@
       return this._currentPostId === this._uniqueIdentifier(el);
     }
 
-    _matchComment(el) {
-      return this._currentCommentId === this._uniqueIdentifier(el);
-    }
-
     _scrollToCurrentPost() {
       if (this._post) {
         this._post.style.scrollMarginTop = navBarHeightCss;
         this._post.scrollIntoView();
-      }
-    }
-
-    _scrollToCurrentComment() {
-      const rect = this._comment.getBoundingClientRect();
-      this._comment.style.scrollMarginTop = navBarHeightCss;
-      this._comment.style.scrollMarginBottom = '3em';
-      // If both scrolling happens, that means the comment is too long
-      // to fit on the page, so the top is preferred.
-      if (rect.bottom > document.documentElement.clientHeight) {
-        this._comment.scrollIntoView(false);
-      }
-      if (rect.top < navBarHeightPixels) {
-        this._comment.scrollIntoView();
       }
     }
 
@@ -347,21 +320,8 @@
       }
     }
 
-    _scrollCommentsBy(n) {
-      const comments = this._getComments();
-      if (comments.length) {
-        let idx = comments.findIndex(this._matchComment.bind(this)) + n;
-        if (idx < -1) {
-          idx = comments.length - 1
-        }
-        if (idx === -1 || idx >= comments.length) {
-          // focus back to post
-          this._comment = null;
-          this._post = this._post;
-        } else {
-          this._comment = comments[idx];
-        }
-      }
+    _returnToPost() {
+      this._post = this._post;
     }
 
     _nextPost() {
@@ -391,11 +351,11 @@
     }
 
     _nextComment() {
-      this._scrollCommentsBy(1);
+      this._comment.next();
     }
 
     _prevComment() {
-      this._scrollCommentsBy(-1);
+      this._comment.prev();
     }
 
     _togglePost() {
@@ -415,54 +375,54 @@
         return false;
       }
 
-      if (!tryComment(this._comment)) {
+      if (!tryComment(this._comment.item)) {
         clickElement(this._post, ['button[aria-label*="comment"]']);
       }
     }
 
     _seeMore() {
-      const el = this._comment ?? this._post;
+      const el = this._comment.item ?? this._post;
       clickElement(el, ['button[aria-label^="see more"]']);
     }
 
     _likePostOrComment() {
-      const el = this._comment ?? this._post;
+      const el = this._comment.item ?? this._post;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     }
 
-    _jumpToPostOrComment(first) {
-      if (this._comment) {
-        const comments = this._getComments();
-        if (comments.length) {
-          const idx = first ? 0 : (comments.length - 1);
-          this._comment = comments[idx];
-        }
-      } else {
-        const posts = this._getPosts();
-        if (posts.length) {
-          let idx = first ? 0 : (posts.length - 1);
-          let post = posts[idx];
-          // Post content can be loaded lazily and can be detected by
-          // having no innerText yet.  So go to the last one that is
-          // loaded.  By the time we scroll to it, the next posts may
-          // have content, but it will close.
-          if (!first) {
-            while (!post.innerText.length) {
-              idx--;
-              post = posts[idx];
-            }
+    _jumpToPost(first) {
+      const posts = this._getPosts();
+      if (posts.length) {
+        let idx = first ? 0 : (posts.length - 1);
+        let post = posts[idx];
+        // Post content can be loaded lazily and can be detected by
+        // having no innerText yet.  So go to the last one that is
+        // loaded.  By the time we scroll to it, the next posts may
+        // have content, but it will close.
+        if (!first) {
+          while (!post.innerText.length) {
+            idx--;
+            post = posts[idx];
           }
-          this._post = post;
         }
+        this._post = post;
       }
     }
 
     _firstPostOrComment() {
-      this._jumpToPostOrComment(true);
+      if (this._comment.item) {
+        this._comment.first();
+      } else {
+        this._jumpToPost(true);
+      }
     }
 
     _lastPostOrComment() {
-      this._jumpToPostOrComment(false);
+      if (this._comment.item) {
+        this._comment.last();
+      } else {
+        this._jumpToPost(false);
+      }
     }
 
     _loadMorePosts() {
@@ -488,10 +448,10 @@
     }
 
     _openMeatballMenu() {
-      if (this._comment) {
+      if (this._comment.item) {
         // XXX In this case, the aria-label is on the svg element, not
         // the button, so use the parentElement.
-        const button = this._comment.querySelector('[aria-label^="Open options"]').parentElement;
+        const button = this._comment.item.querySelector('[aria-label^="Open options"]').parentElement;
         button.click();
       } else if (this._post) {
         // Yeah, I don't get it.  This one isn't the button either,
@@ -501,7 +461,7 @@
     }
 
     _focusBrowser() {
-      const el = this._comment ?? this._post;
+      const el = this._comment.item ?? this._post;
       focusOnElement(el);
     }
 
@@ -522,8 +482,8 @@
 
     _viewReactions() {
       // Bah!  The queries are annoyingly different.
-      if (this._comment) {
-        clickElement(this._comment, ['button.comments-comment-social-bar__reactions-count']);
+      if (this._comment.item) {
+        clickElement(this._comment.item, ['button.comments-comment-social-bar__reactions-count']);
       } else if (this._post) {
         clickElement(this._post, ['button.social-details-social-counts__count-value']);
       }
@@ -1019,6 +979,307 @@
   pages.register(new JobsCollections());
   pages.register(new Notifications());
   pages.activate(window.location.pathname);
+
+  /** An ordered collection of HTMLElements for a user to scroll through. */
+  class Scroller {
+    _currentItemId = null;
+    _historicalIdToIndex = new Map();
+
+    /**
+     * @param {Element} base - The container element.
+     * @param {string[]} selectors - Array of CSS selectors to find
+     * elements to collect, calling base.querySelectorAll().
+     * @param {function(Element): string} uidCallback - Function that,
+     * given an element, returns a unique identifier for it.
+     * @param {function} parentCallback - Function that is called when
+     * the current item moves off either end of the container.
+     * @param {string[]} classes - Array of CSS classes to add/remove
+     * from an element as it becomes current.
+     * @param {boolean} snapToTop - Whether items should snap to the
+     * top of the window when coming into view.
+     * @param {object} [debug={}] - Debug options
+     * @param {boolean} [debug.enabled=false] - Enable messages.
+     * @param {boolean} [debug.stackTrace=false] - Include stack traces.
+     */
+    constructor(base, selectors, uidCallback, parentCallback, classes, snapToTop, debug) {
+      this._destroyed = false;
+      this._base = base;
+      this._selectors = selectors;
+      this._uidCallback = uidCallback;
+      this._parentCallback = parentCallback;
+      this._classes = classes;
+      this._snapToTop = snapToTop;
+      this._debug = debug ?? {};
+      this._msg('Scroller constructed');
+    }
+
+    /**
+     * @param {string} msg - Debug message to send to the console.
+     * @returns {void}
+     */
+    _msg(msg, ...rest) {
+      /* eslint-disable no-console */
+      if (this._debug.enabled) {
+        if (this._debug.stackTrace) {
+          console.groupCollapsed('call stack');
+          console.trace();
+          console.groupEnd();
+        }
+        if (typeof msg === 'string' && msg.startsWith('Entered')) {
+          console.group(msg.substr(msg.indexOf(' ') + 1));
+        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
+          console.groupCollapsed(`${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
+        }
+        console.debug(msg, ...rest);
+        if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
+          console.groupEnd();
+        }
+      }
+      /* eslint-enable */
+    }
+
+    /*
+     * @type {Element} - Represents the current item.
+     */
+    get item() {
+      this._msg('Entered get item');
+      if (this._destroyed) {
+        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this._base}`;
+        this._msg(msg);
+        throw new Error(msg);
+      }
+      const items = this._getItems();
+      let item = items.find(this._matchItem.bind(this));
+      if (!item) {
+        // We couldn't find the old id, so maybe it was rebuilt.  Make
+        // a guess by trying the old index.
+        const idx = this._historicalIdToIndex.get(this._currentItemId);
+        if (typeof idx === 'number' && 0 <= idx && idx < items.length) {
+          item = items[idx];
+          this._bottomHalf(item);
+        }
+      }
+      this._msg('Leaving get item with', item);
+      return item;
+    }
+
+    set item(val) {
+      this._msg('Entered set item with', val);
+      if (this.item) {
+        this.item.classList.remove(...this._classes);
+      }
+      this._bottomHalf(val);
+      this._msg('Leaving set item');
+    }
+
+    /**
+     * Since the getter will try to validate the current item (since
+     * it could have changed out from under us), it too can update
+     * information.
+     * @param {Element} val - Element to make current.
+     * @returns {void}
+     */
+    _bottomHalf(val) {
+      this._msg('Entered bottomHalf with', val);
+      this._currentItemId = this._uid(val);
+      const idx = this._getItems().indexOf(val);
+      this._historicalIdToIndex.set(this._currentItemId, idx);
+      if (val) {
+        val.classList.add(...this._classes);
+        this._scrollToCurrentItem();
+      }
+      this._msg('Leaving bottomHalf');
+    }
+
+    /**
+     * Builds the list of using the registered CSS selectors.
+     * @returns {Elements[]} - Items to scroll through.
+     */
+    _getItems() {
+      this._msg('Entered getItems');
+      const items = [];
+      for (const selector of this._selectors) {
+        this._msg(`considering ${selector}`);
+        items.push(...this._base.querySelectorAll(selector));
+      }
+      if (this._debug) {
+        this._msg('Starting items');
+        for (const item of items) {
+          this._msg(item);
+        }
+        this._msg('Finished items');
+      }
+      this._msg(`Leaving getItems with ${items.length} items`);
+      return items;
+    }
+
+    /**
+     * Returns the uid for the current element.  Will use the
+     * registered uidCallback function for this.
+     * @param {Element} element - Element to identify.
+     * @returns {string} - Computed uid for element.
+     */
+    _uid(element) {
+      this._msg('Entered uid with', element);
+      let uid = null;
+      if (element) {
+        if (!element.dataset.litId) {
+          element.dataset.litId = this._uidCallback(element);
+        }
+        uid = element.dataset.litId;
+      }
+      this._msg('Leaving uid with', uid);
+      return uid;
+    }
+
+    /**
+     * Checks if the element is the current one.  Useful as a callback
+     * to Array.find.
+     * @param {Element} element - Element to check.
+     * @returns {boolean} - Whether or not element is the current one.
+     */
+    _matchItem(element) {
+      this._msg('Entered matchItem');
+      const res = this._currentItemId === this._uid(element);
+      this._msg('Leaving matchItem with', res);
+      return res;
+    }
+
+    /**
+     * Scroll the current item into the view port.  Depending on the
+     * instance configuration, this could snap to the top, snap to the
+     * bottom, or be a no-op.
+     * @returns {void}
+     */
+    _scrollToCurrentItem() {
+      const item = this.item;
+      this._msg('Entered scrollToCurrentItem with', this._snapToTop);
+      item.style.scrollMarginTop = navBarHeightCss;
+      if (this._snapToTop) {
+        item.scrollIntoView();
+      } else {
+        item.style.scrollMarginBottom = '3em';
+        const rect = item.getBoundingClientRect();
+        // If both scrolling happens, it means the item is too tall to
+        // fit on the page, so the top is preferred.
+        if (rect.bottom > document.documentElement.clientHeight) {
+          item.scrollIntoView(false);
+        }
+        if (rect.top < navBarHeightPixels) {
+          item.scrollIntoView(true);
+        }
+      }
+      this._msg('Leaving scrollToCurrentItem');
+    }
+
+    /**
+     * Jump an item on the end of the collection.
+     * @param {boolean} first - If true, the first item in the
+     * collection, else, the last.
+     * @returns {void}
+     */
+    _jumpToEndItem(first) {
+      // Reset in case item was heavily modified
+      this.item;
+
+      const items = this._getItems();
+      if (items.length) {
+        let idx = first ? 0 : (items.length - 1);
+        let item = items[idx];
+
+        // Content of items is sometimes loaded lazily and can be
+        // detected by having no innerText yet.  So start at the end
+        // and work our way up to the last one loaded.
+        if (!first) {
+          while (!item.innerText.length) {
+            idx--;
+            item = items[idx];
+          }
+        }
+        this.item = item;
+      }
+    }
+
+    /**
+     * Move forward or backwards in the collection by at least n.
+     * @param {number} n - How many items to move and the intended direction.
+     * @returns {void}
+     */
+    _scrollBy(n) {
+      this._msg('Entered scrollBy', n);
+      // Reset in case item was heavily modified
+      this.item;
+
+      const items = this._getItems();
+      if (items.length) {
+        let idx = items.findIndex(this._matchItem.bind(this));
+        this._msg('starting idx', idx);
+        idx += n;
+        if (idx < -1) {
+          idx = items.length - 1;
+        }
+        if (idx === -1 || idx >= items.length) {
+          this._msg('going back to parent');
+          this.item = null;
+          this._parentCallback();
+        } else {
+          // Skip over empty items
+          let item = items[idx];
+          while (!item.clientHeight) {
+            this._msg('skipping empty item', item);
+            idx += n;
+            item = items[idx];
+          }
+          this._msg('final idx', idx);
+          this.item = item;
+        }
+      }
+      this._msg('Leaving scrollBy');
+    }
+
+    /**
+     * Move to the next item in the collection.
+     * @returns {void}
+     */
+    next() {
+      this._scrollBy(1);
+    }
+
+    /**
+     * Move to the previous item in the collection.
+     * @returns {void}
+     */
+    prev() {
+      this._scrollBy(-1);
+    }
+
+    /**
+     * Jump to the first item in the collection.
+     * @returns {void}
+     */
+    first() {
+      this._jumpToEndItem(true);
+    }
+
+    /**
+     * Jump to last item in the collection.
+     * @returns {void}
+     */
+    last() {
+      this._jumpToEndItem(false);
+    }
+
+    /**
+     * Mark instance as inactive and do any internal cleanup.
+     * @returns {void}
+     */
+    destroy() {
+      this._msg('Entered destroy');
+      this.item = null;
+      this._destroyed = true;
+      this._msg('Leaving destroy');
+    }
+  }
 
   // Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
   function strHash(s) {
