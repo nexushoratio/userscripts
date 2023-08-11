@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.1
+// @version     2.4.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -262,7 +262,7 @@
     }
 
     get _comment() {
-      if (!this._commentScroller) {
+      if (!this._commentScroller && this._post) {
         this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, this._returnToPost.bind(this), ['dick'], false, {enabled: true});
       }
       return this._commentScroller;
@@ -273,6 +273,10 @@
         this._commentScroller.destroy();
         this._commentScroller = null;
       }
+    }
+
+    get _activeComment() {
+      return this._comment && this._comment.item;
     }
 
     _getPosts() {
@@ -410,7 +414,7 @@
     }
 
     _firstPostOrComment() {
-      if (this._comment.item) {
+      if (this._activeComment) {
         this._comment.first();
       } else {
         this._jumpToPost(true);
@@ -418,7 +422,7 @@
     }
 
     _lastPostOrComment() {
-      if (this._comment.item) {
+      if (this._activeComment) {
         this._comment.last();
       } else {
         this._jumpToPost(false);
@@ -1002,6 +1006,9 @@
      * @param {boolean} [debug.stackTrace=false] - Include stack traces.
      */
     constructor(base, selectors, uidCallback, parentCallback, classes, snapToTop, debug) {
+      if (!(base instanceof Element)) {
+        throw new TypeError(`Invalid base: ${base}`);
+      }
       this._destroyed = false;
       this._base = base;
       this._selectors = selectors;
@@ -1010,7 +1017,7 @@
       this._classes = classes;
       this._snapToTop = snapToTop;
       this._debug = debug ?? {};
-      this._msg('Scroller constructed');
+      this._msg('Scroller constructed', this);
     }
 
     /**
