@@ -11,7 +11,7 @@
     "no-self-compare": "error",
     "no-template-curly-in-string": "error",
     "no-unmodified-loop-condition": "error",
-    "no-use-before-define": "off",  // TODO(#67): enable, but will require moving functions around
+    "no-use-before-define": "error",
     // Suggestions
     "arrow-body-style": "off",  // TODO(#68): investigate
     "camelcase": "off",  // TODO(#68): investigate

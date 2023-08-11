@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.2
+// @version     2.4.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -17,11 +17,429 @@
 (function () {
   'use strict';
 
-  console.debug('Parsing successful.');  // eslint-disable-line no-console
+  let navBarHeightPixels = 0;
+  let navBarHeightCss = '0';
+
+  // Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
+  function strHash(s) {
+    let hash = 0;
+    for (let i = 0; i < s.length; i++) {
+      hash = ((hash << 5) - hash) + s.charCodeAt(i) | 0;
+    }
+    return hash;
+  }
+
+  // Run querySelector to get an element, then click it.
+  function clickElement(base, selectorArray) {
+    if (base) {
+      for (const selector of selectorArray) {
+        const el = base.querySelector(selector);
+        if (el) {
+          el.click();
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  function isInput(element) {
+    let tagName = '';
+    if ('tagName' in element) {
+      tagName = element.tagName.toLowerCase();
+    }
+    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
+  }
+
+  function focusOnElement(element) {
+    if (element) {
+      const tabIndex = element.getAttribute('tabindex');
+      element.setAttribute('tabindex', 0);
+      element.focus();
+      if (tabIndex) {
+        element.setAttribute('tabindex', tabIndex);
+      } else {
+        element.removeAttribute('tabindex');
+      }
+    }
+  }
+
+  function focusOnSidebar() {
+    const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+    sidebar.style.scrollMarginTop = navBarHeightCss;
+    sidebar.scrollIntoView();
+    sidebar.focus();
+  }
+
+  // One time resize observer with timeout
+  // Will resolve automatically upon resize change.
+  // base - element to observe
+  // trigger - function to call that triggers observable events, can be null
+  // timeout - time to wait for completion in milliseconds, 0 disables
+  // Returns promise that will resolve with the results from monitor.
+  function otrot(base, trigger, timeout) {
+    const prom = new Promise((resolve, reject) => {
+      let timeoutID = null;
+      const initialHeight = base.clientHeight;
+      const initialWidth = base.clientWidth;
+      trigger = trigger || function () {};
+      const observer = new ResizeObserver(() => {
+        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          resolve(base);
+        }
+      });
+      if (timeout) {
+        timeoutID = setTimeout(() => {
+          observer.disconnect();
+          reject('timed out');
+        }, timeout);
+      }
+      observer.observe(base);
+      trigger();
+    });
+    return prom;
+  }
+
+  // One time mutation observer with timeout
+  // base - element to observe
+  // options - MutationObserver().observe options
+  // monitor - function that takes [MutationRecord] and returns a {done, results} object
+  // trigger - function to call that triggers observable results, can be null
+  // timeout - time to wait for completion in milliseconds, 0 disables
+  // Returns promise that will resolve with the results from monitor.
+  function otmot(base, options, monitor, trigger, timeout) {
+    const prom = new Promise((resolve, reject) => {
+      let timeoutID = null;
+      trigger = trigger || function () {};
+      const observer = new MutationObserver((records) => {
+        const {done, results} = monitor(records);
+        if (done) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          resolve(results);
+        }
+      });
+      if (timeout) {
+        timeoutID = setTimeout(() => {
+          observer.disconnect();
+          reject('timed out');
+        }, timeout);
+      }
+      observer.observe(base, options);
+      trigger();
+    });
+    return prom;
+  }
 
   // I'm lazy.  The version of emacs I'm using does not support
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
+  /** An ordered collection of HTMLElements for a user to scroll through. */
+  class Scroller {
+    _currentItemId = null;
+    _historicalIdToIndex = new Map();
+
+    /**
+     * @param {Element} base - The container element.
+     * @param {string[]} selectors - Array of CSS selectors to find
+     * elements to collect, calling base.querySelectorAll().
+     * @param {function(Element): string} uidCallback - Function that,
+     * given an element, returns a unique identifier for it.
+     * @param {function} parentCallback - Function that is called when
+     * the current item moves off either end of the container.
+     * @param {string[]} classes - Array of CSS classes to add/remove
+     * from an element as it becomes current.
+     * @param {boolean} snapToTop - Whether items should snap to the
+     * top of the window when coming into view.
+     * @param {object} [debug={}] - Debug options
+     * @param {boolean} [debug.enabled=false] - Enable messages.
+     * @param {boolean} [debug.stackTrace=false] - Include stack traces.
+     */
+    constructor(base, selectors, uidCallback, parentCallback, classes, snapToTop, debug) {
+      if (!(base instanceof Element)) {
+        throw new TypeError(`Invalid base: ${base}`);
+      }
+      this._destroyed = false;
+      this._base = base;
+      this._selectors = selectors;
+      this._uidCallback = uidCallback;
+      this._parentCallback = parentCallback;
+      this._classes = classes;
+      this._snapToTop = snapToTop;
+      this._debug = debug ?? {};
+      this._msg('Scroller constructed', this);
+    }
+
+    /**
+     * @param {string} msg - Debug message to send to the console.
+     * @returns {void}
+     */
+    _msg(msg, ...rest) {
+      /* eslint-disable no-console */
+      if (this._debug.enabled) {
+        if (this._debug.stackTrace) {
+          console.groupCollapsed('call stack');
+          console.trace();
+          console.groupEnd();
+        }
+        if (typeof msg === 'string' && msg.startsWith('Entered')) {
+          console.group(msg.substr(msg.indexOf(' ') + 1));
+        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
+          console.groupCollapsed(`${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
+        }
+        console.debug(msg, ...rest);
+        if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
+          console.groupEnd();
+        }
+      }
+      /* eslint-enable */
+    }
+
+    /*
+     * @type {Element} - Represents the current item.
+     */
+    get item() {
+      this._msg('Entered get item');
+      if (this._destroyed) {
+        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this._base}`;
+        this._msg(msg);
+        throw new Error(msg);
+      }
+      const items = this._getItems();
+      let item = items.find(this._matchItem.bind(this));
+      if (!item) {
+        // We couldn't find the old id, so maybe it was rebuilt.  Make
+        // a guess by trying the old index.
+        const idx = this._historicalIdToIndex.get(this._currentItemId);
+        if (typeof idx === 'number' && 0 <= idx && idx < items.length) {
+          item = items[idx];
+          this._bottomHalf(item);
+        }
+      }
+      this._msg('Leaving get item with', item);
+      return item;
+    }
+
+    set item(val) {
+      this._msg('Entered set item with', val);
+      if (this.item) {
+        this.item.classList.remove(...this._classes);
+      }
+      this._bottomHalf(val);
+      this._msg('Leaving set item');
+    }
+
+    /**
+     * Since the getter will try to validate the current item (since
+     * it could have changed out from under us), it too can update
+     * information.
+     * @param {Element} val - Element to make current.
+     * @returns {void}
+     */
+    _bottomHalf(val) {
+      this._msg('Entered bottomHalf with', val);
+      this._currentItemId = this._uid(val);
+      const idx = this._getItems().indexOf(val);
+      this._historicalIdToIndex.set(this._currentItemId, idx);
+      if (val) {
+        val.classList.add(...this._classes);
+        this._scrollToCurrentItem();
+      }
+      this._msg('Leaving bottomHalf');
+    }
+
+    /**
+     * Builds the list of using the registered CSS selectors.
+     * @returns {Elements[]} - Items to scroll through.
+     */
+    _getItems() {
+      this._msg('Entered getItems');
+      const items = [];
+      for (const selector of this._selectors) {
+        this._msg(`considering ${selector}`);
+        items.push(...this._base.querySelectorAll(selector));
+      }
+      if (this._debug) {
+        this._msg('Starting items');
+        for (const item of items) {
+          this._msg(item);
+        }
+        this._msg('Finished items');
+      }
+      this._msg(`Leaving getItems with ${items.length} items`);
+      return items;
+    }
+
+    /**
+     * Returns the uid for the current element.  Will use the
+     * registered uidCallback function for this.
+     * @param {Element} element - Element to identify.
+     * @returns {string} - Computed uid for element.
+     */
+    _uid(element) {
+      this._msg('Entered uid with', element);
+      let uid = null;
+      if (element) {
+        if (!element.dataset.litId) {
+          element.dataset.litId = this._uidCallback(element);
+        }
+        uid = element.dataset.litId;
+      }
+      this._msg('Leaving uid with', uid);
+      return uid;
+    }
+
+    /**
+     * Checks if the element is the current one.  Useful as a callback
+     * to Array.find.
+     * @param {Element} element - Element to check.
+     * @returns {boolean} - Whether or not element is the current one.
+     */
+    _matchItem(element) {
+      this._msg('Entered matchItem');
+      const res = this._currentItemId === this._uid(element);
+      this._msg('Leaving matchItem with', res);
+      return res;
+    }
+
+    /**
+     * Scroll the current item into the view port.  Depending on the
+     * instance configuration, this could snap to the top, snap to the
+     * bottom, or be a no-op.
+     * @returns {void}
+     */
+    _scrollToCurrentItem() {
+      const item = this.item;
+      this._msg('Entered scrollToCurrentItem with', this._snapToTop);
+      item.style.scrollMarginTop = navBarHeightCss;
+      if (this._snapToTop) {
+        item.scrollIntoView();
+      } else {
+        item.style.scrollMarginBottom = '3em';
+        const rect = item.getBoundingClientRect();
+        // If both scrolling happens, it means the item is too tall to
+        // fit on the page, so the top is preferred.
+        if (rect.bottom > document.documentElement.clientHeight) {
+          item.scrollIntoView(false);
+        }
+        if (rect.top < navBarHeightPixels) {
+          item.scrollIntoView(true);
+        }
+      }
+      this._msg('Leaving scrollToCurrentItem');
+    }
+
+    /**
+     * Jump an item on the end of the collection.
+     * @param {boolean} first - If true, the first item in the
+     * collection, else, the last.
+     * @returns {void}
+     */
+    _jumpToEndItem(first) {
+      // Reset in case item was heavily modified
+      this.item;
+
+      const items = this._getItems();
+      if (items.length) {
+        let idx = first ? 0 : (items.length - 1);
+        let item = items[idx];
+
+        // Content of items is sometimes loaded lazily and can be
+        // detected by having no innerText yet.  So start at the end
+        // and work our way up to the last one loaded.
+        if (!first) {
+          while (!item.innerText.length) {
+            idx--;
+            item = items[idx];
+          }
+        }
+        this.item = item;
+      }
+    }
+
+    /**
+     * Move forward or backwards in the collection by at least n.
+     * @param {number} n - How many items to move and the intended direction.
+     * @returns {void}
+     */
+    _scrollBy(n) {
+      this._msg('Entered scrollBy', n);
+      // Reset in case item was heavily modified
+      this.item;
+
+      const items = this._getItems();
+      if (items.length) {
+        let idx = items.findIndex(this._matchItem.bind(this));
+        this._msg('starting idx', idx);
+        idx += n;
+        if (idx < -1) {
+          idx = items.length - 1;
+        }
+        if (idx === -1 || idx >= items.length) {
+          this._msg('going back to parent');
+          this.item = null;
+          this._parentCallback();
+        } else {
+          // Skip over empty items
+          let item = items[idx];
+          while (!item.clientHeight) {
+            this._msg('skipping empty item', item);
+            idx += n;
+            item = items[idx];
+          }
+          this._msg('final idx', idx);
+          this.item = item;
+        }
+      }
+      this._msg('Leaving scrollBy');
+    }
+
+    /**
+     * Move to the next item in the collection.
+     * @returns {void}
+     */
+    next() {
+      this._scrollBy(1);
+    }
+
+    /**
+     * Move to the previous item in the collection.
+     * @returns {void}
+     */
+    prev() {
+      this._scrollBy(-1);
+    }
+
+    /**
+     * Jump to the first item in the collection.
+     * @returns {void}
+     */
+    first() {
+      this._jumpToEndItem(true);
+    }
+
+    /**
+     * Jump to last item in the collection.
+     * @returns {void}
+     */
+    last() {
+      this._jumpToEndItem(false);
+    }
+
+    /**
+     * Mark instance as inactive and do any internal cleanup.
+     * @returns {void}
+     */
+    destroy() {
+      this._msg('Entered destroy');
+      this.item = null;
+      this._destroyed = true;
+      this._msg('Leaving destroy');
+    }
+  }
+
   class Page {
     // The immediate following can be set if derived classes
 
@@ -984,422 +1402,6 @@
   pages.register(new Notifications());
   pages.activate(window.location.pathname);
 
-  /** An ordered collection of HTMLElements for a user to scroll through. */
-  class Scroller {
-    _currentItemId = null;
-    _historicalIdToIndex = new Map();
-
-    /**
-     * @param {Element} base - The container element.
-     * @param {string[]} selectors - Array of CSS selectors to find
-     * elements to collect, calling base.querySelectorAll().
-     * @param {function(Element): string} uidCallback - Function that,
-     * given an element, returns a unique identifier for it.
-     * @param {function} parentCallback - Function that is called when
-     * the current item moves off either end of the container.
-     * @param {string[]} classes - Array of CSS classes to add/remove
-     * from an element as it becomes current.
-     * @param {boolean} snapToTop - Whether items should snap to the
-     * top of the window when coming into view.
-     * @param {object} [debug={}] - Debug options
-     * @param {boolean} [debug.enabled=false] - Enable messages.
-     * @param {boolean} [debug.stackTrace=false] - Include stack traces.
-     */
-    constructor(base, selectors, uidCallback, parentCallback, classes, snapToTop, debug) {
-      if (!(base instanceof Element)) {
-        throw new TypeError(`Invalid base: ${base}`);
-      }
-      this._destroyed = false;
-      this._base = base;
-      this._selectors = selectors;
-      this._uidCallback = uidCallback;
-      this._parentCallback = parentCallback;
-      this._classes = classes;
-      this._snapToTop = snapToTop;
-      this._debug = debug ?? {};
-      this._msg('Scroller constructed', this);
-    }
-
-    /**
-     * @param {string} msg - Debug message to send to the console.
-     * @returns {void}
-     */
-    _msg(msg, ...rest) {
-      /* eslint-disable no-console */
-      if (this._debug.enabled) {
-        if (this._debug.stackTrace) {
-          console.groupCollapsed('call stack');
-          console.trace();
-          console.groupEnd();
-        }
-        if (typeof msg === 'string' && msg.startsWith('Entered')) {
-          console.group(msg.substr(msg.indexOf(' ') + 1));
-        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
-          console.groupCollapsed(`${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
-        }
-        console.debug(msg, ...rest);
-        if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
-          console.groupEnd();
-        }
-      }
-      /* eslint-enable */
-    }
-
-    /*
-     * @type {Element} - Represents the current item.
-     */
-    get item() {
-      this._msg('Entered get item');
-      if (this._destroyed) {
-        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this._base}`;
-        this._msg(msg);
-        throw new Error(msg);
-      }
-      const items = this._getItems();
-      let item = items.find(this._matchItem.bind(this));
-      if (!item) {
-        // We couldn't find the old id, so maybe it was rebuilt.  Make
-        // a guess by trying the old index.
-        const idx = this._historicalIdToIndex.get(this._currentItemId);
-        if (typeof idx === 'number' && 0 <= idx && idx < items.length) {
-          item = items[idx];
-          this._bottomHalf(item);
-        }
-      }
-      this._msg('Leaving get item with', item);
-      return item;
-    }
-
-    set item(val) {
-      this._msg('Entered set item with', val);
-      if (this.item) {
-        this.item.classList.remove(...this._classes);
-      }
-      this._bottomHalf(val);
-      this._msg('Leaving set item');
-    }
-
-    /**
-     * Since the getter will try to validate the current item (since
-     * it could have changed out from under us), it too can update
-     * information.
-     * @param {Element} val - Element to make current.
-     * @returns {void}
-     */
-    _bottomHalf(val) {
-      this._msg('Entered bottomHalf with', val);
-      this._currentItemId = this._uid(val);
-      const idx = this._getItems().indexOf(val);
-      this._historicalIdToIndex.set(this._currentItemId, idx);
-      if (val) {
-        val.classList.add(...this._classes);
-        this._scrollToCurrentItem();
-      }
-      this._msg('Leaving bottomHalf');
-    }
-
-    /**
-     * Builds the list of using the registered CSS selectors.
-     * @returns {Elements[]} - Items to scroll through.
-     */
-    _getItems() {
-      this._msg('Entered getItems');
-      const items = [];
-      for (const selector of this._selectors) {
-        this._msg(`considering ${selector}`);
-        items.push(...this._base.querySelectorAll(selector));
-      }
-      if (this._debug) {
-        this._msg('Starting items');
-        for (const item of items) {
-          this._msg(item);
-        }
-        this._msg('Finished items');
-      }
-      this._msg(`Leaving getItems with ${items.length} items`);
-      return items;
-    }
-
-    /**
-     * Returns the uid for the current element.  Will use the
-     * registered uidCallback function for this.
-     * @param {Element} element - Element to identify.
-     * @returns {string} - Computed uid for element.
-     */
-    _uid(element) {
-      this._msg('Entered uid with', element);
-      let uid = null;
-      if (element) {
-        if (!element.dataset.litId) {
-          element.dataset.litId = this._uidCallback(element);
-        }
-        uid = element.dataset.litId;
-      }
-      this._msg('Leaving uid with', uid);
-      return uid;
-    }
-
-    /**
-     * Checks if the element is the current one.  Useful as a callback
-     * to Array.find.
-     * @param {Element} element - Element to check.
-     * @returns {boolean} - Whether or not element is the current one.
-     */
-    _matchItem(element) {
-      this._msg('Entered matchItem');
-      const res = this._currentItemId === this._uid(element);
-      this._msg('Leaving matchItem with', res);
-      return res;
-    }
-
-    /**
-     * Scroll the current item into the view port.  Depending on the
-     * instance configuration, this could snap to the top, snap to the
-     * bottom, or be a no-op.
-     * @returns {void}
-     */
-    _scrollToCurrentItem() {
-      const item = this.item;
-      this._msg('Entered scrollToCurrentItem with', this._snapToTop);
-      item.style.scrollMarginTop = navBarHeightCss;
-      if (this._snapToTop) {
-        item.scrollIntoView();
-      } else {
-        item.style.scrollMarginBottom = '3em';
-        const rect = item.getBoundingClientRect();
-        // If both scrolling happens, it means the item is too tall to
-        // fit on the page, so the top is preferred.
-        if (rect.bottom > document.documentElement.clientHeight) {
-          item.scrollIntoView(false);
-        }
-        if (rect.top < navBarHeightPixels) {
-          item.scrollIntoView(true);
-        }
-      }
-      this._msg('Leaving scrollToCurrentItem');
-    }
-
-    /**
-     * Jump an item on the end of the collection.
-     * @param {boolean} first - If true, the first item in the
-     * collection, else, the last.
-     * @returns {void}
-     */
-    _jumpToEndItem(first) {
-      // Reset in case item was heavily modified
-      this.item;
-
-      const items = this._getItems();
-      if (items.length) {
-        let idx = first ? 0 : (items.length - 1);
-        let item = items[idx];
-
-        // Content of items is sometimes loaded lazily and can be
-        // detected by having no innerText yet.  So start at the end
-        // and work our way up to the last one loaded.
-        if (!first) {
-          while (!item.innerText.length) {
-            idx--;
-            item = items[idx];
-          }
-        }
-        this.item = item;
-      }
-    }
-
-    /**
-     * Move forward or backwards in the collection by at least n.
-     * @param {number} n - How many items to move and the intended direction.
-     * @returns {void}
-     */
-    _scrollBy(n) {
-      this._msg('Entered scrollBy', n);
-      // Reset in case item was heavily modified
-      this.item;
-
-      const items = this._getItems();
-      if (items.length) {
-        let idx = items.findIndex(this._matchItem.bind(this));
-        this._msg('starting idx', idx);
-        idx += n;
-        if (idx < -1) {
-          idx = items.length - 1;
-        }
-        if (idx === -1 || idx >= items.length) {
-          this._msg('going back to parent');
-          this.item = null;
-          this._parentCallback();
-        } else {
-          // Skip over empty items
-          let item = items[idx];
-          while (!item.clientHeight) {
-            this._msg('skipping empty item', item);
-            idx += n;
-            item = items[idx];
-          }
-          this._msg('final idx', idx);
-          this.item = item;
-        }
-      }
-      this._msg('Leaving scrollBy');
-    }
-
-    /**
-     * Move to the next item in the collection.
-     * @returns {void}
-     */
-    next() {
-      this._scrollBy(1);
-    }
-
-    /**
-     * Move to the previous item in the collection.
-     * @returns {void}
-     */
-    prev() {
-      this._scrollBy(-1);
-    }
-
-    /**
-     * Jump to the first item in the collection.
-     * @returns {void}
-     */
-    first() {
-      this._jumpToEndItem(true);
-    }
-
-    /**
-     * Jump to last item in the collection.
-     * @returns {void}
-     */
-    last() {
-      this._jumpToEndItem(false);
-    }
-
-    /**
-     * Mark instance as inactive and do any internal cleanup.
-     * @returns {void}
-     */
-    destroy() {
-      this._msg('Entered destroy');
-      this.item = null;
-      this._destroyed = true;
-      this._msg('Leaving destroy');
-    }
-  }
-
-  // Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
-  function strHash(s) {
-    let hash = 0;
-    for (let i = 0; i < s.length; i++) {
-      hash = ((hash << 5) - hash) + s.charCodeAt(i) | 0;
-    }
-    return hash;
-  }
-
-  function isInput(element) {
-    let tagName = '';
-    if ('tagName' in element) {
-      tagName = element.tagName.toLowerCase();
-    }
-    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
-  }
-
-  // Run querySelector to get an element, then click it.
-  function clickElement(base, selectorArray) {
-    if (base) {
-      for (const selector of selectorArray) {
-        const el = base.querySelector(selector);
-        if (el) {
-          el.click();
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  function focusOnElement(element) {
-    if (element) {
-      const tabIndex = element.getAttribute('tabindex');
-      element.setAttribute('tabindex', 0);
-      element.focus();
-      if (tabIndex) {
-        element.setAttribute('tabindex', tabIndex);
-      } else {
-        element.removeAttribute('tabindex');
-      }
-    }
-  }
-
-  function focusOnSidebar() {
-    const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-    sidebar.style.scrollMarginTop = navBarHeightCss;
-    sidebar.scrollIntoView();
-    sidebar.focus();
-  }
-
-  // One time mutation observer with timeout
-  // base - element to observe
-  // options - MutationObserver().observe options
-  // monitor - function that takes [MutationRecord] and returns a {done, results} object
-  // trigger - function to call that triggers observable results, can be null
-  // timeout - time to wait for completion in milliseconds, 0 disables
-  // Returns promise that will resolve with the results from monitor.
-  function otmot(base, options, monitor, trigger, timeout) {
-    const prom = new Promise((resolve, reject) => {
-      let timeoutID = null;
-      trigger = trigger || function () {};
-      const observer = new MutationObserver((records) => {
-        const {done, results} = monitor(records);
-        if (done) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          resolve(results);
-        }
-      });
-      if (timeout) {
-        timeoutID = setTimeout(() => {
-          observer.disconnect();
-          reject('timed out');
-        }, timeout);
-      }
-      observer.observe(base, options);
-      trigger();
-    });
-    return prom;
-  }
-
-  // One time resize observer with timeout
-  // Will resolve automatically upon resize change.
-  // base - element to observe
-  // trigger - function to call that triggers observable events, can be null
-  // timeout - time to wait for completion in milliseconds, 0 disables
-  // Returns promise that will resolve with the results from monitor.
-  function otrot(base, trigger, timeout) {
-    const prom = new Promise((resolve, reject) => {
-      let timeoutID = null;
-      const initialHeight = base.clientHeight;
-      const initialWidth = base.clientWidth;
-      trigger = trigger || function () {};
-      const observer = new ResizeObserver(() => {
-        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          resolve(base);
-        }
-      });
-      if (timeout) {
-        timeoutID = setTimeout(() => {
-          observer.disconnect();
-          reject('timed out');
-        }, timeout);
-      }
-      observer.observe(base);
-      trigger();
-    });
-    return prom;
-  }
 
   function navBarMonitor() {
     const navbar = document.querySelector('#global-nav');
@@ -1408,9 +1410,6 @@
     }
     return {done: false, results: null};
   }
-
-  let navBarHeightPixels = 0;
-  let navBarHeightCss = '0';
 
   // In this case, the trigger was the page load.  It already happened
   // by the time we got here.
@@ -1444,5 +1443,7 @@
 
   otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
     .then((el) => registerUrlMonitor(el));
+
+  console.debug('Parsing successful.');  // eslint-disable-line no-console
 
 })();
