@@ -136,8 +136,79 @@
   // I'm lazy.  The version of emacs I'm using does not support
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
+
+  /** Simple dispatcher.  It takes a fixed list of event types upon
+   * construction and attempts to use an unknown event will throw an
+   * error.
+   */
+  class Dispatcher {
+    _handlers = new Map();
+
+    /**
+     * @param{...string} eventTypes - Event types this instance can handle.
+     */
+    constructor(...eventTypes) {
+      for (const eventType of eventTypes) {
+        this._handlers.set(eventType, []);
+      }
+    }
+
+    /**
+     * Look up array of handlers by event type.
+     * @param {string} eventType - Event type to look up.
+     * @throws {Error} - When eventType was not registered during instantiation.
+     * @returns {function[]} - Handlers currently registered for this eventType.
+     */
+    _getHandlers(eventType) {
+      const handlers = this._handlers.get(eventType);
+      if (!handlers) {
+        throw new Error(`Unknown event type: ${eventType}`);
+      }
+      return handlers;
+    }
+
+    /**
+     * Attach a function to an eventType.
+     * @param {string} eventType - Event type to connect with.
+     * @param {function} func - Single argument function to call.
+     * @returns {void}
+     */
+    on(eventType, func) {
+      const handlers = this._getHandlers(eventType);
+      handlers.push(func);
+    }
+
+    /**
+     * Remove all instances of a function registered to an eventType.
+     * @param {string} eventType - Event type to disconnect from.
+     * @param {function} func - Function to remove.
+     * @returns {void}
+     */
+    off(eventType, func) {
+      const handlers = this._getHandlers(eventType)
+      let index = 0;
+      while ((index = handlers.indexOf(func)) !== -1) {
+        handlers.splice(index, 1);
+      }
+    }
+
+    /**
+     * Calls all registered functions for the given eventType.
+     * @param {string} eventType - Event type to use.
+     * @param {object} data - Data to pass to each function.
+     * @returns {void}
+     */
+    fire(eventType, data) {
+      const handlers = this._getHandlers(eventType);
+      for (const handler of handlers) {
+        handler(data);
+      }
+    }
+  }
+
   /** An ordered collection of HTMLElements for a user to scroll through. */
   class Scroller {
+    _dispacher = new Dispatcher();
     _currentItemId = null;
     _historicalIdToIndex = new Map();
 
