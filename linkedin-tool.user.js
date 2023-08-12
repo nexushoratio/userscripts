@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.4
+// @version     2.4.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -20,16 +20,26 @@
   let navBarHeightPixels = 0;
   let navBarHeightCss = '0';
 
-  // Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
+  /**
+   * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
+   * @param {string} s - String to hash.
+   * @returns {string} - Hash value.
+   */
   function strHash(s) {
     let hash = 0;
     for (let i = 0; i < s.length; i++) {
       hash = ((hash << 5) - hash) + s.charCodeAt(i) | 0;
     }
-    return hash;
+    return `${hash}`;
   }
 
-  // Run querySelector to get an element, then click it.
+  /**
+   * Run querySelector to get an element, then click it.
+   * @param {Element} base - Where to start looking.
+   * @param {string[]} selectorArray - CSS selectors to use to find an
+   * element.
+   * @returns {boolean} - Whether an element could be found.
+   */
   function clickElement(base, selectorArray) {
     if (base) {
       for (const selector of selectorArray) {
@@ -43,6 +53,11 @@
     return false;
   }
 
+  /**
+   * Determines if the element accepts keyboard input.
+   * @param {Element} element - HTML Element to examine.
+   * @returns {boolean} - Indicating whether the element accepts keyboard input.
+   */
   function isInput(element) {
     let tagName = '';
     if ('tagName' in element) {
@@ -51,6 +66,11 @@
     return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
   }
 
+  /**
+   * Bring the Brower's focus onto element.
+   * @param {Element} element - HTML Element to focus on.
+   * @returns {void}
+   */
   function focusOnElement(element) {
     if (element) {
       const tabIndex = element.getAttribute('tabindex');
@@ -64,6 +84,10 @@
     }
   }
 
+  /**
+   * Scroll's LinkedIn common sidebar into view and moves focus to it.
+   * @returns {void}
+   */
   function focusOnSidebar() {
     const sidebar = document.querySelector('div.scaffold-layout__sidebar');
     sidebar.style.scrollMarginTop = navBarHeightCss;
