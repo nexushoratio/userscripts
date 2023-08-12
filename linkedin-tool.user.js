@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.3
+// @version     2.4.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -206,9 +206,15 @@
     }
   }
 
-  /** An ordered collection of HTMLElements for a user to scroll through. */
+  /**
+   * An ordered collection of HTMLElements for a user to scroll through.
+   *
+   * The dispatcher can be used the handle the following events:
+   * - 'out-of-range' - Scrolling went past one end of the collection.
+   * This is NOT an error condition, but rather a design feature.
+   */
   class Scroller {
-    _dispacher = new Dispatcher();
+    _dispatcher = new Dispatcher('out-of-range');
     _currentItemId = null;
     _historicalIdToIndex = new Map();
 
@@ -218,8 +224,6 @@
      * elements to collect, calling base.querySelectorAll().
      * @param {function(Element): string} uidCallback - Function that,
      * given an element, returns a unique identifier for it.
-     * @param {function} parentCallback - Function that is called when
-     * the current item moves off either end of the container.
      * @param {string[]} classes - Array of CSS classes to add/remove
      * from an element as it becomes current.
      * @param {boolean} snapToTop - Whether items should snap to the
@@ -228,7 +232,7 @@
      * @param {boolean} [debug.enabled=false] - Enable messages.
      * @param {boolean} [debug.stackTrace=false] - Include stack traces.
      */
-    constructor(base, selectors, uidCallback, parentCallback, classes, snapToTop, debug) {
+    constructor(base, selectors, uidCallback, classes, snapToTop, debug) {
       if (!(base instanceof Element)) {
         throw new TypeError(`Invalid base: ${base}`);
       }
@@ -236,7 +240,6 @@
       this._base = base;
       this._selectors = selectors;
       this._uidCallback = uidCallback;
-      this._parentCallback = parentCallback;
       this._classes = classes;
       this._snapToTop = snapToTop;
       this._debug = debug ?? {};
@@ -270,7 +273,14 @@
       /* eslint-enable */
     }
 
-    /*
+    /**
+     * @type {Dispatcher} - Accessor for dipatcher.
+     */
+    get dispatcher() {
+      return this._dispatcher;
+    }
+
+    /**
      * @type {Element} - Represents the current item.
      */
     get item() {
@@ -435,6 +445,7 @@
     /**
      * Move forward or backwards in the collection by at least n.
      * @param {number} n - How many items to move and the intended direction.
+     * @fires 'out-of-range'
      * @returns {void}
      */
     _scrollBy(n) {
@@ -451,9 +462,9 @@
           idx = items.length - 1;
         }
         if (idx === -1 || idx >= items.length) {
-          this._msg('going back to parent');
+          this._msg('left the container');
           this.item = null;
-          this._parentCallback();
+          this.dispatcher.fire('out-of-range', null);
         } else {
           // Skip over empty items
           let item = items[idx];
@@ -754,7 +765,8 @@
 
     get _comment() {
       if (!this._commentScroller && this._post) {
-        this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, this._returnToPost.bind(this), ['dick'], false, {enabled: true});
+        this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
+        this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
       }
       return this._commentScroller;
     }
