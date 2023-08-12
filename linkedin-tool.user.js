@@ -240,6 +240,8 @@
       this._classes = classes;
       this._snapToTop = snapToTop;
       this._debug = debug ?? {};
+      this._debug.enabled ??= false;
+      this._debug.stackTrace ??= false;
       this._msg('Scroller constructed', this);
     }
 
