@@ -13,7 +13,7 @@
     "no-unmodified-loop-condition": "error",
     "no-use-before-define": "error",
     // Suggestions
-    "arrow-body-style": "off",  // TODO(#68): investigate
+    "arrow-body-style": ["error"],
     "camelcase": "off",  // TODO(#68): investigate
     "capitalized-comments": "off",  // TODO(#68): investigate
     "class-methods-use-this": "off",  // TODO(#68): investigate
@@ -31,6 +31,7 @@
     "multiline-comment-style": "off",  // TODO(#68): investigate
     "no-alert": "off",  // TODO(#68): investigate
     "no-bitwise": "off",  // TODO(#68): investigate
+    "no-confusing-arrow": ["error", {"allowParens": true}],
     "no-else-return": "off",  // TODO(#68): investigate
     "no-empty-function": "off",  // TODO(#68): investigate
     "no-invalid-this": "off",  // TODO(#68): investigate
