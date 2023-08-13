@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.5.0
+// @version     2.5.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -283,6 +283,21 @@
     }
 
     /**
+     * Fancy-ish debug messages.
+     * console message groups can be started and ended using magic
+     * keywords in messages.
+     * - 'Entered' - Starts new group named with the rest of the string.
+     * - 'Starting' - Starts a new collapsed group (useful for loops).
+     * - 'Leaving' and 'Finished' - Both end the most recent group,
+     *    with Leaving for the function, and Finished for the loop
+     *    (though not enforced).
+     * @example
+     * foo(x) {
+     *  this._msg('Entered foo', x);
+     *  ... do stuff ...
+     *  this._msg('Leaving foo with', y);
+     *  return y;
+     * }
      * @param {string} msg - Debug message to send to the console.
      * @returns {void}
      */
@@ -339,6 +354,9 @@
       return item;
     }
 
+    /**
+     * @param {Element} val - Update the current item with val.
+     */
     set item(val) {
       this._msg('Entered set item with', val);
       if (this.item) {
