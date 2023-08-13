@@ -95,12 +95,14 @@
     sidebar.focus();
   }
 
-  // One time resize observer with timeout
-  // Will resolve automatically upon resize change.
-  // base - element to observe
-  // trigger - function to call that triggers observable events, can be null
-  // timeout - time to wait for completion in milliseconds, 0 disables
-  // Returns promise that will resolve with the results from monitor.
+  /**
+   * One time resize observer with timeout.
+   * Will resolve automatically upon resize change.
+   * @param {Element} base - Element to observe.
+   * @param {?function()} trigger - Function to call that triggers observable events.
+   * @param {number} timeout - Time to wait for completion in milliseconds, 0 disables.
+   * @returns {promise} - Will resolve with the results from monitor.
+   */
   function otrot(base, trigger, timeout) {
     const prom = new Promise((resolve, reject) => {
       let timeoutID = null;
@@ -126,13 +128,20 @@
     return prom;
   }
 
-  // One time mutation observer with timeout
-  // base - element to observe
-  // options - MutationObserver().observe options
-  // monitor - function that takes [MutationRecord] and returns a {done, results} object
-  // trigger - function to call that triggers observable results, can be null
-  // timeout - time to wait for completion in milliseconds, 0 disables
-  // Returns promise that will resolve with the results from monitor.
+  /**
+   * One time mutation observer with timeout.
+   * @param {Element} base - Element to observe.
+   * @param {object}  options - MutationObserver().observe() options.
+   * @param {function(MutationRecord[]): {done: boolean, results:
+   * object}} monitor - Callback used to process all MutationObserver
+   * records.
+   * @param {?function()} trigger - Function to call that triggers
+   * observable resultsl
+   * @param {number} timeout - Time to wait for completion in
+   * milliseconds, 0 disables.
+   * @returns {promise} - Will resolve with the results from monitor
+   * when done is true.
+   */
   function otmot(base, options, monitor, trigger, timeout) {
     const prom = new Promise((resolve, reject) => {
       let timeoutID = null;
