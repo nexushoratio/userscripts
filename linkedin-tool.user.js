@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.6
+// @version     2.4.7
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -986,15 +986,17 @@
     }
 
     _openMeatballMenu() {
+      // XXX In this case, the identifier is on an svg element, not
+      // the button, so use the parentElement.  When Firefox [fully
+      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039)
+      // the `:has()` pseudo-selector, we can probably use that and
+      // use `clickElement()`.
       if (this._comments.item) {
-        // XXX In this case, the aria-label is on the svg element, not
-        // the button, so use the parentElement.
         const button = this._comments.item.querySelector('[aria-label^="Open options"]').parentElement;
         button.click();
       } else if (this._post) {
-        // Yeah, I don't get it.  This one isn't the button either,
-        // but the click works.
-        clickElement(this._post, ['[aria-label^="Open control menu"]']);
+        const button = this._post.querySelector('[a11y-text^="Open control menu"]').parentElement;
+        button.click();
       }
     }
 
