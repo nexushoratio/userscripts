@@ -773,21 +773,21 @@
     }
 
     set _post(val) {
-      if (val === this._post && this._comment.item) {
+      if (val === this._post && this._activeComment) {
         return;
       }
       if (this._post) {
         this._post.classList.remove('tom');
       }
       this._currentPostId = this._uniqueIdentifier(val);
-      this._comment = null;
+      this._comments = null;
       if (val) {
         val.classList.add('tom');
         this._scrollToCurrentPost();
       }
     }
 
-    get _comment() {
+    get _comments() {
       if (!this._commentScroller && this._post) {
         this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
         this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
@@ -795,7 +795,7 @@
       return this._commentScroller;
     }
 
-    set _comment(val) {
+    set _comments(val) {
       if (this._commentScroller) {
         this._commentScroller.destroy();
         this._commentScroller = null;
@@ -803,7 +803,7 @@
     }
 
     get _activeComment() {
-      return this._comment && this._comment.item;
+      return this._comments && this._comments.item;
     }
 
     _getPosts() {
@@ -882,11 +882,11 @@
     }
 
     _nextComment() {
-      this._comment.next();
+      this._comments.next();
     }
 
     _prevComment() {
-      this._comment.prev();
+      this._comments.prev();
     }
 
     _togglePost() {
@@ -906,18 +906,18 @@
         return false;
       }
 
-      if (!tryComment(this._comment.item)) {
+      if (!tryComment(this._comments.item)) {
         clickElement(this._post, ['button[aria-label*="comment"]']);
       }
     }
 
     _seeMore() {
-      const el = this._comment.item ?? this._post;
+      const el = this._comments.item ?? this._post;
       clickElement(el, ['button[aria-label^="see more"]']);
     }
 
     _likePostOrComment() {
-      const el = this._comment.item ?? this._post;
+      const el = this._comments.item ?? this._post;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     }
 
@@ -942,7 +942,7 @@
 
     _firstPostOrComment() {
       if (this._activeComment) {
-        this._comment.first();
+        this._comments.first();
       } else {
         this._jumpToPost(true);
       }
@@ -950,7 +950,7 @@
 
     _lastPostOrComment() {
       if (this._activeComment) {
-        this._comment.last();
+        this._comments.last();
       } else {
         this._jumpToPost(false);
       }
@@ -979,10 +979,10 @@
     }
 
     _openMeatballMenu() {
-      if (this._comment.item) {
+      if (this._comments.item) {
         // XXX In this case, the aria-label is on the svg element, not
         // the button, so use the parentElement.
-        const button = this._comment.item.querySelector('[aria-label^="Open options"]').parentElement;
+        const button = this._comments.item.querySelector('[aria-label^="Open options"]').parentElement;
         button.click();
       } else if (this._post) {
         // Yeah, I don't get it.  This one isn't the button either,
@@ -992,7 +992,7 @@
     }
 
     _focusBrowser() {
-      const el = this._comment.item ?? this._post;
+      const el = this._comments.item ?? this._post;
       focusOnElement(el);
     }
 
@@ -1013,8 +1013,8 @@
 
     _viewReactions() {
       // Bah!  The queries are annoyingly different.
-      if (this._comment.item) {
-        clickElement(this._comment.item, ['button.comments-comment-social-bar__reactions-count']);
+      if (this._comments.item) {
+        clickElement(this._comments.item, ['button.comments-comment-social-bar__reactions-count']);
       } else if (this._post) {
         clickElement(this._post, ['button.social-details-social-counts__count-value']);
       }
