@@ -773,7 +773,7 @@
     }
 
     set _post(val) {
-      if (val === this._post && this._activeComment) {
+      if (val === this._post && this._hasActiveComment) {
         return;
       }
       if (this._post) {
@@ -802,7 +802,7 @@
       }
     }
 
-    get _activeComment() {
+    get _hasActiveComment() {
       return this._comments && this._comments.item;
     }
 
@@ -941,7 +941,7 @@
     }
 
     _firstPostOrComment() {
-      if (this._activeComment) {
+      if (this._hasActiveComment) {
         this._comments.first();
       } else {
         this._jumpToPost(true);
@@ -949,7 +949,7 @@
     }
 
     _lastPostOrComment() {
-      if (this._activeComment) {
+      if (this._hasActiveComment) {
         this._comments.last();
       } else {
         this._jumpToPost(false);
