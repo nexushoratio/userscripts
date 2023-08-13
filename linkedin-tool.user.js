@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.7
+// @version     2.4.8
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -333,7 +333,7 @@
     set item(val) {
       this._msg('Entered set item with', val);
       if (this.item) {
-        this.item.classList.remove(...this._classes);
+        this.dull();
       }
       this._bottomHalf(val);
       this._msg('Leaving set item');
@@ -352,7 +352,7 @@
       const idx = this._getItems().indexOf(val);
       this._historicalIdToIndex.set(this._currentItemId, idx);
       if (val) {
-        val.classList.add(...this._classes);
+        this.shine();
         this._scrollToCurrentItem();
       }
       this.dispatcher.fire('change', {});
@@ -539,6 +539,22 @@
      */
     last() {
       this._jumpToEndItem(false);
+    }
+
+    /**
+     * Adds the registered CSS classes to the current element.
+     * @returns {void}
+     */
+    shine() {
+      this.item.classList.add(...this._classes);
+    }
+
+    /**
+     * Removes the registered CSS classes from the current element.
+     * @returns {void}
+     */
+    dull() {
+      this.item.classList.remove(...this._classes);
     }
 
     /**
