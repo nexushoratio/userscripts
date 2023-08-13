@@ -558,6 +558,14 @@
     }
 
     /**
+     * Bring current item back into view.
+     * @returns {void}
+     */
+    show() {
+      this._scrollToCurrentItem();
+    }
+
+    /**
      * Mark instance as inactive and do any internal cleanup.
      * @returns {void}
      */
