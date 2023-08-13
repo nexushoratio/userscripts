@@ -759,7 +759,14 @@
     ];
 
     _currentPostId = null;
+    _postScroller = null;
     _commentScroller = null;
+
+    constructor() {
+      super();
+      this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
+      this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
+    }
 
     _onClick(evt) {
       const post = evt.target.closest('div[data-id]');
