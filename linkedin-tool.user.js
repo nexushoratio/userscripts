@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.4.9
+// @version     2.5.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -787,7 +787,6 @@
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
-    _currentPostId = null;
     _postScroller = null;
     _commentScroller = null;
 
@@ -795,37 +794,23 @@
       super();
       this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
       this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
+      this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
     }
 
     _onClick(evt) {
       const post = evt.target.closest('div[data-id]');
-      if (post) {
-        this._post = post;
+      if (post && post !== this._posts.item) {
+        this._posts.item = post;
       }
     }
 
-    get _post() {
-      return this._getPosts().find(this._matchPost.bind(this));
-    }
-
-    set _post(val) {
-      if (val === this._post && this._hasActiveComment) {
-        return;
-      }
-      if (this._post) {
-        this._post.classList.remove('tom');
-      }
-      this._currentPostId = this._uniqueIdentifier(val);
-      this._comments = null;
-      if (val) {
-        val.classList.add('tom');
-        this._scrollToCurrentPost();
-      }
+    get _posts() {
+      return this._postScroller;
     }
 
     get _comments() {
-      if (!this._commentScroller && this._post) {
-        this._commentScroller = new Scroller(this._post, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
+      if (!this._commentScroller && this._posts.item) {
+        this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
         this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
       }
       return this._commentScroller;
@@ -842,10 +827,6 @@
       return this._comments && this._comments.item;
     }
 
-    _getPosts() {
-      return Array.from(document.querySelectorAll('main div[data-id]'));
-    }
-
     _uniqueIdentifier(element) {
       if (element) {
         return element.dataset.id;
@@ -854,45 +835,16 @@
       }
     }
 
-    _matchPost(el) {
-      return this._currentPostId === this._uniqueIdentifier(el);
-    }
-
-    _scrollToCurrentPost() {
-      if (this._post) {
-        this._post.style.scrollMarginTop = navBarHeightCss;
-        this._post.scrollIntoView();
-      }
-    }
-
-    _scrollBy(n) {
-      const posts = this._getPosts();
-      if (posts.length) {
-        let post = null;
-        let idx = posts.findIndex(this._matchPost.bind(this)) + n;
-        if (idx < -1) {
-          idx = posts.length - 1;
-        }
-        if (idx === -1 || idx >= posts.length) {
-          focusOnSidebar();
-        } else {
-          // Some posts are hidden (ads, suggestions).  Skip over thoses.
-          post = posts[idx];
-          while (!post.clientHeight) {
-            idx += n;
-            post = posts[idx];
-          }
-        }
-        this._post = post;
-      }
-    }
-
     _returnToPost() {
-      this._post = this._post;
+      this._posts.item = this._posts.item;
+    }
+
+    _changedPost() {
+      this._comments = null;
     }
 
     _nextPost() {
-      this._scrollBy(1);
+      this._posts.next();
     }
 
     _nextPostPlus() {
@@ -902,14 +854,14 @@
       }
       // XXX Need to remove the highlight before otrot sees it because
       // it affects the .clientHeight.
-      this._post.classList.remove('tom');
-      otrot(this._post, f.bind(this), 3000).then(() => {
-        this._scrollToCurrentPost();
+      this._posts.dull();
+      otrot(this._posts.item, f.bind(this), 3000).then(() => {
+        this._posts.show();
       }).catch(e => console.error(e));  // eslint-disable-line no-console
     }
 
     _prevPost() {
-      this._scrollBy(-1);
+      this._posts.prev();
     }
 
     _prevPostPlus() {
@@ -926,7 +878,7 @@
     }
 
     _togglePost() {
-      clickElement(this._post, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
+      clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
     }
 
     _showComments() {
@@ -943,44 +895,25 @@
       }
 
       if (!tryComment(this._comments.item)) {
-        clickElement(this._post, ['button[aria-label*="comment"]']);
+        clickElement(this._posts.item, ['button[aria-label*="comment"]']);
       }
     }
 
     _seeMore() {
-      const el = this._comments.item ?? this._post;
+      const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="see more"]']);
     }
 
     _likePostOrComment() {
-      const el = this._comments.item ?? this._post;
+      const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
-    }
-
-    _jumpToPost(first) {
-      const posts = this._getPosts();
-      if (posts.length) {
-        let idx = first ? 0 : (posts.length - 1);
-        let post = posts[idx];
-        // Post content can be loaded lazily and can be detected by
-        // having no innerText yet.  So go to the last one that is
-        // loaded.  By the time we scroll to it, the next posts may
-        // have content, but it will close.
-        if (!first) {
-          while (!post.innerText.length) {
-            idx--;
-            post = posts[idx];
-          }
-        }
-        this._post = post;
-      }
     }
 
     _firstPostOrComment() {
       if (this._hasActiveComment) {
         this._comments.first();
       } else {
-        this._jumpToPost(true);
+        this._posts.first();
       }
     }
 
@@ -988,22 +921,22 @@
       if (this._hasActiveComment) {
         this._comments.last();
       } else {
-        this._jumpToPost(false);
+        this._posts.last();
       }
     }
 
     _loadMorePosts() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       function f() {
-        const posts = this._getPosts();
-        if (clickElement(posts[0], ['div.feed-new-update-pill button'])) {
-          this._post = posts[0];
-        } else {
+        const initialPost = this._posts.item;
+        this._posts.first();
+        if (!clickElement(this._posts.item, ['div.feed-new-update-pill button'])) {
+          this._posts.item = initialPost;
           clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
         }
       }
       otrot(container, f.bind(this), 3000).then(() => {
-        this._scrollToCurrentPost();
+        this._posts.item = this._posts.item;
       });
     }
 
@@ -1023,27 +956,28 @@
       if (this._comments.item) {
         const button = this._comments.item.querySelector('[aria-label^="Open options"]').parentElement;
         button.click();
-      } else if (this._post) {
-        const button = this._post.querySelector('[a11y-text^="Open control menu"]').parentElement;
+      } else if (this._posts.item) {
+        const button = this._posts.item.querySelector('[a11y-text^="Open control menu"]').parentElement;
         button.click();
       }
     }
 
     _focusBrowser() {
-      const el = this._comments.item ?? this._post;
+      const el = this._comments.item ?? this._posts.item;
       focusOnElement(el);
     }
 
     _viewPost() {
-      if (this._post) {
-        const urn = this._post.dataset.id;
+      const post = this._posts.item;
+      if (post) {
+        const urn = post.dataset.id;
         const id = `lt-${urn.replaceAll(':', '-')}`;
-        let a = this._post.querySelector(`#${id}`);
+        let a = post.querySelector(`#${id}`);
         if (!a) {
           a = document.createElement('a');
           a.href = `/feed/update/${urn}/`;
           a.id = id;
-          this._post.append(a);
+          post.append(a);
         }
         a.click();
       }
@@ -1053,8 +987,8 @@
       // Bah!  The queries are annoyingly different.
       if (this._comments.item) {
         clickElement(this._comments.item, ['button.comments-comment-social-bar__reactions-count']);
-      } else if (this._post) {
-        clickElement(this._post, ['button.feed-shared-social-action-bar-counts']);
+      } else if (this._posts.item) {
+        clickElement(this._posts.item, ['button.feed-shared-social-action-bar-counts']);
       }
     }
 
