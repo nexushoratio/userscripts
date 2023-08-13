@@ -235,10 +235,11 @@
    *
    * The dispatcher can be used the handle the following events:
    * - 'out-of-range' - Scrolling went past one end of the collection.
+   * - 'change' - The value of item has changed.
    * This is NOT an error condition, but rather a design feature.
    */
   class Scroller {
-    _dispatcher = new Dispatcher('out-of-range');
+    _dispatcher = new Dispatcher('change', 'out-of-range');
     _currentItemId = null;
     _historicalIdToIndex = new Map();
 
@@ -354,6 +355,7 @@
         val.classList.add(...this._classes);
         this._scrollToCurrentItem();
       }
+      this.dispatcher.fire('change', {});
       this._msg('Leaving bottomHalf');
     }
 
