@@ -1551,6 +1551,6 @@
   otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
     .then((el) => registerUrlMonitor(el));
 
-  console.debug('Parsing successful.');  // eslint-disable-line no-console
+  console.debug('Initialization successful.');  // eslint-disable-line no-console
 
 })();
