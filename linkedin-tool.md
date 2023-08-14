@@ -1,6 +1,6 @@
 # LinkedIn Tool
 
-Minor enhancements to LinkedIn. Mostly just hotkeys.
+Minor enhancements to [LinkedIn](https:///www.linkedin.com). Mostly just hotkeys.
 
 The major reason for this userscript is to provide keyboard navigation to LinkedIn.
 
