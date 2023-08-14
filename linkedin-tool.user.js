@@ -1391,7 +1391,7 @@
       this._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
-      document.addEventListener('href', this._onHref.bind(this), true);
+      document.addEventListener('urlchange', this._onHref.bind(this), true);
     }
 
     _setInputFocus(state) {
@@ -1531,7 +1531,7 @@
     const observer = new MutationObserver(() => {
       const newUrl = new URL(window.location);
       if (oldUrl.href !== newUrl.href) {
-        const evt = new CustomEvent('href', {detail: {url: newUrl}})
+        const evt = new CustomEvent('urlchange', {detail: {url: newUrl}})
         oldUrl = newUrl;
         document.dispatchEvent(evt);
       }
