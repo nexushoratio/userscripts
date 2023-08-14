@@ -629,7 +629,7 @@
      * then the class should also provide a _onClick() method.
      * @type {string}
      */
-    _on_click_selector = null;
+    _onClickSelector = null;
 
 
     /**
@@ -647,7 +647,7 @@
      * VM.shortcut.
      * @type {Shortcut[]}
      */
-    _auto_keys = [];
+    _autoRegisteredKeys = [];
 
     // Private members.
 
@@ -660,7 +660,7 @@
      * Tracks which HTMLElement holds the `onclick` function.
      * @type {Element}
      */
-    _on_click_element = null;
+    _onClickElement = null;
 
     /**
      * Magic for VM.shortcut.  This disables keys when focus is on an
@@ -682,11 +682,11 @@
      *
      * TODO(#82) I do not yet know JS well enough to make this work in
      * the constructor.  It always uses the base class version of
-     * _auto_keys, not one from the subclass.
+     * _autoRegisteredKeys, not one from the subclass.
      * @returns {void}
      */
     start() {
-      for (const {seq, func} of this._auto_keys) {
+      for (const {seq, func} of this._autoRegisteredKeys) {
         this._addKey(seq, func.bind(this));
       }
     }
@@ -737,7 +737,7 @@
      * @type {Shortcut[]}
      */
     get helpContent() {
-      return this._auto_keys;
+      return this._autoRegisteredKeys;
     }
 
     /**
@@ -755,14 +755,14 @@
      * @returns {void}
      */
     _enableOnClick() {
-      if (this._on_click_selector) {
+      if (this._onClickSelector) {
         // Page is dynamically building, so keep watching it until the
         // element shows up.
         VM.observe(document.body, () => {
-          const element = document.querySelector(this._on_click_selector);
+          const element = document.querySelector(this._onClickSelector);
           if (element) {
-            this._on_click_element = element;
-            this._on_click_element.addEventListener('click', this._boundOnClick);
+            this._onClickElement = element;
+            this._onClickElement.addEventListener('click', this._boundOnClick);
             // Turns off VM.observe once selector found.
             return true;
           }
@@ -775,9 +775,9 @@
      * @returns {void}
      */
     _disableOnClick() {
-      if (this._on_click_element) {
-        this._on_click_element.removeEventListener('click', this._boundOnClick);
-        this._on_click_element = null;
+      if (this._onClickElement) {
+        this._onClickElement.removeEventListener('click', this._boundOnClick);
+        this._onClickElement = null;
       }
     }
 
@@ -798,7 +798,7 @@
 
   class Global extends Page {
     _pathname = null;
-    _auto_keys = [
+    _autoRegisteredKeys = [
       {seq: '?', desc: 'Show keyboard help', func: this._help},
       {seq: '/', desc: 'Go to Search box', func: this._gotoSearch},
       {seq: 'g h', desc: 'Go Home (aka, Feed)', func: this._goHome},
@@ -877,8 +877,8 @@
 
   class Feed extends Page {
     _pathname = '/feed/';
-    _on_click_selector = 'main';
-    _auto_keys = [
+    _onClickSelector = 'main';
+    _autoRegisteredKeys = [
       {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
       {seq: 'j', desc: 'Next post', func: this._nextPost},
       {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
@@ -1108,7 +1108,7 @@
 
   class Jobs extends Page {
     _pathname = '/jobs/';
-    _auto_keys = [
+    _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next section', func: this._nextSection},
       {seq: 'k', desc: 'Previous section', func: this._prevSection},
       {seq: '<', desc: 'Go to to first section', func: this._firstSection},
@@ -1225,8 +1225,8 @@
 
   class Notifications extends Page {
     _pathname = '/notifications/';
-    _on_click_selector = 'main';
-    _auto_keys = [
+    _onClickSelector = 'main';
+    _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
       {seq: 'Enter', desc: 'Activate the notification (click on it)', func: this._activateNotification},

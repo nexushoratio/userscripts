@@ -14,7 +14,7 @@
     "no-use-before-define": "error",
     // Suggestions
     "arrow-body-style": ["error"],
-    "camelcase": "off",  // TODO(#68): investigate
+    "camelcase": "error",
     "capitalized-comments": "off",  // TODO(#68): investigate
     "class-methods-use-this": "off",  // TODO(#68): investigate
     "consistent-return": "off",  // TODO(#68): investigate
