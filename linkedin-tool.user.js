@@ -1391,7 +1391,7 @@
       this._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
-      document.addEventListener('urlchange', this._onHref.bind(this), true);
+      document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
     }
 
     _setInputFocus(state) {
@@ -1415,7 +1415,7 @@
       }
     }
 
-    _onHref(evt) {
+    _onUrlChange(evt) {
       this.activate(evt.detail.url.pathname);
     }
 
