@@ -2,7 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
-// @version     2.5.1
+// @version     2.5.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -10,6 +10,7 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
+// @grant       window.onurlchange
 // ==/UserScript==
 
 /* global VM */
@@ -1526,29 +1527,43 @@
       navBarHeightCss = `${navBarHeightPixels}px`;
     });
 
-  let oldUrl = new URL(window.location);
-  function registerUrlMonitor(element) {
-    const observer = new MutationObserver(() => {
-      const newUrl = new URL(window.location);
-      if (oldUrl.href !== newUrl.href) {
-        const evt = new CustomEvent('urlchange', {detail: {url: newUrl}})
-        oldUrl = newUrl;
-        document.dispatchEvent(evt);
-      }
+  if (window.onurlchange === null) {
+    // We are likely running on Tampermonkey, so use native support.
+    console.debug('Using window.onurlchange for monitoring URL updates.');
+    window.addEventListener('urlchange', (info) => {
+      // The info that TM gives is not really an event.  So we turn it
+      // into one and throw it again, this time onto `document` there
+      // `pages` is listening for it.
+      const newUrl = new URL(info.url);
+      const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+      document.dispatchEvent(evt);
     });
-    observer.observe(element, {childList: true, subtree: true});
-  }
-
-  function authenticationOutletMonitor() {
-    const div = document.body.querySelector('div.authentication-outlet');
-    if (div) {
-      return {done: true, results: div};
+  } else {
+    console.debug('Using MutationObserver for monitoring URL updates.');
+    let oldUrl = new URL(window.location);
+    function registerUrlMonitor(element) {
+      const observer = new MutationObserver(() => {
+        const newUrl = new URL(window.location);
+        if (oldUrl.href !== newUrl.href) {
+          const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+          oldUrl = newUrl;
+          document.dispatchEvent(evt);
+        }
+      });
+      observer.observe(element, {childList: true, subtree: true});
     }
-    return {done: false, results: null};
-  }
 
-  otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
-    .then((el) => registerUrlMonitor(el));
+    function authenticationOutletMonitor() {
+      const div = document.body.querySelector('div.authentication-outlet');
+      if (div) {
+        return {done: true, results: div};
+      }
+      return {done: false, results: null};
+    }
+
+    otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
+      .then((el) => registerUrlMonitor(el));
+  }
 
   console.debug('Initialization successful.');  // eslint-disable-line no-console
 
