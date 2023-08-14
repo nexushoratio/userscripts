@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.3
+// @version     2.5.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -606,81 +606,154 @@
     }
   }
 
+  /**
+   * Base class for handling various views of the LinkedIn SPA.
+   *
+   * Generally, new classes should subclass this, override a few
+   * properties and methods, and then register themselves with an
+   * instances of the {@link Pages} class.
+   */
   class Page {
-    // The immediate following can be set if derived classes
+    // The immediate following can be set in subclasses.
 
-    // What pathname part of the URL this page should handle.  The
-    // special case of null is used by the Pages class to represent
-    // global keys.
+    /**
+     * What pathname part of the URL this page should handle.  The
+     * special case of null is used by the {@link Pages} class to
+     * represent global keys.
+     * @type {string}
+     */
     _pathname;
 
-    // CSS selector for capturing clicks on this page.  If overridden,
-    // then the class should also provide a _onClick() method.
+    /**
+     * CSS selector for capturing clicks on this page.  If overridden,
+     * then the class should also provide a _onClick() method.
+     * @type {string}
+     */
     _on_click_selector = null;
 
-    // List of keystrokes to register automatically.  They are objects
-    // with keys of `seq`, `desc`, and `func`.  The `seq` is used to
-    // define they keystroke sequence to trigger the function.  The
-    // `desc` is used to create the help screen.  The `func` is a
-    // function, usually in the form of `this.methodName`.  The
-    // function is bound to `this` before registering it with
-    // VM.shortcut.
+
+    /**
+     * Definition for keyboard shortcuts.
+     * @typedef {object} Shortcut
+     * @property {string} seq - Key sequence to activate.
+     * @property {string} desc - Description that goes into the online help.
+     * @property {function()} func - Function to call, usually in the
+     * form of `this.methodName`.
+     */
+
+    /**
+     * List of {@link Shortcut}s to register automatically.  The
+     * function is bound to `this` before registering it with
+     * VM.shortcut.
+     * @type {Shortcut[]}
+     */
     _auto_keys = [];
 
     // Private members.
 
+    /**
+     * @type {KeyboardService}
+     */
     _keyboard = new VM.shortcut.KeyboardService();
 
-    // Tracks which HTMLElement holds the `onclick` function.
+    /**
+     * Tracks which HTMLElement holds the `onclick` function.
+     * @type {Element}
+     */
     _on_click_element = null;
 
-    // Magic for VM.shortcut.  This disables keys when focus is on an
-    // input type field.
+    /**
+     * Magic for VM.shortcut.  This disables keys when focus is on an
+     * input type field.
+     * @type {IShortcutOptions}
+     */
     static _navOption = {
       caseSensitive: true,
       condition: '!inputFocus',
     };
 
+    /** Create a Page. */
     constructor() {
       this._boundOnClick = this._onClick.bind(this);
     }
 
+    /**
+     * Called when registered via {@link Pages}.
+     *
+     * TODO(#82) I do not yet know JS well enough to make this work in
+     * the constructor.  It always uses the base class version of
+     * _auto_keys, not one from the subclass.
+     * @returns {void}
+     */
     start() {
       for (const {seq, func} of this._auto_keys) {
         this._addKey(seq, func.bind(this));
       }
     }
 
+    /**
+     * @type {string}
+     */
     get pathname() {
       return this._pathname;
     }
 
+    /**
+     * @type {KeyboardService}
+     */
     get keyboard() {
       return this._keyboard;
     }
 
+    /**
+      * Turns on this Page's features.  Called by {@link Pages} when
+      * this becomes the current view.
+      * @returns {void}
+      */
     activate() {
       this._keyboard.enable();
       this._enableOnClick();
     }
 
+    /**
+     * Turns off this Page's features.  Called by {@link Pages} when
+     * this is no longer the current view.
+     * @returns {void}
+     */
     deactivate() {
       this._keyboard.disable();
       this._disableOnClick();
     }
 
+    /**
+     * @type {string}
+     */
     get helpHeader() {
       return this.constructor.name;
     }
 
+    /**
+     * The `key` and `desc` properties are important here.
+     * @type {Shortcut[]}
+     */
     get helpContent() {
       return this._auto_keys;
     }
 
+    /**
+     * Registers a specific key sequence with a function with VM.shortcut.
+     * @param {string} seq - Key sequence.
+     * @param {function()} func - Function to call.
+     * @returns {void}
+     */
     _addKey(seq, func) {
       this._keyboard.register(seq, func, Page._navOption);
     }
 
+    /**
+     * Enables the 'click' handler for this view.
+     * @returns {void}
+     */
     _enableOnClick() {
       if (this._on_click_selector) {
         // Page is dynamically building, so keep watching it until the
@@ -690,13 +763,17 @@
           if (element) {
             this._on_click_element = element;
             this._on_click_element.addEventListener('click', this._boundOnClick);
-
+            // Turns off VM.observe once selector found.
             return true;
           }
         });
       }
     }
 
+    /**
+     * Disables the 'click' handler for this view.
+     * @returns {void}
+     */
     _disableOnClick() {
       if (this._on_click_element) {
         this._on_click_element.removeEventListener('click', this._boundOnClick);
@@ -704,9 +781,15 @@
       }
     }
 
-    // Override this function in derived classes that want to react to
-    // random clicks on a page, say to update current element in
-    // focus.
+    /**
+     * Override this function in subclasses that want to react to
+     * random clicks on a page, say to update current element in
+     * focus.
+     * https://github.com/eslint/eslint/issues/17467
+     * @abstract
+     * @param {Event} evt - Standard 'click' event.
+     * @returns {void}
+     */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
     }
