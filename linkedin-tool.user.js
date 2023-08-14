@@ -679,10 +679,6 @@
 
     /**
      * Called when registered via {@link Pages}.
-     *
-     * TODO(#82) I do not yet know JS well enough to make this work in
-     * the constructor.  It always uses the base class version of
-     * _autoRegisteredKeys, not one from the subclass.
      * @returns {void}
      */
     start() {
