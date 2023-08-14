@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.4
+// @version     2.5.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1238,162 +1238,79 @@
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
-    // Ugh.  When notification cards are deleted or restored, the
-    // entire element, and parent elements, are deleted and replaced
-    // by new elements.  And the deleted versions have nothing in
-    // common with the original ones.  Since we can't detect when a
-    // card is deleted, we need to track where it was so maybe we can
-    // refind it again later.
-    _currentNotificationId = null;
-    _historicalNotificationIdToIndex = new Map();
+    _notificationScroller = null;
+
+    constructor() {
+      super();
+      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], this._uniqueIdentifier, ['tom'], false, {enabled: true, strackTrace: true});
+      this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
+    }
 
     _onClick(evt) {
       const notification = evt.target.closest('div.nt-card-list article');
       if (notification) {
-        this._notification = notification;
+        this._notifications.item = notification;
       }
     }
 
-    get _notification() {
-      const notifications = this._getNotifications();
-      let notification = notifications.find(this._match.bind(this));
-      if (!notification) {
-        // Couldn't find the old id.  Maybe the card was modified, so
-        // try the old index.
-        const idx = this._historicalNotificationIdToIndex.get(this._currentNotificationId);
-        if (typeof idx === 'number' && 0 <= idx && idx < notifications.length) {
-          notification = notifications[idx];
-          this._setBottomHalf(notification);
-        }
-      }
-      return notification;
-    }
-
-    set _notification(val) {
-      if (this._notification) {
-        this._notification.classList.remove('tom');
-      }
-      this._setBottomHalf(val);
-    }
-
-    _setBottomHalf(val) {
-      this._currentNotificationId = this._uniqueIdentifier(val);
-      const idx = this._getNotifications().indexOf(val);
-      this._historicalNotificationIdToIndex.set(this._currentNotificationId, idx);
-      if (val) {
-        val.classList.add('tom');
-        this._scrollToCurrentNotification();
-      }
-    }
-
-    _getNotifications() {
-      return Array.from(document.querySelectorAll('main section div.nt-card-list article'));
+    get _notifications() {
+      return this._notificationScroller;
     }
 
     // Complicated because there are so many variations in
     // notification cards.  We do not want to use reaction counts
     // because they can change too quickly.
     _uniqueIdentifier(element) {
-      if (element) {
-        if (!element.dataset.litId) {
-          let content = element.innerText;
-          if (element.childElementCount === 3) {
-            let content = element.children[1].innerText;
-            if (content.includes('Reactions')) {
-              for (const el of element.children[1].querySelectorAll('*')) {
-                if (el.innerText) {
-                  content = el.innerText;
-                  break;
-                }
-              }
+      let content = element.innerText;
+      if (element.childElementCount === 3) {
+        let content = element.children[1].innerText;
+        if (content.includes('Reactions')) {
+          for (const el of element.children[1].querySelectorAll('*')) {
+            if (el.innerText) {
+              content = el.innerText;
+              break;
             }
           }
-          if (content.startsWith('Notification deleted.')) {
-            // Mix in something unique from the parent.
-            content += element.parentElement.dataset.finiteScrollHotkeyItem;
-          }
-          element.dataset.litId = strHash(content);
-        }
-        return element.dataset.litId;
-      } else {
-        return null;
-      }
-    }
-
-    _match(el) {
-      return this._currentNotificationId === this._uniqueIdentifier(el);
-    }
-
-    _scrollToCurrentNotification() {
-      const rect = this._notification.getBoundingClientRect();
-      this._notification.style.scrollMarginTop = navBarHeightCss;
-      this._notification.style.scrollMarginBottom = '3em';
-      if (rect.bottom > document.documentElement.clientHeight) {
-        this._notification.scrollIntoView(false);
-      }
-      if (rect.top < navBarHeightPixels) {
-        this._notification.scrollIntoView();
-      }
-    }
-
-    _scrollBy(n) {
-      // XXX This standalone line invokes the magic code in the
-      // getter.  Necessary when scrolling is the first thing after
-      // deleting a card.
-      this._notification;
-      const notifications = this._getNotifications();
-      if (notifications.length) {
-        let idx = notifications.findIndex(this._match.bind(this)) + n;
-        if (idx < -1) {
-          idx = notifications.length - 1;
-        }
-        if (idx === -1 || idx >= notifications.length) {
-          focusOnSidebar();
-          this._notification = null;
-        } else {
-          this._notification = notifications[idx];
         }
       }
+      if (content.startsWith('Notification deleted.')) {
+        // Mix in something unique from the parent.
+        content += element.parentElement.dataset.finiteScrollHotkeyItem;
+      }
+      return strHash(content);
     }
 
     _nextNotification() {
-      this._scrollBy(1);
+      this._notifications.next();
     }
 
     _prevNotification() {
-      this._scrollBy(-1);
-    }
-
-    _jumpToNotification(first) {
-      const notifications = this._getNotifications();
-      if (notifications.length) {
-        const idx = first ? 0 : (notifications.length - 1);
-        this._notification = notifications[idx];
-      }
+      this._notifications.prev();
     }
 
     _focusBrowser() {
-      focusOnElement(this._notification);
+      focusOnElement(this._notifications.item);
     }
 
     _firstNotification() {
-      this._jumpToNotification(true);
+      this._notifications.first();
     }
 
     _lastNotification() {
-      this._jumpToNotification(false);
+      this._notifications.last();
     }
 
     _openMeatballMenu() {
-      clickElement(this._notification, ['button[aria-label^="Settings menu"]']);
+      clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
     }
 
     _activateNotification() {
-      if (this._notification) {
+      const notification = this._notifications.item;
+      if (notification) {
         // Because we are using Enter as the hotkey here, if the
         // active element is inside the current card, we want that to
         // take precedence.
-        if (document.activeElement.closest('article') === this._notification) {
+        if (document.activeElement.closest('article') === notification) {
           return;
         }
         // Every notification is different.
@@ -1404,23 +1321,22 @@
         }
 
         // Debugging code.
-        if (this._notification.querySelectorAll('a.nt-card__headline').length === 1 && this._notification.querySelector('button.message-anywhere-button')) {
-          console.debug(this._notification);  // eslint-disable-line no-console
+        if (notification.querySelectorAll('a.nt-card__headline').length === 1 && notification.querySelector('button.message-anywhere-button')) {
+          console.debug(notification);  // eslint-disable-line no-console
           alert('Yes, can be simplified');
         }
 
-        if (!clickElement(this._notification, ['button.message-anywhere-button'])) {
-          const buttons = Array.from(this._notification.querySelectorAll('button'));
+        if (!clickElement(notification, ['button.message-anywhere-button'])) {
+          const buttons = Array.from(notification.querySelectorAll('button'));
           const button = buttons.find(matchesKnownText);
           if (button) {
             button.click();
           } else {
-            const links = this._notification.querySelectorAll('a.nt-card__headline');
+            const links = notification.querySelectorAll('a.nt-card__headline');
             if (links.length === 1) {
               links[0].click();
             } else {
-              console.debug(this._notification);  // eslint-disable-line no-console
-              for (const el of this._notification.querySelectorAll('*')) {
+              for (const el of notification.querySelectorAll('*')) {
                 console.debug(el);  // eslint-disable-line no-console
               }
               const msg = [
@@ -1441,15 +1357,16 @@
     }
 
     _deleteNotification() {
-      if (this._notification) {
+      const notification = this._notifications.item;
+      if (notification) {
         // Hah.  Unlike in other places, these buttons already exist,
         // just hidden under the menu.
-        const buttons = Array.from(this._notification.querySelectorAll('button'));
+        const buttons = Array.from(notification.querySelectorAll('button'));
         const button = buttons.find(el => el.textContent.includes('Delete this notification'));
         if (button) {
           button.click();
         } else {
-          clickElement(this._notification, ['button[aria-label^="Undo notification deletion"]']);
+          clickElement(notification, ['button[aria-label^="Undo notification deletion"]']);
         }
       }
     }
