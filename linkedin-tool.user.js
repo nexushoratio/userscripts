@@ -904,7 +904,7 @@
 
     constructor() {
       super();
-      this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
+      this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
       this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
     }
