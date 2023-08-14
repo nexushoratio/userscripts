@@ -1529,7 +1529,7 @@
 
   if (window.onurlchange === null) {
     // We are likely running on Tampermonkey, so use native support.
-    console.debug('Using window.onurlchange for monitoring URL updates.');
+    console.debug('Using window.onurlchange for monitoring URL updates.');  // eslint-disable-line no-console
     window.addEventListener('urlchange', (info) => {
       // The info that TM gives is not really an event.  So we turn it
       // into one and throw it again, this time onto `document` there
@@ -1539,9 +1539,10 @@
       document.dispatchEvent(evt);
     });
   } else {
-    console.debug('Using MutationObserver for monitoring URL updates.');
+    console.debug('Using MutationObserver for monitoring URL updates.');  // eslint-disable-line no-console
+
     let oldUrl = new URL(window.location);
-    function registerUrlMonitor(element) {
+    function registerUrlMonitor(element) {  // eslint-disable-line no-inner-declarations
       const observer = new MutationObserver(() => {
         const newUrl = new URL(window.location);
         if (oldUrl.href !== newUrl.href) {
@@ -1553,7 +1554,7 @@
       observer.observe(element, {childList: true, subtree: true});
     }
 
-    function authenticationOutletMonitor() {
+    function authenticationOutletMonitor() {  // eslint-disable-line no-inner-declarations
       const div = document.body.querySelector('div.authentication-outlet');
       if (div) {
         return {done: true, results: div};
