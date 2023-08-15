@@ -577,7 +577,9 @@
      * @returns {void}
      */
     shine() {
-      this.item.classList.add(...this._classes);
+      if (this.item) {
+        this.item.classList.add(...this._classes);
+      }
     }
 
     /**
@@ -585,7 +587,9 @@
      * @returns {void}
      */
     dull() {
-      this.item.classList.remove(...this._classes);
+      if (this.item) {
+        this.item.classList.remove(...this._classes);
+      }
     }
 
     /**
