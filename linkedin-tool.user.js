@@ -1129,6 +1129,7 @@
 
   class Jobs extends Page {
     _pathname = '/jobs/';
+    _onClickSelector = 'main';
     _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next section', func: this._nextSection},
       {seq: 'k', desc: 'Previous section', func: this._prevSection},
@@ -1144,6 +1145,13 @@
       super();
       this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
+    }
+
+    _onClick(evt) {
+      const section = evt.target.closest('section');
+      if (section) {
+        this._sections.item = section;
+      }
     }
 
     get _sections() {
