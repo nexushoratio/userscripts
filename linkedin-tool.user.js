@@ -1240,7 +1240,7 @@
 
     constructor() {
       super();
-      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], this._uniqueIdentifier, ['tom'], false, {enabled: true, strackTrace: true});
+      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], this._uniqueIdentifier, ['tom'], false, {enabled: false, strackTrace: true});
       this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
