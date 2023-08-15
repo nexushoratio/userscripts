@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.7
+// @version     2.5.8
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -765,6 +765,8 @@
           if (element) {
             this._onClickElement = element;
             this._onClickElement.addEventListener('click', this._boundOnClick);
+            // TODO(#46): Find a better place for this.
+            this._refresh();
             // Turns off VM.observe once selector found.
             return true;
           }
@@ -794,6 +796,14 @@
      */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
+    }
+
+    /**
+     * Override this function in subclasses to take action upon
+     * becoming the current view again.
+     * @returns {void}
+     */
+    _refresh() {
     }
 
   }
@@ -915,6 +925,24 @@
       const post = evt.target.closest('div[data-id]');
       if (post && post !== this._posts.item) {
         this._posts.item = post;
+      }
+    }
+
+    _refresh() {
+      // Need to wait for the post to be reloaded
+      function f(records) {
+        for (const record of records) {
+          if (record.oldValue.includes('has-occluded-height')) {
+            return {done: true};
+          }
+        }
+        return {done: false};
+      }
+      if (this._posts.item) {
+        otmot(this._posts.item, {attributeFilter: ['class'], attributes: true, attributeOldValue: true}, f, null, 5000).finally(() => {
+          this._posts.shine();
+          this._posts.show();
+        });
       }
     }
 
@@ -1244,6 +1272,11 @@
       if (notification) {
         this._notifications.item = notification;
       }
+    }
+
+    _refresh() {
+      this._notifications.shine();
+      this._notifications.show();
     }
 
     get _notifications() {
