@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.8
+// @version     2.5.9
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1138,93 +1138,45 @@
       {seq: 'l', desc: 'Load more sections', func: this._loadMoreSections},
     ];
 
-    _currentSectionId = null;
+    _sectionScroller = null;
 
-    get _section() {
-      return this._getSections().find(this._match.bind(this));
+    constructor() {
+      super();
+      this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
+      this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
-    set _section(val) {
-      if (this._section) {
-        this._section.classList.remove('tom');
-      }
-      this._currentSectionId = this._uniqueIdentifier(val);
-      if (val) {
-        val.classList.add('tom');
-        this._scrollToCurrentSection();
-      }
-    }
-
-    _getSections() {
-      return Array.from(document.querySelectorAll('main section'));
+    get _sections() {
+      return this._sectionScroller;
     }
 
     _uniqueIdentifier(element) {
-      if (element) {
-        const h2 = element.querySelector('h2');
-        if (h2) {
-          return h2.innerText;
-        } else {
-          return element.innerText;
-        }
-      } else {
-        return null;
+      const h2 = element.querySelector('h2');
+      let content = element.innerText;
+      if (h2) {
+        content = h2.innerText;
       }
-    }
-
-    _match(el) {
-      return this._currentSectionId === this._uniqueIdentifier(el);
-    }
-
-    _scrollToCurrentSection() {
-      if (this._section) {
-        this._section.style.scrollMarginTop = navBarHeightCss;
-        this._section.scrollIntoView();
-      }
-    }
-
-    _scrollBy(n) {
-      const sections = this._getSections();
-      if (sections.length) {
-        let idx = sections.findIndex(this._match.bind(this)) + n;
-        if (idx < -1) {
-          idx = sections.length - 1;
-        }
-        if (idx === -1 || idx >= sections.length) {
-          focusOnSidebar();
-          this._section = null;
-        } else {
-          this._section = sections[idx];
-        }
-      }
+      return strHash(content);
     }
 
     _nextSection() {
-      this._scrollBy(1);
+      this._sections.next();
     }
 
     _prevSection() {
-      this._scrollBy(-1);
-    }
-
-    _jumpToSection(first) {
-      const sections = this._getSections();
-      if (sections.length) {
-        const idx = first ? 0 : (sections.length - 1);
-        this._section = sections[idx];
-      }
+      this._sections.prev();
     }
 
     _firstSection() {
-      this._jumpToSection(true);
+      this._sections.first();
     }
 
     _lastSection() {
-      this._jumpToSection(false);
+      this._sections.last();
     }
 
     _focusBrowser() {
-      focusOnElement(this._section);
+      focusOnElement(this._sections.item);
     }
 
     _loadMoreSections() {
@@ -1233,9 +1185,8 @@
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
       otrot(container, f.bind(this), 3000).then(() => {
-        // This forces a scrolling and highlighting because the
-        // elements were remade.
-        this._section = this._section;
+        this._sections.shine();
+        this._sections.show();
       });
     }
   }
