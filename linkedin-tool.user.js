@@ -121,7 +121,7 @@
       if (timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
-          reject('timed out');
+          reject('otrot timed out');
         }, timeout);
       }
       observer.observe(base);
@@ -159,7 +159,7 @@
       if (timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
-          reject('timed out');
+          reject('otmot timed out');
         }, timeout);
       }
       observer.observe(base, options);
