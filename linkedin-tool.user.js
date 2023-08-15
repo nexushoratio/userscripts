@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.6
+// @version     2.5.7
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -992,19 +992,7 @@
     }
 
     _showComments() {
-      function tryComment(comment) {
-        if (comment) {
-          const buttons = Array.from(comment.querySelectorAll('button'));
-          const button = buttons.find(el => el.textContent.includes('Load previous replies'));
-          if (button) {
-            button.click();
-            return true;
-          }
-        }
-        return false;
-      }
-
-      if (!tryComment(this._comments.item)) {
+      if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
         clickElement(this._posts.item, ['button[aria-label*="comment"]']);
       }
     }
