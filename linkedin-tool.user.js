@@ -1522,7 +1522,7 @@
     console.debug('Using window.onurlchange for monitoring URL updates.');  // eslint-disable-line no-console
     window.addEventListener('urlchange', (info) => {
       // The info that TM gives is not really an event.  So we turn it
-      // into one and throw it again, this time onto `document` there
+      // into one and throw it again, this time onto `document` where
       // `pages` is listening for it.
       const newUrl = new URL(info.url);
       const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
