@@ -451,22 +451,24 @@
     _scrollToCurrentItem() {
       this._msg('Entered scrollToCurrentItem with', this._snapToTop);
       const item = this.item;
-      item.style.scrollMarginTop = navBarHeightCss;
-      if (this._snapToTop) {
-        this._msg('snapping to top');
-        item.scrollIntoView(true);
-      } else {
-        item.style.scrollMarginBottom = '3em';
-        const rect = item.getBoundingClientRect();
-        // If both scrolling happens, it means the item is too tall to
-        // fit on the page, so the top is preferred.
-        if (rect.bottom > document.documentElement.clientHeight) {
-          this._msg('scrolling up onto page');
-          item.scrollIntoView(false);
-        }
-        if (rect.top < navBarHeightPixels) {
-          this._msg('scrolling down onto page');
+      if (item) {
+        item.style.scrollMarginTop = navBarHeightCss;
+        if (this._snapToTop) {
+          this._msg('snapping to top');
           item.scrollIntoView(true);
+        } else {
+          item.style.scrollMarginBottom = '3em';
+          const rect = item.getBoundingClientRect();
+          // If both scrolling happens, it means the item is too tall to
+          // fit on the page, so the top is preferred.
+          if (rect.bottom > document.documentElement.clientHeight) {
+            this._msg('scrolling up onto page');
+            item.scrollIntoView(false);
+          }
+          if (rect.top < navBarHeightPixels) {
+            this._msg('scrolling down onto page');
+            item.scrollIntoView(true);
+          }
         }
       }
       this._msg('Leaving scrollToCurrentItem');
