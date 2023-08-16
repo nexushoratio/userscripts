@@ -1163,7 +1163,7 @@
       // The div does get recreated, so setting the observer again is
       // appropriate.
       const el = document.querySelector('div.scaffold-finite-scroll__content');
-      this._sectionsMO.observe(el, {childList: true, attributes: true, attributeOldValue: true});
+      this._sectionsMO.observe(el, {childList: true});
     }
 
     get _sections() {
