@@ -1338,7 +1338,7 @@
     _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
-      {seq: 'Enter', desc: 'Activate the notification (click on it)', func: this._activateNotification},
+      {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
       {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
       {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
