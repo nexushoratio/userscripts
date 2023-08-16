@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.9
+// @version     2.5.10
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1140,11 +1140,15 @@
     ];
 
     _sectionScroller = null;
+    _sectionsMO = null;
+    _sectionWatchText = '';
 
     constructor() {
       super();
       this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
+      this._sectionScroller.dispatcher.on('change', this._onChange.bind(this));
+      this._sectionsMO = new MutationObserver(this._mutationHandler.bind(this));
     }
 
     _onClick(evt) {
@@ -1152,6 +1156,14 @@
       if (section) {
         this._sections.item = section;
       }
+    }
+
+    _refresh() {
+      this._sections.show();
+      // The div does get recreated, so setting the observer again is
+      // appropriate.
+      const el = document.querySelector('div.scaffold-finite-scroll__content');
+      this._sectionsMO.observe(el, {childList: true, attributes: true, attributeOldValue: true});
     }
 
     get _sections() {
@@ -1165,6 +1177,36 @@
         content = h2.innerText;
       }
       return strHash(content);
+    }
+
+    _onChange() {
+      this._sectionWatchText = this._sections.item.innerText.trim().split('\n')[0];
+    }
+
+    /**
+     * Overly complicated.  The job sections get recreated in toto
+     * every time new sections are loaded, whether manually or
+     * automatically trigger when scrolling.  When this happens, we
+     * lose track of it.  So we track the likely text from the current
+     * section, and if we see that show up again, we put the shine
+     * back on.  We could simplify {@link _loadMoreSections} by
+     * calling {@link show} here as well, but if the user is scrolling
+     * for a reason, it seems rude to pop them back to the section
+     * again.
+     * @param {MutationRecord[]} records - Standard mutation records.
+     * @returns {void}
+     */
+    _mutationHandler(records) {
+      for (const record of records) {
+        if (record.type === 'childList') {
+          for (const node of record.addedNodes) {
+            const newText = node.innerText?.trim().split('\n')[0];
+            if (newText && newText === this._sectionWatchText) {
+              this._sections.shine();
+            }
+          }
+        }
+      }
     }
 
     _nextSection() {
@@ -1193,7 +1235,6 @@
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
       otrot(container, f.bind(this), 3000).then(() => {
-        this._sections.shine();
         this._sections.show();
       });
     }
