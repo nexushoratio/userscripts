@@ -808,6 +808,10 @@
 
   }
 
+  /**
+   * Class for handling aspects common across LinkedIn.
+   * This includs things like the global nav bar, help screen, etc.
+   */
   class Global extends Page {
     _pathname = null;
     _autoRegisteredKeys = [
@@ -823,18 +827,35 @@
       {seq: 'g l', desc: 'Go to Learning', func: this._gotoLearning},
     ];
 
+    /**
+     * The element.id used to identify the help pop-up.
+     * @type {string}
+     */
     get helpId() {
       return this._helpId;
     }
 
+    /**
+     * @param {string} val - Set the value of the help element.id.
+     */
     set helpId(val) {
       this._helpId = val;
     }
 
+    /**
+     * Click on the requested link in the global nav bar.
+     * @param {string} item - Portion of the link to match.
+     * @returns {void}
+     */
     _gotoNavLink(item) {
       clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
+    /**
+     * Click on the requested button in the global nav bar.
+     * @param {string} item - Text on the button to look for.
+     * @returns {void}
+     */
     _gotoNavButton(item) {
       const buttons = Array.from(document.querySelectorAll('#global-nav button'));
       const button = buttons.find(el => el.textContent.includes(item));
@@ -843,44 +864,84 @@
       }
     }
 
+    /**
+     * Open the help pop-up.
+     * @returns {void}
+     */
     _help() {
       const help = document.querySelector(`#${this.helpId}`);
       help.showModal();
       help.focus();
     }
 
+    /**
+     * Navigate to the search bar.
+     * @returns {void}.
+     */
     _gotoSearch() {
       clickElement(document, ['#global-nav-search button']);
     }
 
+    /**
+     * Activate the Home (feed) link.
+     * @returns {void}
+     */
     _goHome() {
       this._gotoNavLink('feed');
     }
 
+    /**
+     * Activate the My Network link.
+     * @returns {void}
+     */
     _gotoMyNetwork() {
       this._gotoNavLink('mynetwork');
     }
 
+    /**
+     * Activate the Jobs link.
+     * @returns {void}
+     */
     _gotoJobs() {
       this._gotoNavLink('jobs');
     }
 
+    /**
+     * Activate the Messaging link.
+     * @returns {void}
+     */
     _gotoMessaging() {
       this._gotoNavLink('messaging');
     }
 
+    /**
+     * Activate the Notifications link.
+     * @returns {void}
+     */
     _gotoNotifications() {
       this._gotoNavLink('notifications');
     }
 
+    /**
+     * Click on the Me button, opening that menu.
+     * @returns {void}
+     */
     _gotoProfile() {
       this._gotoNavButton('Me');
     }
 
+    /**
+     * Click on the For Business button, opening that menu.
+     * @returns {void}
+     */
     _gotoBusiness() {
       this._gotoNavButton('Business');
     }
 
+    /**
+     * Activate the Learning link.
+     * @returns {void}
+     */
     _gotoLearning() {
       this._gotoNavLink('learning');
     }
