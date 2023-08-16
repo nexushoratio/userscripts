@@ -1143,7 +1143,7 @@
 
     constructor() {
       super();
-      this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: true, stackTrace: true});
+      this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
