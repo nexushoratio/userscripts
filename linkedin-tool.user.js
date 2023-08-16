@@ -1186,7 +1186,7 @@
     /**
      * Overly complicated.  The job sections get recreated in toto
      * every time new sections are loaded, whether manually or
-     * automatically trigger when scrolling.  When this happens, we
+     * automatically triggered while scrolling.  When this happens, we
      * lose track of it.  So we track the likely text from the current
      * section, and if we see that show up again, we put the shine
      * back on.  We could simplify {@link _loadMoreSections} by
