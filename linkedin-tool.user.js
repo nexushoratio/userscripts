@@ -23,6 +23,33 @@
   let navBarHeightCss = '0';
 
   /**
+   * Dump a bunch of information about an element.  Currently this
+   * goes to the console and then alerts the user to file a bug.
+   * Eventually this should go into an area that can be brought up in
+   * the help window instead.  TODO(#39).
+   * @param {Element} element - Element to get information about.
+   * @param {string} name - What area this information came from.
+   * @returns {void}
+   */
+  function dumpInfoAboutElement(element, name) {
+    /* eslint-disable no-console */
+    console.clear();
+    console.debug(element);
+    for (const el of element.querySelectorAll('*')) {
+      console.debug(el);
+    }
+    const msg = [
+      `You tried to activate an unsupported ${name}`,
+      'element.  Please file a bug.  If you are comfortable',
+      'with using the browser\'s Developer Tools (often the',
+      'F12 key), consider sharing the information just logged',
+      'in the console / debug view.',
+    ];
+    alert(msg.join(' '));
+    /* eslint-enable */
+  }
+
+  /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
    * @param {string} s - String to hash.
    * @returns {string} - Hash value.
@@ -1423,17 +1450,7 @@
             if (links.length === 1) {
               links[0].click();
             } else {
-              for (const el of notification.querySelectorAll('*')) {
-                console.debug(el);  // eslint-disable-line no-console
-              }
-              const msg = [
-                'You tried to activate an unsupported notification',
-                'element.  Please file a bug.  If you are comfortable',
-                'with using the browser\'s Developer Tools (often the',
-                'F12 key), consider sharing the information just logged',
-                'in the console / debug view.',
-              ];
-              alert(msg.join(' '));
+              dumpInfoAboutElement(notification, 'notification');
             }
           }
         }
