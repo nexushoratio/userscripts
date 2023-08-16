@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.5.10
+// @version     2.6.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1221,15 +1221,19 @@
     _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next section', func: this._nextSection},
       {seq: 'k', desc: 'Previous section', func: this._prevSection},
-      {seq: '<', desc: 'Go to to first section', func: this._firstSection},
-      {seq: '>', desc: 'Go to last section currently loaded', func: this._lastSection},
-      {seq: 'f', desc: 'Change browser focus to current section', func: this._focusBrowser},
-      {seq: 'l', desc: 'Load more sections', func: this._loadMoreSections},
+      {seq: 'n', desc: 'Next job', func: this._nextJob},
+      {seq: 'p', desc: 'Previous job', func: this._prevJob},
+      {seq: '<', desc: 'Go to to first section or job', func: this._firstSectionOrJob},
+      {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
+      {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
+      {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
+      {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
     ];
 
     _sectionScroller = null;
     _sectionsMO = null;
     _sectionWatchText = '';
+    _jobScroller = null;
 
     constructor() {
       super();
@@ -1258,6 +1262,25 @@
       return this._sectionScroller;
     }
 
+    get _jobs() {
+      if (!this._jobScroller && this._sections.item) {
+        this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], this._uniqueJobIdentifier, ['dick'], false, {enabled: false});
+        this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
+      }
+      return this._jobScroller;
+    }
+
+    set _jobs(val) {
+      if (this._jobScroller) {
+        this._jobScroller.destroy();
+        this._jobScroller = null;
+      }
+    }
+
+    get _hasActiveJob() {
+      return this._jobs && this._jobs.item;
+    }
+
     _uniqueIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
@@ -1267,8 +1290,41 @@
       return strHash(content);
     }
 
+    // Complicated because there are so many variations.
+    _uniqueJobIdentifier(element) {
+      let content = element.innerText;
+      let options = element.querySelectorAll('a[data-control-id]');
+      if (options.length === 1) {
+        content = options[0].dataset.controlId;
+      } else {
+        options = element.querySelectorAll('a[id]');
+        if (options.length === 1) {
+          content = options[0].id;
+        } else {
+          let s = '';
+          for (const img of element.querySelectorAll('img[alt]')) {
+            s += img.alt;
+          }
+          if (s) {
+            content = s;
+          } else {
+            options = element.querySelectorAll('.jobs-home-upsell-card__container');
+            if (options.length === 1) {
+              content = options[0].className;
+            }
+          }
+        }
+      }
+      return strHash(content);
+    }
+
+    _returnToSection() {
+      this._sections.item = this._sections.item;
+    }
+
     _onChange() {
       this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
+      this._jobs = null;
     }
 
     /**
@@ -1305,16 +1361,33 @@
       this._sections.prev();
     }
 
-    _firstSection() {
-      this._sections.first();
+    _nextJob() {
+      this._jobs.next();
     }
 
-    _lastSection() {
-      this._sections.last();
+    _prevJob() {
+      this._jobs.prev();
+    }
+
+    _firstSectionOrJob() {
+      if (this._hasActiveJob) {
+        this._jobs.first();
+      } else {
+        this._sections.first();
+      }
+    }
+
+    _lastSectionOrJob() {
+      if (this._hasActiveJob) {
+        this._jobs.last();
+      } else {
+        this._sections.last();
+      }
     }
 
     _focusBrowser() {
-      focusOnElement(this._sections.item);
+      const el = this._jobs.item ?? this._sections.item;
+      focusOnElement(el);
     }
 
     _loadMoreSections() {
@@ -1325,6 +1398,18 @@
       otrot(container, f.bind(this), 3000).then(() => {
         this._sections.show();
       });
+    }
+
+    _activateJob() {
+      const job = this._jobs?.item;
+      if (job) {
+        if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
+          dumpInfoAboutElement(job, 'job')
+        }
+      } else {
+        // Again, because we use Enter as the hotkey for this action.
+        document.activeElement.click();
+      }
     }
   }
 
