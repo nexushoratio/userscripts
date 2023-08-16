@@ -735,10 +735,10 @@
     }
 
     /**
-      * Turns on this Page's features.  Called by {@link Pages} when
-      * this becomes the current view.
-      * @returns {void}
-      */
+     * Turns on this Page's features.  Called by {@link Pages} when
+     * this becomes the current view.
+     * @returns {void}
+     */
     activate() {
       this._keyboard.enable();
       this._enableOnClick();
@@ -903,7 +903,7 @@
 
     /**
      * Navigate to the search bar.
-     * @returns {void}.
+     * @returns {void}
      */
     _gotoSearch() {
       clickElement(document, ['#global-nav-search button']);
