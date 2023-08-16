@@ -1268,7 +1268,7 @@
     }
 
     _onChange() {
-      this._sectionWatchText = this._sections.item.innerText.trim().split('\n')[0];
+      this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
     }
 
     /**
