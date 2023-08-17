@@ -1716,11 +1716,7 @@
     }
 
     static _loadMoreNotifications() {
-      const buttons = Array.from(document.querySelectorAll('main section button'));
-      const button = buttons.find(el => el.textContent.includes('Show more results'));
-      if (button) {
-        button.click();
-      }
+      clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
     }
 
   }
