@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.6.1
+// @version     2.6.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1404,7 +1404,7 @@
 
     get _jobs() {
       if (!this._jobScroller && this._sections.item) {
-        this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], this._uniqueJobIdentifier, ['dick'], false, {enabled: false});
+        this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], Jobs._uniqueJobIdentifier, ['dick'], false, {enabled: false});
         this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
       }
       return this._jobScroller;
