@@ -1355,6 +1355,15 @@
 
   }
 
+  /**
+   * Class for handling the base Jobs page.
+   *
+   * This particular page requires a lot of careful monitoring.
+   * Unlike other pages, this one will destroy and recreate HTML
+   * elements, often with the exact same content, every time something
+   * interesting happens.  Like loading more sections or jobs, or
+   * toggling state of a job.
+   */
   class Jobs extends Page {
     _pathname = '/jobs/';
     _onClickSelector = 'main';
@@ -1377,6 +1386,9 @@
     _sectionWatchText = '';
     _jobScroller = null;
 
+    /**
+     * Create the Jobs; includes instantiating the sections {@link Scroller}.
+     */
     constructor() {
       super();
       this._sectionScroller = new Scroller(document.body, ['main section'], Jobs._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
@@ -1385,6 +1397,7 @@
       this._sectionsMO = new MutationObserver(this._mutationHandler.bind(this));
     }
 
+    /** @inheritdoc */
     _onClick(evt) {
       const section = evt.target.closest('section');
       if (section) {
@@ -1392,6 +1405,7 @@
       }
     }
 
+    /** @inheritdoc */
     _refresh() {
       this._sections.show();
       // The div does get recreated, so setting the observer again is
@@ -1400,10 +1414,16 @@
       this._sectionsMO.observe(el, {childList: true});
     }
 
+    /**
+     * @type {Scroller}
+     */
     get _sections() {
       return this._sectionScroller;
     }
 
+    /**
+     * @type {Scroller}
+     */
     get _jobs() {
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], Jobs._uniqueJobIdentifier, ['dick'], false, {enabled: false});
@@ -1412,6 +1432,10 @@
       return this._jobScroller;
     }
 
+    /**
+     * @param {null} val - Hack; should only be used to reset the
+     * {@link Scroller}.
+     */
     set _jobs(val) {
       if (this._jobScroller) {
         this._jobScroller.destroy();
@@ -1419,10 +1443,18 @@
       }
     }
 
+    /**
+     * @type {boolean}
+     */
     get _hasActiveJob() {
       return this._jobs && this._jobs.item;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static _uniqueIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
@@ -1432,7 +1464,12 @@
       return strHash(content);
     }
 
-    // Complicated because there are so many variations.
+    /**
+     * Complicated because there are so many variations.
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static _uniqueJobIdentifier(element) {
       let content = element.innerText;
       let options = element.querySelectorAll('a[data-control-id]');
@@ -1460,19 +1497,27 @@
       return strHash(content);
     }
 
+    /**
+     * Reselects current section, triggering same actions as initial
+     * selection.
+     * @returns {void}
+     */
     _returnToSection() {
       this._sections.item = this._sections.item;
     }
 
+    /**
+     * Updates {@link Jobs} specific watcher text and removes the jobs
+     * {@link Scroller}.
+     * @returns {void}
+     */
     _onChange() {
       this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
       this._jobs = null;
     }
 
     /**
-     * This page is a peculiar beast.  Elements of interests get torn
-     * down and rebuilt with the same content all the time.  This
-     * function tries to recover from that.
+     * Recover scroll position after elements were recreated.
      * @param {number} topScroll - Where to scroll to.
      * @returns {void}
      */
@@ -1514,22 +1559,42 @@
       }
     }
 
+    /**
+     * Select the next section.
+     * @returns {void}
+     */
     _nextSection() {
       this._sections.next();
     }
 
+    /**
+     * Select the previous section.
+     * @returns {void}
+     */
     _prevSection() {
       this._sections.prev();
     }
 
+    /**
+     * Select the next job.
+     * @returns {void}
+     */
     _nextJob() {
       this._jobs.next();
     }
 
+    /**
+     * Select the previous job.
+     * @returns {void}
+     */
     _prevJob() {
       this._jobs.prev();
     }
 
+    /**
+     * Select the first section or job.
+     * @returns {void}
+     */
     _firstSectionOrJob() {
       if (this._hasActiveJob) {
         this._jobs.first();
@@ -1538,6 +1603,10 @@
       }
     }
 
+    /**
+     * Select the last section or job.
+     * @returns {void}
+     */
     _lastSectionOrJob() {
       if (this._hasActiveJob) {
         this._jobs.last();
@@ -1546,6 +1615,10 @@
       }
     }
 
+    /**
+     * Change browser focus to the current section or job.
+     * @returns {void}
+     */
     _focusBrowser() {
       const el = this._jobs.item ?? this._sections.item;
       this._sections.show();
@@ -1553,9 +1626,18 @@
       focusOnElement(el);
     }
 
+    /**
+     * Load more sections (or jobs in some cases).
+     * @returns {void}
+     */
     _loadMoreSections() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
+
+      /**
+       * Trigger function for {@link otrot}.
+       * @returns {void}
+       */
       function trigger() {
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
@@ -1564,6 +1646,10 @@
       });
     }
 
+    /**
+     * Activate the current job.
+     * @returns {void}
+     */
     _activateJob() {
       const job = this._jobs?.item;
       if (job) {
