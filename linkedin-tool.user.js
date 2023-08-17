@@ -815,6 +815,7 @@
             // Turns off VM.observe once selector found.
             return true;
           }
+          return false;
         });
       }
     }

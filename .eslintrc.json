@@ -17,7 +17,7 @@
     "camelcase": "error",
     "capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
     "class-methods-use-this": "error",
-    "consistent-return": "off",  // TODO(#68): investigate
+    "consistent-return": "error",
     "curly": "off",  // TODO(#68): investigate
     "func-names": "off",  // TODO(#68): investigate
     "func-style": "off",  // TODO(#68): investigate
