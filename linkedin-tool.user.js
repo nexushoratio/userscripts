@@ -1317,6 +1317,8 @@
      */
     _focusBrowser() {
       const el = this._comments.item ?? this._posts.item;
+      this._posts.show();
+      this._comments?.show();
       focusOnElement(el);
     }
 
@@ -1536,6 +1538,8 @@
 
     _focusBrowser() {
       const el = this._jobs.item ?? this._sections.item;
+      this._sections.show();
+      this._jobs?.show();
       focusOnElement(el);
     }
 
