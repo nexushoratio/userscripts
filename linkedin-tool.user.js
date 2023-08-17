@@ -993,6 +993,7 @@
 
   }
 
+  /** Class for handling the Posts feed. */
   class Feed extends Page {
     _pathname = '/feed/';
     _onClickSelector = 'main';
@@ -1020,6 +1021,9 @@
     _postScroller = null;
     _commentScroller = null;
 
+    /**
+     * Create the Feed; includes instantiating the posts {@link Scroller}.
+     */
     constructor() {
       super();
       this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
@@ -1027,6 +1031,7 @@
       this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
     }
 
+    /** @inheritdoc */
     _onClick(evt) {
       const post = evt.target.closest('div[data-id]');
       if (post && post !== this._posts.item) {
@@ -1034,8 +1039,15 @@
       }
     }
 
+    /** @inheritdoc */
     _refresh() {
-      // Need to wait for the post to be reloaded
+
+      /**
+       * Wait for the post to be reloaded.
+       * @implements {Monitor}
+       * @param {MutationRecord[]} records - Standard mutation records.
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
       function f(records) {
         for (const record of records) {
           if (record.oldValue.includes('has-occluded-height')) {
@@ -1052,10 +1064,16 @@
       }
     }
 
+    /**
+     * @type {Scroller}
+     */
     get _posts() {
       return this._postScroller;
     }
 
+    /**
+     * @type {Scroller}
+     */
     get _comments() {
       if (!this._commentScroller && this._posts.item) {
         this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
@@ -1064,6 +1082,10 @@
       return this._commentScroller;
     }
 
+    /**
+     * @param {null} val - Hack; should only be used to reset the
+     * {@link Scroller}.
+     */
     set _comments(val) {
       if (this._commentScroller) {
         this._commentScroller.destroy();
@@ -1071,10 +1093,18 @@
       }
     }
 
+    /**
+     * @type {boolean}
+     */
     get _hasActiveComment() {
       return this._comments && this._comments.item;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     _uniqueIdentifier(element) {
       if (element) {
         return element.dataset.id;
@@ -1083,19 +1113,41 @@
       }
     }
 
+    /**
+     * Reselects current post, triggering same actions as initial
+     * selection.
+     * @returns {void}
+     */
     _returnToPost() {
       this._posts.item = this._posts.item;
     }
 
+    /**
+     * Removes the comments {@link Scroller}.
+     * @returns {void}
+     */
     _changedPost() {
       this._comments = null;
     }
 
+    /**
+     * Select the next post.
+     * @returns {void}
+     */
     _nextPost() {
       this._posts.next();
     }
 
+    /**
+     * Toggle hiding current post then select the next.
+     * @returns {void}
+     */
     _nextPostPlus() {
+
+      /**
+       * Trigger function for {@link otrot}.
+       * @returns {void}
+       */
       function f() {
         this._togglePost();
         this._nextPost();
@@ -1108,43 +1160,79 @@
       }).catch(e => console.error(e));  // eslint-disable-line no-console
     }
 
+    /**
+     * Select the previous post.
+     * @returns {void}
+     */
     _prevPost() {
       this._posts.prev();
     }
 
+    /**
+     * Toggle hiding the current post then select the previous.
+     * @returns {void}
+     */
     _prevPostPlus() {
       this._togglePost();
       this._prevPost();
     }
 
+    /**
+     * Select the next comment.
+     * @returns {void}
+     */
     _nextComment() {
       this._comments.next();
     }
 
+    /**
+     * Select the previous comment.
+     * @returns {void}
+     */
     _prevComment() {
       this._comments.prev();
     }
 
+    /**
+     * Toggles hiding the current post.
+     * @returns {void}
+     */
     _togglePost() {
       clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
     }
 
+    /**
+     * Show more comments on the current post.
+     * @returns {void}
+     */
     _showComments() {
       if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
         clickElement(this._posts.item, ['button[aria-label*="comment"]']);
       }
     }
 
+    /**
+     * Show more content of the current post or comment.
+     * @returns {void}
+     */
     _seeMore() {
       const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="see more"]']);
     }
 
+    /**
+     * Like the current post or comment via reactions menu.
+     * @returns {void}
+     */
     _likePostOrComment() {
       const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     }
 
+    /**
+     * Select the first post or comment.
+     * @returns {void}
+     */
     _firstPostOrComment() {
       if (this._hasActiveComment) {
         this._comments.first();
@@ -1153,6 +1241,10 @@
       }
     }
 
+    /**
+     * Select the last post or comment.
+     * @returns {void}
+     */
     _lastPostOrComment() {
       if (this._hasActiveComment) {
         this._comments.last();
@@ -1161,10 +1253,19 @@
       }
     }
 
+    /**
+     * Load more posts.
+     * @returns {void}
+     */
     _loadMorePosts() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       const initialPost = this._posts.item;
       const initialComment = this._comments.item;
+
+      /**
+       * Trigger function for {@link otrot}.
+       * @returns {void}
+       */
       function f() {
         this._posts.first();
         if (!clickElement(this._posts.item, ['div.feed-new-update-pill button'])) {
@@ -1179,6 +1280,10 @@
       });
     }
 
+    /**
+     * Move browser focus to the share box.
+     * @returns {void}
+     */
     _gotoShare() {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
       share.style.scrollMarginTop = navBarHeightCss;
@@ -1186,6 +1291,10 @@
       share.querySelector('button').focus();
     }
 
+    /**
+     * Open the (⋯) menu for the current item.
+     * @returns {void}
+     */
     _openMeatballMenu() {
       // XXX In this case, the identifier is on an svg element, not
       // the button, so use the parentElement.  When Firefox [fully
@@ -1201,11 +1310,19 @@
       }
     }
 
+    /**
+     * Change browser focus to the current post or comment.
+     * @returns {void}
+     */
     _focusBrowser() {
       const el = this._comments.item ?? this._posts.item;
       focusOnElement(el);
     }
 
+    /**
+     * Navigate the the standalone page for the current post.
+     * @returns {void}
+     */
     _viewPost() {
       const post = this._posts.item;
       if (post) {
@@ -1222,6 +1339,10 @@
       }
     }
 
+    /**
+     * Open the Reactions summary pop-up.
+     * @returns {void}
+     */
     _viewReactions() {
       // Bah!  The queries are annoyingly different.
       if (this._comments.item) {
