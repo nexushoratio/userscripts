@@ -130,7 +130,7 @@
    * @param {Element} base - Element to observe.
    * @param {?function()} trigger - Function to call that triggers observable events.
    * @param {number} timeout - Time to wait for completion in milliseconds, 0 disables.
-   * @returns {promise} - Will resolve with the results from monitor.
+   * @returns {Promise} - Will resolve with the base element.
    */
   function otrot(base, trigger, timeout) {
     const prom = new Promise((resolve, reject) => {
@@ -158,18 +158,29 @@
   }
 
   /**
+   * @typedef {object} Continuation
+   * @property {boolean} done - Indicate whether the monitor is done processing.
+   * @property {?object} results - Optional results object.
+   */
+
+  /**
+   * @callback Monitor
+   * @param {MutationRecord[]} records - Standard mutation records.
+   * @returns {Continuation} - Indicate whether done monitoring.
+   */
+
+  /**
    * One time mutation observer with timeout.
    * @param {Element} base - Element to observe.
    * @param {object}  options - MutationObserver().observe() options.
-   * @param {function(MutationRecord[]): {done: boolean, results:
-   * object}} monitor - Callback used to process all MutationObserver
-   * records.
+   * @param {Monitor} monitor - Callback used to process
+   * MutationObserver records.
    * @param {?function()} trigger - Function to call that triggers
    * observable resultsl
    * @param {number} timeout - Time to wait for completion in
    * milliseconds, 0 disables.
-   * @returns {promise} - Will resolve with the results from monitor
-   * when done is true.
+   * @returns {Promise<Continuation.results>} - Will resolve with the
+   * results from monitor when done is true.
    */
   function otmot(base, options, monitor, trigger, timeout) {
     const prom = new Promise((resolve, reject) => {
