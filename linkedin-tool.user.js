@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.6.3
+// @version     2.6.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1008,7 +1008,7 @@
       {seq: 'c', desc: 'Show comments', func: this._showComments},
       {seq: 'n', desc: 'Next comment', func: this._nextComment},
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
-      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: this._loadMorePosts},
+      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
       {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
       {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
@@ -1258,26 +1258,24 @@
      * Load more posts.
      * @returns {void}
      */
-    _loadMorePosts() {
+    static _loadMorePosts() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
-      const initialPost = this._posts.item;
-      const initialComment = this._comments.item;
+      const savedScrollTop = document.documentElement.scrollTop;
 
       /**
        * Trigger function for {@link otrot}.
        * @returns {void}
        */
-      function f() {
-        this._posts.first();
-        if (!clickElement(this._posts.item, ['div.feed-new-update-pill button'])) {
-          this._posts.item = initialPost;
-          this._comments.item = initialComment;
+      function trigger() {
+        if (clickElement(document, ['main div.feed-new-update-pill button'])) {
+          // eslint-disable-next-line no-console
+          console.debug('We need to do more when clicking the top load more button because it takes longer to recover.  Just not sure what.  Maybe otmot instead of otrot.');
+        } else {
           clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
         }
       }
-      otrot(container, f.bind(this), 3000).then(() => {
-        this._posts.show();
-        this._comments.show();
+      otrot(container, trigger, 3000).then(() => {
+        document.documentElement.scrollTop = savedScrollTop;
       });
     }
 
@@ -1470,6 +1468,25 @@
     }
 
     /**
+     * This page is a peculiar beast.  Elements of interests get torn
+     * down and rebuilt with the same content all the time.  This
+     * function tries to recover from that.
+     * @param {number} topScroll - Where to scroll to.
+     * @returns {void}
+     */
+    _resetScroll(topScroll) {
+      // Explicitly setting jobs.item below will cause it to
+      // scroll to that item.  We do not want to do that if
+      // the user is manually scrolling.
+      const job = this._jobs.item;
+      this._sections.shine();
+      // Section was probably rebuilt, assume jobs scroller is invalid.
+      this._jobs = null;
+      this._jobs.item = job;
+      document.documentElement.scrollTop = topScroll;
+    }
+
+    /**
      * Overly complicated.  The job sections get recreated in toto
      * every time new sections are loaded, whether manually or
      * automatically triggered while scrolling.  When this happens, we
@@ -1488,16 +1505,7 @@
           for (const node of record.addedNodes) {
             const newText = node.innerText?.trim().split('\n')[0];
             if (newText && newText === this._sectionWatchText) {
-              // Explicitly setting jobs.item below will cause it to
-              // scroll to that item.  We do not want to do that if
-              // the user is manually scrolling.
-              const saveScrollTop = document.documentElement.scrollTop;
-              const job = this._jobs.item;
-              this._sections.shine();
-              // Section was rebuilt, old jobs scroller is invalid.
-              this._jobs = null;
-              this._jobs.item = job;
-              document.documentElement.scrollTop = saveScrollTop;
+              this._resetScroll(document.documentElement.scrollTop);
             }
           }
         }
@@ -1545,12 +1553,12 @@
 
     _loadMoreSections() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
-      function f() {
+      const savedScrollTop = document.documentElement.scrollTop;
+      function trigger() {
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
-      otrot(container, f.bind(this), 3000).then(() => {
-        this._sections.show();
-        this._jobs?.show();
+      otrot(container, trigger, 3000).then(() => {
+        this._resetScroll(savedScrollTop);
       });
     }
 
@@ -1716,7 +1724,15 @@
     }
 
     static _loadMoreNotifications() {
-      clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+      const container = document.querySelector('div.scaffold-finite-scroll__content');
+      const savedScrollTop = document.documentElement.scrollTop;
+
+      function trigger() {
+        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+      }
+      otrot(container, trigger, 3000).then(() => {
+        document.documentElement.scrollTop = savedScrollTop;
+      });
     }
 
   }
