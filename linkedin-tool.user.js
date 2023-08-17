@@ -1814,27 +1814,20 @@
         // It may be that notifications are settling on 'a.nt-card__headline'.
         function matchesKnownText(el) { // eslint-disable-line no-inner-declarations
           if (el.innerText === 'Apply early') return true;
+          if (el.innerText === 'Undo') return true;
           return false;
         }
 
-        // Debugging code.
-        if (notification.querySelectorAll('a.nt-card__headline').length === 1 && notification.querySelector('button.message-anywhere-button')) {
-          console.debug(notification);  // eslint-disable-line no-console
-          alert('Yes, can be simplified');
-        }
-
-        if (!clickElement(notification, ['button.message-anywhere-button'])) {
-          const buttons = Array.from(notification.querySelectorAll('button'));
-          const button = buttons.find(matchesKnownText);
-          if (button) {
-            button.click();
+        const buttons = Array.from(notification.querySelectorAll('button'));
+        const button = buttons.find(matchesKnownText);
+        if (button) {
+          button.click();
+        } else {
+          const elements = notification.querySelectorAll('.nt-card__headline');
+          if (elements.length === 1) {
+            elements[0].click();
           } else {
-            const links = notification.querySelectorAll('a.nt-card__headline');
-            if (links.length === 1) {
-              links[0].click();
-            } else {
-              dumpInfoAboutElement(notification, 'notification');
-            }
+            dumpInfoAboutElement(notification, 'notification');
           }
         }
       } else {
