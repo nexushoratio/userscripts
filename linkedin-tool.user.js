@@ -293,11 +293,18 @@
     _historicalIdToIndex = new Map();
 
     /**
+     * Function that generates a, preferably, reproducible unique
+     * identifier for an Element.
+     * @callback uidCallback
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+
+    /**
      * @param {Element} base - The container element.
      * @param {string[]} selectors - Array of CSS selectors to find
      * elements to collect, calling base.querySelectorAll().
-     * @param {function(Element): string} uidCallback - Function that,
-     * given an element, returns a unique identifier for it.
+     * @param {uidCallback} uidCallback - Callback to generate a uid.
      * @param {string[]} classes - Array of CSS classes to add/remove
      * from an element as it becomes current.
      * @param {boolean} snapToTop - Whether items should snap to the
