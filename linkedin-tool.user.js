@@ -1642,6 +1642,7 @@
     }
 
     _focusBrowser() {
+      this._notifications.show();
       focusOnElement(this._notifications.item);
     }
 
