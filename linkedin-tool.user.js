@@ -1049,7 +1049,7 @@
        * @param {MutationRecord[]} records - Standard mutation records.
        * @returns {Continuation} - Indicate whether done monitoring.
        */
-      function f(records) {
+      function monitor(records) {
         for (const record of records) {
           if (record.oldValue.includes('has-occluded-height')) {
             return {done: true};
@@ -1058,7 +1058,7 @@
         return {done: false};
       }
       if (this._posts.item) {
-        otmot(this._posts.item, {attributeFilter: ['class'], attributes: true, attributeOldValue: true}, f, null, 5000).finally(() => {
+        otmot(this._posts.item, {attributeFilter: ['class'], attributes: true, attributeOldValue: true}, monitor, null, 5000).finally(() => {
           this._posts.shine();
           this._posts.show();
         });
