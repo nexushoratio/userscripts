@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.6.4
+// @version     2.7.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1368,6 +1368,8 @@
       {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
       {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
       {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
+      {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
+      {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
     ];
 
     _sectionScroller = null;
@@ -1573,6 +1575,51 @@
         document.activeElement.click();
       }
     }
+
+    /**
+     * Toggles saving the current job.
+     * @returns {void}
+     */
+    _toggleSaveJob() {
+      const savedJob = this._jobs?.item;
+
+      /**
+       * Trigger function for {@link otrot}.  Because, of course jobs
+       * needs it.
+       * @returns {void}
+       */
+      function trigger() {
+        clickElement(this._jobs.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
+      }
+      if (savedJob) {
+        otrot(this._sections.item, trigger.bind(this), 3000).then(() => {
+          this._jobs.item = savedJob;
+        });
+      }
+    }
+
+    /**
+     * Toggles dismissing the current job.
+     * @returns {void}
+     */
+    _toggleDismissJob() {
+      const savedJob = this._jobs.item;
+
+      /**
+       * Trigger function for {@link otrot}.  Because, of course jobs
+       * needs it.
+       * @returns {void}
+       */
+      function trigger() {
+        clickElement(this._jobs.item, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
+      }
+      if (savedJob) {
+        otrot(this._sections.item, trigger.bind(this), 3000).then(() => {
+          this._jobs.item = savedJob;
+        });
+      }
+    }
+
   }
 
   class JobsCollections extends Page {
