@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.6.0
+// @version     2.6.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -849,6 +849,7 @@
      * @returns {void}
      */
     _refresh() {
+      this;
     }
 
   }
@@ -861,15 +862,15 @@
     _pathname = null;
     _autoRegisteredKeys = [
       {seq: '?', desc: 'Show keyboard help', func: this._help},
-      {seq: '/', desc: 'Go to Search box', func: this._gotoSearch},
-      {seq: 'g h', desc: 'Go Home (aka, Feed)', func: this._goHome},
-      {seq: 'g m', desc: 'Go to My Network', func: this._gotoMyNetwork},
-      {seq: 'g j', desc: 'Go to Jobs', func: this._gotoJobs},
-      {seq: 'g g', desc: 'Go to Messaging', func: this._gotoMessaging},
-      {seq: 'g n', desc: 'Go to Notifications', func: this._gotoNotifications},
-      {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: this._gotoProfile},
-      {seq: 'g b', desc: 'Go to Business', func: this._gotoBusiness},
-      {seq: 'g l', desc: 'Go to Learning', func: this._gotoLearning},
+      {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
+      {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
+      {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
+      {seq: 'g j', desc: 'Go to Jobs', func: Global._gotoJobs},
+      {seq: 'g g', desc: 'Go to Messaging', func: Global._gotoMessaging},
+      {seq: 'g n', desc: 'Go to Notifications', func: Global._gotoNotifications},
+      {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
+      {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
+      {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
     ];
 
     /**
@@ -892,7 +893,7 @@
      * @param {string} item - Portion of the link to match.
      * @returns {void}
      */
-    _gotoNavLink(item) {
+    static _gotoNavLink(item) {
       clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
@@ -901,7 +902,7 @@
      * @param {string} item - Text on the button to look for.
      * @returns {void}
      */
-    _gotoNavButton(item) {
+    static _gotoNavButton(item) {
       const buttons = Array.from(document.querySelectorAll('#global-nav button'));
       const button = buttons.find(el => el.textContent.includes(item));
       if (button) {
@@ -923,7 +924,7 @@
      * Navigate to the search bar.
      * @returns {void}
      */
-    _gotoSearch() {
+    static _gotoSearch() {
       clickElement(document, ['#global-nav-search button']);
     }
 
@@ -931,64 +932,64 @@
      * Activate the Home (feed) link.
      * @returns {void}
      */
-    _goHome() {
-      this._gotoNavLink('feed');
+    static _goHome() {
+      Global._gotoNavLink('feed');
     }
 
     /**
      * Activate the My Network link.
      * @returns {void}
      */
-    _gotoMyNetwork() {
-      this._gotoNavLink('mynetwork');
+    static _gotoMyNetwork() {
+      Global._gotoNavLink('mynetwork');
     }
 
     /**
      * Activate the Jobs link.
      * @returns {void}
      */
-    _gotoJobs() {
-      this._gotoNavLink('jobs');
+    static _gotoJobs() {
+      Global._gotoNavLink('jobs');
     }
 
     /**
      * Activate the Messaging link.
      * @returns {void}
      */
-    _gotoMessaging() {
-      this._gotoNavLink('messaging');
+    static _gotoMessaging() {
+      Global._gotoNavLink('messaging');
     }
 
     /**
      * Activate the Notifications link.
      * @returns {void}
      */
-    _gotoNotifications() {
-      this._gotoNavLink('notifications');
+    static _gotoNotifications() {
+      Global._gotoNavLink('notifications');
     }
 
     /**
      * Click on the Me button, opening that menu.
      * @returns {void}
      */
-    _gotoProfile() {
-      this._gotoNavButton('Me');
+    static _gotoProfile() {
+      Global._gotoNavButton('Me');
     }
 
     /**
      * Click on the For Business button, opening that menu.
      * @returns {void}
      */
-    _gotoBusiness() {
-      this._gotoNavButton('Business');
+    static _gotoBusiness() {
+      Global._gotoNavButton('Business');
     }
 
     /**
      * Activate the Learning link.
      * @returns {void}
      */
-    _gotoLearning() {
-      this._gotoNavLink('learning');
+    static _gotoLearning() {
+      Global._gotoNavLink('learning');
     }
 
   }
@@ -1014,7 +1015,7 @@
       {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
-      {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: this._gotoShare},
+      {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
       {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
     ];
 
@@ -1026,7 +1027,7 @@
      */
     constructor() {
       super();
-      this._postScroller = new Scroller(document.body, ['main div[data-id]'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
+      this._postScroller = new Scroller(document.body, ['main div[data-id]'], Feed._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
       this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
     }
@@ -1076,7 +1077,7 @@
      */
     get _comments() {
       if (!this._commentScroller && this._posts.item) {
-        this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], this._uniqueIdentifier, ['dick'], false);
+        this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], Feed._uniqueIdentifier, ['dick'], false);
         this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
       }
       return this._commentScroller;
@@ -1105,7 +1106,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    _uniqueIdentifier(element) {
+    static _uniqueIdentifier(element) {
       if (element) {
         return element.dataset.id;
       } else {
@@ -1284,7 +1285,7 @@
      * Move browser focus to the share box.
      * @returns {void}
      */
-    _gotoShare() {
+    static _gotoShare() {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
       share.style.scrollMarginTop = navBarHeightCss;
       share.scrollIntoView();
@@ -1376,7 +1377,7 @@
 
     constructor() {
       super();
-      this._sectionScroller = new Scroller(document.body, ['main section'], this._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
+      this._sectionScroller = new Scroller(document.body, ['main section'], Jobs._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._sectionScroller.dispatcher.on('change', this._onChange.bind(this));
       this._sectionsMO = new MutationObserver(this._mutationHandler.bind(this));
@@ -1420,7 +1421,7 @@
       return this._jobs && this._jobs.item;
     }
 
-    _uniqueIdentifier(element) {
+    static _uniqueIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
       if (h2) {
@@ -1430,7 +1431,7 @@
     }
 
     // Complicated because there are so many variations.
-    _uniqueJobIdentifier(element) {
+    static _uniqueJobIdentifier(element) {
       let content = element.innerText;
       let options = element.querySelectorAll('a[data-control-id]');
       if (options.length === 1) {
@@ -1564,7 +1565,7 @@
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
       {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
       {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
-      {seq: 'l', desc: 'Load more notifications', func: this._loadMoreNotifications},
+      {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
       {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
       {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
       {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
@@ -1575,7 +1576,7 @@
 
     constructor() {
       super();
-      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], this._uniqueIdentifier, ['tom'], false, {enabled: false, strackTrace: true});
+      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], Notifications._uniqueIdentifier, ['tom'], false, {enabled: false, strackTrace: true});
       this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
@@ -1598,7 +1599,7 @@
     // Complicated because there are so many variations in
     // notification cards.  We do not want to use reaction counts
     // because they can change too quickly.
-    _uniqueIdentifier(element) {
+    static _uniqueIdentifier(element) {
       let content = element.innerText;
       if (element.childElementCount === 3) {
         let content = element.children[1].innerText;
@@ -1699,7 +1700,7 @@
       }
     }
 
-    _loadMoreNotifications() {
+    static _loadMoreNotifications() {
       const buttons = Array.from(document.querySelectorAll('main section button'));
       const button = buttons.find(el => el.textContent.includes('Show more results'));
       if (button) {
@@ -1718,7 +1719,7 @@
 
     constructor() {
       this._id = crypto.randomUUID();
-      this._installNavStyle();
+      Pages._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
@@ -1749,7 +1750,7 @@
       this.activate(evt.detail.url.pathname);
     }
 
-    _installNavStyle() {
+    static _installNavStyle() {
       const style = document.createElement('style');
       style.textContent += '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }';
       style.textContent += '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }';
@@ -1774,12 +1775,12 @@
     }
 
     // ThisPage -> This Page
-    _parseHeader(text) {
+    static _parseHeader(text) {
       return text.replace(/([A-Z])/g, ' $1').trim();
     }
 
     // 'a b' -> '<kbd>a</kbd> then <kbd>b</kbd>'
-    _parseSeq(seq) {
+    static _parseSeq(seq) {
       const letters = seq.split(' ').map(w => `<kbd>${w}</kbd>`);
       const s = letters.join(' then ');
       return s;
@@ -1787,10 +1788,10 @@
 
     _addHelp(page) {
       const help = document.querySelector(`#${this._helpId} tbody`);
-      const section = this._parseHeader(page.helpHeader);
+      const section = Pages._parseHeader(page.helpHeader);
       let s = `<tr><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.helpContent) {
-        const keys = this._parseSeq(seq);
+        const keys = Pages._parseSeq(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
