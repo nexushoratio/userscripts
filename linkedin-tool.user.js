@@ -35,12 +35,13 @@
     /* eslint-disable no-console */
     console.clear();
     console.debug(element);
+    console.debug(element.innerText);
     for (const el of element.querySelectorAll('*')) {
       console.debug(el);
     }
     const msg = [
-      `You tried to activate an unsupported ${name}`,
-      'element.  Please file a bug.  If you are comfortable',
+      `An unsupported unsupported ${name} element was`,
+      'discovered.  Please file a bug.  If you are comfortable',
       'with using the browser\'s Developer Tools (often the',
       'F12 key), consider sharing the information just logged',
       'in the console / debug view.',
