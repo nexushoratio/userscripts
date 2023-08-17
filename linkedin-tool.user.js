@@ -1486,7 +1486,16 @@
           for (const node of record.addedNodes) {
             const newText = node.innerText?.trim().split('\n')[0];
             if (newText && newText === this._sectionWatchText) {
+              // Explicitly setting jobs.item below will cause it to
+              // scroll to that item.  We do not want to do that if
+              // the user is manually scrolling.
+              const saveScrollTop = document.documentElement.scrollTop;
+              const job = this._jobs.item;
               this._sections.shine();
+              // Section was rebuilt, old jobs scroller is invalid.
+              this._jobs = null;
+              this._jobs.item = job;
+              document.documentElement.scrollTop = saveScrollTop;
             }
           }
         }
@@ -1537,6 +1546,7 @@
       }
       otrot(container, f.bind(this), 3000).then(() => {
         this._sections.show();
+        this._jobs?.show();
       });
     }
 
