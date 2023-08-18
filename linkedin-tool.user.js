@@ -29,7 +29,6 @@
    * the help window instead.  TODO(#39).
    * @param {Element} element - Element to get information about.
    * @param {string} name - What area this information came from.
-   * @returns {void}
    */
   function dumpInfoAboutElement(element, name) {
     /* eslint-disable no-console */
@@ -99,7 +98,6 @@
   /**
    * Bring the Brower's focus onto element.
    * @param {Element} element - HTML Element to focus on.
-   * @returns {void}
    */
   function focusOnElement(element) {
     if (element) {
@@ -116,7 +114,6 @@
 
   /**
    * Scroll LinkedIn's common sidebar into view and moves focus to it.
-   * @returns {void}
    */
   function focusOnSidebar() {
     const sidebar = document.querySelector('div.scaffold-layout__sidebar');
@@ -129,7 +126,6 @@
 
   /**
    * Scroll LinkedIn's common aside (right-hand sidebar) into view.
-   * @returns {void}
    */
   function focusOnAside() {
     const aside = document.querySelector('aside.scaffold-layout__aside');
@@ -260,7 +256,6 @@
      * Attach a function to an eventType.
      * @param {string} eventType - Event type to connect with.
      * @param {function} func - Single argument function to call.
-     * @returns {void}
      */
     on(eventType, func) {
       const handlers = this._getHandlers(eventType);
@@ -271,7 +266,6 @@
      * Remove all instances of a function registered to an eventType.
      * @param {string} eventType - Event type to disconnect from.
      * @param {function} func - Function to remove.
-     * @returns {void}
      */
     off(eventType, func) {
       const handlers = this._getHandlers(eventType)
@@ -285,7 +279,6 @@
      * Calls all registered functions for the given eventType.
      * @param {string} eventType - Event type to use.
      * @param {object} data - Data to pass to each function.
-     * @returns {void}
      */
     fire(eventType, data) {
       const handlers = this._getHandlers(eventType);
@@ -362,7 +355,6 @@
      *  return y;
      * }
      * @param {string} msg - Debug message to send to the console.
-     * @returns {void}
      */
     _msg(msg, ...rest) {
       /* eslint-disable no-console */
@@ -433,7 +425,6 @@
      * it could have changed out from under us), it too can update
      * information.
      * @param {Element} val - Element to make current.
-     * @returns {void}
      */
     _bottomHalf(val) {
       this._msg('Entered bottomHalf with', val);
@@ -506,7 +497,6 @@
      * Scroll the current item into the view port.  Depending on the
      * instance configuration, this could snap to the top, snap to the
      * bottom, or be a no-op.
-     * @returns {void}
      */
     _scrollToCurrentItem() {
       this._msg('Entered scrollToCurrentItem with', this._snapToTop);
@@ -538,7 +528,6 @@
      * Jump an item on the end of the collection.
      * @param {boolean} first - If true, the first item in the
      * collection, else, the last.
-     * @returns {void}
      */
     _jumpToEndItem(first) {
       // Reset in case item was heavily modified
@@ -566,7 +555,6 @@
      * Move forward or backwards in the collection by at least n.
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
-     * @returns {void}
      */
     _scrollBy(n) {
       this._msg('Entered scrollBy', n);
@@ -602,7 +590,6 @@
 
     /**
      * Move to the next item in the collection.
-     * @returns {void}
      */
     next() {
       this._scrollBy(1);
@@ -610,7 +597,6 @@
 
     /**
      * Move to the previous item in the collection.
-     * @returns {void}
      */
     prev() {
       this._scrollBy(-1);
@@ -618,7 +604,6 @@
 
     /**
      * Jump to the first item in the collection.
-     * @returns {void}
      */
     first() {
       this._jumpToEndItem(true);
@@ -626,7 +611,6 @@
 
     /**
      * Jump to last item in the collection.
-     * @returns {void}
      */
     last() {
       this._jumpToEndItem(false);
@@ -634,7 +618,6 @@
 
     /**
      * Adds the registered CSS classes to the current element.
-     * @returns {void}
      */
     shine() {
       if (this.item) {
@@ -644,7 +627,6 @@
 
     /**
      * Removes the registered CSS classes from the current element.
-     * @returns {void}
      */
     dull() {
       if (this.item) {
@@ -654,7 +636,6 @@
 
     /**
      * Bring current item back into view.
-     * @returns {void}
      */
     show() {
       this._scrollToCurrentItem();
@@ -662,7 +643,6 @@
 
     /**
      * Mark instance as inactive and do any internal cleanup.
-     * @returns {void}
      */
     destroy() {
       this._msg('Entered destroy');
@@ -745,7 +725,6 @@
 
     /**
      * Called when registered via {@link Pages}.
-     * @returns {void}
      */
     start() {
       for (const {seq, func} of this._autoRegisteredKeys) {
@@ -766,7 +745,6 @@
     /**
      * Turns on this Page's features.  Called by {@link Pages} when
      * this becomes the current view.
-     * @returns {void}
      */
     activate() {
       this._keyboard.enable();
@@ -776,7 +754,6 @@
     /**
      * Turns off this Page's features.  Called by {@link Pages} when
      * this is no longer the current view.
-     * @returns {void}
      */
     deactivate() {
       this._keyboard.disable();
@@ -803,7 +780,6 @@
      * Registers a specific key sequence with a function with VM.shortcut.
      * @param {string} seq - Key sequence.
      * @param {function()} func - Function to call.
-     * @returns {void}
      */
     _addKey(seq, func) {
       this._keyboard.register(seq, func, Page._navOption);
@@ -811,7 +787,6 @@
 
     /**
      * Enables the 'click' handler for this view.
-     * @returns {void}
      */
     _enableOnClick() {
       if (this._onClickSelector) {
@@ -834,7 +809,6 @@
 
     /**
      * Disables the 'click' handler for this view.
-     * @returns {void}
      */
     _disableOnClick() {
       if (this._onClickElement) {
@@ -850,7 +824,6 @@
      * https://github.com/eslint/eslint/issues/17467
      * @abstract
      * @param {Event} evt - Standard 'click' event.
-     * @returns {void}
      */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
       alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
@@ -859,7 +832,6 @@
     /**
      * Override this function in subclasses to take action upon
      * becoming the current view again.
-     * @returns {void}
      */
     _refresh() {
       this;
@@ -906,7 +878,6 @@
     /**
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
-     * @returns {void}
      */
     static _gotoNavLink(item) {
       clickElement(document, [`#global-nav a[href*="/${item}"`]);
@@ -915,7 +886,6 @@
     /**
      * Click on the requested button in the global nav bar.
      * @param {string} item - Text on the button to look for.
-     * @returns {void}
      */
     static _gotoNavButton(item) {
       const buttons = Array.from(document.querySelectorAll('#global-nav button'));
@@ -927,7 +897,6 @@
 
     /**
      * Open the help pop-up.
-     * @returns {void}
      */
     _help() {
       const help = document.querySelector(`#${this.helpId}`);
@@ -937,7 +906,6 @@
 
     /**
      * Navigate to the search bar.
-     * @returns {void}
      */
     static _gotoSearch() {
       clickElement(document, ['#global-nav-search button']);
@@ -945,7 +913,6 @@
 
     /**
      * Activate the Home (feed) link.
-     * @returns {void}
      */
     static _goHome() {
       Global._gotoNavLink('feed');
@@ -953,7 +920,6 @@
 
     /**
      * Activate the My Network link.
-     * @returns {void}
      */
     static _gotoMyNetwork() {
       Global._gotoNavLink('mynetwork');
@@ -961,7 +927,6 @@
 
     /**
      * Activate the Jobs link.
-     * @returns {void}
      */
     static _gotoJobs() {
       Global._gotoNavLink('jobs');
@@ -969,7 +934,6 @@
 
     /**
      * Activate the Messaging link.
-     * @returns {void}
      */
     static _gotoMessaging() {
       Global._gotoNavLink('messaging');
@@ -977,7 +941,6 @@
 
     /**
      * Activate the Notifications link.
-     * @returns {void}
      */
     static _gotoNotifications() {
       Global._gotoNavLink('notifications');
@@ -985,7 +948,6 @@
 
     /**
      * Click on the Me button, opening that menu.
-     * @returns {void}
      */
     static _gotoProfile() {
       Global._gotoNavButton('Me');
@@ -993,7 +955,6 @@
 
     /**
      * Click on the For Business button, opening that menu.
-     * @returns {void}
      */
     static _gotoBusiness() {
       Global._gotoNavButton('Business');
@@ -1001,7 +962,6 @@
 
     /**
      * Activate the Learning link.
-     * @returns {void}
      */
     static _gotoLearning() {
       Global._gotoNavLink('learning');
@@ -1126,7 +1086,6 @@
     /**
      * Reselects current post, triggering same actions as initial
      * selection.
-     * @returns {void}
      */
     _returnToPost() {
       this._posts.item = this._posts.item;
@@ -1134,7 +1093,6 @@
 
     /**
      * Removes the comments {@link Scroller}.
-     * @returns {void}
      */
     _changedPost() {
       this._comments = null;
@@ -1142,7 +1100,6 @@
 
     /**
      * Select the next post.
-     * @returns {void}
      */
     _nextPost() {
       this._posts.next();
@@ -1150,13 +1107,11 @@
 
     /**
      * Toggle hiding current post then select the next.
-     * @returns {void}
      */
     _nextPostPlus() {
 
       /**
        * Trigger function for {@link otrot}.
-       * @returns {void}
        */
       function trigger() {
         this._togglePost();
@@ -1172,7 +1127,6 @@
 
     /**
      * Select the previous post.
-     * @returns {void}
      */
     _prevPost() {
       this._posts.prev();
@@ -1180,7 +1134,6 @@
 
     /**
      * Toggle hiding the current post then select the previous.
-     * @returns {void}
      */
     _prevPostPlus() {
       this._togglePost();
@@ -1189,7 +1142,6 @@
 
     /**
      * Select the next comment.
-     * @returns {void}
      */
     _nextComment() {
       this._comments.next();
@@ -1197,7 +1149,6 @@
 
     /**
      * Select the previous comment.
-     * @returns {void}
      */
     _prevComment() {
       this._comments.prev();
@@ -1205,7 +1156,6 @@
 
     /**
      * Toggles hiding the current post.
-     * @returns {void}
      */
     _togglePost() {
       clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
@@ -1213,7 +1163,6 @@
 
     /**
      * Show more comments on the current post.
-     * @returns {void}
      */
     _showComments() {
       if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
@@ -1223,7 +1172,6 @@
 
     /**
      * Show more content of the current post or comment.
-     * @returns {void}
      */
     _seeMore() {
       const el = this._comments.item ?? this._posts.item;
@@ -1232,7 +1180,6 @@
 
     /**
      * Like the current post or comment via reactions menu.
-     * @returns {void}
      */
     _likePostOrComment() {
       const el = this._comments.item ?? this._posts.item;
@@ -1241,7 +1188,6 @@
 
     /**
      * Select the first post or comment.
-     * @returns {void}
      */
     _firstPostOrComment() {
       if (this._hasActiveComment) {
@@ -1253,7 +1199,6 @@
 
     /**
      * Select the last post or comment.
-     * @returns {void}
      */
     _lastPostOrComment() {
       if (this._hasActiveComment) {
@@ -1265,7 +1210,6 @@
 
     /**
      * Load more posts.
-     * @returns {void}
      */
     static _loadMorePosts() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
@@ -1273,7 +1217,6 @@
 
       /**
        * Trigger function for {@link otrot}.
-       * @returns {void}
        */
       function trigger() {
         if (clickElement(document, ['main div.feed-new-update-pill button'])) {
@@ -1290,7 +1233,6 @@
 
     /**
      * Move browser focus to the share box.
-     * @returns {void}
      */
     static _gotoShare() {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
@@ -1301,7 +1243,6 @@
 
     /**
      * Open the (⋯) menu for the current item.
-     * @returns {void}
      */
     _openMeatballMenu() {
       // XXX In this case, the identifier is on an svg element, not
@@ -1320,7 +1261,6 @@
 
     /**
      * Change browser focus to the current post or comment.
-     * @returns {void}
      */
     _focusBrowser() {
       const el = this._comments.item ?? this._posts.item;
@@ -1331,7 +1271,6 @@
 
     /**
      * Navigate the the standalone page for the current post.
-     * @returns {void}
      */
     _viewPost() {
       const post = this._posts.item;
@@ -1351,7 +1290,6 @@
 
     /**
      * Open the Reactions summary pop-up.
-     * @returns {void}
      */
     _viewReactions() {
       // Bah!  The queries are annoyingly different.
@@ -1503,7 +1441,6 @@
     /**
      * Reselects current section, triggering same actions as initial
      * selection.
-     * @returns {void}
      */
     _returnToSection() {
       this._sections.item = this._sections.item;
@@ -1512,7 +1449,6 @@
     /**
      * Updates {@link Jobs} specific watcher text and removes the jobs
      * {@link Scroller}.
-     * @returns {void}
      */
     _onChange() {
       this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
@@ -1522,7 +1458,6 @@
     /**
      * Recover scroll position after elements were recreated.
      * @param {number} topScroll - Where to scroll to.
-     * @returns {void}
      */
     _resetScroll(topScroll) {
       // Explicitly setting jobs.item below will cause it to
@@ -1547,7 +1482,6 @@
      * for a reason, it seems rude to pop them back to the section
      * again.
      * @param {MutationRecord[]} records - Standard mutation records.
-     * @returns {void}
      */
     _mutationHandler(records) {
       for (const record of records) {
@@ -1564,7 +1498,6 @@
 
     /**
      * Select the next section.
-     * @returns {void}
      */
     _nextSection() {
       this._sections.next();
@@ -1572,7 +1505,6 @@
 
     /**
      * Select the previous section.
-     * @returns {void}
      */
     _prevSection() {
       this._sections.prev();
@@ -1580,7 +1512,6 @@
 
     /**
      * Select the next job.
-     * @returns {void}
      */
     _nextJob() {
       this._jobs.next();
@@ -1588,7 +1519,6 @@
 
     /**
      * Select the previous job.
-     * @returns {void}
      */
     _prevJob() {
       this._jobs.prev();
@@ -1596,7 +1526,6 @@
 
     /**
      * Select the first section or job.
-     * @returns {void}
      */
     _firstSectionOrJob() {
       if (this._hasActiveJob) {
@@ -1608,7 +1537,6 @@
 
     /**
      * Select the last section or job.
-     * @returns {void}
      */
     _lastSectionOrJob() {
       if (this._hasActiveJob) {
@@ -1620,7 +1548,6 @@
 
     /**
      * Change browser focus to the current section or job.
-     * @returns {void}
      */
     _focusBrowser() {
       const el = this._jobs.item ?? this._sections.item;
@@ -1631,7 +1558,6 @@
 
     /**
      * Load more sections (or jobs in some cases).
-     * @returns {void}
      */
     _loadMoreSections() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
@@ -1639,7 +1565,6 @@
 
       /**
        * Trigger function for {@link otrot}.
-       * @returns {void}
        */
       function trigger() {
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
@@ -1651,7 +1576,6 @@
 
     /**
      * Activate the current job.
-     * @returns {void}
      */
     _activateJob() {
       const job = this._jobs?.item;
@@ -1667,7 +1591,6 @@
 
     /**
      * Toggles saving the current job.
-     * @returns {void}
      */
     _toggleSaveJob() {
       const savedJob = this._jobs?.item;
@@ -1675,7 +1598,6 @@
       /**
        * Trigger function for {@link otrot}.  Because, of course jobs
        * needs it.
-       * @returns {void}
        */
       function trigger() {
         clickElement(this._jobs.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
@@ -1689,7 +1611,6 @@
 
     /**
      * Toggles dismissing the current job.
-     * @returns {void}
      */
     _toggleDismissJob() {
       const savedJob = this._jobs.item;
@@ -1697,7 +1618,6 @@
       /**
        * Trigger function for {@link otrot}.  Because, of course jobs
        * needs it.
-       * @returns {void}
        */
       function trigger() {
         clickElement(this._jobs.item, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
