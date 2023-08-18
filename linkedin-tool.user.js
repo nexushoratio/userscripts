@@ -222,7 +222,8 @@
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
 
-  /** Simple dispatcher.  It takes a fixed list of event types upon
+  /**
+   * Simple dispatcher.  It takes a fixed list of event types upon
    * construction and attempts to use an unknown event will throw an
    * error.
    */
