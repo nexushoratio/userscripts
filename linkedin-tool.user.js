@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.7.2
+// @version     2.8.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -115,14 +115,29 @@
   }
 
   /**
-   * Scroll's LinkedIn common sidebar into view and moves focus to it.
+   * Scroll LinkedIn's common sidebar into view and moves focus to it.
    * @returns {void}
    */
   function focusOnSidebar() {
     const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-    sidebar.style.scrollMarginTop = navBarHeightCss;
-    sidebar.scrollIntoView();
-    sidebar.focus();
+    if (sidebar) {
+      sidebar.style.scrollMarginTop = navBarHeightCss;
+      sidebar.scrollIntoView();
+      focusOnElement(sidebar);
+    }
+  }
+
+  /**
+   * Scroll LinkedIn's common aside (right-hand sidebar) into view.
+   * @returns {void}
+   */
+  function focusOnAside() {
+    const aside = document.querySelector('aside.scaffold-layout__aside');
+    if (aside) {
+      aside.style.scrollMarginTop = navBarHeightCss;
+      aside.scrollIntoView();
+      focusOnElement(aside);
+    }
   }
 
   /**
@@ -873,6 +888,8 @@
       {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
       {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
       {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
+      {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: focusOnSidebar},
+      {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: focusOnAside},
     ];
 
     /**
