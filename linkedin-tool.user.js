@@ -1631,10 +1631,12 @@
 
   }
 
+  /** Class for handling Job collections. */
   class JobsCollections extends Page {
     _pathname = '/jobs/collections/';
   }
 
+  /** Class for handling the Notifications page. */
   class Notifications extends Page {
     _pathname = '/notifications/';
     _onClickSelector = 'main';
@@ -1652,12 +1654,17 @@
 
     _notificationScroller = null;
 
+    /**
+     * Create the Notifications view; includes instantiating the posts
+     * {@link Scroller}.
+     */
     constructor() {
       super();
       this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], Notifications._uniqueIdentifier, ['tom'], false, {enabled: false, strackTrace: true});
       this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
+    /** @inheritdoc */
     _onClick(evt) {
       const notification = evt.target.closest('div.nt-card-list article');
       if (notification) {
@@ -1665,18 +1672,25 @@
       }
     }
 
+    /** @inheritdoc */
     _refresh() {
       this._notifications.shine();
       this._notifications.show();
     }
 
+    /** @type {Scroller} */
     get _notifications() {
       return this._notificationScroller;
     }
 
-    // Complicated because there are so many variations in
-    // notification cards.  We do not want to use reaction counts
-    // because they can change too quickly.
+    /**
+     * Complicated because there are so many variations in
+     * notification cards.  We do not want to use reaction counts
+     * because they can change too quickly.
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static _uniqueIdentifier(element) {
       let content = element.innerText;
       if (element.childElementCount === 3) {
@@ -1697,31 +1711,52 @@
       return strHash(content);
     }
 
+    /**
+     * Select the next notification.
+     */
     _nextNotification() {
       this._notifications.next();
     }
 
+    /**
+     * Select the previous notification.
+     */
     _prevNotification() {
       this._notifications.prev();
     }
 
+    /**
+     * Change browser focus to the current notification.
+     */
     _focusBrowser() {
       this._notifications.show();
       focusOnElement(this._notifications.item);
     }
 
+    /**
+     * Select the first notification.
+     */
     _firstNotification() {
       this._notifications.first();
     }
 
+    /**
+     * Select the last notification.
+     */
     _lastNotification() {
       this._notifications.last();
     }
 
+    /**
+     * Open the (⋯) menu for the current notification.
+     */
     _openMeatballMenu() {
       clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
     }
 
+    /**
+     * Activate the current notification.
+     */
     _activateNotification() {
       const notification = this._notifications.item;
       if (notification) {
@@ -1731,8 +1766,13 @@
         if (document.activeElement.closest('article') === notification) {
           return;
         }
-        // Every notification is different.
-        // It may be that notifications are settling on 'a.nt-card__headline'.
+
+        /**
+         * Every notification is different.
+         * It may be that notifications are settling on 'a.nt-card__headline'.
+         * @param {Element} el - Element to inspect.
+         * @returns {boolean} - Whether this element is recognized.
+         */
         function matchesKnownText(el) { // eslint-disable-line no-inner-declarations
           if (el.innerText === 'Apply early') return true;
           if (el.innerText === 'Undo') return true;
@@ -1757,10 +1797,16 @@
       }
     }
 
+    /**
+     * Toggles deletion of the current notification.
+     */
     _deleteNotification() {
       const notification = this._notifications.item;
       const container = document.querySelector('div.scaffold-finite-scroll__content');
 
+      /**
+       * Trigger function for {@link otrot}.
+       */
       function trigger() {
         // Hah.  Unlike in other places, these buttons already exist,
         // just hidden under the menu.
@@ -1779,10 +1825,16 @@
       }
     }
 
+    /**
+     * Load more notifications.
+     */
     static _loadMoreNotifications() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
 
+      /**
+       * Trigger function for {@link otrot}.
+       */
       function trigger() {
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
