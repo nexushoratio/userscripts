@@ -1656,8 +1656,8 @@
     _notificationScroller = null;
 
     /**
-     * Create the Notifications view; includes instantiating the posts
-     * {@link Scroller}.
+     * Create the Notifications view; includes instantiating the
+     * notifications {@link Scroller}.
      */
     constructor() {
       super();
