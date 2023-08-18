@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.8.0
+// @version     2.8.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1775,8 +1775,11 @@
          * @returns {boolean} - Whether this element is recognized.
          */
         function matchesKnownText(el) { // eslint-disable-line no-inner-declarations
-          if (el.innerText === 'Apply early') return true;
-          if (el.innerText === 'Undo') return true;
+          if (el.innerText === 'Apply early') {
+            return true;
+          } else if (el.innerText === 'Undo') {
+            return true;
+          }
           return false;
         }
 

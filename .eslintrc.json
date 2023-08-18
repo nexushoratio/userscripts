@@ -18,7 +18,7 @@
     "capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
     "class-methods-use-this": "error",
     "consistent-return": "error",
-    "curly": "off",  // TODO(#68): investigate
+    "curly": "error",
     "func-names": "off",  // TODO(#68): investigate
     "func-style": "off",  // TODO(#68): investigate
     "id-length": "off",  // TODO(#68): investigate
