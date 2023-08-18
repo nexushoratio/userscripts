@@ -86,7 +86,16 @@
     }],
     "valid-jsdoc": ["error", {
       "prefer": {
-        "return": "returns"
+        "arg": "param",
+        "argument": "param",
+        "return": "returns",
+        "virtual": "abstract"
+      },
+      "preferType": {
+        "Boolean": "boolean",
+        "Number": "number",
+        "Object": "error",
+        "String": "string"
       },
       "requireReturn": false
     }]
