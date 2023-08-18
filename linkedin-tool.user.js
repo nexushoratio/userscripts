@@ -385,15 +385,14 @@
       /* eslint-enable */
     }
 
-    /**
-     * @type {Dispatcher} - Accessor for dipatcher.
-     */
+    /** @type {Dispatcher} */
     get dispatcher() {
       return this._dispatcher;
     }
 
     /**
-     * @type {Element} - Represents the current item.
+     * Represents the current item.
+     * @type {Element}
      */
     get item() {
       this._msg('Entered get item');
@@ -754,16 +753,12 @@
       }
     }
 
-    /**
-     * @type {string}
-     */
+    /** @type {string} */
     get pathname() {
       return this._pathname;
     }
 
-    /**
-     * @type {KeyboardService}
-     */
+    /** @type {KeyboardService} */
     get keyboard() {
       return this._keyboard;
     }
@@ -789,6 +784,7 @@
     }
 
     /**
+     * Describes what the header should be.
      * @type {string}
      */
     get helpHeader() {
@@ -1084,16 +1080,12 @@
       }
     }
 
-    /**
-     * @type {Scroller}
-     */
+    /** @type {Scroller} */
     get _posts() {
       return this._postScroller;
     }
 
-    /**
-     * @type {Scroller}
-     */
+    /** @type {Scroller} */
     get _comments() {
       if (!this._commentScroller && this._posts.item) {
         this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], Feed._uniqueIdentifier, ['dick'], false);
@@ -1113,9 +1105,7 @@
       }
     }
 
-    /**
-     * @type {boolean}
-     */
+    /** @type {boolean} */
     get _hasActiveComment() {
       return this._comments && this._comments.item;
     }
@@ -1433,16 +1423,12 @@
       this._sectionsMO.observe(el, {childList: true});
     }
 
-    /**
-     * @type {Scroller}
-     */
+    /** @type {Scroller} */
     get _sections() {
       return this._sectionScroller;
     }
 
-    /**
-     * @type {Scroller}
-     */
+    /** @type {Scroller} */
     get _jobs() {
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], Jobs._uniqueJobIdentifier, ['dick'], false, {enabled: false});
@@ -1462,9 +1448,7 @@
       }
     }
 
-    /**
-     * @type {boolean}
-     */
+    /** @type {boolean} */
     get _hasActiveJob() {
       return this._jobs && this._jobs.item;
     }
