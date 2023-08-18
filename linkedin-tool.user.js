@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.7.0
+// @version     2.7.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1838,7 +1838,9 @@
 
     _deleteNotification() {
       const notification = this._notifications.item;
-      if (notification) {
+      const container = document.querySelector('div.scaffold-finite-scroll__content');
+
+      function trigger() {
         // Hah.  Unlike in other places, these buttons already exist,
         // just hidden under the menu.
         const buttons = Array.from(notification.querySelectorAll('button'));
@@ -1848,6 +1850,11 @@
         } else {
           clickElement(notification, ['button[aria-label^="Undo notification deletion"]']);
         }
+      }
+      if (notification) {
+        otrot(container, trigger, 3000).then(() => {
+          this._notifications.shine();
+        });
       }
     }
 
