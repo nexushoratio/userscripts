@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.8.1
+// @version     2.8.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1899,17 +1899,34 @@
     _initializeHelpMenu() {
       this._helpId = `help-${this._id}`;
       const style = document.createElement('style');
-      style.textContent += `#${this._helpId} kbd {font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
+      style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
+      style.textContent += `#${this._helpId} input { display: none; } `;
+      style.textContent += `#${this._helpId} label { padding: unset; display: inline; } `;
+      style.textContent += `#${this._helpId} label::before { all: unset; } `;
+      style.textContent += `#${this._helpId} label::after { all: unset; } `;
+      style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
+      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(1):checked ~ div.lit-panels > div.lit-panel:nth-of-type(1) { display: block }`;
+      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(2):checked ~ div.lit-panels > div.lit-panel:nth-of-type(2) { display: block }`;
+      style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
       style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 0.25em; }`;
       document.head.prepend(style);
       const dialog = document.createElement('dialog');
       dialog.id = this._helpId
-      dialog.innerHTML = '<table><caption>' +
-        '<span style="float: left">Keyboard shortcuts</span>' +
+      dialog.innerHTML =
         '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
-        '</caption><tbody></tbody></table>';
+        '<div class="lit-tabber">' +
+        '    <input id="lit-keys" name="lit-tabber" type="radio" checked>' +
+        '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
+        '    <input id="lit-other" name="lit-tabber" type="radio">' +
+        '    <label for="lit-other">[Other]</label>' +
+        '    <div class="lit-panels">' +
+        '      <div class="lit-panel"><table><tbody></tbody></table></div>' +
+        '      <div class="lit-panel"><p>Hi, I am other stuff!</p><p>I don\'t have much to say quite yet.</p></div>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>';
       document.body.prepend(dialog);
     }
 
