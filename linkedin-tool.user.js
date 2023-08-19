@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.8.2
+// @version     2.8.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -716,7 +716,7 @@
      */
     static _navOption = {
       caseSensitive: true,
-      condition: '!inputFocus',
+      condition: '!inputFocus && !inDialog',
     };
 
     /** Create a Page. */
@@ -902,7 +902,7 @@
     _help() {
       const help = document.querySelector(`#${this.helpId}`);
       help.showModal();
-      help.focus();
+      help.dispatchEvent(new Event('open'));
     }
 
     /**
@@ -1928,6 +1928,14 @@
         '  </div>' +
         '</div>';
       document.body.prepend(dialog);
+
+      // Dialogs do not have a real open event.  We will fake it.
+      dialog.addEventListener('open', () => {
+        this._setKeyboardContext('inDialog', true);
+      });
+      dialog.addEventListener('close', () => {
+        this._setKeyboardContext('inDialog', false);
+      });
     }
 
     // ThisPage -> This Page
