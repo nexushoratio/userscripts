@@ -1904,6 +1904,7 @@
       style.textContent += `#${this._helpId} label { padding: unset; display: inline; } `;
       style.textContent += `#${this._helpId} label::before { all: unset; } `;
       style.textContent += `#${this._helpId} label::after { all: unset; } `;
+      style.textContent += `#${this._helpId} input:checked + label::after { content: "*"; } `;
       style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
       style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(1):checked ~ div.lit-panels > div.lit-panel:nth-of-type(1) { display: block }`;
       style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(2):checked ~ div.lit-panels > div.lit-panel:nth-of-type(2) { display: block }`;
