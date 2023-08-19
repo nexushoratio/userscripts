@@ -102,7 +102,7 @@
   function focusOnElement(element) {
     if (element) {
       const tabIndex = element.getAttribute('tabindex');
-      element.setAttribute('tabindex', 0);
+      element.setAttribute('tabindex', -1);
       element.focus();
       if (tabIndex) {
         element.setAttribute('tabindex', tabIndex);
