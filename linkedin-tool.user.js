@@ -1856,6 +1856,8 @@
 
     _lastInputElement = null;
 
+    _helpKeyboard = null
+
     constructor() {
       this._id = crypto.randomUUID();
       Pages._installNavStyle();
@@ -1896,7 +1898,14 @@
       document.head.append(style);
     }
 
+    _initializeHelpKeyboard() {
+      this._helpKeyboard = new VM.shortcut.KeyboardService();
+      this._helpKeyboard.register('right', this._switchHelpTab.bind(this, 1));
+      this._helpKeyboard.register('left', this._switchHelpTab.bind(this, -1));
+    }
+
     _initializeHelpMenu() {
+      this._initializeHelpKeyboard();
       this._helpId = `help-${this._id}`;
       const style = document.createElement('style');
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
@@ -1916,7 +1925,10 @@
       const dialog = document.createElement('dialog');
       dialog.id = this._helpId
       dialog.innerHTML =
-        '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
+        '<div>' +
+        '  <span>Use left/right arrow keys or click to select tab</span>' +
+        '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
+        '</div>' +
         '<div class="lit-tabber">' +
         '    <input id="lit-keys" name="lit-tabber" type="radio" checked>' +
         '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
@@ -1933,10 +1945,19 @@
       // Dialogs do not have a real open event.  We will fake it.
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
+        this._helpKeyboard.enable();
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
+        this._helpKeyboard.disable();
       });
+    }
+
+    _switchHelpTab(direction) {
+      const panels = Array.from(document.querySelectorAll(`#${this._helpId} .lit-tabber > input`));
+      let idx = panels.findIndex((panel) => panel.checked);
+      idx = (idx + direction + panels.length) % panels.length;
+      panels[idx].checked = true;
     }
 
     // ThisPage -> This Page
