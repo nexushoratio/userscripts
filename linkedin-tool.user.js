@@ -1917,6 +1917,7 @@
       style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
       style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(1):checked ~ div.lit-panels > div.lit-panel:nth-of-type(1) { display: block }`;
       style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(2):checked ~ div.lit-panels > div.lit-panel:nth-of-type(2) { display: block }`;
+      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(3):checked ~ div.lit-panels > div.lit-panel:nth-of-type(3) { display: block }`;
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
@@ -1934,9 +1935,12 @@
         '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
         '    <input id="lit-other" name="lit-tabber" type="radio">' +
         '    <label for="lit-other">[Other]</label>' +
+        '    <input id="lit-errors" name="lit-tabber" type="radio">' +
+        '    <label for="lit-errors">[Errors]</label>' +
         '    <div class="lit-panels">' +
         '      <div class="lit-panel"><table><tbody></tbody></table></div>' +
         '      <div class="lit-panel"><p>Hi, I am other stuff!</p><p>I don\'t have much to say quite yet.</p></div>' +
+        '      <div class="lit-panel"><p>No errors logged yet.</p></div>' +
         '    </div>' +
         '  </div>' +
         '</div>';
