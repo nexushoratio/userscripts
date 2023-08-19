@@ -1864,12 +1864,12 @@
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
     }
 
-    _setInputFocus(state) {
+    _setKeyboardContext(context, state) {
       const pages = Array.from(this._pages.values());
       pages.push(this._global);
       for (const page of pages) {
         if (page) {
-          page.keyboard.setContext('inputFocus', state);
+          page.keyboard.setContext(context, state);
         }
       }
     }
@@ -1877,10 +1877,10 @@
     _onFocus(evt) {
       if (this._lastInputElement && evt.target !== this._lastInputElement) {
         this._lastInputElement = null
-        this._setInputFocus(false);
+        this._setKeyboardContext('inputFocus', false);
       }
       if (isInput(evt.target)) {
-        this._setInputFocus(true);
+        this._setKeyboardContext('inputFocus', true);
         this._lastInputElement = evt.target;
       }
     }
