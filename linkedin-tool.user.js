@@ -847,7 +847,7 @@
   class Global extends Page {
     _pathname = null;
     _autoRegisteredKeys = [
-      {seq: '?', desc: 'Show keyboard help', func: this._help},
+      {seq: '?', desc: 'Show this help screen', func: this._help},
       {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
       {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
       {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
