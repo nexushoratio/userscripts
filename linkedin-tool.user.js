@@ -1936,8 +1936,9 @@
 
     /**
      * Add CSS styling for use with the help view.
+     * @param {object[]} tabs = Array defining the help tabs.
      */
-    _addHelpStyle() {
+    _addHelpStyle(tabs) {
       const style = document.createElement('style');
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
       style.textContent += `#${this._helpId} input { display: none; } `;
@@ -1946,9 +1947,9 @@
       style.textContent += `#${this._helpId} label::after { all: unset; } `;
       style.textContent += `#${this._helpId} input:checked + label::after { content: "*"; } `;
       style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
-      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(1):checked ~ div.lit-panels > div.lit-panel:nth-of-type(1) { display: block }`;
-      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(2):checked ~ div.lit-panels > div.lit-panel:nth-of-type(2) { display: block }`;
-      style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(3):checked ~ div.lit-panels > div.lit-panel:nth-of-type(3) { display: block }`;
+      for (const num of tabs.keys()) {
+        style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${num + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${num + 1}) { display: block }`;
+      }
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
@@ -1958,13 +1959,14 @@
 
     /**
      * Add basic dialog with an embedded tabs for the help view.
+     * @param {object[]} tabs - Array defining the help tabs.
      */
-    _addHelpDialog() {
-          const dialog = document.createElement('dialog');
+    _addHelpDialog(tabs) {  // eslint-disable-line no-unused-vars
+      const dialog = document.createElement('dialog');
       dialog.id = this._helpId
       dialog.innerHTML =
         '<div>' +
-        '  <span>Use left/right arrow keys or click to select tab</span>' +
+        '  <span style="float: left">Use left/right arrow keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</div><hr>' +
         '<div class="lit-tabber">' +
@@ -1976,7 +1978,7 @@
         '    <label for="lit-errors">[Errors]</label>' +
         '    <div class="lit-panels">' +
         '      <div class="lit-panel"><table><tbody></tbody></table></div>' +
-        '      <div class="lit-panel"></div>' +
+        '      <div class="lit-panel"><p>Info real soon now.</p></div>' +
         '      <div class="lit-panel"><p>No errors logged yet.</p></div>' +
         '    </div>' +
         '  </div>' +
@@ -1994,14 +1996,32 @@
       });
     }
 
+    _keyboardHelp() {
+      this;
+    }
+
+    _infoHelp() {
+      this;
+    }
+
+    _errorHelp() {
+      this;
+    }
+
     /**
      * Set up everything necessary to get the help view going.
      */
     _initializeHelpMenu() {
       this._helpId = `help-${this._id}`;
       this._initializeHelpKeyboard();
-      this._addHelpStyle();
-      this._addHelpDialog();
+
+      const helpGenerators = [
+        {name: 'Keyboard shortcuts', func: this._keyboardHelp},
+        {name: 'Information', func: this._infoHelp},
+        {name: 'Errors', func: this._errorHelp},
+      ]
+      this._addHelpStyle(helpGenerators);
+      this._addHelpDialog(helpGenerators);
     }
 
     /**
