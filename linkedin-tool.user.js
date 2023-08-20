@@ -1118,9 +1118,10 @@
         this._togglePost();
         this._nextPost();
       }
-      // XXX Need to remove the highlight before otrot sees it because
+      // XXX Need to remove the highlights before otrot sees it because
       // it affects the .clientHeight.
       this._posts.dull();
+      this._comments?.dull();
       otrot(this._posts.item, trigger.bind(this), 3000).then(() => {
         this._posts.show();
       }).catch(e => console.error(e));  // eslint-disable-line no-console
