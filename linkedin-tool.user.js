@@ -1935,11 +1935,9 @@
     }
 
     /**
-     * Set up everything necessary to get the help view going.
+     * Add CSS styling for use with the help view.
      */
-    _initializeHelpMenu() {
-      this._initializeHelpKeyboard();
-      this._helpId = `help-${this._id}`;
+    _addHelpStyle() {
       const style = document.createElement('style');
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
       style.textContent += `#${this._helpId} input { display: none; } `;
@@ -1956,7 +1954,13 @@
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
       style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 0.25em; }`;
       document.head.prepend(style);
-      const dialog = document.createElement('dialog');
+    }
+
+    /**
+     * Add basic dialog with an embedded tabs for the help view.
+     */
+    _addHelpDialog() {
+          const dialog = document.createElement('dialog');
       dialog.id = this._helpId
       dialog.innerHTML =
         '<div>' +
@@ -1966,13 +1970,13 @@
         '<div class="lit-tabber">' +
         '    <input id="lit-keys" name="lit-tabber" type="radio" checked>' +
         '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
-        '    <input id="lit-other" name="lit-tabber" type="radio">' +
-        '    <label for="lit-other">[Other]</label>' +
+        '    <input id="lit-info" name="lit-tabber" type="radio">' +
+        '    <label for="lit-info">[Information]</label>' +
         '    <input id="lit-errors" name="lit-tabber" type="radio">' +
         '    <label for="lit-errors">[Errors]</label>' +
         '    <div class="lit-panels">' +
         '      <div class="lit-panel"><table><tbody></tbody></table></div>' +
-        '      <div class="lit-panel"><p>Hi, I am other stuff!</p><p>I don\'t have much to say quite yet.</p></div>' +
+        '      <div class="lit-panel"></div>' +
         '      <div class="lit-panel"><p>No errors logged yet.</p></div>' +
         '    </div>' +
         '  </div>' +
@@ -1988,6 +1992,16 @@
         this._setKeyboardContext('inDialog', false);
         this._helpKeyboard.disable();
       });
+    }
+
+    /**
+     * Set up everything necessary to get the help view going.
+     */
+    _initializeHelpMenu() {
+      this._helpId = `help-${this._id}`;
+      this._initializeHelpKeyboard();
+      this._addHelpStyle();
+      this._addHelpDialog();
     }
 
     /**
