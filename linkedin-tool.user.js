@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.10.0
+// @version     2.10.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -138,7 +138,7 @@
 
   /**
    * One time resize observer with timeout.
-   * Will resolve automatically upon resize change.
+   * Will resolve automatically upon first resize change.
    * @param {Element} base - Element to observe.
    * @param {?function()} trigger - Function to call that triggers observable events.
    * @param {number} timeout - Time to wait for completion in milliseconds, 0 disables.
@@ -163,6 +163,33 @@
           reject('otrot timed out');
         }, timeout);
       }
+      observer.observe(base);
+      trigger();
+    });
+    return prom;
+  }
+
+  /**
+   * One time resize observer with action callback and duration.
+   * Will resolve upon duration expiration.
+   * @param {Element} base - Element to observe.
+   * @param {?function()} trigger - Function to call that triggers observable events.
+   * @param {function()} action - Function to call upon each event
+   * observed and at the end of duration.
+   * @param {number} duration - Time to run in milliseconds.
+   * @returns {Promise} - Will resolve after duration expires.
+   */
+  function otrot2(base, trigger, action, duration) {
+    const prom = new Promise((resolve) => {
+      trigger ??= function () {};
+      const observer = new ResizeObserver(() => {
+        action();
+      });
+      setTimeout(() => {
+        observer.disconnect();
+        action();
+        resolve('otrot2 finished');
+      }, duration);
       observer.observe(base);
       trigger();
     });
@@ -1216,21 +1243,34 @@
     static _loadMorePosts() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
+      let first = false;
+      const posts = this._posts;
 
       /**
-       * Trigger function for {@link otrot}.
+       * Trigger function for {@link otrot2}.
        */
       function trigger() {
         if (clickElement(document, ['main div.feed-new-update-pill button'])) {
-          // eslint-disable-next-line no-console
-          console.debug('We need to do more when clicking the top load more button because it takes longer to recover.  Just not sure what.  Maybe otmot instead of otrot.');
+          first = true;
         } else {
           clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
         }
       }
-      otrot(container, trigger, 3000).then(() => {
-        document.documentElement.scrollTop = savedScrollTop;
-      });
+
+      /**
+       * Action function for {@link otrot2}.
+       */
+      function action() {
+        if (first) {
+          if (posts.item) {
+            posts.first();
+          }
+        } else {
+          document.documentElement.scrollTop = savedScrollTop;
+        }
+      }
+
+      otrot2(container, trigger, action, 2000);
     }
 
     /**
