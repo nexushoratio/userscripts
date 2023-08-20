@@ -1925,6 +1925,17 @@
     }
 
     /**
+     * @typedef {object} HelpTab
+     * @property {string} name - Tab name
+     * @property {string} content - HTML to be used as initial content.
+     */
+
+    /**
+     * @callback HelpTabGenerator
+     * @returns {HelpTab}
+     */
+
+    /**
      * Create and configure a separate {@link KeyboardService} for the
      * help view.
      */
@@ -1936,7 +1947,7 @@
 
     /**
      * Add CSS styling for use with the help view.
-     * @param {object[]} tabs = Array defining the help tabs.
+     * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
     _addHelpStyle(tabs) {
       const style = document.createElement('style');
@@ -1947,8 +1958,8 @@
       style.textContent += `#${this._helpId} label::after { all: unset; } `;
       style.textContent += `#${this._helpId} input:checked + label::after { content: "*"; } `;
       style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
-      for (const num of tabs.keys()) {
-        style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${num + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${num + 1}) { display: block }`;
+      for (const idx of tabs.keys()) {
+        style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${idx + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${idx + 1}) { display: block }`;
       }
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
@@ -1958,29 +1969,29 @@
     }
 
     /**
-     * Add basic dialog with an embedded tabs for the help view.
-     * @param {object[]} tabs - Array defining the help tabs.
+     * Add basic dialog with an embedded tabs for the help view.  This
+     * zeroth tab always defaults to `checked`.
+     * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
     _addHelpDialog(tabs) {  // eslint-disable-line no-unused-vars
       const dialog = document.createElement('dialog');
-      dialog.id = this._helpId
+      dialog.id = this._helpId;
+      let tabber = '';
+      let panels = '';
+      for (const idx of tabs.keys()) {
+        const checked = idx ? '' : 'checked';
+        const {name, content} = tabs[idx];
+        tabber += `<input id="lit-${idx}" name="lit-help-tabber" type="radio" ${checked}>`;
+        tabber += `<label for="lit-${idx}">[${name}]</label>`;
+        panels += `<div class="lit-panel">${content}</div>`;
+      }
       dialog.innerHTML =
         '<div>' +
         '  <span style="float: left">Use left/right arrow keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</div><hr>' +
-        '<div class="lit-tabber">' +
-        '    <input id="lit-keys" name="lit-tabber" type="radio" checked>' +
-        '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
-        '    <input id="lit-info" name="lit-tabber" type="radio">' +
-        '    <label for="lit-info">[Information]</label>' +
-        '    <input id="lit-errors" name="lit-tabber" type="radio">' +
-        '    <label for="lit-errors">[Errors]</label>' +
-        '    <div class="lit-panels">' +
-        '      <div class="lit-panel"><table><tbody></tbody></table></div>' +
-        '      <div class="lit-panel"><p>Info real soon now.</p></div>' +
-        '      <div class="lit-panel"><p>No errors logged yet.</p></div>' +
-        '    </div>' +
+        `<div class="lit-tabber">${tabber}` +
+        `    <div class="lit-panels">${panels}</div>` +
         '  </div>' +
         '</div>';
       document.body.prepend(dialog);
@@ -1996,16 +2007,37 @@
       });
     }
 
-    _keyboardHelp() {
-      this;
+    /**
+     * @implements {HelpTabGenerator}
+     * @returns {HelpTab} - Initial table for the keyboard shortcuts.
+     */
+    static _keyboardHelp() {
+      return {
+        name: 'Keyboard shortcuts',
+        content: '<table data-lit-id="shortcuts"><tbody></tbody></table>',
+      }
     }
 
-    _infoHelp() {
-      this;
+    /**
+     * @implements {HelpTabGenerator}
+     * @returns {HelpTab} - Where to find documentation and file bugs.
+     */
+    static _infoHelp() {
+      return {
+        name: 'Information',
+        content: '<p>Info real soon now.</p>',
+      }
     }
 
-    _errorHelp() {
-      this;
+    /**
+     * @implements {HelpTabGenerator}
+     * @returns {HelpTab} - Initial placeholder for error logging.
+     */
+    static _errorHelp() {
+      return {
+        name: 'Errors',
+        content: '<div data-lit-id="errors"><p>No errors logged yet.</p></div>',
+      }
     }
 
     /**
@@ -2016,10 +2048,11 @@
       this._initializeHelpKeyboard();
 
       const helpGenerators = [
-        {name: 'Keyboard shortcuts', func: this._keyboardHelp},
-        {name: 'Information', func: this._infoHelp},
-        {name: 'Errors', func: this._errorHelp},
-      ]
+        Pages._keyboardHelp(),
+        Pages._infoHelp(),
+        Pages._errorHelp(),
+      ];
+
       this._addHelpStyle(helpGenerators);
       this._addHelpDialog(helpGenerators);
     }
