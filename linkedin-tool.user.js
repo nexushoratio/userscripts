@@ -711,7 +711,7 @@
 
     /**
      * Magic for VM.shortcut.  This disables keys when focus is on an
-     * input type field.
+     * input type field or in the viewing the help.
      * @type {IShortcutOptions}
      */
     static _navOption = {
@@ -1849,6 +1849,14 @@
 
   }
 
+  /**
+   * A container/driver for multiple {@link Page}s.
+   *
+   * Generally, a single instance of this class is created, and all
+   * instances of {Page} are registered to it.  As the user navigates
+   * through the LinkedIn SPA, this will react to it and enable and
+   * disable view specific handling as appropriate.
+   */
   class Pages {
     _global = null;
     _page = null;
@@ -1858,6 +1866,7 @@
 
     _helpKeyboard = null
 
+    /** Create a Pages collection. */
     constructor() {
       this._id = crypto.randomUUID();
       Pages._installNavStyle();
@@ -1866,6 +1875,11 @@
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
     }
 
+    /**
+     * Set the context (used by VM.shortcut) to a specific value.
+     * @param {string} context - The name of the context.
+     * @param {object} state - What the value should be.
+     */
     _setKeyboardContext(context, state) {
       const pages = Array.from(this._pages.values());
       pages.push(this._global);
@@ -1876,6 +1890,11 @@
       }
     }
 
+    /**
+     * Handle focus events to track whether we have gone into or left
+     * an area where we want to disable hotkeys.
+     * @param {Event} evt - Standard 'focus' event.
+     */
     _onFocus(evt) {
       if (this._lastInputElement && evt.target !== this._lastInputElement) {
         this._lastInputElement = null
@@ -1887,10 +1906,17 @@
       }
     }
 
+    /**
+     * Handle urlchange events that indicate a switch to a new page.
+     * @param {CustomEvent} evt - Custom 'urlchange' event.
+     */
     _onUrlChange(evt) {
       this.activate(evt.detail.url.pathname);
     }
 
+    /**
+     * Create the CSS styles used for indicating the current items.
+     */
     static _installNavStyle() {
       const style = document.createElement('style');
       style.textContent += '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }';
@@ -1898,12 +1924,19 @@
       document.head.append(style);
     }
 
+    /**
+     * Create and configure a separate {@link KeyboardService} for the
+     * help view.
+     */
     _initializeHelpKeyboard() {
       this._helpKeyboard = new VM.shortcut.KeyboardService();
       this._helpKeyboard.register('right', this._switchHelpTab.bind(this, 1));
       this._helpKeyboard.register('left', this._switchHelpTab.bind(this, -1));
     }
 
+    /**
+     * Set up everything necessary to get the help view going.
+     */
     _initializeHelpMenu() {
       this._initializeHelpKeyboard();
       this._helpId = `help-${this._id}`;
@@ -1929,7 +1962,7 @@
         '<div>' +
         '  <span>Use left/right arrow keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
-        '</div>' +
+        '</div><hr>' +
         '<div class="lit-tabber">' +
         '    <input id="lit-keys" name="lit-tabber" type="radio" checked>' +
         '    <label for="lit-keys">[Keyboard shortcuts]</label>' +
@@ -1957,6 +1990,11 @@
       });
     }
 
+    /**
+     * Function registered to implement navigation between tabs in the
+     * help view.
+     * @param {number} direction - Either 1 or -1.
+     */
     _switchHelpTab(direction) {
       const panels = Array.from(document.querySelectorAll(`#${this._helpId} .lit-tabber > input`));
       let idx = panels.findIndex((panel) => panel.checked);
@@ -1964,18 +2002,32 @@
       panels[idx].checked = true;
     }
 
-    // ThisPage -> This Page
+    /**
+     * Convert a string in CamelCase to separate words, like Camel Case.
+     * @param {string} text - Text to parse.
+     * @returns {string} - Parsed text.
+     */
     static _parseHeader(text) {
       return text.replace(/([A-Z])/g, ' $1').trim();
     }
 
-    // 'a b' -> '<kbd>a</kbd> then <kbd>b</kbd>'
+    /**
+     * Parse a {@link Shortcut.seq} and wrap it in HTML.
+     * @example
+     * 'a b' -> '<kbd>a</kbd> then <kbd>b</kbd>'
+     * @param {Shortcut.seq} seq - Keystroke sequence.
+     * @returns {string} - Appropriately wrapped HTML.
+     */
     static _parseSeq(seq) {
       const letters = seq.split(' ').map(w => `<kbd>${w}</kbd>`);
       const s = letters.join(' then ');
       return s;
     }
 
+    /**
+     * Add help from the page to the help view.
+     * @param {Page} page - An instance of the Page class.
+     */
     _addHelp(page) {
       const help = document.querySelector(`#${this._helpId} tbody`);
       const section = Pages._parseHeader(page.helpHeader);
@@ -1990,6 +2042,10 @@
       }
     }
 
+    /**
+     * Add a new page to those supported by this instance.
+     * @param {Page} page - An instance of the Page class.
+     */
     register(page) {
       page.start();
       this._addHelp(page);
@@ -2002,6 +2058,11 @@
       }
     }
 
+    /**
+     * Determine which page can handle this portion of the URL.
+     * @param {string} pathname - A {URL.pathname}.
+     * @returns {Page} - The page to use.
+     */
     _findPage(pathname) {
       const pathnames = Array.from(this._pages.keys());
       const candidates = pathnames.filter(p => pathname.startsWith(p));
@@ -2009,6 +2070,10 @@
       return this._pages.get(candidate) || null;
     }
 
+    /**
+     * Handle switching from the old page (if any) to the new one.
+     * @param {string} pathname - A {URL.pathname}.
+     */
     activate(pathname) {
       if (this._page) {
         this._page.deactivate();
