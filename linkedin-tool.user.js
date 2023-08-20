@@ -1987,7 +1987,7 @@
       }
       dialog.innerHTML =
         '<div>' +
-        '  <span style="float: left">Use left/right arrow keys or click to select tab</span>' +
+        '  <span>Use left/right arrow keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</div><hr>' +
         `<div class="lit-tabber">${tabber}` +
