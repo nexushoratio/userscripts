@@ -711,7 +711,7 @@
 
     /**
      * Magic for VM.shortcut.  This disables keys when focus is on an
-     * input type field or in the viewing the help.
+     * input type field or when viewing the help.
      * @type {IShortcutOptions}
      */
     static _navOption = {
