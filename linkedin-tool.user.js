@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.9.1
+// @version     2.10.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2023,9 +2023,17 @@
      * @returns {HelpTab} - Where to find documentation and file bugs.
      */
     static _infoHelp() {
+      const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
+      const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
+      const docLink = `${baseGhUrl}/blob/main/linkedin-tool.md`;
+      const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
+      const newIssueLink = `${baseGhUrl}/issues/new/choose`;
+      const newGfIssueLink = `${baseGfUrl}/feedback`;
       return {
         name: 'Information',
-        content: '<p>Info real soon now.</p>',
+        content: `<p>Documentation can be found on <a href="${docLink}">GitHub</a>.</p>` +
+          `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
+          `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.</p>`
       }
     }
 
