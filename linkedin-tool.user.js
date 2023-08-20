@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.9.0
+// @version     2.9.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -16,7 +16,7 @@
 
 /* global VM */
 
-(function () {
+(() => {
   'use strict';
 
   let navBarHeightPixels = 0;
@@ -149,7 +149,7 @@
       let timeoutID = null;
       const initialHeight = base.clientHeight;
       const initialWidth = base.clientWidth;
-      trigger = trigger || function () {};
+      trigger ??= function () {};
       const observer = new ResizeObserver(() => {
         if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
           observer.disconnect();
@@ -197,7 +197,7 @@
   function otmot(base, options, monitor, trigger, timeout) {
     const prom = new Promise((resolve, reject) => {
       let timeoutID = null;
-      trigger = trigger || function () {};
+      trigger ??= function () {};
       const observer = new MutationObserver((records) => {
         const {done, results} = monitor(records);
         if (done) {

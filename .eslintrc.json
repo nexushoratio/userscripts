@@ -19,7 +19,7 @@
     "class-methods-use-this": "error",
     "consistent-return": "error",
     "curly": "error",
-    "func-names": "off",  // TODO(#68): investigate
+    "func-names": ["error", "as-needed"],
     "func-style": "off",  // TODO(#68): investigate
     "id-length": "off",  // TODO(#68): investigate
     "max-classes-per-file": "off",  // TODO(#68): investigate
