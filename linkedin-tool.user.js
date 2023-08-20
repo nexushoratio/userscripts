@@ -1969,11 +1969,11 @@
     }
 
     /**
-     * Add basic dialog with an embedded tabs for the help view.  This
+     * Add basic dialog with an embedded tabs for the help view.  The
      * zeroth tab always defaults to `checked`.
      * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
-    _addHelpDialog(tabs) {  // eslint-disable-line no-unused-vars
+    _addHelpDialog(tabs) {
       const dialog = document.createElement('dialog');
       dialog.id = this._helpId;
       let tabber = '';
