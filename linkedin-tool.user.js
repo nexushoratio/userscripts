@@ -1149,9 +1149,13 @@
       // it affects the .clientHeight.
       this._posts.dull();
       this._comments?.dull();
-      otrot(this._posts.item, trigger.bind(this), 3000).then(() => {
-        this._posts.show();
-      }).catch(e => console.error(e));  // eslint-disable-line no-console
+      if (this._posts.item) {
+        otrot(this._posts.item, trigger.bind(this), 3000).then(() => {
+          this._posts.show();
+        });
+      } else {
+        trigger.bind(this)();
+      }
     }
 
     /**
