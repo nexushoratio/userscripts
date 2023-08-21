@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.11.0
+// @version     2.11.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1032,7 +1032,7 @@
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
       {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
-      {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
+      {seq: '=', desc: 'Open the <button class="lit-meatball">⋯</button> menu', func: this._openMeatballMenu},
     ];
 
     _postScroller = null;
@@ -1708,7 +1708,7 @@
       {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
       {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
       {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
-      {seq: '=', desc: 'Open the (⋯) menu', func: this._openMeatballMenu},
+      {seq: '=', desc: 'Open the <button class="lit-meatball">⋯</button> menu', func: this._openMeatballMenu},
     ];
 
     _notificationScroller = null;
@@ -2001,7 +2001,9 @@
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
-      style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 0.25em; }`;
+      // The color: unset address dimming while disabled.
+      style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`;
+      style.textContent += `#${this._helpId} button.lit-meatball { border-radius: 50%; }`;
       document.head.prepend(style);
     }
 
@@ -2151,6 +2153,9 @@
       // Don't include works in progress that have no keys yet.
       if (page.helpContent.length) {
         help.innerHTML += s;
+        for (const button of Array.from(help.querySelectorAll('button'))) {
+          button.disabled = true;
+        }
       }
     }
 
