@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.10.1
+// @version     2.10.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -468,6 +468,16 @@
     }
 
     /**
+     * Determines if the item can be viewed.  Usually this means the
+     * content is being loaded lazily and is not ready yet.
+     * @param {Element} item - The item to inspect.
+     * @returns {boolean} - Whether the item has viewable content.
+     */
+    static _isItemViewable(item) {
+      return item.clientHeight && item.innerText.length;
+    }
+
+    /**
      * Builds the list of using the registered CSS selectors.
      * @returns {Elements[]} - Items to scroll through.
      */
@@ -558,6 +568,7 @@
      * collection, else, the last.
      */
     _jumpToEndItem(first) {
+      this._msg(`Entered _jumpToEndItem with first=${first}`);
       // Reset in case item was heavily modified
       this.item;
 
@@ -570,13 +581,15 @@
         // detected by having no innerText yet.  So start at the end
         // and work our way up to the last one loaded.
         if (!first) {
-          while (!item.innerText.length) {
+          while (!Scroller._isItemViewable(item)) {
+            this._msg('skipping item', item);
             idx--;
             item = items[idx];
           }
         }
         this.item = item;
       }
+      this._msg('Leaving _jumpToEndItem');
     }
 
     /**
@@ -604,8 +617,8 @@
         } else {
           // Skip over empty items
           let item = items[idx];
-          while (!item.clientHeight) {
-            this._msg('skipping empty item', item);
+          while (!Scroller._isItemViewable(item)) {
+            this._msg('skipping item', item);
             idx += n;
             item = items[idx];
           }
