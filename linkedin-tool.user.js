@@ -2153,7 +2153,7 @@
       // Don't include works in progress that have no keys yet.
       if (page.helpContent.length) {
         help.innerHTML += s;
-        for (const button of Array.from(help.querySelectorAll('button'))) {
+        for (const button of help.querySelectorAll('button')) {
           button.disabled = true;
         }
       }
