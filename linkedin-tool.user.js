@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.10.2
+// @version     2.11.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1826,32 +1826,11 @@
           return;
         }
 
-        /**
-         * Every notification is different.
-         * It may be that notifications are settling on 'a.nt-card__headline'.
-         * @param {Element} el - Element to inspect.
-         * @returns {boolean} - Whether this element is recognized.
-         */
-        function matchesKnownText(el) { // eslint-disable-line no-inner-declarations
-          if (el.innerText === 'Apply early') {
-            return true;
-          } else if (el.innerText === 'Undo') {
-            return true;
-          }
-          return false;
-        }
-
-        const buttons = Array.from(notification.querySelectorAll('button'));
-        const button = buttons.find(matchesKnownText);
-        if (button) {
-          button.click();
+        const elements = notification.querySelectorAll('.nt-card__headline');
+        if (elements.length === 1) {
+          elements[0].click();
         } else {
-          const elements = notification.querySelectorAll('.nt-card__headline');
-          if (elements.length === 1) {
-            elements[0].click();
-          } else {
-            dumpInfoAboutElement(notification, 'notification');
-          }
+          dumpInfoAboutElement(notification, 'notification');
         }
       } else {
         // Again, because we use Enter as the hotkey for this action.
