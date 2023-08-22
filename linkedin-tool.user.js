@@ -438,9 +438,7 @@
      */
     set item(val) {
       this._msg('Entered set item with', val);
-      if (this.item) {
-        this.dull();
-      }
+      this.dull();
       this._bottomHalf(val);
       this._msg('Leaving set item');
     }
@@ -456,10 +454,8 @@
       this._currentItemId = this._uid(val);
       const idx = this._getItems().indexOf(val);
       this._historicalIdToIndex.set(this._currentItemId, idx);
-      if (val) {
-        this.shine();
-        this._scrollToCurrentItem();
-      }
+      this.shine();
+      this._scrollToCurrentItem();
       this.dispatcher.fire('change', {});
       this._msg('Leaving bottomHalf');
     }
@@ -658,18 +654,14 @@
      * Adds the registered CSS classes to the current element.
      */
     shine() {
-      if (this.item) {
-        this.item.classList.add(...this._classes);
-      }
+      this.item?.classList.add(...this._classes);
     }
 
     /**
      * Removes the registered CSS classes from the current element.
      */
     dull() {
-      if (this.item) {
-        this.item.classList.remove(...this._classes);
-      }
+      this.item?.classList.remove(...this._classes);
     }
 
     /**
