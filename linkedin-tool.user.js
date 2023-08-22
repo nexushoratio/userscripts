@@ -1898,9 +1898,8 @@
       const pages = Array.from(this._pages.values());
       pages.push(this._global);
       for (const page of pages) {
-        if (page) {
-          page.keyboard.setContext(context, state);
-        }
+        // Just in case no global was set up, use optional chaining.
+        page?.keyboard.setContext(context, state);
       }
     }
 
