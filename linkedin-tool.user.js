@@ -918,9 +918,7 @@
     static _gotoNavButton(item) {
       const buttons = Array.from(document.querySelectorAll('#global-nav button'));
       const button = buttons.find(el => el.textContent.includes(item));
-      if (button) {
-        button.click();
-      }
+      button?.click();
     }
 
     /**
