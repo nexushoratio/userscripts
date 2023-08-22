@@ -1332,12 +1332,8 @@
      * Open the Reactions summary pop-up.
      */
     _viewReactions() {
-      // Bah!  The queries are annoyingly different.
-      if (this._comments.item) {
-        clickElement(this._comments.item, ['button.comments-comment-social-bar__reactions-count']);
-      } else if (this._posts.item) {
-        clickElement(this._posts.item, ['button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
-      }
+      const el = this._comments.item ?? this._posts.item;
+      clickElement(el, ['button.comments-comment-social-bar__reactions-count,button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
     }
 
   }
