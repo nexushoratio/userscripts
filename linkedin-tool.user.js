@@ -2155,11 +2155,19 @@
       }
     }
 
+    /**
+     * Add content to the Errors tab so the user can use it to file feedback.
+     * @param {string} content - Information to add.
+     */
     addError(content) {
       const errors = document.querySelector(`#${this._helpId} [data-lit-id="errors"]`);
       errors.value += `${content}\n`;
     }
 
+    /**
+     * Add a marker to the Errors tab so the user can see where
+     * different issues happened.
+     */
     addErrorMarker() {
       this.addError('---');
     }
@@ -2216,6 +2224,11 @@
   pages.register(new Notifications());
   pages.activate(window.location.pathname);
 
+  /**
+   * Monitor for waiting for the navbar to show up.
+   * @implements {Monitor}
+   * @returns {Continuation} - Indicate whether done monitoring.
+   */
   function navBarMonitor() {
     const navbar = document.querySelector('#global-nav');
     if (navbar) {
@@ -2248,7 +2261,16 @@
     console.debug('Using MutationObserver for monitoring URL updates.');  // eslint-disable-line no-console
 
     let oldUrl = new URL(window.location);
-    function registerUrlMonitor(element) {  // eslint-disable-line no-inner-declarations
+
+    /**
+     * Constantly watch the SPA.  Whenever anything changes, compare
+     * the current URL to the previous one, and if change, send out an
+     * event.
+     * @param {Element} element - Element to observe, ideally the
+     * smallest thing that stays consistent throughout the lifetime of
+     * the app.
+     */
+    function createUrlObserver(element) {  // eslint-disable-line no-inner-declarations
       const observer = new MutationObserver(() => {
         const newUrl = new URL(window.location);
         if (oldUrl.href !== newUrl.href) {
@@ -2260,6 +2282,12 @@
       observer.observe(element, {childList: true, subtree: true});
     }
 
+    /**
+     * Watch for the intial `authentication-outlet` to show up, then
+     * attach the URL observer to it.
+     * @implements {Monitor}
+     * @returns {Continuation} - Indicate whether done monitoring.
+     */
     function authenticationOutletMonitor() {  // eslint-disable-line no-inner-declarations
       const div = document.body.querySelector('div.authentication-outlet');
       if (div) {
@@ -2269,7 +2297,7 @@
     }
 
     otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
-      .then((el) => registerUrlMonitor(el));
+      .then((el) => createUrlObserver(el));
   }
 
   console.debug('Initialization successful.');  // eslint-disable-line no-console
