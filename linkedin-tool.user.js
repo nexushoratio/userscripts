@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.12.1
+// @version     2.12.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1344,7 +1344,7 @@
       if (this._comments.item) {
         clickElement(this._comments.item, ['button.comments-comment-social-bar__reactions-count']);
       } else if (this._posts.item) {
-        clickElement(this._posts.item, ['button.feed-shared-social-action-bar-counts']);
+        clickElement(this._posts.item, ['button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
       }
     }
 
