@@ -20,7 +20,7 @@
     "consistent-return": "error",
     "curly": "error",
     "func-names": ["error", "as-needed"],
-    "func-style": "off",  // TODO(#68): investigate
+    "func-style": ["error", "declaration"],
     "id-length": "off",  // TODO(#68): investigate
     "max-classes-per-file": "off",  // TODO(#68): investigate
     "max-depth": "off",  // TODO(#68): investigate
