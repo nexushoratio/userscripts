@@ -1424,7 +1424,7 @@
 
     /** @type {boolean} */
     get _hasActiveJob() {
-      return this._jobs && this._jobs.item;
+      return Boolean(this._jobs?.item);
     }
 
     /**
@@ -1435,7 +1435,7 @@
     static _uniqueIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
-      if (h2) {
+      if (h2?.innerText) {
         content = h2.innerText;
       }
       return strHash(content);
