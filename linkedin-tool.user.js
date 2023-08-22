@@ -1093,7 +1093,7 @@
 
     /** @type {boolean} */
     get _hasActiveComment() {
-      return this._comments && this._comments.item;
+      return Boolean(this._comments?.item);
     }
 
     /**
@@ -1294,13 +1294,9 @@
       // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039)
       // the `:has()` pseudo-selector, we can probably use that and
       // use `clickElement()`.
-      if (this._comments.item) {
-        const button = this._comments.item.querySelector('[aria-label^="Open options"]').parentElement;
-        button.click();
-      } else if (this._posts.item) {
-        const button = this._posts.item.querySelector('[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
-        button.click();
-      }
+      const el = this._comments.item ?? this._posts.item;
+      const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
+      button?.click();
     }
 
     /**
