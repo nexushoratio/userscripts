@@ -75,7 +75,7 @@
     "space-before-function-paren": "off",  // TODO(#69): investigate
     "wrap-iife": "off",  // TODO(#69): investigate
     // Deprecated
-    "require-jsdoc": ["off", {  // TODO(#71): incrementally
+    "require-jsdoc": ["error", {
       "require": {
         "FunctionDeclaration": true,
         "MethodDefinition": true,
