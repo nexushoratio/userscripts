@@ -25,7 +25,7 @@
     "max-classes-per-file": "off",
     "max-depth": "error",
     "max-lines": "off",
-    "max-lines-per-function": "error",  // TODO(#68): investigate
+    "max-lines-per-function": "error",
     "max-params": "off",  // TODO(#68): investigate
     "max-statements": "off",  // TODO(#68): investigate
     "multiline-comment-style": "off",  // TODO(#68): investigate
