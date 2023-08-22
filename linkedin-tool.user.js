@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.11.1
+// @version     2.12.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -31,21 +31,17 @@
    * @param {string} name - What area this information came from.
    */
   function dumpInfoAboutElement(element, name) {
-    /* eslint-disable no-console */
-    console.clear();
-    console.debug(element);
-    console.debug(element.innerText);
-    for (const el of element.querySelectorAll('*')) {
-      console.debug(el);
-    }
-    const msg = [
-      `An unsupported unsupported ${name} element was`,
-      'discovered.  Please file a bug.  If you are comfortable',
-      'with using the browser\'s Developer Tools (often the',
-      'F12 key), consider sharing the information just logged',
-      'in the console / debug view.',
+    /* eslint-disable no-use-before-define */
+    const msg = `An unsupported unsupported ${name} element was discovered:`;
+    pages.addError(msg);
+    pages.addError(element.outerHTML);
+    pages.addErrorMarker();
+    const alertMsg = [
+      msg,
+      'Please file a bug using the Help view using the Information tab.',
+      'Error data was added to the Errors tab.',
     ];
-    alert(msg.join(' '));
+    alert(alertMsg.join(' '));
     /* eslint-enable */
   }
 
@@ -1901,7 +1897,7 @@
 
     _lastInputElement = null;
 
-    _helpKeyboard = null
+    _helpKeyboard = null;
 
     /** Create a Pages collection. */
     constructor() {
@@ -2083,7 +2079,7 @@
     static _errorHelp() {
       return {
         name: 'Errors',
-        content: '<div data-lit-id="errors"><p>No errors logged yet.</p></div>',
+        content: '<textarea rows=20 data-lit-id="errors" placeholder="No errors logged yet."></textarea>',
       }
     }
 
@@ -2159,6 +2155,15 @@
       }
     }
 
+    addError(content) {
+      const errors = document.querySelector(`#${this._helpId} [data-lit-id="errors"]`);
+      errors.value += `${content}\n`;
+    }
+
+    addErrorMarker() {
+      this.addError('---');
+    }
+
     /**
      * Add a new page to those supported by this instance.
      * @param {Page} page - An instance of the Page class.
@@ -2210,7 +2215,6 @@
   pages.register(new JobsCollections());
   pages.register(new Notifications());
   pages.activate(window.location.pathname);
-
 
   function navBarMonitor() {
     const navbar = document.querySelector('#global-nav');
