@@ -841,10 +841,8 @@
      * Disables the 'click' handler for this view.
      */
     _disableOnClick() {
-      if (this._onClickElement) {
-        this._onClickElement.removeEventListener('click', this._boundOnClick);
-        this._onClickElement = null;
-      }
+      this._onClickElement?.removeEventListener('click', this._boundOnClick);
+      this._onClickElement = null;
     }
 
     /**
