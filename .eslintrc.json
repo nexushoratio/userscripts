@@ -22,7 +22,7 @@
     "func-names": ["error", "as-needed"],
     "func-style": ["error", "declaration"],
     "id-length": "off",
-    "max-classes-per-file": "off",  // TODO(#68): investigate
+    "max-classes-per-file": "off",
     "max-depth": "off",  // TODO(#68): investigate
     "max-lines": "off",  // TODO(#68): investigate
     "max-lines-per-function": "off",  // TODO(#68): investigate
