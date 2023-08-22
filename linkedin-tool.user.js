@@ -16,6 +16,7 @@
 
 /* global VM */
 
+// eslint-disable-next-line max-lines-per-function
 (() => {
   'use strict';
 
