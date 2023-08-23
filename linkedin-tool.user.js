@@ -26,8 +26,6 @@
   /**
    * Dump a bunch of information about an element.  Currently this
    * goes to the console and then alerts the user to file a bug.
-   * Eventually this should go into an area that can be brought up in
-   * the help window instead.  TODO(#39).
    * @param {Element} element - Element to get information about.
    * @param {string} name - What area this information came from.
    */
