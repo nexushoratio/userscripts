@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.12.3
+// @version     2.12.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1807,7 +1807,12 @@
         if (elements.length === 1) {
           elements[0].click();
         } else {
-          dumpInfoAboutElement(notification, 'notification');
+          const ba = notification.querySelectorAll('button,a');
+          if (ba.length === 1) {
+            ba[0].click();
+          } else {
+            dumpInfoAboutElement(notification, 'notification');
+          }
         }
       } else {
         // Again, because we use Enter as the hotkey for this action.
