@@ -471,7 +471,7 @@
     }
 
     /**
-     * Builds the list of using the registered CSS selectors.
+     * Builds the list of elements using the registered CSS selectors.
      * @returns {Elements[]} - Items to scroll through.
      */
     _getItems() {
