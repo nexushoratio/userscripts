@@ -132,11 +132,18 @@
   }
 
   /**
-   * One time resize observer with timeout.
-   * Will resolve automatically upon first resize change.
+   * Simple function that takes no parameters and returns nothing.
+   * @callback SimpleFunction
+   */
+
+  /**
+   * One time resize observer with timeout.  Will resolve
+   * automatically upon first resize change.
    * @param {Element} base - Element to observe.
-   * @param {?function()} trigger - Function to call that triggers observable events.
-   * @param {number} timeout - Time to wait for completion in milliseconds, 0 disables.
+   * @param {?SimpleFunction} trigger - Function to call that triggers
+   * observable events.
+   * @param {number} timeout - Time to wait for completion in
+   * milliseconds, 0 disables.
    * @returns {Promise} - Will resolve with the base element.
    */
   function otrot(base, trigger, timeout) {
@@ -168,8 +175,9 @@
    * One time resize observer with action callback and duration.
    * Will resolve upon duration expiration.
    * @param {Element} base - Element to observe.
-   * @param {?function()} trigger - Function to call that triggers observable events.
-   * @param {function()} action - Function to call upon each event
+   * @param {?SimpleFunction} trigger - Function to call that triggers
+   * observable events.
+   * @param {SimpleFunction} action - Function to call upon each event
    * observed and at the end of duration.
    * @param {number} duration - Time to run in milliseconds.
    * @returns {Promise} - Will resolve after duration expires.
@@ -209,8 +217,8 @@
    * @param {object}  options - MutationObserver().observe() options.
    * @param {Monitor} monitor - Callback used to process
    * MutationObserver records.
-   * @param {?function()} trigger - Function to call that triggers
-   * observable resultsl
+   * @param {?SimpleFunction} trigger - Function to call that triggers
+   * observable results.
    * @param {number} timeout - Time to wait for completion in
    * milliseconds, 0 disables.
    * @returns {Promise<Continuation.results>} - Will resolve with the
@@ -711,7 +719,7 @@
      * @typedef {object} Shortcut
      * @property {string} seq - Key sequence to activate.
      * @property {string} desc - Description that goes into the online help.
-     * @property {function()} func - Function to call, usually in the
+     * @property {SimpleFunction} func - Function to call, usually in the
      * form of `this.methodName`.
      */
 
@@ -807,7 +815,7 @@
     /**
      * Registers a specific key sequence with a function with VM.shortcut.
      * @param {string} seq - Key sequence.
-     * @param {function()} func - Function to call.
+     * @param {SimpleFunction} func - Function to call.
      */
     _addKey(seq, func) {
       this._keyboard.register(seq, func, Page._navOption);
