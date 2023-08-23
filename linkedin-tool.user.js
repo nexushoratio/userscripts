@@ -371,7 +371,7 @@
 
     /**
      * Fancy-ish debug messages.
-     * console message groups can be started and ended using magic
+     * Console message groups can be started and ended using magic
      * keywords in messages.
      * - 'Entered' - Starts new group named with the rest of the string.
      * - 'Starting' - Starts a new collapsed group (useful for loops).
