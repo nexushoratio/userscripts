@@ -341,31 +341,45 @@
      */
 
     /**
-     * @param {Element} base - The container element.
-     * @param {string[]} selectors - Array of CSS selectors to find
+     * @typedef {object} What
+     * @property {string} name - Name for this scroller, simply used
+     * for debugging.
+     * @property {Element} base - The container to use as a base for
+     * selecting elements.
+     * @property {string[]} selectors - Array of CSS selectors to find
      * elements to collect, calling base.querySelectorAll().
-     * @param {uidCallback} uidCallback - Callback to generate a uid.
-     * @param {string[]} classes - Array of CSS classes to add/remove
-     * from an element as it becomes current.
-     * @param {boolean} snapToTop - Whether items should snap to the
-     * top of the window when coming into view.
-     * @param {object} [debug={}] - Debug options
-     * @param {boolean} [debug.enabled=false] - Enable messages.
-     * @param {boolean} [debug.stackTrace=false] - Include stack traces.
      */
-    constructor(base, selectors, uidCallback, classes, snapToTop, debug) {
-      if (!(base instanceof Element)) {
-        throw new TypeError(`Invalid base: ${base}`);
+
+    /**
+     * @typedef {object} How
+     * @property {uidCallback} uidCallback - Callback to generate a
+     * uid.
+     * @property {string[]} classes - Array of CSS classes to
+     * add/remove from an element as it becomes current.
+     * @property {boolean} snapToTop - Whether items should snap to
+     * the top of the window when coming into view.
+     * @property {boolean} [debug=false] - Enable debug messages.
+     * @property {boolean} [stackTrace=false] - Include stack traces
+     * in debug messages.
+     */
+
+    /**
+     * @param {What} what - What we want to scroll.
+     * @param {How} how - How we want to scroll.
+     */
+    constructor(what, how) {
+      if (!(what.base instanceof Element)) {
+        throw new TypeError(`Invalid base: ${what.base}`);
       }
       this._destroyed = false;
-      this._base = base;
-      this._selectors = selectors;
-      this._uidCallback = uidCallback;
-      this._classes = classes;
-      this._snapToTop = snapToTop;
-      this._debug = debug ?? {};
-      this._debug.enabled ??= false;
-      this._debug.stackTrace ??= false;
+      this._name = what.name ?? 'Unamed scroller';
+      this._base = what.base;
+      this._selectors = what.selectors;
+      this._uidCallback = how.uidCallback;
+      this._classes = how.classes;
+      this._snapToTop = how.snapToTop;
+      this._debug = how.debug ?? false;
+      this._stackTrace = how.stackTrace ?? false;
       this._msg('Scroller constructed', this);
     }
 
@@ -385,20 +399,21 @@
      *  this._msg('Leaving foo with', y);
      *  return y;
      * }
-     * @param {string} msg - Debug message to send to the console.
+     * @param {string} msg - Debug message to send to console.debug.
+     * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
      */
     _msg(msg, ...rest) {
       /* eslint-disable no-console */
-      if (this._debug.enabled) {
-        if (this._debug.stackTrace) {
+      if (this._debug) {
+        if (this._stackTrace) {
           console.groupCollapsed('call stack');
           console.trace();
           console.groupEnd();
         }
         if (typeof msg === 'string' && msg.startsWith('Entered')) {
-          console.group(msg.substr(msg.indexOf(' ') + 1));
+          console.group(`${this._name}: ${msg.substr(msg.indexOf(' ') + 1)}`);
         } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
-          console.groupCollapsed(`${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
+          console.groupCollapsed(`${this._name}: ${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
         }
         console.debug(msg, ...rest);
         if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
@@ -1029,12 +1044,41 @@
     _postScroller = null;
     _commentScroller = null;
 
+    /** @type {Scroller~What} */
+    static _postsWhat = {
+      name: 'Feed posts',
+      base: document.body,
+      selectors: ['main div[data-id]'],
+    };
+
+    /** @type {Scroller~How} */
+    static _postsHow = {
+      uidCallback: Feed._uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+      debug: false,
+      stackTrace: false,
+    };
+
+    /** @type {Scroller~What} */
+    static _commentsWhat = {
+      name: 'Feed comments',
+      selectors: ['article.comments-comment-item'],
+    };
+
+    /** @type {Scroller~How} */
+    static _commentsHow = {
+      uidCallback: Feed._uniqueIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+    };
+
     /**
      * Create the Feed; includes instantiating the posts {@link Scroller}.
      */
     constructor() {
       super();
-      this._postScroller = new Scroller(document.body, ['main div[data-id]'], Feed._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
+      this._postScroller = new Scroller(Feed._postsWhat, Feed._postsHow);
       this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
     }
@@ -1080,7 +1124,7 @@
     /** @type {Scroller} */
     get _comments() {
       if (!this._commentScroller && this._posts.item) {
-        this._commentScroller = new Scroller(this._posts.item, ['article.comments-comment-item'], Feed._uniqueIdentifier, ['dick'], false);
+        this._commentScroller = new Scroller({base: this._posts.item, ...Feed._commentsWhat}, Feed._commentsHow);
         this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
       }
       return this._commentScroller;
@@ -1375,12 +1419,40 @@
     _sectionWatchText = '';
     _jobScroller = null;
 
+    /** @type{Scroller~What} */
+    static _sectionsWhat = {
+      name: 'Jobs sections',
+      base: document.body,
+      selectors: ['main section'],
+    };
+
+    /** @type{Scroller~How} */
+    static _sectionsHow = {
+      uidCallback: Jobs._uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+    };
+
+    /** @type{Scroller~What} */
+    static _jobsWhat = {
+      name: 'Job entries',
+      selectors: [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
+    };
+
+    /** @type{Scroller~How} */
+    static _jobsHow = {
+      uidCallback: Jobs._uniqueJobIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+      debug: true,
+    };
+
     /**
      * Create the Jobs; includes instantiating the sections {@link Scroller}.
      */
     constructor() {
       super();
-      this._sectionScroller = new Scroller(document.body, ['main section'], Jobs._uniqueIdentifier, ['tom'], true, {enabled: false, stackTrace: true});
+      this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._sectionScroller.dispatcher.on('change', this._onChange.bind(this));
       this._sectionsMO = new MutationObserver(this._mutationHandler.bind(this));
@@ -1411,7 +1483,7 @@
     /** @type {Scroller} */
     get _jobs() {
       if (!this._jobScroller && this._sections.item) {
-        this._jobScroller = new Scroller(this._sections.item, [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'], Jobs._uniqueJobIdentifier, ['dick'], false, {enabled: false});
+        this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
         this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
       }
       return this._jobScroller;
@@ -1696,13 +1768,27 @@
 
     _notificationScroller = null;
 
+    /** @type {Scroller~What} */
+    static _notificationsWhat = {
+      name: 'Notification cards',
+      base: document.body,
+      selectors: ['main section div.nt-card-list article'],
+    };
+
+    /** @type {Scroller-How} */
+    static _notificationsHow = {
+      uidCallback: Notifications._uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
     /**
      * Create the Notifications view; includes instantiating the
      * notifications {@link Scroller}.
      */
     constructor() {
       super();
-      this._notificationScroller = new Scroller(document.body, ['main section div.nt-card-list article'], Notifications._uniqueIdentifier, ['tom'], false, {enabled: false, strackTrace: true});
+      this._notificationScroller = new Scroller(Notifications._notificationsWhat, Notifications._notificationsHow);
       this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
     }
 
