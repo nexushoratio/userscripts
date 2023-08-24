@@ -45,6 +45,7 @@
     "no-unneeded-ternary": "error",
     "no-unused-expressions": "off",  // TODO(#68): investigate
     "no-warning-comments": "off",  // TODO(#68): investigate
+    "object-shorthand": "off",  // TODO(#68): investigate
     "one-var": "off",  // TODO(#68): investigate
     "prefer-destructuring": "off",  // TODO(#68): investigate
     "prefer-named-capture-group": "off",  // TODO(#68): investigate
