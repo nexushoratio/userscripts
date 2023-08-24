@@ -20,7 +20,7 @@
     "consistent-return": "error",
     "curly": "error",
     "func-names": ["error", "as-needed"],
-    "func-style": ["error", "declaration"],
+    "func-style": ["error", "declaration", {"allowArrowFunctions": true}],
     "id-length": "off",
     "max-classes-per-file": "off",
     "max-depth": "error",
