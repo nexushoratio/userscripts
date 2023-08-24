@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.0
+// @version     2.13.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1753,7 +1753,7 @@
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
     _pathname = '/notifications/';
-    _onClickSelector = 'main';
+    _onClickSelector = 'main section div.nt-card-list';
     _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
