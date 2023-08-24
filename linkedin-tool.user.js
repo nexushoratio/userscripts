@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.1
+// @version     2.13.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -137,35 +137,44 @@
    */
 
   /**
+   * @typedef {object} OtrotWhat
+   * @property {string} name - The name for this observer.
+   * @property {Element} base - Element to observe.
+   */
+
+  /**
+   * @typedef {object} OtrotHow
+   * @property {?SimpleFunction} trigger - Function to call that triggers
+   * observable events.
+   * @property {number} timeout - Time to wait for completion in
+   * milliseconds.
+   */
+
+  /**
    * One time resize observer with timeout.  Will resolve
    * automatically upon first resize change.
-   * @param {Element} base - Element to observe.
-   * @param {?SimpleFunction} trigger - Function to call that triggers
-   * observable events.
-   * @param {number} timeout - Time to wait for completion in
-   * milliseconds, 0 disables.
-   * @returns {Promise} - Will resolve with the base element.
+   * @param {OtrotWhat} what - What to observe.
+   * @param {OtrotHow} how - How to observe.
+   * @returns {Promise<OtrotWhat>} - Will resolve with the what parameter.
    */
-  function otrot(base, trigger, timeout) {
+  function otrot(what, how) {
     const prom = new Promise((resolve, reject) => {
+      const trigger = how.trigger ?? (() => {});
       let timeoutID = null;
-      const initialHeight = base.clientHeight;
-      const initialWidth = base.clientWidth;
-      trigger ??= function () {};
+      const initialHeight = what.base.clientHeight;
+      const initialWidth = what.base.clientWidth;
       const observer = new ResizeObserver(() => {
-        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
+        if (what.base.clientHeight !== initialHeight || what.base.clientWidth !== initialWidth) {
           observer.disconnect();
           clearTimeout(timeoutID);
-          resolve(base);
+          resolve(what);
         }
       });
-      if (timeout) {
-        timeoutID = setTimeout(() => {
-          observer.disconnect();
-          reject('otrot timed out');
-        }, timeout);
-      }
-      observer.observe(base);
+      timeoutID = setTimeout(() => {
+        observer.disconnect();
+        reject(`otrot ${what.name} timed out`);
+      }, how.timeout);
+      observer.observe(what.base);
       trigger();
     });
     return prom;
@@ -1198,7 +1207,15 @@
       this._posts.dull();
       this._comments?.dull();
       if (this._posts.item) {
-        otrot(this._posts.item, trigger.bind(this), 3000).then(() => {
+        const what = {
+          name: 'nextPostPlus',
+          base: this._posts.item,
+        };
+        const how = {
+          trigger: trigger.bind(this),
+          timeout: 3000,
+        };
+        otrot(what, how).then(() => {
           this._posts.show();
         });
       } else {
@@ -1673,7 +1690,6 @@
      * Load more sections (or jobs in some cases).
      */
     _loadMoreSections() {
-      const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
 
       /**
@@ -1682,7 +1698,15 @@
       function trigger() {
         clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
       }
-      otrot(container, trigger, 3000).then(() => {
+      const what = {
+        name: 'loadMoreSections',
+        base: document.querySelector('div.scaffold-finite-scroll__content'),
+      };
+      const how = {
+        trigger: trigger,
+        timeout: 3000,
+      };
+      otrot(what, how).then(() => {
         this._resetScroll(savedScrollTop);
       });
     }
@@ -1713,10 +1737,18 @@
        * needs it.
        */
       function trigger() {
-        clickElement(this._jobs.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
+        clickElement(savedJob, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
       }
       if (savedJob) {
-        otrot(this._sections.item, trigger.bind(this), 3000).then(() => {
+        const what = {
+          name: 'toggleSaveJob',
+          base: savedJob,
+        };
+        const how = {
+          trigger: trigger,
+          timeot: 3000,
+        };
+        otrot(what, how).then(() => {
           this._jobs.item = savedJob;
         });
       }
@@ -1733,10 +1765,18 @@
        * needs it.
        */
       function trigger() {
-        clickElement(this._jobs.item, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
+        clickElement(savedJob, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
       }
       if (savedJob) {
-        otrot(this._sections.item, trigger.bind(this), 3000).then(() => {
+        const what = {
+          name: 'toggleDismissJob',
+          base: savedJob,
+        };
+        const how = {
+          trigger: trigger,
+          timeout: 3000,
+        };
+        otrot(what, how).then(() => {
           this._jobs.item = savedJob;
         });
       }
@@ -1916,7 +1956,6 @@
      */
     _deleteNotification() {
       const notification = this._notifications.item;
-      const container = document.querySelector('div.scaffold-finite-scroll__content');
 
       /**
        * Trigger function for {@link otrot}.
@@ -1933,7 +1972,15 @@
         }
       }
       if (notification) {
-        otrot(container, trigger, 3000).then(() => {
+        const what = {
+          name: 'deleteNotification',
+          base: document.querySelector('div.scaffold-finite-scroll__content'),
+        };
+        const how = {
+          trigger: trigger,
+          timeout: 3000,
+        };
+        otrot(what, how).then(() => {
           this._notifications.shine();
         });
       }
