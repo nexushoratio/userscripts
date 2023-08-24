@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.12.5
+// @version     2.13.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1946,16 +1946,34 @@
     static _loadMoreNotifications() {
       const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
+      let first = false;
+      const notifications = this._notifications;
 
       /**
-       * Trigger function for {@link otrot}.
+       * Trigger function for {@link otrot2}.
        */
-      function trigger() {
-        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+      function trigger () {
+        if (clickElement(document, ['button[aria-label^="Load new notifications"]'])) {
+          first = true;
+        } else {
+          clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
+        }
       }
-      otrot(container, trigger, 3000).then(() => {
-        document.documentElement.scrollTop = savedScrollTop;
-      });
+
+      /**
+       * Action function for {@link otrot2}.
+       */
+      const action = () => {
+        if (first) {
+          if (notifications.item) {
+            notifications.first();
+          }
+        } else {
+          document.documentElement.scrollTop = savedScrollTop;
+          this._notifications.shine();
+        }
+      }
+      otrot2(container, trigger, action, 2000);
     }
 
   }
