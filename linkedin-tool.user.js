@@ -1444,7 +1444,6 @@
       uidCallback: Jobs._uniqueJobIdentifier,
       classes: ['dick'],
       snapToTop: false,
-      debug: true,
     };
 
     /**
