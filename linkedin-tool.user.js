@@ -202,7 +202,7 @@
   /**
    * @typedef {object} Continuation
    * @property {boolean} done - Indicate whether the monitor is done processing.
-   * @property {?object} results - Optional results object.
+   * @property {object} [results] - Optional results object.
    */
 
   /**
