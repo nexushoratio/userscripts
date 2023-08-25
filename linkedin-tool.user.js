@@ -144,8 +144,8 @@
 
   /**
    * @typedef {object} OtrotHow
-   * @property {?SimpleFunction} trigger - Function to call that triggers
-   * observable events.
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable events.
    * @property {number} timeout - Time to wait for completion in
    * milliseconds.
    */
