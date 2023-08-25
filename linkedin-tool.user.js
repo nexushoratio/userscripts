@@ -181,28 +181,34 @@
   }
 
   /**
+   * @typedef {object} Otrot2How
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable events.
+   * @property {SimpleFunction} action - Function to call upon each
+   * event observed and also at the end of duration.
+   * @property {number} duration - Time to run in milliseconds.
+   */
+
+  /**
    * One time resize observer with action callback and duration.
    * Will resolve upon duration expiration.
-   * @param {Element} base - Element to observe.
-   * @param {?SimpleFunction} trigger - Function to call that triggers
-   * observable events.
-   * @param {SimpleFunction} action - Function to call upon each event
-   * observed and at the end of duration.
-   * @param {number} duration - Time to run in milliseconds.
+   * Uses the same what parameter as {@link otrot}.
+   * @param {OtrotWhat} what - What to observe.
+   * @param {Otrow2How} how - How to observe.
    * @returns {Promise} - Will resolve after duration expires.
    */
-  function otrot2(base, trigger, action, duration) {
+  function otrot2(what, how) {
     const prom = new Promise((resolve) => {
-      trigger ??= function () {};
+      const trigger = how.trigger ?? (() => {});
       const observer = new ResizeObserver(() => {
-        action();
+        how.action();
       });
       setTimeout(() => {
         observer.disconnect();
-        action();
-        resolve('otrot2 finished');
-      }, duration);
-      observer.observe(base);
+        how.action();
+        resolve(`otrot2 ${what.name} finished`);
+      }, how.duration);
+      observer.observe(what.base);
       trigger();
     });
     return prom;
@@ -1310,7 +1316,6 @@
      * Load more posts.
      */
     static _loadMorePosts() {
-      const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
       let first = false;
       const posts = this._posts;
@@ -1339,7 +1344,16 @@
         }
       }
 
-      otrot2(container, trigger, action, 2000);
+      const what = {
+        name: 'loadMorePosts',
+        base: document.querySelector('div.scaffold-finite-scroll__content'),
+      };
+      const how = {
+        trigger: trigger,
+        action: action,
+        duration: 2000,
+      };
+      otrot2(what, how);
     }
 
     /**
@@ -1990,7 +2004,6 @@
      * Load more notifications.
      */
     static _loadMoreNotifications() {
-      const container = document.querySelector('div.scaffold-finite-scroll__content');
       const savedScrollTop = document.documentElement.scrollTop;
       let first = false;
       const notifications = this._notifications;
@@ -2019,7 +2032,17 @@
           this._notifications.shine();
         }
       }
-      otrot2(container, trigger, action, 2000);
+
+      const what = {
+        name: 'loadMoreNotifications',
+        base: document.querySelector('div.scaffold-finite-scroll__content'),
+      };
+      const how = {
+        trigger: trigger,
+        action: action,
+        duration: 2000,
+      };
+      otrot2(what, how);
     }
 
   }
