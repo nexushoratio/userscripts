@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.4
+// @version     2.13.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2267,8 +2267,8 @@
      */
     _initializeHelpKeyboard() {
       this._helpKeyboard = new VM.shortcut.KeyboardService();
-      this._helpKeyboard.register('right', this._switchHelpTab.bind(this, 1));
-      this._helpKeyboard.register('left', this._switchHelpTab.bind(this, -1));
+      this._helpKeyboard.register('c-right', this._switchHelpTab.bind(this, 1));
+      this._helpKeyboard.register('c-left', this._switchHelpTab.bind(this, -1));
     }
 
     /**
@@ -2315,7 +2315,7 @@
       }
       dialog.innerHTML =
         '<div>' +
-        '  <span>Use left/right arrow keys or click to select tab</span>' +
+        '  <span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</div><hr>' +
         `<div class="lit-tabber">${tabber}` +
