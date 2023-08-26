@@ -426,7 +426,7 @@
         base: this._base,
         selectors: this._selectors,
       } = what);
-      if (!(base instanceof Element)) {
+      if (!(this._base instanceof Element)) {
         throw new TypeError(`Invalid base ${this._base} given for ${this._name}`);
       }
       ({
