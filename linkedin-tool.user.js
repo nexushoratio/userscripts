@@ -159,12 +159,19 @@
    */
   function otrot(what, how) {
     const prom = new Promise((resolve, reject) => {
-      const trigger = how.trigger ?? (() => {});
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        trigger = () => {},
+        timeout,
+      } = how;
       let timeoutID = null;
-      const initialHeight = what.base.clientHeight;
-      const initialWidth = what.base.clientWidth;
+      const initialHeight = base.clientHeight;
+      const initialWidth = base.clientWidth;
       const observer = new ResizeObserver(() => {
-        if (what.base.clientHeight !== initialHeight || what.base.clientWidth !== initialWidth) {
+        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
           observer.disconnect();
           clearTimeout(timeoutID);
           resolve(what);
@@ -172,9 +179,9 @@
       });
       timeoutID = setTimeout(() => {
         observer.disconnect();
-        reject(`otrot ${what.name} timed out`);
-      }, how.timeout);
-      observer.observe(what.base);
+        reject(`otrot ${name} timed out`);
+      }, timeout);
+      observer.observe(base);
       trigger();
     });
     return prom;
@@ -199,16 +206,24 @@
    */
   function otrot2(what, how) {
     const prom = new Promise((resolve) => {
-      const trigger = how.trigger ?? (() => {});
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        trigger = () => {},
+        action,
+        duration,
+      } = how;
       const observer = new ResizeObserver(() => {
-        how.action();
+        action();
       });
       setTimeout(() => {
         observer.disconnect();
-        how.action();
-        resolve(`otrot2 ${what.name} finished`);
-      }, how.duration);
-      observer.observe(what.base);
+        action();
+        resolve(`otrot2 ${name} finished`);
+      }, duration);
+      observer.observe(base);
       trigger();
     });
     return prom;
@@ -236,12 +251,12 @@
    * @typedef {object} OtmotHow
    * @property {object} observeOptions - MutationObserver().observe()
    * options.
-   * @property {Monitor} monitor - Callback used to process
-   * MutationObserver records.
    * @property {SimpleFunction} [trigger] - Function to call that
    * triggers observable results.
-   * @property {number} timeout - Time to wait for completion in
-   * milliseconds, 0 disables.
+   * @property {Monitor} monitor - Callback used to process
+   * MutationObserver records.
+   * @property {number} [timeout] - Time to wait for completion in
+   * milliseconds, default of 0 disables.
    */
 
   /**
@@ -253,23 +268,32 @@
    */
   function otmot(what, how) {
     const prom = new Promise((resolve, reject) => {
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        observeOptions,
+        trigger = () => {},
+        monitor,
+        timeout = 0,
+      } = how;
       let timeoutID = null;
-      const trigger = how.trigger ?? (() => {});
       const observer = new MutationObserver((records) => {
-        const {done, results} = how.monitor(records);
+        const {done, results} = monitor(records);
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
           resolve(results);
         }
       });
-      if (how.timeout) {
+      if (timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
-          reject(`otmot ${what.name} timed out`);
-        }, how.timeout);
+          reject(`otmot ${name} timed out`);
+        }, timeout);
       }
-      observer.observe(what.base, how.observeOptions);
+      observer.observe(base, observeOptions);
       trigger();
     });
     return prom;
@@ -393,20 +417,25 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
+     * @throws {TypeError} - When base is not an Element.
      */
     constructor(what, how) {
-      if (!(what.base instanceof Element)) {
-        throw new TypeError(`Invalid base: ${what.base}`);
-      }
       this._destroyed = false;
-      this._name = what.name ?? 'Unamed scroller';
-      this._base = what.base;
-      this._selectors = what.selectors;
-      this._uidCallback = how.uidCallback;
-      this._classes = how.classes;
-      this._snapToTop = how.snapToTop;
-      this._debug = how.debug ?? false;
-      this._stackTrace = how.stackTrace ?? false;
+      ({
+        name: this._name = 'Unamed scroller',
+        base: this._base,
+        selectors: this._selectors,
+      } = what);
+      if (!(base instanceof Element)) {
+        throw new TypeError(`Invalid base ${this._base} given for ${this._name}`);
+      }
+      ({
+        uidCallback: this._uidCallback,
+        classes: this._classes,
+        snapToTop: this._snapToTop,
+        debug: this._debug = false,
+        stackTrace: this._stackTrace = false,
+      } = how);
       this._msg('Scroller constructed', this);
     }
 
@@ -2418,7 +2447,7 @@
     if (navbar) {
       return {done: true, results: navbar};
     }
-    return {done: false, results: null};
+    return {done: false};
   }
 
   // In this case, the trigger was the page load.  It already happened
@@ -2430,7 +2459,6 @@
   const navHow = {
     observeOptions: {childList: true, subtree: true},
     monitor: navBarMonitor,
-    timeout: 0,
   };
   otmot(navWhat, navHow).then((el) => {
     navBarHeightPixels = el.clientHeight + 4;
@@ -2494,7 +2522,6 @@
     const autoOutletHow = {
       observeOptions: {childList: true, subtree: true},
       monitor: authenticationOutletMonitor,
-      timeout: 0,
     };
     otmot(authOutletWhat, autoOutletHow).then((el) => createUrlObserver(el));
   }
