@@ -652,7 +652,6 @@
           idx = items.length - 1;
         }
         if (idx === -1 || idx >= items.length) {
-          this._msg('left the container');
           this.item = null;
           this.dispatcher.fire('out-of-range', null);
         } else {
