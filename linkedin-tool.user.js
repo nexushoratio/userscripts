@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.3
+// @version     2.13.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -22,6 +22,119 @@
 
   let navBarHeightPixels = 0;
   let navBarHeightCss = '0';
+  // I'm lazy.  The version of emacs I'm using does not support
+  // #private variables out of the box, so using underscores until I
+  // get a working configuration.
+
+  /**
+   * Fancy-ish debug messages.
+   * Console message groups can be started and ended using magic
+   * keywords in messages.
+   * - 'Entered' - Starts new group named with the rest of the string.
+   * - 'Starting' - Starts a new collapsed group (useful for loops).
+   * - 'Leaving' and 'Finished' - Both end the most recent group,
+   *    with Leaving for the function, and Finished for the loop
+   *    (though not enforced).
+   * @example
+   * foo(x) {
+   *  log.log('Entered foo', x);
+   *  ... do stuff ...
+   *  log.log('Starting loop');
+   *  for (const item in items) {
+   *    log.log(`Processing ${item}`);
+   *    ...
+   *  }
+   *  log.log('Finished loop');
+   *  log.log('Leaving foo with', y);
+   *  return y;
+   * }
+   */
+  class Logger {
+
+    /**
+     * @param {string} name - Name for this logger.
+     * @param {boolean} enabled - Initial enabled state of the logger.
+     * @param {boolean} trace - Initial state of including stack traces.
+     */
+    constructor(name, enabled = false, trace = false) {
+      this._name = name;
+      this._enabled = enabled;
+      this.trace = trace;
+    }
+
+    /**
+     * @returns {string} - Name for this logger.
+     */
+    get name() {
+      return this._name;
+    }
+
+    /**
+     * Whether logging is currently enabled.
+     * @type {boolean}
+     */
+    get enabled() {
+      return this._enabled;
+    }
+
+    /**
+     * Indicates whether messages include a stack trace.
+     * @type {boolean}
+     */
+    get trace() {
+      return this._trace;
+    }
+
+    /**
+     * @param {boolean} val - Set inclusion of stack traces.
+     */
+    set trace(val) {
+      this._trace = Boolean(val);
+    }
+
+    /**
+     * Enable this logger.
+     */
+    enable() {
+      this._enabled = true;
+    }
+
+    /**
+     * Disable this logger.
+     */
+    disable() {
+      this._enabled = false;
+    }
+
+    /**
+     * Log a specific message.
+     * @param {string} msg - Debug message to send to console.debug.
+     * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
+     */
+    log(msg, ...rest) {
+      /* eslint-disable no-console */
+      if (this.enabled) {
+        if (this.trace) {
+          console.groupCollapsed(`${this.name} call stack`);
+          console.trace();
+          console.groupEnd();
+        }
+        if (typeof msg === 'string' && msg.startsWith('Entered')) {
+          console.group(`${this.name}: ${msg.substr(msg.indexOf(' ') + 1)}`);
+        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
+          console.groupCollapsed(`${this.name}: ${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
+        }
+        console.debug(`${this.name}: ${msg}`, ...rest);
+        if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
+          console.groupEnd();
+        }
+      }
+      /* eslint-enable */
+    }
+
+  }
+
+  const log = new Logger('Global', true, false);
 
   /**
    * Dump a bunch of information about an element.  Currently this
@@ -299,10 +412,6 @@
     return prom;
   }
 
-  // I'm lazy.  The version of emacs I'm using does not support
-  // #private variables out of the box, so using underscores until I
-  // get a working configuration.
-
   /**
    * Simple dispatcher.  It takes a fixed list of event types upon
    * construction and attempts to use an unknown event will throw an
@@ -436,47 +545,18 @@
         debug: this._debug = false,
         stackTrace: this._stackTrace = false,
       } = how);
+
+      this._logger = new Logger(this._name, this._debug, this._stackTrace);
       this._msg('Scroller constructed', this);
     }
 
     /**
-     * Fancy-ish debug messages.
-     * Console message groups can be started and ended using magic
-     * keywords in messages.
-     * - 'Entered' - Starts new group named with the rest of the string.
-     * - 'Starting' - Starts a new collapsed group (useful for loops).
-     * - 'Leaving' and 'Finished' - Both end the most recent group,
-     *    with Leaving for the function, and Finished for the loop
-     *    (though not enforced).
-     * @example
-     * foo(x) {
-     *  this._msg('Entered foo', x);
-     *  ... do stuff ...
-     *  this._msg('Leaving foo with', y);
-     *  return y;
-     * }
-     * @param {string} msg - Debug message to send to console.debug.
-     * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
-     */
+      * @param {string} msg - Debug message to send to the logger.
+      * @param {*} ...rest - Arbitrary arguments to also pass to the
+      * logger.
+      */
     _msg(msg, ...rest) {
-      /* eslint-disable no-console */
-      if (this._debug) {
-        if (this._stackTrace) {
-          console.groupCollapsed('call stack');
-          console.trace();
-          console.groupEnd();
-        }
-        if (typeof msg === 'string' && msg.startsWith('Entered')) {
-          console.group(`${this._name}: ${msg.substr(msg.indexOf(' ') + 1)}`);
-        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
-          console.groupCollapsed(`${this._name}: ${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
-        }
-        console.debug(msg, ...rest);
-        if (typeof msg === 'string' && (/^(Leaving|Finished)/).test(msg)) {
-          console.groupEnd();
-        }
-      }
-      /* eslint-enable */
+      this._logger.log(msg, ...rest);
     }
 
     /** @type {Dispatcher} */
@@ -2467,7 +2547,7 @@
 
   if (window.onurlchange === null) {
     // We are likely running on Tampermonkey, so use native support.
-    console.debug('Using window.onurlchange for monitoring URL updates.');  // eslint-disable-line no-console
+    log.log('Using window.onurlchange for monitoring URL updates.');
     window.addEventListener('urlchange', (info) => {
       // The info that TM gives is not really an event.  So we turn it
       // into one and throw it again, this time onto `document` where
@@ -2477,7 +2557,7 @@
       document.dispatchEvent(evt);
     });
   } else {
-    console.debug('Using MutationObserver for monitoring URL updates.');  // eslint-disable-line no-console
+    log.log('Using MutationObserver for monitoring URL updates.');
 
     let oldUrl = new URL(window.location);
 
@@ -2526,6 +2606,6 @@
     otmot(authOutletWhat, autoOutletHow).then((el) => createUrlObserver(el));
   }
 
-  console.debug('Initialization successful.');  // eslint-disable-line no-console
+  log.log('Initialization successful.');
 
 })();
