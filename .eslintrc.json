@@ -26,7 +26,7 @@
     "max-depth": "error",
     "max-lines": "off",
     "max-lines-per-function": "error",
-    "max-params": ["error", {"max": 5}],  // TODO(#101): Get this down to the default of 3.
+    "max-params": "error",
     "max-statements": "off",  // TODO(#68): investigate
     "multiline-comment-style": "off",  // TODO(#68): investigate
     "no-alert": "off",  // TODO(#68): investigate

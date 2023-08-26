@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.2
+// @version     2.13.3
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -227,37 +227,49 @@
    */
 
   /**
-   * One time mutation observer with timeout.
-   * @param {Element} base - Element to observe.
-   * @param {object}  options - MutationObserver().observe() options.
-   * @param {Monitor} monitor - Callback used to process
+   * @typedef {object} OtmotWhat
+   * @property {string} name - The name for this observer.
+   * @property {Element} base - Element to observe.
+   */
+
+  /**
+   * @typedef {object} OtmotHow
+   * @property {object} observeOptions - MutationObserver().observe()
+   * options.
+   * @property {Monitor} monitor - Callback used to process
    * MutationObserver records.
-   * @param {?SimpleFunction} trigger - Function to call that triggers
-   * observable results.
-   * @param {number} timeout - Time to wait for completion in
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable results.
+   * @property {number} timeout - Time to wait for completion in
    * milliseconds, 0 disables.
+   */
+
+  /**
+   * One time mutation observer with timeout.
+   * @param {OtmotWhat} what - What to observe.
+   * @param {OtmotHow} how - How to observe.
    * @returns {Promise<Continuation.results>} - Will resolve with the
    * results from monitor when done is true.
    */
-  function otmot(base, options, monitor, trigger, timeout) {
+  function otmot(what, how) {
     const prom = new Promise((resolve, reject) => {
       let timeoutID = null;
-      trigger ??= function () {};
+      const trigger = how.trigger ?? (() => {});
       const observer = new MutationObserver((records) => {
-        const {done, results} = monitor(records);
+        const {done, results} = how.monitor(records);
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
           resolve(results);
         }
       });
-      if (timeout) {
+      if (how.timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
-          reject('otmot timed out');
-        }, timeout);
+          reject(`otmot ${what.name} timed out`);
+        }, how.timeout);
       }
-      observer.observe(base, options);
+      observer.observe(what.base, how.observeOptions);
       trigger();
     });
     return prom;
@@ -1124,7 +1136,16 @@
         return {done: false};
       }
       if (this._posts.item) {
-        otmot(this._posts.item, {attributeFilter: ['class'], attributes: true, attributeOldValue: true}, monitor, null, 5000).finally(() => {
+        const what = {
+          name: 'onClick',
+          base: this._posts.item,
+        };
+        const how = {
+          observeOptions: {attributeFilter: ['class'], attributes: true, attributeOldValue: true},
+          monitor: monitor,
+          timeout: 5000,
+        };
+        otmot(what, how).finally(() => {
           this._posts.shine();
           this._posts.show();
         });
@@ -2403,12 +2424,19 @@
 
   // In this case, the trigger was the page load.  It already happened
   // by the time we got here.
-  otmot(document.body, {childList: true, subtree: true}, navBarMonitor,
-        null, 0)
-    .then((el) => {
-      navBarHeightPixels = el.clientHeight + 4;
-      navBarHeightCss = `${navBarHeightPixels}px`;
-    });
+  const navWhat = {
+    name: 'navBarObserver',
+    base: document.body,
+  };
+  const navHow = {
+    observeOptions: {childList: true, subtree: true},
+    monitor: navBarMonitor,
+    timeout: 0,
+  };
+  otmot(navWhat, navHow).then((el) => {
+    navBarHeightPixels = el.clientHeight + 4;
+    navBarHeightCss = `${navBarHeightPixels}px`;
+  });
 
   if (window.onurlchange === null) {
     // We are likely running on Tampermonkey, so use native support.
@@ -2460,8 +2488,16 @@
       return {done: false, results: null};
     }
 
-    otmot(document.body, {childList: true, subtree: true}, authenticationOutletMonitor, null, 0)
-      .then((el) => createUrlObserver(el));
+    const authOutletWhat = {
+      name: 'authOutletMonitor',
+      base: document.body,
+    };
+    const autoOutletHow = {
+      observeOptions: {childList: true, subtree: true},
+      monitor: authenticationOutletMonitor,
+      timeout: 0,
+    };
+    otmot(authOutletWhat, autoOutletHow).then((el) => createUrlObserver(el));
   }
 
   console.debug('Initialization successful.');  // eslint-disable-line no-console
