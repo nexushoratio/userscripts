@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.13.5
+// @version     2.14.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2328,6 +2328,16 @@
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
         this._helpKeyboard.enable();
+        if (this._page) {
+          const pageId = this._pageHelpId(this._page);
+          const tr = document.querySelector(`#${pageId}`);
+          tr.style.scrollMarginTop = navBarHeightCss;
+          tr.scrollIntoView(true);
+        } else {
+          const dialog = document.querySelector(`#${this._helpId}`);
+          // 0, 0 is good enough
+          dialog.scrollTo(0, 0);
+        }
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
@@ -2428,13 +2438,23 @@
     }
 
     /**
+     * Generate a unique id for page views.
+     * @param {Page} page - An instance of the Page class.
+     * @returns {string} - Unique identifier.
+     */
+    _pageHelpId(page) {
+      return `${this._helpId}-${page.helpHeader}`;
+    }
+
+    /**
      * Add help from the page to the help view.
      * @param {Page} page - An instance of the Page class.
      */
     _addHelp(page) {
       const help = document.querySelector(`#${this._helpId} tbody`);
       const section = Pages._parseHeader(page.helpHeader);
-      let s = `<tr><th></th><th>${section}</th></tr>`;
+      const pageId = this._pageHelpId(page);
+      let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.helpContent) {
         const keys = Pages._parseSeq(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
