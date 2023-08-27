@@ -1615,7 +1615,8 @@
       this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
       this._sectionScroller.dispatcher.on('change', this._onChange.bind(this));
-      this._sectionsMO = new MutationObserver(this._mutationHandler.bind(this));
+      this._sectionsMO1 = new MutationObserver(this._mutationHandler.bind(this));
+      this._sectionsMO2 = new MutationObserver(this._mutationHandler.bind(this));
     }
 
     /** @inheritdoc */
@@ -1628,11 +1629,13 @@
 
     /** @inheritdoc */
     _refresh() {
+      this._log.disable();
       this._sections.show();
-      // The div does get recreated, so setting the observer again is
+      // The div does get recreated, so setting the observers again is
       // appropriate.
       const el = document.querySelector('div.scaffold-finite-scroll__content');
-      this._sectionsMO.observe(el, {childList: true});
+      this._sectionsMO1.observe(el, {childList: true});
+      this._sectionsMO2.observe(el, {attributes: true, attributeOldValue: true, attributeFilter: ['class'], subtree: true});
     }
 
     /** @type {Scroller} */
@@ -1734,6 +1737,7 @@
      * @param {number} topScroll - Where to scroll to.
      */
     _resetScroll(topScroll) {
+      this._log.log('Entered resetScroll', topScroll);
       // Explicitly setting jobs.item below will cause it to
       // scroll to that item.  We do not want to do that if
       // the user is manually scrolling.
@@ -1743,6 +1747,7 @@
       this._jobs = null;
       this._jobs.item = job;
       document.documentElement.scrollTop = topScroll;
+      this._log.log('Leaving resetScroll');
     }
 
     /**
@@ -1758,16 +1763,31 @@
      * @param {MutationRecord[]} records - Standard mutation records.
      */
     _mutationHandler(records) {
+      this._log.log('Entered mutationHandler', `records: ${records.length} type: ${records[0].type}, and ${this._sectionWatchText}`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
             const newText = node.innerText?.trim().split('\n')[0];
             if (newText && newText === this._sectionWatchText) {
+              this._log.log('via childList');
+              this._resetScroll(document.documentElement.scrollTop);
+            }
+          }
+        } else if (record.type === 'attributes') {
+          const newText = record.target.innerText?.trim().split('\n')[0];
+          if (newText && newText === this._sectionWatchText) {
+            const attr = record.attributeName;
+            const oldValue = record.oldValue;
+            const newValue = record.target.attributes[attr].value;
+            const same = oldValue === newValue;
+            if (!same) {
+              this._log.log('via attributes');
               this._resetScroll(document.documentElement.scrollTop);
             }
           }
         }
       }
+      this._log.log('Leaving mutationHandler');
     }
 
     /**
