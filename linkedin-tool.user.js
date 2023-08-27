@@ -913,6 +913,7 @@
      * Called when registered via {@link Pages}.
      */
     start() {
+      this._log = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this._autoRegisteredKeys) {
         this._addKey(seq, func.bind(this));
       }
