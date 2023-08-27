@@ -153,7 +153,8 @@
       'Please file a bug using the Help view using the Information tab.',
       'Error data was added to the Errors tab.',
     ];
-    alert(alertMsg.join(' '));
+    // TODO(#105): Retire alert.
+    alert(alertMsg.join(' '));  // eslint-disable-line no-alert
     /* eslint-enable */
   }
 
@@ -911,8 +912,10 @@
 
     /**
      * Called when registered via {@link Pages}.
+     * @param {Pages} pages - Pages instance that manages this Page.
      */
-    start() {
+    start(pages) {
+      this._pages = pages;
       this._log = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this._autoRegisteredKeys) {
         this._addKey(seq, func.bind(this));
@@ -1011,7 +1014,11 @@
      * @param {Event} evt - Standard 'click' event.
      */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
-      alert(`Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`);
+      const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
+      this._page.addError(msg);
+      this._pages.addErrorMarker();
+      // TODO(#105): Retire alert.
+      alert(msg);  // eslint-disable-line no-alert
     }
 
     /**
@@ -2511,7 +2518,7 @@
      * @param {Page} page - An instance of the Page class.
      */
     register(page) {
-      page.start();
+      page.start(this);
       this._addHelp(page);
       if (page.pathname === null) {
         page.helpId = this._helpId
