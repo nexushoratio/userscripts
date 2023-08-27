@@ -2300,10 +2300,10 @@
       const style = document.createElement('style');
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
       style.textContent += `#${this._helpId} input { display: none; } `;
-      style.textContent += `#${this._helpId} label { padding: unset; display: inline; } `;
+      style.textContent += `#${this._helpId} label { padding: unset; display: inline; color: unset !important; } `;
       style.textContent += `#${this._helpId} label::before { all: unset; } `;
       style.textContent += `#${this._helpId} label::after { all: unset; } `;
-      style.textContent += `#${this._helpId} input:checked + label::after { content: "*"; } `;
+      style.textContent += `#${this._helpId} input:checked + label { font-weight: bold; } `;
       style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
       for (const idx of tabs.keys()) {
         style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${idx + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${idx + 1}) { display: block }`;
