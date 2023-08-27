@@ -1015,7 +1015,7 @@
      */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
       const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
-      this._page.addError(msg);
+      this._pages.addError(msg);
       this._pages.addErrorMarker();
       // TODO(#105): Retire alert.
       alert(msg);  // eslint-disable-line no-alert
