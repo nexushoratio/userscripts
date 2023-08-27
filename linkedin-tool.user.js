@@ -14,7 +14,7 @@
 // @grant       window.onurlchange
 // ==/UserScript==
 
-/* global VM */
+/* global GM, VM */
 
 // eslint-disable-next-line max-lines-per-function
 (() => {
@@ -2213,6 +2213,8 @@
    * disable view specific handling as appropriate.
    */
   class Pages {
+    static _errorMarker = '---';
+
     _global = null;
     _page = null;
     _pages = new Map();
@@ -2402,8 +2404,40 @@
         content: `<p>This is help for the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>` +
           `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>` +
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
-          `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.</p>`
+          `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`
       }
+    }
+
+    /**
+     * Generate information about the current environment useful in
+     * bug reports.
+     * @returns {string} - Text with some wrapped in a `pre` element.
+     */
+    static _errorPlatformInfo() {
+      const gm = GM.info;
+      const header = 'Please consider including some of the following information in any bug report:';
+      const msgs = [
+        `${gm.script.name}: ${gm.script.version}`,
+        `Userscript manager: ${gm.scriptHandler} ${gm.version}`,
+      ];
+
+      // Violentmonkey
+      if (gm.platform) {
+        msgs.push(`Platform: ${gm.platform.browserName} ${gm.platform.browserVersion} ${gm.platform.os} ${gm.platform.arch}`);
+      }
+
+      // Tampermonkey
+      if (gm.userAgentData) {
+        let msg = 'Platform: ';
+        for (const brand of gm.userAgentData.brands.values()) {
+          msg += `${brand.brand} ${brand.version} `;
+        }
+        msg += `${gm.userAgentData?.platform} `;
+        msg += `${gm.userAgentData?.architecture}-${gm.userAgentData?.bitness}`;
+        msgs.push(msg);
+      }
+
+      return `${header}<pre>${msgs.join('\n')}</pre>`;
     }
 
     /**
@@ -2413,7 +2447,15 @@
     static _errorHelp() {
       return {
         name: 'Errors',
-        content: '<textarea rows=20 data-lit-id="errors" placeholder="No errors logged yet."></textarea>',
+        content: [
+          '<div>',
+          '  <p>Any information in the text box below could be helpful in fixing a bug.</p>',
+          `  <p>The content can be edited and then included in a bug report.  Different errors should be separated by "${Pages._errorMarker}".</p>`,
+          '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
+          Pages._errorPlatformInfo(),
+          '</div>',
+          '<textarea rows=20 data-lit-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
+        ].join(''),
       }
     }
 
@@ -2513,7 +2555,7 @@
      * different issues happened.
      */
     addErrorMarker() {
-      this.addError('---');
+      this.addError(Pages._errorMarker);
     }
 
     /**
