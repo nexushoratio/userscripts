@@ -28,7 +28,7 @@
     "max-lines-per-function": "error",
     "max-params": "error",
     "max-statements": ["error", {"max": 20}, {"ignoreTopLevelFunctions": true}],
-    "multiline-comment-style": "off",  // TODO(#68): investigate
+    "multiline-comment-style": ["error", "separate-lines"],
     "no-alert": "off",  // TODO(#68): investigate
     "no-bitwise": "off",  // TODO(#68): investigate
     "no-confusing-arrow": ["error", {"allowParens": true}],
