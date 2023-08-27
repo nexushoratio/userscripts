@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.14.1
+// @version     2.14.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2316,6 +2316,7 @@
         style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${idx + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${idx + 1}) { display: block }`;
       }
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
+      style.textContent += `#${this._helpId} p { margin-bottom: 1em; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
       // The color: unset address dimming while disabled.
@@ -2342,6 +2343,7 @@
         panels += `<div class="lit-panel">${content}</div>`;
       }
       dialog.innerHTML =
+        `<div><b>${GM.info.script.name}</b> - v${GM.info.script.version}</div>` +
         '<div>' +
         '  <span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
@@ -2391,13 +2393,14 @@
     static _infoHelp() {
       const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
       const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
-      const docLink = `${baseGhUrl}/blob/main/linkedin-tool.md`;
       const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
       const newIssueLink = `${baseGhUrl}/issues/new/choose`;
       const newGfIssueLink = `${baseGfUrl}/feedback`;
+      const releaseNotesLink = `${baseGfUrl}/versions`;
       return {
         name: 'Information',
-        content: `<p>Documentation can be found on <a href="${docLink}">GitHub</a>.</p>` +
+        content: `<p>This is help for the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>` +
+          `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>` +
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
           `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.</p>`
       }
