@@ -2216,12 +2216,33 @@
   class SPA {
     static _errorMarker = '---';
 
+    /**
+     * A special {Page} that handles global keys.
+     * @type {Page}
+     */
     _global = null;
+
+    /**
+     * Current {Page}.
+     * @type {Page}
+     */
     _page = null;
+
+    /**
+     * Collect of {Page} mapped by the pathname they support.
+     * @type {Page}
+     */
     _pages = new Map();
 
+    /**
+     * The most recent element to receive focus.
+     * @type {Element}
+     */
     _lastInputElement = null;
 
+    /**
+     * @type {KeyboardService}
+     */
     _helpKeyboard = null;
 
     /** Create a SPA. */
