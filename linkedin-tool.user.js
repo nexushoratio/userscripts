@@ -2281,6 +2281,16 @@
     }
 
     /**
+     * Create and configure a separate {@link KeyboardService} for the
+     * help view.
+     */
+    _initializeHelpKeyboard() {
+      this._helpKeyboard = new VM.shortcut.KeyboardService();
+      this._helpKeyboard.register('c-right', this._switchHelpTab.bind(this, 1));
+      this._helpKeyboard.register('c-left', this._switchHelpTab.bind(this, -1));
+    }
+
+    /**
      * @typedef {object} HelpTab
      * @property {string} name - Tab name
      * @property {string} content - HTML to be used as initial content.
@@ -2290,16 +2300,6 @@
      * @callback HelpTabGenerator
      * @returns {HelpTab}
      */
-
-    /**
-     * Create and configure a separate {@link KeyboardService} for the
-     * help view.
-     */
-    _initializeHelpKeyboard() {
-      this._helpKeyboard = new VM.shortcut.KeyboardService();
-      this._helpKeyboard.register('c-right', this._switchHelpTab.bind(this, 1));
-      this._helpKeyboard.register('c-left', this._switchHelpTab.bind(this, -1));
-    }
 
     /**
      * Add CSS styling for use with the help view.
