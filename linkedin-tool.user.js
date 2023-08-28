@@ -2324,6 +2324,17 @@
     }
 
     /**
+     * Configure handlers for the help view.
+     */
+    _addHelpViewHandlers() {
+      const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
+      errors.addEventListener('change', (evt) => {
+        const count = evt.target.value.split('\n').filter(x => x === SPA._errorMarker).length;
+        this._updateHelpErrorsLabel(count);
+      });
+    }
+
+    /**
      * Create the CSS styles used for indicating the current items.
      */
     static _installNavStyle() {
@@ -2370,6 +2381,7 @@
       for (const idx of tabs.keys()) {
         style.textContent += `#${this._helpId} div.spa-tabber > input:nth-of-type(${idx + 1}):checked ~ div.spa-panels > div.spa-panel:nth-of-type(${idx + 1}) { display: block }`;
       }
+      style.textContent += `#${this._helpId} .spa-danger { background-color: red; }`;
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} p { margin-bottom: 1em; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
@@ -2507,6 +2519,7 @@
 
       this._addHelpStyle(helpGenerators);
       this._addHelpDialog(helpGenerators);
+      this._addHelpViewHandlers();
     }
 
     /**
@@ -2575,12 +2588,33 @@
     }
 
     /**
+     * Update Errors tab label based upon value.
+     * @param {number} count - Number of errors currently logged.
+     */
+    _updateHelpErrorsLabel(count) {
+      this._log.log('Entered updateHelpErrorsLabel', count);
+      const label = document.querySelector(`#${this._helpId} [data-spa-id="spa-label-Errors"]`);
+      if (count) {
+        label.click();
+        label.classList.add('spa-danger');
+      } else {
+        label.classList.remove('spa-danger')
+      }
+      this._log.log('Leaving updateHelpErrorsLabel');
+    }
+
+    /**
      * Add content to the Errors tab so the user can use it to file feedback.
      * @param {string} content - Information to add.
      */
     addError(content) {
       const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
       errors.value += `${content}\n`;
+
+      if (content === SPA._errorMarker) {
+        const event = new Event('change');
+        errors.dispatchEvent(event);
+      }
     }
 
     /**
