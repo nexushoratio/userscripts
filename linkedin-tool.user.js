@@ -2656,9 +2656,9 @@
     let oldUrl = new URL(window.location);
 
     /**
-     * Constantly watch the SPA.  Whenever anything changes, compare
-     * the current URL to the previous one, and if change, send out an
-     * event.
+     * Constantly watch the web page.  Whenever anything changes,
+     * compare the current URL to the previous one, and if change,
+     * send out an event.
      * @param {Element} element - Element to observe, ideally the
      * smallest thing that stays consistent throughout the lifetime of
      * the app.
