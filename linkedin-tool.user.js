@@ -2384,9 +2384,9 @@
       for (const idx of tabs.keys()) {
         const checked = idx ? '' : 'checked';
         const {name, content} = tabs[idx];
-        tabber += `<input id="spa-${idx}" name="spa-help-tabber" type="radio" ${checked}>`;
-        tabber += `<label for="spa-${idx}">[${name}]</label>`;
-        panels += `<div class="spa-panel">${content}</div>`;
+        tabber += `<input data-spa-id="spa-input-${name}" id="spa-input-${name}" name="spa-help-tabber" type="radio" ${checked}>`;
+        tabber += `<label data-spa-id="spa-label-${name}" for="spa-input-${name}">[${name}]</label>`;
+        panels += `<div data-spa-id="spa-panel-${name}" class="spa-panel">${content}</div>`;
       }
       dialog.innerHTML =
         `<div><b>${GM.info.script.name}</b> - v${GM.info.script.version}</div>` +
