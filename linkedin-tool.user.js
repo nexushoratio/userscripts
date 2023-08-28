@@ -840,18 +840,19 @@
   }
 
   /**
-   * Base class for handling various views of the LinkedIn SPA.
+   * Base class for handling various views of a single-page
+   * application.
    *
    * Generally, new classes should subclass this, override a few
    * properties and methods, and then register themselves with an
-   * instances of the {@link Pages} class.
+   * instance of the {@link SPA} class.
    */
   class Page {
     // The immediate following can be set in subclasses.
 
     /**
      * What pathname part of the URL this page should handle.  The
-     * special case of null is used by the {@link Pages} class to
+     * special case of null is used by the {@link SPA} class to
      * represent global keys.
      * @type {string}
      */
@@ -911,8 +912,8 @@
     }
 
     /**
-     * Called when registered via {@link Pages}.
-     * @param {Pages} pages - Pages instance that manages this Page.
+     * Called when registered via {@link SPA}.
+     * @param {SPA} pages - SPA instance that manages this Page.
      */
     start(pages) {
       this._pages = pages;
@@ -933,7 +934,7 @@
     }
 
     /**
-     * Turns on this Page's features.  Called by {@link Pages} when
+     * Turns on this Page's features.  Called by {@link SPA} when
      * this becomes the current view.
      */
     activate() {
@@ -942,7 +943,7 @@
     }
 
     /**
-     * Turns off this Page's features.  Called by {@link Pages} when
+     * Turns off this Page's features.  Called by {@link SPA} when
      * this is no longer the current view.
      */
     deactivate() {
@@ -2205,14 +2206,14 @@
   }
 
   /**
-   * A container/driver for multiple {@link Page}s.
+   * A driver for working with a single-page application.
    *
    * Generally, a single instance of this class is created, and all
    * instances of {Page} are registered to it.  As the user navigates
-   * through the LinkedIn SPA, this will react to it and enable and
-   * disable view specific handling as appropriate.
+   * through the single-page application, this will react to it and
+   * enable and disable view specific handling as appropriate.
    */
-  class Pages {
+  class SPA {
     static _errorMarker = '---';
 
     _global = null;
@@ -2223,10 +2224,10 @@
 
     _helpKeyboard = null;
 
-    /** Create a Pages collection. */
+    /** Create a SPA. */
     constructor() {
       this._id = crypto.randomUUID();
-      Pages._installNavStyle();
+      SPA._installNavStyle();
       this._initializeHelpMenu();
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
@@ -2450,9 +2451,9 @@
         content: [
           '<div>',
           '  <p>Any information in the text box below could be helpful in fixing a bug.</p>',
-          `  <p>The content can be edited and then included in a bug report.  Different errors should be separated by "${Pages._errorMarker}".</p>`,
+          `  <p>The content can be edited and then included in a bug report.  Different errors should be separated by "${SPA._errorMarker}".</p>`,
           '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
-          Pages._errorPlatformInfo(),
+          SPA._errorPlatformInfo(),
           '</div>',
           '<textarea rows=20 data-lit-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
         ].join(''),
@@ -2467,9 +2468,9 @@
       this._initializeHelpKeyboard();
 
       const helpGenerators = [
-        Pages._keyboardHelp(),
-        Pages._infoHelp(),
-        Pages._errorHelp(),
+        SPA._keyboardHelp(),
+        SPA._infoHelp(),
+        SPA._errorHelp(),
       ];
 
       this._addHelpStyle(helpGenerators);
@@ -2525,11 +2526,11 @@
      */
     _addHelp(page) {
       const help = document.querySelector(`#${this._helpId} tbody`);
-      const section = Pages._parseHeader(page.helpHeader);
+      const section = SPA._parseHeader(page.helpHeader);
       const pageId = this._pageHelpId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.helpContent) {
-        const keys = Pages._parseSeq(seq);
+        const keys = SPA._parseSeq(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
@@ -2555,7 +2556,7 @@
      * different issues happened.
      */
     addErrorMarker() {
-      this.addError(Pages._errorMarker);
+      this.addError(SPA._errorMarker);
     }
 
     /**
@@ -2602,7 +2603,7 @@
     }
   }
 
-  const pages = new Pages();
+  const pages = new SPA();
   pages.register(new Global());
   pages.register(new Feed());
   pages.register(new Jobs());
