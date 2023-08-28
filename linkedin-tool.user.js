@@ -145,9 +145,9 @@
   function dumpInfoAboutElement(element, name) {
     /* eslint-disable no-use-before-define */
     const msg = `An unsupported unsupported ${name} element was discovered:`;
-    pages.addError(msg);
-    pages.addError(element.outerHTML);
-    pages.addErrorMarker();
+    spa.addError(msg);
+    spa.addError(element.outerHTML);
+    spa.addErrorMarker();
     const alertMsg = [
       msg,
       'Please file a bug using the Help view using the Information tab.',
@@ -913,10 +913,10 @@
 
     /**
      * Called when registered via {@link SPA}.
-     * @param {SPA} pages - SPA instance that manages this Page.
+     * @param {SPA} spa - SPA instance that manages this Page.
      */
-    start(pages) {
-      this._pages = pages;
+    start(spa) {
+      this._spa = spa;
       this._log = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this._autoRegisteredKeys) {
         this._addKey(seq, func.bind(this));
@@ -1016,8 +1016,8 @@
      */
     _onClick(evt) {  // eslint-disable-line no-unused-vars
       const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
-      this._pages.addError(msg);
-      this._pages.addErrorMarker();
+      this._spa.addError(msg);
+      this._spa.addErrorMarker();
       // TODO(#105): Retire alert.
       alert(msg);  // eslint-disable-line no-alert
     }
@@ -2603,13 +2603,13 @@
     }
   }
 
-  const pages = new SPA();
-  pages.register(new Global());
-  pages.register(new Feed());
-  pages.register(new Jobs());
-  pages.register(new JobsCollections());
-  pages.register(new Notifications());
-  pages.activate(window.location.pathname);
+  const spa = new SPA();
+  spa.register(new Global());
+  spa.register(new Feed());
+  spa.register(new Jobs());
+  spa.register(new JobsCollections());
+  spa.register(new Notifications());
+  spa.activate(window.location.pathname);
 
   /**
    * Monitor for waiting for the navbar to show up.
@@ -2645,7 +2645,7 @@
     window.addEventListener('urlchange', (info) => {
       // The info that TM gives is not really an event.  So we turn it
       // into one and throw it again, this time onto `document` where
-      // `pages` is listening for it.
+      // `spa` is listening for it.
       const newUrl = new URL(info.url);
       const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
       document.dispatchEvent(evt);
