@@ -2268,6 +2268,7 @@
      * @param {SPADetails} details - Implementation specific details.
      */
     constructor(details) {
+      this._log = new Logger(this.constructor.name, true, false);
       this._details = details;
       this._id = crypto.randomUUID();
       SPA._installNavStyle();
