@@ -2183,14 +2183,22 @@
 
   }
 
-  /** Abstract class for SPA instance details. */
+  /** Base class for SPA instance details. */
   class SPADetails {
+
+    /**
+     * Create a SPADetails instance.
+     */
+    constructor() {
+      this._log = new Logger(this.constructor.name, false, false);
+    }
 
     /**
      * @implements {SPA~HelpTabGenerator}
      * @returns {SPA~HelpTab} - Where to find documentation and file bugs.
      */
-    static infoHelp() {
+    infoHelp() {
+      this._log.log('infoHelp is not implemented');
       throw new Error('Not implemented.');
       return {  // eslint-disable-line no-unreachable
         name: 'Not implemented.',
@@ -2202,24 +2210,24 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
-    /**
-     * @implements {SPA~HelpTabGenerator}
-     * @returns {SPA~HelpTab} - Where to find documentation and file bugs.
-     */
-    static infoHelp() {
+    /** @inheritdoc */
+    infoHelp() {
+      this._log.log('Entered infoHelp');
       const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
       const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
       const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
       const newIssueLink = `${baseGhUrl}/issues/new/choose`;
       const newGfIssueLink = `${baseGfUrl}/feedback`;
       const releaseNotesLink = `${baseGfUrl}/versions`;
-      return {
+      const helpTab = {
         name: 'Information',
         content: `<p>This is help for the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>` +
           `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>` +
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
           `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`
       }
+      this._log.log('Leaving infoHelp with', helpTab);
+      return helpTab;
     }
   }
 
@@ -2647,7 +2655,7 @@
     }
   }
 
-  const spa = new SPA(LinkedIn);
+  const spa = new SPA(new LinkedIn());
   spa.register(new Global());
   spa.register(new Feed());
   spa.register(new Jobs());
