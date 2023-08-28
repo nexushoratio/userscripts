@@ -349,6 +349,7 @@
    * MutationObserver records.
    * @property {number} [timeout] - Time to wait for completion in
    * milliseconds, default of 0 disables.
+   * @property {boolen} [debug] - Enable debugging.
    */
 
   /**
@@ -369,24 +370,32 @@
         trigger = () => {},
         monitor,
         timeout = 0,
+        debug = false,
       } = how;
+      const log = new Logger(`otmot ${name}`, debug, false);
       let timeoutID = null;
       const observer = new MutationObserver((records) => {
         const {done, results} = monitor(records);
+        log.log('monitor:', done, results);
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
+          log.log('resolving with', results);
           resolve(results);
+          log.log('resolved');
         }
       });
       if (timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
+          log.log('rejecting after timeout');
           reject(`otmot ${name} timed out`);
         }, timeout);
       }
       observer.observe(base, observeOptions);
+      log.log('Calling trigger');
       trigger();
+      log.log('Trigger called');
     });
     return prom;
   }
