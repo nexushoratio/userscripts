@@ -2186,11 +2186,29 @@
   /** Base class for SPA instance details. */
   class SPADetails {
 
-    /**
-     * Create a SPADetails instance.
-     */
+    /** Create a SPADetails instance. */
     constructor() {
       this._log = new Logger(this.constructor.name, false, false);
+      this.dispatcher = new Dispatcher('errors', 'news');
+      this.dispatcher.on('errors', this._errors.bind(this));
+      this.dispatcher.on('news', this._news.bind(this));
+    }
+
+    /**
+     * Handles notifications about changes to the {@link SPA} Errors
+     * tab content.
+     * @param {number} count - Number of errors currently logged.
+     */
+    _errors(count) {
+      this._log.log('errors:', count);
+    }
+
+    /**
+     * Handles notifications about activity on the {@link SPA} News tab.
+     * @param {object} data - Undefined at this time.
+     */
+    _news(data) {
+      this._log.log('news', data);
     }
 
     /**
@@ -2209,6 +2227,11 @@
 
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
+
+    /** @inheritdoc */
+    _errors(count) {
+      this._log.log('I will eventually do something with', count);
+    }
 
     /** @inheritdoc */
     infoHelp() {
@@ -2330,6 +2353,7 @@
       const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
       errors.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n').filter(x => x === SPA._errorMarker).length;
+        this._details.dispatcher.fire('errors', count);
         this._updateHelpErrorsLabel(count);
       });
     }
