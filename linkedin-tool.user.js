@@ -660,10 +660,10 @@
       this._msg('Entered uid with', element);
       let uid = null;
       if (element) {
-        if (!element.dataset.litId) {
-          element.dataset.litId = this._uidCallback(element);
+        if (!element.dataset.spaId) {
+          element.dataset.spaId = this._uidCallback(element);
         }
-        uid = element.dataset.litId;
+        uid = element.dataset.spaId;
       }
       this._msg('Leaving uid with', uid);
       return uid;
@@ -1182,7 +1182,7 @@
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
       {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
-      {seq: '=', desc: 'Open the <button class="lit-meatball">⋯</button> menu', func: this._openMeatballMenu},
+      {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
     ];
 
     _postScroller = null;
@@ -1974,7 +1974,7 @@
       {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
       {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
       {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
-      {seq: '=', desc: 'Open the <button class="lit-meatball">⋯</button> menu', func: this._openMeatballMenu},
+      {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
     ];
 
     _notificationScroller = null;
@@ -2314,9 +2314,9 @@
       style.textContent += `#${this._helpId} label::before { all: unset; } `;
       style.textContent += `#${this._helpId} label::after { all: unset; } `;
       style.textContent += `#${this._helpId} input:checked + label { font-weight: bold; } `;
-      style.textContent += `#${this._helpId} .lit-panel { display: none; } `;
+      style.textContent += `#${this._helpId} .spa-panel { display: none; } `;
       for (const idx of tabs.keys()) {
-        style.textContent += `#${this._helpId} div.lit-tabber > input:nth-of-type(${idx + 1}):checked ~ div.lit-panels > div.lit-panel:nth-of-type(${idx + 1}) { display: block }`;
+        style.textContent += `#${this._helpId} div.spa-tabber > input:nth-of-type(${idx + 1}):checked ~ div.spa-panels > div.spa-panel:nth-of-type(${idx + 1}) { display: block }`;
       }
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} p { margin-bottom: 1em; }`;
@@ -2324,7 +2324,7 @@
       style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
       // The color: unset address dimming while disabled.
       style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`;
-      style.textContent += `#${this._helpId} button.lit-meatball { border-radius: 50%; }`;
+      style.textContent += `#${this._helpId} button.spa-meatball { border-radius: 50%; }`;
       document.head.prepend(style);
     }
 
@@ -2341,9 +2341,9 @@
       for (const idx of tabs.keys()) {
         const checked = idx ? '' : 'checked';
         const {name, content} = tabs[idx];
-        tabber += `<input id="lit-${idx}" name="lit-help-tabber" type="radio" ${checked}>`;
-        tabber += `<label for="lit-${idx}">[${name}]</label>`;
-        panels += `<div class="lit-panel">${content}</div>`;
+        tabber += `<input id="spa-${idx}" name="spa-help-tabber" type="radio" ${checked}>`;
+        tabber += `<label for="spa-${idx}">[${name}]</label>`;
+        panels += `<div class="spa-panel">${content}</div>`;
       }
       dialog.innerHTML =
         `<div><b>${GM.info.script.name}</b> - v${GM.info.script.version}</div>` +
@@ -2351,8 +2351,8 @@
         '  <span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
         '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
         '</div><hr>' +
-        `<div class="lit-tabber">${tabber}` +
-        `    <div class="lit-panels">${panels}</div>` +
+        `<div class="spa-tabber">${tabber}` +
+        `    <div class="spa-panels">${panels}</div>` +
         '  </div>' +
         '</div>';
       document.body.prepend(dialog);
@@ -2385,7 +2385,7 @@
     static _keyboardHelp() {
       return {
         name: 'Keyboard shortcuts',
-        content: '<table data-lit-id="shortcuts"><tbody></tbody></table>',
+        content: '<table data-spa-id="shortcuts"><tbody></tbody></table>',
       }
     }
 
@@ -2455,7 +2455,7 @@
           '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
           SPA._errorPlatformInfo(),
           '</div>',
-          '<textarea rows=20 data-lit-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
+          '<textarea rows=20 data-spa-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
         ].join(''),
       }
     }
@@ -2483,7 +2483,7 @@
      * @param {number} direction - Either 1 or -1.
      */
     _switchHelpTab(direction) {
-      const panels = Array.from(document.querySelectorAll(`#${this._helpId} .lit-tabber > input`));
+      const panels = Array.from(document.querySelectorAll(`#${this._helpId} .spa-tabber > input`));
       let idx = panels.findIndex((panel) => panel.checked);
       idx = (idx + direction + panels.length) % panels.length;
       panels[idx].checked = true;
@@ -2547,7 +2547,7 @@
      * @param {string} content - Information to add.
      */
     addError(content) {
-      const errors = document.querySelector(`#${this._helpId} [data-lit-id="errors"]`);
+      const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
       errors.value += `${content}\n`;
     }
 
