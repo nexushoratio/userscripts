@@ -137,28 +137,6 @@
   const log = new Logger('Default', true, false);
 
   /**
-   * Dump a bunch of information about an element.  Currently this
-   * goes to the console and then alerts the user to file a bug.
-   * @param {Element} element - Element to get information about.
-   * @param {string} name - What area this information came from.
-   */
-  function dumpInfoAboutElement(element, name) {
-    /* eslint-disable no-use-before-define */
-    const msg = `An unsupported unsupported ${name} element was discovered:`;
-    spa.addError(msg);
-    spa.addError(element.outerHTML);
-    spa.addErrorMarker();
-    const alertMsg = [
-      msg,
-      'Please file a bug using the Help view using the Information tab.',
-      'Error data was added to the Errors tab.',
-    ];
-    // TODO(#105): Retire alert.
-    alert(alertMsg.join(' '));  // eslint-disable-line no-alert
-    /* eslint-enable */
-  }
-
-  /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
    * @param {string} s - String to hash.
    * @returns {string} - Hash value.
@@ -1890,7 +1868,7 @@
       const job = this._jobs?.item;
       if (job) {
         if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
-          dumpInfoAboutElement(job, 'job')
+          this._spa.dumpInfoAboutElement(job, 'job')
         }
       } else {
         // Again, because we use Enter as the hotkey for this action.
@@ -2114,7 +2092,7 @@
           if (ba.length === 1) {
             ba[0].click();
           } else {
-            dumpInfoAboutElement(notification, 'notification');
+            this._spa.dumpInfoAboutElement(notification, 'notification');
           }
         }
       } else {
@@ -2618,6 +2596,26 @@
       } else {
         this._pages.set(page.pathname, page);
       }
+    }
+
+    /**
+     * Dump a bunch of information about an element.  Currently this
+     * goes to the console and then alerts the user to file a bug.
+     * @param {Element} element - Element to get information about.
+     * @param {string} name - What area this information came from.
+     */
+    dumpInfoAboutElement(element, name) {
+      const msg = `An unsupported unsupported ${name} element was discovered:`;
+      this.addError(msg);
+      this.addError(element.outerHTML);
+      this.addErrorMarker();
+      const alertMsg = [
+        msg,
+        'Please file a bug using the Help view using the Information tab.',
+        'Error data was added to the Errors tab.',
+      ];
+      // TODO(#105): Retire alert.
+      alert(alertMsg.join(' '));  // eslint-disable-line no-alert
     }
 
     /**
