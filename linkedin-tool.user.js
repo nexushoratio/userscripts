@@ -134,7 +134,7 @@
 
   }
 
-  const log = new Logger('Global', true, false);
+  const log = new Logger('Default', true, false);
 
   /**
    * Dump a bunch of information about an element.  Currently this
