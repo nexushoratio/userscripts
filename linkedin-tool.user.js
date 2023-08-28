@@ -2272,7 +2272,7 @@
       this._details = details;
       this._id = crypto.randomUUID();
       SPA._installNavStyle();
-      this._initializeHelpMenu();
+      this._initializeHelpView();
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
     }
@@ -2487,7 +2487,7 @@
     /**
      * Set up everything necessary to get the help view going.
      */
-    _initializeHelpMenu() {
+    _initializeHelpView() {
       this._helpId = `help-${this._id}`;
       this._initializeHelpKeyboard();
 
