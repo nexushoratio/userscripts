@@ -2240,11 +2240,11 @@
     /** Create a LinkedIn instance. */
     constructor() {
       super();
-      this.ready = this._waitOnPageLoadedEnough();
+      this.ready = this._waitUntilPageLoadedEnough();
     }
 
     /** Hang out until enough HTML has been built to be useful. */
-    async _waitOnPageLoadedEnough() {
+    async _waitUntilPageLoadedEnough() {
       this._log.log('Entered waitOnPageLoadedEnough');
 
       /**
