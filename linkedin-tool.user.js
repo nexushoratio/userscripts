@@ -2237,6 +2237,23 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
+    static _icon =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
+      '<defs>' +
+      '<mask id="a" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" d="M0 0h1v1H0z"/>' +
+      '<circle cx=".5" cy=".5" r=".25"/>' +
+      '</mask>' +
+      '<mask id="b" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
+      '<rect x="0.375" y="-0.05" height="0.35" width="0.25" transform="rotate(30 0.5 0.5)"/>' +
+  '</mask>' +
+      '</defs>' +
+      '<rect x="9.5" y="7" width="5" height="10" transform="rotate(45 12 12)"/>' +
+      '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
+      '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
+      '</svg>';
+
     /** Create a LinkedIn instance. */
     constructor() {
       super();
@@ -2281,24 +2298,29 @@
     _finishConstruction() {
       this._log.log('Entered finishConstruction');
 
-      this._setNavBarInfo();
       this._addToolMenuItem();
+      this._setNavBarInfo();
 
       this._log.log('Leaving finishConstruction');
+    }
+
+    /** Add a menu item to the global nav bar. */
+    _addToolMenuItem() {
+      this._log.log('Entered addToolMenuItem');
+
+      const ul = document.querySelector('ul.global-nav__primary-items');
+      const li = document.createElement('li');
+      li.classList.add('global-nav__primary-item');
+      li.innerHTML = `<button class="global-nav__primary-link"><div>${LinkedIn._icon}</div><span class="t-12 global-nav__primary-link-text">Tool</span></button>`;
+      this._log.log('ul:', ul);
+      ul.prepend(li);
+      this._log.log('Leaving addToolMenuItem');
     }
 
     /** Set some useful global variables. */
     _setNavBarInfo() {
       navBarHeightPixels = this._navbar.clientHeight + 4;
       navBarHeightCss = `${navBarHeightPixels}px`;
-    }
-
-    /** Add a menu item to the global nav bar. */
-    _addToolMenuItem() {
-      this._log.log('Entered addToolMenuItem');
-      const ul = document.querySelector('ul.global-nav__primary-items');
-      this._log.log('ul:', ul);
-      this._log.log('Leaving addToolMenuItem');
     }
 
     /** @inheritdoc */
