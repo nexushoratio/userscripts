@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.14.4
+// @version     2.14.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1026,7 +1026,7 @@
   class Global extends Page {
     _pathname = null;
     _autoRegisteredKeys = [
-      {seq: '?', desc: 'Show this help screen', func: this._help},
+      {seq: '?', desc: 'Show this help screen', func: Global._help},
       {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
       {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
       {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
@@ -1039,21 +1039,6 @@
       {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: focusOnSidebar},
       {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: focusOnAside},
     ];
-
-    /**
-     * The element.id used to identify the help pop-up.
-     * @type {string}
-     */
-    get helpId() {
-      return this._helpId;
-    }
-
-    /**
-     * @param {string} val - Set the value of the help element.id.
-     */
-    set helpId(val) {
-      this._helpId = val;
-    }
 
     /**
      * Click on the requested link in the global nav bar.
@@ -1076,10 +1061,8 @@
     /**
      * Open the help pop-up.
      */
-    _help() {
-      const help = document.querySelector(`#${this.helpId}`);
-      help.showModal();
-      help.dispatchEvent(new Event('open'));
+    static _help() {
+      Global._gotoNavButton('Tool');
     }
 
     /**
@@ -2260,6 +2243,21 @@
       this.ready = this._waitUntilPageLoadedEnough();
     }
 
+    /**
+     * The element.id used to identify the help pop-up.
+     * @type {string}
+     */
+    get helpId() {
+      return this._helpId;
+    }
+
+    /**
+     * @param {string} val - Set the value of the help element.id.
+     */
+    set helpId(val) {
+      this._helpId = val;
+    }
+
     /** Hang out until enough HTML has been built to be useful. */
     async _waitUntilPageLoadedEnough() {
       this._log.log('Entered waitOnPageLoadedEnough');
@@ -2312,8 +2310,13 @@
       const li = document.createElement('li');
       li.classList.add('global-nav__primary-item');
       li.innerHTML = `<button class="global-nav__primary-link"><div>${LinkedIn._icon}</div><span class="t-12 global-nav__primary-link-text">Tool</span></button>`;
-      this._log.log('ul:', ul);
       ul.prepend(li);
+      const button = li.querySelector('button');
+      button.addEventListener('click', () => {
+        const help = document.querySelector(`#${this.helpId}`);
+        help.showModal();
+        help.dispatchEvent(new Event('open'));
+      });
       this._log.log('Leaving addToolMenuItem');
     }
 
@@ -2628,6 +2631,7 @@
      */
     _initializeHelpView() {
       this._helpId = `help-${this._id}`;
+      this._details.helpId = this._helpId;
       this._initializeHelpKeyboard();
 
       const helpGenerators = [
@@ -2752,7 +2756,6 @@
       page.start(this);
       this._addHelp(page);
       if (page.pathname === null) {
-        page.helpId = this._helpId
         this._global = page;
         this._global.activate();
       } else {
