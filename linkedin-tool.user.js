@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.14.3
+// @version     2.14.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2237,6 +2237,70 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
+    /** Create a LinkedIn instance. */
+    constructor() {
+      super();
+      this.ready = this._waitOnPageLoadedEnough();
+    }
+
+    /** Hang out until enough HTML has been built to be useful. */
+    async _waitOnPageLoadedEnough() {
+      this._log.log('Entered waitOnPageLoadedEnough');
+
+      /**
+       * Monitor for waiting for the navbar to show up.
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      function navBarMonitor() {
+        const navbar = document.querySelector('#global-nav');
+        if (navbar) {
+          return {done: true, results: navbar};
+        }
+        return {done: false};
+      }
+
+      // In this case, the trigger was the page load.  It already happened
+      // by the time we got here.
+      const navWhat = {
+        name: 'navBarObserver',
+        base: document.body,
+      };
+      const navHow = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: navBarMonitor,
+      };
+
+      this._navbar = await otmot(navWhat, navHow);
+      this._finishConstruction();
+
+      this._log.log('Leaving waitOnPageLoadedEnough');
+    }
+
+    /** Do the bits that were waiting on the page. */
+    _finishConstruction() {
+      this._log.log('Entered finishConstruction');
+
+      this._setNavBarInfo();
+      this._addToolMenuItem();
+
+      this._log.log('Leaving finishConstruction');
+    }
+
+    /** Set some useful global variables. */
+    _setNavBarInfo() {
+      navBarHeightPixels = this._navbar.clientHeight + 4;
+      navBarHeightCss = `${navBarHeightPixels}px`;
+    }
+
+    /** Add a menu item to the global nav bar. */
+    _addToolMenuItem() {
+      this._log.log('Entered addToolMenuItem');
+      const ul = document.querySelector('ul.global-nav__primary-items');
+      this._log.log('ul:', ul);
+      this._log.log('Leaving addToolMenuItem');
+    }
+
     /** @inheritdoc */
     _errors(count) {
       this._log.log('I will eventually do something with', count);
@@ -2722,40 +2786,16 @@
     }
   }
 
-  const spa = new SPA(new LinkedIn());
-  spa.register(new Global());
-  spa.register(new Feed());
-  spa.register(new Jobs());
-  spa.register(new JobsCollections());
-  spa.register(new Notifications());
-  spa.activate(window.location.pathname);
-
-  /**
-   * Monitor for waiting for the navbar to show up.
-   * @implements {Monitor}
-   * @returns {Continuation} - Indicate whether done monitoring.
-   */
-  function navBarMonitor() {
-    const navbar = document.querySelector('#global-nav');
-    if (navbar) {
-      return {done: true, results: navbar};
-    }
-    return {done: false};
-  }
-
-  // In this case, the trigger was the page load.  It already happened
-  // by the time we got here.
-  const navWhat = {
-    name: 'navBarObserver',
-    base: document.body,
-  };
-  const navHow = {
-    observeOptions: {childList: true, subtree: true},
-    monitor: navBarMonitor,
-  };
-  otmot(navWhat, navHow).then((el) => {
-    navBarHeightPixels = el.clientHeight + 4;
-    navBarHeightCss = `${navBarHeightPixels}px`;
+  const linkedIn = new LinkedIn();
+  linkedIn.ready.then(() => {
+    log.log('proceeding...');
+    const spa = new SPA(linkedIn);
+    spa.register(new Global());
+    spa.register(new Feed());
+    spa.register(new Jobs());
+    spa.register(new JobsCollections());
+    spa.register(new Notifications());
+    spa.activate(window.location.pathname);
   });
 
   if (window.onurlchange === null) {
