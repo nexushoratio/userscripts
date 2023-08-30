@@ -712,7 +712,7 @@
     _jumpToEndItem(first) {
       this._msg(`Entered _jumpToEndItem with first=${first}`);
       // Reset in case item was heavily modified
-      this.item;
+      this.item = this.item;
 
       const items = this._getItems();
       if (items.length) {
@@ -742,7 +742,7 @@
     _scrollBy(n) {
       this._msg('Entered scrollBy', n);
       // Reset in case item was heavily modified
-      this.item;
+      this.item = this.item;
 
       const items = this._getItems();
       if (items.length) {
@@ -1016,7 +1016,7 @@
      * becoming the current view again.
      */
     _refresh() {
-      this;
+      this._log.log('In base refresh.');
     }
 
   }
