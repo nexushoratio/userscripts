@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.14.5
+// @version     2.15.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1005,8 +1005,6 @@
       const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
       this._spa.addError(msg);
       this._spa.addErrorMarker();
-      // TODO(#105): Retire alert.
-      alert(msg);  // eslint-disable-line no-alert
     }
 
     /**
@@ -2296,10 +2294,20 @@
     _finishConstruction() {
       this._log.log('Entered finishConstruction');
 
+      LinkedIn._addLitStyle();
       this._addToolMenuItem();
       this._setNavBarInfo();
 
       this._log.log('Leaving finishConstruction');
+    }
+
+    /**
+     * Create CSS styles for stuff specific to LinkedIn Tool.
+     */
+    static _addLitStyle() {
+      const style = document.createElement('style');
+      style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }';
+      document.head.append(style);
     }
 
     /** Add a menu item to the global nav bar. */
@@ -2309,8 +2317,18 @@
       const ul = document.querySelector('ul.global-nav__primary-items');
       const li = document.createElement('li');
       li.classList.add('global-nav__primary-item');
-      li.innerHTML = `<button class="global-nav__primary-link"><div>${LinkedIn._icon}</div><span class="t-12 global-nav__primary-link-text">Tool</span></button>`;
-      ul.prepend(li);
+      li.innerHTML =
+        '<button id="lit-nav-button" class="global-nav__primary-link">' +
+        '  <div class="global-nav__primary-link-notif artdeco-notification-badge">' +
+        '    <div class="notification-badge">' +
+        '      <span class="notification-badge__count"></span>' +
+        '    </div>' +
+        `    <div>${LinkedIn._icon}</div>` +
+        '    <span class="lit-news_">TBD</span>' +
+        '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
+        '  </div>' +
+        '</button>';
+      ul.append(li);
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
         const help = document.querySelector(`#${this.helpId}`);
@@ -2328,7 +2346,17 @@
 
     /** @inheritdoc */
     _errors(count) {
-      this._log.log('I will eventually do something with', count);
+      this._log.log('Entered errors with', count);
+      const button = document.querySelector('#lit-nav-button');
+      const toggle = button.querySelector('.notification-badge');
+      const badge = button.querySelector('.notification-badge__count');
+      badge.innerText = `${count}`;
+      if (count) {
+        toggle.classList.add('notification-badge--show');
+      } else {
+        toggle.classList.remove('notification-badge--show');
+      }
+      this._log.log('Leaving errors');
     }
 
     /** @inheritdoc */
@@ -2774,13 +2802,6 @@
       this.addError(msg);
       this.addError(element.outerHTML);
       this.addErrorMarker();
-      const alertMsg = [
-        msg,
-        'Please file a bug using the Help view using the Information tab.',
-        'Error data was added to the Errors tab.',
-      ];
-      // TODO(#105): Retire alert.
-      alert(alertMsg.join(' '));  // eslint-disable-line no-alert
     }
 
     /**
