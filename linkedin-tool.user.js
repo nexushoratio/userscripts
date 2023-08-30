@@ -14,7 +14,7 @@
 // @grant       window.onurlchange
 // ==/UserScript==
 
-/* global GM, VM */
+/* global VM */
 
 // eslint-disable-next-line max-lines-per-function
 (() => {
