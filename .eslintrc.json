@@ -45,7 +45,7 @@
     "no-unneeded-ternary": "error",
     "no-unused-expressions": "off",  // TODO(#68): After Debian upgrade
     "no-warning-comments": ["error", {"terms": ["do not submit", "fixme"]}],
-    "object-shorthand": "off",  // TODO(#68): investigate
+    "object-shorthand": ["error", "never"],
     "one-var": "off",  // TODO(#68): investigate
     "prefer-destructuring": "off",  // TODO(#68): investigate
     "prefer-named-capture-group": "off",  // TODO(#68): investigate
