@@ -145,7 +145,7 @@
    */
   function strHash(s) {
     let hash = 0;
-    for (let i = 0; i < s.length; i++) {
+    for (let i = 0; i < s.length; i += 1) {
       // eslint-disable-next-line no-magic-numbers
       hash = (hash * 31) + s.charCodeAt(i) | 0;
     }
@@ -725,7 +725,7 @@
         if (!first) {
           while (!Scroller._isItemViewable(item)) {
             this._msg('skipping item', item);
-            idx--;
+            idx -= 1;
             item = items[idx];
           }
         }
