@@ -20,6 +20,8 @@
 (() => {
   'use strict';
 
+  const NOT_FOUND = -1;
+
   let navBarHeightPixels = 0;
   let navBarHeightCss = '0';
   // I'm lazy.  The version of emacs I'm using does not support
@@ -144,6 +146,7 @@
   function strHash(s) {
     let hash = 0;
     for (let i = 0; i < s.length; i++) {
+      // eslint-disable-next-line no-magic-numbers
       hash = (hash * 31) + s.charCodeAt(i) | 0;
     }
     return `${hash}`;
@@ -188,8 +191,9 @@
    */
   function focusOnElement(element) {
     if (element) {
+      const magicTabIndex = -1;
       const tabIndex = element.getAttribute('tabindex');
-      element.setAttribute('tabindex', -1);
+      element.setAttribute('tabindex', magicTabIndex);
       element.focus();
       if (tabIndex) {
         element.setAttribute('tabindex', tabIndex);
@@ -449,7 +453,7 @@
     off(eventType, func) {
       const handlers = this._getHandlers(eventType)
       let index = 0;
-      while ((index = handlers.indexOf(func)) !== -1) {
+      while ((index = handlers.indexOf(func)) !== NOT_FOUND) {
         handlers.splice(index, 1);
       }
     }
@@ -745,10 +749,10 @@
         let idx = items.findIndex(this._matchItem.bind(this));
         this._msg('starting idx', idx);
         idx += n;
-        if (idx < -1) {
+        if (idx < NOT_FOUND) {
           idx = items.length - 1;
         }
-        if (idx === -1 || idx >= items.length) {
+        if (idx === NOT_FOUND || idx >= items.length) {
           this.item = null;
           this.dispatcher.fire('out-of-range', null);
         } else {
@@ -1664,13 +1668,14 @@
      * @returns {string} - A value unique to this element.
      */
     static _uniqueJobIdentifier(element) {
+      const ONE_ITEM = 1;
       let content = element.innerText;
       let options = element.querySelectorAll('a[data-control-id]');
-      if (options.length === 1) {
+      if (options.length === ONE_ITEM) {
         content = options[0].dataset.controlId;
       } else {
         options = element.querySelectorAll('a[id]');
-        if (options.length === 1) {
+        if (options.length === ONE_ITEM) {
           content = options[0].id;
         } else {
           let s = '';
@@ -1681,7 +1686,7 @@
             content = s;
           } else {
             options = element.querySelectorAll('.jobs-home-upsell-card__container');
-            if (options.length === 1) {
+            if (options.length === ONE_ITEM) {
               content = options[0].className;
             }
           }
@@ -1998,11 +2003,15 @@
      * @returns {string} - A value unique to this element.
      */
     static _uniqueIdentifier(element) {
+      // All known <articles> have three children: icon/presence
+      // indicator, content, and menu/timestamp.
+      const MAGIC_COUNT = 3;
+      const CONTENT_INDEX = 1;
       let content = element.innerText;
-      if (element.childElementCount === 3) {
-        let content = element.children[1].innerText;
+      if (element.childElementCount === MAGIC_COUNT) {
+        let content = element.children[CONTENT_INDEX].innerText;
         if (content.includes('Reactions')) {
-          for (const el of element.children[1].querySelectorAll('*')) {
+          for (const el of element.children[CONTENT_INDEX].querySelectorAll('*')) {
             if (el.innerText) {
               content = el.innerText;
               break;
@@ -2064,6 +2073,7 @@
      * Activate the current notification.
      */
     _activateNotification() {
+      const ONE_ITEM = 1;
       const notification = this._notifications.item;
       if (notification) {
         // Because we are using Enter as the hotkey here, if the
@@ -2074,11 +2084,11 @@
         }
 
         const elements = notification.querySelectorAll('.nt-card__headline');
-        if (elements.length === 1) {
+        if (elements.length === ONE_ITEM) {
           elements[0].click();
         } else {
           const ba = notification.querySelectorAll('button,a');
-          if (ba.length === 1) {
+          if (ba.length === ONE_ITEM) {
             ba[0].click();
           } else {
             this._spa.dumpInfoAboutElement(notification, 'notification');
@@ -2339,7 +2349,8 @@
 
     /** Set some useful global variables. */
     _setNavBarInfo() {
-      navBarHeightPixels = this._navbar.clientHeight + 4;
+      const fudgeFactor = 4;
+      navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
       navBarHeightCss = `${navBarHeightPixels}px`;
     }
 
