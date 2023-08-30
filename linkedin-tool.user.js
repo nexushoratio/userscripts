@@ -573,7 +573,7 @@
         // We couldn't find the old id, so maybe it was rebuilt.  Make
         // a guess by trying the old index.
         const idx = this._historicalIdToIndex.get(this._currentItemId);
-        if (typeof idx === 'number' && 0 <= idx && idx < items.length) {
+        if (typeof idx === 'number' && (0 <= idx && idx < items.length)) {
           item = items[idx];
           this._bottomHalf(item);
         }

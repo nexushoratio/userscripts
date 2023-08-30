@@ -59,7 +59,7 @@
     "sort-keys": "off",
     "strict": "error",
     "valid-typeof": ["error", {"requireStringLiterals": true}],
-    "yoda": "off",  // TODO(#68): investigate
+    "yoda": ["error", "never", {"exceptRange": true}],
     // Layout & Formatting
     "array-element-newline": "off",  // TODO(#69): investigate
     "arrow-parens": "off",  // TODO(#69): investigate
