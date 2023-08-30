@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.15.0
+// @version     2.15.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1137,24 +1137,24 @@
     _pathname = '/feed/';
     _onClickSelector = 'main';
     _autoRegisteredKeys = [
-      {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
       {seq: 'j', desc: 'Next post', func: this._nextPost},
-      {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
       {seq: 'k', desc: 'Previous post', func: this._prevPost},
-      {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
-      {seq: 'c', desc: 'Show comments', func: this._showComments},
       {seq: 'n', desc: 'Next comment', func: this._nextComment},
       {seq: 'p', desc: 'Previous comment', func: this._prevComment},
-      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
-      {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
       {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
       {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
+      {seq: 'c', desc: 'Show comments', func: this._showComments},
+      {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
+      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
       {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
       {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
+      {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
+      {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
+      {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
+      {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
+      {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
       {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
-      {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
     ];
 
     _postScroller = null;
@@ -1548,8 +1548,8 @@
       {seq: '<', desc: 'Go to to first section or job', func: this._firstSectionOrJob},
       {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
       {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
-      {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
       {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
+      {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
       {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
       {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
     ];
@@ -1940,13 +1940,13 @@
     _autoRegisteredKeys = [
       {seq: 'j', desc: 'Next notification', func: this._nextNotification},
       {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
-      {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
-      {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
-      {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
-      {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
       {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
       {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
+      {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
+      {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
+      {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
       {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
+      {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
     ];
 
     _notificationScroller = null;
