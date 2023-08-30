@@ -376,30 +376,30 @@
         timeout = 0,
         debug = false,
       } = how;
-      const log = new Logger(`otmot ${name}`, debug, false);
+      const logger = new Logger(`otmot ${name}`, debug, false);
       let timeoutID = null;
       const observer = new MutationObserver((records) => {
         const {done, results} = monitor(records);
-        log.log('monitor:', done, results);
+        logger.log('monitor:', done, results);
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
-          log.log('resolving with', results);
+          logger.log('resolving with', results);
           resolve(results);
-          log.log('resolved');
+          logger.log('resolved');
         }
       });
       if (timeout) {
         timeoutID = setTimeout(() => {
           observer.disconnect();
-          log.log('rejecting after timeout');
+          logger.log('rejecting after timeout');
           reject(`otmot ${name} timed out`);
         }, timeout);
       }
       observer.observe(base, observeOptions);
-      log.log('Calling trigger');
+      logger.log('Calling trigger');
       trigger();
-      log.log('Trigger called');
+      logger.log('Trigger called');
     });
     return prom;
   }
@@ -2009,7 +2009,7 @@
       const CONTENT_INDEX = 1;
       let content = element.innerText;
       if (element.childElementCount === MAGIC_COUNT) {
-        let content = element.children[CONTENT_INDEX].innerText;
+        content = element.children[CONTENT_INDEX].innerText;
         if (content.includes('Reactions')) {
           for (const el of element.children[CONTENT_INDEX].querySelectorAll('*')) {
             if (el.innerText) {
@@ -2632,9 +2632,9 @@
           tr.style.scrollMarginTop = navBarHeightCss;
           tr.scrollIntoView(true);
         } else {
-          const dialog = document.querySelector(`#${this._helpId}`);
+          const el = document.querySelector(`#${this._helpId}`);
           // 0, 0 is good enough
-          dialog.scrollTo(0, 0);
+          el.scrollTo(0, 0);
         }
       });
       dialog.addEventListener('close', () => {

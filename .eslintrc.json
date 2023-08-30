@@ -39,7 +39,7 @@
     "no-nested-ternary": "error",
     "no-param-reassign": "error",
     "no-plusplus": "error",
-    "no-shadow": "off",  // TODO(#68): investigate
+    "no-shadow": "error",
     "no-ternary": "off",  // TODO(#68): revisit
     "no-underscore-dangle": "off",  // TODO(#68): investigate
     "no-unneeded-ternary": "error",
