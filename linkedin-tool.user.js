@@ -1576,7 +1576,7 @@
     /** @type{Scroller~What} */
     static _jobsWhat = {
       name: 'Job entries',
-      selectors: [':scope > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
+      selectors: [':scope > ul > li', ':scope > div > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
     };
 
     /** @type{Scroller~How} */
