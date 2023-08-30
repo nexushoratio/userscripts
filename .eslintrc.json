@@ -32,7 +32,7 @@
     "no-alert": "error",
     "no-bitwise": ["error", {"int32Hint": true}],
     "no-confusing-arrow": ["error", {"allowParens": true}],
-    "no-else-return": "off",  // TODO(#68): investigate
+    "no-else-return": "error",
     "no-empty-function": "off",  // TODO(#68): investigate
     "no-invalid-this": "off",  // TODO(#68): investigate
     "no-magic-numbers": "off",  // TODO(#68): investigate

@@ -1275,9 +1275,8 @@
     static _uniqueIdentifier(element) {
       if (element) {
         return element.dataset.id;
-      } else {
-        return null;
       }
+      return null;
     }
 
     /**
