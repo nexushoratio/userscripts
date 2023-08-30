@@ -30,7 +30,7 @@
     "max-statements": ["error", {"max": 20}, {"ignoreTopLevelFunctions": true}],
     "multiline-comment-style": ["error", "separate-lines"],
     "no-alert": "error",
-    "no-bitwise": "off",  // TODO(#68): investigate
+    "no-bitwise": ["error", {"int32Hint": true}],
     "no-confusing-arrow": ["error", {"allowParens": true}],
     "no-else-return": "off",  // TODO(#68): investigate
     "no-empty-function": "off",  // TODO(#68): investigate
