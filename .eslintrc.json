@@ -49,7 +49,7 @@
     "one-var": ["error", "never"],
     "prefer-destructuring": ["off", {"object": true}, {"enforceForRenamedProperties": true}],  // TODO(#113): incrementally
     "prefer-named-capture-group": "error",
-    "prefer-promise-reject-errors": "off",  // TODO(#68): investigate
+    "prefer-promise-reject-errors": "error",
     "quote-props": "off",  // TODO(#68): investigate
     "require-unicode-regexp": "off",  // TODO(#68): investigate
     "sort-keys": "off",  // TODO(#68): investigate

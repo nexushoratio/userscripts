@@ -275,7 +275,7 @@
       });
       timeoutID = setTimeout(() => {
         observer.disconnect();
-        reject(`otrot ${name} timed out`);
+        reject(new Error(`otrot ${name} timed out`));
       }, timeout);
       observer.observe(base);
       trigger();
@@ -393,7 +393,7 @@
         timeoutID = setTimeout(() => {
           observer.disconnect();
           logger.log('rejecting after timeout');
-          reject(`otmot ${name} timed out`);
+          reject(new Error(`otmot ${name} timed out`));
         }, timeout);
       }
       observer.observe(base, observeOptions);
