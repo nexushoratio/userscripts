@@ -33,7 +33,7 @@
     "no-bitwise": ["error", {"int32Hint": true}],
     "no-confusing-arrow": ["error", {"allowParens": true}],
     "no-else-return": "error",
-    "no-empty-function": "off",  // TODO(#68): investigate
+    "no-empty-function": "error",
     "no-invalid-this": "off",  // TODO(#68): investigate
     "no-magic-numbers": "off",  // TODO(#68): investigate
     "no-nested-ternary": "off",

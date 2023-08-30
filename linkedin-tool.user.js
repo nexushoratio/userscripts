@@ -256,7 +256,7 @@
         base,
       } = what;
       const {
-        trigger = () => {},
+        trigger = () => {},  // eslint-disable-line no-empty-function
         timeout,
       } = how;
       let timeoutID = null;
@@ -303,7 +303,7 @@
         base,
       } = what;
       const {
-        trigger = () => {},
+        trigger = () => {},  // eslint-disable-line no-empty-function
         action,
         duration,
       } = how;
@@ -367,7 +367,7 @@
       } = what;
       const {
         observeOptions,
-        trigger = () => {},
+        trigger = () => {},  // eslint-disable-line no-empty-function
         monitor,
         timeout = 0,
         debug = false,
