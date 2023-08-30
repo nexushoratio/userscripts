@@ -1317,8 +1317,8 @@
         this._togglePost();
         this._nextPost();
       }
-      // XXX Need to remove the highlights before otrot sees it because
-      // it affects the .clientHeight.
+      // XXX: Need to remove the highlights before otrot sees it
+      // because it affects the .clientHeight.
       this._posts.dull();
       this._comments?.dull();
       if (this._posts.item) {
@@ -1479,7 +1479,7 @@
      * Open the (⋯) menu for the current item.
      */
     _openMeatballMenu() {
-      // XXX In this case, the identifier is on an svg element, not
+      // XXX: In this case, the identifier is on an svg element, not
       // the button, so use the parentElement.  When Firefox [fully
       // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039)
       // the `:has()` pseudo-selector, we can probably use that and
