@@ -2337,7 +2337,14 @@
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
-      ul.append(li);
+      const me = ul.querySelector('li .global-nav__me');
+      if (me) {
+        me.after(li);
+      } else {
+        // If the site changed and we cannot insert ourself after the
+        // Me menu item, then go first.
+        ul.prepend(li);
+      }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
         const help = document.querySelector(`#${this.helpId}`);
