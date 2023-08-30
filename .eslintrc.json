@@ -48,7 +48,7 @@
     "object-shorthand": ["error", "never"],
     "one-var": ["error", "never"],
     "prefer-destructuring": ["off", {"object": true}, {"enforceForRenamedProperties": true}],  // TODO(#113): incrementally
-    "prefer-named-capture-group": "off",  // TODO(#68): investigate
+    "prefer-named-capture-group": "error",
     "prefer-promise-reject-errors": "off",  // TODO(#68): investigate
     "quote-props": "off",  // TODO(#68): investigate
     "require-unicode-regexp": "off",  // TODO(#68): investigate
