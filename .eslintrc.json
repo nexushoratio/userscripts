@@ -37,7 +37,7 @@
     "no-invalid-this": "off",
     "no-magic-numbers": ["error", {"ignore": [-1, 0, 1]}],
     "no-nested-ternary": "error",
-    "no-param-reassign": "off",  // TODO(#68): investigate
+    "no-param-reassign": "error",
     "no-plusplus": "off",  // TODO(#68): investigate
     "no-shadow": "off",  // TODO(#68): investigate
     "no-ternary": "off",  // TODO(#68): revisit
