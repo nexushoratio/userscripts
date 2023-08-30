@@ -51,7 +51,7 @@
     "prefer-named-capture-group": "error",
     "prefer-promise-reject-errors": "error",
     "quote-props": ["error", "consistent-as-needed"],
-    "require-unicode-regexp": "off",  // TODO(#68): investigate
+    "require-unicode-regexp": "error",
     "sort-keys": "off",  // TODO(#68): investigate
     "strict": "off",  // TODO(#68): investigate
     "valid-typeof": ["error", {"requireStringLiterals": true}],

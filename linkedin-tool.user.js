@@ -127,7 +127,7 @@
           console.groupCollapsed(`${this.name}: ${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
         }
         console.debug(`${this.name}: ${msg}`, ...rest);
-        if (typeof msg === 'string' && (/^(?:Leaving|Finished)/).test(msg)) {
+        if (typeof msg === 'string' && (/^(?:Leaving|Finished)/u).test(msg)) {
           console.groupEnd();
         }
       }
@@ -2743,7 +2743,7 @@
      */
     static _parseHeader(text) {
       // Word Up!
-      return text.replace(/(?<cameo>[A-Z])/g, ' $<cameo>').trim();
+      return text.replace(/(?<cameo>[A-Z])/gu, ' $<cameo>').trim();
     }
 
     /**
