@@ -34,7 +34,7 @@
     "no-confusing-arrow": ["error", {"allowParens": true}],
     "no-else-return": "error",
     "no-empty-function": "error",
-    "no-invalid-this": "off",  // TODO(#68): investigate
+    "no-invalid-this": "off",
     "no-magic-numbers": "off",  // TODO(#68): investigate
     "no-nested-ternary": "off",
     "no-param-reassign": "off",  // TODO(#68): investigate
