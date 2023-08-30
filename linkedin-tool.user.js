@@ -2185,6 +2185,16 @@
   /** Base class for SPA instance details. */
   class SPADetails {
 
+    /**
+     * An issue that happened during construction.  SPA will ask for
+     * them and add them to the Errors tab.
+     * @typedef {object} SetupIssue
+     * @property {string[]} messages - What to pass to {@link SPA.addError}.
+     */
+
+    /** @type {SetupIssue[]} */
+    _setupIssues = [];
+
     /** Create a SPADetails instance. */
     constructor() {
       this._log = new Logger(this.constructor.name, false, false);
@@ -2208,6 +2218,22 @@
      */
     _news(data) {
       this._log.log('news', data);
+    }
+
+    /** @type {SetupIssue[]} */
+    get setupIssues() {
+      return this._setupIssues;
+    }
+
+    /**
+     * Collects {SetupIssue}s for reporting.
+     * @param {string} ...msgs - Text to report.
+     */
+    addSetupIssue(...msgs) {
+      for (const msg of msgs) {
+        this._log.log('Setup issue:', msg);
+      }
+      this._setupIssues.push(msgs);
     }
 
     /**
@@ -2344,6 +2370,7 @@
         // If the site changed and we cannot insert ourself after the
         // Me menu item, then go first.
         ul.prepend(li);
+        this.addSetupIssue('Unable to find the Profile navbar item.', 'LIT menu installed in non-standard location.');
       }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
@@ -2447,6 +2474,13 @@
       this._id = crypto.randomUUID();
       SPA._installNavStyle();
       this._initializeHelpView();
+      for (const issue of details.setupIssues) {
+        this._log.log('issue:', issue);
+        for (const error of issue) {
+          this.addError(error);
+        }
+        this.addErrorMarker();
+      }
       document.addEventListener('focus', this._onFocus.bind(this), true);
       document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
     }
