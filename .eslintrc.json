@@ -5,6 +5,9 @@
     "es6": true
   },
   "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "script"
+  },
   "extends": "eslint:all",
   "rules": {
     // Possible Problems
@@ -54,7 +57,7 @@
     "quote-props": ["error", "consistent-as-needed"],
     "require-unicode-regexp": "error",
     "sort-keys": "off",
-    "strict": "off",  // TODO(#68): investigate
+    "strict": "error",
     "valid-typeof": ["error", {"requireStringLiterals": true}],
     "yoda": "off",  // TODO(#68): investigate
     // Layout & Formatting
