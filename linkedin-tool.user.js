@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.15.5
+// @version     2.15.6
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -1263,10 +1263,9 @@
     }
 
     /**
-     * @param {null} val - Hack; should only be used to reset the
-     * {@link Scroller}.
+     * Reset the comment scroller.
      */
-    set _comments(val) {
+    _clearComments() {
       if (this._commentScroller) {
         this._commentScroller.destroy();
         this._commentScroller = null;
@@ -1302,7 +1301,7 @@
      * Removes the comments {@link Scroller}.
      */
     _changedPost() {
-      this._comments = null;
+      this._clearComments();
     }
 
     /**
@@ -1640,16 +1639,15 @@
     }
 
     /**
-     * @param {null} val - Hack; should only be used to reset the
-     * {@link Scroller}.
+     * Reset the jobs scroller.
      */
-    set _jobs(val) {
-      this._log.log('Entered set jobs', this._jobScroller);
+    _clearJobs() {
+      this._log.log('Entered clearJobs', this._jobScroller);
       if (this._jobScroller) {
         this._jobScroller.destroy();
         this._jobScroller = null;
       }
-      this._log.log('Leaving set jobs');
+      this._log.log('Leaving clearJobs');
     }
 
     /** @type {boolean} */
@@ -1719,7 +1717,7 @@
      */
     _onChange() {
       this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
-      this._jobs = null;
+      this._clearJobs();
     }
 
     /**
@@ -1734,7 +1732,7 @@
       const job = this._jobs.item;
       this._sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
-      this._jobs = null;
+      this._clearJobs();
       this._jobs.item = job;
       document.documentElement.scrollTop = topScroll;
       this._log.log('Leaving resetScroll');
