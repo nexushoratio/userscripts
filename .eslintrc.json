@@ -66,7 +66,7 @@
     "comma-dangle": ["error", "always-multiline"],
     "dot-location": ["error", "property"],
     "function-paren-newline": "error",
-    "indent": "off",  // TODO(#69): investigate
+    "indent": ["error", 2],
     "lines-between-class-members": "off",  // TODO(#69): investigate
     "max-len": "off",  // TODO(#69): investigate
     "multiline-ternary": "off",  // TODO(#69): investigate
