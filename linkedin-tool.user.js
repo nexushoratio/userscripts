@@ -1604,7 +1604,7 @@
     /** @inheritdoc */
     _onClick(evt) {
       const section = evt.target.closest('section');
-      if (section) {
+      if (section && section !== this._sections.item) {
         this._sections.item = section;
       }
     }
