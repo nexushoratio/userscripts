@@ -34,7 +34,8 @@
    * methods.
    * @example
    * foo(x) {
-   *  log.entered('foo', x);
+   *  const me = 'foo';
+   *  log.entered(me, x);
    *  ... do stuff ...
    *  log.starting('loop');
    *  for (const item in items) {
@@ -42,7 +43,7 @@
    *    ...
    *  }
    *  log.finished('loop');
-   *  log.leaving('foo', y);
+   *  log.leaving(me, y);
    *  return y;
    * }
    */
