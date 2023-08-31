@@ -699,6 +699,9 @@
             this._msg('scrolling down onto page');
             item.scrollIntoView(true);
           }
+          // XXX: The following was added to support horizontal
+          // scrolling in carousels.  Nothing seemed to break.
+          item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
       this._msg('Leaving scrollToCurrentItem');
@@ -1608,6 +1611,7 @@
 
     /** @inheritdoc */
     _refresh() {
+      this._log.enable();
       this._sections.show();
       // The div does get recreated, so setting the observers again is
       // appropriate.
@@ -1623,10 +1627,12 @@
 
     /** @type {Scroller} */
     get _jobs() {
+      this._log.log('Entered get jobs', this._jobScroller);
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
         this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
       }
+      this._log.log('Leaving get jobs with', this._jobScroller);
       return this._jobScroller;
     }
 
