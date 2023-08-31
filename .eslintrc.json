@@ -69,7 +69,7 @@
     "indent": ["error", 2],
     "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
     "max-len": ["off", {"ignoreUrls": true}],  // TODO(#97): Revisit after.
-    "multiline-ternary": "off",  // TODO(#69): investigate
+    "multiline-ternary": ["error", "always-multiline"],
     "newline-per-chained-call": "off",  // TODO(#69): investigate
     "no-extra-parens": "off",  // TODO(#69): investigate
     "no-multi-spaces": "off",  // TODO(#69): investigate
