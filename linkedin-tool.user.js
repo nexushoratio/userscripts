@@ -538,7 +538,7 @@
         stackTrace: this._stackTrace = false,
       } = how);
 
-      this._logger = new Logger(this._name, this._debug, this._stackTrace);
+      this._logger = new Logger(`{${this._name}}`, this._debug, this._stackTrace);
       this._msg('Scroller constructed', this);
     }
 
