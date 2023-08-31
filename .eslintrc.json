@@ -62,7 +62,7 @@
     "yoda": ["error", "never", {"exceptRange": true}],
     // Layout & Formatting
     "array-element-newline": ["error", "consistent"],
-    "arrow-parens": "off",  // TODO(#69): investigate
+    "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
     "comma-dangle": "off",  // TODO(#69): investigate
     "dot-location": "off",  // TODO(#69): investigate
     "function-paren-newline": "off",  // TODO(#69): investigate

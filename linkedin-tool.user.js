@@ -2739,7 +2739,7 @@
      */
     _switchHelpTab(direction) {
       const panels = Array.from(document.querySelectorAll(`#${this._helpId} .spa-tabber > input`));
-      let idx = panels.findIndex((panel) => panel.checked);
+      let idx = panels.findIndex(panel => panel.checked);
       idx = (idx + direction + panels.length) % panels.length;
       panels[idx].checked = true;
     }
@@ -2962,7 +2962,7 @@
       observeOptions: {childList: true, subtree: true},
       monitor: authenticationOutletMonitor,
     };
-    otmot(authOutletWhat, autoOutletHow).then((el) => createUrlObserver(el));
+    otmot(authOutletWhat, autoOutletHow).then(el => createUrlObserver(el));
   }
 
   log.log('Initialization successful.');
