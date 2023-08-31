@@ -65,7 +65,7 @@
     "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
     "comma-dangle": ["error", "always-multiline"],
     "dot-location": ["error", "property"],
-    "function-paren-newline": "off",  // TODO(#69): investigate
+    "function-paren-newline": "error",
     "indent": "off",  // TODO(#69): investigate
     "lines-between-class-members": "off",  // TODO(#69): investigate
     "max-len": "off",  // TODO(#69): investigate
