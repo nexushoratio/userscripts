@@ -264,8 +264,10 @@
         timeout,
       } = how;
       let timeoutID = null;
-      const initialHeight = base.clientHeight;
-      const initialWidth = base.clientWidth;
+      const {
+        clientHeight: initialHeight,
+        clientWidth: initialWidth,
+      } = base;
       const observer = new ResizeObserver(() => {
         if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
           observer.disconnect();
@@ -680,7 +682,7 @@
      */
     _scrollToCurrentItem() {
       this._msg('Entered scrollToCurrentItem with', this._snapToTop);
-      const item = this.item;
+      const {item} = this;
       if (item) {
         item.style.scrollMarginTop = navBarHeightCss;
         if (this._snapToTop) {
@@ -1763,7 +1765,7 @@
           const newText = record.target.innerText?.trim().split('\n')[0];
           if (newText && newText === this._sectionWatchText) {
             const attr = record.attributeName;
-            const oldValue = record.oldValue;
+            const {oldValue} = record;
             const newValue = record.target.attributes[attr].value;
             const same = oldValue === newValue;
             if (!same) {
