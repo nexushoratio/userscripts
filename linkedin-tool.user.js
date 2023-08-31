@@ -30,28 +30,25 @@
 
   /**
    * Fancy-ish debug messages.
-   * Console message groups can be started and ended using magic
-   * keywords in messages.
-   * - 'Entered' - Starts new group named with the rest of the string.
-   * - 'Starting' - Starts a new collapsed group (useful for loops).
-   * - 'Leaving' and 'Finished' - Both end the most recent group,
-   *    with Leaving for the function, and Finished for the loop
-   *    (though not enforced).
+   * Console message groups can be started and ended using special
+   * methods.
    * @example
    * foo(x) {
-   *  log.log('Entered foo', x);
+   *  log.entered('foo', x);
    *  ... do stuff ...
-   *  log.log('Starting loop');
+   *  log.starting('loop');
    *  for (const item in items) {
    *    log.log(`Processing ${item}`);
    *    ...
    *  }
-   *  log.log('Finished loop');
-   *  log.log('Leaving foo with', y);
+   *  log.finished('loop');
+   *  log.leaving('foo', y);
    *  return y;
    * }
    */
   class Logger {
+    _opened = [];
+    _closed = [];
 
     /**
      * @param {string} name - Name for this logger.
@@ -109,12 +106,75 @@
     }
 
     /**
+     * Entered a specific group.
+     * @param {string} group - Group that was entered.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    entered(group, ...rest) {
+      /* eslint-disable no-console */
+      this._opened.push(group);
+      let msg = `Entered ${group}`;
+      if (rest.length) {
+        msg += ' with:';
+      }
+      this.log(msg, ...rest);
+    }
+
+    /**
+     * Leaving a specific group.
+     * @param {string} group - Group leaving.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    leaving(group, ...rest) {
+      const lastGroup = this._opened.pop();
+      if (group !== lastGroup) {
+        console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
+      }
+      let msg = `Leaving ${group}`;
+      if (rest.length) {
+        msg += ' with:';
+      }
+      this.log(msg, ...rest);
+    }
+
+    /**
+     * Starting a specific collapsed group.
+     * @param {string} group - Group that is being started.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    starting(group, ...rest) {
+      this._closed.push(group);
+      let msg = `Starting ${group}`;
+      if (rest.length) {
+        console.debug(rest);
+        msg += ' wwwwwwith:';
+      }
+      this.log(msg, ...rest);
+    }
+
+    /**
+     * Finished a specific collapsed group.
+     * @param {string} group - Group that was entered.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    finished(group, ...rest) {
+      const lastGroup = this._closed.pop();
+      if (group !== lastGroup) {
+        console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
+      }
+      let msg = `Finished ${group}`;
+      if (rest.length) {
+        msg += ' with:';
+      }
+      this.log(msg, ...rest);
+    }
+
+    /**
      * Log a specific message.
      * @param {string} msg - Debug message to send to console.debug.
      * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
      */
     log(msg, ...rest) {
-      /* eslint-disable no-console */
       if (this.enabled) {
         if (this.trace) {
           console.groupCollapsed(`${this.name} call stack`);
