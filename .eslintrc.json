@@ -61,7 +61,7 @@
     "valid-typeof": ["error", {"requireStringLiterals": true}],
     "yoda": ["error", "never", {"exceptRange": true}],
     // Layout & Formatting
-    "array-element-newline": "off",  // TODO(#69): investigate
+    "array-element-newline": ["error", "consistent"],
     "arrow-parens": "off",  // TODO(#69): investigate
     "comma-dangle": "off",  // TODO(#69): investigate
     "dot-location": "off",  // TODO(#69): investigate
