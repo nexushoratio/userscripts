@@ -1641,10 +1641,12 @@
      * {@link Scroller}.
      */
     set _jobs(val) {
+      this._log.log('Entered set jobs', this._jobScroller);
       if (this._jobScroller) {
         this._jobScroller.destroy();
         this._jobScroller = null;
       }
+      this._log.log('Leaving set jobs');
     }
 
     /** @type {boolean} */
@@ -1748,7 +1750,7 @@
      * @param {MutationRecord[]} records - Standard mutation records.
      */
     _mutationHandler(records) {
-      this._log.log('Entered mutationHandler', `records: ${records.length} type: ${records[0].type}, and ${this._sectionWatchText}`);
+      this._log.log('Entered mutationHandler', `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
@@ -1766,7 +1768,7 @@
             const newValue = record.target.attributes[attr].value;
             const same = oldValue === newValue;
             if (!same) {
-              this._log.log('via attributes');
+              this._log.log('via attributes', record.target, `\nold: ${oldValue}\nnew:${newValue}`);
               this._resetScroll(document.documentElement.scrollTop);
             }
           }
