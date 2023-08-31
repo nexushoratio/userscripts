@@ -67,7 +67,7 @@
     "dot-location": ["error", "property"],
     "function-paren-newline": "error",
     "indent": ["error", 2],
-    "lines-between-class-members": "off",  // TODO(#69): investigate
+    "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
     "max-len": "off",  // TODO(#69): investigate
     "multiline-ternary": "off",  // TODO(#69): investigate
     "newline-per-chained-call": "off",  // TODO(#69): investigate
