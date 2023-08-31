@@ -602,17 +602,8 @@
         stackTrace: this._stackTrace = false,
       } = how);
 
-      this._logger = new Logger(`{${this._name}}`, this._debug, this._stackTrace);
-      this._msg('Scroller constructed', this);
-    }
-
-    /**
-      * @param {string} msg - Debug message to send to the logger.
-      * @param {*} ...rest - Arbitrary arguments to also pass to the
-      * logger.
-      */
-    _msg(msg, ...rest) {
-      this._logger.log(msg, ...rest);
+      this._log = new Logger(`{${this._name}}`, this._debug, this._stackTrace);
+      this._log.log('Scroller constructed', this);
     }
 
     /** @type {Dispatcher} */
@@ -625,10 +616,11 @@
      * @type {Element}
      */
     get item() {
-      this._msg('Entered get item');
+      const me = 'get item';
+      this._log.entered(me);
       if (this._destroyed) {
         const msg = `Tried to work with destroyed ${this.constructor.name} on ${this._base}`;
-        this._msg(msg);
+        this._log.log(msg);
         throw new Error(msg);
       }
       const items = this._getItems();
@@ -642,7 +634,7 @@
           this._bottomHalf(item);
         }
       }
-      this._msg('Leaving get item with', item);
+      this._log.leaving(me, item);
       return item;
     }
 
@@ -650,10 +642,11 @@
      * @param {Element} val - Update the current item with val.
      */
     set item(val) {
-      this._msg('Entered set item with', val);
+      const me = 'set item';
+      this._log.entered(me, val);
       this.dull();
       this._bottomHalf(val);
-      this._msg('Leaving set item');
+      this._log.leaving(me);
     }
 
     /**
@@ -663,14 +656,15 @@
      * @param {Element} val - Element to make current.
      */
     _bottomHalf(val) {
-      this._msg('Entered bottomHalf with', val);
+      const me = 'bottomHalf';
+      this._log.entered(me, val);
       this._currentItemId = this._uid(val);
       const idx = this._getItems().indexOf(val);
       this._historicalIdToIndex.set(this._currentItemId, idx);
       this.shine();
       this._scrollToCurrentItem();
       this.dispatcher.fire('change', {});
-      this._msg('Leaving bottomHalf');
+      this._log.leaving(me);
     }
 
     /**
@@ -688,20 +682,21 @@
      * @returns {Elements[]} - Items to scroll through.
      */
     _getItems() {
-      this._msg('Entered getItems');
+      const me = 'getItems';
+      this._log.entered(me);
       const items = [];
       for (const selector of this._selectors) {
-        this._msg(`considering ${selector}`);
+        this._log.log(`considering ${selector}`);
         items.push(...this._base.querySelectorAll(selector));
       }
       if (this._debug) {
-        this._msg('Starting items');
+        this._log.starting('items');
         for (const item of items) {
-          this._msg(item);
+          this._log.log('item:', item);
         }
-        this._msg('Finished items');
+        this._log.finished('items');
       }
-      this._msg(`Leaving getItems with ${items.length} items`);
+      this._log.leaving(me, `${items.length} items`);
       return items;
     }
 
@@ -712,7 +707,8 @@
      * @returns {string} - Computed uid for element.
      */
     _uid(element) {
-      this._msg('Entered uid with', element);
+      const me = 'uid';
+      this._log.entered(me, element);
       let uid = null;
       if (element) {
         if (!element.dataset.spaId) {
@@ -720,7 +716,7 @@
         }
         uid = element.dataset.spaId;
       }
-      this._msg('Leaving uid with', uid);
+      this._log.leaving(me, uid);
       return uid;
     }
 
@@ -731,9 +727,10 @@
      * @returns {boolean} - Whether or not element is the current one.
      */
     _matchItem(element) {
-      this._msg('Entered matchItem');
+      const me = 'matchItem';
+      this._log.entered(me);
       const res = this._currentItemId === this._uid(element);
-      this._msg('Leaving matchItem with', res);
+      this._log.leaving(me, res);
       return res;
     }
 
@@ -743,12 +740,13 @@
      * bottom, or be a no-op.
      */
     _scrollToCurrentItem() {
-      this._msg('Entered scrollToCurrentItem with', this._snapToTop);
+      const me = 'scrollToCurrentItem';
+      this._log.entered(me, this._snapToTop);
       const {item} = this;
       if (item) {
         item.style.scrollMarginTop = navBarHeightCss;
         if (this._snapToTop) {
-          this._msg('snapping to top');
+          this._log.log('snapping to top');
           item.scrollIntoView(true);
         } else {
           item.style.scrollMarginBottom = '3em';
@@ -756,11 +754,11 @@
           // If both scrolling happens, it means the item is too tall to
           // fit on the page, so the top is preferred.
           if (rect.bottom > document.documentElement.clientHeight) {
-            this._msg('scrolling up onto page');
+            this._log.log('scrolling up onto page');
             item.scrollIntoView(false);
           }
           if (rect.top < navBarHeightPixels) {
-            this._msg('scrolling down onto page');
+            this._log.log('scrolling down onto page');
             item.scrollIntoView(true);
           }
           // XXX: The following was added to support horizontal
@@ -768,7 +766,7 @@
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
-      this._msg('Leaving scrollToCurrentItem');
+      this._log.leaving(me);
     }
 
     /**
@@ -777,7 +775,8 @@
      * collection, else, the last.
      */
     _jumpToEndItem(first) {
-      this._msg(`Entered _jumpToEndItem with first=${first}`);
+      const me = 'jumpToEndItem';
+      this._log.entered(me, `first=${first}`);
       // Reset in case item was heavily modified
       this.item = this.item;
 
@@ -792,14 +791,14 @@
         // and work our way up to the last one loaded.
         if (!first) {
           while (!Scroller._isItemViewable(item)) {
-            this._msg('skipping item', item);
+            this._log.log('skipping item', item);
             idx -= 1;
             item = items[idx];
           }
         }
         this.item = item;
       }
-      this._msg('Leaving _jumpToEndItem');
+      this._log.leaving(me);
     }
 
     /**
@@ -807,15 +806,16 @@
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
      */
-    _scrollBy(n) {
-      this._msg('Entered scrollBy', n);
+    _scrollBy(n) {  // eslint-disable-line max-statements
+      const me = 'scrollBy';
+      this._log.entered(me, n);
       // Reset in case item was heavily modified
       this.item = this.item;
 
       const items = this._getItems();
       if (items.length) {
         let idx = items.findIndex(this._matchItem.bind(this));
-        this._msg('starting idx', idx);
+        this._log.log('initial idx', idx);
         idx += n;
         if (idx < NOT_FOUND) {
           idx = items.length - 1;
@@ -827,15 +827,15 @@
           // Skip over empty items
           let item = items[idx];
           while (!Scroller._isItemViewable(item)) {
-            this._msg('skipping item', item);
+            this._log.log('skipping item', item);
             idx += n;
             item = items[idx];
           }
-          this._msg('final idx', idx);
+          this._log.log('final idx', idx);
           this.item = item;
         }
       }
-      this._msg('Leaving scrollBy');
+      this._log.leaving(me);
     }
 
     /**
@@ -891,10 +891,11 @@
      * Mark instance as inactive and do any internal cleanup.
      */
     destroy() {
-      this._msg('Entered destroy');
+      const me = 'destroy';
+      this._log.entered(me);
       this.item = null;
       this._destroyed = true;
-      this._msg('Leaving destroy');
+      this._log.leaving(me);
     }
   }
 
