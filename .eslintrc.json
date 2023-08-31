@@ -71,7 +71,7 @@
     "max-len": ["off", {"ignoreUrls": true}],  // TODO(#97): Revisit after.
     "multiline-ternary": ["error", "always-multiline"],
     "newline-per-chained-call": "error",
-    "no-extra-parens": "off",  // TODO(#69): investigate
+    "no-extra-parens": ["error", "all", {"nestedBinaryExpressions": false, "enforceForArrowConditionals": false}],
     "no-multi-spaces": "off",  // TODO(#69): investigate
     "object-property-newline": "off",  // TODO(#69): investigate
     "padded-blocks": "off",  // TODO(#69): investigate
