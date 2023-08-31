@@ -63,7 +63,7 @@
     // Layout & Formatting
     "array-element-newline": ["error", "consistent"],
     "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
-    "comma-dangle": "off",  // TODO(#69): investigate
+    "comma-dangle": ["error", "always-multiline"],
     "dot-location": "off",  // TODO(#69): investigate
     "function-paren-newline": "off",  // TODO(#69): investigate
     "indent": "off",  // TODO(#69): investigate

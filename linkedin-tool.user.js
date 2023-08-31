@@ -2425,7 +2425,7 @@
         content: `<p>This is help for the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>` +
           `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>` +
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
-          `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`
+          `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
       }
       this._log.log('Leaving infoHelp with', helpTab);
       return helpTab;
