@@ -1611,7 +1611,6 @@
 
     /** @inheritdoc */
     _refresh() {
-      this._log.enable();
       this._sections.show();
       // The div does get recreated, so setting the observers again is
       // appropriate.
