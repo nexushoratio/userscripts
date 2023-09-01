@@ -107,19 +107,21 @@
       this._enabled = false;
     }
 
+    /* eslint-disable no-console */
     /**
      * Entered a specific group.
      * @param {string} group - Group that was entered.
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     entered(group, ...rest) {
-      /* eslint-disable no-console */
       this._opened.push(group);
-      let msg = `Entered ${group}`;
-      if (rest.length) {
-        msg += ' with:';
+      if (this.enabled) {
+        console.group(`${this.name}: ${group}`);
+        if (rest.length) {
+          const msg = `Entered ${group} with`;
+          this.log(msg, ...rest);
+        }
       }
-      this.log(msg, ...rest);
     }
 
     /**
@@ -132,11 +134,14 @@
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
       }
-      let msg = `Leaving ${group}`;
-      if (rest.length) {
-        msg += ' with:';
+      if (this.enabled) {
+        let msg = `Leaving ${group}`;
+        if (rest.length) {
+          msg += ' with:';
+        }
+        this.log(msg, ...rest);
+        console.groupEnd();
       }
-      this.log(msg, ...rest);
     }
 
     /**
@@ -146,12 +151,13 @@
      */
     starting(group, ...rest) {
       this._closed.push(group);
-      let msg = `Starting ${group}`;
-      if (rest.length) {
-        console.debug(rest);
-        msg += ' wwwwwwith:';
+      if (this.enabled) {
+        console.groupCollapsed(`${this.name}: ${group} (collapsed)`);
+        if (rest.length) {
+          const msg = `Starting ${group} with:`;
+          this.log(msg, ...rest);
+        }
       }
-      this.log(msg, ...rest);
     }
 
     /**
@@ -164,11 +170,14 @@
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
       }
-      let msg = `Finished ${group}`;
-      if (rest.length) {
-        msg += ' with:';
+      if (this.enabled) {
+        let msg = `Finished ${group}`;
+        if (rest.length) {
+          msg += ' with:';
+        }
+        this.log(msg, ...rest);
+        console.groupEnd();
       }
-      this.log(msg, ...rest);
     }
 
     /**
@@ -183,18 +192,10 @@
           console.trace();
           console.groupEnd();
         }
-        if (typeof msg === 'string' && msg.startsWith('Entered')) {
-          console.group(`${this.name}: ${msg.substr(msg.indexOf(' ') + 1)}`);
-        } else if (typeof msg === 'string' && msg.startsWith('Starting')) {
-          console.groupCollapsed(`${this.name}: ${msg.substr(msg.indexOf(' ') + 1)} (collapsed)`);
-        }
         console.debug(`${this.name}: ${msg}`, ...rest);
-        if (typeof msg === 'string' && (/^(?:Leaving|Finished)/u).test(msg)) {
-          console.groupEnd();
-        }
       }
-      /* eslint-enable */
     }
+    /* eslint-enable */
 
   }
 
