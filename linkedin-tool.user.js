@@ -49,6 +49,7 @@
    * }
    */
   class Logger {
+
     _opened = [];
     _closed = [];
 
@@ -476,6 +477,7 @@
    * error.
    */
   class Dispatcher {
+
     _handlers = new Map();
 
     /**
@@ -535,6 +537,7 @@
         handler(data);
       }
     }
+
   }
 
   /**
@@ -546,6 +549,7 @@
    * This is NOT an error condition, but rather a design feature.
    */
   class Scroller {
+
     _dispatcher = new Dispatcher('change', 'out-of-range');
     _currentItemId = null;
     _historicalIdToIndex = new Map();
@@ -899,6 +903,7 @@
       this._destroyed = true;
       this._log.leaving(me);
     }
+
   }
 
   /**
@@ -910,6 +915,7 @@
    * instance of the {@link SPA} class.
    */
   class Page {
+
     // The immediate following can be set in subclasses.
 
     /**
@@ -1092,6 +1098,7 @@
    * This includes things like the global nav bar, help screen, etc.
    */
   class Global extends Page {
+
     _pathname = null;
     _autoRegisteredKeys = [
       {seq: '?', desc: 'Show this help screen', func: Global._help},
@@ -1200,6 +1207,7 @@
 
   /** Class for handling the Posts feed. */
   class Feed extends Page {
+
     _pathname = '/feed/';
     _onClickSelector = 'main';
     _autoRegisteredKeys = [
@@ -1603,6 +1611,7 @@
    * toggling state of a job.
    */
   class Jobs extends Page {
+
     _pathname = '/jobs/';
     _onClickSelector = 'main';
     _autoRegisteredKeys = [
@@ -2001,11 +2010,14 @@
 
   /** Class for handling Job collections. */
   class JobsCollections extends Page {
+
     _pathname = '/jobs/collections/';
+
   }
 
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
+
     _pathname = '/notifications/';
     _onClickSelector = 'main section div.nt-card-list';
     _autoRegisteredKeys = [
@@ -2327,6 +2339,7 @@
         content: 'Not implemented.',
       };
     }
+
   }
 
   /** LinkedIn specific information. */
@@ -2506,6 +2519,7 @@
       this._log.leaving(me, helpTab);
       return helpTab;
     }
+
   }
 
   /**
@@ -2517,6 +2531,7 @@
    * enable and disable view specific handling as appropriate.
    */
   class SPA {
+
     static _errorMarker = '---';
 
     /**
@@ -3014,6 +3029,7 @@
         this._shine(this._page);
       }
     }
+
   }
 
   const linkedIn = new LinkedIn();
