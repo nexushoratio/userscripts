@@ -364,7 +364,7 @@
    * Uses the same what parameter as {@link otrot}.
    * @param {OtrotWhat} what - What to observe.
    * @param {Otrow2How} how - How to observe.
-   * @returns {Promise} - Will resolve after duration expires.
+   * @returns {Promise<string>} - Will resolve after duration expires.
    */
   function otrot2(what, how) {
     const prom = new Promise((resolve) => {
