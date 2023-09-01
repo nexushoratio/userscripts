@@ -54,7 +54,7 @@
     "quotes": ["error", "single"],
     "semi": "error",
     "space-before-function-paren": ["error", "never"],
-    "wrap-iife": "off",  // TODO(#69): investigate
+    "wrap-iife": "error",
     // Deprecated
     "require-jsdoc": ["error", {
       "require": {
