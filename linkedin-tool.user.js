@@ -250,7 +250,7 @@
   }
 
   /**
-   * Bring the Brower's focus onto element.
+   * Bring the Browser's focus onto element.
    * @param {Element} element - HTML Element to focus on.
    */
   function focusOnElement(element) {
@@ -419,7 +419,7 @@
    * MutationObserver records.
    * @property {number} [timeout] - Time to wait for completion in
    * milliseconds, default of 0 disables.
-   * @property {boolen} [debug] - Enable debugging.
+   * @property {boolean} [debug] - Enable debugging.
    */
 
   /**
@@ -589,7 +589,7 @@
     constructor(what, how) {
       this._destroyed = false;
       ({
-        name: this._name = 'Unamed scroller',
+        name: this._name = 'Unnamed scroller',
         base: this._base,
         selectors: this._selectors,
       } = what);
@@ -1094,7 +1094,7 @@
 
   /**
    * Class for handling aspects common across LinkedIn.
-   * This includs things like the global nav bar, help screen, etc.
+   * This includes things like the global nav bar, help screen, etc.
    */
   class Global extends Page {
     _pathname = null;
@@ -1570,7 +1570,7 @@
     }
 
     /**
-     * Navigate the the standalone page for the current post.
+     * Navigate the the stand-alone page for the current post.
      */
     _viewPost() {
       const post = this._posts.item;
@@ -3032,7 +3032,7 @@
     }
 
     /**
-     * Watch for the intial `authentication-outlet` to show up, then
+     * Watch for the initial `authentication-outlet` to show up, then
      * attach the URL observer to it.
      * @implements {Monitor}
      * @returns {Continuation} - Indicate whether done monitoring.
