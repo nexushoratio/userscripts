@@ -48,7 +48,7 @@
     "multiline-ternary": ["error", "always-multiline"],
     "newline-per-chained-call": "error",
     "no-extra-parens": ["error", "all", {"nestedBinaryExpressions": false, "enforceForArrowConditionals": false}],
-    "no-multi-spaces": "off",  // TODO(#69): investigate
+    "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "object-property-newline": "off",  // TODO(#69): investigate
     "padded-blocks": "off",  // TODO(#69): investigate
     "quotes": "off",  // TODO(#69): investigate
