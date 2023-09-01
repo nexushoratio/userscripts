@@ -1691,12 +1691,13 @@
 
     /** @type {Scroller} */
     get _jobs() {
-      this._log.log('Entered get jobs', this._jobScroller);
+      const me = 'get jobs';
+      this._log.entered(me, this._jobScroller);
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
         this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
       }
-      this._log.log('Leaving get jobs with', this._jobScroller);
+      this._log.leaving(me, this._jobScroller);
       return this._jobScroller;
     }
 
@@ -1704,12 +1705,13 @@
      * Reset the jobs scroller.
      */
     _clearJobs() {
-      this._log.log('Entered clearJobs', this._jobScroller);
+      const me = 'clearJobs';
+      this._log.entered(me, this._jobScroller);
       if (this._jobScroller) {
         this._jobScroller.destroy();
         this._jobScroller = null;
       }
-      this._log.log('Leaving clearJobs');
+      this._log.leaving(me);
     }
 
     /** @type {boolean} */
@@ -1787,7 +1789,8 @@
      * @param {number} topScroll - Where to scroll to.
      */
     _resetScroll(topScroll) {
-      this._log.log('Entered resetScroll', topScroll);
+      const me = 'resetScroll';
+      this._log.entered(me, topScroll);
       // Explicitly setting jobs.item below will cause it to
       // scroll to that item.  We do not want to do that if
       // the user is manually scrolling.
@@ -1797,7 +1800,7 @@
       this._clearJobs();
       this._jobs.item = job;
       document.documentElement.scrollTop = topScroll;
-      this._log.log('Leaving resetScroll');
+      this._log.leaving(me);
     }
 
     /**
@@ -1813,7 +1816,8 @@
      * @param {MutationRecord[]} records - Standard mutation records.
      */
     _mutationHandler(records) {
-      this._log.log('Entered mutationHandler', `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
+      const me = 'mutationHandler';
+      this._log.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
@@ -1837,7 +1841,7 @@
           }
         }
       }
-      this._log.log('Leaving mutationHandler');
+      this._log.leaving(me);
     }
 
     /**
