@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.15.6
+// @version     2.15.7
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -694,7 +694,7 @@
       if (this._debug) {
         this._log.starting('items');
         for (const item of items) {
-          this._log.log('item:', item);
+          this._log.log(item);
         }
         this._log.finished('items');
       }
