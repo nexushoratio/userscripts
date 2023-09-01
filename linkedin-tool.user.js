@@ -968,11 +968,6 @@
       condition: '!inputFocus && !inDialog',
     };
 
-    /** Create a Page. */
-    constructor() {
-      this._boundOnClick = this._onClick.bind(this);
-    }
-
     /**
      * Called when registered via {@link SPA}.
      * @param {SPA} spa - SPA instance that manages this Page.
@@ -1049,7 +1044,7 @@
           const element = document.querySelector(this._onClickSelector);
           if (element) {
             this._onClickElement = element;
-            this._onClickElement.addEventListener('click', this._boundOnClick);
+            this._onClickElement.addEventListener('click', this._onClick);
             // TODO(#46): Find a better place for this.
             this._refresh();
             // Turns off VM.observe once selector found.
@@ -1064,7 +1059,7 @@
      * Disables the 'click' handler for this view.
      */
     _disableOnClick() {
-      this._onClickElement?.removeEventListener('click', this._boundOnClick);
+      this._onClickElement?.removeEventListener('click', this._onClick);
       this._onClickElement = null;
     }
 
@@ -1076,7 +1071,7 @@
      * @abstract
      * @param {Event} evt - Standard 'click' event.
      */
-    _onClick(evt) {  // eslint-disable-line no-unused-vars
+    _onClick = (evt) => {  // eslint-disable-line no-unused-vars
       const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
       this._spa.addError(msg);
       this._spa.addErrorMarker();
@@ -1271,7 +1266,7 @@
     }
 
     /** @inheritdoc */
-    _onClick(evt) {
+    _onClick = (evt) => {
       const post = evt.target.closest('div[data-id]');
       if (post && post !== this._posts.item) {
         this._posts.item = post;
@@ -1669,7 +1664,7 @@
     }
 
     /** @inheritdoc */
-    _onClick(evt) {
+    _onClick = (evt) => {
       const section = evt.target.closest('section');
       if (section && section !== this._sections.item) {
         this._sections.item = section;
@@ -2052,7 +2047,7 @@
     }
 
     /** @inheritdoc */
-    _onClick(evt) {
+    _onClick = (evt) => {
       const notification = evt.target.closest('div.nt-card-list article');
       if (notification) {
         this._notifications.item = notification;
