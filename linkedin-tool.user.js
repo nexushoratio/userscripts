@@ -1966,7 +1966,7 @@
         };
         const how = {
           trigger: trigger,
-          timeot: 3000,
+          timeout: 3000,
         };
         otrot(what, how).then(() => {
           this._jobs.item = savedJob;
