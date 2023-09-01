@@ -2724,32 +2724,47 @@
     }
 
     /**
+     * Create the Info dialog and add some static information.
+     * @returns {Element} - Initialized dialog.
+     */
+    _initializeInfoDialog() {
+      const dialog = document.createElement('dialog');
+      dialog.id = this._helpId;
+      const name = document.createElement('div');
+      name.innerHTML = `<b>${GM.info.script.name}</b> - v${GM.info.script.version}`;
+      const instructions = document.createElement('div');
+      instructions.innerHTML =
+        '<span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
+        '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>';
+      dialog.append(name, instructions);
+      return dialog;
+    }
+
+    /**
      * Add basic dialog with an embedded tabs for the help view.  The
      * zeroth tab always defaults to `checked`.
      * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
     _addHelpDialog(tabs) {
-      const dialog = document.createElement('dialog');
-      dialog.id = this._helpId;
-      let tabber = '';
-      let panels = '';
+      const dialog = this._initializeInfoDialog();
+      const tabber = document.createElement('div');
+      tabber.classList.add('spa-tabber');
+      const panels = document.createElement('div');
+      panels.classList.add('spa-panels');
       for (const idx of tabs.keys()) {
         const checked = idx ? '' : 'checked';
         const {name, content} = tabs[idx];
-        tabber += `<input data-spa-id="spa-input-${name}" id="spa-input-${name}" name="spa-help-tabber" type="radio" ${checked}>`;
-        tabber += `<label data-spa-id="spa-label-${name}" for="spa-input-${name}">[${name}]</label>`;
-        panels += `<div data-spa-id="spa-panel-${name}" class="spa-panel">${content}</div>`;
+        tabber.innerHTML += `<input data-spa-id="spa-input-${name}" id="spa-input-${name}" name="spa-help-tabber" type="radio" ${checked}>`;
+        tabber.innerHTML += `<label data-spa-id="spa-label-${name}" for="spa-input-${name}">[${name}]</label>`;
+        const panel = document.createElement('div');
+        panel.datasetSpaId = `spa-panel-${name}`;
+        panel.classList.add('spa-panel');
+        panel.innerHTML = content;
+        panels.append(panel);
       }
-      dialog.innerHTML =
-        `<div><b>${GM.info.script.name}</b> - v${GM.info.script.version}</div>` +
-        '<div>' +
-        '  <span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
-        '  <span style="float: right">Hit <kbd>ESC</kbd> to close</span>' +
-        '</div><hr>' +
-        `<div class="spa-tabber">${tabber}` +
-        `    <div class="spa-panels">${panels}</div>` +
-        '  </div>' +
-        '</div>';
+
+      tabber.append(panels);
+      dialog.append(tabber);
       document.body.prepend(dialog);
 
       // Dialogs do not have a real open event.  We will fake it.
