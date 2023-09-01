@@ -2711,16 +2711,9 @@
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
         this._helpKeyboard.enable();
-        if (this._page) {
-          const pageId = this._pageHelpId(this._page);
-          const tr = document.querySelector(`#${pageId}`);
-          tr.style.scrollMarginTop = navBarHeightCss;
-          tr.scrollIntoView(true);
-        } else {
-          const el = document.querySelector(`#${this._helpId}`);
-          // 0, 0 is good enough
-          el.scrollTo(0, 0);
-        }
+        const el = document.querySelector(`#${this._helpId}`);
+        // 0, 0 is good enough
+        el.scrollTo(0, 0);
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
