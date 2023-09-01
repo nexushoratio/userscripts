@@ -51,7 +51,7 @@
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
     "padded-blocks": ["error", {"classes": "always"}],
-    "quotes": "off",  // TODO(#69): investigate
+    "quotes": ["error", "single"],
     "semi": "off",  // TODO(#69): investigate
     "space-before-function-paren": "off",  // TODO(#69): investigate
     "wrap-iife": "off",  // TODO(#69): investigate
