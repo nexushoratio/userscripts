@@ -33,6 +33,7 @@
    * Console message groups can be started and ended using special
    * methods.
    * @example
+   * const log = new Logger('Bob', true);
    * foo(x) {
    *  const me = 'foo';
    *  log.entered(me, x);
