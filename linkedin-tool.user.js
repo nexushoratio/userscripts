@@ -2348,7 +2348,6 @@
     /** Create a LinkedIn instance. */
     constructor() {
       super();
-      this._log.enable();
       this.ready = this._waitUntilPageLoadedEnough();
     }
 
