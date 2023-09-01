@@ -2632,8 +2632,8 @@
      */
     _initializeHelpKeyboard() {
       this._helpKeyboard = new VM.shortcut.KeyboardService();
-      this._helpKeyboard.register('c-right', this._switchHelpTab.bind(this, 1));
-      this._helpKeyboard.register('c-left', this._switchHelpTab.bind(this, -1));
+      this._helpKeyboard.register('c-right', this._nextHelpTab);
+      this._helpKeyboard.register('c-left', this._prevHelpTab);
     }
 
     /**
@@ -2815,6 +2815,14 @@
       let idx = panels.findIndex(panel => panel.checked);
       idx = (idx + direction + panels.length) % panels.length;
       panels[idx].checked = true;
+    }
+
+    _nextHelpTab = () => {
+      this._switchHelpTab(1);
+    }
+
+    _prevHelpTab = () => {
+      this._switchHelpTab(-1);
     }
 
     /**
