@@ -11,6 +11,7 @@
   "extends": "eslint:all",
   "rules": {
     // Possible Problems
+
     // Suggestions
     "capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
     "func-names": ["error", "as-needed"],
@@ -35,6 +36,7 @@
     "sort-keys": "off",
     "valid-typeof": ["error", {"requireStringLiterals": true}],
     "yoda": ["error", "never", {"exceptRange": true}],
+
     // Layout & Formatting
     "array-element-newline": ["error", "consistent"],
     "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
@@ -51,6 +53,7 @@
     "padded-blocks": ["error", {"classes": "always"}],
     "quotes": ["error", "single"],
     "space-before-function-paren": ["error", "never"],
+
     // Deprecated
     "require-jsdoc": ["error", {
       "require": {
