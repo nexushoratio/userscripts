@@ -13,71 +13,226 @@
     // Possible Problems
 
     // Suggestions
-    "capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
-    "func-names": ["error", "as-needed"],
-    "func-style": ["error", "declaration", {"allowArrowFunctions": true}],
+    "capitalized-comments": [
+      "error",
+      "always",
+      {
+        "ignoreConsecutiveComments": true
+      }
+    ],
+    "func-names": [
+      "error",
+      "as-needed"
+    ],
+    "func-style": [
+      "error",
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
+    ],
     "id-length": "off",
     "max-classes-per-file": "off",
     "max-lines": "off",
-    "max-statements": ["error", {"max": 20}, {"ignoreTopLevelFunctions": true}],
-    "multiline-comment-style": ["error", "separate-lines"],
-    "no-bitwise": ["error", {"int32Hint": true}],
-    "no-confusing-arrow": ["error", {"allowParens": true}],
+    "max-statements": [
+      "error",
+      {
+        "max": 20
+      },
+      {
+        "ignoreTopLevelFunctions": true
+      }
+    ],
+    "multiline-comment-style": [
+      "error",
+      "separate-lines"
+    ],
+    "no-bitwise": [
+      "error",
+      {
+        "int32Hint": true
+      }
+    ],
+    "no-confusing-arrow": [
+      "error",
+      {
+        "allowParens": true
+      }
+    ],
     "no-invalid-this": "off",
-    "no-magic-numbers": ["error", {"ignore": [-1, 0, 1]}],
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignore": [
+          -1,
+          0,
+          1
+        ],
+        "detectObjects": false,
+        "enforceConst": false,
+        "ignoreArrayIndexes": false
+      }
+    ],
     "no-ternary": "off",
     "no-underscore-dangle": "off",  // TODO(#68): After Debian upgrade
     "no-unused-expressions": "off",  // TODO(#68): After Debian upgrade
-    "no-warning-comments": ["error", {"terms": ["do not submit", "fixme"]}],
-    "object-shorthand": ["error", "never"],
-    "one-var": ["error", "never"],
-    "prefer-destructuring": ["off", {"object": true}, {"enforceForRenamedProperties": true}],  // TODO(#113): incrementally
-    "quote-props": ["error", "consistent-as-needed"],
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": [
+          "do not submit",
+          "fixme"
+        ]
+      }
+    ],
+    "object-shorthand": [
+      "error",
+      "never"
+    ],
+    "one-var": [
+      "error",
+      "never"
+    ],
+    "prefer-destructuring": [  // TODO(#113): incrementally
+      "off",
+      {
+        "object": true
+      },
+      {
+        "enforceForRenamedProperties": true
+      }
+    ],
+    "quote-props": [
+      "error",
+      "consistent-as-needed"
+    ],
     "sort-keys": "off",
-    "valid-typeof": ["error", {"requireStringLiterals": true}],
-    "yoda": ["error", "never", {"exceptRange": true}],
+    "valid-typeof": [
+      "error",
+      {
+        "requireStringLiterals": true
+      }
+    ],
+    "yoda": [
+      "error",
+      "never",
+      {
+        "exceptRange": true,
+        "onlyEquality": false
+      }
+    ],
 
     // Layout & Formatting
-    "array-element-newline": ["error", "consistent"],
-    "arrow-parens": ["error", "as-needed", {"requireForBlockBody": true}],
-    "comma-dangle": ["error", "always-multiline"],
-    "dot-location": ["error", "property"],
-    "function-paren-newline": "error",
-    "indent": ["error", 2],
-    "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
-    "max-len": ["off", {"ignoreUrls": true}],  // TODO(#97): Revisit after.
-    "multiline-ternary": ["error", "always-multiline"],
-    "no-extra-parens": ["error", "all", {"nestedBinaryExpressions": false, "enforceForArrowConditionals": false}],
-    "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
-    "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
-    "padded-blocks": ["error", {"classes": "always"}],
-    "quotes": ["error", "single"],
-    "space-before-function-paren": ["error", "never"],
+    "array-element-newline": [
+      "error",
+      "consistent"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "dot-location": [
+      "error",
+      "property"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "max-len": [  // TODO(#97): Revisit after
+      "off",
+      {
+        "ignoreUrls": true
+      }
+    ],
+    "multiline-ternary": [
+      "error",
+      "always-multiline"
+    ],
+    "no-extra-parens": [
+      "error",
+      "all",
+      {
+        "nestedBinaryExpressions": false,
+        "enforceForArrowConditionals": false
+      }
+    ],
+    "no-multi-spaces": [
+      "error",
+      {
+        "ignoreEOLComments": true
+      }
+    ],
+    "object-property-newline": [
+      "error",
+      {
+        "allowAllPropertiesOnSameLine": true,
+        "allowMultiplePropertiesPerLine": false
+      }
+    ],
+    "padded-blocks": [
+      "error",
+      {
+        "classes": "always"
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
 
     // Deprecated
-    "require-jsdoc": ["error", {
-      "require": {
-        "FunctionDeclaration": true,
-        "MethodDefinition": true,
-        "ClassDeclaration": true,
-        "ArrowFunctionExpression": true,
-        "FunctionExpression": true
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true,
+          "ArrowFunctionExpression": true,
+          "FunctionExpression": true
+        }
       }
-    }],
-    "valid-jsdoc": ["error", {
-      "prefer": {
-        "arg": "param",
-        "argument": "param",
-        "return": "returns",
-        "virtual": "abstract"
-      },
-      "preferType": {
-        "Boolean": "boolean",
-        "Number": "number",
-        "Object": "error",
-        "String": "string"
-      },
-      "requireReturn": false
-    }]
+    ],
+    "valid-jsdoc": [
+      "error",
+      {
+        "prefer": {
+          "arg": "param",
+          "argument": "param",
+          "return": "returns",
+          "virtual": "abstract"
+        },
+        "preferType": {
+          "Boolean": "boolean",
+          "Number": "number",
+          "Object": "error",
+          "String": "string"
+        },
+        "requireReturn": false,
+        "requireParamDescription": true,
+        "requireReturnDescription": true,
+        "requireReturnType": true,
+        "requireParamType": true
+      }
+    ]
   }
 }
