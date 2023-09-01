@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.15.8
+// @version     2.16.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2668,6 +2668,7 @@
         style.textContent += `#${this._helpId} div.spa-tabber > input:nth-of-type(${idx + 1}):checked ~ div.spa-panels > div.spa-panel:nth-of-type(${idx + 1}) { display: block }`;
       }
       style.textContent += `#${this._helpId} .spa-danger { background-color: red; }`;
+      style.textContent += `#${this._helpId} .spa-current-page { background-color: lightgray; }`;
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
       style.textContent += `#${this._helpId} p { margin-bottom: 1em; }`;
       style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
@@ -2894,6 +2895,48 @@
     }
 
     /**
+     * Get the hot keys tab header element for this page.
+     * @param {Page} page - Page to find.
+     * @returns {?Element} - Element that acts as the header.
+     */
+    _pageHeader(page) {
+      const me = 'pageHeader';
+      this._log.entered(me, page);
+      let element = null;
+      if (page) {
+        const pageId = this._pageHelpId(page);
+        this._log.log('pageId:', pageId);
+        element = document.querySelector(`#${pageId}`);
+      }
+      this._log.leaving(me, element);
+      return element;
+    }
+
+    /**
+     * Highlight information about the page in the hot keys tab.
+     * @param {Page} page - Page to shine.
+     */
+    _shine(page) {
+      const me = 'shine';
+      this._log.entered(me, page);
+      const element = this._pageHeader(page);
+      element.classList.add('spa-current-page');
+      this._log.leaving(me);
+    }
+
+    /**
+     * Remove highlights from this page in the hot keys tab.
+     * @param {Page} page - Page to dull.
+     */
+    _dull(page) {
+      const me = 'dull';
+      this._log.entered(me, page);
+      const element = this._pageHeader(page);
+      element.classList.remove('spa-current-page');
+      this._log.leaving(me);
+    }
+
+    /**
      * Add content to the Errors tab so the user can use it to file feedback.
      * @param {string} content - Information to add.
      */
@@ -2962,11 +3005,13 @@
     activate(pathname) {
       if (this._page) {
         this._page.deactivate();
+        this._dull(this._page);
       }
       const page = this._findPage(pathname);
       this._page = page;
       if (page) {
         page.activate();
+        this._shine(this._page);
       }
     }
   }
