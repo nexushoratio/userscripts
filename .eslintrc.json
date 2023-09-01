@@ -49,7 +49,7 @@
     "newline-per-chained-call": "error",
     "no-extra-parens": ["error", "all", {"nestedBinaryExpressions": false, "enforceForArrowConditionals": false}],
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
-    "object-property-newline": "off",  // TODO(#69): investigate
+    "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
     "padded-blocks": "off",  // TODO(#69): investigate
     "quotes": "off",  // TODO(#69): investigate
     "semi": "off",  // TODO(#69): investigate
