@@ -12,7 +12,6 @@
   "rules": {
     // Possible Problems
     // Suggestions
-    "arrow-body-style": ["error"],
     "capitalized-comments": ["error", "always", {"ignoreConsecutiveComments": true}],
     "func-names": ["error", "as-needed"],
     "func-style": ["error", "declaration", {"allowArrowFunctions": true}],
@@ -46,15 +45,12 @@
     "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
     "max-len": ["off", {"ignoreUrls": true}],  // TODO(#97): Revisit after.
     "multiline-ternary": ["error", "always-multiline"],
-    "newline-per-chained-call": "error",
     "no-extra-parens": ["error", "all", {"nestedBinaryExpressions": false, "enforceForArrowConditionals": false}],
     "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
     "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
     "padded-blocks": ["error", {"classes": "always"}],
     "quotes": ["error", "single"],
-    "semi": "error",
     "space-before-function-paren": ["error", "never"],
-    "wrap-iife": "error",
     // Deprecated
     "require-jsdoc": ["error", {
       "require": {
