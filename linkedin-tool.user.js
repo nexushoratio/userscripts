@@ -2347,6 +2347,7 @@
     /** Create a LinkedIn instance. */
     constructor() {
       super();
+      this._log.enable();
       this.ready = this._waitUntilPageLoadedEnough();
     }
 
@@ -2367,7 +2368,8 @@
 
     /** Hang out until enough HTML has been built to be useful. */
     async _waitUntilPageLoadedEnough() {
-      this._log.log('Entered waitOnPageLoadedEnough');
+      const me = 'waitOnPageLoadedEnough';
+      this._log.entered(me);
 
       /**
        * Monitor for waiting for the navbar to show up.
@@ -2396,18 +2398,19 @@
       this._navbar = await otmot(navWhat, navHow);
       this._finishConstruction();
 
-      this._log.log('Leaving waitOnPageLoadedEnough');
+      this._log.leaving(me);
     }
 
     /** Do the bits that were waiting on the page. */
     _finishConstruction() {
-      this._log.log('Entered finishConstruction');
+      const me = 'finishConstruction';
+      this._log.entered(me);
 
       LinkedIn._addLitStyle();
       this._addToolMenuItem();
       this._setNavBarInfo();
 
-      this._log.log('Leaving finishConstruction');
+      this._log.leaving(me);
     }
 
     /**
@@ -2421,7 +2424,8 @@
 
     /** Add a menu item to the global nav bar. */
     _addToolMenuItem() {
-      this._log.log('Entered addToolMenuItem');
+      const me = 'addToolMenuItem';
+      this._log.entered(me);
 
       const ul = document.querySelector('ul.global-nav__primary-items');
       const li = document.createElement('li');
@@ -2437,9 +2441,9 @@
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
-      const me = ul.querySelector('li .global-nav__me');
-      if (me) {
-        me.after(li);
+      const navMe = ul.querySelector('li .global-nav__me');
+      if (navMe) {
+        navMe.after(li);
       } else {
         // If the site changed and we cannot insert ourself after the
         // Me menu item, then go first.
@@ -2452,7 +2456,7 @@
         help.showModal();
         help.dispatchEvent(new Event('open'));
       });
-      this._log.log('Leaving addToolMenuItem');
+      this._log.leaving(me);
     }
 
     /** Set some useful global variables. */
@@ -2464,7 +2468,8 @@
 
     /** @inheritdoc */
     _errors(count) {
-      this._log.log('Entered errors with', count);
+      const me = 'errors';
+      this._log.entered(me, count);
       const button = document.querySelector('#lit-nav-button');
       const toggle = button.querySelector('.notification-badge');
       const badge = button.querySelector('.notification-badge__count');
@@ -2474,12 +2479,13 @@
       } else {
         toggle.classList.remove('notification-badge--show');
       }
-      this._log.log('Leaving errors');
+      this._log.leaving(me);
     }
 
     /** @inheritdoc */
     infoHelp() {
-      this._log.log('Entered infoHelp');
+      const me = 'infoHelp';
+      this._log.entered(me);
       const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
       const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
       const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
@@ -2493,7 +2499,7 @@
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
           `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
       }
-      this._log.log('Leaving infoHelp with', helpTab);
+      this._log.leaving(me, helpTab);
       return helpTab;
     }
   }
