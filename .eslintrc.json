@@ -52,7 +52,7 @@
     "object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
     "padded-blocks": ["error", {"classes": "always"}],
     "quotes": ["error", "single"],
-    "semi": "off",  // TODO(#69): investigate
+    "semi": "error",
     "space-before-function-paren": "off",  // TODO(#69): investigate
     "wrap-iife": "off",  // TODO(#69): investigate
     // Deprecated

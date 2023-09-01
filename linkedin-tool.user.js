@@ -519,7 +519,7 @@
      * @param {function} func - Function to remove.
      */
     off(eventType, func) {
-      const handlers = this._getHandlers(eventType)
+      const handlers = this._getHandlers(eventType);
       let index = 0;
       while ((index = handlers.indexOf(func)) !== NOT_FOUND) {
         handlers.splice(index, 1);
@@ -1389,7 +1389,7 @@
       const trigger = () => {
         this._togglePost();
         this._nextPost();
-      }
+      };
       // XXX: Need to remove the highlights before otrot sees it
       // because it affects the .clientHeight.
       this._posts.dull();
@@ -1942,7 +1942,7 @@
       const job = this._jobs?.item;
       if (job) {
         if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
-          this._spa.dumpInfoAboutElement(job, 'job')
+          this._spa.dumpInfoAboutElement(job, 'job');
         }
       } else {
         // Again, because we use Enter as the hotkey for this action.
@@ -2249,7 +2249,7 @@
           document.documentElement.scrollTop = savedScrollTop;
           this._notifications.shine();
         }
-      }
+      };
 
       const what = {
         name: 'loadMoreNotifications',
@@ -2515,7 +2515,7 @@
           `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>` +
           `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>` +
           `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
-      }
+      };
       this._log.leaving(me, helpTab);
       return helpTab;
     }
@@ -2606,7 +2606,7 @@
      */
     _onFocus = (evt) => {
       if (this._lastInputElement && evt.target !== this._lastInputElement) {
-        this._lastInputElement = null
+        this._lastInputElement = null;
         this._setKeyboardContext('inputFocus', false);
       }
       if (isInput(evt.target)) {
@@ -2745,7 +2745,7 @@
       return {
         name: 'Keyboard shortcuts',
         content: '<table data-spa-id="shortcuts"><tbody></tbody></table>',
-      }
+      };
     }
 
     /**
@@ -2796,7 +2796,7 @@
           '</div>',
           '<textarea rows=20 data-spa-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
         ].join(''),
-      }
+      };
     }
 
     /**
@@ -2904,7 +2904,7 @@
         label.click();
         label.classList.add('spa-danger');
       } else {
-        label.classList.remove('spa-danger')
+        label.classList.remove('spa-danger');
       }
       this._log.leaving(me);
     }
