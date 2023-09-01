@@ -626,7 +626,7 @@
         throw new Error(msg);
       }
       const items = this._getItems();
-      let item = items.find(this._matchItem.bind(this));
+      let item = items.find(this._matchItem);
       if (!item) {
         // We couldn't find the old id, so maybe it was rebuilt.  Make
         // a guess by trying the old index.
@@ -728,7 +728,7 @@
      * @param {Element} element - Element to check.
      * @returns {boolean} - Whether or not element is the current one.
      */
-    _matchItem(element) {
+    _matchItem = (element) => {
       const me = 'matchItem';
       this._log.entered(me);
       const res = this._currentItemId === this._uid(element);
@@ -816,7 +816,7 @@
 
       const items = this._getItems();
       if (items.length) {
-        let idx = items.findIndex(this._matchItem.bind(this));
+        let idx = items.findIndex(this._matchItem);
         this._log.log('initial idx', idx);
         idx += n;
         if (idx < NOT_FOUND) {
@@ -1267,7 +1267,7 @@
       super();
       this._postScroller = new Scroller(Feed._postsWhat, Feed._postsHow);
       this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
-      this._postScroller.dispatcher.on('change', this._changedPost.bind(this));
+      this._postScroller.dispatcher.on('change', this._onPostChange);
     }
 
     /** @inheritdoc */
@@ -1321,7 +1321,7 @@
     get _comments() {
       if (!this._commentScroller && this._posts.item) {
         this._commentScroller = new Scroller({base: this._posts.item, ...Feed._commentsWhat}, Feed._commentsHow);
-        this._commentScroller.dispatcher.on('out-of-range', this._returnToPost.bind(this));
+        this._commentScroller.dispatcher.on('out-of-range', this._returnToPost);
       }
       return this._commentScroller;
     }
@@ -1357,14 +1357,14 @@
      * Reselects current post, triggering same actions as initial
      * selection.
      */
-    _returnToPost() {
+    _returnToPost = () => {
       this._posts.item = this._posts.item;
     }
 
     /**
      * Removes the comments {@link Scroller}.
      */
-    _changedPost() {
+    _onPostChange = () => {
       this._clearComments();
     }
 
@@ -1383,7 +1383,7 @@
       /**
        * Trigger function for {@link otrot}.
        */
-      function trigger() {
+      const trigger = () => {
         this._togglePost();
         this._nextPost();
       }
@@ -1397,14 +1397,14 @@
           base: this._posts.item,
         };
         const how = {
-          trigger: trigger.bind(this),
+          trigger: trigger,
           timeout: 3000,
         };
         otrot(what, how).then(() => {
           this._posts.show();
         });
       } else {
-        trigger.bind(this)();
+        trigger();
       }
     }
 
@@ -1663,9 +1663,9 @@
       super();
       this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
       this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
-      this._sectionScroller.dispatcher.on('change', this._onChange.bind(this));
-      this._sectionsMO1 = new MutationObserver(this._mutationHandler.bind(this));
-      this._sectionsMO2 = new MutationObserver(this._mutationHandler.bind(this));
+      this._sectionScroller.dispatcher.on('change', this._onChange);
+      this._sectionsMO1 = new MutationObserver(this._mutationHandler);
+      this._sectionsMO2 = new MutationObserver(this._mutationHandler);
     }
 
     /** @inheritdoc */
@@ -1697,7 +1697,7 @@
       this._log.entered(me, this._jobScroller);
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
-        this._jobScroller.dispatcher.on('out-of-range', this._returnToSection.bind(this));
+        this._jobScroller.dispatcher.on('out-of-range', this._returnToSection);
       }
       this._log.leaving(me, this._jobScroller);
       return this._jobScroller;
@@ -1773,7 +1773,7 @@
      * Reselects current section, triggering same actions as initial
      * selection.
      */
-    _returnToSection() {
+    _returnToSection = () => {
       this._sections.item = this._sections.item;
     }
 
@@ -1781,7 +1781,7 @@
      * Updates {@link Jobs} specific watcher text and removes the jobs
      * {@link Scroller}.
      */
-    _onChange() {
+    _onChange = () => {
       this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
       this._clearJobs();
     }
@@ -1817,7 +1817,7 @@
      * again.
      * @param {MutationRecord[]} records - Standard mutation records.
      */
-    _mutationHandler(records) {
+    _mutationHandler = (records) => {
       const me = 'mutationHandler';
       this._log.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
       for (const record of records) {
@@ -2562,8 +2562,8 @@
         }
         this.addErrorMarker();
       }
-      document.addEventListener('focus', this._onFocus.bind(this), true);
-      document.addEventListener('urlchange', this._onUrlChange.bind(this), true);
+      document.addEventListener('focus', this._onFocus, true);
+      document.addEventListener('urlchange', this._onUrlChange, true);
     }
 
     /**
@@ -2585,7 +2585,7 @@
      * an area where we want to disable hotkeys.
      * @param {Event} evt - Standard 'focus' event.
      */
-    _onFocus(evt) {
+    _onFocus = (evt) => {
       if (this._lastInputElement && evt.target !== this._lastInputElement) {
         this._lastInputElement = null
         this._setKeyboardContext('inputFocus', false);
@@ -2600,7 +2600,7 @@
      * Handle urlchange events that indicate a switch to a new page.
      * @param {CustomEvent} evt - Custom 'urlchange' event.
      */
-    _onUrlChange(evt) {
+    _onUrlChange = (evt) => {
       this.activate(evt.detail.url.pathname);
     }
 
