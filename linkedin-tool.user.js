@@ -2875,7 +2875,8 @@
      * @param {number} count - Number of errors currently logged.
      */
     _updateHelpErrorsLabel(count) {
-      this._log.log('Entered updateHelpErrorsLabel', count);
+      const me = 'updateHelpErrorsLabel';
+      this._log.entered(me, count);
       const label = document.querySelector(`#${this._helpId} [data-spa-id="spa-label-Errors"]`);
       if (count) {
         label.click();
@@ -2883,7 +2884,7 @@
       } else {
         label.classList.remove('spa-danger')
       }
-      this._log.log('Leaving updateHelpErrorsLabel');
+      this._log.leaving(me);
     }
 
     /**
