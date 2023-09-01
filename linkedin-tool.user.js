@@ -2275,8 +2275,16 @@
     constructor() {
       this._log = new Logger(this.constructor.name, false, false);
       this.dispatcher = new Dispatcher('errors', 'news');
-      this.dispatcher.on('errors', this._errors.bind(this));
-      this.dispatcher.on('news', this._news.bind(this));
+    }
+
+    /**
+     * Called by SPA instance during its construction to allow post
+     * instantiation stuff to happen.  If overridden in a subclass,
+     * this should definitely be called via super.
+     */
+    init() {
+      this.dispatcher.on('errors', this._errors);
+      this.dispatcher.on('news', this._news);
     }
 
     /**
@@ -2284,7 +2292,7 @@
      * tab content.
      * @param {number} count - Number of errors currently logged.
      */
-    _errors(count) {
+    _errors = (count) => {
       this._log.log('errors:', count);
     }
 
@@ -2292,7 +2300,7 @@
      * Handles notifications about activity on the {@link SPA} News tab.
      * @param {object} data - Undefined at this time.
      */
-    _news(data) {
+    _news = (data) => {
       this._log.log('news', data);
     }
 
@@ -2468,7 +2476,7 @@
     }
 
     /** @inheritdoc */
-    _errors(count) {
+    _errors = (count) => {
       const me = 'errors';
       this._log.entered(me, count);
       const button = document.querySelector('#lit-nav-button');
@@ -2552,6 +2560,7 @@
     constructor(details) {
       this._log = new Logger(this.constructor.name, true, false);
       this._details = details;
+      this._details.init();
       this._id = crypto.randomUUID();
       SPA._installNavStyle();
       this._initializeHelpView();
