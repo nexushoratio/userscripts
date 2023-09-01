@@ -2229,7 +2229,7 @@
       /**
        * Trigger function for {@link otrot2}.
        */
-      function trigger () {
+      function trigger() {
         if (clickElement(document, ['button[aria-label^="Load new notifications"]'])) {
           first = true;
         } else {

@@ -53,7 +53,7 @@
     "padded-blocks": ["error", {"classes": "always"}],
     "quotes": ["error", "single"],
     "semi": "error",
-    "space-before-function-paren": "off",  // TODO(#69): investigate
+    "space-before-function-paren": ["error", "never"],
     "wrap-iife": "off",  // TODO(#69): investigate
     // Deprecated
     "require-jsdoc": ["error", {
