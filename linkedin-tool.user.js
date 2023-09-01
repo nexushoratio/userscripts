@@ -2340,6 +2340,19 @@
       };
     }
 
+    /**
+     * @implements {SPA~HelpTabGenerator}
+     * @returns {SPA~HelpTab} - License information.
+     */
+    licenseInfo() {
+      this._log.log('licenseInfo is not implemented');
+      throw new Error('Not implemented.');
+      return {  // eslint-disable-line no-unreachable
+        name: 'Not implemented.',
+        content: 'Not implemented.',
+      };
+    }
+
   }
 
   /** LinkedIn specific information. */
@@ -2520,10 +2533,26 @@
       return helpTab;
     }
 
+    /** @inheritdoc */
+    licenseInfo() {
+      const me = 'licenseInfo';
+      this._log.entered(me);
+
+      const [name, url] = GM.info.script.license.split(';');
+
+      const infoTab = {
+        name: 'License',
+        content: `<p><a href="${url}">${name}</a></p>`,
+      };
+
+      this._log.leaving(me, infoTab);
+      return infoTab;
+    }
+
   }
 
   /**
-   * A driver for working with a single-page application.
+   * A userscript driver for working with a single-page application.
    *
    * Generally, a single instance of this class is created, and all
    * instances of {Page} are registered to it.  As the user navigates
@@ -2811,6 +2840,7 @@
         SPA._keyboardHelp(),
         this._details.infoHelp(),
         SPA._errorHelp(),
+        this._details.licenseInfo(),
       ];
 
       this._addHelpStyle(helpGenerators);
