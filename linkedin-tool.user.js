@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.16.4
+// @version     2.16.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2801,6 +2801,12 @@
             license = line.slice(magic.length).trim();
           }
         }
+      }
+
+      if (!license) {
+        // eslint-disable-next-line no-magic-numbers
+        this.addSetupIssue('Unable to extract license information from the userscript.', JSON.stringify(GM.info.script, null, 2));
+        license = 'Unable to extract: Please file a bug;';
       }
 
       const [name, url] = license.split(';');
