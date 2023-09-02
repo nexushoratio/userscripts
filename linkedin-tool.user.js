@@ -2527,6 +2527,10 @@
     /** @type {SetupIssue[]} */
     _setupIssues = [];
 
+
+    /** @type {TabbedUI} */
+    _ui = null;
+
     /** Create a SPADetails instance. */
     constructor() {
       this._log = new Logger(this.constructor.name, false, false);
@@ -2541,6 +2545,26 @@
     init() {
       this.dispatcher.on('errors', this._errors);
       this.dispatcher.on('news', this._news);
+    }
+
+    /**
+     * Called by SPA instance when initialization is done.  Subclasses
+     * should call via super.
+     */
+    done() {
+      const me = 'done';
+      this._log.entered(me);
+      this._log.leaving(me);
+    }
+
+    /** @type {TabbedUI} */
+    get ui() {
+      return this._ui;
+    }
+
+    /** @param {TabbedUI} val - UI instance. */
+    set ui(val) {
+      this._ui = val;
     }
 
     /**
@@ -2631,6 +2655,16 @@
       this.ready = this._waitUntilPageLoadedEnough();
     }
 
+    /** @inheritdoc */
+    done() {
+      super.done();
+      const me = 'done';
+      this._log.entered(me);
+      const licenseEntry = this.ui.tabs.get('License');
+      licenseEntry.panel.addEventListener('activate', this._licenseHandler);
+      this._log.leaving(me);
+    }
+
     /**
      * The element.id used to identify the help pop-up.
      * @type {string}
@@ -2644,6 +2678,45 @@
      */
     set helpId(val) {
       this._helpId = val;
+    }
+
+    /**
+     * @typedef {object} LicenseData
+     * @property {string} name - Name of the license.
+     * @property {string} url - License URL.
+     */
+    get licenseData() {
+      const me = 'licenseData';
+      this._log.entered(me);
+
+      if (!this._licenseData) {
+        // Different userscript managers do this differently.
+        let license = GM.info.script.license;
+        if (!license) {
+          const magic = '// @license ';
+
+          // Try Tampermonkey's way.
+          const header = GM.info.script.header;
+          if (header) {
+            const line = header.split('\n').find(l => l.startsWith(magic));
+            if (line) {
+              license = line.slice(magic.length).trim();
+            }
+          }
+        }
+
+        if (!license) {
+          // eslint-disable-next-line no-magic-numbers
+          this.addSetupIssue('Unable to extract license information from the userscript.', JSON.stringify(GM.info.script, null, 2));
+          license = 'Unable to extract: Please file a bug;';
+        }
+
+        const [name, url] = license.split(';');
+        this._licenseData = {name: name, url: url};
+      }
+
+      this._log.leaving(me, this._licenseData);
+      return this._licenseData;
     }
 
     /** Hang out until enough HTML has been built to be useful. */
@@ -2691,6 +2764,20 @@
       this._setNavBarInfo();
 
       this._log.leaving(me);
+    }
+
+    /**
+     * Lazily load license text when exposed.
+     * @param {Event} evt - The 'activate' event.
+     */
+    _licenseHandler = (evt) => {
+      const me = 'licenseHandler';
+      this._log.entered(me, evt.target);
+      // TODO: evt.target.innerHTML += '<p><i>Loading text...</i></p>';
+
+      const {url} = this.licenseData;
+
+      this._log.leaving(me, url);
     }
 
     /**
@@ -2788,40 +2875,10 @@
       const me = 'licenseInfo';
       this._log.entered(me);
 
-      // Different userscript managers do this differently.
-      let license = GM.info.script.license;
-      if (!license) {
-        const magic = '// @license ';
-
-        // Try Tampermonkey's way.
-        const header = GM.info.script.header;
-        if (header) {
-          const line = header.split('\n').find(l => l.startsWith(magic));
-          if (line) {
-            license = line.slice(magic.length).trim();
-          }
-        }
-      }
-
-      if (!license) {
-        // eslint-disable-next-line no-magic-numbers
-        this.addSetupIssue('Unable to extract license information from the userscript.', JSON.stringify(GM.info.script, null, 2));
-        license = 'Unable to extract: Please file a bug;';
-      }
-
-      const [name, url] = license.split(';');
-
-      /**
-       * Callback for {SPA~HelpTab}.
-       */
-      const callback = (...rest) => {
-        this._log.log('license callback', url, ...rest);
-      };
-
+      const {name, url} = this.licenseData;
       const infoTab = {
         name: 'License',
         content: `<p><a href="${url}">${name}</a></p>`,
-        callback: callback,
       };
 
       this._log.leaving(me, infoTab);
@@ -2878,7 +2935,7 @@
     constructor(details) {
       this._log = new Logger(this.constructor.name, true, false);
       this._details = details;
-      this._details.init();
+      this._details.init(this);
       this._id = crypto.randomUUID();
       SPA._installNavStyle();
       this._initializeHelpView();
@@ -2891,6 +2948,7 @@
       }
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this._onUrlChange, true);
+      this._details.done();
     }
 
     /**
@@ -3116,6 +3174,7 @@
 
       this._addHelpStyle();
       this._addHelpDialog(helpGenerators);
+      this._details.ui = this._info;
       this._addHelpViewHandlers();
     }
 
