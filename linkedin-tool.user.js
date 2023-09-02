@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.16.3
+// @version     2.16.4
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -2788,7 +2788,22 @@
       const me = 'licenseInfo';
       this._log.entered(me);
 
-      const [name, url] = GM.info.script.license.split(';');
+      // Different userscript managers do this differently.
+      let license = GM.info.script.license;
+      if (!license) {
+        const magic = '// @license ';
+
+        // Try Tampermonkey's way.
+        const header = GM.info.script.header;
+        if (header) {
+          const line = header.split('\n').find(l => l.startsWith(magic));
+          if (line) {
+            license = line.slice(magic.length).trim();
+          }
+        }
+      }
+
+      const [name, url] = license.split(';');
 
       /**
        * Callback for {SPA~HelpTab}.
