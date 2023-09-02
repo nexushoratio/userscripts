@@ -2540,9 +2540,17 @@
 
       const [name, url] = GM.info.script.license.split(';');
 
+      /**
+       * Callback for {SPA~HelpTab}.
+       */
+      const callback = (...rest) => {
+        this._log.log('license callback', url, ...rest);
+      };
+
       const infoTab = {
         name: 'License',
         content: `<p><a href="${url}">${name}</a></p>`,
+        callback: callback,
       };
 
       this._log.leaving(me, infoTab);
@@ -2688,6 +2696,8 @@
      * @typedef {object} HelpTab
      * @property {string} name - Tab name
      * @property {string} content - HTML to be used as initial content.
+     * @property {?SimpleFunction} callback - Called whenever tab
+     * becomes active.
      */
 
     /**
@@ -2741,32 +2751,94 @@
     }
 
     /**
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @param {boolean} checked - Set default checked.
+     * @returns {Element} - Input portion of the tab.
+     */
+    static _createInput(idName, checked) {
+      const input = document.createElement('input');
+      input.id = `spa-input-${idName}`;
+      input.name = 'spa-help-tabber';
+      input.dataset.spaId = `spa-input-${idName}`;
+      input.type = 'radio';
+      input.defaultChecked = checked;
+      return input;
+    }
+
+    /**
+     * @param {Element} input - Input element associated with this label.
+     * @param {string} name - Human readable name for tab.
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @returns {Element} - Label portion of the tab.
+     */
+    static _createLabel(input, name, idName) {
+      const label = document.createElement('label');
+      label.dataset.spaId = `spa-label-${idName}`;
+      label.htmlFor = input.id;
+      label.innerText = `[${name}]`;
+      return label;
+    }
+
+    /**
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @param {string} content - Raw HTML content to put into the
+     * panel.
+     * @returns {Element} - Panel portion of the tab.
+     */
+    static _createPanel(idName, content) {
+      const panel = document.createElement('div');
+      panel.dataset.spaId = `spa-panel-${idName}`;
+      panel.classList.add('spa-panel');
+      panel.innerHTML = content;
+      return panel;
+    }
+
+    /**
+     * Create a tabbed UI based upon inputs.
+     * @param {HelpTab[]} tabs - Array defining the help tabs.
+     * @returns {[Element, [*]]} - Tabbed UI.
+     */
+    static _createTabbedUi(tabs) {
+      const callbacks = [];
+      const tabber = document.createElement('div');
+      tabber.classList.add('spa-tabber');
+      const panels = document.createElement('div');
+      panels.classList.add('spa-panels');
+
+      for (const idx of tabs.keys()) {
+        const checked = !idx;
+        const {name, content, callback} = tabs[idx];
+        const idName = name.replaceAll(' ', '-');
+        const input = SPA._createInput(idName, checked);
+        const label = SPA._createLabel(input, name, idName);
+        const panel = SPA._createPanel(idName, content);
+        tabber.append(input, label);
+        panels.append(panel);
+        if (callback) {
+          callbacks.push([input, panel, callback]);
+        }
+      }
+
+      tabber.append(panels);
+      return [tabber, callbacks];
+    }
+
+    /**
      * Add basic dialog with an embedded tabs for the help view.  The
      * zeroth tab always defaults to `checked`.
      * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
     _addHelpDialog(tabs) {
       const dialog = this._initializeInfoDialog();
-      const tabber = document.createElement('div');
-      tabber.classList.add('spa-tabber');
-      const panels = document.createElement('div');
-      panels.classList.add('spa-panels');
-      for (const idx of tabs.keys()) {
-        const checked = idx ? '' : 'checked';
-        const {name, content} = tabs[idx];
-        tabber.innerHTML += `<input data-spa-id="spa-input-${name}" id="spa-input-${name}" name="spa-help-tabber" type="radio" ${checked}>`;
-        tabber.innerHTML += `<label data-spa-id="spa-label-${name}" for="spa-input-${name}">[${name}]</label>`;
-        const panel = document.createElement('div');
-        panel.datasetSpaId = `spa-panel-${name}`;
-        panel.classList.add('spa-panel');
-        panel.innerHTML = content;
-        panels.append(panel);
-      }
-
-      tabber.append(panels);
+      const [tabber, callbacks] = SPA._createTabbedUi(tabs);
       dialog.append(tabber);
       document.body.prepend(dialog);
 
+      for (const [input, panel, callback] of callbacks) {
+        input.addEventListener('change', (evt) => {
+          callback(evt, panel);
+        });
+      }
       // Dialogs do not have a real open event.  We will fake it.
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
@@ -2871,8 +2943,10 @@
     _switchHelpTab(direction) {
       const panels = Array.from(document.querySelectorAll(`#${this._helpId} .spa-tabber > input`));
       let idx = panels.findIndex(panel => panel.checked);
+
       idx = (idx + direction + panels.length) % panels.length;
       panels[idx].checked = true;
+      panels[idx].dispatchEvent(new Event('change'));
     }
 
     _nextHelpTab = () => {
