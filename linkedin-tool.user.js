@@ -3277,7 +3277,7 @@
      * @param {string} name - What area this information came from.
      */
     dumpInfoAboutElement(element, name) {
-      const msg = `An unsupported unsupported ${name} element was discovered:`;
+      const msg = `An unsupported ${name} element was discovered:`;
       this.addError(msg);
       this.addError(element.outerHTML);
       this.addErrorMarker();
