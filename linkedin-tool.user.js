@@ -3108,8 +3108,7 @@
     }
 
     /**
-     * Dump a bunch of information about an element.  Currently this
-     * goes to the console and then alerts the user to file a bug.
+     * Dump a bunch of information about an HTML element.
      * @param {Element} element - Element to get information about.
      * @param {string} name - What area this information came from.
      */
