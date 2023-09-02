@@ -237,6 +237,255 @@
   }
 
   /**
+   * Implement HTML for a tabbed user interface.
+   *
+   * This version uses radio button/label pairs to select the active
+   * panel.
+   *
+   * @example
+   * const tabby = new TabbedUI('Tabby Cat');
+   * document.body.append(tabby.container);
+   * tabby.addTab(helpTabDefinition);
+   * tabby.addTab(docTabDefinition);
+   * tabby.addTab(contactTabDefinition);
+   * tabby.goto(helpTabDefinition.name);  // Initial
+   * tabby.next();
+   * const entry = tabby.tabs.get(contactTabDefinition);
+   * entry.classList.add('random-css');
+   * entry.innerHTML += '<p>More contact info.</p>';
+   */
+  class TabbedUI {
+
+    /**
+     * @typedef {object} TabDefinition
+     * @property {string} name - Tab name.
+     * @property {string} content - HTML to be used as initial
+     * content.
+     */
+
+    /**
+     * @typedef {object} TabEntry
+     * @property {string} name - Tab name.
+     * @property {Element} label - Tab label, so CSS can be applied.
+     * @property {Element} panel - Tab panel, so content can be
+     * updated.
+     */
+
+    /**
+     * Create a TabbedUI.
+     * @param {string} name - Used to distinguish HTML elements and
+     * @param {boolean} [debug] - Enable debug logging.
+     * CSS classes.
+     */
+    constructor(name, debug = false) {
+      this._log = new Logger(`TabbedUI ${name}`, debug, false);
+      this._name = name;
+      this._idName = TabbedUI._fixName(name);
+      this._id = `${this._idName}-${crypto.randomUUID()}`;
+      this._container = document.createElement('div');
+      this._container.id = this._id;
+      this._divider = document.createElement('div');
+      this._container.append(this._divider);
+      this._installStyle();
+    }
+
+    /** @type {Element} */
+    get container() {
+      return this._container;
+    }
+
+    /** Map<string,TabEntry> */
+    get tabs() {
+      const entries = new Map();
+      for (const label of this.container.querySelectorAll(':scope > label')) {
+        entries.set(label.dataset.tabbedName, {label: label});
+      }
+      for (const panel of this.container.querySelectorAll(`:scope > div.${this._idName}-panel`)) {
+        entries.get(panel.dataset.tabbedName).panel = panel;
+      }
+      return entries;
+    }
+
+    /**
+     * Make a string, usually a name, suitable for use as an
+     * attribute.
+     * 'Tabby Cat' -> 'Tabby-Cat'
+     * @param {string} name - Name to fix.
+     * @returns {string} - Fixed name.
+     */
+    static _fixName(name) {
+      return name.replaceAll(' ', '-');
+    }
+
+    /**
+     * Installs basic CSS styles for the UI.
+     */
+    _installStyle() {
+      this._style = document.createElement('style');
+      this._style.id = `${this._id}-style`;
+      this._style.textContent += `#${this._id} input { display: none; } `;
+      this._style.textContent += `#${this._id} label { padding: unset; display: inline; color: unset !important; } `;
+      this._style.textContent += `#${this._id} label::before { all: unset; } `;
+      this._style.textContent += `#${this._id} label::after { all: unset; } `;
+      this._style.textContent += `#${this._id} input:checked + label { font-weight: bold; } `;
+      this._style.textContent += `#${this._id} .${this._idName}-panel { display: none; } `;
+      document.head.prepend(this._style);
+    }
+
+    /**
+     * Get the tab controls currently in the container.
+     * @returns {Element[]} - Control elements for the tabs.
+     */
+    _getTabControls() {
+      return Array.from(this.container.querySelectorAll(':scope > input'));
+    }
+
+    /**
+     * Switch to an adjacent tab.
+     * @param {number} direction - Either 1 or -1.
+     * @fires Event#change
+     */
+    _switchTab(direction) {
+      const me = 'switchTab';
+      this._log.entered(me, direction);
+      const controls = this._getTabControls();
+      this._log.log('controls:', controls);
+      let idx = controls.findIndex(item => item.checked);
+      if (idx === NOT_FOUND) {
+        idx = 0;
+      } else {
+        idx = (idx + direction + controls.length) % controls.length;
+      }
+      controls[idx].click();
+      this._log.leaving(me);
+    }
+
+    /**
+     * @param {string} name - Human readable name for tab.
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @returns {Element} - Input portion of the tab.
+     */
+    _createInput(name, idName) {
+      const me = 'createInput';
+      this._log.entered(me);
+      const input = document.createElement('input');
+      input.id = `${this._idName}-input-${idName}`;
+      input.name = `${this._idName}-help-tabber`;
+      input.dataset.tabbedId = `${this._idName}-input-${idName}`;
+      input.dataset.tabbedName = name;
+      input.type = 'radio';
+      this._log.leaving(me, input);
+      return input;
+    }
+
+    /**
+     * @param {string} name - Human readable name for tab.
+     * @param {Element} input - Input element associated with this label.
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @returns {Element} - Label portion of the tab.
+     */
+    _createLabel(name, input, idName) {
+      const me = 'createLabel';
+      this._log.entered(me);
+      const label = document.createElement('label');
+      label.dataset.tabbedId = `${this._idName}-label-${idName}`;
+      label.dataset.tabbedName = name;
+      label.htmlFor = input.id;
+      label.innerText = `[${name}]`;
+      this._log.leaving(me, label);
+      return label;
+    }
+
+    /**
+     * @param {string} name - Human readable name for tab.
+     * @param {string} idName - Normalized to be CSS class friendly.
+     * @param {string} content - Raw HTML content to put into the
+     * panel.
+     * @returns {Element} - Panel portion of the tab.
+     */
+    _createPanel(name, idName, content) {
+      const me = 'createPanel';
+      this._log.entered(me);
+      const panel = document.createElement('div');
+      panel.dataset.tabbedId = `${this._idName}-panel-${idName}`;
+      panel.dataset.tabbedName = name;
+      panel.classList.add(`${this._idName}-panel`);
+      panel.innerHTML = content;
+      this._log.leaving(me, panel);
+      return panel;
+    }
+
+    /**
+     * Event handler for change events.  When the active tab changes, this will resend an 'activate' event to the associated panel.
+     * @param {Element} panel - The panel associated with this tab.
+     * @param {Event} evt - The original change event.
+     * @fires Event#activate
+     */
+    _onChange(panel, evt) {
+      const me = 'onChange';
+      this._log.entered(me, evt, panel);
+      panel.dispatchEvent(new Event('activate'));
+      this._log.leaving(me);
+    }
+
+    /**
+     * Add a new tab to the UI.
+     * @param {TabDefinition} tab - The new tab.
+     */
+    addTab(tab) {
+      const me = 'addTab';
+      this._log.entered(me, tab);
+      const {
+        name,
+        content,
+      } = tab;
+      const idName = TabbedUI._fixName(name);
+      const input = this._createInput(name, idName);
+      const label = this._createLabel(name, input, idName);
+      const panel = this._createPanel(name, idName, content);
+      input.addEventListener('change', this._onChange.bind(this, panel));
+      this._divider.before(input, label);
+      this._divider.after(panel);
+      this._style.textContent += `#${this._id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }`;
+      this._log.leaving(me);
+    }
+
+    /**
+     * Activate the next tab.
+     */
+    next() {
+      const me = 'next';
+      this._log.entered(me);
+      this._switchTab(1);
+      this._log.leaving(me);
+    }
+
+    /**
+     * Activate the previous tab.
+     */
+    prev() {
+      const me = 'prev';
+      this._log.entered(me);
+      this._switchTab(-1);
+      this._log.leaving(me);
+    }
+
+    /**
+     * Go to a tab by name.
+     * @param {string} name - Name of the tab.
+     */
+    goto(name) {
+      const me = 'goto';
+      this._log.entered(me, name);
+      const controls = this._getTabControls();
+      const control = controls.find(item => item.dataset.tabbedName === name);
+      control.click();
+      this._log.leaving(me);
+    }
+
+  }
+
+  /**
    * Determines if the element accepts keyboard input.
    * @param {Element} element - HTML Element to examine.
    * @returns {boolean} - Indicating whether the element accepts keyboard input.
@@ -2329,7 +2578,8 @@
 
     /**
      * @implements {SPA~HelpTabGenerator}
-     * @returns {SPA~HelpTab} - Where to find documentation and file bugs.
+     * @returns {TabbedUI~TabDefinition} - Where to find documentation
+     * and file bugs.
      */
     infoHelp() {
       this._log.log('infoHelp is not implemented');
@@ -2342,7 +2592,7 @@
 
     /**
      * @implements {SPA~HelpTabGenerator}
-     * @returns {SPA~HelpTab} - License information.
+     * @returns {TabbedUI~TabDefinition} - License information.
      */
     licenseInfo() {
       this._log.log('licenseInfo is not implemented');
@@ -2693,34 +2943,16 @@
     }
 
     /**
-     * @typedef {object} HelpTab
-     * @property {string} name - Tab name
-     * @property {string} content - HTML to be used as initial content.
-     * @property {?SimpleFunction} callback - Called whenever tab
-     * becomes active.
-     */
-
-    /**
      * @callback HelpTabGenerator
-     * @returns {HelpTab}
+     * @returns {TabbedUI~TabDefinition}
      */
 
     /**
      * Add CSS styling for use with the help view.
-     * @param {HelpTab[]} tabs - Array defining the help tabs.
      */
-    _addHelpStyle(tabs) {
+    _addHelpStyle() {
       const style = document.createElement('style');
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
-      style.textContent += `#${this._helpId} input { display: none; } `;
-      style.textContent += `#${this._helpId} label { padding: unset; display: inline; color: unset !important; } `;
-      style.textContent += `#${this._helpId} label::before { all: unset; } `;
-      style.textContent += `#${this._helpId} label::after { all: unset; } `;
-      style.textContent += `#${this._helpId} input:checked + label { font-weight: bold; } `;
-      style.textContent += `#${this._helpId} .spa-panel { display: none; } `;
-      for (const idx of tabs.keys()) {
-        style.textContent += `#${this._helpId} div.spa-tabber > input:nth-of-type(${idx + 1}):checked ~ div.spa-panels > div.spa-panel:nth-of-type(${idx + 1}) { display: block }`;
-      }
       style.textContent += `#${this._helpId} .spa-danger { background-color: red; }`;
       style.textContent += `#${this._helpId} .spa-current-page { background-color: lightgray; }`;
       style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
@@ -2751,94 +2983,23 @@
     }
 
     /**
-     * @param {string} idName - Normalized to be CSS class friendly.
-     * @param {boolean} checked - Set default checked.
-     * @returns {Element} - Input portion of the tab.
-     */
-    static _createInput(idName, checked) {
-      const input = document.createElement('input');
-      input.id = `spa-input-${idName}`;
-      input.name = 'spa-help-tabber';
-      input.dataset.spaId = `spa-input-${idName}`;
-      input.type = 'radio';
-      input.defaultChecked = checked;
-      return input;
-    }
-
-    /**
-     * @param {Element} input - Input element associated with this label.
-     * @param {string} name - Human readable name for tab.
-     * @param {string} idName - Normalized to be CSS class friendly.
-     * @returns {Element} - Label portion of the tab.
-     */
-    static _createLabel(input, name, idName) {
-      const label = document.createElement('label');
-      label.dataset.spaId = `spa-label-${idName}`;
-      label.htmlFor = input.id;
-      label.innerText = `[${name}]`;
-      return label;
-    }
-
-    /**
-     * @param {string} idName - Normalized to be CSS class friendly.
-     * @param {string} content - Raw HTML content to put into the
-     * panel.
-     * @returns {Element} - Panel portion of the tab.
-     */
-    static _createPanel(idName, content) {
-      const panel = document.createElement('div');
-      panel.dataset.spaId = `spa-panel-${idName}`;
-      panel.classList.add('spa-panel');
-      panel.innerHTML = content;
-      return panel;
-    }
-
-    /**
-     * Create a tabbed UI based upon inputs.
-     * @param {HelpTab[]} tabs - Array defining the help tabs.
-     * @returns {[Element, [*]]} - Tabbed UI.
-     */
-    static _createTabbedUi(tabs) {
-      const callbacks = [];
-      const tabber = document.createElement('div');
-      tabber.classList.add('spa-tabber');
-      const panels = document.createElement('div');
-      panels.classList.add('spa-panels');
-
-      for (const idx of tabs.keys()) {
-        const checked = !idx;
-        const {name, content, callback} = tabs[idx];
-        const idName = name.replaceAll(' ', '-');
-        const input = SPA._createInput(idName, checked);
-        const label = SPA._createLabel(input, name, idName);
-        const panel = SPA._createPanel(idName, content);
-        tabber.append(input, label);
-        panels.append(panel);
-        if (callback) {
-          callbacks.push([input, panel, callback]);
-        }
-      }
-
-      tabber.append(panels);
-      return [tabber, callbacks];
-    }
-
-    /**
-     * Add basic dialog with an embedded tabs for the help view.  The
-     * zeroth tab always defaults to `checked`.
-     * @param {HelpTab[]} tabs - Array defining the help tabs.
+     * Add basic dialog with an embedded tabbbed ui for the help view.
+     * @param {TabbedUI~TabDefinition[]} tabs - Array defining the
+     * help tabs.
      */
     _addHelpDialog(tabs) {
       const dialog = this._initializeInfoDialog();
-      const [tabber, callbacks] = SPA._createTabbedUi(tabs);
-      dialog.append(tabber);
+
+      this._info = new TabbedUI('SPA Info');
+      for (const tab of tabs) {
+        this._info.addTab(tab);
+      }
+      // Switches to the first tab.
+      this._info.goto(tabs[0].name);
+
+      dialog.append(this._info.container);
       document.body.prepend(dialog);
 
-      for (const [input, panel, callback] of callbacks) {
-        input.addEventListener('change', (evt) => {
-          callback(evt, panel);
-        });
-      }
       // Dialogs do not have a real open event.  We will fake it.
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
@@ -2855,7 +3016,8 @@
 
     /**
      * @implements {HelpTabGenerator}
-     * @returns {HelpTab} - Initial table for the keyboard shortcuts.
+     * @returns {TabbedUI~TabDefinition} - Initial table for the
+     * keyboard shortcuts.
      */
     static _keyboardHelp() {
       return {
@@ -2898,7 +3060,8 @@
 
     /**
      * @implements {HelpTabGenerator}
-     * @returns {HelpTab} - Initial placeholder for error logging.
+     * @returns {TabbedUI~TabDefinition} - Initial placeholder for
+     * error logging.
      */
     static _errorHelp() {
       return {
@@ -2930,31 +3093,17 @@
         this._details.licenseInfo(),
       ];
 
-      this._addHelpStyle(helpGenerators);
+      this._addHelpStyle();
       this._addHelpDialog(helpGenerators);
       this._addHelpViewHandlers();
     }
 
-    /**
-     * Function registered to implement navigation between tabs in the
-     * help view.
-     * @param {number} direction - Either 1 or -1.
-     */
-    _switchHelpTab(direction) {
-      const panels = Array.from(document.querySelectorAll(`#${this._helpId} .spa-tabber > input`));
-      let idx = panels.findIndex(panel => panel.checked);
-
-      idx = (idx + direction + panels.length) % panels.length;
-      panels[idx].checked = true;
-      panels[idx].dispatchEvent(new Event('change'));
-    }
-
     _nextHelpTab = () => {
-      this._switchHelpTab(1);
+      this._info.next();
     }
 
     _prevHelpTab = () => {
-      this._switchHelpTab(-1);
+      this._info.prev();
     }
 
     /**
@@ -3018,9 +3167,9 @@
     _updateHelpErrorsLabel(count) {
       const me = 'updateHelpErrorsLabel';
       this._log.entered(me, count);
-      const label = document.querySelector(`#${this._helpId} [data-spa-id="spa-label-Errors"]`);
+      const label = this._info.tabs.get('Errors').label;
       if (count) {
-        label.click();
+        this._info.goto('Errors');
         label.classList.add('spa-danger');
       } else {
         label.classList.remove('spa-danger');
