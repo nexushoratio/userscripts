@@ -20,6 +20,9 @@
 (() => {
   'use strict';
 
+  const _runTests = false;
+  const _tests = [];
+
   const NOT_FOUND = -1;
 
   let navBarHeightPixels = 0;
@@ -3450,6 +3453,12 @@
       monitor: authenticationOutletMonitor,
     };
     otmot(authOutletWhat, autoOutletHow).then(el => createUrlObserver(el));
+  }
+
+  if (_runTests) {
+    for (const test of _tests) {
+      test();
+    }
   }
 
   log.log('Initialization successful.');
