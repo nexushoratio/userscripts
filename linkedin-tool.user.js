@@ -2568,6 +2568,7 @@
     /** Create a SPADetails instance. */
     constructor() {
       this._log = new Logger(this.constructor.name, false, false);
+      this._id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
       this.dispatcher = new Dispatcher('errors', 'news');
     }
 
@@ -2967,10 +2968,11 @@
      * @param {SPADetails} details - Implementation specific details.
      */
     constructor(details) {
-      this._log = new Logger(this.constructor.name, true, false);
+      this._name = `${this.constructor.name}: ${details.constructor.name}`;
+      this._id = safeId(`${this._name}-${crypto.randomUUID()}`);
+      this._log = new Logger(this._name, true, false);
       this._details = details;
       this._details.init(this);
-      this._id = crypto.randomUUID();
       SPA._installNavStyle();
       this._initializeHelpView();
       for (const issue of details.setupIssues) {
@@ -3103,7 +3105,7 @@
     _addHelpDialog(tabs) {
       const dialog = this._initializeInfoDialog();
 
-      this._info = new TabbedUI('SPA Info');
+      this._info = new TabbedUI(`${this._name} Info`);
       for (const tab of tabs) {
         this._info.addTab(tab);
       }
