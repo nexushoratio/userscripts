@@ -206,6 +206,51 @@
   const log = new Logger('Default', true, false);
 
   /**
+   * Normalizes a string to be safe to use as an HTML element id.
+   * @param {string} input - The string to normalize.
+   * @returns {string} - Normlized string.
+   */
+  function safeId(input) {
+    const me = 'safeId';
+    log.entered(me, input);
+    let result = input
+      .replaceAll(' ', '-')
+      .replaceAll('.', '_')
+      .replaceAll(',', '__comma__')
+      .replaceAll(':', '__colon__');
+    if (!(/^[a-z_]/iu).test(result)) {
+      result = `a${result}`;
+    }
+    log.leaving(me, result);
+    return result;
+  }
+
+  /** Test case. */
+  function _testSafeId() {
+    const tests = [
+      {test: 'Tabby Cat', expected: 'Tabby-Cat'},
+      {test: '_', expected: '_'},
+      {test: '', expected: 'a'},
+      {test: '0', expected: 'a0'},
+      {test: 'a.b.c', expected: 'a_b_c'},
+      {test: 'a,b,c', expected: 'a__comma__b__comma__c'},
+      {test: 'a:b::c', expected: 'a__colon__b__colon____colon__c'},
+    ];
+
+    for (const {test, expected} of tests) {
+      const actual = safeId(test);
+      const passed = actual === expected;
+      const msg = `${test} ${expected} ${actual}, ${passed}`;
+      log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+  }
+
+  _tests.push(_testSafeId);
+
+  /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
    * @param {string} s - String to hash.
    * @returns {string} - Hash value.
@@ -283,7 +328,7 @@
     constructor(name, debug = false) {
       this._log = new Logger(`TabbedUI ${name}`, debug, false);
       this._name = name;
-      this._idName = TabbedUI._fixName(name);
+      this._idName = safeId(name);
       this._id = `${this._idName}-${crypto.randomUUID()}`;
       this._container = document.createElement('div');
       this._container.id = this._id;
@@ -307,17 +352,6 @@
         entries.get(panel.dataset.tabbedName).panel = panel;
       }
       return entries;
-    }
-
-    /**
-     * Make a string, usually a name, suitable for use as an
-     * attribute.
-     * 'Tabby Cat' -> 'Tabby-Cat'
-     * @param {string} name - Name to fix.
-     * @returns {string} - Fixed name.
-     */
-    static _fixName(name) {
-      return name.replaceAll(' ', '-');
     }
 
     /**
@@ -442,7 +476,7 @@
         name,
         content,
       } = tab;
-      const idName = TabbedUI._fixName(name);
+      const idName = safeId(name);
       const input = this._createInput(name, idName);
       const label = this._createLabel(name, input, idName);
       const panel = this._createPanel(name, idName, content);
