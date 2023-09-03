@@ -416,7 +416,7 @@
     }
 
     /**
-     * Event handler for change events.  When the active tab changes, this will resend an 'activate' event to the associated panel.
+     * Event handler for change events.  When the active tab changes, this will resend an 'expose' event to the associated panel.
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#activate
@@ -424,7 +424,7 @@
     _onChange(panel, evt) {
       const me = 'onChange';
       this._log.entered(me, evt, panel);
-      panel.dispatchEvent(new Event('activate'));
+      panel.dispatchEvent(new Event('expose'));
       this._log.leaving(me);
     }
 
@@ -2661,7 +2661,7 @@
       const me = 'done';
       this._log.entered(me);
       const licenseEntry = this.ui.tabs.get('License');
-      licenseEntry.panel.addEventListener('activate', this._licenseHandler);
+      licenseEntry.panel.addEventListener('expose', this._licenseHandler);
       this._log.leaving(me);
     }
 
@@ -2768,7 +2768,7 @@
 
     /**
      * Lazily load license text when exposed.
-     * @param {Event} evt - The 'activate' event.
+     * @param {Event} evt - The 'expose' event.
      */
     _licenseHandler = (evt) => {
       const me = 'licenseHandler';
