@@ -2794,7 +2794,7 @@
       const me = 'finishConstruction';
       this._log.entered(me);
 
-      LinkedIn._addLitStyle();
+      this._addLitStyle();
       this._addToolMenuItem();
       this._setNavBarInfo();
 
@@ -2818,10 +2818,11 @@
     /**
      * Create CSS styles for stuff specific to LinkedIn Tool.
      */
-    static _addLitStyle() {
+    _addLitStyle() {
       const style = document.createElement('style');
+      style.id = `${this._id}-style`;
       style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }';
-      document.head.append(style);
+      document.head.prepend(style);
     }
 
     /** Add a menu item to the global nav bar. */
@@ -2973,7 +2974,7 @@
       this._log = new Logger(this._name, true, false);
       this._details = details;
       this._details.init(this);
-      SPA._installNavStyle();
+      this._installNavStyle();
       this._initializeHelpView();
       for (const issue of details.setupIssues) {
         this._log.log('issue:', issue);
@@ -3040,11 +3041,12 @@
     /**
      * Create the CSS styles used for indicating the current items.
      */
-    static _installNavStyle() {
+    _installNavStyle() {
       const style = document.createElement('style');
+      style.id = safeId(`${this._id}-nav-style`);
       style.textContent += '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }';
       style.textContent += '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }';
-      document.head.append(style);
+      document.head.prepend(style);
     }
 
     /**
@@ -3067,6 +3069,7 @@
      */
     _addHelpStyle() {
       const style = document.createElement('style');
+      style.id = safeId(`${this._id}-info-style`);
       style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
       style.textContent += `#${this._helpId} .spa-danger { background-color: red; }`;
       style.textContent += `#${this._helpId} .spa-current-page { background-color: lightgray; }`;
