@@ -196,7 +196,10 @@
     ],
     "space-before-function-paren": [
       "error",
-      "never"
+      {
+        "named": "never",
+        "asyncArrow": "always"
+      }
     ],
 
     // Deprecated
