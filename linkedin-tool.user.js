@@ -211,8 +211,6 @@
    * @returns {string} - Normlized string.
    */
   function safeId(input) {
-    const me = 'safeId';
-    log.entered(me, input);
     let result = input
       .replaceAll(' ', '-')
       .replaceAll('.', '_')
@@ -221,7 +219,6 @@
     if (!(/^[a-z_]/iu).test(result)) {
       result = `a${result}`;
     }
-    log.leaving(me, result);
     return result;
   }
 
