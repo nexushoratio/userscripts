@@ -328,7 +328,7 @@
       this._idName = safeId(name);
       this._id = `${this._idName}-${crypto.randomUUID()}`;
       this._container = document.createElement('div');
-      this._container.id = this._id;
+      this._container.id = `${this._id}-container`;
       this._divider = document.createElement('div');
       this._container.append(this._divider);
       this._installStyle();
@@ -358,12 +358,12 @@
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
       const styles = [
-        `#${this._id} input { display: none; }`,
-        `#${this._id} label { padding: unset; display: inline; color: unset !important; }`,
-        `#${this._id} label::before { all: unset; }`,
-        `#${this._id} label::after { all: unset; }`,
-        `#${this._id} input:checked + label { font-weight: bold; }`,
-        `#${this._id} .${this._idName}-panel { display: none; }`,
+        `#${this.container.id} input { display: none; }`,
+        `#${this.container.id} label { padding: unset; display: inline; color: unset !important; }`,
+        `#${this.container.id} label::before { all: unset; }`,
+        `#${this.container.id} label::after { all: unset; }`,
+        `#${this.container.id} input:checked + label { font-weight: bold; }`,
+        `#${this.container.id} .${this._idName}-panel { display: none; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
@@ -484,7 +484,7 @@
       input.addEventListener('change', this._onChange.bind(this, panel));
       this._divider.before(input, label);
       this._divider.after(panel);
-      this._style.textContent += `#${this._id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }\n`;
+      this._style.textContent += `#${this.container.id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }\n`;
       this._log.leaving(me);
     }
 
