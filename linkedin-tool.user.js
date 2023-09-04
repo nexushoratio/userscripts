@@ -3087,7 +3087,8 @@
         `#${this._helpId} p { margin-bottom: 1em; }`,
         `#${this._helpId} th { padding-top: 1em; text-align: left; }`,
         `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
-        // The "color: unset" addresses dimming while disabled.
+        // The "color: unset" addresses dimming because these
+        // display-only buttons are disabled.
         `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
         `#${this._helpId} button.spa-meatball { border-radius: 50%; }`,
         '',
