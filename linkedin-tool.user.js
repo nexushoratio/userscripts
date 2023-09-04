@@ -454,7 +454,8 @@
     }
 
     /**
-     * Event handler for change events.  When the active tab changes, this will resend an 'expose' event to the associated panel.
+     * Event handler for change events.  When the active tab changes,
+     * this will resend an 'expose' event to the associated panel.
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#activate
