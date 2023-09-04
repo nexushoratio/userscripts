@@ -357,12 +357,16 @@
     _installStyle() {
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
-      this._style.textContent += `#${this._id} input { display: none; } `;
-      this._style.textContent += `#${this._id} label { padding: unset; display: inline; color: unset !important; } `;
-      this._style.textContent += `#${this._id} label::before { all: unset; } `;
-      this._style.textContent += `#${this._id} label::after { all: unset; } `;
-      this._style.textContent += `#${this._id} input:checked + label { font-weight: bold; } `;
-      this._style.textContent += `#${this._id} .${this._idName}-panel { display: none; } `;
+      const styles = [
+        `#${this._id} input { display: none; }`,
+        `#${this._id} label { padding: unset; display: inline; color: unset !important; }`,
+        `#${this._id} label::before { all: unset; }`,
+        `#${this._id} label::after { all: unset; }`,
+        `#${this._id} input:checked + label { font-weight: bold; }`,
+        `#${this._id} .${this._idName}-panel { display: none; }`,
+        '',
+      ];
+      this._style.textContent = styles.join('\n');
       document.head.prepend(this._style);
     }
 
@@ -480,7 +484,7 @@
       input.addEventListener('change', this._onChange.bind(this, panel));
       this._divider.before(input, label);
       this._divider.after(panel);
-      this._style.textContent += `#${this._id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }`;
+      this._style.textContent += `#${this._id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }\n`;
       this._log.leaving(me);
     }
 
@@ -2821,7 +2825,7 @@
     _addLitStyle() {
       const style = document.createElement('style');
       style.id = `${this._id}-style`;
-      style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }';
+      style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }\n';
       document.head.prepend(style);
     }
 
@@ -3044,8 +3048,12 @@
     _installNavStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-nav-style`);
-      style.textContent += '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }';
-      style.textContent += '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }';
+      const styles = [
+        '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }',
+        '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }',
+        '',
+      ];
+      style.textContent = styles.join('\n');
       document.head.prepend(style);
     }
 
@@ -3070,16 +3078,20 @@
     _addHelpStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
-      style.textContent += `#${this._helpId} { height: 100%; width: 65rem; } `;
-      style.textContent += `#${this._helpId} .spa-danger { background-color: red; }`;
-      style.textContent += `#${this._helpId} .spa-current-page { background-color: lightgray; }`;
-      style.textContent += `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`;
-      style.textContent += `#${this._helpId} p { margin-bottom: 1em; }`;
-      style.textContent += `#${this._helpId} th { padding-top: 1em; text-align: left; }`;
-      style.textContent += `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`;
-      // The color: unset address dimming while disabled.
-      style.textContent += `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`;
-      style.textContent += `#${this._helpId} button.spa-meatball { border-radius: 50%; }`;
+      const styles = [
+        `#${this._helpId} { height: 100%; width: 65rem; }`,
+        `#${this._helpId} .spa-danger { background-color: red; }`,
+        `#${this._helpId} .spa-current-page { background-color: lightgray; }`,
+        `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
+        `#${this._helpId} p { margin-bottom: 1em; }`,
+        `#${this._helpId} th { padding-top: 1em; text-align: left; }`,
+        `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
+        // The "color: unset" addresses dimming while disabled.
+        `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
+        `#${this._helpId} button.spa-meatball { border-radius: 50%; }`,
+        '',
+      ];
+      style.textContent = styles.join('\n');
       document.head.prepend(style);
     }
 
