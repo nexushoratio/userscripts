@@ -2752,7 +2752,10 @@
         }
 
         const [name, url] = license.split(';');
-        this._licenseData = {name: name, url: url};
+        this._licenseData = {
+          name: name.trim(),
+          url: url.trim(),
+        };
       }
 
       this._log.leaving(me, this._licenseData);
