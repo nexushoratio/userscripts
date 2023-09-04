@@ -408,7 +408,7 @@
       this._log.entered(me);
       const input = document.createElement('input');
       input.id = `${this._idName}-input-${idName}`;
-      input.name = `${this._idName}-help-tabber`;
+      input.name = `${this._idName}`;
       input.dataset.tabbedId = `${this._idName}-input-${idName}`;
       input.dataset.tabbedName = name;
       input.type = 'radio';
