@@ -458,7 +458,7 @@
      * this will resend an 'expose' event to the associated panel.
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
-     * @fires Event#activate
+     * @fires Event#expose
      */
     _onChange(panel, evt) {
       const me = 'onChange';
