@@ -327,10 +327,13 @@
       this._name = name;
       this._idName = safeId(name);
       this._id = `${this._idName}-${crypto.randomUUID()}`;
-      this._container = document.createElement('div');
+      this._container = document.createElement('section');
       this._container.id = `${this._id}-container`;
-      this._divider = document.createElement('div');
-      this._container.append(this._divider);
+      this._nav = document.createElement('nav');
+      this._nav.id = `${this._id}-controls`;
+      this._panels = document.createElement('div');
+      this._panels.id = `${this._id}-panels`;
+      this._container.append(this._nav, this._panels);
       this._installStyle();
     }
 
@@ -342,10 +345,10 @@
     /** Map<string,TabEntry> */
     get tabs() {
       const entries = new Map();
-      for (const label of this.container.querySelectorAll(':scope > label')) {
+      for (const label of this._nav.querySelectorAll(':scope > label')) {
         entries.set(label.dataset.tabbedName, {label: label});
       }
-      for (const panel of this.container.querySelectorAll(`:scope > div.${this._idName}-panel`)) {
+      for (const panel of this._panels.querySelectorAll(`:scope > .${this._idName}-panel`)) {
         entries.get(panel.dataset.tabbedName).panel = panel;
       }
       return entries;
@@ -358,12 +361,11 @@
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
       const styles = [
-        `#${this.container.id} input { display: none; }`,
-        `#${this.container.id} label { padding: unset; display: inline; color: unset !important; }`,
+        `#${this.container.id} > input { display: none; }`,
+        `#${this.container.id} > nav > label { padding: unset; display: inline; color: unset !important; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
-        `#${this.container.id} input:checked + label { font-weight: bold; }`,
-        `#${this.container.id} .${this._idName}-panel { display: none; }`,
+        `#${this._panels.id} .${this._idName}-panel { display: none; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
@@ -483,9 +485,11 @@
       const label = this._createLabel(name, input, idName);
       const panel = this._createPanel(name, idName, content);
       input.addEventListener('change', this._onChange.bind(this, panel));
-      this._divider.before(input, label);
-      this._divider.after(panel);
-      this._style.textContent += `#${this.container.id} input[data-tabbed-id="${input.dataset.tabbedId}"]:checked ~ div[data-tabbed-id="${panel.dataset.tabbedId}"] { display: block; }\n`;
+      this._nav.before(input);
+      this._nav.append(label);
+      this._panels.append(panel);
+      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { font-weight: bold; }\n`;
+      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div > [data-tabbed-name="${name}"] { display: block; }\n`;
       this._log.leaving(me);
     }
 
