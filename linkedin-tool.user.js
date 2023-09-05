@@ -3090,6 +3090,10 @@
       style.id = safeId(`${this._id}-info-style`);
       const styles = [
         `#${this._helpId} { height: 100%; width: 65rem; }`,
+        `#${this._helpId} .left { text-align: left; }`,
+        `#${this._helpId} .right { text-align: right; }`,
+        `#${this._helpId} .spa-instructions { display: flex; flex-direction: row; }`,
+        `#${this._helpId} .spa-instructions > span { flex-grow: 1; }`,
         `#${this._helpId} .spa-danger { background-color: red; }`,
         `#${this._helpId} .spa-current-page { background-color: lightgray; }`,
         `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
@@ -3116,9 +3120,10 @@
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - v${GM.info.script.version}`;
       const instructions = document.createElement('div');
+      instructions.classList.add('spa-instructions');
       instructions.innerHTML =
-        '<span>Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
-        '<span style="float: right">Hit <kbd>ESC</kbd> to close</span>';
+        '<span class="left">Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
+        '<span class="right">Hit <kbd>ESC</kbd> to close</span>';
       dialog.append(name, instructions);
       return dialog;
     }
