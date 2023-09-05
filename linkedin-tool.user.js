@@ -6,7 +6,7 @@
 // @version     2.16.6
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
-// @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0.txt
+// @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
