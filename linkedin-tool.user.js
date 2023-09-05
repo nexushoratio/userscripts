@@ -335,6 +335,7 @@
       this._panels.id = `${this._id}-panels`;
       this._container.append(this._nav, this._panels);
       this._installStyle();
+      this._log.log(`${this._name} constructed`);
     }
 
     /** @type {Element} */
