@@ -361,8 +361,10 @@
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
       const styles = [
+        `#${this.container.id} { display: flex; flex-direction: column;}`,
         `#${this.container.id} > input { display: none; }`,
-        `#${this.container.id} > nav > label { padding: unset; display: inline; color: unset !important; }`,
+        `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
+        `#${this.container.id} > nav > label { padding: unset; color: unset !important; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
         `#${this._panels.id} .${this._idName}-panel { display: none; }`,
