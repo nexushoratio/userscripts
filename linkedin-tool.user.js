@@ -3178,6 +3178,10 @@
         `Userscript manager: ${gm.scriptHandler} ${gm.version}`,
       ];
 
+      if (gm.injectInto) {
+        msgs.push(`  injected into "${gm.injectInto}"`);
+      }
+
       // Violentmonkey
       if (gm.platform) {
         msgs.push(`Platform: ${gm.platform.browserName} ${gm.platform.browserVersion} ${gm.platform.os} ${gm.platform.arch}`);
