@@ -331,9 +331,7 @@
       this._container.id = `${this._id}-container`;
       this._nav = document.createElement('nav');
       this._nav.id = `${this._id}-controls`;
-      this._panels = document.createElement('div');
-      this._panels.id = `${this._id}-panels`;
-      this._container.append(this._nav, this._panels);
+      this._container.append(this._nav);
       this._installStyle();
       this._log.log(`${this._name} constructed`);
     }
@@ -349,7 +347,7 @@
       for (const label of this._nav.querySelectorAll(':scope > label')) {
         entries.set(label.dataset.tabbedName, {label: label});
       }
-      for (const panel of this._panels.querySelectorAll(`:scope > .${this._idName}-panel`)) {
+      for (const panel of this.container.querySelectorAll(`:scope > .${this._idName}-panel`)) {
         entries.get(panel.dataset.tabbedName).panel = panel;
       }
       return entries;
@@ -368,7 +366,7 @@
         `#${this.container.id} > nav > label { padding: unset; color: unset !important; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
-        `#${this._panels.id} .${this._idName}-panel { display: none; }`,
+        `#${this.container.id} .${this._idName}-panel { display: none; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
@@ -490,9 +488,9 @@
       input.addEventListener('change', this._onChange.bind(this, panel));
       this._nav.before(input);
       this._nav.append(label);
-      this._panels.append(panel);
+      this.container.append(panel);
       this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { font-weight: bold; }\n`;
-      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div > [data-tabbed-name="${name}"] { display: block; }\n`;
+      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: block; }\n`;
       this._log.leaving(me);
     }
 
