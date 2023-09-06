@@ -360,13 +360,13 @@
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
       const styles = [
-        `#${this.container.id} { display: flex; flex-direction: column;}`,
+        `#${this.container.id} { flex-grow: 1; height: 0; display: flex; flex-direction: column; }`,
         `#${this.container.id} > input { display: none; }`,
         `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
         `#${this.container.id} > nav > label { padding: unset; color: unset !important; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
-        `#${this.container.id} .${this._idName}-panel { display: none; }`,
+        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; height: 100%; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
@@ -3088,7 +3088,7 @@
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
       const styles = [
-        `#${this._helpId} { height: 100%; width: 65rem; }`,
+        `#${this._helpId}:modal { height: 100%; width: 65rem; display: flex; flex-direction: column; }`,
         `#${this._helpId} .left { text-align: left; }`,
         `#${this._helpId} .right { text-align: right; }`,
         `#${this._helpId} .spa-instructions { display: flex; flex-direction: row; }`,
