@@ -2881,7 +2881,7 @@
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
-      const navMe = ul.querySelector('li .global-nav__me');
+      const navMe = ul.querySelector('li .global-nav__me').closest('li');
       if (navMe) {
         navMe.after(li);
       } else {
