@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.17.1
+// @version     2.18.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2843,14 +2843,32 @@
      * Lazily load license text when exposed.
      * @param {Event} evt - The 'expose' event.
      */
-    _licenseHandler = (evt) => {
+    _licenseHandler = async (evt) => {
       const me = 'licenseHandler';
       this._log.entered(me, evt.target);
-      // TODO: evt.target.innerHTML += '<p><i>Loading text...</i></p>';
 
-      const {url} = this.licenseData;
+      // Probably should debounce this.  If the user visits this tab
+      // twice fast enough, they end up with two copies loaded.
+      // Amusing, but probably should be resilient.
+      if (!this._licenseLoaded) {
+        const info = document.createElement('p');
+        info.innerHTML = '<i>Loading license...</i>';
+        evt.target.append(info);
+        const {name, url} = this.licenseData;
 
-      this._log.leaving(me, url);
+        const response = await fetch(url);
+        if (response.ok) {
+          const license = document.createElement('iframe');
+          license.style.flexGrow = 1;
+          license.title = name;
+          license.sandbox = '';
+          license.srcdoc = await response.text();
+          info.replaceWith(license);
+          this._licenseLoaded = true;
+        }
+      }
+
+      this._log.leaving(me);
     }
 
     /**
