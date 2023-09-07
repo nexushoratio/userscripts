@@ -390,7 +390,7 @@
         `#${this.container.id} > nav > .spacer { margin-left: auto; margin-right: auto; border-right: 1px solid black; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
-        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; height: 100%; }`,
+        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; flex-grow: 1; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
