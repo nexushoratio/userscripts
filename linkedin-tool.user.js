@@ -382,7 +382,7 @@
       this._style = document.createElement('style');
       this._style.id = `${this._id}-style`;
       const styles = [
-        `#${this.container.id} { flex-grow: 1; height: 0; display: flex; flex-direction: column; }`,
+        `#${this.container.id} { flex-grow: 1; overflow-y: hidden; display: flex; flex-direction: column; }`,
         `#${this.container.id} > input { display: none; }`,
         `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
         `#${this.container.id} > nav button { border-radius: 50%; }`,
