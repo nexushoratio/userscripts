@@ -513,7 +513,7 @@
       this._nav.before(input);
       this._navSpacer.before(label);
       this.container.append(panel);
-      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { font-weight: bold; }\n`;
+      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { border-bottom: 3px solid black; }\n`;
       this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: block; }\n`;
       this._log.leaving(me);
     }
