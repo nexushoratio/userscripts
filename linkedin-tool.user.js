@@ -391,7 +391,7 @@
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
         // Panels are both flex items AND flex containers.
-        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; flex-grow: 1; flex-direction: column; }`,
+        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: auto; flex-grow: 1; flex-direction: column; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
