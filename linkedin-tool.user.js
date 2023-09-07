@@ -3250,7 +3250,7 @@
           '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
           SPA._errorPlatformInfo(),
           '</div>',
-          '<textarea rows=20 data-spa-id="errors" spellcheck="off" placeholder="No errors logged yet."></textarea>',
+          '<textarea rows=20 data-spa-id="errors" spellcheck="false" placeholder="No errors logged yet."></textarea>',
         ].join(''),
       };
     }
