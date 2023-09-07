@@ -329,11 +329,33 @@
       this._id = `${this._idName}-${crypto.randomUUID()}`;
       this._container = document.createElement('section');
       this._container.id = `${this._id}-container`;
-      this._nav = document.createElement('nav');
-      this._nav.id = `${this._id}-controls`;
+      this._installControls();
       this._container.append(this._nav);
       this._installStyle();
       this._log.log(`${this._name} constructed`);
+    }
+
+    /** Installs navigational control elements. */
+    _installControls() {
+      this._nav = document.createElement('nav');
+      this._nav.id = `${this._id}-controls`;
+      this._navSpacer = document.createElement('span');
+      this._navSpacer.classList.add('spacer');
+      this._prevButton = document.createElement('button');
+      this._nextButton = document.createElement('button');
+      this._prevButton.innerText = '←';
+      this._nextButton.innerText = '→';
+      this._prevButton.dataset.name = 'prev';
+      this._nextButton.dataset.name = 'next';
+      this._prevButton.addEventListener('click', () => this.prev());
+      this._nextButton.addEventListener('click', () => this.next());
+      // XXX: Cannot get 'button' elements to style nicely, so
+      // cheating by wrapping them in a label.
+      const prevLabel = document.createElement('label');
+      const nextLabel = document.createElement('label');
+      prevLabel.append(this._prevButton);
+      nextLabel.append(this._nextButton);
+      this._nav.append(this._navSpacer, prevLabel, nextLabel);
     }
 
     /** @type {Element} */
@@ -363,7 +385,9 @@
         `#${this.container.id} { flex-grow: 1; height: 0; display: flex; flex-direction: column; }`,
         `#${this.container.id} > input { display: none; }`,
         `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
-        `#${this.container.id} > nav > label { margin-top: 1ex; padding: unset; color: unset !important; }`,
+        `#${this.container.id} > nav button { border-radius: 50%; }`,
+        `#${this.container.id} > nav > label { margin-top: 1ex; margin-left: 1px; margin-right: 1px; padding: unset; color: unset !important; }`,
+        `#${this.container.id} > nav > .spacer { margin-left: auto; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
         `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; height: 100%; }`,
@@ -487,7 +511,7 @@
       const panel = this._createPanel(name, idName, content);
       input.addEventListener('change', this._onChange.bind(this, panel));
       this._nav.before(input);
-      this._nav.append(label);
+      this._navSpacer.before(label);
       this.container.append(panel);
       this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { font-weight: bold; }\n`;
       this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: block; }\n`;
