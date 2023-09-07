@@ -3122,6 +3122,7 @@
         `#${this._helpId} .right { text-align: right; }`,
         `#${this._helpId} .spa-instructions { display: flex; flex-direction: row; padding-bottom: 1ex; border-bottom: 1px solid black; margin-bottom: 5px; }`,
         `#${this._helpId} .spa-instructions > span { flex-grow: 1; }`,
+        `#${this._helpId} textarea[data-spa-id="errors"] { flex-grow: 1; resize: none; }`,
         `#${this._helpId} .spa-danger { background-color: red; }`,
         `#${this._helpId} .spa-current-page { background-color: lightgray; }`,
         `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
@@ -3245,13 +3246,11 @@
       return {
         name: 'Errors',
         content: [
-          '<div>',
-          '  <p>Any information in the text box below could be helpful in fixing a bug.</p>',
-          `  <p>The content can be edited and then included in a bug report.  Different errors should be separated by "${SPA._errorMarker}".</p>`,
+          '<p>Any information in the text box below could be helpful in fixing a bug.</p>',
+          `<p>The content can be edited and then included in a bug report.  Different errors should be separated by "${SPA._errorMarker}".</p>`,
           '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
           SPA._errorPlatformInfo(),
-          '</div>',
-          '<textarea rows=20 data-spa-id="errors" spellcheck="false" placeholder="No errors logged yet."></textarea>',
+          '<textarea data-spa-id="errors" spellcheck="false" placeholder="No errors logged yet."></textarea>',
         ].join(''),
       };
     }
