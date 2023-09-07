@@ -386,7 +386,7 @@
         `#${this.container.id} > input { display: none; }`,
         `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
         `#${this.container.id} > nav button { border-radius: 50%; }`,
-        `#${this.container.id} > nav > label { margin-top: 1ex; margin-left: 1px; margin-right: 1px; padding: unset; color: unset !important; }`,
+        `#${this.container.id} > nav > label { cursor: pointer; margin-top: 1ex; margin-left: 1px; margin-right: 1px; padding: unset; color: unset !important; }`,
         `#${this.container.id} > nav > .spacer { margin-left: auto; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
