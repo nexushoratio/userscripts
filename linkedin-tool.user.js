@@ -390,7 +390,8 @@
         `#${this.container.id} > nav > .spacer { margin-left: auto; margin-right: auto; border-right: 1px solid black; }`,
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
-        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; flex-grow: 1; }`,
+        // Panels are both flex items AND flex containers.
+        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: scroll; flex-grow: 1; flex-direction: column; }`,
         '',
       ];
       this._style.textContent = styles.join('\n');
@@ -514,7 +515,7 @@
       this._navSpacer.before(label);
       this.container.append(panel);
       this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { border-bottom: 3px solid black; }\n`;
-      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: block; }\n`;
+      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: flex; }\n`;
       this._log.leaving(me);
     }
 
