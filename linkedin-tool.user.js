@@ -3110,7 +3110,7 @@
         '',
       ];
       style.textContent = styles.join('\n');
-      document.head.prepend(style);
+      document.head.append(style);
     }
 
     /**
