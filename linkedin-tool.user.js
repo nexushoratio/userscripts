@@ -1292,6 +1292,13 @@
       condition: '!inputFocus && !inDialog',
     };
 
+    /** Creata a Page instance. */
+    constructor() {
+      if (new.target === Page) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+    }
+
     /**
      * Called when registered via {@link SPA}.
      * @param {SPA} spa - SPA instance that manages this Page.
@@ -2602,6 +2609,10 @@
 
     /** Create a SPADetails instance. */
     constructor() {
+      if (new.target === SPADetails) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+
       this._log = new Logger(this.constructor.name, false, false);
       this._id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
       this.dispatcher = new Dispatcher('errors', 'news');
