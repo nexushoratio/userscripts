@@ -1267,7 +1267,9 @@
      * VM.shortcut.
      * @type {Shortcut[]}
      */
-    _autoRegisteredKeys = [];
+    get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
+      return [];
+    }
 
     // Private members.
 
@@ -1425,20 +1427,24 @@
   class Global extends Page {
 
     _pathname = null;
-    _autoRegisteredKeys = [
-      {seq: '?', desc: 'Show this help screen', func: Global._help},
-      {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
-      {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
-      {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
-      {seq: 'g j', desc: 'Go to Jobs', func: Global._gotoJobs},
-      {seq: 'g g', desc: 'Go to Messaging', func: Global._gotoMessaging},
-      {seq: 'g n', desc: 'Go to Notifications', func: Global._gotoNotifications},
-      {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
-      {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
-      {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
-      {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: focusOnSidebar},
-      {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: focusOnAside},
-    ];
+
+    /** @inheritdoc */
+    get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
+      return [
+        {seq: '?', desc: 'Show this help screen', func: Global._help},
+        {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
+        {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
+        {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
+        {seq: 'g j', desc: 'Go to Jobs', func: Global._gotoJobs},
+        {seq: 'g g', desc: 'Go to Messaging', func: Global._gotoMessaging},
+        {seq: 'g n', desc: 'Go to Notifications', func: Global._gotoNotifications},
+        {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
+        {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
+        {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
+        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: focusOnSidebar},
+        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: focusOnAside},
+      ];
+    }
 
     /**
      * Click on the requested link in the global nav bar.
@@ -1535,26 +1541,30 @@
 
     _pathname = '/feed/';
     _onClickSelector = 'main';
-    _autoRegisteredKeys = [
-      {seq: 'j', desc: 'Next post', func: this._nextPost},
-      {seq: 'k', desc: 'Previous post', func: this._prevPost},
-      {seq: 'n', desc: 'Next comment', func: this._nextComment},
-      {seq: 'p', desc: 'Previous comment', func: this._prevComment},
-      {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
-      {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
-      {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
-      {seq: 'c', desc: 'Show comments', func: this._showComments},
-      {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
-      {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
-      {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
-      {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
-      {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
-      {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
-      {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
-      {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
-      {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
-    ];
+
+    /** @inheritdoc */
+    get _autoRegisteredKeys() {
+      return [
+        {seq: 'j', desc: 'Next post', func: this._nextPost},
+        {seq: 'k', desc: 'Previous post', func: this._prevPost},
+        {seq: 'n', desc: 'Next comment', func: this._nextComment},
+        {seq: 'p', desc: 'Previous comment', func: this._prevComment},
+        {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
+        {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
+        {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
+        {seq: 'c', desc: 'Show comments', func: this._showComments},
+        {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
+        {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
+        {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
+        {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
+        {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
+        {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
+        {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
+        {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
+        {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+        {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
+      ];
+    }
 
     _postScroller = null;
     _commentScroller = null;
@@ -1939,19 +1949,23 @@
 
     _pathname = '/jobs/';
     _onClickSelector = 'main';
-    _autoRegisteredKeys = [
-      {seq: 'j', desc: 'Next section', func: this._nextSection},
-      {seq: 'k', desc: 'Previous section', func: this._prevSection},
-      {seq: 'n', desc: 'Next job', func: this._nextJob},
-      {seq: 'p', desc: 'Previous job', func: this._prevJob},
-      {seq: '<', desc: 'Go to to first section or job', func: this._firstSectionOrJob},
-      {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
-      {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
-      {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
-      {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
-      {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
-      {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
-    ];
+
+    /** @inheritdoc */
+    get _autoRegisteredKeys() {
+      return [
+        {seq: 'j', desc: 'Next section', func: this._nextSection},
+        {seq: 'k', desc: 'Previous section', func: this._prevSection},
+        {seq: 'n', desc: 'Next job', func: this._nextJob},
+        {seq: 'p', desc: 'Previous job', func: this._prevJob},
+        {seq: '<', desc: 'Go to to first section or job', func: this._firstSectionOrJob},
+        {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
+        {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
+        {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
+        {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
+        {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
+        {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
+      ];
+    }
 
     _sectionScroller = null;
     _sectionsMO = null;
@@ -2345,17 +2359,21 @@
 
     _pathname = '/notifications/';
     _onClickSelector = 'main section div.nt-card-list';
-    _autoRegisteredKeys = [
-      {seq: 'j', desc: 'Next notification', func: this._nextNotification},
-      {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
-      {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
-      {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
-      {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
-      {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
-      {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
-      {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
-      {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
-    ];
+
+    /** @inheritdoc */
+    get _autoRegisteredKeys() {
+      return [
+        {seq: 'j', desc: 'Next notification', func: this._nextNotification},
+        {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
+        {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
+        {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
+        {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
+        {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
+        {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
+        {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
+        {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
+      ];
+    }
 
     _notificationScroller = null;
 
