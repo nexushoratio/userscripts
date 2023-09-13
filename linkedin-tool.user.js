@@ -1558,11 +1558,11 @@
         {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
         {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
         {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
+        {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+        {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
         {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
         {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
         {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-        {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
-        {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
       ];
     }
 
