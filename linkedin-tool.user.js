@@ -1559,6 +1559,9 @@
         {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
         {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
         {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
+        {seq: 'C', desc: 'Comment on current post or comment', func: this._commentOnPostOrComment},
+        {seq: 'R', desc: 'Repost current post', func: this._repost},
+        {seq: 'S', desc: 'Send the post privately', func: this._sendPost},
         {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
         {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
         {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
@@ -1800,11 +1803,35 @@
     }
 
     /**
-     * Like the current post or comment via reactions menu.
+     * Like the current post or comment via social action menu.
      */
     _likePostOrComment() {
       const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
+    }
+
+    /**
+     * Comment on current post or comment via social action menu.
+     */
+    _commentOnPostOrComment() {
+      const el = this._comments.item ?? this._posts.item;
+      clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
+    }
+
+    /**
+     * Repost current post via social action menu.
+     */
+    _repost() {
+      const el = this._posts.item;
+      clickElement(el, ['button.social-reshare-button']);
+    }
+
+    /**
+     * Send current post privately via social action menu.
+     */
+    _sendPost() {
+      const el = this._posts.item;
+      clickElement(el, ['button.send-privately-button']);
     }
 
     /**
