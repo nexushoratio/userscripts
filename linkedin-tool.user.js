@@ -3,14 +3,13 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.19.0
+// @version     2.19.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -1371,19 +1370,33 @@
      */
     _enableOnClick() {
       if (this._onClickSelector) {
-        // Page is dynamically building, so keep watching it until the
-        // element shows up.
-        VM.observe(document.body, () => {
+
+        /**
+         * Page is dynamically building, so keep watching it until the
+         * element shows up.
+         * @implements{Monitor}
+         * @returns {Continuation} - Indicate whether done monitoring.
+         */
+        const monitor = () => {
           const element = document.querySelector(this._onClickSelector);
           if (element) {
-            this._onClickElement = element;
-            this._onClickElement.addEventListener('click', this._onClick);
-            // TODO(#46): Find a better place for this.
-            this._refresh();
-            // Turns off VM.observe once selector found.
-            return true;
+            return {done: true, results: element};
           }
-          return false;
+          return {done: false};
+        };
+        const what = {
+          name: 'OnClick',
+          base: document.body,
+        };
+        const how = {
+          observeOptions: {childList: true, subtree: true},
+          monitor: monitor,
+        };
+        otmot(what, how).then((element) => {
+          this._onClickElement = element;
+          this._onClickElement.addEventListener('click', this._onClick);
+          // TODO(#46, #130): Find a better place for this.
+          this._refresh();
         });
       }
     }
