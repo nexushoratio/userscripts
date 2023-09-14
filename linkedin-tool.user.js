@@ -67,7 +67,7 @@
     }
 
     /**
-     * @returns {string} - Name for this logger.
+     * @type {string} - Name for this logger.
      */
     get name() {
       return this._name;
