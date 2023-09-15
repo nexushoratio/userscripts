@@ -3141,7 +3141,7 @@
     constructor(details) {
       this._name = `${this.constructor.name}: ${details.constructor.name}`;
       this._id = safeId(`${this._name}-${crypto.randomUUID()}`);
-      this._log = new Logger(this._name, true, false);
+      this._log = new Logger(this._name, false, false);
       this._details = details;
       this._details.init(this);
       this._installNavStyle();
