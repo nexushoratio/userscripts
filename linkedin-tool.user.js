@@ -24,8 +24,6 @@
 
   const NOT_FOUND = -1;
 
-  let navBarHeightPixels = 0;
-  let navBarHeightCss = '0';
   // I'm lazy.  The version of emacs I'm using does not support
   // #private variables out of the box, so using underscores until I
   // get a working configuration.
@@ -582,30 +580,6 @@
       } else {
         element.removeAttribute('tabindex');
       }
-    }
-  }
-
-  /**
-   * Scroll LinkedIn's common sidebar into view and moves focus to it.
-   */
-  function focusOnSidebar() {
-    const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-    if (sidebar) {
-      sidebar.style.scrollMarginTop = navBarHeightCss;
-      sidebar.scrollIntoView();
-      focusOnElement(sidebar);
-    }
-  }
-
-  /**
-   * Scroll LinkedIn's common aside (right-hand sidebar) into view.
-   */
-  function focusOnAside() {
-    const aside = document.querySelector('aside.scaffold-layout__aside');
-    if (aside) {
-      aside.style.scrollMarginTop = navBarHeightCss;
-      aside.scrollIntoView();
-      focusOnElement(aside);
     }
   }
 
@@ -1469,8 +1443,8 @@
         {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
         {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
         {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
-        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: focusOnSidebar},
-        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: focusOnAside},
+        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: linkedIn.focusOnSidebar},  // eslint-disable-line no-use-before-define
+        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: linkedIn.focusOnAside},  // eslint-disable-line no-use-before-define
       ];
     }
 
@@ -1635,7 +1609,7 @@
     constructor() {
       super();
       this._postScroller = new Scroller(Feed._postsWhat, Feed._postsHow);
-      this._postScroller.dispatcher.on('out-of-range', focusOnSidebar);
+      this._postScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
       this._postScroller.dispatcher.on('change', this._onPostChange);
     }
 
@@ -1933,7 +1907,7 @@
      */
     static _gotoShare() {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
-      share.style.scrollMarginTop = navBarHeightCss;
+      share.style.scrollMarginTop = linkedIn.navBarHeightCss;  // eslint-disable-line no-use-before-define
       share.scrollIntoView();
       share.querySelector('button').focus();
     }
@@ -2060,7 +2034,7 @@
     constructor() {
       super();
       this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
-      this._sectionScroller.dispatcher.on('out-of-range', focusOnSidebar);
+      this._sectionScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
       this._sectionScroller.dispatcher.on('change', this._onChange);
       this._sectionsMO1 = new MutationObserver(this._mutationHandler);
       this._sectionsMO2 = new MutationObserver(this._mutationHandler);
@@ -2453,7 +2427,7 @@
     constructor() {
       super();
       this._notificationScroller = new Scroller(Notifications._notificationsWhat, Notifications._notificationsHow);
-      this._notificationScroller.dispatcher.on('out-of-range', focusOnSidebar);
+      this._notificationScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
     }
 
     /** @inheritdoc */
@@ -2803,6 +2777,8 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    _navBarHeightPixels = 0;
+
     _navBarScrollerFixups = [
       Feed._postsHow,
       Feed._commentsHow,
@@ -2825,6 +2801,16 @@
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this._licenseHandler);
       this._log.leaving(me);
+    }
+
+    /** @type{number} - The height of the navbar in pixels. */
+    get navBarHeightPixels() {
+      return this._navBarHeightPixels;
+    }
+
+    /** @type {string} - The height of the navbar as CSS string. */
+    get navBarHeightCss() {
+      return `${this._navBarHeightPixels}px`;
     }
 
     /**
@@ -3013,13 +2999,13 @@
     /** Set some useful global variables. */
     _setNavBarInfo() {
       const fudgeFactor = 4;
-      navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
-      navBarHeightCss = `${navBarHeightPixels}px`;
+
+      this._navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
       // XXX: These {Scroller~How} items are static, so they need to
       // be configured after we figure out what the values should be.
       for (const how of this._navBarScrollerFixups) {
-        how.topMarginPixels = navBarHeightPixels;
-        how.topMarginCss = navBarHeightCss;
+        how.topMarginPixels = this.navBarHeightPixels;
+        how.topMarginCss = this.navBarHeightCss;
         how.bottomMarginCss = '3em';
       }
     }
@@ -3078,6 +3064,33 @@
 
       this._log.leaving(me, infoTab);
       return infoTab;
+    }
+
+    /**
+     * Scroll common sidebar into view and move focus to it.
+     */
+    focusOnSidebar = () => {
+      log.log('focusOnSidebar', this);
+      const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+      if (sidebar) {
+        log.log('sidebar:', sidebar, this);
+        sidebar.style.scrollMarginTop = this.navBarHeightCss;
+        sidebar.scrollIntoView();
+        focusOnElement(sidebar);
+      }
+    }
+
+    /**
+     * Scroll common aside (right-hand sidebar) into view and move
+     * focus to it.
+     */
+    focusOnAside = () => {
+      const aside = document.querySelector('aside.scaffold-layout__aside');
+      if (aside) {
+        aside.style.scrollMarginTop = this.navBarHeightCss;
+        aside.scrollIntoView();
+        focusOnElement(aside);
+      }
     }
 
   }
