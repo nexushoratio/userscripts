@@ -3670,7 +3670,7 @@
       if (div) {
         return {done: true, results: div};
       }
-      return {done: false, results: null};
+      return {done: false};
     }
 
     const authOutletWhat = {
