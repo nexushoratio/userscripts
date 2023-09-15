@@ -1361,7 +1361,7 @@
     /**
      * Enables the 'click' handler for this view.
      */
-    _enableOnClick() {
+    async _enableOnClick() {
       if (this._onClickSelector) {
 
         /**
@@ -1385,12 +1385,11 @@
           observeOptions: {childList: true, subtree: true},
           monitor: monitor,
         };
-        otmot(what, how).then((element) => {
-          this._onClickElement = element;
-          this._onClickElement.addEventListener('click', this._onClick);
-          // TODO(#46, #130): Find a better place for this.
-          this._refresh();
-        });
+        const element = await otmot(what, how);
+        this._onClickElement = element;
+        this._onClickElement.addEventListener('click', this._onClick);
+        // TODO(#46, #130): Find a better place for this.
+        this._refresh();
       }
     }
 
@@ -1725,7 +1724,7 @@
     /**
      * Toggle hiding current post then select the next.
      */
-    _nextPostPlus = () => {
+    _nextPostPlus = async () => {
 
       /**
        * Trigger function for {@link otrot}.
@@ -1747,9 +1746,8 @@
           trigger: trigger,
           timeout: 3000,
         };
-        otrot(what, how).then(() => {
-          this._posts.show();
-        });
+        await otrot(what, how);
+        this._posts.show();
       } else {
         trigger();
       }
@@ -2287,7 +2285,7 @@
     /**
      * Load more sections (or jobs in some cases).
      */
-    _loadMoreSections() {
+    async _loadMoreSections() {
       const savedScrollTop = document.documentElement.scrollTop;
 
       /**
@@ -2304,9 +2302,8 @@
         trigger: trigger,
         timeout: 3000,
       };
-      otrot(what, how).then(() => {
-        this._resetScroll(savedScrollTop);
-      });
+      await otrot(what, how);
+      this._resetScroll(savedScrollTop);
     }
 
     /**
@@ -2327,7 +2324,7 @@
     /**
      * Toggles saving the current job.
      */
-    _toggleSaveJob() {
+    async _toggleSaveJob() {
       const savedJob = this._jobs?.item;
 
       /**
@@ -2346,16 +2343,15 @@
           trigger: trigger,
           timeout: 3000,
         };
-        otrot(what, how).then(() => {
-          this._jobs.item = savedJob;
-        });
+        await otrot(what, how);
+        this._jobs.item = savedJob;
       }
     }
 
     /**
      * Toggles dismissing the current job.
      */
-    _toggleDismissJob() {
+    async _toggleDismissJob() {
       const savedJob = this._jobs.item;
 
       /**
@@ -2374,9 +2370,8 @@
           trigger: trigger,
           timeout: 3000,
         };
-        otrot(what, how).then(() => {
-          this._jobs.item = savedJob;
-        });
+        await otrot(what, how);
+        this._jobs.item = savedJob;
       }
     }
 
@@ -2564,7 +2559,7 @@
     /**
      * Toggles deletion of the current notification.
      */
-    _deleteNotification() {
+    async _deleteNotification() {
       const notification = this._notifications.item;
 
       /**
@@ -2590,9 +2585,8 @@
           trigger: trigger,
           timeout: 3000,
         };
-        otrot(what, how).then(() => {
-          this._notifications.shine();
-        });
+        await otrot(what, how);
+        this._notifications.shine();
       }
     }
 
