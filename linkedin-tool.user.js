@@ -2225,35 +2225,35 @@
     /**
      * Select the next section.
      */
-    _nextSection() {
+    _nextSection = () => {
       this._sections.next();
     }
 
     /**
      * Select the previous section.
      */
-    _prevSection() {
+    _prevSection = () => {
       this._sections.prev();
     }
 
     /**
      * Select the next job.
      */
-    _nextJob() {
+    _nextJob = () => {
       this._jobs.next();
     }
 
     /**
      * Select the previous job.
      */
-    _prevJob() {
+    _prevJob = () => {
       this._jobs.prev();
     }
 
     /**
      * Select the first section or job.
      */
-    _firstSectionOrJob() {
+    _firstSectionOrJob = () => {
       if (this._hasActiveJob) {
         this._jobs.first();
       } else {
@@ -2264,7 +2264,7 @@
     /**
      * Select the last section or job.
      */
-    _lastSectionOrJob() {
+    _lastSectionOrJob = () => {
       if (this._hasActiveJob) {
         this._jobs.last();
       } else {
@@ -2275,7 +2275,7 @@
     /**
      * Change browser focus to the current section or job.
      */
-    _focusBrowser() {
+    _focusBrowser = () => {
       const el = this._jobs.item ?? this._sections.item;
       this._sections.show();
       this._jobs?.show();
@@ -2285,7 +2285,7 @@
     /**
      * Load more sections (or jobs in some cases).
      */
-    async _loadMoreSections() {
+    _loadMoreSections = async () => {
       const savedScrollTop = document.documentElement.scrollTop;
 
       /**
@@ -2309,7 +2309,7 @@
     /**
      * Activate the current job.
      */
-    _activateJob() {
+    _activateJob = () => {
       const job = this._jobs?.item;
       if (job) {
         if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
@@ -2324,7 +2324,7 @@
     /**
      * Toggles saving the current job.
      */
-    async _toggleSaveJob() {
+    _toggleSaveJob = async () => {
       const savedJob = this._jobs?.item;
 
       /**
@@ -2351,7 +2351,7 @@
     /**
      * Toggles dismissing the current job.
      */
-    async _toggleDismissJob() {
+    _toggleDismissJob = async () => {
       const savedJob = this._jobs.item;
 
       /**
