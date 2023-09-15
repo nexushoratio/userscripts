@@ -3070,10 +3070,8 @@
      * Scroll common sidebar into view and move focus to it.
      */
     focusOnSidebar = () => {
-      log.log('focusOnSidebar', this);
       const sidebar = document.querySelector('div.scaffold-layout__sidebar');
       if (sidebar) {
-        log.log('sidebar:', sidebar, this);
         sidebar.style.scrollMarginTop = this.navBarHeightCss;
         sidebar.scrollIntoView();
         focusOnElement(sidebar);
