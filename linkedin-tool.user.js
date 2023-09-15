@@ -2172,11 +2172,13 @@
       // Explicitly setting jobs.item below will cause it to
       // scroll to that item.  We do not want to do that if
       // the user is manually scrolling.
-      const job = this._jobs.item;
+      const savedJob = this._jobs?.item;
       this._sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
       this._clearJobs();
-      this._jobs.item = job;
+      if (savedJob) {
+        this._jobs.item = savedJob;
+      }
       document.documentElement.scrollTop = topScroll;
       this._log.leaving(me);
     }
