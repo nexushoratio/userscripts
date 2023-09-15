@@ -3515,7 +3515,7 @@
       const me = 'shine';
       this._log.entered(me, page);
       const element = this._pageHeader(page);
-      element.classList.add('spa-current-page');
+      element?.classList.add('spa-current-page');
       this._log.leaving(me);
     }
 
@@ -3527,7 +3527,7 @@
       const me = 'dull';
       this._log.entered(me, page);
       const element = this._pageHeader(page);
-      element.classList.remove('spa-current-page');
+      element?.classList.remove('spa-current-page');
       this._log.leaving(me);
     }
 
