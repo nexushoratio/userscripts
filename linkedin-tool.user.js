@@ -354,6 +354,7 @@
    * triggers observable events.
    * @property {number} timeout - Time to wait for completion in
    * milliseconds.
+   * @property {boolean} [debug] - Enable debugging.
    */
 
   /**
@@ -372,17 +373,23 @@
       const {
         trigger = () => {},  // eslint-disable-line no-empty-function
         timeout,
+        debug = false,
       } = how;
       let timeoutID = null;
+      const logger = new Logger(`otrot ${name}`, debug, false);
       const {
         clientHeight: initialHeight,
         clientWidth: initialWidth,
       } = base;
+      logger.log('initial dimensions:', initialWidth, initialHeight);
       const observer = new ResizeObserver(() => {
+        logger.log('observed dimensions:', base.clientWidth, base.clientHeight);
         if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
           observer.disconnect();
           clearTimeout(timeoutID);
+          logger.log('resolving', what);
           resolve(what);
+          logger.log('resolved');
         }
       });
       timeoutID = setTimeout(() => {
@@ -390,7 +397,9 @@
         reject(new Error(`otrot ${name} timed out`));
       }, timeout);
       observer.observe(base);
+      logger.log('Calling trigger');
       trigger();
+      logger.log('Trigger called');
     });
     return prom;
   }
