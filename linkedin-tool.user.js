@@ -587,7 +587,7 @@
     /** Map<string,TabEntry> */
     get tabs() {
       const entries = new Map();
-      for (const label of this._nav.querySelectorAll(':scope > label')) {
+      for (const label of this._nav.querySelectorAll(':scope > label[data-tabbed-name]')) {
         entries.set(label.dataset.tabbedName, {label: label});
       }
       for (const panel of this.container.querySelectorAll(`:scope > .${this._idName}-panel`)) {
