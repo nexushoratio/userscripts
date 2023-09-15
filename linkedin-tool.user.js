@@ -202,6 +202,241 @@
 
   const log = new Logger('Default', true, false);
 
+
+  /**
+   * Run querySelector to get an element, then click it.
+   * @param {Element} base - Where to start looking.
+   * @param {string[]} selectorArray - CSS selectors to use to find an
+   * element.
+   * @returns {boolean} - Whether an element could be found.
+   */
+  function clickElement(base, selectorArray) {
+    if (base) {
+      for (const selector of selectorArray) {
+        const el = base.querySelector(selector);
+        if (el) {
+          el.click();
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Bring the Browser's focus onto element.
+   * @param {Element} element - HTML Element to focus on.
+   */
+  function focusOnElement(element) {
+    if (element) {
+      const magicTabIndex = -1;
+      const tabIndex = element.getAttribute('tabindex');
+      element.setAttribute('tabindex', magicTabIndex);
+      element.focus();
+      if (tabIndex) {
+        element.setAttribute('tabindex', tabIndex);
+      } else {
+        element.removeAttribute('tabindex');
+      }
+    }
+  }
+
+  /**
+   * Determines if the element accepts keyboard input.
+   * @param {Element} element - HTML Element to examine.
+   * @returns {boolean} - Indicating whether the element accepts
+   * keyboard input.
+   */
+  function isInput(element) {
+    let tagName = '';
+    if ('tagName' in element) {
+      tagName = element.tagName.toLowerCase();
+    }
+    // eslint-disable-next-line no-extra-parens
+    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
+  }
+
+
+  /**
+   * @typedef {object} Continuation
+   * @property {boolean} done - Indicate whether the monitor is done
+   * processing.
+   * @property {object} [results] - Optional results object.
+   */
+
+  /**
+   * @callback Monitor
+   * @param {MutationRecord[]} records - Standard mutation records.
+   * @returns {Continuation} - Indicate whether done monitoring.
+   */
+
+  /**
+   * Simple function that takes no parameters and returns nothing.
+   * @callback SimpleFunction
+   */
+
+  /**
+   * @typedef {object} OtmotWhat
+   * @property {string} name - The name for this observer.
+   * @property {Element} base - Element to observe.
+   */
+
+  /**
+   * @typedef {object} OtmotHow
+   * @property {object} observeOptions - MutationObserver().observe()
+   * options.
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable results.
+   * @property {Monitor} monitor - Callback used to process
+   * MutationObserver records.
+   * @property {number} [timeout] - Time to wait for completion in
+   * milliseconds, default of 0 disables.
+   * @property {boolean} [debug] - Enable debugging.
+   */
+
+  /**
+   * One time mutation observer with timeout.
+   * @param {OtmotWhat} what - What to observe.
+   * @param {OtmotHow} how - How to observe.
+   * @returns {Promise<Continuation.results>} - Will resolve with the
+   * results from monitor when done is true.
+   */
+  function otmot(what, how) {
+    const prom = new Promise((resolve, reject) => {
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        observeOptions,
+        trigger = () => {},  // eslint-disable-line no-empty-function
+        monitor,
+        timeout = 0,
+        debug = false,
+      } = how;
+      const logger = new Logger(`otmot ${name}`, debug, false);
+      let timeoutID = null;
+      const observer = new MutationObserver((records) => {
+        const {done, results} = monitor(records);
+        logger.log('monitor:', done, results);
+        if (done) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          logger.log('resolving with', results);
+          resolve(results);
+          logger.log('resolved');
+        }
+      });
+      if (timeout) {
+        timeoutID = setTimeout(() => {
+          observer.disconnect();
+          logger.log('rejecting after timeout');
+          reject(new Error(`otmot ${name} timed out`));
+        }, timeout);
+      }
+      observer.observe(base, observeOptions);
+      logger.log('Calling trigger');
+      trigger();
+      logger.log('Trigger called');
+    });
+    return prom;
+  }
+
+  /**
+   * @typedef {object} OtrotWhat
+   * @property {string} name - The name for this observer.
+   * @property {Element} base - Element to observe.
+   */
+
+  /**
+   * @typedef {object} OtrotHow
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable events.
+   * @property {number} timeout - Time to wait for completion in
+   * milliseconds.
+   */
+
+  /**
+   * One time resize observer with timeout.  Will resolve
+   * automatically upon first resize change.
+   * @param {OtrotWhat} what - What to observe.
+   * @param {OtrotHow} how - How to observe.
+   * @returns {Promise<OtrotWhat>} - Will resolve with the what parameter.
+   */
+  function otrot(what, how) {
+    const prom = new Promise((resolve, reject) => {
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        trigger = () => {},  // eslint-disable-line no-empty-function
+        timeout,
+      } = how;
+      let timeoutID = null;
+      const {
+        clientHeight: initialHeight,
+        clientWidth: initialWidth,
+      } = base;
+      const observer = new ResizeObserver(() => {
+        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
+          observer.disconnect();
+          clearTimeout(timeoutID);
+          resolve(what);
+        }
+      });
+      timeoutID = setTimeout(() => {
+        observer.disconnect();
+        reject(new Error(`otrot ${name} timed out`));
+      }, timeout);
+      observer.observe(base);
+      trigger();
+    });
+    return prom;
+  }
+
+  /**
+   * @typedef {object} Otrot2How
+   * @property {SimpleFunction} [trigger] - Function to call that
+   * triggers observable events.
+   * @property {SimpleFunction} action - Function to call upon each
+   * event observed and also at the end of duration.
+   * @property {number} duration - Time to run in milliseconds.
+   */
+
+  /**
+   * One time resize observer with action callback and duration.
+   * Will resolve upon duration expiration.
+   * Uses the same what parameter as {@link otrot}.
+   * @param {OtrotWhat} what - What to observe.
+   * @param {Otrow2How} how - How to observe.
+   * @returns {Promise<string>} - Will resolve after duration expires.
+   */
+  function otrot2(what, how) {
+    const prom = new Promise((resolve) => {
+      const {
+        name,
+        base,
+      } = what;
+      const {
+        trigger = () => {},  // eslint-disable-line no-empty-function
+        action,
+        duration,
+      } = how;
+      const observer = new ResizeObserver(() => {
+        action();
+      });
+      setTimeout(() => {
+        observer.disconnect();
+        action();
+        resolve(`otrot2 ${name} finished`);
+      }, duration);
+      observer.observe(base);
+      trigger();
+    });
+    return prom;
+  }
+
   /**
    * Normalizes a string to be safe to use as an HTML element id.
    * @param {string} input - The string to normalize.
@@ -256,26 +491,6 @@
       hash = (hash * 31) + s.charCodeAt(i) | 0;
     }
     return `${hash}`;
-  }
-
-  /**
-   * Run querySelector to get an element, then click it.
-   * @param {Element} base - Where to start looking.
-   * @param {string[]} selectorArray - CSS selectors to use to find an
-   * element.
-   * @returns {boolean} - Whether an element could be found.
-   */
-  function clickElement(base, selectorArray) {
-    if (base) {
-      for (const selector of selectorArray) {
-        const el = base.querySelector(selector);
-        if (el) {
-          el.click();
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   /**
@@ -549,217 +764,6 @@
       this._log.leaving(me);
     }
 
-  }
-
-  /**
-   * Determines if the element accepts keyboard input.
-   * @param {Element} element - HTML Element to examine.
-   * @returns {boolean} - Indicating whether the element accepts keyboard input.
-   */
-  function isInput(element) {
-    let tagName = '';
-    if ('tagName' in element) {
-      tagName = element.tagName.toLowerCase();
-    }
-    // eslint-disable-next-line no-extra-parens
-    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
-  }
-
-  /**
-   * Bring the Browser's focus onto element.
-   * @param {Element} element - HTML Element to focus on.
-   */
-  function focusOnElement(element) {
-    if (element) {
-      const magicTabIndex = -1;
-      const tabIndex = element.getAttribute('tabindex');
-      element.setAttribute('tabindex', magicTabIndex);
-      element.focus();
-      if (tabIndex) {
-        element.setAttribute('tabindex', tabIndex);
-      } else {
-        element.removeAttribute('tabindex');
-      }
-    }
-  }
-
-  /**
-   * Simple function that takes no parameters and returns nothing.
-   * @callback SimpleFunction
-   */
-
-  /**
-   * @typedef {object} OtrotWhat
-   * @property {string} name - The name for this observer.
-   * @property {Element} base - Element to observe.
-   */
-
-  /**
-   * @typedef {object} OtrotHow
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable events.
-   * @property {number} timeout - Time to wait for completion in
-   * milliseconds.
-   */
-
-  /**
-   * One time resize observer with timeout.  Will resolve
-   * automatically upon first resize change.
-   * @param {OtrotWhat} what - What to observe.
-   * @param {OtrotHow} how - How to observe.
-   * @returns {Promise<OtrotWhat>} - Will resolve with the what parameter.
-   */
-  function otrot(what, how) {
-    const prom = new Promise((resolve, reject) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        timeout,
-      } = how;
-      let timeoutID = null;
-      const {
-        clientHeight: initialHeight,
-        clientWidth: initialWidth,
-      } = base;
-      const observer = new ResizeObserver(() => {
-        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          resolve(what);
-        }
-      });
-      timeoutID = setTimeout(() => {
-        observer.disconnect();
-        reject(new Error(`otrot ${name} timed out`));
-      }, timeout);
-      observer.observe(base);
-      trigger();
-    });
-    return prom;
-  }
-
-  /**
-   * @typedef {object} Otrot2How
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable events.
-   * @property {SimpleFunction} action - Function to call upon each
-   * event observed and also at the end of duration.
-   * @property {number} duration - Time to run in milliseconds.
-   */
-
-  /**
-   * One time resize observer with action callback and duration.
-   * Will resolve upon duration expiration.
-   * Uses the same what parameter as {@link otrot}.
-   * @param {OtrotWhat} what - What to observe.
-   * @param {Otrow2How} how - How to observe.
-   * @returns {Promise<string>} - Will resolve after duration expires.
-   */
-  function otrot2(what, how) {
-    const prom = new Promise((resolve) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        action,
-        duration,
-      } = how;
-      const observer = new ResizeObserver(() => {
-        action();
-      });
-      setTimeout(() => {
-        observer.disconnect();
-        action();
-        resolve(`otrot2 ${name} finished`);
-      }, duration);
-      observer.observe(base);
-      trigger();
-    });
-    return prom;
-  }
-
-  /**
-   * @typedef {object} Continuation
-   * @property {boolean} done - Indicate whether the monitor is done processing.
-   * @property {object} [results] - Optional results object.
-   */
-
-  /**
-   * @callback Monitor
-   * @param {MutationRecord[]} records - Standard mutation records.
-   * @returns {Continuation} - Indicate whether done monitoring.
-   */
-
-  /**
-   * @typedef {object} OtmotWhat
-   * @property {string} name - The name for this observer.
-   * @property {Element} base - Element to observe.
-   */
-
-  /**
-   * @typedef {object} OtmotHow
-   * @property {object} observeOptions - MutationObserver().observe()
-   * options.
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable results.
-   * @property {Monitor} monitor - Callback used to process
-   * MutationObserver records.
-   * @property {number} [timeout] - Time to wait for completion in
-   * milliseconds, default of 0 disables.
-   * @property {boolean} [debug] - Enable debugging.
-   */
-
-  /**
-   * One time mutation observer with timeout.
-   * @param {OtmotWhat} what - What to observe.
-   * @param {OtmotHow} how - How to observe.
-   * @returns {Promise<Continuation.results>} - Will resolve with the
-   * results from monitor when done is true.
-   */
-  function otmot(what, how) {
-    const prom = new Promise((resolve, reject) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        observeOptions,
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        monitor,
-        timeout = 0,
-        debug = false,
-      } = how;
-      const logger = new Logger(`otmot ${name}`, debug, false);
-      let timeoutID = null;
-      const observer = new MutationObserver((records) => {
-        const {done, results} = monitor(records);
-        logger.log('monitor:', done, results);
-        if (done) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          logger.log('resolving with', results);
-          resolve(results);
-          logger.log('resolved');
-        }
-      });
-      if (timeout) {
-        timeoutID = setTimeout(() => {
-          observer.disconnect();
-          logger.log('rejecting after timeout');
-          reject(new Error(`otmot ${name} timed out`));
-        }, timeout);
-      }
-      observer.observe(base, observeOptions);
-      logger.log('Calling trigger');
-      trigger();
-      logger.log('Trigger called');
-    });
-    return prom;
   }
 
   /**
