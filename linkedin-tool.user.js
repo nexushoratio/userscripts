@@ -3296,9 +3296,10 @@
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
         this._helpKeyboard.enable();
-        const el = document.querySelector(`#${this._helpId}`);
-        // 0, 0 is good enough
-        el.scrollTo(0, 0);
+        for (const {panel} of this._info.tabs.values()) {
+          // 0, 0 is good enough
+          panel.scrollTo(0, 0);
+        }
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
