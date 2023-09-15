@@ -897,6 +897,14 @@
      * add/remove from an element as it becomes current.
      * @property {boolean} snapToTop - Whether items should snap to
      * the top of the window when coming into view.
+     * @property {number} [topMarginPixels=0] - Used to determine if
+     * scrolling should happen when {snapToTop} is false.
+     * @property {number} [bottomMarginPixels=0] - Used to determin if
+     * scrolling should happen when {snapToTop} is false.
+     * @property {string} [topMarginCss='0'] - CSS applied to
+     * `scrollMarginTop`.
+     * @property {string} [bottomMarginCss='0'] - CSS applied to
+     * `scrollMarginBottom`.
      * @property {boolean} [debug=false] - Enable debug messages.
      * @property {boolean} [stackTrace=false] - Include stack traces
      * in debug messages.
@@ -921,6 +929,10 @@
         uidCallback: this._uidCallback,
         classes: this._classes,
         snapToTop: this._snapToTop,
+        topMarginPixels: this._topMarginPixels = 0,
+        bottomMarginPixels: this._bottomMarginPixels = 0,
+        topMarginCss: this._topMarginCss = '0',
+        bottomMarginCss: this._bottomMarginCss = '0',
         debug: this._debug = false,
         stackTrace: this._stackTrace = false,
       } = how);
@@ -1067,25 +1079,28 @@
       this._log.entered(me, this._snapToTop);
       const {item} = this;
       if (item) {
-        item.style.scrollMarginTop = navBarHeightCss;
+        item.style.scrollMarginTop = this._topMarginCss;
         if (this._snapToTop) {
           this._log.log('snapping to top');
           item.scrollIntoView(true);
         } else {
-          item.style.scrollMarginBottom = '3em';
+          item.style.scrollMarginBottom = this._bottomMarginCss;
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to
           // fit on the page, so the top is preferred.
-          if (rect.bottom > document.documentElement.clientHeight) {
+          if (rect.bottom > (document.documentElement.clientHeight - this._bottomMarginPixels)) {
             this._log.log('scrolling up onto page');
             item.scrollIntoView(false);
           }
-          if (rect.top < navBarHeightPixels) {
+          if (rect.top < this._topMarginPixels) {
             this._log.log('scrolling down onto page');
             item.scrollIntoView(true);
           }
           // XXX: The following was added to support horizontal
           // scrolling in carousels.  Nothing seemed to break.
+          // TODO(#132): Did find a side effect though: it can cause
+          // an item being *left* to shift up if the
+          // scrollMarginBottom has been set.
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
@@ -2788,6 +2803,14 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    _navBarScrollerFixups = [
+      Feed._postsHow,
+      Feed._commentsHow,
+      Jobs._sectionsHow,
+      Jobs._jobsHow,
+      Notifications._notificationsHow,
+    ];
+
     /** Create a LinkedIn instance. */
     constructor() {
       super();
@@ -2992,6 +3015,13 @@
       const fudgeFactor = 4;
       navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
       navBarHeightCss = `${navBarHeightPixels}px`;
+      // XXX: These {Scroller~How} items are static, so they need to
+      // be configured after we figure out what the values should be.
+      for (const how of this._navBarScrollerFixups) {
+        how.topMarginPixels = navBarHeightPixels;
+        how.topMarginCss = navBarHeightCss;
+        how.bottomMarginCss = '3em';
+      }
     }
 
     /** @inheritdoc */
