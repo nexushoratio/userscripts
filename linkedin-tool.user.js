@@ -1994,7 +1994,7 @@
         {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
         {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
         {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
-        {seq: 'l', desc: 'Load more sections (or More jobs for you items)', func: this._loadMoreSections},
+        {seq: 'l', desc: 'Load more sections (or <i>More jobs for you</i> items)', func: this._loadMoreSections},
         {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
         {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
       ];
