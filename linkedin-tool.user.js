@@ -322,7 +322,7 @@
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
-          logger.log('resolving with', results);
+          logger.log('resolving', results);
           resolve(results);
           logger.log('resolved');
         }
