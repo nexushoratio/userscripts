@@ -2333,28 +2333,8 @@
     /**
      * Toggles saving the current job.
      */
-    _toggleSaveJob = async () => {
-      const savedJob = this._jobs?.item;
-
-      /**
-       * Trigger function for {@link otrot}.  Because, of course jobs
-       * needs it.
-       */
-      function trigger() {
-        clickElement(savedJob, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
-      }
-      if (savedJob) {
-        const what = {
-          name: 'toggleSaveJob',
-          base: savedJob,
-        };
-        const how = {
-          trigger: trigger,
-          timeout: 3000,
-        };
-        await otrot(what, how);
-        this._jobs.item = savedJob;
-      }
+    _toggleSaveJob = () => {
+      clickElement(this._jobs?.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
     }
 
     /**
