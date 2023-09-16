@@ -3115,7 +3115,7 @@
     _page = null;
 
     /**
-     * Collect of {Page} mapped by the pathname they support.
+     * Collection of {Page} mapped by the pathname they support.
      * @type {Page}
      */
     _pages = new Map();
