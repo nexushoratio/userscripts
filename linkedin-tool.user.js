@@ -64,32 +64,22 @@
       this.trace = trace;
     }
 
-    /**
-     * @type {string} - Name for this logger.
-     */
+    /** @type {string} - Name for this logger. */
     get name() {
       return this._name;
     }
 
-    /**
-     * Whether logging is currently enabled.
-     * @type {boolean}
-     */
+    /** @type {boolean} - Whether logging is currently enabled. */
     get enabled() {
       return this._enabled;
     }
 
-    /**
-     * Indicates whether messages include a stack trace.
-     * @type {boolean}
-     */
+    /** @type {boolean} - Indicates whether messages include a stack trace. */
     get trace() {
       return this._trace;
     }
 
-    /**
-     * @param {boolean} val - Set inclusion of stack traces.
-     */
+    /** @param {boolean} val - Set inclusion of stack traces. */
     set trace(val) {
       this._trace = Boolean(val);
     }
@@ -584,7 +574,7 @@
       return this._container;
     }
 
-    /** Map<string,TabEntry> */
+    /** @type {Map<string,TabEntry>} */
     get tabs() {
       const entries = new Map();
       for (const label of this._nav.querySelectorAll(':scope > label[data-tabbed-name]')) {
@@ -933,10 +923,7 @@
       return this._dispatcher;
     }
 
-    /**
-     * Represents the current item.
-     * @type {Element}
-     */
+    /** @type {Element} - Represents the current item. */
     get item() {
       const me = 'get item';
       this._log.entered(me);
@@ -960,9 +947,7 @@
       return item;
     }
 
-    /**
-     * @param {Element} val - Update the current item with val.
-     */
+    /** @param {Element} val - Set the current item. */
     set item(val) {
       const me = 'set item';
       this._log.entered(me, val);
@@ -1238,7 +1223,7 @@
       return this._navBarHeightPixels;
     }
 
-    /** @param {number} val - Set new height of the navbar in pixels. */
+    /** @param {number} val - Set height of the navbar in pixels. */
     set navBarHeightPixels(val) {
       this._navBarHeightPixels = val;
     }
@@ -1290,17 +1275,16 @@
     // The immediate following can be set in subclasses.
 
     /**
-     * What pathname part of the URL this page should handle.  The
-     * special case of null is used by the {@link SPA} class to
-     * represent global keys.
-     * @type {string}
+     * @type {string} - What pathname part of the URL this page should
+     * handle.  The special case of null is used by the {@link SPA}
+     * class to represent global keys.
      */
     _pathname;
 
     /**
-     * CSS selector for capturing clicks on this page.  If overridden,
-     * then the class should also provide a _onClick() method.
-     * @type {string}
+     * @type {string} - CSS selector for capturing clicks on this
+     * page.  If overridden, then the class should also provide a
+     * _onClick() method.
      */
     _onClickSelector = null;
 
@@ -1314,33 +1298,25 @@
      * form of `this.methodName`.
      */
 
-    /**
-     * List of {@link Shortcut}s to register automatically.  The
-     * function is bound to `this` before registering it with
-     * VM.shortcut.
-     * @type {Shortcut[]}
-     */
+    /** @type {Shortcut[]} - List of {@link Shortcut}s to register automatically. */
     get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
       return [];
     }
 
     // Private members.
 
-    /**
-     * @type {KeyboardService}
-     */
+    /** @type {KeyboardService} */
     _keyboard = new VM.shortcut.KeyboardService();
 
     /**
-     * Tracks which HTMLElement holds the `onclick` function.
-     * @type {Element}
+     * @type {Element} - Tracks which HTMLElement holds the `onclick`
+     * function.
      */
     _onClickElement = null;
 
     /**
-     * Magic for VM.shortcut.  This disables keys when focus is on an
-     * input type field or when viewing the help.
-     * @type {IShortcutOptions}
+     * @type {IShortcutOptions} - Disables keys when focus is on an
+     * element or info view.
      */
     static _navOption = {
       caseSensitive: true,
@@ -1394,17 +1370,14 @@
       this._disableOnClick();
     }
 
-    /**
-     * Describes what the header should be.
-     * @type {string}
-     */
+    /** @type {string} - Describes what the header should be. */
     get helpHeader() {
       return this.constructor.name;
     }
 
     /**
-     * The `key` and `desc` properties are important here.
-     * @type {Shortcut[]}
+     * @type {Shortcut[]} - The `key` and `desc` properties are
+     * important here.
      */
     get helpContent() {
       return this._autoRegisteredKeys;
@@ -2856,16 +2829,14 @@
     }
 
     /**
-     * The element.id used to identify the help pop-up.
-     * @type {string}
+     * @type {string} - The element.id used to identify the help
+     * pop-up.
      */
     get helpId() {
       return this._helpId;
     }
 
-    /**
-     * @param {string} val - Set the value of the help element.id.
-     */
+    /** @param {string} val - Set the value of the help element.id. */
     set helpId(val) {
       this._helpId = val;
     }
@@ -2875,6 +2846,8 @@
      * @property {string} name - Name of the license.
      * @property {string} url - License URL.
      */
+
+    /** @type{LicenseData} */
     get licenseData() {
       const me = 'licenseData';
       this._log.entered(me);
@@ -3122,33 +3095,22 @@
 
     static _errorMarker = '---';
 
-    /**
-     * A special {Page} that handles global keys.
-     * @type {Page}
-     */
+    /** @type {Page} - A special {Page} that handles global keys. */
     _global = null;
 
-    /**
-     * Current {Page}.
-     * @type {Page}
-     */
+    /** @type {Page} - Current {Page}. */
     _page = null;
 
     /**
-     * Collection of {Page} mapped by the pathname they support.
-     * @type {Page}
+     * @type {Map<string,Page>} - {Page}s mapped by the pathname they
+     * support.
      */
     _pages = new Map();
 
-    /**
-     * The most recent element to receive focus.
-     * @type {Element}
-     */
+    /** @type {Element} - The most recent element to receive focus. */
     _lastInputElement = null;
 
-    /**
-     * @type {KeyboardService}
-     */
+    /** @type {KeyboardService} */
     _helpKeyboard = null;
 
     /**
