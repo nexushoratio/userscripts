@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.19.4
+// @version     2.20.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -1571,6 +1571,7 @@
         {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
         {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
         {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
+        {seq: 'v R', desc: 'View reposts of the current post', func: this._viewReposts},
         {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
         {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
         {seq: 'C', desc: 'Comment on current post or comment', func: this._commentOnPostOrComment},
@@ -1972,6 +1973,13 @@
     _viewReactions = () => {
       const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button.comments-comment-social-bar__reactions-count,button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
+    }
+
+    /**
+     * Open the Reposts summary pop-up.
+     */
+    _viewReposts = () => {
+      clickElement(this._posts.item, ['button[aria-label*="repost"]']);
     }
 
   }
