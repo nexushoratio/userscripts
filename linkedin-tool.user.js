@@ -1226,6 +1226,58 @@
   }
 
   /**
+   * This class exists solely to avoid some `no-use-before-define`
+   * linter issues.
+   */
+  class LinkedInGlobals {
+
+    _navBarHeightPixels = 0;
+
+    /** @type{number} - The height of the navbar in pixels. */
+    get navBarHeightPixels() {
+      return this._navBarHeightPixels;
+    }
+
+    /** @param {number} val - Set new height of the navbar in pixels. */
+    set navBarHeightPixels(val) {
+      this._navBarHeightPixels = val;
+    }
+
+    /** @type {string} - The height of the navbar as CSS string. */
+    get navBarHeightCss() {
+      return `${this._navBarHeightPixels}px`;
+    }
+
+    /**
+     * Scroll common sidebar into view and move focus to it.
+     */
+    focusOnSidebar = () => {
+      const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+      if (sidebar) {
+        sidebar.style.scrollMarginTop = this.navBarHeightCss;
+        sidebar.scrollIntoView();
+        focusOnElement(sidebar);
+      }
+    }
+
+    /**
+     * Scroll common aside (right-hand sidebar) into view and move
+     * focus to it.
+     */
+    focusOnAside = () => {
+      const aside = document.querySelector('aside.scaffold-layout__aside');
+      if (aside) {
+        aside.style.scrollMarginTop = this.navBarHeightCss;
+        aside.scrollIntoView();
+        focusOnElement(aside);
+      }
+    }
+
+  }
+
+  const linkedInGlobals = new LinkedInGlobals();
+
+  /**
    * Base class for handling various views of a single-page
    * application.
    *
@@ -1455,8 +1507,8 @@
         {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
         {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
         {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
-        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: linkedIn.focusOnSidebar},  // eslint-disable-line no-use-before-define
-        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: linkedIn.focusOnAside},  // eslint-disable-line no-use-before-define
+        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: linkedInGlobals.focusOnSidebar},
+        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: linkedInGlobals.focusOnAside},
       ];
     }
 
@@ -1622,7 +1674,7 @@
     constructor() {
       super();
       this._postScroller = new Scroller(Feed._postsWhat, Feed._postsHow);
-      this._postScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
+      this._postScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
       this._postScroller.dispatcher.on('change', this._onPostChange);
     }
 
@@ -1919,7 +1971,7 @@
      */
     static _gotoShare() {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
-      share.style.scrollMarginTop = linkedIn.navBarHeightCss;  // eslint-disable-line no-use-before-define
+      share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
       share.scrollIntoView();
       share.querySelector('button').focus();
     }
@@ -2053,7 +2105,7 @@
     constructor() {
       super();
       this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
-      this._sectionScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
+      this._sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
       this._sectionScroller.dispatcher.on('change', this._onChange);
       this._sectionsMO1 = new MutationObserver(this._mutationHandler);
       this._sectionsMO2 = new MutationObserver(this._mutationHandler);
@@ -2425,7 +2477,7 @@
     constructor() {
       super();
       this._notificationScroller = new Scroller(Notifications._notificationsWhat, Notifications._notificationsHow);
-      this._notificationScroller.dispatcher.on('out-of-range', linkedIn.focusOnSidebar);  // eslint-disable-line no-use-before-define
+      this._notificationScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
     }
 
     /** @inheritdoc */
@@ -2774,8 +2826,6 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
-    _navBarHeightPixels = 0;
-
     _navBarScrollerFixups = [
       Feed._postsHow,
       Feed._commentsHow,
@@ -2784,9 +2834,14 @@
       Notifications._notificationsHow,
     ];
 
-    /** Create a LinkedIn instance. */
-    constructor() {
+    /**
+     * Create a LinkedIn instance.
+     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
+     * circular dependencies.
+     */
+    constructor(globals) {
       super();
+      this._globals = globals;
       this.ready = this._waitUntilPageLoadedEnough();
     }
 
@@ -2798,16 +2853,6 @@
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this._licenseHandler);
       this._log.leaving(me);
-    }
-
-    /** @type{number} - The height of the navbar in pixels. */
-    get navBarHeightPixels() {
-      return this._navBarHeightPixels;
-    }
-
-    /** @type {string} - The height of the navbar as CSS string. */
-    get navBarHeightCss() {
-      return `${this._navBarHeightPixels}px`;
     }
 
     /**
@@ -2997,12 +3042,12 @@
     _setNavBarInfo() {
       const fudgeFactor = 4;
 
-      this._navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
+      this._globals.navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
       // XXX: These {Scroller~How} items are static, so they need to
       // be configured after we figure out what the values should be.
       for (const how of this._navBarScrollerFixups) {
-        how.topMarginPixels = this.navBarHeightPixels;
-        how.topMarginCss = this.navBarHeightCss;
+        how.topMarginPixels = this._globals.navBarHeightPixels;
+        how.topMarginCss = this._globals.navBarHeightCss;
         how.bottomMarginCss = '3em';
       }
     }
@@ -3061,31 +3106,6 @@
 
       this._log.leaving(me, infoTab);
       return infoTab;
-    }
-
-    /**
-     * Scroll common sidebar into view and move focus to it.
-     */
-    focusOnSidebar = () => {
-      const sidebar = document.querySelector('div.scaffold-layout__sidebar');
-      if (sidebar) {
-        sidebar.style.scrollMarginTop = this.navBarHeightCss;
-        sidebar.scrollIntoView();
-        focusOnElement(sidebar);
-      }
-    }
-
-    /**
-     * Scroll common aside (right-hand sidebar) into view and move
-     * focus to it.
-     */
-    focusOnAside = () => {
-      const aside = document.querySelector('aside.scaffold-layout__aside');
-      if (aside) {
-        aside.style.scrollMarginTop = this.navBarHeightCss;
-        aside.scrollIntoView();
-        focusOnElement(aside);
-      }
     }
 
   }
@@ -3603,7 +3623,7 @@
 
   }
 
-  const linkedIn = new LinkedIn();
+  const linkedIn = new LinkedIn(linkedInGlobals);
   linkedIn.ready.then(() => {
     log.log('proceeding...');
     const spa = new SPA(linkedIn);
