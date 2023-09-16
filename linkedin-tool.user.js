@@ -2672,6 +2672,12 @@
     /** @type {SetupIssue[]} */
     _setupIssues = [];
 
+    /**
+     * @type {string} - CSS selector to monitor if self-managing URL
+     * changes.  The selector must resolve to an element that, once it
+     * exists, will continue to exist for the lifetime of the SPA.
+     */
+    urlChangeMonitorSelector = 'body';
 
     /** @type {TabbedUI} */
     _ui = null;
@@ -2781,6 +2787,8 @@
 
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
+
+    urlChangeMonitorSelector = 'div.authentication-outlet';
 
     static _icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
@@ -3134,7 +3142,86 @@
       }
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this._onUrlChange, true);
+      this._startUrlMonitor();
       this._details.done();
+    }
+
+    /**
+     * Tampermonkey was the first(?) userscript manager to provide
+     * events about URLs changing.  Hence the need for `@grant
+     * window.onurlchange` in the UserScript header.
+     * @fires Event#urlchange
+     */
+    _startUserscriptManagerUrlMonitor() {
+      this._log.log('Using Userscript Manager provided URL monitor.');
+      window.addEventListener('urlchange', (info) => {
+        // The info that TM gives is not really an event.  So we turn
+        // it into one and throw it again, this time onto `document`
+        // where something is listening for it.
+        const newUrl = new URL(info.url);
+        const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+        document.dispatchEvent(evt);
+      });
+    }
+
+    /**
+     * Install a long lived MutationObserver that watches
+     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is
+     * triggered, it will check to see if the current URL has changed,
+     * and if so, send an appropriate event.
+     * @fires Event#urlchange
+     */
+    async _startMutationObserverUrlMonitor() {
+      this._log.log('Using MutationObserver for monitoring URL changes.');
+
+      const observeOptions = {childList: true, subtree: true};
+
+      /**
+       * Watch for the initial {SPADetails.urlChangeMonitorSelector}
+       * to show up.
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        // The default selector is 'body', so we need to query
+        // 'document', not 'document.body'.
+        const element = document.querySelector(this._details.urlChangeMonitorSelector);
+        if (element) {
+          return {done: true, results: element};
+        }
+        return {done: false};
+      };
+      const what = {
+        name: 'SPA URL initializer observer',
+        base: document.body,
+      };
+      const how = {
+        observeOptions: observeOptions,
+        monitor: monitor,
+      };
+      const element = await otmot(what, how);
+      this._log.log('element exists:', element);
+
+      this._oldUrl = new URL(window.location);
+      new MutationObserver(() => {
+        const newUrl = new URL(window.location);
+        if (this._oldUrl.href !== newUrl.href) {
+          const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+          this._oldUrl = newUrl;
+          document.dispatchEvent(evt);
+        }
+      }).observe(element, observeOptions);
+    }
+
+    /**
+     * Select which way to monitor the URL for changes and start it.
+     */
+    _startUrlMonitor() {
+      if (window.onurlchange === null) {
+        this._startUserscriptManagerUrlMonitor();
+      } else {
+        this._startMutationObserverUrlMonitor();
+      }
     }
 
     /**
@@ -3596,67 +3683,6 @@
     spa.register(new Notifications());
     spa.activate(window.location.pathname);
   });
-
-  if (window.onurlchange === null) {
-    // We are likely running on Tampermonkey, so use native support.
-    log.log('Using window.onurlchange for monitoring URL updates.');
-    window.addEventListener('urlchange', (info) => {
-      // The info that TM gives is not really an event.  So we turn it
-      // into one and throw it again, this time onto `document` where
-      // `spa` is listening for it.
-      const newUrl = new URL(info.url);
-      const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
-      document.dispatchEvent(evt);
-    });
-  } else {
-    log.log('Using MutationObserver for monitoring URL updates.');
-
-    let oldUrl = new URL(window.location);
-
-    /**
-     * Constantly watch the web page.  Whenever anything changes,
-     * compare the current URL to the previous one, and if change,
-     * send out an event.
-     * @param {Element} element - Element to observe, ideally the
-     * smallest thing that stays consistent throughout the lifetime of
-     * the app.
-     */
-    function createUrlObserver(element) {  // eslint-disable-line no-inner-declarations
-      const observer = new MutationObserver(() => {
-        const newUrl = new URL(window.location);
-        if (oldUrl.href !== newUrl.href) {
-          const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
-          oldUrl = newUrl;
-          document.dispatchEvent(evt);
-        }
-      });
-      observer.observe(element, {childList: true, subtree: true});
-    }
-
-    /**
-     * Watch for the initial `authentication-outlet` to show up, then
-     * attach the URL observer to it.
-     * @implements {Monitor}
-     * @returns {Continuation} - Indicate whether done monitoring.
-     */
-    function authenticationOutletMonitor() {  // eslint-disable-line no-inner-declarations
-      const div = document.body.querySelector('div.authentication-outlet');
-      if (div) {
-        return {done: true, results: div};
-      }
-      return {done: false};
-    }
-
-    const authOutletWhat = {
-      name: 'authOutletMonitor',
-      base: document.body,
-    };
-    const autoOutletHow = {
-      observeOptions: {childList: true, subtree: true},
-      monitor: authenticationOutletMonitor,
-    };
-    otmot(authOutletWhat, autoOutletHow).then(el => createUrlObserver(el));
-  }
 
   if (_runTests) {
     for (const test of _tests) {
