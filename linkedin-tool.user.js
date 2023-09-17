@@ -2659,7 +2659,7 @@
 
   }
 
-  /** Base class for SPA instance details. */
+  /** Base class for {@link SPA} instance details. */
   class SPADetails {
 
     /**
