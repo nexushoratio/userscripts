@@ -3503,6 +3503,25 @@
     }
 
     /**
+     * TODO(#110): Flesh out and make tests pass, then test in UI and
+     * tweak the CSS.
+     * Parse a {@link Shortcut.seq} and wrap it in HTML.
+     * @example
+     * 'a c-b' ->
+     *   '<kbd><kbd>a</kbd> then <kbd>Ctrl</kbd> + <kbd>b</kbd></kbd>'
+     * @param {Shortcut.seq} seq - Keystroke sequence.
+     * @returns {string} - Appropriately wrapped HTML.
+     */
+    static _parseSeq2(seq) {
+      const res = VM.shortcut.reprShortcut(seq, true)
+        .split(' ')
+        .map(c => `<kbd>${c}</kbd>`)
+        .join(' then ');
+      log.log('res:', res);
+      return `<kbd>${res}</kbd>`;
+    }
+
+    /**
      * Generate a unique id for page views.
      * @param {Page} page - An instance of the Page class.
      * @returns {string} - Unique identifier.
@@ -3671,6 +3690,36 @@
     }
 
   }
+
+  /** Test case. */
+  function _testParseSeq() {
+    const tests = [
+      {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
+      {test: 'Q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
+      {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
+      {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
+      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>q</kbd></kbd>'},
+      {test: 'c-a-t', expected: '....'},
+      {test: 'a-c-t', expected: '....'},
+      {test: 'c-down esc', expected: '....'},
+      {test: 'shift-x control-alt-del', expected: '....'},
+      {test: 'c-x c-v', expected: '....'},
+      {test: 'a-x enter', expected: '....'},
+      {test: 'up up down down left right left right b shift-a enter', expected: '....'},
+    ];
+
+    for (const {test, expected} of tests) {
+      const actual = SPA._parseSeq2(test);
+      const passed = actual === expected;
+      const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
+      log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+  }
+
+  _tests.push(_testParseSeq);
 
   const linkedIn = new LinkedIn(linkedInGlobals);
   linkedIn.ready.then(() => {
