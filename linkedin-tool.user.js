@@ -2507,21 +2507,21 @@
     /**
      * Select the next notification.
      */
-    _nextNotification() {
+    _nextNotification = () => {
       this._notifications.next();
     }
 
     /**
      * Select the previous notification.
      */
-    _prevNotification() {
+    _prevNotification = () => {
       this._notifications.prev();
     }
 
     /**
      * Change browser focus to the current notification.
      */
-    _focusBrowser() {
+    _focusBrowser = () => {
       this._notifications.show();
       focusOnElement(this._notifications.item);
     }
@@ -2529,28 +2529,28 @@
     /**
      * Select the first notification.
      */
-    _firstNotification() {
+    _firstNotification = () => {
       this._notifications.first();
     }
 
     /**
      * Select the last notification.
      */
-    _lastNotification() {
+    _lastNotification = () => {
       this._notifications.last();
     }
 
     /**
      * Open the (⋯) menu for the current notification.
      */
-    _openMeatballMenu() {
+    _openMeatballMenu = () => {
       clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
     }
 
     /**
      * Activate the current notification.
      */
-    _activateNotification() {
+    _activateNotification = () => {
       const ONE_ITEM = 1;
       const notification = this._notifications.item;
       if (notification) {
@@ -2581,7 +2581,7 @@
     /**
      * Toggles deletion of the current notification.
      */
-    async _deleteNotification() {
+    _deleteNotification = async () => {
       const notification = this._notifications.item;
 
       /**
