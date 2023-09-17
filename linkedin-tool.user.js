@@ -3685,9 +3685,11 @@
   });
 
   if (_runTests) {
+    log.enable();
     for (const test of _tests) {
       test();
     }
+    log.log('All tests passed.');
   }
 
   log.log('Initialization successful.');
