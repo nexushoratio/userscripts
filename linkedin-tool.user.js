@@ -19,8 +19,10 @@
 (() => {
   'use strict';
 
-  const _runTests = false;
-  const _tests = [];
+  const testing = {
+    enabled: false,
+    funcs: [],
+  };
 
   const NOT_FOUND = -1;
 
@@ -476,7 +478,7 @@
     }
   }
 
-  _tests.push(_testSafeId);
+  testing.funcs.push(_testSafeId);
 
   /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
@@ -3719,7 +3721,7 @@
     }
   }
 
-  _tests.push(_testParseSeq);
+  testing.funcs.push(_testParseSeq);
 
   const linkedIn = new LinkedIn(linkedInGlobals);
   linkedIn.ready.then(() => {
@@ -3733,9 +3735,9 @@
     spa.activate(window.location.pathname);
   });
 
-  if (_runTests) {
+  if (testing.enabled) {
     log.enable();
-    for (const test of _tests) {
+    for (const test of testing.funcs) {
       test();
     }
     log.log('All tests passed.');
