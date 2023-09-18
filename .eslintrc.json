@@ -4,8 +4,8 @@
     "greasemonkey": true,
     "es6": true
   },
-  "parser": "babel-eslint",
   "parserOptions": {
+    "ecmaVersion": "latest",
     "sourceType": "script"
   },
   "extends": "eslint:all",
@@ -141,6 +141,10 @@
     "dot-location": [
       "error",
       "property"
+    ],
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
     ],
     "indent": [
       "error",
