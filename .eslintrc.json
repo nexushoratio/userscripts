@@ -93,15 +93,7 @@
       "error",
       "never"
     ],
-    "prefer-destructuring": [  // TODO(#113): incrementally
-      "off",
-      {
-        "object": true
-      },
-      {
-        "enforceForRenamedProperties": true
-      }
-    ],
+    "prefer-destructuring": "off",
     "quote-props": [
       "error",
       "consistent-as-needed"
