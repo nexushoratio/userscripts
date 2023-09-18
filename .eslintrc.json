@@ -75,7 +75,7 @@
     ],
     "no-ternary": "off",
     "no-underscore-dangle": "off",  // TODO(#68): After Debian upgrade
-    "no-unused-expressions": "off",  // TODO(#68): After Debian upgrade
+    "no-unused-expressions": "off",
     "no-warning-comments": [
       "error",
       {
