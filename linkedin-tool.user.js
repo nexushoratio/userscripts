@@ -26,9 +26,8 @@
 
   const NOT_FOUND = -1;
 
-  // I'm lazy.  The version of emacs I'm using does not support
-  // #private variables out of the box, so using underscores until I
-  // get a working configuration.
+  // TODO(#141): Currently replacing underscores with #private
+  // properties.
 
   /**
    * Fancy-ish debug messages.
