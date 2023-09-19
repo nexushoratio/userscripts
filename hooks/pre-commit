@@ -36,7 +36,7 @@ unset $(git rev-parse --local-env-vars)
 dir=$(mktemp -d)
 git worktree add --force $dir $branch
 pushd $dir > /dev/null
-git apply $patchfile
+git apply --allow-empty $patchfile
 git diff --stat
 
 # This is the test we want to run.
