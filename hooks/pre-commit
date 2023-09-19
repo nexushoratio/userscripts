@@ -35,7 +35,7 @@ git diff --patch --cached > $patchfile
 unset $(git rev-parse --local-env-vars)
 dir=$(mktemp -d)
 git worktree add --force $dir $branch
-pushd $dir
+pushd $dir > /dev/null
 git apply $patchfile
 git diff --stat
 
@@ -43,6 +43,6 @@ git diff --stat
 eslint .
 
 # Clean up.
-popd
+popd > /dev/null
 git worktree remove --force $dir
 rm ${patchfile}
