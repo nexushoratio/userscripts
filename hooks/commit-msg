@@ -1,0 +1,36 @@
+#!/bin/bash
+# Install with:
+#   git config core.hooksPath hooks
+
+# Verifies the commit message is acceptable and appends a separator at
+# the end to make the Greasy Fork history tab look nicer.
+
+set -e
+
+echo 'Starting commit-msg hook.'
+
+filename=$1
+workfile=$(mktemp)
+
+sed -e '/-- >8 --/q' $filename | git stripspace --strip-comments > $workfile
+if git diff --cached --name-only | grep -q user.js; then
+  echo 'Adding separator to commit message for Greasy Fork.'
+  echo >> $workfile
+  echo '␄' >> $workfile
+fi
+
+skip_issue=$(git config --type bool --get skip.issue || echo false)
+skip_issue_scope=$(git config --list --show-scope | awk '/skip.issue/ {print $1}' | tail -n1)
+
+if ! grep -E -e '^(Issues?|Closes) (#[[:digit:]]+, )*#[[:digit:]]+*\.$' $workfile; then
+  echo 'Commit message does not have an issue number.'
+  if [ "${skip_issue}" = "true" -a "${skip_issue_scope}" = "command" ]; then
+    echo 'Ignoring that though...'
+  else
+    echo 'Use "git -c skip.issue commit ..." to ignore.'
+    exit 1
+  fi
+fi
+
+mv $workfile $filename
+echo 'Commit message success!'
