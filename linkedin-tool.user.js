@@ -3518,11 +3518,24 @@
      * @returns {string} - Appropriately wrapped HTML.
      */
     static _parseSeq2(seq) {
-      const res = VM.shortcut.reprShortcut(seq, true)
-        .split(' ')
-        .map(c => `<kbd>${c}</kbd>`)
+
+      /**
+       * Convert a VM.shortcut style into an HTML snippet.
+       * @param {IShortcutKey} key - A particular key press.
+       * @returns {string} - HTML snippet.
+       */
+      function reprKey(key) {
+        log.log('key:', key);
+        const sequence = [];
+        if (key.modifierState.s) {
+          sequence.push('Shift');
+        }
+        sequence.push(key.base);
+        return sequence.map(c => `<kbd>${c}</kbd>`).join(' + ');
+      }
+      const res = VM.shortcut.normalizeSequence(seq, true)
+        .map(key => reprKey(key))
         .join(' then ');
-      log.log('res:', res);
       return `<kbd>${res}</kbd>`;
     }
 
@@ -3700,6 +3713,7 @@
   function _testParseSeq() {
     const tests = [
       {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
+      {test: 's-q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
       {test: 'Q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
       {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
       {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
