@@ -51,8 +51,12 @@
    */
   class Logger {
 
-    _opened = [];
-    _closed = [];
+    #name
+    #enabled
+    #trace
+
+    #opened = [];
+    #closed = [];
 
     /**
      * @param {string} name - Name for this logger.
@@ -60,43 +64,43 @@
      * @param {boolean} trace - Initial state of including stack traces.
      */
     constructor(name, enabled = false, trace = false) {
-      this._name = name;
-      this._enabled = enabled;
+      this.#name = name;
+      this.#enabled = enabled;
       this.trace = trace;
     }
 
     /** @type {string} - Name for this logger. */
     get name() {
-      return this._name;
+      return this.#name;
     }
 
     /** @type {boolean} - Whether logging is currently enabled. */
     get enabled() {
-      return this._enabled;
+      return this.#enabled;
     }
 
     /** @type {boolean} - Indicates whether messages include a stack trace. */
     get trace() {
-      return this._trace;
+      return this.#trace;
     }
 
     /** @param {boolean} val - Set inclusion of stack traces. */
     set trace(val) {
-      this._trace = Boolean(val);
+      this.#trace = Boolean(val);
     }
 
     /**
      * Enable this logger.
      */
     enable() {
-      this._enabled = true;
+      this.#enabled = true;
     }
 
     /**
      * Disable this logger.
      */
     disable() {
-      this._enabled = false;
+      this.#enabled = false;
     }
 
     /* eslint-disable no-console */
@@ -106,7 +110,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     entered(group, ...rest) {
-      this._opened.push(group);
+      this.#opened.push(group);
       if (this.enabled) {
         console.group(`${this.name}: ${group}`);
         if (rest.length) {
@@ -122,7 +126,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     leaving(group, ...rest) {
-      const lastGroup = this._opened.pop();
+      const lastGroup = this.#opened.pop();
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
       }
@@ -142,7 +146,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     starting(group, ...rest) {
-      this._closed.push(group);
+      this.#closed.push(group);
       if (this.enabled) {
         console.groupCollapsed(`${this.name}: ${group} (collapsed)`);
         if (rest.length) {
@@ -158,7 +162,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     finished(group, ...rest) {
-      const lastGroup = this._closed.pop();
+      const lastGroup = this.#closed.pop();
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
       }
