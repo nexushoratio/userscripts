@@ -2846,12 +2846,12 @@
      * pop-up.
      */
     get helpId() {
-      return this._helpId;
+      return this._infoId;
     }
 
     /** @param {string} val - Set the value of the help element.id. */
     set helpId(val) {
-      this._helpId = val;
+      this._infoId = val;
     }
 
     /**
@@ -3270,8 +3270,8 @@
     /**
      * Configure handlers for the help view.
      */
-    _addHelpViewHandlers() {
-      const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
+    _addInfoViewHandlers() {
+      const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
       errors.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n').filter(x => x === SPA._errorMarker).length;
         this._details.dispatcher.fire('errors', count);
@@ -3312,26 +3312,26 @@
     /**
      * Add CSS styling for use with the help view.
      */
-    _addHelpStyle() {
+    _addInfoStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
       const styles = [
-        `#${this._helpId}:modal { height: 100%; width: 65rem; display: flex; flex-direction: column; }`,
-        `#${this._helpId} .left { text-align: left; }`,
-        `#${this._helpId} .right { text-align: right; }`,
-        `#${this._helpId} .spa-instructions { display: flex; flex-direction: row; padding-bottom: 1ex; border-bottom: 1px solid black; margin-bottom: 5px; }`,
-        `#${this._helpId} .spa-instructions > span { flex-grow: 1; }`,
-        `#${this._helpId} textarea[data-spa-id="errors"] { flex-grow: 1; resize: none; }`,
-        `#${this._helpId} .spa-danger { background-color: red; }`,
-        `#${this._helpId} .spa-current-page { background-color: lightgray; }`,
-        `#${this._helpId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
-        `#${this._helpId} p { margin-bottom: 1em; }`,
-        `#${this._helpId} th { padding-top: 1em; text-align: left; }`,
-        `#${this._helpId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
+        `#${this._infoId}:modal { height: 100%; width: 65rem; display: flex; flex-direction: column; }`,
+        `#${this._infoId} .left { text-align: left; }`,
+        `#${this._infoId} .right { text-align: right; }`,
+        `#${this._infoId} .spa-instructions { display: flex; flex-direction: row; padding-bottom: 1ex; border-bottom: 1px solid black; margin-bottom: 5px; }`,
+        `#${this._infoId} .spa-instructions > span { flex-grow: 1; }`,
+        `#${this._infoId} textarea[data-spa-id="errors"] { flex-grow: 1; resize: none; }`,
+        `#${this._infoId} .spa-danger { background-color: red; }`,
+        `#${this._infoId} .spa-current-page { background-color: lightgray; }`,
+        `#${this._infoId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
+        `#${this._infoId} p { margin-bottom: 1em; }`,
+        `#${this._infoId} th { padding-top: 1em; text-align: left; }`,
+        `#${this._infoId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
         // The "color: unset" addresses dimming because these
         // display-only buttons are disabled.
-        `#${this._helpId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
-        `#${this._helpId} button.spa-meatball { border-radius: 50%; }`,
+        `#${this._infoId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
+        `#${this._infoId} button.spa-meatball { border-radius: 50%; }`,
         '',
       ];
       style.textContent = styles.join('\n');
@@ -3344,7 +3344,7 @@
      */
     _initializeInfoDialog() {
       const dialog = document.createElement('dialog');
-      dialog.id = this._helpId;
+      dialog.id = this._infoId;
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - v${GM.info.script.version}`;
       const instructions = document.createElement('div');
@@ -3361,7 +3361,7 @@
      * @param {TabbedUI~TabDefinition[]} tabs - Array defining the
      * help tabs.
      */
-    _addHelpDialog(tabs) {
+    _addInfoDialog(tabs) {
       const dialog = this._initializeInfoDialog();
 
       this._info = new TabbedUI(`${this._name} Info`);
@@ -3459,8 +3459,8 @@
      * Set up everything necessary to get the help view going.
      */
     _initializeHelpView() {
-      this._helpId = `help-${this._id}`;
-      this._details.helpId = this._helpId;
+      this._infoId = `help-${this._id}`;
+      this._details.helpId = this._infoId;
       this._initializeHelpKeyboard();
 
       const helpGenerators = [
@@ -3470,10 +3470,10 @@
         this._details.licenseInfo(),
       ];
 
-      this._addHelpStyle();
-      this._addHelpDialog(helpGenerators);
+      this._addInfoStyle();
+      this._addInfoDialog(helpGenerators);
       this._details.ui = this._info;
-      this._addHelpViewHandlers();
+      this._addInfoViewHandlers();
     }
 
     _nextHelpTab = () => {
@@ -3544,18 +3544,18 @@
      * @param {Page} page - An instance of the Page class.
      * @returns {string} - Unique identifier.
      */
-    _pageHelpId(page) {
-      return `${this._helpId}-${page.helpHeader}`;
+    _pageInfoId(page) {
+      return `${this._infoId}-${page.helpHeader}`;
     }
 
     /**
      * Add help from the page to the help view.
      * @param {Page} page - An instance of the Page class.
      */
-    _addHelp(page) {
-      const help = document.querySelector(`#${this._helpId} tbody`);
+    _addInfo(page) {
+      const help = document.querySelector(`#${this._infoId} tbody`);
       const section = SPA._parseHeader(page.helpHeader);
-      const pageId = this._pageHelpId(page);
+      const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.helpContent) {
         const keys = SPA._parseSeq(seq);
@@ -3597,7 +3597,7 @@
       this._log.entered(me, page);
       let element = null;
       if (page) {
-        const pageId = this._pageHelpId(page);
+        const pageId = this._pageInfoId(page);
         this._log.log('pageId:', pageId);
         element = document.querySelector(`#${pageId}`);
       }
@@ -3634,7 +3634,7 @@
      * @param {string} content - Information to add.
      */
     addError(content) {
-      const errors = document.querySelector(`#${this._helpId} [data-spa-id="errors"]`);
+      const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
       errors.value += `${content}\n`;
 
       if (content === SPA._errorMarker) {
@@ -3657,7 +3657,7 @@
      */
     register(page) {
       page.start(this);
-      this._addHelp(page);
+      this._addInfo(page);
       if (page.pathname === null) {
         this._global = page;
         this._global.activate();
