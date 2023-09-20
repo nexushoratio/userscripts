@@ -1300,7 +1300,7 @@
      * @property {string} seq - Key sequence to activate.
      * @property {string} desc - Description that goes into the online help.
      * @property {SimpleFunction} func - Function to call, usually in the
-     * form of `this.methodName`.
+     * form of `this.callback`.  Keep JS `this` magic in mind!
      */
 
     /** @type {Shortcut[]} - List of {@link Shortcut}s to register automatically. */
@@ -1343,7 +1343,7 @@
       this._spa = spa;
       this._log = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this._autoRegisteredKeys) {
-        this._addKey(seq, func.bind(this));
+        this._addKey(seq, func);
       }
     }
 
