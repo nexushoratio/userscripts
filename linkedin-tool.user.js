@@ -459,7 +459,7 @@
   }
 
   /** Test case. */
-  function _testSafeId() {
+  function testSafeId() {
     const tests = [
       {test: 'Tabby Cat', expected: 'Tabby-Cat'},
       {test: '_', expected: '_'},
@@ -481,7 +481,7 @@
     }
   }
 
-  testing.funcs.push(_testSafeId);
+  testing.funcs.push(testSafeId);
 
   /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
@@ -3718,7 +3718,7 @@
   }
 
   /** Test case. */
-  function _testParseSeq() {
+  function testParseSeq() {
     const tests = [
       {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
       {test: 's-q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
@@ -3746,7 +3746,7 @@
     }
   }
 
-  testing.funcs.push(_testParseSeq);
+  testing.funcs.push(testParseSeq);
 
   const linkedIn = new LinkedIn(linkedInGlobals);
 
