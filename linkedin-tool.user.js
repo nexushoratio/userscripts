@@ -1376,7 +1376,7 @@
     }
 
     /** @type {string} - Describes what the header should be. */
-    get helpHeader() {
+    get infoHeader() {
       return this.constructor.name;
     }
 
@@ -1384,7 +1384,7 @@
      * @type {Shortcut[]} - The `key` and `desc` properties are
      * important here.
      */
-    get helpContent() {
+    get keysDescriptions() {
       return this._autoRegisteredKeys;
     }
 
@@ -1466,7 +1466,8 @@
 
   /**
    * Class for handling aspects common across LinkedIn.
-   * This includes things like the global nav bar, help screen, etc.
+   * This includes things like the global nav bar, information view,
+   * etc.
    */
   class Global extends Page {
 
@@ -1475,7 +1476,7 @@
     /** @inheritdoc */
     get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
       return [
-        {seq: '?', desc: 'Show this help screen', func: Global._help},
+        {seq: '?', desc: 'Show this information view', func: Global._help},
         {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
         {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
         {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
@@ -3275,7 +3276,7 @@
       errors.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n').filter(x => x === SPA._errorMarker).length;
         this._details.dispatcher.fire('errors', count);
-        this._updateHelpErrorsLabel(count);
+        this._updateInfoErrorsLabel(count);
       });
     }
 
@@ -3552,7 +3553,7 @@
      * @returns {string} - Unique identifier.
      */
     _pageInfoId(page) {
-      return `${this._infoId}-${page.helpHeader}`;
+      return `${this._infoId}-${page.infoHeader}`;
     }
 
     /**
@@ -3561,15 +3562,15 @@
      */
     _addInfo(page) {
       const help = document.querySelector(`#${this._infoId} tbody`);
-      const section = SPA._parseHeader(page.helpHeader);
+      const section = SPA._parseHeader(page.infoHeader);
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
-      for (const {seq, desc} of page.helpContent) {
+      for (const {seq, desc} of page.keysDescriptions) {
         const keys = SPA._parseSeq(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
-      if (page.helpContent.length) {
+      if (page.keysDescriptions.length) {
         help.innerHTML += s;
         for (const button of help.querySelectorAll('button')) {
           button.disabled = true;
@@ -3581,8 +3582,8 @@
      * Update Errors tab label based upon value.
      * @param {number} count - Number of errors currently logged.
      */
-    _updateHelpErrorsLabel(count) {
-      const me = 'updateHelpErrorsLabel';
+    _updateInfoErrorsLabel(count) {
+      const me = 'updateInfoErrorsLabel';
       this._log.entered(me, count);
       const label = this._info.tabs.get('Errors').label;
       if (count) {
