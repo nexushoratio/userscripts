@@ -3748,6 +3748,12 @@
   testing.funcs.push(_testParseSeq);
 
   const linkedIn = new LinkedIn(linkedInGlobals);
+
+  // Inject some test errors
+  if (testing.enabled) {
+    linkedIn.addSetupIssue('This is a dummy test issue.', 'It was added because testing is enabled.');
+    linkedIn.addSetupIssue('This is a second issue.', 'We just want to make sure things count properly.');
+  }
   linkedIn.ready.then(() => {
     log.log('proceeding...');
     const spa = new SPA(linkedIn);
