@@ -3526,7 +3526,14 @@
        */
       function reprKey(key) {
         log.log('key:', key);
+        if ((/\p{Uppercase_Letter}/u).test(key.base)) {
+          key.base = key.base.toLowerCase();
+          key.modifierState.s = true;
+        }
         const sequence = [];
+        if (key.modifierState.c) {
+          sequence.push('Ctrl');
+        }
         if (key.modifierState.s) {
           sequence.push('Shift');
         }
