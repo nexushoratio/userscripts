@@ -3432,8 +3432,8 @@
      */
     _initializeHelpKeyboard() {
       this._helpKeyboard = new VM.shortcut.KeyboardService();
-      this._helpKeyboard.register('c-right', this._nextHelpTab);
-      this._helpKeyboard.register('c-left', this._prevHelpTab);
+      this._helpKeyboard.register('c-right', this._nextTab);
+      this._helpKeyboard.register('c-left', this._prevTab);
     }
 
     /**
@@ -3595,7 +3595,7 @@
       this._details.helpId = this._infoId;
       this._initializeHelpKeyboard();
 
-      const helpGenerators = [
+      const tabGenerators = [
         SPA._keyboardHelp(),
         this._details.infoHelp(),
         SPA._errorHelp(),
@@ -3603,16 +3603,16 @@
       ];
 
       this._addInfoStyle();
-      this._addInfoDialog(helpGenerators);
+      this._addInfoDialog(tabGenerators);
       this._details.ui = this._info;
       this._addInfoViewHandlers();
     }
 
-    _nextHelpTab = () => {
+    _nextTab = () => {
       this._info.next();
     }
 
-    _prevHelpTab = () => {
+    _prevTab = () => {
       this._info.prev();
     }
 
@@ -3691,11 +3691,11 @@
     }
 
     /**
-     * Add help from the page to the help view.
+     * Add shortcut descriptions from the page to the shortcut tab.
      * @param {Page} page - An instance of the Page class.
      */
     _addInfo(page) {
-      const help = document.querySelector(`#${this._infoId} tbody`);
+      const shortcuts = document.querySelector(`#${this._infoId} tbody`);
       const section = SPA._parseHeader(page.infoHeader);
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
@@ -3705,8 +3705,8 @@
       }
       // Don't include works in progress that have no keys yet.
       if (page.keysDescriptions.length) {
-        help.innerHTML += s;
-        for (const button of help.querySelectorAll('button')) {
+        shortcuts.innerHTML += s;
+        for (const button of shortcuts.querySelectorAll('button')) {
           button.disabled = true;
         }
       }
