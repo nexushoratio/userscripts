@@ -1268,6 +1268,46 @@
   const linkedInGlobals = new LinkedInGlobals();
 
   /**
+   * Self-decorating class useful for integrating with a hotkey service.
+   *
+   * @example
+   * // Wrap an arrow function:
+   * #foo = new Shortcut('c-c', 'Clear the console.', () => {
+   *   console.clear();
+   *   console.log('I did it!', this);
+   * });
+   *
+   * // Search for instances:
+   * const keys = [];
+   * for (const prop of Object.values(this)) {
+   *   if (prop instanceof Shortcut) {
+   *     keys.push({seq: prop.seq, desc: prop.seq, func: prop});
+   *   }
+   * }
+   * ... Send keys off to service ...
+   */
+  class Shortcut extends Function {
+
+    /**
+     * Wrap a function.
+     * @param {string} seq - Key sequence to activate this function.
+     * @param {string} desc - Human readable documenation about this
+     * function.
+     * @param {SimpleFunction} func - Function to wrap, usually in the
+     * form of an arrow function.  Keep JS `this` magic in mind!
+     */
+    constructor(seq, desc, func) {
+      super('return this.func();');
+      const self = this.bind(this);
+      self.seq = seq;
+      self.desc = desc;
+      this.func = func;
+      return self;
+    }
+
+  }
+
+  /**
    * Base class for handling various views of a single-page
    * application.
    *
@@ -1342,9 +1382,21 @@
     start(spa) {
       this._spa = spa;
       this._log = new Logger(this.constructor.name, false, false);
-      for (const {seq, func} of this._autoRegisteredKeys) {
+      for (const {seq, func} of this.allShortcuts) {
         this._addKey(seq, func);
       }
+    }
+
+    /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
+    get allShortcuts() {
+      const shortcuts = [];
+      for (const prop of Object.values(this)) {
+        if (prop instanceof Shortcut) {
+          shortcuts.push({seq: prop.seq, desc: prop.desc, func: prop});
+          Object.defineProperty(prop, 'name', {value: name});
+        }
+      }
+      return this._autoRegisteredKeys.concat(shortcuts);
     }
 
     /** @type {string} */
@@ -1385,7 +1437,7 @@
      * important here.
      */
     get keysDescriptions() {
-      return this._autoRegisteredKeys;
+      return this.allShortcuts;
     }
 
     /**
@@ -2027,17 +2079,6 @@
 
     _pathname = '/mynetwork/';
 
-    /** @inheritdoc */
-    get _autoRegisteredKeys() {
-      return [
-        {seq: 'j', desc: 'Next section', func: this.#nextSection},
-        {seq: 'k', desc: 'Previous section', func: this.#prevSection},
-        {seq: '<', desc: 'Go to the first section', func: this.#firstSection},
-        {seq: '>', desc: 'Go to the last section', func: this.#lastSection},
-        {seq: 'f', desc: 'Change browser focus to current section', func: this.#focusBrowser},
-      ];
-    }
-
     #sectionsScroller
 
     /** @type{Scroller~What} */
@@ -2082,26 +2123,25 @@
       return this.#sectionsScroller;
     }
 
-    #nextSection = () => {
-      this._log.log('nextSection', this);
+    nextSection = new Shortcut('j', 'Next section', () => {
       this.#sections.next();
-    }
+    });
 
-    #prevSection = () => {
+    prevSection = new Shortcut('k', 'Previous section', () => {
       this.#sections.prev();
-    }
+    });
 
-    #firstSection = () => {
+    firstSection = new Shortcut('<', 'Go to the first section', () => {
       this.#sections.first();
-    }
+    });
 
-    #lastSection = () => {
+    lastSection = new Shortcut('>', 'Go to the last section', () => {
       this.#sections.last();
-    }
+    });
 
-    #focusBrowser = () => {
+    focusBrowser = new Shortcut('f', 'Change browser focus to current section', () => {
       focusOnElement(this.#sections.item);
-    }
+    });
 
   }
 
