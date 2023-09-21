@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     2.20.2
+// @version     3.0.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2016,6 +2016,96 @@
   }
 
   /**
+   * Class for handling the base MyNetwork page.
+   *
+   * TODO(#142): WIP
+   *
+   * This page takes 3-4 seconds to load every time.  Revisits are
+   * likely to take a while.
+   */
+  class MyNetwork extends Page {
+
+    _pathname = '/mynetwork/';
+
+    /** @inheritdoc */
+    get _autoRegisteredKeys() {
+      return [
+        {seq: 'j', desc: 'Next section', func: this.#nextSection},
+        {seq: 'k', desc: 'Previous section', func: this.#prevSection},
+        {seq: '<', desc: 'Go to the first section', func: this.#firstSection},
+        {seq: '>', desc: 'Go to the last section', func: this.#lastSection},
+        {seq: 'f', desc: 'Change browser focus to current section', func: this.#focusBrowser},
+      ];
+    }
+
+    #sectionsScroller
+
+    /** @type{Scroller~What} */
+    static #sectionsWhat = {
+      name: 'MyNetwork sections',
+      base: document.body,
+      // See https://stackoverflow.com/questions/77146570
+      selectors: ['main > ul > li, main > :where(section, div)'],
+    };
+
+    /** @type{Scroller~How} */
+    static _sectionsHow = {
+      uidCallback: MyNetwork.#uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+      debug: true,
+    };
+
+    /** Create MyNetwork controller. */
+    constructor() {
+      super();
+      this.#sectionsScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
+      this.#sectionsScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static #uniqueIdentifier(element) {
+      const h2 = element.querySelector('h2');
+      let content = element.innerText;
+      if (h2?.innerText) {
+        content = h2.innerText;
+      }
+      return strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get #sections() {
+      return this.#sectionsScroller;
+    }
+
+    #nextSection = () => {
+      this._log.log('nextSection', this);
+      this.#sections.next();
+    }
+
+    #prevSection = () => {
+      this.#sections.prev();
+    }
+
+    #firstSection = () => {
+      this.#sections.first();
+    }
+
+    #lastSection = () => {
+      this.#sections.last();
+    }
+
+    #focusBrowser = () => {
+      focusOnElement(this.#sections.item);
+    }
+
+  }
+
+  /**
    * Class for handling the base Jobs page.
    *
    * This particular page requires a lot of careful monitoring.
@@ -2816,6 +2906,7 @@
     _navBarScrollerFixups = [
       Feed._postsHow,
       Feed._commentsHow,
+      MyNetwork._sectionsHow,
       Jobs._sectionsHow,
       Jobs._jobsHow,
       Notifications._notificationsHow,
@@ -3760,6 +3851,7 @@
     const spa = new SPA(linkedIn);
     spa.register(new Global());
     spa.register(new Feed());
+    spa.register(new MyNetwork());
     spa.register(new Jobs());
     spa.register(new JobsCollections());
     spa.register(new Notifications());
