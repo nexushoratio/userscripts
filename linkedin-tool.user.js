@@ -2154,6 +2154,11 @@
       focusOnElement(this.#sections.item);
     });
 
+    activateItem = new Shortcut('Enter', 'Activate the current item (e.g., <i>See all</i>)', () => {
+      const item = this.#sections.item;
+      clickElement(item, ['[aria-label^="See all"]']);
+    });
+
   }
 
   /**
