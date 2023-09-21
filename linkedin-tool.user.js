@@ -3666,6 +3666,9 @@
         if (key.modifierState.c) {
           sequence.push('Ctrl');
         }
+        if (key.modifierState.a) {
+          sequence.push('Alt');
+        }
         if (key.modifierState.s) {
           sequence.push('Shift');
         }
@@ -3855,8 +3858,9 @@
       {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
       {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
       {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>q</kbd></kbd>'},
-      {test: 'c-a-t', expected: '....'},
-      {test: 'a-c-t', expected: '....'},
+      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>q</kbd></kbd>'},
+      {test: 'c-a-t', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>t</kbd></kbd>'},
+      {test: 'a-c-T', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>t</kbd></kbd>'},
       {test: 'c-down esc', expected: '....'},
       {test: 'shift-x control-alt-del', expected: '....'},
       {test: 'c-x c-v', expected: '....'},
