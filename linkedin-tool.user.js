@@ -517,6 +517,17 @@
    */
   class TabbedUI {
 
+    #container
+    #id
+    #idName
+    #log
+    #name
+    #nav
+    #navSpacer
+    #nextButton
+    #prevButton
+    #style
+
     /**
      * @typedef {object} TabDefinition
      * @property {string} name - Tab name.
@@ -539,53 +550,53 @@
      * CSS classes.
      */
     constructor(name, debug = false) {
-      this._log = new Logger(`TabbedUI ${name}`, debug, false);
-      this._name = name;
-      this._idName = safeId(name);
-      this._id = `${this._idName}-${crypto.randomUUID()}`;
-      this._container = document.createElement('section');
-      this._container.id = `${this._id}-container`;
-      this._installControls();
-      this._container.append(this._nav);
+      this.#log = new Logger(`TabbedUI ${name}`, debug, false);
+      this.#name = name;
+      this.#idName = safeId(name);
+      this.#id = `${this.#idName}-${crypto.randomUUID()}`;
+      this.#container = document.createElement('section');
+      this.#container.id = `${this.#id}-container`;
+      this.#installControls();
+      this.#container.append(this.#nav);
       this._installStyle();
-      this._log.log(`${this._name} constructed`);
+      this.#log.log(`${this.#name} constructed`);
     }
 
     /** Installs navigational control elements. */
-    _installControls() {
-      this._nav = document.createElement('nav');
-      this._nav.id = `${this._id}-controls`;
-      this._navSpacer = document.createElement('span');
-      this._navSpacer.classList.add('spacer');
-      this._prevButton = document.createElement('button');
-      this._nextButton = document.createElement('button');
-      this._prevButton.innerText = '←';
-      this._nextButton.innerText = '→';
-      this._prevButton.dataset.name = 'prev';
-      this._nextButton.dataset.name = 'next';
-      this._prevButton.addEventListener('click', () => this.prev());
-      this._nextButton.addEventListener('click', () => this.next());
+    #installControls() {
+      this.#nav = document.createElement('nav');
+      this.#nav.id = `${this.#id}-controls`;
+      this.#navSpacer = document.createElement('span');
+      this.#navSpacer.classList.add('spacer');
+      this.#prevButton = document.createElement('button');
+      this.#nextButton = document.createElement('button');
+      this.#prevButton.innerText = '←';
+      this.#nextButton.innerText = '→';
+      this.#prevButton.dataset.name = 'prev';
+      this.#nextButton.dataset.name = 'next';
+      this.#prevButton.addEventListener('click', () => this.prev());
+      this.#nextButton.addEventListener('click', () => this.next());
       // XXX: Cannot get 'button' elements to style nicely, so
       // cheating by wrapping them in a label.
       const prevLabel = document.createElement('label');
       const nextLabel = document.createElement('label');
-      prevLabel.append(this._prevButton);
-      nextLabel.append(this._nextButton);
-      this._nav.append(this._navSpacer, prevLabel, nextLabel);
+      prevLabel.append(this.#prevButton);
+      nextLabel.append(this.#nextButton);
+      this.#nav.append(this.#navSpacer, prevLabel, nextLabel);
     }
 
     /** @type {Element} */
     get container() {
-      return this._container;
+      return this.#container;
     }
 
     /** @type {Map<string,TabEntry>} */
     get tabs() {
       const entries = new Map();
-      for (const label of this._nav.querySelectorAll(':scope > label[data-tabbed-name]')) {
+      for (const label of this.#nav.querySelectorAll(':scope > label[data-tabbed-name]')) {
         entries.set(label.dataset.tabbedName, {label: label});
       }
-      for (const panel of this.container.querySelectorAll(`:scope > .${this._idName}-panel`)) {
+      for (const panel of this.container.querySelectorAll(`:scope > .${this.#idName}-panel`)) {
         entries.get(panel.dataset.tabbedName).panel = panel;
       }
       return entries;
@@ -595,8 +606,8 @@
      * Installs basic CSS styles for the UI.
      */
     _installStyle() {
-      this._style = document.createElement('style');
-      this._style.id = `${this._id}-style`;
+      this.#style = document.createElement('style');
+      this.#style.id = `${this.#id}-style`;
       const styles = [
         `#${this.container.id} { flex-grow: 1; overflow-y: hidden; display: flex; flex-direction: column; }`,
         `#${this.container.id} > input { display: none; }`,
@@ -607,11 +618,11 @@
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
         // Panels are both flex items AND flex containers.
-        `#${this.container.id} .${this._idName}-panel { display: none; overflow-y: auto; flex-grow: 1; flex-direction: column; }`,
+        `#${this.container.id} .${this.#idName}-panel { display: none; overflow-y: auto; flex-grow: 1; flex-direction: column; }`,
         '',
       ];
-      this._style.textContent = styles.join('\n');
-      document.head.prepend(this._style);
+      this.#style.textContent = styles.join('\n');
+      document.head.prepend(this.#style);
     }
 
     /**
@@ -629,9 +640,9 @@
      */
     _switchTab(direction) {
       const me = 'switchTab';
-      this._log.entered(me, direction);
+      this.#log.entered(me, direction);
       const controls = this._getTabControls();
-      this._log.log('controls:', controls);
+      this.#log.log('controls:', controls);
       let idx = controls.findIndex(item => item.checked);
       if (idx === NOT_FOUND) {
         idx = 0;
@@ -639,7 +650,7 @@
         idx = (idx + direction + controls.length) % controls.length;
       }
       controls[idx].click();
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -649,14 +660,14 @@
      */
     _createInput(name, idName) {
       const me = 'createInput';
-      this._log.entered(me);
+      this.#log.entered(me);
       const input = document.createElement('input');
-      input.id = `${this._idName}-input-${idName}`;
-      input.name = `${this._idName}`;
-      input.dataset.tabbedId = `${this._idName}-input-${idName}`;
+      input.id = `${this.#idName}-input-${idName}`;
+      input.name = `${this.#idName}`;
+      input.dataset.tabbedId = `${this.#idName}-input-${idName}`;
       input.dataset.tabbedName = name;
       input.type = 'radio';
-      this._log.leaving(me, input);
+      this.#log.leaving(me, input);
       return input;
     }
 
@@ -668,13 +679,13 @@
      */
     _createLabel(name, input, idName) {
       const me = 'createLabel';
-      this._log.entered(me);
+      this.#log.entered(me);
       const label = document.createElement('label');
-      label.dataset.tabbedId = `${this._idName}-label-${idName}`;
+      label.dataset.tabbedId = `${this.#idName}-label-${idName}`;
       label.dataset.tabbedName = name;
       label.htmlFor = input.id;
       label.innerText = `[${name}]`;
-      this._log.leaving(me, label);
+      this.#log.leaving(me, label);
       return label;
     }
 
@@ -687,13 +698,13 @@
      */
     _createPanel(name, idName, content) {
       const me = 'createPanel';
-      this._log.entered(me);
+      this.#log.entered(me);
       const panel = document.createElement('div');
-      panel.dataset.tabbedId = `${this._idName}-panel-${idName}`;
+      panel.dataset.tabbedId = `${this.#idName}-panel-${idName}`;
       panel.dataset.tabbedName = name;
-      panel.classList.add(`${this._idName}-panel`);
+      panel.classList.add(`${this.#idName}-panel`);
       panel.innerHTML = content;
-      this._log.leaving(me, panel);
+      this.#log.leaving(me, panel);
       return panel;
     }
 
@@ -706,9 +717,9 @@
      */
     _onChange(panel, evt) {
       const me = 'onChange';
-      this._log.entered(me, evt, panel);
+      this.#log.entered(me, evt, panel);
       panel.dispatchEvent(new Event('expose'));
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -717,7 +728,7 @@
      */
     addTab(tab) {
       const me = 'addTab';
-      this._log.entered(me, tab);
+      this.#log.entered(me, tab);
       const {
         name,
         content,
@@ -727,12 +738,12 @@
       const label = this._createLabel(name, input, idName);
       const panel = this._createPanel(name, idName, content);
       input.addEventListener('change', this._onChange.bind(this, panel));
-      this._nav.before(input);
-      this._navSpacer.before(label);
+      this.#nav.before(input);
+      this.#navSpacer.before(label);
       this.container.append(panel);
-      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { border-bottom: 3px solid black; }\n`;
-      this._style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: flex; }\n`;
-      this._log.leaving(me);
+      this.#style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { border-bottom: 3px solid black; }\n`;
+      this.#style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: flex; }\n`;
+      this.#log.leaving(me);
     }
 
     /**
@@ -740,9 +751,9 @@
      */
     next() {
       const me = 'next';
-      this._log.entered(me);
+      this.#log.entered(me);
       this._switchTab(1);
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -750,9 +761,9 @@
      */
     prev() {
       const me = 'prev';
-      this._log.entered(me);
+      this.#log.entered(me);
       this._switchTab(-1);
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -761,11 +772,11 @@
      */
     goto(name) {
       const me = 'goto';
-      this._log.entered(me, name);
+      this.#log.entered(me, name);
       const controls = this._getTabControls();
       const control = controls.find(item => item.dataset.tabbedName === name);
       control.click();
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
   }
