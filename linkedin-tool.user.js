@@ -3823,10 +3823,8 @@
      * @returns {Page} - The page to use.
      */
     _findPage(pathname) {
-      const pathnames = Array.from(this._pages.keys());
-      const candidates = pathnames.filter(p => pathname.startsWith(p));
-      const candidate = candidates.reduce((a, b) => (a.length > b.length ? a : b), '');
-      return this._pages.get(candidate) || null;
+      const pages = Array.from(this._pages.values());
+      return pages.find(p => p.pathname === pathname);
     }
 
     /**
