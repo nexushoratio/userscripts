@@ -558,12 +558,12 @@
       this.#container.id = `${this.#id}-container`;
       this.#installControls();
       this.#container.append(this.#nav);
-      this._installStyle();
+      this.#installStyle();
       this.#log.log(`${this.#name} constructed`);
     }
 
     /** Installs navigational control elements. */
-    #installControls() {
+    #installControls = () => {
       this.#nav = document.createElement('nav');
       this.#nav.id = `${this.#id}-controls`;
       this.#navSpacer = document.createElement('span');
@@ -605,7 +605,7 @@
     /**
      * Installs basic CSS styles for the UI.
      */
-    _installStyle() {
+    #installStyle = () => {
       this.#style = document.createElement('style');
       this.#style.id = `${this.#id}-style`;
       const styles = [
@@ -629,8 +629,9 @@
      * Get the tab controls currently in the container.
      * @returns {Element[]} - Control elements for the tabs.
      */
-    _getTabControls() {
-      return Array.from(this.container.querySelectorAll(':scope > input'));
+    #getTabControls = () => {
+      const controls = Array.from(this.container.querySelectorAll(':scope > input'));
+      return controls;
     }
 
     /**
@@ -638,10 +639,10 @@
      * @param {number} direction - Either 1 or -1.
      * @fires Event#change
      */
-    _switchTab(direction) {
+    #switchTab = (direction) => {
       const me = 'switchTab';
       this.#log.entered(me, direction);
-      const controls = this._getTabControls();
+      const controls = this.#getTabControls();
       this.#log.log('controls:', controls);
       let idx = controls.findIndex(item => item.checked);
       if (idx === NOT_FOUND) {
@@ -658,7 +659,7 @@
      * @param {string} idName - Normalized to be CSS class friendly.
      * @returns {Element} - Input portion of the tab.
      */
-    _createInput(name, idName) {
+    #createInput = (name, idName) => {
       const me = 'createInput';
       this.#log.entered(me);
       const input = document.createElement('input');
@@ -677,7 +678,7 @@
      * @param {string} idName - Normalized to be CSS class friendly.
      * @returns {Element} - Label portion of the tab.
      */
-    _createLabel(name, input, idName) {
+    #createLabel = (name, input, idName) => {
       const me = 'createLabel';
       this.#log.entered(me);
       const label = document.createElement('label');
@@ -696,7 +697,7 @@
      * panel.
      * @returns {Element} - Panel portion of the tab.
      */
-    _createPanel(name, idName, content) {
+    #createPanel = (name, idName, content) => {
       const me = 'createPanel';
       this.#log.entered(me);
       const panel = document.createElement('div');
@@ -715,7 +716,7 @@
      * @param {Event} evt - The original change event.
      * @fires Event#expose
      */
-    _onChange(panel, evt) {
+    #onChange = (panel, evt) => {
       const me = 'onChange';
       this.#log.entered(me, evt, panel);
       panel.dispatchEvent(new Event('expose'));
@@ -734,10 +735,10 @@
         content,
       } = tab;
       const idName = safeId(name);
-      const input = this._createInput(name, idName);
-      const label = this._createLabel(name, input, idName);
-      const panel = this._createPanel(name, idName, content);
-      input.addEventListener('change', this._onChange.bind(this, panel));
+      const input = this.#createInput(name, idName);
+      const label = this.#createLabel(name, input, idName);
+      const panel = this.#createPanel(name, idName, content);
+      input.addEventListener('change', this.#onChange.bind(this, panel));
       this.#nav.before(input);
       this.#navSpacer.before(label);
       this.container.append(panel);
@@ -752,7 +753,7 @@
     next() {
       const me = 'next';
       this.#log.entered(me);
-      this._switchTab(1);
+      this.#switchTab(1);
       this.#log.leaving(me);
     }
 
@@ -762,7 +763,7 @@
     prev() {
       const me = 'prev';
       this.#log.entered(me);
-      this._switchTab(-1);
+      this.#switchTab(-1);
       this.#log.leaving(me);
     }
 
@@ -773,7 +774,7 @@
     goto(name) {
       const me = 'goto';
       this.#log.entered(me, name);
-      const controls = this._getTabControls();
+      const controls = this.#getTabControls();
       const control = controls.find(item => item.dataset.tabbedName === name);
       control.click();
       this.#log.leaving(me);
