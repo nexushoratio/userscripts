@@ -2103,7 +2103,7 @@
 
     /** @type{Scroller~How} */
     static _sectionsHow = {
-      uidCallback: MyNetwork.#uniqueIdentifier,
+      uidCallback: MyNetwork._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -2120,7 +2120,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static #uniqueIdentifier(element) {
+    static _uniqueIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
       if (h2?.innerText) {
@@ -2130,32 +2130,32 @@
     }
 
     /** @type {Scroller} */
-    get #sections() {
+    get _sections() {
       return this.#sectionsScroller;
     }
 
     nextSection = new Shortcut('j', 'Next section', () => {
-      this.#sections.next();
+      this._sections.next();
     });
 
     prevSection = new Shortcut('k', 'Previous section', () => {
-      this.#sections.prev();
+      this._sections.prev();
     });
 
     firstSection = new Shortcut('<', 'Go to the first section', () => {
-      this.#sections.first();
+      this._sections.first();
     });
 
     lastSection = new Shortcut('>', 'Go to the last section', () => {
-      this.#sections.last();
+      this._sections.last();
     });
 
     focusBrowser = new Shortcut('f', 'Change browser focus to current section', () => {
-      focusOnElement(this.#sections.item);
+      focusOnElement(this._sections.item);
     });
 
     activateItem = new Shortcut('Enter', 'Activate the current item (e.g., <i>See all</i>)', () => {
-      const item = this.#sections.item;
+      const item = this._sections.item;
       clickElement(item, ['[aria-label^="See all"]']);
     });
 
