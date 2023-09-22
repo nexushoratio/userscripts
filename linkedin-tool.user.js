@@ -2909,12 +2909,12 @@
     }
 
     /**
-     * @implements {SPA~HelpTabGenerator}
+     * @implements {SPA~TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Where to find documentation
      * and file bugs.
      */
-    infoHelp() {
-      this._log.log('infoHelp is not implemented');
+    docTab() {
+      this._log.log('docTab is not implemented');
       throw new Error('Not implemented.');
       return {  // eslint-disable-line no-unreachable
         name: 'Not implemented.',
@@ -2923,11 +2923,11 @@
     }
 
     /**
-     * @implements {SPA~HelpTabGenerator}
+     * @implements {SPA~TabGenerator}
      * @returns {TabbedUI~TabDefinition} - License information.
      */
-    licenseInfo() {
-      this._log.log('licenseInfo is not implemented');
+    licenseTab() {
+      this._log.log('licenseTab is not implemented');
       throw new Error('Not implemented.');
       return {  // eslint-disable-line no-unreachable
         name: 'Not implemented.',
@@ -3203,8 +3203,8 @@
     }
 
     /** @inheritdoc */
-    infoHelp() {
-      const me = 'infoHelp';
+    docTab() {
+      const me = 'docTab';
       this._log.entered(me);
       const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
       const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
@@ -3219,27 +3219,27 @@
         `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
         '',
       ];
-      const helpTab = {
+      const tab = {
         name: 'Information',
         content: content.join('\n'),
       };
-      this._log.leaving(me, helpTab);
-      return helpTab;
+      this._log.leaving(me, tab);
+      return tab;
     }
 
     /** @inheritdoc */
-    licenseInfo() {
-      const me = 'licenseInfo';
+    licenseTab() {
+      const me = 'licenseTab';
       this._log.entered(me);
 
       const {name, url} = this.licenseData;
-      const infoTab = {
+      const tab = {
         name: 'License',
         content: `<p><a href="${url}">${name}</a></p>`,
       };
 
-      this._log.leaving(me, infoTab);
-      return infoTab;
+      this._log.leaving(me, tab);
+      return tab;
     }
 
   }
@@ -3453,7 +3453,7 @@
     }
 
     /**
-     * @callback HelpTabGenerator
+     * @callback TabGenerator
      * @returns {TabbedUI~TabDefinition}
      */
 
@@ -3538,11 +3538,11 @@
     }
 
     /**
-     * @implements {HelpTabGenerator}
+     * @implements {TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Initial table for the
      * keyboard shortcuts.
      */
-    static _keyboardHelp() {
+    static _shortcutsTab() {
       return {
         name: 'Keyboard shortcuts',
         content: '<table data-spa-id="shortcuts"><tbody></tbody></table>',
@@ -3586,11 +3586,11 @@
     }
 
     /**
-     * @implements {HelpTabGenerator}
+     * @implements {TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Initial placeholder for
      * error logging.
      */
-    static _errorHelp() {
+    static _errorTab() {
       return {
         name: 'Errors',
         content: [
@@ -3612,10 +3612,10 @@
       this._initializeHelpKeyboard();
 
       const tabGenerators = [
-        SPA._keyboardHelp(),
-        this._details.infoHelp(),
-        SPA._errorHelp(),
-        this._details.licenseInfo(),
+        SPA._shortcutsTab(),
+        this._details.docTab(),
+        SPA._errorTab(),
+        this._details.licenseTab(),
       ];
 
       this._addInfoStyle();
