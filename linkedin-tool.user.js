@@ -2106,7 +2106,6 @@
       uidCallback: MyNetwork.#uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
-      debug: true,
     };
 
     /** Create MyNetwork controller. */
