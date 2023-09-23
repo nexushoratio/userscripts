@@ -1748,7 +1748,7 @@
       }
       if (this._posts.item) {
         const what = {
-          name: 'onClick',
+          name: 'Feed._refresh',
           base: this._posts.item,
         };
         const how = {
