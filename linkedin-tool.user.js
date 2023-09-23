@@ -3349,7 +3349,7 @@
     _lastInputElement = null;
 
     /** @type {KeyboardService} */
-    _helpKeyboard = null;
+    _tabUiKeyboard = null;
 
     /**
      * Create a SPA.
@@ -3521,12 +3521,12 @@
 
     /**
      * Create and configure a separate {@link KeyboardService} for the
-     * help view.
+     * info view.
      */
-    _initializeHelpKeyboard() {
-      this._helpKeyboard = new VM.shortcut.KeyboardService();
-      this._helpKeyboard.register('c-right', this._nextTab);
-      this._helpKeyboard.register('c-left', this._prevTab);
+    _initializeTabUiKeyboard() {
+      this._tabUiKeyboard = new VM.shortcut.KeyboardService();
+      this._tabUiKeyboard.register('c-right', this._nextTab);
+      this._tabUiKeyboard.register('c-left', this._prevTab);
     }
 
     /**
@@ -3602,7 +3602,7 @@
       // Dialogs do not have a real open event.  We will fake it.
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
-        this._helpKeyboard.enable();
+        this._tabUiKeyboard.enable();
         for (const {panel} of this._info.tabs.values()) {
           // 0, 0 is good enough
           panel.scrollTo(0, 0);
@@ -3610,7 +3610,7 @@
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
-        this._helpKeyboard.disable();
+        this._tabUiKeyboard.disable();
       });
     }
 
@@ -3686,7 +3686,7 @@
     _initializeHelpView() {
       this._infoId = `help-${this._id}`;
       this._details.helpId = this._infoId;
-      this._initializeHelpKeyboard();
+      this._initializeTabUiKeyboard();
 
       const tabGenerators = [
         SPA._shortcutsTab(),
