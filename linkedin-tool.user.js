@@ -1332,9 +1332,9 @@
     // The immediate following can be set in subclasses.
 
     /**
-     * @type {string} - What pathname part of the URL this page should
-     * handle.  The special case of null is used by the {@link SPA}
-     * class to represent global keys.
+     * @type {string|RegExp} - What pathname part of the URL this page
+     * should handle.  The special case of null is used by the {@link
+     * SPA} class to represent global keys.
      */
     _pathname;
 
@@ -1361,6 +1361,9 @@
     }
 
     // Private members.
+
+    /** @type {RegExp} - Computed RegExp version of _pathname. */
+    #pathnameRE;
 
     /** @type {KeyboardService} */
     _keyboard = new VM.shortcut.KeyboardService();
@@ -1413,6 +1416,16 @@
 
     /** @type {string} */
     get pathname() {
+      if (!this.#pathnameRE) {
+        if (this._pathname instanceof RegExp) {
+          this.#pathnameRE = this._pathname;
+        } else if (this._pathname) {
+          this.#pathnameRE = RegExp(`^${this._pathname}$`, 'u');
+        } else {
+          // New global
+          this.#pathnameRE = /.*/u;
+        }
+      }
       return this._pathname;
     }
 
