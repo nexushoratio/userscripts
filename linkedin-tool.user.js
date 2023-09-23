@@ -3781,7 +3781,7 @@
           sequence.push('Shift');
         }
         sequence.push(key.base);
-        return sequence.map(c => `<kbd>${c}</kbd>`).join(' + ');
+        return sequence.map(c => `<kbd>${c}</kbd>`).join('+');
       }
       const res = VM.shortcut.normalizeSequence(seq, true)
         .map(key => reprKey(key))
@@ -3961,22 +3961,22 @@
   function testParseSeq() {
     const tests = [
       {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
-      {test: 's-q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
-      {test: 'Q', expected: '<kbd><kbd>Shift</kbd> + <kbd>q</kbd></kbd>'},
+      {test: 's-q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'Q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
       {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
       {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
-      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>q</kbd></kbd>'},
-      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>q</kbd></kbd>'},
-      {test: 'c-a-t', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>t</kbd></kbd>'},
-      {test: 'a-c-T', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>t</kbd></kbd>'},
-      {test: 'c-down esc', expected: '<kbd><kbd>Ctrl</kbd> + <kbd>↓</kbd> then <kbd>ESC</kbd></kbd>'},
-      {test: 'alt-up tab', expected: '<kbd><kbd>Alt</kbd> + <kbd>↑</kbd> then <kbd>TAB</kbd></kbd>'},
-      {test: 'shift-X control-alt-del', expected: '<kbd><kbd>Shift</kbd> + <kbd>x</kbd> then <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>DEL</kbd></kbd>'},
+      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'c-a-t', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>t</kbd></kbd>'},
+      {test: 'a-c-T', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>t</kbd></kbd>'},
+      {test: 'c-down esc', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>↓</kbd> then <kbd>ESC</kbd></kbd>'},
+      {test: 'alt-up tab', expected: '<kbd><kbd>Alt</kbd>+<kbd>↑</kbd> then <kbd>TAB</kbd></kbd>'},
+      {test: 'shift-X control-alt-del', expected: '<kbd><kbd>Shift</kbd>+<kbd>x</kbd> then <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>DEL</kbd></kbd>'},
       {test: 'c-x c-v',
         expected:
-       '<kbd><kbd>Ctrl</kbd> + <kbd>x</kbd> then <kbd>Ctrl</kbd> + <kbd>v</kbd></kbd>'},
-      {test: 'a-x enter', expected: '<kbd><kbd>Alt</kbd> + <kbd>x</kbd> then <kbd>ENTER</kbd></kbd>'},
-      {test: 'up up down down left right left right b shift-a enter', expected: '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> then <kbd>Shift</kbd> + <kbd>a</kbd> then <kbd>ENTER</kbd></kbd>'},
+       '<kbd><kbd>Ctrl</kbd>+<kbd>x</kbd> then <kbd>Ctrl</kbd>+<kbd>v</kbd></kbd>'},
+      {test: 'a-x enter', expected: '<kbd><kbd>Alt</kbd>+<kbd>x</kbd> then <kbd>ENTER</kbd></kbd>'},
+      {test: 'up up down down left right left right b shift-a enter', expected: '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>'},
     ];
 
     for (const {test, expected} of tests) {
