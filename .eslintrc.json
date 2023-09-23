@@ -149,9 +149,10 @@
         "exceptAfterSingleLine": true
       }
     ],
-    "max-len": [  // TODO(#97): Revisit after
+    "max-len": [  // TODO(#148): WIP
       "off",
       {
+        "code": 78,
         "ignoreUrls": true
       }
     ],
