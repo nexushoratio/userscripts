@@ -2092,6 +2092,7 @@
     _pathname = '/mynetwork/';
 
     #sectionsScroller
+    #cardsScroller
 
     /** @type{Scroller~What} */
     static #sectionsWhat = {
@@ -2108,11 +2109,25 @@
       snapToTop: true,
     };
 
+    /** @type{Scroller~What} */
+    static #cardsWhat = {
+      name: 'MyNetwork cards',
+      selectors: [':scope > :where(header, div), :scope > ul > li, :scope > section ul > li'],
+    };
+
+    /** @type{Scroller~How} */
+    static _cardsHow = {
+      uidCallback: MyNetwork._uniqueCardsIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+    };
+
     /** Create MyNetwork controller. */
     constructor() {
       super();
       this.#sectionsScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
       this.#sectionsScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#sectionsScroller.dispatcher.on('change', this.#onChange);
     }
 
     /**
@@ -2129,9 +2144,50 @@
       return strHash(content);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static _uniqueCardsIdentifier(element) {
+      log.log('element:', element);
+      const content = element.innerText;
+      log.log('content:', content);
+      return strHash(content);
+    }
+
     /** @type {Scroller} */
     get _sections() {
       return this.#sectionsScroller;
+    }
+
+    /** @type {Scroller} */
+    get _cards() {
+      if (!this.#cardsScroller && this._sections.item) {
+        this.#cardsScroller = new Scroller({base: this._sections.item, ...MyNetwork.#cardsWhat}, MyNetwork._cardsHow);
+        this.#cardsScroller.dispatcher.on('out-of-range', this.#returnToSection);
+      }
+      return this.#cardsScroller;
+    }
+
+    /** @type {boolean} */
+    get _hasActiveCard() {
+      return Boolean(this._cards?.item);
+    }
+
+    #clearCards = () => {
+      if (this.#cardsScroller) {
+        this.#cardsScroller.destroy();
+        this.#cardsScroller = null;
+      }
+    }
+
+    #onChange = () => {
+      this.#clearCards();
+    }
+
+    #returnToSection = () => {
+      this._sections.item = this._sections.item;
     }
 
     nextSection = new Shortcut('j', 'Next section', () => {
@@ -2142,21 +2198,44 @@
       this._sections.prev();
     });
 
-    firstSection = new Shortcut('<', 'Go to the first section', () => {
-      this._sections.first();
+    nextCard = new Shortcut('n', 'Next card in section', () => {
+      this._cards.next();
     });
 
-    lastSection = new Shortcut('>', 'Go to the last section', () => {
-      this._sections.last();
+    prevCard = new Shortcut('p', 'Previous card in section', () => {
+      this._cards.prev();
+    });
+
+    firstItem = new Shortcut('<', 'Go to the first section or card', () => {
+      if (this._hasActiveCard) {
+        this._cards.first();
+      } else {
+        this._sections.first();
+      }
+    });
+
+    lastItem = new Shortcut('>', 'Go to the last section or card', () => {
+      if (this._hasActiveCard) {
+        this._cards.last();
+      } else {
+        this._sections.last();
+      }
     });
 
     focusBrowser = new Shortcut('f', 'Change browser focus to current section', () => {
-      focusOnElement(this._sections.item);
+      const item = this._cards.item ?? this._sections.item;
+      focusOnElement(item);
     });
 
-    activateItem = new Shortcut('Enter', 'Activate the current item (e.g., <i>See all</i>)', () => {
-      const item = this._sections.item;
-      clickElement(item, ['[aria-label^="See all"]']);
+    activateItem = new Shortcut('Enter', 'Activate the current item', () => {
+      const card = this._cards?.item;
+      if (card) {
+        if (!clickElement(card, ['a', 'button'])) {
+          this._spa.dumpInfoAboutElement(card, 'network card');
+        }
+      } else {
+        document.activeElement.click();
+      }
     });
 
   }
@@ -2963,6 +3042,7 @@
       Feed._postsHow,
       Feed._commentsHow,
       MyNetwork._sectionsHow,
+      MyNetwork._cardsHow,
       Jobs._sectionsHow,
       Jobs._jobsHow,
       Notifications._notificationsHow,
