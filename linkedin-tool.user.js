@@ -26,13 +26,13 @@
 
   const NOT_FOUND = -1;
 
-  // TODO(#141): Currently replacing underscores with #private
-  // properties.
+  // TODO(#141): Currently replacing underscores with #private properties.
 
   /**
    * Fancy-ish debug messages.
-   * Console message groups can be started and ended using special
-   * methods.
+   *
+   * Console message groups can be started and ended using special methods.
+   *
    * @example
    * const log = new Logger('Bob', true);
    * foo(x) {
@@ -239,8 +239,8 @@
   /**
    * Determines if the element accepts keyboard input.
    * @param {Element} element - HTML Element to examine.
-   * @returns {boolean} - Indicating whether the element accepts
-   * keyboard input.
+   * @returns {boolean} - Indicating whether the element accepts keyboard
+   * input.
    */
   function isInput(element) {
     let tagName = '';
@@ -278,12 +278,11 @@
 
   /**
    * @typedef {object} OtmotHow
-   * @property {object} observeOptions - MutationObserver().observe()
-   * options.
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable results.
-   * @property {Monitor} monitor - Callback used to process
-   * MutationObserver records.
+   * @property {object} observeOptions - MutationObserver().observe() options.
+   * @property {SimpleFunction} [trigger] - Function to call that triggers
+   * observable results.
+   * @property {Monitor} monitor - Callback used to process MutationObserver
+   * records.
    * @property {number} [timeout] - Time to wait for completion in
    * milliseconds, default of 0 disables.
    * @property {boolean} [debug] - Enable debugging.
@@ -293,8 +292,8 @@
    * One time mutation observer with timeout.
    * @param {OtmotWhat} what - What to observe.
    * @param {OtmotHow} how - How to observe.
-   * @returns {Promise<Continuation.results>} - Will resolve with the
-   * results from monitor when done is true.
+   * @returns {Promise<Continuation.results>} - Will resolve with the results
+   * from monitor when done is true.
    */
   function otmot(what, how) {
     const prom = new Promise((resolve, reject) => {
@@ -345,16 +344,15 @@
 
   /**
    * @typedef {object} OtrotHow
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable events.
-   * @property {number} timeout - Time to wait for completion in
-   * milliseconds.
+   * @property {SimpleFunction} [trigger] - Function to call that triggers
+   * observable events.
+   * @property {number} timeout - Time to wait for completion in milliseconds.
    * @property {boolean} [debug] - Enable debugging.
    */
 
   /**
-   * One time resize observer with timeout.  Will resolve
-   * automatically upon first resize change.
+   * One time resize observer with timeout.  Will resolve automatically upon
+   * first resize change.
    * @param {OtrotWhat} what - What to observe.
    * @param {OtrotHow} how - How to observe.
    * @returns {Promise<OtrotWhat>} - Will resolve with the what parameter.
@@ -401,17 +399,16 @@
 
   /**
    * @typedef {object} Otrot2How
-   * @property {SimpleFunction} [trigger] - Function to call that
-   * triggers observable events.
-   * @property {SimpleFunction} action - Function to call upon each
-   * event observed and also at the end of duration.
+   * @property {SimpleFunction} [trigger] - Function to call that triggers
+   * observable events.
+   * @property {SimpleFunction} action - Function to call upon each event
+   * observed and also at the end of duration.
    * @property {number} duration - Time to run in milliseconds.
    */
 
   /**
-   * One time resize observer with action callback and duration.
-   * Will resolve upon duration expiration.
-   * Uses the same what parameter as {@link otrot}.
+   * One time resize observer with action callback and duration.  Will resolve
+   * upon duration expiration.  Uses the same what parameter as {@link otrot}.
    * @param {OtrotWhat} what - What to observe.
    * @param {Otrow2How} how - How to observe.
    * @returns {Promise<string>} - Will resolve after duration expires.
@@ -500,8 +497,7 @@
   /**
    * Implement HTML for a tabbed user interface.
    *
-   * This version uses radio button/label pairs to select the active
-   * panel.
+   * This version uses radio button/label pairs to select the active panel.
    *
    * @example
    * const tabby = new TabbedUI('Tabby Cat');
@@ -509,7 +505,7 @@
    * tabby.addTab(helpTabDefinition);
    * tabby.addTab(docTabDefinition);
    * tabby.addTab(contactTabDefinition);
-   * tabby.goto(helpTabDefinition.name);  // Initial
+   * tabby.goto(helpTabDefinition.name);  // Set initial tab
    * tabby.next();
    * const entry = tabby.tabs.get(contactTabDefinition);
    * entry.classList.add('random-css');
@@ -531,23 +527,21 @@
     /**
      * @typedef {object} TabDefinition
      * @property {string} name - Tab name.
-     * @property {string} content - HTML to be used as initial
-     * content.
+     * @property {string} content - HTML to be used as initial content.
      */
 
     /**
      * @typedef {object} TabEntry
      * @property {string} name - Tab name.
      * @property {Element} label - Tab label, so CSS can be applied.
-     * @property {Element} panel - Tab panel, so content can be
-     * updated.
+     * @property {Element} panel - Tab panel, so content can be updated.
      */
 
     /**
      * Create a TabbedUI.
-     * @param {string} name - Used to distinguish HTML elements and
+     * @param {string} name - Used to distinguish HTML elements and CSS
+     * classes.
      * @param {boolean} [debug] - Enable debug logging.
-     * CSS classes.
      */
     constructor(name, debug = false) {
       this.#log = new Logger(`TabbedUI ${name}`, debug, false);
@@ -576,8 +570,8 @@
       this.#nextButton.dataset.name = 'next';
       this.#prevButton.addEventListener('click', () => this.prev());
       this.#nextButton.addEventListener('click', () => this.next());
-      // XXX: Cannot get 'button' elements to style nicely, so
-      // cheating by wrapping them in a label.
+      // XXX: Cannot get 'button' elements to style nicely, so cheating by
+      // wrapping them in a label.
       const prevLabel = document.createElement('label');
       const nextLabel = document.createElement('label');
       prevLabel.append(this.#prevButton);
@@ -693,8 +687,7 @@
     /**
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @param {string} content - Raw HTML content to put into the
-     * panel.
+     * @param {string} content - Raw HTML content to put into the panel.
      * @returns {Element} - Panel portion of the tab.
      */
     #createPanel = (name, idName, content) => {
@@ -710,8 +703,8 @@
     }
 
     /**
-     * Event handler for change events.  When the active tab changes,
-     * this will resend an 'expose' event to the associated panel.
+     * Event handler for change events.  When the active tab changes, this
+     * will resend an 'expose' event to the associated panel.
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#expose
@@ -784,8 +777,7 @@
 
   /**
    * Simple dispatcher.  It takes a fixed list of event types upon
-   * construction and attempts to use an unknown event will throw an
-   * error.
+   * construction and attempts to use an unknown event will throw an error.
    */
   class Dispatcher {
 
@@ -803,8 +795,10 @@
     /**
      * Look up array of handlers by event type.
      * @param {string} eventType - Event type to look up.
-     * @throws {Error} - When eventType was not registered during instantiation.
-     * @returns {function[]} - Handlers currently registered for this eventType.
+     * @throws {Error} - When eventType was not registered during
+     * instantiation.
+     * @returns {function[]} - Handlers currently registered for this
+     * eventType.
      */
     #getHandlers = (eventType) => {
       const handlers = this.#handlers.get(eventType);
@@ -866,8 +860,8 @@
     _historicalIdToIndex = new Map();
 
     /**
-     * Function that generates a, preferably, reproducible unique
-     * identifier for an Element.
+     * Function that generates a, preferably, reproducible unique identifier
+     * for an Element.
      * @callback uidCallback
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
@@ -875,24 +869,23 @@
 
     /**
      * @typedef {object} What
-     * @property {string} name - Name for this scroller, simply used
-     * for debugging.
-     * @property {Element} base - The container to use as a base for
-     * selecting elements.
+     * @property {string} name - Name for this scroller, simply used for
+     * debugging.
+     * @property {Element} base - The container to use as a base for selecting
+     * elements.
      * @property {string[]} selectors - Array of CSS selectors to find
      * elements to collect, calling base.querySelectorAll().
      */
 
     /**
      * @typedef {object} How
-     * @property {uidCallback} uidCallback - Callback to generate a
-     * uid.
-     * @property {string[]} classes - Array of CSS classes to
-     * add/remove from an element as it becomes current.
-     * @property {boolean} snapToTop - Whether items should snap to
-     * the top of the window when coming into view.
-     * @property {number} [topMarginPixels=0] - Used to determine if
-     * scrolling should happen when {snapToTop} is false.
+     * @property {uidCallback} uidCallback - Callback to generate a uid.
+     * @property {string[]} classes - Array of CSS classes to add/remove from
+     * an element as it becomes current.
+     * @property {boolean} snapToTop - Whether items should snap to the top of
+     * the window when coming into view.
+     * @property {number} [topMarginPixels=0] - Used to determine if scrolling
+     * should happen when {snapToTop} is false.
      * @property {number} [bottomMarginPixels=0] - Used to determin if
      * scrolling should happen when {snapToTop} is false.
      * @property {string} [topMarginCss='0'] - CSS applied to
@@ -900,8 +893,8 @@
      * @property {string} [bottomMarginCss='0'] - CSS applied to
      * `scrollMarginBottom`.
      * @property {boolean} [debug=false] - Enable debug messages.
-     * @property {boolean} [stackTrace=false] - Include stack traces
-     * in debug messages.
+     * @property {boolean} [stackTrace=false] - Include stack traces in debug
+     * messages.
      */
 
     /**
@@ -952,8 +945,8 @@
       const items = this._getItems();
       let item = items.find(this._matchItem);
       if (!item) {
-        // We couldn't find the old id, so maybe it was rebuilt.  Make
-        // a guess by trying the old index.
+        // We couldn't find the old id, so maybe it was rebuilt.  Make a guess
+        // by trying the old index.
         const idx = this._historicalIdToIndex.get(this._currentItemId);
         if (typeof idx === 'number' && (0 <= idx && idx < items.length)) {
           item = items[idx];
@@ -974,9 +967,8 @@
     }
 
     /**
-     * Since the getter will try to validate the current item (since
-     * it could have changed out from under us), it too can update
-     * information.
+     * Since the getter will try to validate the current item (since it could
+     * have changed out from under us), it too can update information.
      * @param {Element} val - Element to make current.
      */
     _bottomHalf(val) {
@@ -992,8 +984,8 @@
     }
 
     /**
-     * Determines if the item can be viewed.  Usually this means the
-     * content is being loaded lazily and is not ready yet.
+     * Determines if the item can be viewed.  Usually this means the content
+     * is being loaded lazily and is not ready yet.
      * @param {Element} item - The item to inspect.
      * @returns {boolean} - Whether the item has viewable content.
      */
@@ -1025,8 +1017,8 @@
     }
 
     /**
-     * Returns the uid for the current element.  Will use the
-     * registered uidCallback function for this.
+     * Returns the uid for the current element.  Will use the registered
+     * uidCallback function for this.
      * @param {Element} element - Element to identify.
      * @returns {string} - Computed uid for element.
      */
@@ -1045,8 +1037,8 @@
     }
 
     /**
-     * Checks if the element is the current one.  Useful as a callback
-     * to Array.find.
+     * Checks if the element is the current one.  Useful as a callback to
+     * Array.find.
      * @param {Element} element - Element to check.
      * @returns {boolean} - Whether or not element is the current one.
      */
@@ -1059,9 +1051,9 @@
     }
 
     /**
-     * Scroll the current item into the view port.  Depending on the
-     * instance configuration, this could snap to the top, snap to the
-     * bottom, or be a no-op.
+     * Scroll the current item into the view port.  Depending on the instance
+     * configuration, this could snap to the top, snap to the bottom, or be a
+     * no-op.
      */
     _scrollToCurrentItem() {
       const me = 'scrollToCurrentItem';
@@ -1075,8 +1067,8 @@
         } else {
           item.style.scrollMarginBottom = this._bottomMarginCss;
           const rect = item.getBoundingClientRect();
-          // If both scrolling happens, it means the item is too tall to
-          // fit on the page, so the top is preferred.
+          // If both scrolling happens, it means the item is too tall to fit
+          // on the page, so the top is preferred.
           if (rect.bottom > (document.documentElement.clientHeight - this._bottomMarginPixels)) {
             this._log.log('scrolling up onto page');
             item.scrollIntoView(false);
@@ -1085,11 +1077,10 @@
             this._log.log('scrolling down onto page');
             item.scrollIntoView(true);
           }
-          // XXX: The following was added to support horizontal
-          // scrolling in carousels.  Nothing seemed to break.
-          // TODO(#132): Did find a side effect though: it can cause
-          // an item being *left* to shift up if the
-          // scrollMarginBottom has been set.
+          // XXX: The following was added to support horizontal scrolling in
+          // carousels.  Nothing seemed to break.  TODO(#132): Did find a side
+          // effect though: it can cause an item being *left* to shift up if
+          // the scrollMarginBottom has been set.
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
@@ -1098,8 +1089,8 @@
 
     /**
      * Jump an item on the end of the collection.
-     * @param {boolean} first - If true, the first item in the
-     * collection, else, the last.
+     * @param {boolean} first - If true, the first item in the collection,
+     * else, the last.
      */
     _jumpToEndItem(first) {
       const me = 'jumpToEndItem';
@@ -1113,9 +1104,9 @@
         let idx = first ? 0 : (items.length - 1);
         let item = items[idx];
 
-        // Content of items is sometimes loaded lazily and can be
-        // detected by having no innerText yet.  So start at the end
-        // and work our way up to the last one loaded.
+        // Content of items is sometimes loaded lazily and can be detected by
+        // having no innerText yet.  So start at the end and work our way up
+        // to the last one loaded.
         if (!first) {
           while (!Scroller._isItemViewable(item)) {
             this._log.log('skipping item', item);
@@ -1228,8 +1219,8 @@
   }
 
   /**
-   * This class exists solely to avoid some `no-use-before-define`
-   * linter issues.
+   * This class exists solely to avoid some `no-use-before-define` linter
+   * issues.
    */
   class LinkedInGlobals {
 
@@ -1303,10 +1294,9 @@
     /**
      * Wrap a function.
      * @param {string} seq - Key sequence to activate this function.
-     * @param {string} desc - Human readable documenation about this
-     * function.
-     * @param {SimpleFunction} func - Function to wrap, usually in the
-     * form of an arrow function.  Keep JS `this` magic in mind!
+     * @param {string} desc - Human readable documenation about this function.
+     * @param {SimpleFunction} func - Function to wrap, usually in the form of
+     * an arrow function.  Keep JS `this` magic in mind!
      */
     constructor(seq, desc, func) {
       super('return this.func();');
@@ -1320,28 +1310,26 @@
   }
 
   /**
-   * Base class for handling various views of a single-page
-   * application.
+   * Base class for handling various views of a single-page application.
    *
-   * Generally, new classes should subclass this, override a few
-   * properties and methods, and then register themselves with an
-   * instance of the {@link SPA} class.
+   * Generally, new classes should subclass this, override a few properties
+   * and methods, and then register themselves with an instance of the {@link
+   * SPA} class.
    */
   class Page {
 
     // The immediate following can be set in subclasses.
 
     /**
-     * @type {string|RegExp} - What pathname part of the URL this page
-     * should handle.  The special case of null is used by the {@link
-     * SPA} class to represent global keys.
+     * @type {string|RegExp} - What pathname part of the URL this page should
+     * handle.  The special case of null is used by the {@link SPA} class to
+     * represent global keys.
      */
     _pathname;
 
     /**
-     * @type {string} - CSS selector for capturing clicks on this
-     * page.  If overridden, then the class should also provide a
-     * _onClick() method.
+     * @type {string} - CSS selector for capturing clicks on this page.  If
+     * overridden, then the class should also provide a _onClick() method.
      */
     _onClickSelector = null;
 
@@ -1351,11 +1339,14 @@
      * @typedef {object} Shortcut
      * @property {string} seq - Key sequence to activate.
      * @property {string} desc - Description that goes into the online help.
-     * @property {SimpleFunction} func - Function to call, usually in the
-     * form of `this.callback`.  Keep JS `this` magic in mind!
+     * @property {SimpleFunction} func - Function to call, usually in the form
+     * of `this.callback`.  Keep JS `this` magic in mind!
      */
 
-    /** @type {Shortcut[]} - List of {@link Shortcut}s to register automatically. */
+    /**
+     * @type {Shortcut[]} - List of {@link Shortcut}s to register
+     * automatically.
+     */
     get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
       return [];
     }
@@ -1375,8 +1366,8 @@
     _onClickElement = null;
 
     /**
-     * @type {IShortcutOptions} - Disables keys when focus is on an
-     * element or info view.
+     * @type {IShortcutOptions} - Disables keys when focus is on an element or
+     * info view.
      */
     static _navOption = {
       caseSensitive: true,
@@ -1435,8 +1426,8 @@
     }
 
     /**
-     * Turns on this Page's features.  Called by {@link SPA} when
-     * this becomes the current view.
+     * Turns on this Page's features.  Called by {@link SPA} when this becomes
+     * the current view.
      */
     activate() {
       this._keyboard.enable();
@@ -1444,8 +1435,8 @@
     }
 
     /**
-     * Turns off this Page's features.  Called by {@link SPA} when
-     * this is no longer the current view.
+     * Turns off this Page's features.  Called by {@link SPA} when this is no
+     * longer the current view.
      */
     deactivate() {
       this._keyboard.disable();
@@ -1458,8 +1449,8 @@
     }
 
     /**
-     * @type {Shortcut[]} - The `key` and `desc` properties are
-     * important here.
+     * @type {Shortcut[]} - The `key` and `desc` properties are important
+     * here.
      */
     get keysDescriptions() {
       return this.allShortcuts;
@@ -1481,8 +1472,8 @@
       if (this._onClickSelector) {
 
         /**
-         * Page is dynamically building, so keep watching it until the
-         * element shows up.
+         * Page is dynamically building, so keep watching it until the element
+         * shows up.
          * @implements{Monitor}
          * @returns {Continuation} - Indicate whether done monitoring.
          */
@@ -1518,9 +1509,8 @@
     }
 
     /**
-     * Override this function in subclasses that want to react to
-     * random clicks on a page, say to update current element in
-     * focus.
+     * Override this function in subclasses that want to react to random
+     * clicks on a page, say to update current element in focus.
      * https://github.com/eslint/eslint/issues/17467
      * @abstract
      * @param {Event} evt - Standard 'click' event.
@@ -1532,8 +1522,8 @@
     }
 
     /**
-     * Override this function in subclasses to take action upon
-     * becoming the current view again.
+     * Override this function in subclasses to take action upon becoming the
+     * current view again.
      */
     _refresh() {
       this._log.log('In base refresh.');
@@ -1543,8 +1533,8 @@
 
   /**
    * Class for handling aspects common across LinkedIn.
-   * This includes things like the global nav bar, information view,
-   * etc.
+   *
+   * This includes things like the global nav bar, information view, etc.
    */
   class Global extends Page {
 
@@ -1818,8 +1808,7 @@
     }
 
     /**
-     * Reselects current post, triggering same actions as initial
-     * selection.
+     * Reselects current post, triggering same actions as initial selection.
      */
     _returnToPost = () => {
       this._posts.item = this._posts.item;
@@ -1851,8 +1840,8 @@
         this._togglePost();
         this._nextPost();
       };
-      // XXX: Need to remove the highlights before otrot sees it
-      // because it affects the .clientHeight.
+      // XXX: Need to remove the highlights before otrot sees it because it
+      // affects the .clientHeight.
       this._posts.dull();
       this._comments?.dull();
       if (this._posts.item) {
@@ -2036,11 +2025,11 @@
      * Open the (⋯) menu for the current item.
      */
     _openMeatballMenu = () => {
-      // XXX: In this case, the identifier is on an svg element, not
-      // the button, so use the parentElement.  When Firefox [fully
-      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039)
-      // the `:has()` pseudo-selector, we can probably use that and
-      // use `clickElement()`.
+      // XXX: In this case, the identifier is on an svg element, not the
+      // button, so use the parentElement.  When Firefox [fully
+      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
+      // `:has()` pseudo-selector, we can probably use that and use
+      // `clickElement()`.
       const el = this._comments.item ?? this._posts.item;
       const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
       button?.click();
@@ -2154,9 +2143,9 @@
 
     /** @inheritdoc */
     _refresh() {
-      // TODO(#141): Needs more work due to how long it takes the page
-      // to load.  Will need some sort of observer.  Maybe like how we
-      // track the sectionWatchText in Jobs.
+      // TODO(#141): Needs more work due to how long it takes the page to
+      // load.  Will need some sort of observer.  Maybe like how we track the
+      // sectionWatchText in Jobs.
       this._sections.shine();
       this._sections.show();
     }
@@ -2274,11 +2263,10 @@
   /**
    * Class for handling the base Jobs page.
    *
-   * This particular page requires a lot of careful monitoring.
-   * Unlike other pages, this one will destroy and recreate HTML
-   * elements, often with the exact same content, every time something
-   * interesting happens.  Like loading more sections or jobs, or
-   * toggling state of a job.
+   * This particular page requires a lot of careful monitoring.  Unlike other
+   * pages, this one will destroy and recreate HTML elements, often with the
+   * exact same content, every time something interesting happens.  Like
+   * loading more sections or jobs, or toggling state of a job.
    */
   class Jobs extends Page {
 
@@ -2471,9 +2459,8 @@
     _resetScroll(topScroll) {
       const me = 'resetScroll';
       this._log.entered(me, topScroll);
-      // Explicitly setting jobs.item below will cause it to
-      // scroll to that item.  We do not want to do that if
-      // the user is manually scrolling.
+      // Explicitly setting jobs.item below will cause it to scroll to that
+      // item.  We do not want to do that if the user is manually scrolling.
       const savedJob = this._jobs?.item;
       this._sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
@@ -2486,15 +2473,14 @@
     }
 
     /**
-     * Overly complicated.  The job sections get recreated in toto
-     * every time new sections are loaded, whether manually or
-     * automatically triggered while scrolling.  When this happens, we
-     * lose track of it.  So we track the likely text from the current
-     * section, and if we see that show up again, we put the shine
-     * back on.  We could simplify {@link _loadMoreSections} by
-     * calling {@link show} here as well, but if the user is scrolling
-     * for a reason, it seems rude to pop them back to the section
-     * again.
+     * Overly complicated.  The job sections get recreated in toto every time
+     * new sections are loaded, whether manually or automatically triggered
+     * while scrolling.  When this happens, we lose track of it.  So we track
+     * the likely text from the current section, and if we see that show up
+     * again, we put the shine back on.  We could simplify {@link
+     * _loadMoreSections} by calling {@link show} here as well, but if the
+     * user is scrolling for a reason, it seems rude to pop them back to the
+     * section again.
      * @param {MutationRecord[]} records - Standard mutation records.
      */
     _mutationHandler = (records) => {
@@ -2639,8 +2625,8 @@
       const savedJob = this._jobs.item;
 
       /**
-       * Trigger function for {@link otrot}.  Because, of course jobs
-       * needs it.
+       * Trigger function for {@link otrot}.  Because, of course jobs needs
+       * it.
        */
       function trigger() {
         clickElement(savedJob, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
@@ -2706,8 +2692,8 @@
     };
 
     /**
-     * Create the Notifications view; includes instantiating the
-     * notifications {@link Scroller}.
+     * Create the Notifications view; includes instantiating the notifications
+     * {@link Scroller}.
      */
     constructor() {
       super();
@@ -2735,16 +2721,16 @@
     }
 
     /**
-     * Complicated because there are so many variations in
-     * notification cards.  We do not want to use reaction counts
-     * because they can change too quickly.
+     * Complicated because there are so many variations in notification cards.
+     * We do not want to use reaction counts because they can change too
+     * quickly.
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
     static _uniqueIdentifier(element) {
-      // All known <articles> have three children: icon/presence
-      // indicator, content, and menu/timestamp.
+      // All known <articles> have three children: icon/presence indicator,
+      // content, and menu/timestamp.
       const MAGIC_COUNT = 3;
       const CONTENT_INDEX = 1;
       let content = element.innerText;
@@ -2816,9 +2802,9 @@
       const ONE_ITEM = 1;
       const notification = this._notifications.item;
       if (notification) {
-        // Because we are using Enter as the hotkey here, if the
-        // active element is inside the current card, we want that to
-        // take precedence.
+        // Because we are using Enter as the hotkey here, if the active
+        // element is inside the current card, we want that to take
+        // precedence.
         if (document.activeElement.closest('article') === notification) {
           return;
         }
@@ -2850,8 +2836,8 @@
        * Trigger function for {@link otrot}.
        */
       function trigger() {
-        // Hah.  Unlike in other places, these buttons already exist,
-        // just hidden under the menu.
+        // Hah.  Unlike in other places, these buttons already exist, just
+        // hidden under the menu.
         const buttons = Array.from(notification.querySelectorAll('button'));
         const button = buttons.find(el => el.textContent.includes('Delete this notification'));
         if (button) {
@@ -2925,8 +2911,8 @@
   class SPADetails {
 
     /**
-     * An issue that happened during construction.  SPA will ask for
-     * them and add them to the Errors tab.
+     * An issue that happened during construction.  SPA will ask for them and
+     * add them to the Errors tab.
      * @typedef {object} SetupIssue
      * @property {string[]} messages - What to pass to {@link SPA.addError}.
      */
@@ -2935,9 +2921,9 @@
     _setupIssues = [];
 
     /**
-     * @type {string} - CSS selector to monitor if self-managing URL
-     * changes.  The selector must resolve to an element that, once it
-     * exists, will continue to exist for the lifetime of the SPA.
+     * @type {string} - CSS selector to monitor if self-managing URL changes.
+     * The selector must resolve to an element that, once it exists, will
+     * continue to exist for the lifetime of the SPA.
      */
     urlChangeMonitorSelector = 'body';
 
@@ -2957,8 +2943,8 @@
 
     /**
      * Called by SPA instance during its construction to allow post
-     * instantiation stuff to happen.  If overridden in a subclass,
-     * this should definitely be called via super.
+     * instantiation stuff to happen.  If overridden in a subclass, this
+     * should definitely be called via super.
      */
     init() {
       this.dispatcher.on('errors', this._errors);
@@ -2966,8 +2952,8 @@
     }
 
     /**
-     * Called by SPA instance when initialization is done.  Subclasses
-     * should call via super.
+     * Called by SPA instance when initialization is done.  Subclasses should
+     * call via super.
      */
     done() {
       const me = 'done';
@@ -2986,8 +2972,8 @@
     }
 
     /**
-     * Handles notifications about changes to the {@link SPA} Errors
-     * tab content.
+     * Handles notifications about changes to the {@link SPA} Errors tab
+     * content.
      * @param {number} count - Number of errors currently logged.
      */
     _errors = (count) => {
@@ -3100,10 +3086,7 @@
       this._log.leaving(me);
     }
 
-    /**
-     * @type {string} - The element.id used to identify the help
-     * pop-up.
-     */
+    /** @type {string} - The element.id used to identify the help pop-up. */
     get helpId() {
       return this._infoId;
     }
@@ -3175,8 +3158,8 @@
         return {done: false};
       }
 
-      // In this case, the trigger was the page load.  It already happened
-      // by the time we got here.
+      // In this case, the trigger was the page load.  It already happened by
+      // the time we got here.
       const navWhat = {
         name: 'navBarObserver',
         base: document.body,
@@ -3212,9 +3195,9 @@
       const me = 'licenseHandler';
       this._log.entered(me, evt.target);
 
-      // Probably should debounce this.  If the user visits this tab
-      // twice fast enough, they end up with two copies loaded.
-      // Amusing, but probably should be resilient.
+      // Probably should debounce this.  If the user visits this tab twice
+      // fast enough, they end up with two copies loaded.  Amusing, but
+      // probably should be resilient.
       if (!this._licenseLoaded) {
         const info = document.createElement('p');
         info.innerHTML = '<i>Loading license...</i>';
@@ -3236,9 +3219,7 @@
       this._log.leaving(me);
     }
 
-    /**
-     * Create CSS styles for stuff specific to LinkedIn Tool.
-     */
+    /** Create CSS styles for stuff specific to LinkedIn Tool. */
     _addLitStyle() {
       const style = document.createElement('style');
       style.id = `${this._id}-style`;
@@ -3269,8 +3250,8 @@
       if (navMe) {
         navMe.after(li);
       } else {
-        // If the site changed and we cannot insert ourself after the
-        // Me menu item, then go first.
+        // If the site changed and we cannot insert ourself after the Me menu
+        // item, then go first.
         ul.prepend(li);
         this.addSetupIssue('Unable to find the Profile navbar item.', 'LIT menu installed in non-standard location.');
       }
@@ -3288,8 +3269,8 @@
       const fudgeFactor = 4;
 
       this._globals.navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
-      // XXX: These {Scroller~How} items are static, so they need to
-      // be configured after we figure out what the values should be.
+      // XXX: These {Scroller~How} items are static, so they need to be
+      // configured after we figure out what the values should be.
       for (const how of this._navBarScrollerFixups) {
         how.topMarginPixels = this._globals.navBarHeightPixels;
         how.topMarginCss = this._globals.navBarHeightCss;
@@ -3358,10 +3339,10 @@
   /**
    * A userscript driver for working with a single-page application.
    *
-   * Generally, a single instance of this class is created, and all
-   * instances of {Page} are registered to it.  As the user navigates
-   * through the single-page application, this will react to it and
-   * enable and disable view specific handling as appropriate.
+   * Generally, a single instance of this class is created, and all instances
+   * of {Page} are registered to it.  As the user navigates through the
+   * single-page application, this will react to it and enable and disable
+   * view specific handling as appropriate.
    */
   class SPA {
 
@@ -3408,17 +3389,17 @@
     }
 
     /**
-     * Tampermonkey was the first(?) userscript manager to provide
-     * events about URLs changing.  Hence the need for `@grant
-     * window.onurlchange` in the UserScript header.
+     * Tampermonkey was the first(?) userscript manager to provide events
+     * about URLs changing.  Hence the need for `@grant window.onurlchange` in
+     * the UserScript header.
      * @fires Event#urlchange
      */
     _startUserscriptManagerUrlMonitor() {
       this._log.log('Using Userscript Manager provided URL monitor.');
       window.addEventListener('urlchange', (info) => {
-        // The info that TM gives is not really an event.  So we turn
-        // it into one and throw it again, this time onto `document`
-        // where something is listening for it.
+        // The info that TM gives is not really an event.  So we turn it into
+        // one and throw it again, this time onto `document` where something
+        // is listening for it.
         const newUrl = new URL(info.url);
         const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
         document.dispatchEvent(evt);
@@ -3427,9 +3408,9 @@
 
     /**
      * Install a long lived MutationObserver that watches
-     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is
-     * triggered, it will check to see if the current URL has changed,
-     * and if so, send an appropriate event.
+     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is triggered, it
+     * will check to see if the current URL has changed, and if so, send an
+     * appropriate event.
      * @fires Event#urlchange
      */
     async _startMutationObserverUrlMonitor() {
@@ -3438,14 +3419,14 @@
       const observeOptions = {childList: true, subtree: true};
 
       /**
-       * Watch for the initial {SPADetails.urlChangeMonitorSelector}
-       * to show up.
+       * Watch for the initial {SPADetails.urlChangeMonitorSelector} to show
+       * up.
        * @implements {Monitor}
        * @returns {Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
-        // The default selector is 'body', so we need to query
-        // 'document', not 'document.body'.
+        // The default selector is 'body', so we need to query 'document', not
+        // 'document.body'.
         const element = document.querySelector(this._details.urlChangeMonitorSelector);
         if (element) {
           return {done: true, results: element};
@@ -3474,9 +3455,7 @@
       }).observe(element, observeOptions);
     }
 
-    /**
-     * Select which way to monitor the URL for changes and start it.
-     */
+    /** Select which way to monitor the URL for changes and start it. */
     _startUrlMonitor() {
       if (window.onurlchange === null) {
         this._startUserscriptManagerUrlMonitor();
@@ -3500,8 +3479,8 @@
     }
 
     /**
-     * Handle focus events to track whether we have gone into or left
-     * an area where we want to disable hotkeys.
+     * Handle focus events to track whether we have gone into or left an area
+     * where we want to disable hotkeys.
      * @param {Event} evt - Standard 'focus' event.
      */
     _onFocus = (evt) => {
@@ -3523,9 +3502,7 @@
       this.activate(evt.detail.url.pathname);
     }
 
-    /**
-     * Configure handlers for the help view.
-     */
+    /** Configure handlers for the help view. */
     _addInfoViewHandlers() {
       const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
       errors.addEventListener('change', (evt) => {
@@ -3551,8 +3528,8 @@
     }
 
     /**
-     * Create and configure a separate {@link KeyboardService} for the
-     * info view.
+     * Create and configure a separate {@link KeyboardService} for the info
+     * view.
      */
     _initializeTabUiKeyboard() {
       this._tabUiKeyboard = new VM.shortcut.KeyboardService();
@@ -3565,9 +3542,7 @@
      * @returns {TabbedUI~TabDefinition}
      */
 
-    /**
-     * Add CSS styling for use with the help view.
-     */
+    /** Add CSS styling for use with the help view. */
     _addInfoStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
@@ -3584,8 +3559,8 @@
         `#${this._infoId} p { margin-bottom: 1em; }`,
         `#${this._infoId} th { padding-top: 1em; text-align: left; }`,
         `#${this._infoId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
-        // The "color: unset" addresses dimming because these
-        // display-only buttons are disabled.
+        // The "color: unset" addresses dimming because these display-only
+        // buttons are disabled.
         `#${this._infoId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
         `#${this._infoId} button.spa-meatball { border-radius: 50%; }`,
         '',
@@ -3614,8 +3589,7 @@
 
     /**
      * Add basic dialog with an embedded tabbbed ui for the help view.
-     * @param {TabbedUI~TabDefinition[]} tabs - Array defining the
-     * help tabs.
+     * @param {TabbedUI~TabDefinition[]} tabs - Array defining the help tabs.
      */
     _addInfoDialog(tabs) {
       const dialog = this._initializeInfoDialog();
@@ -3647,8 +3621,8 @@
 
     /**
      * @implements {TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - Initial table for the
-     * keyboard shortcuts.
+     * @returns {TabbedUI~TabDefinition} - Initial table for the keyboard
+     * shortcuts.
      */
     static _shortcutsTab() {
       return {
@@ -3658,8 +3632,8 @@
     }
 
     /**
-     * Generate information about the current environment useful in
-     * bug reports.
+     * Generate information about the current environment useful in bug
+     * reports.
      * @returns {string} - Text with some wrapped in a `pre` element.
      */
     static _errorPlatformInfo() {
@@ -3695,8 +3669,8 @@
 
     /**
      * @implements {TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - Initial placeholder for
-     * error logging.
+     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
+     * logging.
      */
     static _errorTab() {
       return {
@@ -3711,9 +3685,7 @@
       };
     }
 
-    /**
-     * Set up everything necessary to get the help view going.
-     */
+    /** Set up everything necessary to get the help view going. */
     _initializeHelpView() {
       this._infoId = `help-${this._id}`;
       this._details.helpId = this._infoId;
@@ -3925,8 +3897,8 @@
     }
 
     /**
-     * Add a marker to the Errors tab so the user can see where
-     * different issues happened.
+     * Add a marker to the Errors tab so the user can see where different
+     * issues happened.
      */
     addErrorMarker() {
       this.addError(SPA._errorMarker);
