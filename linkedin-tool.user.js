@@ -3342,11 +3342,8 @@
     /** @type {Page} - Current {Page}. */
     _page = null;
 
-    /**
-     * @type {Map<string,Page>} - {Page}s mapped by the pathname they
-     * support.
-     */
-    _pages = new Map();
+    /** @type {Set<Page>} - Registered {Page}s. */
+    _pages = new Set();
 
     /** @type {Element} - The most recent element to receive focus. */
     _lastInputElement = null;
@@ -3915,7 +3912,7 @@
         this._global = page;
         this._global.activate();
       } else {
-        this._pages.set(page.pathname, page);
+        this._pages.add(page);
       }
     }
 
