@@ -789,14 +789,14 @@
    */
   class Dispatcher {
 
-    _handlers = new Map();
+    #handlers = new Map();
 
     /**
      * @param{...string} eventTypes - Event types this instance can handle.
      */
     constructor(...eventTypes) {
       for (const eventType of eventTypes) {
-        this._handlers.set(eventType, []);
+        this.#handlers.set(eventType, []);
       }
     }
 
@@ -806,8 +806,8 @@
      * @throws {Error} - When eventType was not registered during instantiation.
      * @returns {function[]} - Handlers currently registered for this eventType.
      */
-    _getHandlers(eventType) {
-      const handlers = this._handlers.get(eventType);
+    #getHandlers = (eventType) => {
+      const handlers = this.#handlers.get(eventType);
       if (!handlers) {
         throw new Error(`Unknown event type: ${eventType}`);
       }
@@ -820,7 +820,7 @@
      * @param {function} func - Single argument function to call.
      */
     on(eventType, func) {
-      const handlers = this._getHandlers(eventType);
+      const handlers = this.#getHandlers(eventType);
       handlers.push(func);
     }
 
@@ -830,7 +830,7 @@
      * @param {function} func - Function to remove.
      */
     off(eventType, func) {
-      const handlers = this._getHandlers(eventType);
+      const handlers = this.#getHandlers(eventType);
       let index = 0;
       while ((index = handlers.indexOf(func)) !== NOT_FOUND) {
         handlers.splice(index, 1);
@@ -843,7 +843,7 @@
      * @param {object} data - Data to pass to each function.
      */
     fire(eventType, data) {
-      const handlers = this._getHandlers(eventType);
+      const handlers = this.#getHandlers(eventType);
       for (const handler of handlers) {
         handler(data);
       }
