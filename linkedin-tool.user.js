@@ -2090,6 +2090,7 @@
   class MyNetwork extends Page {
 
     _pathname = '/mynetwork/';
+    _onClickSelector = 'main';
 
     #sectionsScroller
     #cardsScroller
@@ -2128,6 +2129,23 @@
       this.#sectionsScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
       this.#sectionsScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
       this.#sectionsScroller.dispatcher.on('change', this.#onChange);
+    }
+
+    /** @inheritdoc */
+    _onClick = (evt) => {
+      const section = evt.target.closest('main > ul > li, main > :where(section, div)');
+      if (section && section !== this._sections.item) {
+        this._sections.item = section;
+      }
+    }
+
+    /** @inheritdoc */
+    _refresh() {
+      // TODO(#141): Needs more work due to how long it takes the page
+      // to load.  Will need some sort of observer.  Maybe like how we
+      // track the sectionWatchText in Jobs.
+      this._sections.shine();
+      this._sections.show();
     }
 
     /**
