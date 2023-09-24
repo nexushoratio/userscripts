@@ -966,9 +966,23 @@
    */
   class Scroller {
 
-    _dispatcher = new Dispatcher('change', 'out-of-range');
-    _currentItemId = null;
-    _historicalIdToIndex = new Map();
+    #destroyed = false;
+    #dispatcher = new Dispatcher('change', 'out-of-range');
+    #currentItemId = null;
+    #historicalIdToIndex = new Map();
+
+    #base
+    #bottomMarginCss
+    #bottomMarginPixels
+    #classes
+    #debug
+    #log
+    #name
+    #selectors
+    #snapToTop
+    #stackTrace
+    #topMarginCss
+    #topMarginPixels
 
     /**
      * Function that generates a, preferably, reproducible unique identifier
@@ -1014,43 +1028,42 @@
      * @throws {TypeError} - When base is not an Element.
      */
     constructor(what, how) {
-      this._destroyed = false;
       ({
-        name: this._name = 'Unnamed scroller',
-        base: this._base,
-        selectors: this._selectors,
+        name: this.#name = 'Unnamed scroller',
+        base: this.#base,
+        selectors: this.#selectors,
       } = what);
-      if (!(this._base instanceof Element)) {
-        throw new TypeError(`Invalid base ${this._base} given for ${this._name}`);
+      if (!(this.#base instanceof Element)) {
+        throw new TypeError(`Invalid base ${this.#base} given for ${this.#name}`);
       }
       ({
         uidCallback: this._uidCallback,
-        classes: this._classes,
-        snapToTop: this._snapToTop,
-        topMarginPixels: this._topMarginPixels = 0,
-        bottomMarginPixels: this._bottomMarginPixels = 0,
-        topMarginCss: this._topMarginCss = '0',
-        bottomMarginCss: this._bottomMarginCss = '0',
-        debug: this._debug = false,
-        stackTrace: this._stackTrace = false,
+        classes: this.#classes,
+        snapToTop: this.#snapToTop,
+        topMarginPixels: this.#topMarginPixels = 0,
+        bottomMarginPixels: this.#bottomMarginPixels = 0,
+        topMarginCss: this.#topMarginCss = '0',
+        bottomMarginCss: this.#bottomMarginCss = '0',
+        debug: this.#debug = false,
+        stackTrace: this.#stackTrace = false,
       } = how);
 
-      this._log = new Logger(`{${this._name}}`, this._debug, this._stackTrace);
-      this._log.log('Scroller constructed', this);
+      this.#log = new Logger(`{${this.#name}}`, this.#debug, this.#stackTrace);
+      this.#log.log('Scroller constructed', this);
     }
 
     /** @type {Dispatcher} */
     get dispatcher() {
-      return this._dispatcher;
+      return this.#dispatcher;
     }
 
     /** @type {Element} - Represents the current item. */
     get item() {
       const me = 'get item';
-      this._log.entered(me);
-      if (this._destroyed) {
-        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this._base}`;
-        this._log.log(msg);
+      this.#log.entered(me);
+      if (this.#destroyed) {
+        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this.#base}`;
+        this.#log.log(msg);
         throw new Error(msg);
       }
       const items = this._getItems();
@@ -1058,23 +1071,23 @@
       if (!item) {
         // We couldn't find the old id, so maybe it was rebuilt.  Make a guess
         // by trying the old index.
-        const idx = this._historicalIdToIndex.get(this._currentItemId);
+        const idx = this.#historicalIdToIndex.get(this.#currentItemId);
         if (typeof idx === 'number' && (0 <= idx && idx < items.length)) {
           item = items[idx];
           this._bottomHalf(item);
         }
       }
-      this._log.leaving(me, item);
+      this.#log.leaving(me, item);
       return item;
     }
 
     /** @param {Element} val - Set the current item. */
     set item(val) {
       const me = 'set item';
-      this._log.entered(me, val);
+      this.#log.entered(me, val);
       this.dull();
       this._bottomHalf(val);
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -1084,14 +1097,14 @@
      */
     _bottomHalf(val) {
       const me = 'bottomHalf';
-      this._log.entered(me, val);
-      this._currentItemId = this._uid(val);
+      this.#log.entered(me, val);
+      this.#currentItemId = this._uid(val);
       const idx = this._getItems().indexOf(val);
-      this._historicalIdToIndex.set(this._currentItemId, idx);
+      this.#historicalIdToIndex.set(this.#currentItemId, idx);
       this.shine();
       this._scrollToCurrentItem();
       this.dispatcher.fire('change', {});
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -1110,20 +1123,20 @@
      */
     _getItems() {
       const me = 'getItems';
-      this._log.entered(me);
+      this.#log.entered(me);
       const items = [];
-      for (const selector of this._selectors) {
-        this._log.log(`considering ${selector}`);
-        items.push(...this._base.querySelectorAll(selector));
+      for (const selector of this.#selectors) {
+        this.#log.log(`considering ${selector}`);
+        items.push(...this.#base.querySelectorAll(selector));
       }
-      if (this._debug) {
-        this._log.starting('items');
+      if (this.#debug) {
+        this.#log.starting('items');
         for (const item of items) {
-          this._log.log(item);
+          this.#log.log(item);
         }
-        this._log.finished('items');
+        this.#log.finished('items');
       }
-      this._log.leaving(me, `${items.length} items`);
+      this.#log.leaving(me, `${items.length} items`);
       return items;
     }
 
@@ -1135,7 +1148,7 @@
      */
     _uid(element) {
       const me = 'uid';
-      this._log.entered(me, element);
+      this.#log.entered(me, element);
       let uid = null;
       if (element) {
         if (!element.dataset.spaId) {
@@ -1143,7 +1156,7 @@
         }
         uid = element.dataset.spaId;
       }
-      this._log.leaving(me, uid);
+      this.#log.leaving(me, uid);
       return uid;
     }
 
@@ -1155,9 +1168,9 @@
      */
     _matchItem = (element) => {
       const me = 'matchItem';
-      this._log.entered(me);
-      const res = this._currentItemId === this._uid(element);
-      this._log.leaving(me, res);
+      this.#log.entered(me);
+      const res = this.#currentItemId === this._uid(element);
+      this.#log.leaving(me, res);
       return res;
     }
 
@@ -1168,24 +1181,24 @@
      */
     _scrollToCurrentItem() {
       const me = 'scrollToCurrentItem';
-      this._log.entered(me, this._snapToTop);
+      this.#log.entered(me, this.#snapToTop);
       const {item} = this;
       if (item) {
-        item.style.scrollMarginTop = this._topMarginCss;
-        if (this._snapToTop) {
-          this._log.log('snapping to top');
+        item.style.scrollMarginTop = this.#topMarginCss;
+        if (this.#snapToTop) {
+          this.#log.log('snapping to top');
           item.scrollIntoView(true);
         } else {
-          item.style.scrollMarginBottom = this._bottomMarginCss;
+          item.style.scrollMarginBottom = this.#bottomMarginCss;
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to fit
           // on the page, so the top is preferred.
-          if (rect.bottom > (document.documentElement.clientHeight - this._bottomMarginPixels)) {
-            this._log.log('scrolling up onto page');
+          if (rect.bottom > (document.documentElement.clientHeight - this.#bottomMarginPixels)) {
+            this.#log.log('scrolling up onto page');
             item.scrollIntoView(false);
           }
-          if (rect.top < this._topMarginPixels) {
-            this._log.log('scrolling down onto page');
+          if (rect.top < this.#topMarginPixels) {
+            this.#log.log('scrolling down onto page');
             item.scrollIntoView(true);
           }
           // XXX: The following was added to support horizontal scrolling in
@@ -1195,7 +1208,7 @@
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -1205,7 +1218,7 @@
      */
     _jumpToEndItem(first) {
       const me = 'jumpToEndItem';
-      this._log.entered(me, `first=${first}`);
+      this.#log.entered(me, `first=${first}`);
       // Reset in case item was heavily modified
       this.item = this.item;
 
@@ -1220,14 +1233,14 @@
         // to the last one loaded.
         if (!first) {
           while (!Scroller._isItemViewable(item)) {
-            this._log.log('skipping item', item);
+            this.#log.log('skipping item', item);
             idx -= 1;
             item = items[idx];
           }
         }
         this.item = item;
       }
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -1237,14 +1250,14 @@
      */
     _scrollBy(n) {  // eslint-disable-line max-statements
       const me = 'scrollBy';
-      this._log.entered(me, n);
+      this.#log.entered(me, n);
       // Reset in case item was heavily modified
       this.item = this.item;
 
       const items = this._getItems();
       if (items.length) {
         let idx = items.findIndex(this._matchItem);
-        this._log.log('initial idx', idx);
+        this.#log.log('initial idx', idx);
         idx += n;
         if (idx < NOT_FOUND) {
           idx = items.length - 1;
@@ -1256,15 +1269,15 @@
           // Skip over empty items
           let item = items[idx];
           while (!Scroller._isItemViewable(item)) {
-            this._log.log('skipping item', item);
+            this.#log.log('skipping item', item);
             idx += n;
             item = items[idx];
           }
-          this._log.log('final idx', idx);
+          this.#log.log('final idx', idx);
           this.item = item;
         }
       }
-      this._log.leaving(me);
+      this.#log.leaving(me);
     }
 
     /**
@@ -1299,14 +1312,14 @@
      * Adds the registered CSS classes to the current element.
      */
     shine() {
-      this.item?.classList.add(...this._classes);
+      this.item?.classList.add(...this.#classes);
     }
 
     /**
      * Removes the registered CSS classes from the current element.
      */
     dull() {
-      this.item?.classList.remove(...this._classes);
+      this.item?.classList.remove(...this.#classes);
     }
 
     /**
@@ -1321,10 +1334,10 @@
      */
     destroy() {
       const me = 'destroy';
-      this._log.entered(me);
+      this.#log.entered(me);
       this.item = null;
-      this._destroyed = true;
-      this._log.leaving(me);
+      this.#destroyed = true;
+      this.#log.leaving(me);
     }
 
   }
