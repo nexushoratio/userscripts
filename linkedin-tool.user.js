@@ -44,7 +44,8 @@
      */
     constructor(factory, ...rest) {
       if (!(factory instanceof Function)) {
-        throw new TypeError(`The factory argument MUST be of type Function, not ${typeof factory}.`);
+        throw new TypeError('The factory argument MUST be of ' +
+                            `type Function, not ${typeof factory}.`);
       }
       super(...rest);
 
@@ -239,7 +240,8 @@
     leaving(group, ...rest) {
       const lastGroup = this.#opened.pop();
       if (group !== lastGroup) {
-        console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
+        console.error(`${this.name}: Group mismatch!  Passed ` +
+                      `"${group}", expected to see "${lastGroup}"`);
       }
       if (this.enabled) {
         let msg = `Leaving ${group}`;
@@ -275,7 +277,8 @@
     finished(group, ...rest) {
       const lastGroup = this.#closed.pop();
       if (group !== lastGroup) {
-        console.error(`${this.name}: Group mismatch!  Passed "${group}", expected to see "${lastGroup}"`);
+        console.error(`${this.name}: Group mismatch!  Passed ` +
+                      `"${group}", expected to see "${lastGroup}"`);
       }
       if (this.enabled) {
         let msg = `Finished ${group}`;
@@ -307,7 +310,6 @@
   }
 
   const log = new Logger('Default', true, false);
-
 
   /**
    * Run querySelector to get an element, then click it.
@@ -359,7 +361,8 @@
       tagName = element.tagName.toLowerCase();
     }
     // eslint-disable-next-line no-extra-parens
-    return (element.isContentEditable || ['input', 'textarea'].includes(tagName));
+    return (element.isContentEditable ||
+            ['input', 'textarea'].includes(tagName));
   }
 
 
