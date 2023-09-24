@@ -2223,6 +2223,7 @@
 
     #sectionsScroller
     #cardsScroller
+    #currentSectionText
 
     /** @type{Scroller~What} */
     static #sectionsWhat = {
@@ -2269,12 +2270,43 @@
     }
 
     /** @inheritdoc */
-    _refresh() {
-      // TODO(#141): Needs more work due to how long it takes the page to
-      // load.  Will need some sort of observer.  Maybe like how we track the
-      // sectionWatchText in Jobs.
-      this._sections.shine();
-      this._sections.show();
+    async _refresh() {
+
+      /**
+       * Wait for sections to eventually show up to see if our current one
+       * comes back.  It may not.
+       * @implements{Monitor}
+       * @param {MutationRecord[]} records - Standard mutation records.
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = (records) => {
+        for (const record of records) {
+          if (record.type === 'childList') {
+            for (const node of record.addedNodes) {
+              const newText = node.innerText?.trim().split('\n')[0];
+              if (newText && newText === this.#currentSectionText) {
+                return {done: true};
+              }
+            }
+          }
+        }
+        return {done: false};
+      };
+      const what = {
+        name: 'MyNetwork._refresh',
+        base: document.body.querySelector('main'),
+      };
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: 10000,
+      };
+
+      if (this.#currentSectionText) {
+        await otmot(what, how);
+        this._sections.shine();
+        this._sections.show();
+      }
     }
 
     /**
@@ -2297,9 +2329,7 @@
      * @returns {string} - A value unique to this element.
      */
     static _uniqueCardsIdentifier(element) {
-      log.log('element:', element);
       const content = element.innerText;
-      log.log('content:', content);
       return strHash(content);
     }
 
@@ -2330,6 +2360,8 @@
     }
 
     #onChange = () => {
+      this.#currentSectionText = this._sections.item?.innerText
+        .trim().split('\n')[0];
       this.#clearCards();
     }
 
