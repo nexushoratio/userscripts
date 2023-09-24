@@ -1449,7 +1449,8 @@
      * Definition for keyboard shortcuts.
      * @typedef {object} Shortcut
      * @property {string} seq - Key sequence to activate.
-     * @property {string} desc - Description that goes into the online help.
+     * @property {string} desc - Description that goes into the online list of
+     * keys.
      * @property {SimpleFunction} func - Function to call, usually in the form
      * of `this.callback`.  Keep JS `this` magic in mind!
      */
@@ -1654,7 +1655,7 @@
     /** @inheritdoc */
     get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
       return [
-        {seq: '?', desc: 'Show this information view', func: Global._help},
+        {seq: '?', desc: 'Show this information view', func: Global._info},
         {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
         {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
         {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
@@ -1688,9 +1689,9 @@
     }
 
     /**
-     * Open the help pop-up.
+     * Open the info pop-up.
      */
-    static _help() {
+    static _info() {
       Global._gotoNavButton('Tool');
     }
 
@@ -3199,13 +3200,13 @@
       this._log.leaving(me);
     }
 
-    /** @type {string} - The element.id used to identify the help pop-up. */
-    get helpId() {
+    /** @type {string} - The element.id used to identify the info pop-up. */
+    get infoId() {
       return this._infoId;
     }
 
-    /** @param {string} val - Set the value of the help element.id. */
-    set helpId(val) {
+    /** @param {string} val - Set the value of the info element.id. */
+    set infoId(val) {
       this._infoId = val;
     }
 
@@ -3370,9 +3371,9 @@
       }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
-        const help = document.querySelector(`#${this.helpId}`);
-        help.showModal();
-        help.dispatchEvent(new Event('open'));
+        const info = document.querySelector(`#${this.infoId}`);
+        info.showModal();
+        info.dispatchEvent(new Event('open'));
       });
       this._log.leaving(me);
     }
@@ -3418,7 +3419,7 @@
       const newGfIssueLink = `${baseGfUrl}/feedback`;
       const releaseNotesLink = `${baseGfUrl}/versions`;
       const content = [
-        `<p>This is help for the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>`,
+        `<p>This is information about the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>`,
         `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
         `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>`,
         `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
@@ -3487,7 +3488,7 @@
       this._details = details;
       this._details.init(this);
       this._installNavStyle();
-      this._initializeHelpView();
+      this._initializeInfoView();
       for (const issue of details.setupIssues) {
         this._log.log('issue:', issue);
         for (const error of issue) {
@@ -3615,7 +3616,7 @@
       this.activate(evt.detail.url.pathname);
     }
 
-    /** Configure handlers for the help view. */
+    /** Configure handlers for the info view. */
     _addInfoViewHandlers() {
       const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
       errors.addEventListener('change', (evt) => {
@@ -3655,7 +3656,7 @@
      * @returns {TabbedUI~TabDefinition}
      */
 
-    /** Add CSS styling for use with the help view. */
+    /** Add CSS styling for use with the info view. */
     _addInfoStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
@@ -3704,8 +3705,8 @@
     }
 
     /**
-     * Add basic dialog with an embedded tabbbed ui for the help view.
-     * @param {TabbedUI~TabDefinition[]} tabs - Array defining the help tabs.
+     * Add basic dialog with an embedded tabbbed ui for the info view.
+     * @param {TabbedUI~TabDefinition[]} tabs - Array defining the info tabs.
      */
     _addInfoDialog(tabs) {
       const dialog = this._initializeInfoDialog();
@@ -3801,10 +3802,10 @@
       };
     }
 
-    /** Set up everything necessary to get the help view going. */
-    _initializeHelpView() {
-      this._infoId = `help-${this._id}`;
-      this._details.helpId = this._infoId;
+    /** Set up everything necessary to get the info view going. */
+    _initializeInfoView() {
+      this._infoId = `info-${this._id}`;
+      this._details.infoId = this._infoId;
       this._initializeTabUiKeyboard();
 
       const tabGenerators = [
