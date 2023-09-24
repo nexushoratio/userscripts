@@ -1533,7 +1533,7 @@
       return this._autoRegisteredKeys.concat(shortcuts);
     }
 
-    /** @type {string} */
+    /** @type {RegExp} */
     get pathname() {
       if (!this.#pathnameRE) {
         if (this._pathname instanceof RegExp) {
