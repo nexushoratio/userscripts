@@ -1765,6 +1765,8 @@
     _pathname = '/feed/';
     _onClickSelector = 'main';
 
+    #tab = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
+
     /** @inheritdoc */
     get _autoRegisteredKeys() {
       return [
@@ -1786,7 +1788,7 @@
         {seq: 'C', desc: 'Comment on current post or comment', func: this._commentOnPostOrComment},
         {seq: 'R', desc: 'Repost current post', func: this._repost},
         {seq: 'S', desc: 'Send the post privately', func: this._sendPost},
-        {seq: 'P', desc: 'Go to the share box to start a post or <kbd>TAB</kbd> to the other creator options', func: Feed._gotoShare},
+        {seq: 'P', desc: `Go to the share box to start a post or ${this.#tab} to the other creator options`, func: Feed._gotoShare},
         {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
         {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
         {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
@@ -3666,7 +3668,7 @@
         `#${this._infoId} textarea[data-spa-id="errors"] { flex-grow: 1; resize: none; }`,
         `#${this._infoId} .spa-danger { background-color: red; }`,
         `#${this._infoId} .spa-current-page { background-color: lightgray; }`,
-        `#${this._infoId} kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
+        `#${this._infoId} kbd > kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
         `#${this._infoId} p { margin-bottom: 1em; }`,
         `#${this._infoId} th { padding-top: 1em; text-align: left; }`,
         `#${this._infoId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
@@ -3691,9 +3693,12 @@
       name.innerHTML = `<b>${GM.info.script.name}</b> - v${GM.info.script.version}`;
       const instructions = document.createElement('div');
       instructions.classList.add('spa-instructions');
+      const left = SPA._parseSeq2('c-left');
+      const right = SPA._parseSeq2('c-right');
+      const esc = SPA._parseSeq2('esc');
       instructions.innerHTML =
-        '<span class="left">Use <kbd>Ctrl</kbd>+<kbd>←</kbd> and <kbd>Ctrl</kbd>+<kbd>→</kbd> keys or click to select tab</span>' +
-        '<span class="right">Hit <kbd>ESC</kbd> to close</span>';
+        `<span class="left">Use the ${left} and ${right} keys or click to select tab</span>` +
+        `<span class="right">Hit ${esc} to close</span>`;
       dialog.append(name, instructions);
       return dialog;
     }
@@ -3922,7 +3927,7 @@
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.keysDescriptions) {
-        const keys = SPA._parseSeq(seq);
+        const keys = SPA._parseSeq2(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
