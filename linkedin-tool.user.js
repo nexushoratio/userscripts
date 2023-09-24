@@ -29,6 +29,117 @@
   // TODO(#141): Currently replacing underscores with #private properties.
 
   /**
+   * Subclass of {Map} similar to Python's defaultdict.
+   *
+   * First argument is a factory function that will create a new default value
+   * for the key if not already present in the container.
+   */
+  class DefaultMap extends Map {
+
+    #factory
+
+    /**
+     * @param {Function} factory - Function that creates a new default value
+     * if a requested key is not present.
+     */
+    constructor(factory, ...rest) {
+      if (!(factory instanceof Function)) {
+        throw new TypeError(`The factory argument MUST be of type Function, not ${typeof factory}.`);
+      }
+      super(...rest);
+
+      this.#factory = factory;
+    }
+
+    /** @inheritdoc */
+    get(key) {
+      if (!this.has(key)) {
+        this.set(key, this.#factory());
+      }
+
+      return super.get(key);
+    }
+
+  }
+
+  /* eslint-disable max-lines-per-function */
+  /* eslint-disable no-magic-numbers */
+  /* eslint-disable no-unused-vars */
+  /* eslint-disable require-jsdoc */
+  function testDefaultMap() {
+
+    const noFactory = () => {
+      try {
+        const dummy = new DefaultMap();
+      } catch (e) {
+        if (e instanceof TypeError) {
+          return 'caught';
+        }
+      }
+      return 'oops';
+    };
+
+    const badFactory = () => {
+      try {
+        const dummy = new DefaultMap('a');
+      } catch (e) {
+        if (e instanceof TypeError) {
+          return 'caught';
+        }
+      }
+      return 'oops';
+    };
+
+    const asMap = () => {
+      const dummy = new DefaultMap(Number, [[1, 'one'], [2, 'two']]);
+      dummy.set(3, ['a', 'b']);
+      dummy.get(4);
+      return JSON.stringify(Array.from(dummy.entries()));
+    };
+
+    const counter = () => {
+      const dummy = new DefaultMap(Number);
+      dummy.get('a');
+      dummy.set('b', dummy.get('b') + 1);
+      dummy.set('b', dummy.get('b') + 1);
+      dummy.get('c');
+      return JSON.stringify(Array.from(dummy.entries()));
+    };
+
+    const array = () => {
+      const dummy = new DefaultMap(Array);
+      dummy.get('a').push(1, 2, 3);
+      dummy.get('b').push(4, 5, 6);
+      dummy.get('a').push('one', 'two', 'three');
+      return JSON.stringify(Array.from(dummy.entries()));
+    };
+
+    const tests = [
+      {name: 'noFactory', test: noFactory, expected: 'caught'},
+      {name: 'badFactory', test: badFactory, expected: 'caught'},
+      {name: 'asMap',
+        test: asMap,
+        expected: '[[1,"one"],[2,"two"],[3,["a","b"]],[4,0]]'},
+      {name: 'counter', test: counter, expected: '[["a",0],["b",2],["c",0]]'},
+      {name: 'array',
+        test: array,
+        expected: '[["a",[1,2,3,"one","two","three"]],["b",[4,5,6]]]'},
+    ];
+
+    for (const {name, test, expected} of tests) {
+      const actual = test();
+      const passed = actual === expected;
+      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+  }
+  /* eslint-enable */
+
+  testing.funcs.push(testDefaultMap);
+
+  /**
    * Fancy-ish debug messages.
    *
    * Console message groups can be started and ended using special methods.
