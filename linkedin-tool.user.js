@@ -1542,7 +1542,7 @@
           this.#pathnameRE = /.*/u;
         }
       }
-      return this._pathname;
+      return this.#pathnameRE;
     }
 
     /** @type {KeyboardService} */
@@ -2809,7 +2809,8 @@
   /** Class for handling Job collections. */
   class JobsCollections extends Page {
 
-    _pathname = '/jobs/collections/';
+    // eslint-disable-next-line prefer-regex-literals
+    _pathname = RegExp('^/jobs/(?:collections|search)/.*', 'u');
 
   }
 
@@ -3507,11 +3508,8 @@
 
     static _errorMarker = '---';
 
-    /** @type {Page} - A special {Page} that handles global keys. */
-    _global = null;
-
-    /** @type {Page} - Current {Page}. */
-    _page = null;
+    /** @type {Set<Page>} - Currently active {Page}s. */
+    #activePages = new Set();
 
     /** @type {Set<Page>} - Registered {Page}s. */
     _pages = new Set();
@@ -3630,10 +3628,8 @@
      */
     _setKeyboardContext(context, state) {
       const pages = Array.from(this._pages.values());
-      pages.push(this._global);
       for (const page of pages) {
-        // Just in case no global was set up, use optional chaining.
-        page?.keyboard.setContext(context, state);
+        page.keyboard.setContext(context, state);
       }
     }
 
@@ -4073,12 +4069,7 @@
     register(page) {
       page.start(this);
       this._addInfo(page);
-      if (page.pathname === null) {
-        this._global = page;
-        this._global.activate();
-      } else {
-        this._pages.add(page);
-      }
+      this._pages.add(page);
     }
 
     /**
@@ -4096,11 +4087,11 @@
     /**
      * Determine which page can handle this portion of the URL.
      * @param {string} pathname - A {URL.pathname}.
-     * @returns {Page} - The page to use.
+     * @returns {Set<Page>} - The pages to use.
      */
-    _findPage(pathname) {
+    _findPages(pathname) {
       const pages = Array.from(this._pages.values());
-      return pages.find(p => p.pathname === pathname);
+      return new Set(pages.filter(page => page.pathname.test(pathname)));
     }
 
     /**
@@ -4108,16 +4099,24 @@
      * @param {string} pathname - A {URL.pathname}.
      */
     activate(pathname) {
-      if (this._page) {
-        this._page.deactivate();
-        this._dull(this._page);
+      const pages = this._findPages(pathname);
+      const oldPages = new Set(this.#activePages);
+      const newPages = new Set(pages);
+      for (const page of oldPages) {
+        newPages.delete(page);
       }
-      const page = this._findPage(pathname);
-      this._page = page;
-      if (page) {
+      for (const page of pages) {
+        oldPages.delete(page);
+      }
+      for (const page of oldPages) {
+        page.deactivate();
+        this._dull(page);
+      }
+      for (const page of newPages) {
         page.activate();
-        this._shine(this._page);
+        this._shine(page);
       }
+      this.#activePages = pages;
     }
 
   }
