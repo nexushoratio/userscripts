@@ -316,12 +316,19 @@
    * @param {Element} base - Where to start looking.
    * @param {string[]} selectorArray - CSS selectors to use to find an
    * element.
+   * @param {boolean} [matchSelf=false] - If a CSS selector would match base,
+   * then use it.
    * @returns {boolean} - Whether an element could be found.
    */
-  function clickElement(base, selectorArray) {
+  function clickElement(base, selectorArray, matchSelf = false) {
     if (base) {
       for (const selector of selectorArray) {
-        const el = base.querySelector(selector);
+        let el = null;
+        if (matchSelf && base.matches(selector)) {
+          el = base;
+        } else {
+          el = base.querySelector(selector);
+        }
         if (el) {
           el.click();
           return true;
