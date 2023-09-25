@@ -2241,7 +2241,16 @@
       name: 'MyNetwork sections',
       base: document.body,
       // See https://stackoverflow.com/questions/77146570
-      selectors: ['main > ul > li, main > :where(section, div)'],
+      selectors: [
+        [
+          // Invintations
+          'main > section',
+          // Most sections
+          'main > ul > li',
+          // More suggestions for you section
+          'main > div > section',
+        ].join(','),
+      ],
     };
 
     /** @type{Scroller~How} */
@@ -2254,7 +2263,18 @@
     /** @type{Scroller~What} */
     static #cardsWhat = {
       name: 'MyNetwork cards',
-      selectors: [':scope > :where(header, div), :scope > ul > li, :scope > section ul > li'],
+      selectors: [
+        [
+          // Invitations -> See all
+          ':scope > header > a',
+          // Other sections -> See all
+          ':scope > div > button',
+          // Most cards
+          ':scope > ul > li',
+          // More suggestions for you cards
+          ':scope ul > li section',
+        ].join(','),
+      ],
     };
 
     /** @type{Scroller~How} */
@@ -2420,7 +2440,7 @@
     activateItem = new Shortcut('Enter', 'Activate the current item', () => {
       const card = this._cards?.item;
       if (card) {
-        if (!clickElement(card, ['a', 'button'])) {
+        if (!clickElement(card, ['a', 'button'], true)) {
           this._spa.dumpInfoAboutElement(card, 'network card');
         }
       } else {
