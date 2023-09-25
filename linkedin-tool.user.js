@@ -986,6 +986,7 @@
     #stackTrace
     #topMarginCss
     #topMarginPixels
+    #uidCallback
 
     /**
      * Function that generates a, preferably, reproducible unique identifier
@@ -1040,7 +1041,7 @@
         throw new TypeError(`Invalid base ${this.#base} given for ${this.#name}`);
       }
       ({
-        uidCallback: this._uidCallback,
+        uidCallback: this.#uidCallback,
         classes: this.#classes,
         snapToTop: this.#snapToTop,
         topMarginPixels: this.#topMarginPixels = 0,
@@ -1069,15 +1070,15 @@
         this.#log.log(msg);
         throw new Error(msg);
       }
-      const items = this._getItems();
-      let item = items.find(this._matchItem);
+      const items = this.#getItems();
+      let item = items.find(this.#matchItem);
       if (!item) {
         // We couldn't find the old id, so maybe it was rebuilt.  Make a guess
         // by trying the old index.
         const idx = this.#historicalIdToIndex.get(this.#currentItemId);
         if (typeof idx === 'number' && (0 <= idx && idx < items.length)) {
           item = items[idx];
-          this._bottomHalf(item);
+          this.#bottomHalf(item);
         }
       }
       this.#log.leaving(me, item);
@@ -1089,7 +1090,7 @@
       const me = 'set item';
       this.#log.entered(me, val);
       this.dull();
-      this._bottomHalf(val);
+      this.#bottomHalf(val);
       this.#log.leaving(me);
     }
 
@@ -1098,14 +1099,14 @@
      * have changed out from under us), it too can update information.
      * @param {Element} val - Element to make current.
      */
-    _bottomHalf(val) {
+    #bottomHalf = (val) => {
       const me = 'bottomHalf';
       this.#log.entered(me, val);
-      this.#currentItemId = this._uid(val);
-      const idx = this._getItems().indexOf(val);
+      this.#currentItemId = this.#uid(val);
+      const idx = this.#getItems().indexOf(val);
       this.#historicalIdToIndex.set(this.#currentItemId, idx);
       this.shine();
-      this._scrollToCurrentItem();
+      this.#scrollToCurrentItem();
       this.dispatcher.fire('change', {});
       this.#log.leaving(me);
     }
@@ -1116,7 +1117,7 @@
      * @param {Element} item - The item to inspect.
      * @returns {boolean} - Whether the item has viewable content.
      */
-    static _isItemViewable(item) {
+    static #isItemViewable(item) {
       return item.clientHeight && item.innerText.length;
     }
 
@@ -1124,7 +1125,7 @@
      * Builds the list of elements using the registered CSS selectors.
      * @returns {Elements[]} - Items to scroll through.
      */
-    _getItems() {
+    #getItems = () => {
       const me = 'getItems';
       this.#log.entered(me);
       const items = [];
@@ -1149,13 +1150,13 @@
      * @param {Element} element - Element to identify.
      * @returns {string} - Computed uid for element.
      */
-    _uid(element) {
+    #uid = (element) => {
       const me = 'uid';
       this.#log.entered(me, element);
       let uid = null;
       if (element) {
         if (!element.dataset.spaId) {
-          element.dataset.spaId = this._uidCallback(element);
+          element.dataset.spaId = this.#uidCallback(element);
         }
         uid = element.dataset.spaId;
       }
@@ -1169,10 +1170,10 @@
      * @param {Element} element - Element to check.
      * @returns {boolean} - Whether or not element is the current one.
      */
-    _matchItem = (element) => {
+    #matchItem = (element) => {
       const me = 'matchItem';
       this.#log.entered(me);
-      const res = this.#currentItemId === this._uid(element);
+      const res = this.#currentItemId === this.#uid(element);
       this.#log.leaving(me, res);
       return res;
     }
@@ -1182,7 +1183,7 @@
      * configuration, this could snap to the top, snap to the bottom, or be a
      * no-op.
      */
-    _scrollToCurrentItem() {
+    #scrollToCurrentItem = () => {
       const me = 'scrollToCurrentItem';
       this.#log.entered(me, this.#snapToTop);
       const {item} = this;
@@ -1219,13 +1220,13 @@
      * @param {boolean} first - If true, the first item in the collection,
      * else, the last.
      */
-    _jumpToEndItem(first) {
+    #jumpToEndItem = (first) => {
       const me = 'jumpToEndItem';
       this.#log.entered(me, `first=${first}`);
       // Reset in case item was heavily modified
       this.item = this.item;
 
-      const items = this._getItems();
+      const items = this.#getItems();
       if (items.length) {
         // eslint-disable-next-line no-extra-parens
         let idx = first ? 0 : (items.length - 1);
@@ -1235,7 +1236,7 @@
         // having no innerText yet.  So start at the end and work our way up
         // to the last one loaded.
         if (!first) {
-          while (!Scroller._isItemViewable(item)) {
+          while (!Scroller.#isItemViewable(item)) {
             this.#log.log('skipping item', item);
             idx -= 1;
             item = items[idx];
@@ -1251,15 +1252,15 @@
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
      */
-    _scrollBy(n) {  // eslint-disable-line max-statements
+    #scrollBy = (n) => {  // eslint-disable-line max-statements
       const me = 'scrollBy';
       this.#log.entered(me, n);
       // Reset in case item was heavily modified
       this.item = this.item;
 
-      const items = this._getItems();
+      const items = this.#getItems();
       if (items.length) {
-        let idx = items.findIndex(this._matchItem);
+        let idx = items.findIndex(this.#matchItem);
         this.#log.log('initial idx', idx);
         idx += n;
         if (idx < NOT_FOUND) {
@@ -1271,7 +1272,7 @@
         } else {
           // Skip over empty items
           let item = items[idx];
-          while (!Scroller._isItemViewable(item)) {
+          while (!Scroller.#isItemViewable(item)) {
             this.#log.log('skipping item', item);
             idx += n;
             item = items[idx];
@@ -1287,28 +1288,28 @@
      * Move to the next item in the collection.
      */
     next() {
-      this._scrollBy(1);
+      this.#scrollBy(1);
     }
 
     /**
      * Move to the previous item in the collection.
      */
     prev() {
-      this._scrollBy(-1);
+      this.#scrollBy(-1);
     }
 
     /**
      * Jump to the first item in the collection.
      */
     first() {
-      this._jumpToEndItem(true);
+      this.#jumpToEndItem(true);
     }
 
     /**
      * Jump to last item in the collection.
      */
     last() {
-      this._jumpToEndItem(false);
+      this.#jumpToEndItem(false);
     }
 
     /**
@@ -1329,7 +1330,7 @@
      * Bring current item back into view.
      */
     show() {
-      this._scrollToCurrentItem();
+      this.#scrollToCurrentItem();
     }
 
     /**
