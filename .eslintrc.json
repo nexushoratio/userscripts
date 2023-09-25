@@ -141,6 +141,10 @@
       "error",
       "consistent"
     ],
+    "function-paren-newline": [
+      "error",
+      "consistent"
+    ],
     "indent": [
       "error",
       2
