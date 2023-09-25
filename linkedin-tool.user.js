@@ -170,6 +170,8 @@
     #opened = [];
     #closed = [];
 
+    static #loggers = new DefaultMap(Array);
+
     /**
      * @param {string} name - Name for this logger.
      * @param {boolean} enabled - Initial enabled state of the logger.
@@ -179,6 +181,12 @@
       this.#name = name;
       this.#enabled = enabled;
       this.trace = trace;
+      Logger.#loggers.get(this.#name).push(new WeakRef(this));
+    }
+
+    /** @type{DefaultMap<string,Logger>} - Known loggers. */
+    static get loggers() {
+      return this.#loggers;
     }
 
     /** @type {string} - Name for this logger. */

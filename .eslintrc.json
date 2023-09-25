@@ -4,6 +4,9 @@
     "greasemonkey": true,
     "es6": true
   },
+  "globals": {
+    "WeakRef": "readonly"
+  },
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "script"
