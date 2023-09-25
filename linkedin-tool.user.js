@@ -3883,19 +3883,6 @@
       return text.replace(/(?<cameo>[A-Z])/gu, ' $<cameo>').trim();
     }
 
-    /**
-     * Parse a {@link Shortcut.seq} and wrap it in HTML.
-     * @example
-     * 'a b' -> '<kbd>a</kbd> then <kbd>b</kbd>'
-     * @param {Shortcut.seq} seq - Keystroke sequence.
-     * @returns {string} - Appropriately wrapped HTML.
-     */
-    static _parseSeq(seq) {
-      const letters = seq.split(' ').map(w => `<kbd>${w}</kbd>`);
-      const s = letters.join(' then ');
-      return s;
-    }
-
     static keyMap = new Map([
       ['LEFT', '←'],
       ['UP', '↑'],
@@ -3903,10 +3890,7 @@
       ['DOWN', '↓'],
     ]);
 
-
     /**
-     * TODO(#110): Test in UI and tweak the CSS.
-     *
      * Parse a {@link Shortcut.seq} and wrap it in HTML.
      * @example
      * 'a c-b' ->
