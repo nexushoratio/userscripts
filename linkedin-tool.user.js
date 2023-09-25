@@ -505,8 +505,11 @@
       } = base;
       logger.log('initial dimensions:', initialWidth, initialHeight);
       const observer = new ResizeObserver(() => {
-        logger.log('observed dimensions:', base.clientWidth, base.clientHeight);
-        if (base.clientHeight !== initialHeight || base.clientWidth !== initialWidth) {
+        logger.log(
+          'observed dimensions:', base.clientWidth, base.clientHeight
+        );
+        if (base.clientHeight !== initialHeight ||
+            base.clientWidth !== initialWidth) {
           observer.disconnect();
           clearTimeout(timeoutID);
           logger.log('resolving', what);
