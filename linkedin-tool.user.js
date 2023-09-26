@@ -131,6 +131,7 @@
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
+      testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -318,6 +319,7 @@
   }
 
   const log = new Logger('Default', true, false);
+  testing.log = new Logger('Testing', true, false);
 
   /**
    * Run querySelector to get an element, then click it.
@@ -603,7 +605,7 @@
       const actual = safeId(test);
       const passed = actual === expected;
       const msg = `${test} ${expected} ${actual}, ${passed}`;
-      log.log(msg);
+      testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -4174,7 +4176,7 @@
       const actual = SPA._parseSeq2(test);
       const passed = actual === expected;
       const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
-      log.log(msg);
+      testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -4203,11 +4205,10 @@
   });
 
   if (testing.enabled) {
-    log.enable();
     for (const test of testing.funcs) {
       test();
     }
-    log.log('All tests passed.');
+    testing.log.log('All tests passed.');
   }
 
   log.log('Initialization successful.');
