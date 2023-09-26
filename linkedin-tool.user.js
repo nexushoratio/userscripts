@@ -200,6 +200,11 @@
       return this.#enabled;
     }
 
+    /** @param {boolean} val - Set whether logging is currently enabled. */
+    set enabled(val) {
+      this.#enabled = Boolean(val);
+    }
+
     /** @type {boolean} - Indicates whether messages include a stack trace. */
     get trace() {
       return this.#trace;
@@ -208,20 +213,6 @@
     /** @param {boolean} val - Set inclusion of stack traces. */
     set trace(val) {
       this.#trace = Boolean(val);
-    }
-
-    /**
-     * Enable this logger.
-     */
-    enable() {
-      this.#enabled = true;
-    }
-
-    /**
-     * Disable this logger.
-     */
-    disable() {
-      this.#enabled = false;
     }
 
     /* eslint-disable no-console */
