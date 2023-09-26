@@ -1370,21 +1370,21 @@
    */
   class LinkedInGlobals {
 
-    _navBarHeightPixels = 0;
+    #navBarHeightPixels = 0;
 
     /** @type{number} - The height of the navbar in pixels. */
     get navBarHeightPixels() {
-      return this._navBarHeightPixels;
+      return this.#navBarHeightPixels;
     }
 
     /** @param {number} val - Set height of the navbar in pixels. */
     set navBarHeightPixels(val) {
-      this._navBarHeightPixels = val;
+      this.#navBarHeightPixels = val;
     }
 
     /** @type {string} - The height of the navbar as CSS string. */
     get navBarHeightCss() {
-      return `${this._navBarHeightPixels}px`;
+      return `${this.#navBarHeightPixels}px`;
     }
 
     /**
