@@ -2283,7 +2283,7 @@
           // Most cards
           ':scope > ul > li',
           // More suggestions for you cards
-          ':scope ul > li section',
+          ':scope > section ul > li section',
         ].join(','),
       ],
     };
@@ -2293,6 +2293,7 @@
       uidCallback: MyNetwork._uniqueCardsIdentifier,
       classes: ['dick'],
       snapToTop: false,
+      debug: true,
     };
 
     /** Create MyNetwork controller. */
