@@ -712,10 +712,14 @@
     /** @type {Map<string,TabEntry>} */
     get tabs() {
       const entries = new Map();
-      for (const label of this.#nav.querySelectorAll(':scope > label[data-tabbed-name]')) {
+      for (const label of this.#nav.querySelectorAll(
+        ':scope > label[data-tabbed-name]'
+      )) {
         entries.set(label.dataset.tabbedName, {label: label});
       }
-      for (const panel of this.container.querySelectorAll(`:scope > .${this.#idName}-panel`)) {
+      for (const panel of this.container.querySelectorAll(
+        `:scope > .${this.#idName}-panel`
+      )) {
         entries.get(panel.dataset.tabbedName).panel = panel;
       }
       return entries;
@@ -728,16 +732,29 @@
       this.#style = document.createElement('style');
       this.#style.id = `${this.#id}-style`;
       const styles = [
-        `#${this.container.id} { flex-grow: 1; overflow-y: hidden; display: flex; flex-direction: column; }`,
+        `#${this.container.id} {` +
+          ' flex-grow: 1; overflow-y: hidden; display: flex;' +
+          ' flex-direction: column;' +
+          '}',
         `#${this.container.id} > input { display: none; }`,
         `#${this.container.id} > nav { display: flex; flex-direction: row; }`,
         `#${this.container.id} > nav button { border-radius: 50%; }`,
-        `#${this.container.id} > nav > label { cursor: pointer; margin-top: 1ex; margin-left: 1px; margin-right: 1px; padding: unset; color: unset !important; }`,
-        `#${this.container.id} > nav > .spacer { margin-left: auto; margin-right: auto; border-right: 1px solid black; }`,
+        `#${this.container.id} > nav > label {` +
+          ' cursor: pointer;' +
+          ' margin-top: 1ex; margin-left: 1px; margin-right: 1px;' +
+          ' padding: unset; color: unset !important;' +
+          '}',
+        `#${this.container.id} > nav > .spacer {` +
+          ' margin-left: auto; margin-right: auto;' +
+          ' border-right: 1px solid black;' +
+          '}',
         `#${this.container.id} label::before { all: unset; }`,
         `#${this.container.id} label::after { all: unset; }`,
         // Panels are both flex items AND flex containers.
-        `#${this.container.id} .${this.#idName}-panel { display: none; overflow-y: auto; flex-grow: 1; flex-direction: column; }`,
+        `#${this.container.id} .${this.#idName}-panel {` +
+          ' display: none; overflow-y: auto; flex-grow: 1;' +
+          ' flex-direction: column;' +
+          '}',
         '',
       ];
       this.#style.textContent = styles.join('\n');
@@ -749,7 +766,9 @@
      * @returns {Element[]} - Control elements for the tabs.
      */
     #getTabControls = () => {
-      const controls = Array.from(this.container.querySelectorAll(':scope > input'));
+      const controls = Array.from(this.container.querySelectorAll(
+        ':scope > input'
+      ));
       return controls;
     }
 
@@ -860,8 +879,19 @@
       this.#nav.before(input);
       this.#navSpacer.before(label);
       this.container.append(panel);
-      this.#style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ nav > [data-tabbed-name="${name}"] { border-bottom: 3px solid black; }\n`;
-      this.#style.textContent += `#${this.container.id} > input[data-tabbed-name="${name}"]:checked ~ div[data-tabbed-name="${name}"] { display: flex; }\n`;
+
+      const inputChecked =
+            `#${this.container.id} > ` +
+            `input[data-tabbed-name="${name}"]:checked`;
+      this.#style.textContent +=
+        `${inputChecked} ~ nav > [data-tabbed-name="${name}"] {` +
+        ' border-bottom: 3px solid black;' +
+        '}\n';
+      this.#style.textContent +=
+        `${inputChecked} ~ div[data-tabbed-name="${name}"] {` +
+        ' display: flex;' +
+        '}\n';
+
       this.#log.leaving(me);
     }
 
