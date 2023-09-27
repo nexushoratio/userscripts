@@ -2491,6 +2491,12 @@
       }
     });
 
+    enagageCard = new Shortcut(
+      'E', 'Engage the card (Connect, Follow, Join, etc)', () => {
+        clickElement(this._cards?.item, ['footer > button']);
+      }
+    );
+
   }
 
   /**
