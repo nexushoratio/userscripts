@@ -2480,7 +2480,7 @@
       focusOnElement(item);
     });
 
-    activateItem = new Shortcut('Enter', 'Activate the current item', () => {
+    viewItem = new Shortcut('v', 'View the current item', () => {
       const card = this._cards?.item;
       if (card) {
         if (!clickElement(card, ['a', 'button'], true)) {
