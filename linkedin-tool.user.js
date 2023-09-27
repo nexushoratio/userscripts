@@ -180,7 +180,7 @@
      */
     constructor(name, enabled = false, trace = false) {
       this.#name = name;
-      this.#enabled = enabled;
+      this.enabled = enabled;
       this.trace = trace;
       Logger.#loggers.get(this.#name).push(new WeakRef(this));
     }
