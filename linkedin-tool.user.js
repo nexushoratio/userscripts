@@ -185,7 +185,7 @@
       Logger.#loggers.get(this.#name).push(new WeakRef(this));
     }
 
-    /** @type{DefaultMap<string,Logger>} - Known loggers. */
+    /** @type {DefaultMap<string,Logger>} - Known loggers. */
     static get loggers() {
       return this.#loggers;
     }
@@ -1395,7 +1395,7 @@
 
     #navBarHeightPixels = 0;
 
-    /** @type{number} - The height of the navbar in pixels. */
+    /** @type {number} - The height of the navbar in pixels. */
     get navBarHeightPixels() {
       return this.#navBarHeightPixels;
     }
@@ -2278,7 +2278,7 @@
     #cardsScroller
     #currentSectionText
 
-    /** @type{Scroller~What} */
+    /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: 'MyNetwork sections',
       base: document.body,
@@ -2295,14 +2295,14 @@
       ],
     };
 
-    /** @type{Scroller~How} */
+    /** @type {Scroller~How} */
     static _sectionsHow = {
       uidCallback: MyNetwork._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
 
-    /** @type{Scroller~What} */
+    /** @type {Scroller~What} */
     static #cardsWhat = {
       name: 'MyNetwork cards',
       selectors: [
@@ -2319,7 +2319,7 @@
       ],
     };
 
-    /** @type{Scroller~How} */
+    /** @type {Scroller~How} */
     static _cardsHow = {
       uidCallback: MyNetwork._uniqueCardsIdentifier,
       classes: ['dick'],
@@ -2534,27 +2534,27 @@
     _sectionWatchText = '';
     _jobScroller = null;
 
-    /** @type{Scroller~What} */
+    /** @type {Scroller~What} */
     static _sectionsWhat = {
       name: 'Jobs sections',
       base: document.body,
       selectors: ['main section'],
     };
 
-    /** @type{Scroller~How} */
+    /** @type {Scroller~How} */
     static _sectionsHow = {
       uidCallback: Jobs._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
 
-    /** @type{Scroller~What} */
+    /** @type {Scroller~What} */
     static _jobsWhat = {
       name: 'Job entries',
       selectors: [':scope > ul > li', ':scope > div > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
     };
 
-    /** @type{Scroller~How} */
+    /** @type {Scroller~How} */
     static _jobsHow = {
       uidCallback: Jobs._uniqueJobIdentifier,
       classes: ['dick'],
@@ -3342,7 +3342,7 @@
      * @property {string} url - License URL.
      */
 
-    /** @type{LicenseData} */
+    /** @type {LicenseData} */
     get licenseData() {
       const me = 'licenseData';
       this._log.entered(me);
