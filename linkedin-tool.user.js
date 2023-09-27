@@ -1079,7 +1079,9 @@
         selectors: this.#selectors,
       } = what);
       if (!(this.#base instanceof Element)) {
-        throw new TypeError(`Invalid base ${this.#base} given for ${this.#name}`);
+        throw new TypeError(
+          `Invalid base ${this.#base} given for ${this.#name}`
+        );
       }
       ({
         uidCallback: this.#uidCallback,
@@ -1093,7 +1095,9 @@
         stackTrace: this.#stackTrace = false,
       } = how);
 
-      this.#log = new Logger(`{${this.#name}}`, this.#debug, this.#stackTrace);
+      this.#log = new Logger(
+        `{${this.#name}}`, this.#debug, this.#stackTrace
+      );
       this.#log.log('Scroller constructed', this);
     }
 
@@ -1107,7 +1111,8 @@
       const me = 'get item';
       this.#log.entered(me);
       if (this.#destroyed) {
-        const msg = `Tried to work with destroyed ${this.constructor.name} on ${this.#base}`;
+        const msg = `Tried to work with destroyed ${Scroller.name} ` +
+              `on ${this.#base}`;
         this.#log.log(msg);
         throw new Error(msg);
       }
@@ -1238,7 +1243,9 @@
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to fit
           // on the page, so the top is preferred.
-          if (rect.bottom > (document.documentElement.clientHeight - this.#bottomMarginPixels)) {
+          const allowedBottom = document.documentElement.clientHeight -
+                this.#bottomMarginPixels;
+          if (rect.bottom > allowedBottom) {
             this.#log.log('scrolling up onto page');
             item.scrollIntoView(false);
           }
