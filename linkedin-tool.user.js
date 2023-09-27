@@ -1523,6 +1523,9 @@
 
     // Private members.
 
+    /** @type {SPA} - SPA instance managing this instance. */
+    #spa;
+
     /** @type {RegExp} - Computed RegExp version of _pathname. */
     #pathnameRE;
 
@@ -1556,7 +1559,7 @@
      * @param {SPA} spa - SPA instance that manages this Page.
      */
     start(spa) {
-      this._spa = spa;
+      this.#spa = spa;
       this._log = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this.allShortcuts) {
         this._addKey(seq, func);
@@ -1588,6 +1591,11 @@
         }
       }
       return this.#pathnameRE;
+    }
+
+    /** @type {SPA} */
+    get spa() {
+      return this.#spa;
     }
 
     /** @type {KeyboardService} */
@@ -1687,8 +1695,8 @@
      */
     _onClick = (evt) => {  // eslint-disable-line no-unused-vars
       const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
-      this._spa.addError(msg);
-      this._spa.addErrorMarker();
+      this.spa.addError(msg);
+      this.spa.addErrorMarker();
     }
 
     /**
@@ -2476,7 +2484,7 @@
       const card = this._cards?.item;
       if (card) {
         if (!clickElement(card, ['a', 'button'], true)) {
-          this._spa.dumpInfoAboutElement(card, 'network card');
+          this.spa.dumpInfoAboutElement(card, 'network card');
         }
       } else {
         document.activeElement.click();
@@ -2828,7 +2836,7 @@
       const job = this._jobs?.item;
       if (job) {
         if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
-          this._spa.dumpInfoAboutElement(job, 'job');
+          this.spa.dumpInfoAboutElement(job, 'job');
         }
       } else {
         // Again, because we use Enter as the hotkey for this action.
@@ -3043,7 +3051,7 @@
           if (ba.length === ONE_ITEM) {
             ba[0].click();
           } else {
-            this._spa.dumpInfoAboutElement(notification, 'notification');
+            this.spa.dumpInfoAboutElement(notification, 'notification');
           }
         }
       } else {
