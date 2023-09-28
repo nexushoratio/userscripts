@@ -1533,6 +1533,9 @@
     /** @type {SPA} - SPA instance managing this instance. */
     #spa;
 
+    /** @type {Logger} - Logger instance. */
+    #logger;
+
     /** @type {RegExp} - Computed RegExp version of _pathname. */
     #pathnameRE;
 
@@ -1567,7 +1570,7 @@
      */
     start(spa) {
       this.#spa = spa;
-      this._log = new Logger(this.constructor.name, false, false);
+      this.#logger = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this.allShortcuts) {
         this._addKey(seq, func);
       }
@@ -1603,6 +1606,11 @@
     /** @type {SPA} */
     get spa() {
       return this.#spa;
+    }
+
+    /** @type {Logger} */
+    get logger() {
+      return this.#logger;
     }
 
     /** @type {KeyboardService} */
@@ -1711,7 +1719,7 @@
      * current view again.
      */
     _refresh() {
-      this._log.log('In base refresh.');
+      this.logger.log('In base refresh.');
     }
 
   }
@@ -2606,12 +2614,12 @@
     /** @type {Scroller} */
     get _jobs() {
       const me = 'get jobs';
-      this._log.entered(me, this._jobScroller);
+      this.logger.entered(me, this._jobScroller);
       if (!this._jobScroller && this._sections.item) {
         this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
         this._jobScroller.dispatcher.on('out-of-range', this._returnToSection);
       }
-      this._log.leaving(me, this._jobScroller);
+      this.logger.leaving(me, this._jobScroller);
       return this._jobScroller;
     }
 
@@ -2620,12 +2628,12 @@
      */
     _clearJobs() {
       const me = 'clearJobs';
-      this._log.entered(me, this._jobScroller);
+      this.logger.entered(me, this._jobScroller);
       if (this._jobScroller) {
         this._jobScroller.destroy();
         this._jobScroller = null;
       }
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** @type {boolean} */
@@ -2704,7 +2712,7 @@
      */
     _resetScroll(topScroll) {
       const me = 'resetScroll';
-      this._log.entered(me, topScroll);
+      this.logger.entered(me, topScroll);
       // Explicitly setting jobs.item below will cause it to scroll to that
       // item.  We do not want to do that if the user is manually scrolling.
       const savedJob = this._jobs?.item;
@@ -2715,7 +2723,7 @@
         this._jobs.item = savedJob;
       }
       document.documentElement.scrollTop = topScroll;
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -2731,13 +2739,13 @@
      */
     _mutationHandler = (records) => {
       const me = 'mutationHandler';
-      this._log.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
+      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
             const newText = node.innerText?.trim().split('\n')[0];
             if (newText && newText === this._sectionWatchText) {
-              this._log.log('via childList');
+              this.logger.log('via childList');
               this._resetScroll(document.documentElement.scrollTop);
             }
           }
@@ -2749,13 +2757,13 @@
             const newValue = record.target.attributes[attr].value;
             const same = oldValue === newValue;
             if (!same) {
-              this._log.log('via attributes', record.target, `\nold: ${oldValue}\nnew:${newValue}`);
+              this.logger.log('via attributes', record.target, `\nold: ${oldValue}\nnew:${newValue}`);
               this._resetScroll(document.documentElement.scrollTop);
             }
           }
         }
       }
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
