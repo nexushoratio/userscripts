@@ -2339,7 +2339,6 @@
       uidCallback: MyNetwork._uniqueCardsIdentifier,
       classes: ['dick'],
       snapToTop: false,
-      debug: true,
     };
 
     /** Create MyNetwork controller. */
