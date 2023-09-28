@@ -2511,6 +2511,10 @@
       }
     );
 
+    dismissCard = new Shortcut('X', 'Dismiss current card', () => {
+      clickElement(this._cards?.item, ['button.artdeco-card__dismiss']);
+    });
+
   }
 
   /**
