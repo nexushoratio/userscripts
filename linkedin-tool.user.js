@@ -1615,7 +1615,7 @@
     #pathnameRE;
 
     /** @type {KeyboardService} */
-    _keyboard = new VM.shortcut.KeyboardService();
+    #keyboard = new VM.shortcut.KeyboardService();
 
     /**
      * @type {Element} - Tracks which HTMLElement holds the `onclick`
@@ -1627,7 +1627,7 @@
      * @type {IShortcutOptions} - Disables keys when focus is on an element or
      * info view.
      */
-    static _navOption = {
+    static #navOption = {
       caseSensitive: true,
       condition: '!inputFocus && !inDialog',
     };
@@ -1647,7 +1647,7 @@
       this.#spa = spa;
       this.#logger = new Logger(this.constructor.name, false, false);
       for (const {seq, func} of this.allShortcuts) {
-        this._addKey(seq, func);
+        this.#addKey(seq, func);
       }
     }
 
@@ -1690,7 +1690,7 @@
 
     /** @type {KeyboardService} */
     get keyboard() {
-      return this._keyboard;
+      return this.#keyboard;
     }
 
     /**
@@ -1698,8 +1698,8 @@
      * the current view.
      */
     activate() {
-      this._keyboard.enable();
-      this._enableOnClick();
+      this.#keyboard.enable();
+      this.#enableOnClick();
     }
 
     /**
@@ -1707,8 +1707,8 @@
      * longer the current view.
      */
     deactivate() {
-      this._keyboard.disable();
-      this._disableOnClick();
+      this.#keyboard.disable();
+      this.#disableOnClick();
     }
 
     /** @type {string} - Describes what the header should be. */
@@ -1729,14 +1729,14 @@
      * @param {string} seq - Key sequence.
      * @param {SimpleFunction} func - Function to call.
      */
-    _addKey(seq, func) {
-      this._keyboard.register(seq, func, Page._navOption);
+    #addKey(seq, func) {
+      this.#keyboard.register(seq, func, Page.#navOption);
     }
 
     /**
      * Enables the 'click' handler for this view.
      */
-    async _enableOnClick() {
+    #enableOnClick = async () => {
       if (this._onClickSelector) {
 
         /**
@@ -1771,7 +1771,7 @@
     /**
      * Disables the 'click' handler for this view.
      */
-    _disableOnClick() {
+    #disableOnClick = () => {
       this._onClickElement?.removeEventListener('click', this._onClick);
       this._onClickElement = null;
     }
