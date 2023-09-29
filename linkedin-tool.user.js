@@ -2064,50 +2064,10 @@
     }
 
     /**
-     * Toggle hiding current post then select the next.
-     */
-    _nextPostPlus = async () => {
-
-      /**
-       * Trigger function for {@link otrot}.
-       */
-      const trigger = () => {
-        this._togglePost();
-        this._nextPost();
-      };
-      // XXX: Need to remove the highlights before otrot sees it because it
-      // affects the .clientHeight.
-      this._posts.dull();
-      this._comments?.dull();
-      if (this._posts.item) {
-        const what = {
-          name: 'nextPostPlus',
-          base: this._posts.item,
-        };
-        const how = {
-          trigger: trigger,
-          timeout: 3000,
-        };
-        await otrot(what, how);
-        this._posts.show();
-      } else {
-        trigger();
-      }
-    }
-
-    /**
      * Select the previous post.
      */
     _prevPost = () => {
       this._posts.prev();
-    }
-
-    /**
-     * Toggle hiding the current post then select the previous.
-     */
-    _prevPostPlus = () => {
-      this._togglePost();
-      this._prevPost();
     }
 
     /**
@@ -2122,62 +2082,6 @@
      */
     _prevComment = () => {
       this._comments.prev();
-    }
-
-    /**
-     * Toggles hiding the current post.
-     */
-    _togglePost = () => {
-      clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
-    }
-
-    /**
-     * Show more comments on the current post.
-     */
-    _showComments = () => {
-      if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
-        clickElement(this._posts.item, ['button[aria-label*="comment"]']);
-      }
-    }
-
-    /**
-     * Show more content of the current post or comment.
-     */
-    _seeMore = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button[aria-label^="see more"]']);
-    }
-
-    /**
-     * Like the current post or comment via social action menu.
-     */
-    _likePostOrComment = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button[aria-label^="Open reactions menu"]']);
-    }
-
-    /**
-     * Comment on current post or comment via social action menu.
-     */
-    _commentOnPostOrComment = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
-    }
-
-    /**
-     * Repost current post via social action menu.
-     */
-    _repost = () => {
-      const el = this._posts.item;
-      clickElement(el, ['button.social-reshare-button']);
-    }
-
-    /**
-     * Send current post privately via social action menu.
-     */
-    _sendPost = () => {
-      const el = this._posts.item;
-      clickElement(el, ['button.send-privately-button']);
     }
 
     /**
@@ -2200,6 +2104,33 @@
       } else {
         this._posts.last();
       }
+    }
+
+    /**
+     * Change browser focus to the current post or comment.
+     */
+    _focusBrowser = () => {
+      const el = this._comments.item ?? this._posts.item;
+      this._posts.show();
+      this._comments?.show();
+      focusOnElement(el);
+    }
+
+    /**
+     * Show more comments on the current post.
+     */
+    _showComments = () => {
+      if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
+        clickElement(this._posts.item, ['button[aria-label*="comment"]']);
+      }
+    }
+
+    /**
+     * Show more content of the current post or comment.
+     */
+    _seeMore = () => {
+      const el = this._comments.item ?? this._posts.item;
+      clickElement(el, ['button[aria-label^="see more"]']);
     }
 
     /**
@@ -2247,40 +2178,6 @@
     }
 
     /**
-     * Move browser focus to the share box.
-     */
-    static _gotoShare() {
-      const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
-      share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
-      share.scrollIntoView();
-      share.querySelector('button').focus();
-    }
-
-    /**
-     * Open the (⋯) menu for the current item.
-     */
-    _openMeatballMenu = () => {
-      // XXX: In this case, the identifier is on an svg element, not the
-      // button, so use the parentElement.  When Firefox [fully
-      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
-      // `:has()` pseudo-selector, we can probably use that and use
-      // `clickElement()`.
-      const el = this._comments.item ?? this._posts.item;
-      const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
-      button?.click();
-    }
-
-    /**
-     * Change browser focus to the current post or comment.
-     */
-    _focusBrowser = () => {
-      const el = this._comments.item ?? this._posts.item;
-      this._posts.show();
-      this._comments?.show();
-      focusOnElement(el);
-    }
-
-    /**
      * Navigate the the stand-alone page for the current post.
      */
     _viewPost = () => {
@@ -2312,6 +2209,109 @@
      */
     _viewReposts = () => {
       clickElement(this._posts.item, ['button[aria-label*="repost"]']);
+    }
+
+    /**
+     * Open the (⋯) menu for the current item.
+     */
+    _openMeatballMenu = () => {
+      // XXX: In this case, the identifier is on an svg element, not the
+      // button, so use the parentElement.  When Firefox [fully
+      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
+      // `:has()` pseudo-selector, we can probably use that and use
+      // `clickElement()`.
+      const el = this._comments.item ?? this._posts.item;
+      const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
+      button?.click();
+    }
+
+    /**
+     * Like the current post or comment via social action menu.
+     */
+    _likePostOrComment = () => {
+      const el = this._comments.item ?? this._posts.item;
+      clickElement(el, ['button[aria-label^="Open reactions menu"]']);
+    }
+
+    /**
+     * Comment on current post or comment via social action menu.
+     */
+    _commentOnPostOrComment = () => {
+      const el = this._comments.item ?? this._posts.item;
+      clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
+    }
+
+    /**
+     * Repost current post via social action menu.
+     */
+    _repost = () => {
+      const el = this._posts.item;
+      clickElement(el, ['button.social-reshare-button']);
+    }
+
+    /**
+     * Send current post privately via social action menu.
+     */
+    _sendPost = () => {
+      const el = this._posts.item;
+      clickElement(el, ['button.send-privately-button']);
+    }
+
+    /**
+     * Move browser focus to the share box.
+     */
+    static _gotoShare() {
+      const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
+      share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
+      share.scrollIntoView();
+      share.querySelector('button').focus();
+    }
+
+    /**
+     * Toggles hiding the current post.
+     */
+    _togglePost = () => {
+      clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
+    }
+
+    /**
+     * Toggle hiding current post then select the next.
+     */
+    _nextPostPlus = async () => {
+
+      /**
+       * Trigger function for {@link otrot}.
+       */
+      const trigger = () => {
+        this._togglePost();
+        this._nextPost();
+      };
+      // XXX: Need to remove the highlights before otrot sees it because it
+      // affects the .clientHeight.
+      this._posts.dull();
+      this._comments?.dull();
+      if (this._posts.item) {
+        const what = {
+          name: 'nextPostPlus',
+          base: this._posts.item,
+        };
+        const how = {
+          trigger: trigger,
+          timeout: 3000,
+        };
+        await otrot(what, how);
+        this._posts.show();
+      } else {
+        trigger();
+      }
+    }
+
+    /**
+     * Toggle hiding the current post then select the previous.
+     */
+    _prevPostPlus = () => {
+      this._togglePost();
+      this._prevPost();
     }
 
   }
