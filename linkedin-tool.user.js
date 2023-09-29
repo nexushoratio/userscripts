@@ -165,12 +165,12 @@
   Object.freeze(GroupMode);
 
   /**
-   * Fancy-ish debug messages.
+   * Fancy-ish log messages.
    *
    * Console message groups can be started and ended using special methods.
    *
    * @example
-   * const log = new Logger('Bob', true);
+   * const log = new Logger('Bob');
    * foo(x) {
    *  const me = 'foo';
    *  log.entered(me, x);
@@ -184,6 +184,8 @@
    *  log.leaving(me, y);
    *  return y;
    * }
+   *
+   * Logger.config('Bob').enabled = true;
    */
   class Logger {
 
@@ -233,14 +235,10 @@
 
     /**
      * @param {string} name - Name for this logger.
-     * @param {boolean} enabled - Initial enabled state of the logger.
-     * @param {boolean} trace - Initial state of including stack traces.
      */
-    constructor(name, enabled = false, trace = false) {
+    constructor(name) {
       this.#name = name;
       this.#config = Logger.config(name);
-      this.enabled = enabled;
-      this.trace = trace;
       Logger.#loggers.get(this.#name).push(new WeakRef(this));
     }
 
@@ -269,22 +267,12 @@
 
     /** @type {boolean} - Whether logging is currently enabled. */
     get enabled() {
-      return this.#enabled;
-    }
-
-    /** @param {boolean} val - Set whether logging is currently enabled. */
-    set enabled(val) {
-      this.#enabled = Boolean(val);
+      return this.#config.enabled;
     }
 
     /** @type {boolean} - Indicates whether messages include a stack trace. */
     get trace() {
-      return this.#trace;
-    }
-
-    /** @param {boolean} val - Set inclusion of stack traces. */
-    set trace(val) {
-      this.#trace = Boolean(val);
+      return this.#config.trace;
     }
 
     /* eslint-disable no-console */
@@ -364,7 +352,7 @@
 
     /**
      * Log a specific message.
-     * @param {string} msg - Debug message to send to console.debug.
+     * @param {string} msg - Message to send to console.debug.
      * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
      */
     log(msg, ...rest) {
@@ -381,8 +369,8 @@
 
   }
 
-  const log = new Logger('Default', true, false);
-  testing.log = new Logger('Testing', true, false);
+  const log = new Logger('Default');
+  testing.log = new Logger('Testing');
 
   Logger.config('Default').enabled = true;
   Logger.config('Testing').enabled = true;
@@ -481,7 +469,6 @@
    * records.
    * @property {number} [timeout] - Time to wait for completion in
    * milliseconds, default of 0 disables.
-   * @property {boolean} [debug] - Enable debugging.
    */
 
   /**
@@ -502,9 +489,8 @@
         trigger = () => {},  // eslint-disable-line no-empty-function
         monitor,
         timeout = 0,
-        debug = false,
       } = how;
-      const logger = new Logger(`otmot ${name}`, debug, false);
+      const logger = new Logger(`otmot ${name}`);
       let timeoutID = null;
       const observer = new MutationObserver((records) => {
         const {done, results} = monitor(records);
@@ -543,7 +529,6 @@
    * @property {SimpleFunction} [trigger] - Function to call that triggers
    * observable events.
    * @property {number} timeout - Time to wait for completion in milliseconds.
-   * @property {boolean} [debug] - Enable debugging.
    */
 
   /**
@@ -562,10 +547,9 @@
       const {
         trigger = () => {},  // eslint-disable-line no-empty-function
         timeout,
-        debug = false,
       } = how;
       let timeoutID = null;
-      const logger = new Logger(`otrot ${name}`, debug, false);
+      const logger = new Logger(`otrot ${name}`);
       const {
         clientHeight: initialHeight,
         clientWidth: initialWidth,
@@ -740,10 +724,9 @@
      * Create a TabbedUI.
      * @param {string} name - Used to distinguish HTML elements and CSS
      * classes.
-     * @param {boolean} [debug] - Enable debug logging.
      */
-    constructor(name, debug = false) {
-      this.#log = new Logger(`TabbedUI ${name}`, debug, false);
+    constructor(name) {
+      this.#log = new Logger(`TabbedUI ${name}`);
       this.#name = name;
       this.#idName = safeId(name);
       this.#id = `${this.#idName}-${crypto.randomUUID()}`;
@@ -1093,7 +1076,6 @@
     #bottomMarginCss
     #bottomMarginPixels
     #classes
-    #debug
     #log
     #name
     #selectors
@@ -1113,8 +1095,7 @@
 
     /**
      * @typedef {object} What
-     * @property {string} name - Name for this scroller, simply used for
-     * debugging.
+     * @property {string} name - Name for this scroller, used for logging.
      * @property {Element} base - The container to use as a base for selecting
      * elements.
      * @property {string[]} selectors - Array of CSS selectors to find
@@ -1136,9 +1117,6 @@
      * `scrollMarginTop`.
      * @property {string} [bottomMarginCss='0'] - CSS applied to
      * `scrollMarginBottom`.
-     * @property {boolean} [debug=false] - Enable debug messages.
-     * @property {boolean} [stackTrace=false] - Include stack traces in debug
-     * messages.
      */
 
     /**
@@ -1165,13 +1143,9 @@
         bottomMarginPixels: this.#bottomMarginPixels = 0,
         topMarginCss: this.#topMarginCss = '0',
         bottomMarginCss: this.#bottomMarginCss = '0',
-        debug: this.#debug = false,
-        stackTrace: this.#stackTrace = false,
       } = how);
 
-      this.#log = new Logger(
-        `{${this.#name}}`, this.#debug, this.#stackTrace
-      );
+      this.#log = new Logger(`{${this.#name}}`);
       this.#log.log('Scroller constructed', this);
     }
 
@@ -1253,13 +1227,12 @@
         this.#log.log(`considering ${selector}`);
         items.push(...this.#base.querySelectorAll(selector));
       }
-      if (this.#debug) {
-        this.#log.starting('items');
-        for (const item of items) {
-          this.#log.log(item);
-        }
-        this.#log.finished('items');
+      this.#log.starting('items');
+      for (const item of items) {
+        this.#log.log(item);
       }
+      this.#log.finished('items');
+
       this.#log.leaving(me, `${items.length} items`);
       return items;
     }
@@ -1644,7 +1617,7 @@
      */
     start(spa) {
       this.#spa = spa;
-      this.#logger = new Logger(this.constructor.name, false, false);
+      this.#logger = new Logger(this.constructor.name);
       for (const {seq, func} of this.allShortcuts) {
         this.#addKey(seq, func);
       }
@@ -1931,8 +1904,6 @@
       uidCallback: Feed._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
-      debug: false,
-      stackTrace: false,
     };
 
     /** @type {Scroller~What} */
@@ -3233,7 +3204,7 @@
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
 
-      this._log = new Logger(this.constructor.name, false, false);
+      this._log = new Logger(this.constructor.name);
       this._id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
       this.dispatcher = new Dispatcher('errors', 'news');
     }
@@ -3664,7 +3635,7 @@
     constructor(details) {
       this._name = `${this.constructor.name}: ${details.constructor.name}`;
       this._id = safeId(`${this._name}-${crypto.randomUUID()}`);
-      this._log = new Logger(this._name, false, false);
+      this._log = new Logger(this._name);
       this._details = details;
       this._details.init(this);
       this._installNavStyle();
