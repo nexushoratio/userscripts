@@ -2406,6 +2406,7 @@
         await otmot(what, how);
         this._sections.shine();
         this._sections.show();
+        this.#clearCards();
       }
     }
 
