@@ -2500,7 +2500,7 @@
       }
     });
 
-    focusBrowser = new Shortcut('f', 'Change browser focus to current section', () => {
+    focusBrowser = new Shortcut('f', 'Change browser focus to current item', () => {
       const item = this._cards.item ?? this._sections.item;
       focusOnElement(item);
     });
