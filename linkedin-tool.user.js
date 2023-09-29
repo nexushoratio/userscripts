@@ -448,7 +448,6 @@
             ['input', 'textarea'].includes(tagName));
   }
 
-
   /**
    * @typedef {object} Continuation
    * @property {boolean} done - Indicate whether the monitor is done
