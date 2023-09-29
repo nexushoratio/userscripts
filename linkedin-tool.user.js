@@ -1887,7 +1887,7 @@
     _pathname = '/feed/';
     _onClickSelector = 'main';
 
-    #tab = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
+    #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
     /** @inheritdoc */
     get _autoRegisteredKeys() {
@@ -1910,7 +1910,7 @@
         {seq: 'C', desc: 'Comment on current post or comment', func: this._commentOnPostOrComment},
         {seq: 'R', desc: 'Repost current post', func: this._repost},
         {seq: 'S', desc: 'Send the post privately', func: this._sendPost},
-        {seq: 'P', desc: `Go to the share box to start a post or ${this.#tab} to the other creator options`, func: Feed._gotoShare},
+        {seq: 'P', desc: `Go to the share box to start a post or ${this.#tabSnippet} to the other creator options`, func: Feed._gotoShare},
         {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
         {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
         {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
