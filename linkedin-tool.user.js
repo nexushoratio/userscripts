@@ -2291,8 +2291,6 @@
   /**
    * Class for handling the base MyNetwork page.
    *
-   * TODO(#142): WIP
-   *
    * This page takes 3-4 seconds to load every time.  Revisits are
    * likely to take a while.
    */
