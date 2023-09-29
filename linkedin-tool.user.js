@@ -1229,7 +1229,7 @@
       }
       this.#log.starting('items');
       for (const item of items) {
-        this.#log.log(item);
+        this.#log.log('item:', item);
       }
       this.#log.finished('items');
 
