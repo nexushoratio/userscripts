@@ -1794,7 +1794,9 @@
      * @param {string} item - Text on the button to look for.
      */
     static _gotoNavButton(item) {
-      const buttons = Array.from(document.querySelectorAll('#global-nav button'));
+      const buttons = Array.from(
+        document.querySelectorAll('#global-nav button')
+      );
       const button = buttons.find(el => el.textContent.includes(item));
       button?.click();
     }
