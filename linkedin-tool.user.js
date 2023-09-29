@@ -191,8 +191,6 @@
 
     #name
     #config
-    #enabled
-    #trace
 
     #opened = [];
     #closed = [];
