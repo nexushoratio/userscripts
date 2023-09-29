@@ -141,6 +141,29 @@
 
   testing.funcs.push(testDefaultMap);
 
+  /** Enum for Logger groups. */
+  class GroupMode {
+
+    #name
+
+    static Opened = new GroupMode('opened');
+    static Closed = new GroupMode('closed');
+    static Silenced = new GroupMode('silenced');
+
+    /** @type {string} - Mode name. */
+    get name() {
+      return this.#name;
+    }
+
+    /** @param {string} name - Mode name. */
+    constructor(name) {
+      this.#name = name;
+    }
+
+  }
+
+  Object.freeze(GroupMode);
+
   /**
    * Fancy-ish debug messages.
    *
@@ -165,13 +188,48 @@
   class Logger {
 
     #name
+    #config
     #enabled
     #trace
 
     #opened = [];
     #closed = [];
 
+    static Config = class {
+
+      #enabled = false;
+      #trace = false;
+      #groups = new Map();
+
+      /** @type {boolean} - Whether logging is currently enabled. */
+      get enabled() {
+        return this.#enabled;
+      }
+
+      /** @param {boolean} val - Set whether logging is currently enabled. */
+      set enabled(val) {
+        this.#enabled = Boolean(val);
+      }
+
+      /** @type {boolean} - Whether messages include a stack trace. */
+      get trace() {
+        return this.#trace;
+      }
+
+      /** @param {boolean} val - Set inclusion of stack traces. */
+      set trace(val) {
+        this.#trace = Boolean(val);
+      }
+
+      /** @type {Map<string,GroupMode>} - Per group settings. */
+      get groups() {
+        return new Map(this.#groups);
+      }
+
+    }
+
     static #loggers = new DefaultMap(Array);
+    static #configs = new DefaultMap(() => new Logger.Config());
 
     /**
      * @param {string} name - Name for this logger.
@@ -180,14 +238,28 @@
      */
     constructor(name, enabled = false, trace = false) {
       this.#name = name;
+      this.#config = Logger.config(name);
       this.enabled = enabled;
       this.trace = trace;
       Logger.#loggers.get(this.#name).push(new WeakRef(this));
     }
 
-    /** @type {DefaultMap<string,Logger>} - Known loggers. */
+    /** @type {string[]} - Known loggers. */
     static get loggers() {
-      return this.#loggers;
+      return Array.from(this.#loggers.keys());
+    }
+
+    /** @type {Map<string,Map>} - Logger configurations. */
+    static get configs() {
+      return new Map(this.#configs);
+    }
+
+    /**
+     * @param {string} name - Logger configuration to get.
+     * @returns {Logger.Config} - Current config for that Logger.
+     */
+    static config(name) {
+      return this.#configs.get(name);
     }
 
     /** @type {string} - Name for this logger. */
@@ -311,6 +383,9 @@
 
   const log = new Logger('Default', true, false);
   testing.log = new Logger('Testing', true, false);
+
+  Logger.config('Default').enabled = true;
+  Logger.config('Testing').enabled = true;
 
   /**
    * Run querySelector to get an element, then click it.
