@@ -1784,7 +1784,8 @@
      * @param {Event} evt - Standard 'click' event.
      */
     _onClick = (evt) => {  // eslint-disable-line no-unused-vars
-      const msg = `Found a bug! ${this.constructor.name} wants to handle clicks, but forgot to create a handler.`;
+      const msg = `Found a bug! ${this.constructor.name} wants ` +
+            'to handle clicks, but forgot to create a handler.';
       this.spa.addError(msg);
       this.spa.addErrorMarker();
     }
