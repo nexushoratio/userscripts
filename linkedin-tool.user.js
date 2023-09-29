@@ -1809,24 +1809,6 @@
 
     _pathname = null;
 
-    /** @inheritdoc */
-    get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
-      return [
-        {seq: '?', desc: 'Show this information view', func: Global._info},
-        {seq: '/', desc: 'Go to Search box', func: Global._gotoSearch},
-        {seq: 'g h', desc: 'Go Home (aka, Feed)', func: Global._goHome},
-        {seq: 'g m', desc: 'Go to My Network', func: Global._gotoMyNetwork},
-        {seq: 'g j', desc: 'Go to Jobs', func: Global._gotoJobs},
-        {seq: 'g g', desc: 'Go to Messaging', func: Global._gotoMessaging},
-        {seq: 'g n', desc: 'Go to Notifications', func: Global._gotoNotifications},
-        {seq: 'g p', desc: 'Go to Profile (aka, Me)', func: Global._gotoProfile},
-        {seq: 'g b', desc: 'Go to Business', func: Global._gotoBusiness},
-        {seq: 'g l', desc: 'Go to Learning', func: Global._gotoLearning},
-        {seq: ',', desc: 'Focus on the left/top sidebar (not always present)', func: linkedInGlobals.focusOnSidebar},
-        {seq: '.', desc: 'Focus on the right/bottom sidebar (not always present)', func: linkedInGlobals.focusOnAside},
-      ];
-    }
-
     /**
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
@@ -1845,75 +1827,57 @@
       button?.click();
     }
 
-    /**
-     * Open the info pop-up.
-     */
-    static _info() {
+    info = new Shortcut('?', 'Show this information view', () => {
       Global._gotoNavButton('Tool');
-    }
+    });
 
-    /**
-     * Navigate to the search bar.
-     */
-    static _gotoSearch() {
+    gotoSearch = new Shortcut('/', 'Go to Search box', () => {
       clickElement(document, ['#global-nav-search button']);
-    }
+    });
 
-    /**
-     * Activate the Home (feed) link.
-     */
-    static _goHome() {
+    goHome = new Shortcut('g h', 'Go Home (aka, Feed)', () => {
       Global._gotoNavLink('feed');
-    }
+    });
 
-    /**
-     * Activate the My Network link.
-     */
-    static _gotoMyNetwork() {
+    gotoMyNetwork = new Shortcut('g m', 'Go to My Network', () => {
       Global._gotoNavLink('mynetwork');
-    }
+    });
 
-    /**
-     * Activate the Jobs link.
-     */
-    static _gotoJobs() {
+    gotoJobs = new Shortcut('g j', 'Go to Jobs', () => {
       Global._gotoNavLink('jobs');
-    }
+    });
 
-    /**
-     * Activate the Messaging link.
-     */
-    static _gotoMessaging() {
+    gotoMessaging = new Shortcut('g g', 'Go to Messaging', () => {
       Global._gotoNavLink('messaging');
-    }
+    });
 
-    /**
-     * Activate the Notifications link.
-     */
-    static _gotoNotifications() {
+    gotoNotifications = new Shortcut('g n', 'Go to Notifications', () => {
       Global._gotoNavLink('notifications');
-    }
+    });
 
-    /**
-     * Click on the Me button, opening that menu.
-     */
-    static _gotoProfile() {
+    gotoProfile = new Shortcut('g p', 'Go to Profile (aka, Me)', () => {
       Global._gotoNavButton('Me');
-    }
+    });
 
-    /**
-     * Click on the For Business button, opening that menu.
-     */
-    static _gotoBusiness() {
+    gotoBusiness = new Shortcut('g b', 'Go to Business', () => {
       Global._gotoNavButton('Business');
-    }
+    });
 
-    /**
-     * Activate the Learning link.
-     */
-    static _gotoLearning() {
+    gotoLearning = new Shortcut('g l', 'Go to Learning', () => {
       Global._gotoNavLink('learning');
-    }
+    });
+
+    focusOnSidebar = new Shortcut(
+      ',', 'Focus on the left/top sidebar (not always present)', () => {
+        linkedInGlobals.focusOnSidebar();
+      }
+    );
+
+    focusOnAside = new Shortcut(
+      '.', 'Focus on the right/bottom sidebar (not always present)', () => {
+        linkedInGlobals.focusOnAside();
+      }
+    );
 
   }
 
