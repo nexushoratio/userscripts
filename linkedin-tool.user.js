@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     3.4.0
+// @version     4.0.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2529,6 +2529,84 @@
   }
 
   /**
+   * Class for handling the Invitation manager page.
+   */
+  class InvitationManager extends Page {
+
+    _pathname = '/mynetwork/invitation-manager/';
+
+    #invitesScroller
+
+    /** @type {Scroller~What} */
+    static #invitesWhat = {
+      name: 'Invititation cards',
+      base: document.body,
+      selectors: [
+        [
+          // Actual invites
+          'main > section section > ul > li',
+        ].join(','),
+      ],
+    };
+
+    static _invitesHow = {
+      uidCallback: InvitationManager._uniqueIdentifier,
+      classes: ['tom'],
+    };
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static _uniqueIdentifier(element) {
+      let content = element.innerText;
+      const anchor = element.querySelector('a');
+      if (anchor?.href) {
+        content = anchor.href;
+      }
+      return strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get _invites() {
+      return this.#invitesScroller;
+    }
+
+    /** Create InvitationManager. */
+    constructor() {
+      super();
+      this.#invitesScroller = new Scroller(
+        InvitationManager.#invitesWhat, InvitationManager._invitesHow
+      );
+    }
+
+    nextInvite = new Shortcut('j', 'Next invitation', () => {
+      this._invites.next();
+    });
+
+    prevInvite = new Shortcut('k', 'Previous invitation', () => {
+      this._invites.prev();
+    });
+
+    firstInvite = new Shortcut('<', 'Go to the first invitation', () => {
+      this._invites.first();
+    });
+
+    lastInvite = new Shortcut('>', 'Go to the last invitation', () => {
+      this._invites.last();
+    });
+
+    focusBrowser = new Shortcut(
+      'f', 'Change browser focus to current item', () => {
+        const item = this._invites.item;
+        focusOnElement(item);
+      }
+    );
+
+  }
+
+  /**
    * Class for handling the base Jobs page.
    *
    * This particular page requires a lot of careful monitoring.  Unlike other
@@ -3329,6 +3407,7 @@
       Feed._commentsHow,
       MyNetwork._sectionsHow,
       MyNetwork._cardsHow,
+      InvitationManager._invitesHow,
       Jobs._sectionsHow,
       Jobs._jobsHow,
       Notifications._notificationsHow,
@@ -4262,6 +4341,7 @@
     spa.register(new Global());
     spa.register(new Feed());
     spa.register(new MyNetwork());
+    spa.register(new InvitationManager());
     spa.register(new Jobs());
     spa.register(new JobsCollections());
     spa.register(new Notifications());
