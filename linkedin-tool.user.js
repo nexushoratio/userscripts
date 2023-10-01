@@ -1783,7 +1783,7 @@
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
      */
-    static _gotoNavLink(item) {
+    static #gotoNavLink = (item) => {
       clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
@@ -1791,7 +1791,7 @@
      * Click on the requested button in the global nav bar.
      * @param {string} item - Text on the button to look for.
      */
-    static _gotoNavButton(item) {
+    static #gotoNavButton = (item) => {
       const buttons = Array.from(
         document.querySelectorAll('#global-nav button')
       );
@@ -1800,7 +1800,7 @@
     }
 
     info = new Shortcut('?', 'Show this information view', () => {
-      Global._gotoNavButton('Tool');
+      Global.#gotoNavButton('Tool');
     });
 
     gotoSearch = new Shortcut('/', 'Go to Search box', () => {
@@ -1808,35 +1808,35 @@
     });
 
     goHome = new Shortcut('g h', 'Go Home (aka, Feed)', () => {
-      Global._gotoNavLink('feed');
+      Global.#gotoNavLink('feed');
     });
 
     gotoMyNetwork = new Shortcut('g m', 'Go to My Network', () => {
-      Global._gotoNavLink('mynetwork');
+      Global.#gotoNavLink('mynetwork');
     });
 
     gotoJobs = new Shortcut('g j', 'Go to Jobs', () => {
-      Global._gotoNavLink('jobs');
+      Global.#gotoNavLink('jobs');
     });
 
     gotoMessaging = new Shortcut('g g', 'Go to Messaging', () => {
-      Global._gotoNavLink('messaging');
+      Global.#gotoNavLink('messaging');
     });
 
     gotoNotifications = new Shortcut('g n', 'Go to Notifications', () => {
-      Global._gotoNavLink('notifications');
+      Global.#gotoNavLink('notifications');
     });
 
     gotoProfile = new Shortcut('g p', 'Go to Profile (aka, Me)', () => {
-      Global._gotoNavButton('Me');
+      Global.#gotoNavButton('Me');
     });
 
     gotoBusiness = new Shortcut('g b', 'Go to Business', () => {
-      Global._gotoNavButton('Business');
+      Global.#gotoNavButton('Business');
     });
 
     gotoLearning = new Shortcut('g l', 'Go to Learning', () => {
-      Global._gotoNavLink('learning');
+      Global.#gotoNavLink('learning');
     });
 
     focusOnSidebar = new Shortcut(
