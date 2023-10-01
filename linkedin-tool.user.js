@@ -221,6 +221,18 @@
         this.#trace = Boolean(val);
       }
 
+      /**
+       * @param {string} name - Name of the group to get.
+       * @param {GroupMode} mode - Default mode if not seen before.
+       * @returns {GroupMode} - Mode for this group.
+       */
+      groupMode(name, mode) {
+        if (!this.#groups.has(name)) {
+          this.#groups.set(name, mode);
+        }
+        return this.#groups.get(name);
+      }
+
       /** @type {Map<string,GroupMode>} - Per group settings. */
       get groups() {
         return new Map(this.#groups);
@@ -281,6 +293,7 @@
      */
     entered(group, ...rest) {
       this.#opened.push(group);
+      this.#config.groupMode(group, GroupMode.Opened);
       if (this.enabled) {
         console.group(`${this.name}: ${group}`);
         if (rest.length) {
@@ -318,6 +331,7 @@
      */
     starting(group, ...rest) {
       this.#closed.push(group);
+      this.#config.groupMode(group, GroupMode.Closed);
       if (this.enabled) {
         console.groupCollapsed(`${this.name}: ${group} (collapsed)`);
         if (rest.length) {
