@@ -1861,34 +1861,6 @@
 
     #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
-    /** @inheritdoc */
-    get _autoRegisteredKeys() {
-      return [
-        {seq: 'j', desc: 'Next post', func: this._nextPost},
-        {seq: 'k', desc: 'Previous post', func: this._prevPost},
-        {seq: 'n', desc: 'Next comment', func: this._nextComment},
-        {seq: 'p', desc: 'Previous comment', func: this._prevComment},
-        {seq: '<', desc: 'Go to first post or comment', func: this._firstPostOrComment},
-        {seq: '>', desc: 'Go to last post or comment currently loaded', func: this._lastPostOrComment},
-        {seq: 'f', desc: 'Change browser focus to current post or comment', func: this._focusBrowser},
-        {seq: 'c', desc: 'Show comments', func: this._showComments},
-        {seq: 'm', desc: 'Show more of the post or comment', func: this._seeMore},
-        {seq: 'l', desc: 'Load more posts (if the <button>New Posts</button> button is available, load those)', func: Feed._loadMorePosts},
-        {seq: 'v p', desc: 'View the post directly', func: this._viewPost},
-        {seq: 'v r', desc: 'View reactions on current post or comment', func: this._viewReactions},
-        {seq: 'v R', desc: 'View reposts of the current post', func: this._viewReposts},
-        {seq: '=', desc: 'Open the closest <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
-        {seq: 'L', desc: 'Like post or comment', func: this._likePostOrComment},
-        {seq: 'C', desc: 'Comment on current post or comment', func: this._commentOnPostOrComment},
-        {seq: 'R', desc: 'Repost current post', func: this._repost},
-        {seq: 'S', desc: 'Send the post privately', func: this._sendPost},
-        {seq: 'P', desc: `Go to the share box to start a post or ${this.#tabSnippet} to the other creator options`, func: Feed._gotoShare},
-        {seq: 'X', desc: 'Toggle hiding current post', func: this._togglePost},
-        {seq: 'J', desc: 'Toggle hiding then next post', func: this._nextPostPlus},
-        {seq: 'K', desc: 'Toggle hiding then previous post', func: this._prevPostPlus},
-      ];
-    }
-
     _postScroller = null;
     _commentScroller = null;
 
@@ -2026,87 +1998,63 @@
       this._clearComments();
     }
 
-    /**
-     * Select the next post.
-     */
-    _nextPost = () => {
+    _nextPost = new Shortcut('j', 'Next post', () => {
       this._posts.next();
-    }
+    });
 
-    /**
-     * Select the previous post.
-     */
-    _prevPost = () => {
+    _prevPost = new Shortcut('k', 'Previous post', () => {
       this._posts.prev();
-    }
+    });
 
-    /**
-     * Select the next comment.
-     */
-    _nextComment = () => {
+    _nextComment = new Shortcut('n', 'Next comment', () => {
       this._comments.next();
-    }
+    });
 
-    /**
-     * Select the previous comment.
-     */
-    _prevComment = () => {
+    _prevComment = new Shortcut('p', 'Previous comment', () => {
       this._comments.prev();
-    }
+    });
 
-    /**
-     * Select the first post or comment.
-     */
-    _firstPostOrComment = () => {
+    _firstItem = new Shortcut('<', 'Go to first post or comment', () => {
       if (this._hasActiveComment) {
         this._comments.first();
       } else {
         this._posts.first();
       }
-    }
+    });
 
-    /**
-     * Select the last post or comment.
-     */
-    _lastPostOrComment = () => {
-      if (this._hasActiveComment) {
-        this._comments.last();
-      } else {
-        this._posts.last();
+    _lastItem = new Shortcut(
+      '>', 'Go to last post or comment currently loaded', () => {
+        if (this._hasActiveComment) {
+          this._comments.last();
+        } else {
+          this._posts.last();
+        }
       }
-    }
+    );
 
-    /**
-     * Change browser focus to the current post or comment.
-     */
-    _focusBrowser = () => {
-      const el = this._comments.item ?? this._posts.item;
-      this._posts.show();
-      this._comments?.show();
-      focusOnElement(el);
-    }
+    _focusBrowser = new Shortcut(
+      'f', 'Change browser focus to current item', () => {
+        const el = this._comments.item ?? this._posts.item;
+        this._posts.show();
+        this._comments?.show();
+        focusOnElement(el);
+      }
+    );
 
-    /**
-     * Show more comments on the current post.
-     */
-    _showComments = () => {
+    _showComments = new Shortcut('c', 'Show comments', () => {
       if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
         clickElement(this._posts.item, ['button[aria-label*="comment"]']);
       }
-    }
+    });
 
-    /**
-     * Show more content of the current post or comment.
-     */
-    _seeMore = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button[aria-label^="see more"]']);
-    }
+    _seeMore = new Shortcut(
+      'm', 'Show more of current post or comment', () => {
+        const el = this._comments.item ?? this._posts.item;
+        clickElement(el, ['button[aria-label^="see more"]']);
+      }
+    );
 
-    /**
-     * Load more posts.
-     */
-    static _loadMorePosts() {
+    _loadMorePosts = new Shortcut('l', 'Load more posts (if the <button>New Posts</button> button is available, load those)', () => {
       const savedScrollTop = document.documentElement.scrollTop;
       let first = false;
       const posts = this._posts;
@@ -2145,12 +2093,9 @@
         duration: 2000,
       };
       otrot2(what, how);
-    }
+    });
 
-    /**
-     * Navigate the the stand-alone page for the current post.
-     */
-    _viewPost = () => {
+    _viewPost = new Shortcut('v p', 'View current post directly', () => {
       const post = this._posts.item;
       if (post) {
         const urn = post.dataset.id;
@@ -2164,125 +2109,104 @@
         }
         a.click();
       }
-    }
+    });
 
-    /**
-     * Open the Reactions summary pop-up.
-     */
-    _viewReactions = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button.comments-comment-social-bar__reactions-count,button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
-    }
+    _viewReactions = new Shortcut(
+      'v r', 'View reactions on current post or comment', () => {
+        const el = this._comments.item ?? this._posts.item;
+        clickElement(el, ['button.comments-comment-social-bar__reactions-count,button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
+      }
+    );
 
-    /**
-     * Open the Reposts summary pop-up.
-     */
-    _viewReposts = () => {
-      clickElement(this._posts.item, ['button[aria-label*="repost"]']);
-    }
+    _viewReposts = new Shortcut(
+      'v R', 'View reposts of current post', () => {
+        clickElement(this._posts.item, ['button[aria-label*="repost"]']);
+      }
+    );
 
-    /**
-     * Open the (⋯) menu for the current item.
-     */
-    _openMeatballMenu = () => {
-      // XXX: In this case, the identifier is on an svg element, not the
-      // button, so use the parentElement.  When Firefox [fully
-      // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
-      // `:has()` pseudo-selector, we can probably use that and use
-      // `clickElement()`.
-      const el = this._comments.item ?? this._posts.item;
-      const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
-      button?.click();
-    }
+    _openMeatballMenu = new Shortcut(
+      '=', 'Open closest <button class="spa-meatball">⋯</button> menu', () => {
+        // XXX: In this case, the identifier is on an svg element, not the
+        // button, so use the parentElement.  When Firefox [fully
+        // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
+        // `:has()` pseudo-selector, we can probably use that and use
+        // `clickElement()`.
+        const el = this._comments.item ?? this._posts.item;
+        const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
+        button?.click();
+      }
+    );
 
-    /**
-     * Like the current post or comment via social action menu.
-     */
-    _likePostOrComment = () => {
+    _likeItem = new Shortcut('L', 'Like current post or comment', () => {
       const el = this._comments.item ?? this._posts.item;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
-    }
+    });
 
-    /**
-     * Comment on current post or comment via social action menu.
-     */
-    _commentOnPostOrComment = () => {
-      const el = this._comments.item ?? this._posts.item;
-      clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
-    }
+    _commentOnItem = new Shortcut(
+      'C', 'Comment on current post or comment', () => {
+        const el = this._comments.item ?? this._posts.item;
+        clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
+      }
+    );
 
-    /**
-     * Repost current post via social action menu.
-     */
-    _repost = () => {
+    _repost = new Shortcut('R', 'Repost current post', () => {
       const el = this._posts.item;
       clickElement(el, ['button.social-reshare-button']);
-    }
+    });
 
-    /**
-     * Send current post privately via social action menu.
-     */
-    _sendPost = () => {
+    _sendPost = new Shortcut('S', 'Send current post privately', () => {
       const el = this._posts.item;
       clickElement(el, ['button.send-privately-button']);
-    }
+    });
 
-    /**
-     * Move browser focus to the share box.
-     */
-    static _gotoShare() {
+    _gotoShare = new Shortcut('P', `Go to the share box to start a post or ${this.#tabSnippet} to the other creator options`, () => {
       const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
       share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
       share.scrollIntoView();
       share.querySelector('button').focus();
-    }
+    });
 
-    /**
-     * Toggles hiding the current post.
-     */
-    _togglePost = () => {
+    _togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
       clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
-    }
+    });
 
-    /**
-     * Toggle hiding current post then select the next.
-     */
-    _nextPostPlus = async () => {
+    _nextPostPlus = new Shortcut(
+      'J', 'Toggle hiding then next post', async () => {
 
-      /**
-       * Trigger function for {@link otrot}.
-       */
-      const trigger = () => {
-        this._togglePost();
-        this._nextPost();
-      };
-      // XXX: Need to remove the highlights before otrot sees it because it
-      // affects the .clientHeight.
-      this._posts.dull();
-      this._comments?.dull();
-      if (this._posts.item) {
-        const what = {
-          name: 'nextPostPlus',
-          base: this._posts.item,
+        /**
+         * Trigger function for {@link otrot}.
+         */
+        const trigger = () => {
+          this._togglePost();
+          this._nextPost();
         };
-        const how = {
-          trigger: trigger,
-          timeout: 3000,
-        };
-        await otrot(what, how);
-        this._posts.show();
-      } else {
-        trigger();
+        // XXX: Need to remove the highlights before otrot sees it because it
+        // affects the .clientHeight.
+        this._posts.dull();
+        this._comments?.dull();
+        if (this._posts.item) {
+          const what = {
+            name: 'nextPostPlus',
+            base: this._posts.item,
+          };
+          const how = {
+            trigger: trigger,
+            timeout: 3000,
+          };
+          await otrot(what, how);
+          this._posts.show();
+        } else {
+          trigger();
+        }
       }
-    }
+    );
 
-    /**
-     * Toggle hiding the current post then select the previous.
-     */
-    _prevPostPlus = () => {
-      this._togglePost();
-      this._prevPost();
-    }
+    _prevPostPlus = new Shortcut(
+      'K', 'Toggle hiding then previous post', () => {
+        this._togglePost();
+        this._prevPost();
+      }
+    );
 
   }
 
