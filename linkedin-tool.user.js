@@ -2540,6 +2540,50 @@
       }
     );
 
+    seeMore = new Shortcut(
+      'm', 'Toggle seeing more of current invite', () => {
+        clickElement(
+          this._invites?.item,
+          ['a.lt-line-clamp__more, a.lt-line-clamp__less']
+        );
+      }
+    );
+
+    viewInviter = new Shortcut('i', 'View inviter', () => {
+      clickElement(this._invites?.item,
+        ['a.app-aware-link:not(.invitation-card__picture)']);
+    });
+
+    viewTarget = new Shortcut(
+      't',
+      'View invitation target ' +
+        '(may not be the same as inviter, e.g., Newsletter)',
+      () => {
+        clickElement(this._invites?.item, ['a.invitation-card__picture']);
+      }
+    );
+
+    openMeatballMenu = new Shortcut(
+      '=', 'Open <button class="spa-meatball">⋯</button> menu', () => {
+        this._invites?.item
+          .querySelector('svg[aria-label^="Report message"]')
+          ?.closest('button')
+          ?.click();
+      }
+    );
+
+    acceptInvite = new Shortcut('A', 'Accept invite', () => {
+      clickElement(this._invites?.item, ['button[aria-label^="Accept"]']);
+    });
+
+    ignoreInvite = new Shortcut('I', 'Ignore invite', () => {
+      clickElement(this._invites?.item, ['button[aria-label^="Ignore"]']);
+    });
+
+    messageInviter = new Shortcut('M', 'Message inviter', () => {
+      clickElement(this._invites?.item, ['button[aria-label*=" message"]']);
+    });
+
   }
 
   /**
