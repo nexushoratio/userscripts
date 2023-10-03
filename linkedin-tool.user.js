@@ -2899,6 +2899,21 @@
     }
 
     /**
+     * Activate the current job.
+     */
+    _activateJob = () => {
+      const job = this._jobs?.item;
+      if (job) {
+        if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
+          this.spa.dumpInfoAboutElement(job, 'job');
+        }
+      } else {
+        // Again, because we use Enter as the hotkey for this action.
+        document.activeElement.click();
+      }
+    }
+
+    /**
      * Load more sections (or jobs in some cases).
      */
     _loadMoreSections = async () => {
@@ -2920,21 +2935,6 @@
       };
       await otrot(what, how);
       this._resetScroll(savedScrollTop);
-    }
-
-    /**
-     * Activate the current job.
-     */
-    _activateJob = () => {
-      const job = this._jobs?.item;
-      if (job) {
-        if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
-          this.spa.dumpInfoAboutElement(job, 'job');
-        }
-      } else {
-        // Again, because we use Enter as the hotkey for this action.
-        document.activeElement.click();
-      }
     }
 
     /**
@@ -3094,14 +3094,6 @@
     }
 
     /**
-     * Change browser focus to the current notification.
-     */
-    _focusBrowser = () => {
-      this._notifications.show();
-      focusOnElement(this._notifications.item);
-    }
-
-    /**
      * Select the first notification.
      */
     _firstNotification = () => {
@@ -3116,10 +3108,11 @@
     }
 
     /**
-     * Open the (⋯) menu for the current notification.
+     * Change browser focus to the current notification.
      */
-    _openMeatballMenu = () => {
-      clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
+    _focusBrowser = () => {
+      this._notifications.show();
+      focusOnElement(this._notifications.item);
     }
 
     /**
@@ -3150,40 +3143,6 @@
       } else {
         // Again, because we use Enter as the hotkey for this action.
         document.activeElement.click();
-      }
-    }
-
-    /**
-     * Toggles deletion of the current notification.
-     */
-    _deleteNotification = async () => {
-      const notification = this._notifications.item;
-
-      /**
-       * Trigger function for {@link otrot}.
-       */
-      function trigger() {
-        // Hah.  Unlike in other places, these buttons already exist, just
-        // hidden under the menu.
-        const buttons = Array.from(notification.querySelectorAll('button'));
-        const button = buttons.find(el => el.textContent.includes('Delete this notification'));
-        if (button) {
-          button.click();
-        } else {
-          clickElement(notification, ['button[aria-label^="Undo notification deletion"]']);
-        }
-      }
-      if (notification) {
-        const what = {
-          name: 'deleteNotification',
-          base: document.querySelector('div.scaffold-finite-scroll__content'),
-        };
-        const how = {
-          trigger: trigger,
-          timeout: 3000,
-        };
-        await otrot(what, how);
-        this._notifications.shine();
       }
     }
 
@@ -3230,6 +3189,47 @@
         duration: 2000,
       };
       otrot2(what, how);
+    }
+
+    /**
+     * Open the (⋯) menu for the current notification.
+     */
+    _openMeatballMenu = () => {
+      clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
+    }
+
+    /**
+     * Toggles deletion of the current notification.
+     */
+    _deleteNotification = async () => {
+      const notification = this._notifications.item;
+
+      /**
+       * Trigger function for {@link otrot}.
+       */
+      function trigger() {
+        // Hah.  Unlike in other places, these buttons already exist, just
+        // hidden under the menu.
+        const buttons = Array.from(notification.querySelectorAll('button'));
+        const button = buttons.find(el => el.textContent.includes('Delete this notification'));
+        if (button) {
+          button.click();
+        } else {
+          clickElement(notification, ['button[aria-label^="Undo notification deletion"]']);
+        }
+      }
+      if (notification) {
+        const what = {
+          name: 'deleteNotification',
+          base: document.querySelector('div.scaffold-finite-scroll__content'),
+        };
+        const how = {
+          trigger: trigger,
+          timeout: 3000,
+        };
+        await otrot(what, how);
+        this._notifications.shine();
+      }
     }
 
   }
