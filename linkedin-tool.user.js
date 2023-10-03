@@ -2620,23 +2620,6 @@
     _pathname = '/jobs/';
     _onClickSelector = 'main';
 
-    /** @inheritdoc */
-    get _autoRegisteredKeys() {
-      return [
-        {seq: 'j', desc: 'Next section', func: this._nextSection},
-        {seq: 'k', desc: 'Previous section', func: this._prevSection},
-        {seq: 'n', desc: 'Next job', func: this._nextJob},
-        {seq: 'p', desc: 'Previous job', func: this._prevJob},
-        {seq: '<', desc: 'Go to to first section or job', func: this._firstSectionOrJob},
-        {seq: '>', desc: 'Go to last section or job currently loaded', func: this._lastSectionOrJob},
-        {seq: 'f', desc: 'Change browser focus to current section or job', func: this._focusBrowser},
-        {seq: 'Enter', desc: 'Activate the current job (click on it)', func: this._activateJob},
-        {seq: 'l', desc: 'Load more sections (or <i>More jobs for you</i> items)', func: this._loadMoreSections},
-        {seq: 'S', desc: 'Toggle saving job', func: this._toggleSaveJob},
-        {seq: 'X', desc: 'Toggle dismissing job', func: this._toggleDismissJob},
-      ];
-    }
-
     _sectionScroller = null;
     _sectionsMO = null;
     _sectionWatchText = '';
@@ -2859,70 +2842,46 @@
       this.logger.leaving(me);
     }
 
-    /**
-     * Select the next section.
-     */
-    _nextSection = () => {
+    _nextSection = new Shortcut('j', 'Next section', () => {
       this._sections.next();
-    }
+    });
 
-    /**
-     * Select the previous section.
-     */
-    _prevSection = () => {
+    _prevSection = new Shortcut('k', 'Previous section', () => {
       this._sections.prev();
-    }
+    });
 
-    /**
-     * Select the next job.
-     */
-    _nextJob = () => {
+    _nextJob = new Shortcut('n', 'Next job', () => {
       this._jobs.next();
-    }
+    });
 
-    /**
-     * Select the previous job.
-     */
-    _prevJob = () => {
+    _prevJob = new Shortcut('p', 'Previous job', () => {
       this._jobs.prev();
-    }
+    });
 
-    /**
-     * Select the first section or job.
-     */
-    _firstSectionOrJob = () => {
+    _firstSectionOrJob = new Shortcut('<', 'Go to to first section or job', () => {
       if (this._hasActiveJob) {
         this._jobs.first();
       } else {
         this._sections.first();
       }
-    }
+    });
 
-    /**
-     * Select the last section or job.
-     */
-    _lastSectionOrJob = () => {
+    _lastSectionOrJob = new Shortcut('>', 'Go to last section or job currently loaded', () => {
       if (this._hasActiveJob) {
         this._jobs.last();
       } else {
         this._sections.last();
       }
-    }
+    });
 
-    /**
-     * Change browser focus to the current section or job.
-     */
-    _focusBrowser = () => {
+    _focusBrowser = new Shortcut('f', 'Change browser focus to current section or job', () => {
       const el = this._jobs.item ?? this._sections.item;
       this._sections.show();
       this._jobs?.show();
       focusOnElement(el);
-    }
+    });
 
-    /**
-     * Activate the current job.
-     */
-    _activateJob = () => {
+    _activateJob = new Shortcut('Enter', 'Activate the current job (click on it)', () => {
       const job = this._jobs?.item;
       if (job) {
         if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
@@ -2932,12 +2891,9 @@
         // Again, because we use Enter as the hotkey for this action.
         document.activeElement.click();
       }
-    }
+    });
 
-    /**
-     * Load more sections (or jobs in some cases).
-     */
-    _loadMoreSections = async () => {
+    _loadMoreSections = new Shortcut('l', 'Load more sections (or <i>More jobs for you</i> items)', async () => {
       const savedScrollTop = document.documentElement.scrollTop;
 
       /**
@@ -2956,19 +2912,13 @@
       };
       await otrot(what, how);
       this._resetScroll(savedScrollTop);
-    }
+    });
 
-    /**
-     * Toggles saving the current job.
-     */
-    _toggleSaveJob = () => {
+    _toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
       clickElement(this._jobs?.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
-    }
+    });
 
-    /**
-     * Toggles dismissing the current job.
-     */
-    _toggleDismissJob = async () => {
+    _toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', async () => {
       const savedJob = this._jobs.item;
 
       /**
@@ -2990,7 +2940,7 @@
         await otrot(what, how);
         this._jobs.item = savedJob;
       }
-    }
+    });
 
   }
 
