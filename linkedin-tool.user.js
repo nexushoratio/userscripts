@@ -313,74 +313,39 @@
     }
 
     /* eslint-disable no-console */
+
     /**
-     * Entered a specific group.
-     * @param {string} group - Group that was entered.
+     * Introduces a specific group.
+     * @param {string} group - Group being created.
+     * @param {GroupMode} defaultMode - Mode to use if new.
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
-    entered(group, ...rest) {
+    #intro = (group, defaultMode, ...rest) => {
       this.#groupStack.push(group);
-      this.#config.groupMode(group, GroupMode.Opened);
+      const mode = this.#config.groupMode(group, defaultMode);
       if (this.enabled) {
-        console.group(`${this.name}: ${group}`);
+        console[mode.func](`${this.name}: ${group}`);
         if (rest.length) {
-          const msg = `Entered ${group} with`;
+          const msg = `${mode.greeting} ${group} with`;
           this.log(msg, ...rest);
         }
       }
     }
 
     /**
-     * Leaving a specific group.
+     * Concludes a specific group.
      * @param {string} group - Group leaving.
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
-    leaving(group, ...rest) {
+    #outro = (group, ...rest) => {
       const lastGroup = this.#groupStack.pop();
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed ` +
                       `"${group}", expected to see "${lastGroup}"`);
       }
+      const mode = this.#config.groupMode(group);
       if (this.enabled) {
-        let msg = `Leaving ${group}`;
-        if (rest.length) {
-          msg += ' with:';
-        }
-        this.log(msg, ...rest);
-        console.groupEnd();
-      }
-    }
-
-    /**
-     * Starting a specific collapsed group.
-     * @param {string} group - Group that is being started.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
-     */
-    starting(group, ...rest) {
-      this.#groupStack.push(group);
-      this.#config.groupMode(group, GroupMode.Closed);
-      if (this.enabled) {
-        console.groupCollapsed(`${this.name}: ${group} (collapsed)`);
-        if (rest.length) {
-          const msg = `Starting ${group} with:`;
-          this.log(msg, ...rest);
-        }
-      }
-    }
-
-    /**
-     * Finished a specific collapsed group.
-     * @param {string} group - Group that was entered.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
-     */
-    finished(group, ...rest) {
-      const lastGroup = this.#groupStack.pop();
-      if (group !== lastGroup) {
-        console.error(`${this.name}: Group mismatch!  Passed ` +
-                      `"${group}", expected to see "${lastGroup}"`);
-      }
-      if (this.enabled) {
-        let msg = `Finished ${group}`;
+        let msg = `${mode.farewell} ${group}`;
         if (rest.length) {
           msg += ' with:';
         }
@@ -404,7 +369,44 @@
         console.debug(`${this.name}: ${msg}`, ...rest);
       }
     }
+
     /* eslint-enable */
+
+    /**
+     * Entered a specific group.
+     * @param {string} group - Group that was entered.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    entered(group, ...rest) {
+      this.#intro(group, GroupMode.Opened, ...rest);
+    }
+
+    /**
+     * Leaving a specific group.
+     * @param {string} group - Group leaving.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    leaving(group, ...rest) {
+      this.#outro(group, ...rest);
+    }
+
+    /**
+     * Starting a specific collapsed group.
+     * @param {string} group - Group that is being started.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    starting(group, ...rest) {
+      this.#intro(group, GroupMode.Closed, ...rest);
+    }
+
+    /**
+     * Finished a specific collapsed group.
+     * @param {string} group - Group that was entered.
+     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     */
+    finished(group, ...rest) {
+      this.#outro(group, ...rest);
+    }
 
   }
 
