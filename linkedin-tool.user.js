@@ -141,23 +141,51 @@
 
   testing.funcs.push(testDefaultMap);
 
-  /** Enum for Logger groups. */
+  /** Enum/helper for Logger groups. */
   class GroupMode {
 
     #name
+    #greeting
+    #farewell
+    #func
 
-    static Opened = new GroupMode('opened');
-    static Closed = new GroupMode('closed');
     static Silenced = new GroupMode('silenced');
+    static Opened = new GroupMode('opened', 'Entered', 'Leaving', 'group');
+    static Closed = new GroupMode(
+      'closed', 'Starting', 'Finished', 'groupCollapsed'
+    );
 
     /** @type {string} - Mode name. */
     get name() {
       return this.#name;
     }
 
-    /** @param {string} name - Mode name. */
-    constructor(name) {
+    /** @type {string} - Greeting when opening group. */
+    get greeting() {
+      return this.#greeting;
+    }
+
+    /** @type {string} - Farewell when closing group. */
+    get farewell() {
+      return this.#farewell;
+    }
+
+    /** @type {string} - console.func to use for opening group. */
+    get func() {
+      return this.#func;
+    }
+
+    /**
+     * @param {string} name - Mode name.
+     * @param {string} [greeting] - Greeting when opening group.
+     * @param {string} [farewell] - Salutation when closing group.
+     * @param {string} [func] - console.func to use for opening group.
+     */
+    constructor(name, greeting, farewell, func) {  // eslint-disable-line max-params
       this.#name = name;
+      this.#greeting = greeting;
+      this.#farewell = farewell;
+      this.#func = func;
     }
 
   }
