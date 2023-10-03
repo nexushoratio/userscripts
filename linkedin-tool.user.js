@@ -1099,7 +1099,8 @@
   }
 
   /**
-   * An ordered collection of HTMLElements for a user to scroll through.
+   * An ordered collection of HTMLElements for a user to continuously scroll
+   * through.
    *
    * The dispatcher can be used the handle the following events:
    * - 'out-of-range' - Scrolling went past one end of the collection.
