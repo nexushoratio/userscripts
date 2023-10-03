@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     4.1.1
+// @version     4.1.2
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -3232,7 +3232,8 @@
         // Hah.  Unlike in other places, these buttons already exist, just
         // hidden under the menu.
         const buttons = Array.from(notification.querySelectorAll('button'));
-        const button = buttons.find(el => el.textContent.includes('Delete this notification'));
+        const button = buttons
+          .find(el => (/Delete .*notification/u).test(el.textContent));
         if (button) {
           button.click();
         } else {
