@@ -1875,11 +1875,11 @@
 
     #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
-    _postScroller = null;
-    _commentScroller = null;
+    #postScroller = null;
+    #commentsScroller = null;
 
     /** @type {Scroller~What} */
-    static _postsWhat = {
+    static #postsWhat = {
       name: 'Feed posts',
       base: document.body,
       selectors: ['main div[data-id]'],
@@ -1893,7 +1893,7 @@
     };
 
     /** @type {Scroller~What} */
-    static _commentsWhat = {
+    static #commentsWhat = {
       name: 'Feed comments',
       selectors: ['article.comments-comment-item'],
     };
@@ -1910,9 +1910,9 @@
      */
     constructor() {
       super();
-      this._postScroller = new Scroller(Feed._postsWhat, Feed._postsHow);
-      this._postScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
-      this._postScroller.dispatcher.on('change', this._onPostChange);
+      this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
+      this.#postScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#postScroller.dispatcher.on('change', this.#onPostChange);
     }
 
     /** @inheritdoc */
@@ -1959,25 +1959,25 @@
 
     /** @type {Scroller} */
     get _posts() {
-      return this._postScroller;
+      return this.#postScroller;
     }
 
     /** @type {Scroller} */
     get _comments() {
-      if (!this._commentScroller && this._posts.item) {
-        this._commentScroller = new Scroller({base: this._posts.item, ...Feed._commentsWhat}, Feed._commentsHow);
-        this._commentScroller.dispatcher.on('out-of-range', this._returnToPost);
+      if (!this.#commentsScroller && this._posts.item) {
+        this.#commentsScroller = new Scroller({base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow);
+        this.#commentsScroller.dispatcher.on('out-of-range', this.#returnToPost);
       }
-      return this._commentScroller;
+      return this.#commentsScroller;
     }
 
     /**
      * Reset the comment scroller.
      */
-    _clearComments() {
-      if (this._commentScroller) {
-        this._commentScroller.destroy();
-        this._commentScroller = null;
+    #clearComments() {
+      if (this.#commentsScroller) {
+        this.#commentsScroller.destroy();
+        this.#commentsScroller = null;
       }
     }
 
@@ -2001,15 +2001,15 @@
     /**
      * Reselects current post, triggering same actions as initial selection.
      */
-    _returnToPost = () => {
+    #returnToPost = () => {
       this._posts.item = this._posts.item;
     }
 
     /**
      * Removes the comments {@link Scroller}.
      */
-    _onPostChange = () => {
-      this._clearComments();
+    #onPostChange = () => {
+      this.#clearComments();
     }
 
     _nextPost = new Shortcut('j', 'Next post', () => {
