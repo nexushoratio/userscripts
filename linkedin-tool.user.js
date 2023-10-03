@@ -1941,7 +1941,9 @@
     constructor() {
       super();
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
-      this.#postScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#postScroller.dispatcher.on(
+        'out-of-range', linkedInGlobals.focusOnSidebar
+      );
       this.#postScroller.dispatcher.on('change', this.#onPostChange);
     }
 
@@ -1976,7 +1978,11 @@
           base: this._posts.item,
         };
         const how = {
-          observeOptions: {attributeFilter: ['class'], attributes: true, attributeOldValue: true},
+          observeOptions: {
+            attributeFilter: ['class'],
+            attributes: true,
+            attributeOldValue: true,
+          },
           monitor: monitor,
           timeout: 5000,
         };
@@ -1995,8 +2001,12 @@
     /** @type {Scroller} */
     get _comments() {
       if (!this.#commentScroller && this._posts.item) {
-        this.#commentScroller = new Scroller({base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow);
-        this.#commentScroller.dispatcher.on('out-of-range', this.#returnToPost);
+        this.#commentScroller = new Scroller(
+          {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
+        );
+        this.#commentScroller.dispatcher.on(
+          'out-of-range', this.#returnToPost
+        );
       }
       return this.#commentScroller;
     }
@@ -2098,46 +2108,56 @@
       }
     );
 
-    _loadMorePosts = new Shortcut('l', 'Load more posts (if the <button>New Posts</button> button is available, load those)', () => {
-      const savedScrollTop = document.documentElement.scrollTop;
-      let first = false;
-      const posts = this._posts;
+    _loadMorePosts = new Shortcut(
+      'l',
+      'Load more posts (if the <button>New Posts</button> button ' +
+        'is available, load those)', () => {
+        const savedScrollTop = document.documentElement.scrollTop;
+        let first = false;
+        const posts = this._posts;
 
-      /**
-       * Trigger function for {@link otrot2}.
-       */
-      function trigger() {
-        if (clickElement(document, ['main div.feed-new-update-pill button'])) {
-          first = true;
-        } else {
-          clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
-        }
-      }
-
-      /**
-       * Action function for {@link otrot2}.
-       */
-      function action() {
-        if (first) {
-          if (posts.item) {
-            posts.first();
+        /**
+         * Trigger function for {@link otrot2}.
+         */
+        function trigger() {
+          // The topButton only shows up when the app detects new posts.  In
+          // that case, going back to the first post is appropriate.
+          const topButton = 'main div.feed-new-update-pill button';
+          // If there is not top button, there should always be a button at
+          // the bottom the click.
+          const botButton = 'main button.scaffold-finite-scroll__load-button';
+          if (clickElement(document, [topButton])) {
+            first = true;
+          } else {
+            clickElement(document, [botButton]);
           }
-        } else {
-          document.documentElement.scrollTop = savedScrollTop;
         }
-      }
 
-      const what = {
-        name: 'loadMorePosts',
-        base: document.querySelector('div.scaffold-finite-scroll__content'),
-      };
-      const how = {
-        trigger: trigger,
-        action: action,
-        duration: 2000,
-      };
-      otrot2(what, how);
-    });
+        /**
+         * Action function for {@link otrot2}.
+         */
+        function action() {
+          if (first) {
+            if (posts.item) {
+              posts.first();
+            }
+          } else {
+            document.documentElement.scrollTop = savedScrollTop;
+          }
+        }
+
+        const what = {
+          name: 'loadMorePosts',
+          base: document.querySelector('div.scaffold-finite-scroll__content'),
+        };
+        const how = {
+          trigger: trigger,
+          action: action,
+          duration: 2000,
+        };
+        otrot2(what, how);
+      }
+    );
 
     _viewPost = new Shortcut('v p', 'View current post directly', () => {
       const post = this._posts.item;
@@ -2158,7 +2178,15 @@
     _viewReactions = new Shortcut(
       'v r', 'View reactions on current post or comment', () => {
         const el = this._comments.item ?? this._posts.item;
-        clickElement(el, ['button.comments-comment-social-bar__reactions-count,button.feed-shared-social-action-bar-counts,button.social-details-social-counts__count-value']);
+        const selector = [
+          // Button on a comment
+          'button.comments-comment-social-bar__reactions-count',
+          // Original button on a post
+          'button.feed-shared-social-action-bar-counts',
+          // Possibly new button on a post
+          'button.social-details-social-counts__count-value',
+        ].join(',');
+        clickElement(el, [selector]);
       }
     );
 
@@ -2169,14 +2197,24 @@
     );
 
     _openMeatballMenu = new Shortcut(
-      '=', 'Open closest <button class="spa-meatball">⋯</button> menu', () => {
+      '=',
+      'Open closest <button class="spa-meatball">⋯</button> menu',
+      () => {
         // XXX: In this case, the identifier is on an svg element, not the
         // button, so use the parentElement.  When Firefox [fully
         // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
         // `:has()` pseudo-selector, we can probably use that and use
         // `clickElement()`.
         const el = this._comments.item ?? this._posts.item;
-        const button = el.querySelector('[aria-label^="Open options"],[a11y-text^="Open control menu"],[aria-label^="Open control menu"]').parentElement;
+        const selector = [
+          // Comment variant
+          '[aria-label^="Open options"]',
+          // Original post variant
+          '[aria-label^="Open control menu"]',
+          // Maybe new post variant
+          '[a11y-text^="Open control menu"]',
+        ].join(',');
+        const button = el.querySelector(selector).parentElement;
         button?.click();
       }
     );
@@ -2188,8 +2226,13 @@
 
     _commentOnItem = new Shortcut(
       'C', 'Comment on current post or comment', () => {
-        const el = this._comments.item ?? this._posts.item;
-        clickElement(el, ['button[aria-label^="Comment"]', 'button[aria-label^="Reply"]']);
+        if (this._hasActiveComment) {
+          // Yes, Reply, because we are replying to an existing comment.
+          clickElement(this._comments.item, ['button[aria-label^="Reply"]']);
+        } else {
+          // Yes, Comment, because we are creating a new comment on the post.
+          clickElement(this._posts.item, ['button[aria-label^="Comment"]']);
+        }
       }
     );
 
@@ -2203,15 +2246,28 @@
       clickElement(el, ['button.send-privately-button']);
     });
 
-    _gotoShare = new Shortcut('P', `Go to the share box to start a post or ${this.#tabSnippet} to the other creator options`, () => {
-      const share = document.querySelector('div.share-box-feed-entry__top-bar').parentElement;
-      share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
-      share.scrollIntoView();
-      share.querySelector('button').focus();
-    });
+    _gotoShare = new Shortcut(
+      'P',
+      `Go to the share box to start a post or ${this.#tabSnippet} ` +
+        'to the other creator options',
+      () => {
+        const share = document.querySelector(
+          'div.share-box-feed-entry__top-bar'
+        ).parentElement;
+        share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
+        share.scrollIntoView();
+        share.querySelector('button').focus();
+      }
+    );
 
     _togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
-      clickElement(this._posts.item, ['button[aria-label^="Dismiss post"]', 'button[aria-label^="Undo and show"]']);
+      clickElement(
+        this._posts.item,
+        [
+          'button[aria-label^="Dismiss post"]',
+          'button[aria-label^="Undo and show"]',
+        ]
+      );
     });
 
     _nextPostPlus = new Shortcut(
