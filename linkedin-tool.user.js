@@ -2463,12 +2463,15 @@
 
   }
 
+  Logger.config('InvitationManager').enabled = true;
+
   /**
    * Class for handling the Invitation manager page.
    */
   class InvitationManager extends Page {
 
     _pathname = '/mynetwork/invitation-manager/';
+    _onClickSelector = 'main';
 
     #invitesScroller
 
@@ -2514,6 +2517,25 @@
       this.#invitesScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
+    }
+
+    /** @inheritdoc */
+    _onClick = (evt) => {
+      const me = 'onClick';
+      this.logger.entered(me, evt);
+      const invite = evt.target.closest('section > ul > li');
+      this.logger.log('invite:', invite);
+      if (invite && invite !== this._invites.item) {
+        this._invites.item = invite;
+      }
+      this.logger.leaving(me);
+    }
+
+    /** @inheritdoc */
+    _refresh() {
+      const me = 'refresh';
+      this.logger.entered(me);
+      this.logger.leaving(me);
     }
 
     nextInvite = new Shortcut('j', 'Next invitation', () => {
