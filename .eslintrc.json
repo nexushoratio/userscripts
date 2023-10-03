@@ -160,6 +160,7 @@
       "off",
       {
         "code": 78,
+        "ignorePattern": "eslint-disable-line",
         "ignoreUrls": true
       }
     ],
