@@ -1906,7 +1906,7 @@
     #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
     #postScroller = null;
-    #commentsScroller = null;
+    #commentScroller = null;
 
     /** @type {Scroller~What} */
     static #postsWhat = {
@@ -1994,20 +1994,20 @@
 
     /** @type {Scroller} */
     get _comments() {
-      if (!this.#commentsScroller && this._posts.item) {
-        this.#commentsScroller = new Scroller({base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow);
-        this.#commentsScroller.dispatcher.on('out-of-range', this.#returnToPost);
+      if (!this.#commentScroller && this._posts.item) {
+        this.#commentScroller = new Scroller({base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow);
+        this.#commentScroller.dispatcher.on('out-of-range', this.#returnToPost);
       }
-      return this.#commentsScroller;
+      return this.#commentScroller;
     }
 
     /**
      * Reset the comment scroller.
      */
     #clearComments() {
-      if (this.#commentsScroller) {
-        this.#commentsScroller.destroy();
-        this.#commentsScroller = null;
+      if (this.#commentScroller) {
+        this.#commentScroller.destroy();
+        this.#commentScroller = null;
       }
     }
 
@@ -2265,8 +2265,8 @@
     _pathname = '/mynetwork/';
     _onClickSelector = 'main';
 
-    #sectionsScroller
-    #cardsScroller
+    #sectionScroller
+    #cardScroller
     #currentSectionText
 
     /** @type {Scroller~What} */
@@ -2320,9 +2320,9 @@
     /** Create MyNetwork controller. */
     constructor() {
       super();
-      this.#sectionsScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
-      this.#sectionsScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
-      this.#sectionsScroller.dispatcher.on('change', this.#onChange);
+      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
+      this.#sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller.dispatcher.on('change', this.#onChange);
     }
 
     /** @inheritdoc */
@@ -2400,16 +2400,16 @@
 
     /** @type {Scroller} */
     get _sections() {
-      return this.#sectionsScroller;
+      return this.#sectionScroller;
     }
 
     /** @type {Scroller} */
     get _cards() {
-      if (!this.#cardsScroller && this._sections.item) {
-        this.#cardsScroller = new Scroller({base: this._sections.item, ...MyNetwork.#cardsWhat}, MyNetwork._cardsHow);
-        this.#cardsScroller.dispatcher.on('out-of-range', this.#returnToSection);
+      if (!this.#cardScroller && this._sections.item) {
+        this.#cardScroller = new Scroller({base: this._sections.item, ...MyNetwork.#cardsWhat}, MyNetwork._cardsHow);
+        this.#cardScroller.dispatcher.on('out-of-range', this.#returnToSection);
       }
-      return this.#cardsScroller;
+      return this.#cardScroller;
     }
 
     /** @type {boolean} */
@@ -2418,9 +2418,9 @@
     }
 
     #clearCards = () => {
-      if (this.#cardsScroller) {
-        this.#cardsScroller.destroy();
-        this.#cardsScroller = null;
+      if (this.#cardScroller) {
+        this.#cardScroller.destroy();
+        this.#cardScroller = null;
       }
     }
 
@@ -2504,7 +2504,7 @@
     _pathname = '/mynetwork/invitation-manager/';
     _onClickSelector = 'main';
 
-    #invitesScroller
+    #inviteScroller
 
     /** @type {Scroller~What} */
     static #invitesWhat = {
@@ -2539,13 +2539,13 @@
 
     /** @type {Scroller} */
     get _invites() {
-      return this.#invitesScroller;
+      return this.#inviteScroller;
     }
 
     /** Create InvitationManager. */
     constructor() {
       super();
-      this.#invitesScroller = new Scroller(
+      this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
     }
