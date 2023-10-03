@@ -192,8 +192,7 @@
     #name
     #config
 
-    #opened = [];
-    #closed = [];
+    #groupStack = [];
 
     static Config = class {
 
@@ -292,7 +291,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     entered(group, ...rest) {
-      this.#opened.push(group);
+      this.#groupStack.push(group);
       this.#config.groupMode(group, GroupMode.Opened);
       if (this.enabled) {
         console.group(`${this.name}: ${group}`);
@@ -309,7 +308,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     leaving(group, ...rest) {
-      const lastGroup = this.#opened.pop();
+      const lastGroup = this.#groupStack.pop();
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed ` +
                       `"${group}", expected to see "${lastGroup}"`);
@@ -330,7 +329,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     starting(group, ...rest) {
-      this.#closed.push(group);
+      this.#groupStack.push(group);
       this.#config.groupMode(group, GroupMode.Closed);
       if (this.enabled) {
         console.groupCollapsed(`${this.name}: ${group} (collapsed)`);
@@ -347,7 +346,7 @@
      * @param {*} ...rest - Arbitrary items to pass to console.debug.
      */
     finished(group, ...rest) {
-      const lastGroup = this.#closed.pop();
+      const lastGroup = this.#groupStack.pop();
       if (group !== lastGroup) {
         console.error(`${this.name}: Group mismatch!  Passed ` +
                       `"${group}", expected to see "${lastGroup}"`);
