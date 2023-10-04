@@ -2707,13 +2707,15 @@
     _pathname = '/jobs/';
     _onClickSelector = 'main';
 
-    _sectionScroller = null;
-    _sectionsMO = null;
-    _sectionWatchText = '';
-    _jobScroller = null;
+    #sectionScroller = null;
+    #jobScroller = null;
+
+    #sectionsMO1
+    #sectionsMO2
+    #sectionWatchText = '';
 
     /** @type {Scroller~What} */
-    static _sectionsWhat = {
+    static #sectionsWhat = {
       name: 'Jobs sections',
       base: document.body,
       selectors: ['main section'],
@@ -2727,7 +2729,7 @@
     };
 
     /** @type {Scroller~What} */
-    static _jobsWhat = {
+    static #jobsWhat = {
       name: 'Job entries',
       selectors: [':scope > ul > li', ':scope > div > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
     };
@@ -2744,11 +2746,11 @@
      */
     constructor() {
       super();
-      this._sectionScroller = new Scroller(Jobs._sectionsWhat, Jobs._sectionsHow);
-      this._sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
-      this._sectionScroller.dispatcher.on('change', this._onChange);
-      this._sectionsMO1 = new MutationObserver(this._mutationHandler);
-      this._sectionsMO2 = new MutationObserver(this._mutationHandler);
+      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat, Jobs._sectionsHow);
+      this.#sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller.dispatcher.on('change', this.#onChange);
+      this.#sectionsMO1 = new MutationObserver(this.#mutationHandler);
+      this.#sectionsMO2 = new MutationObserver(this.#mutationHandler);
     }
 
     /** @inheritdoc */
@@ -2765,36 +2767,36 @@
       // The div does get recreated, so setting the observers again is
       // appropriate.
       const el = document.querySelector('div.scaffold-finite-scroll__content');
-      this._sectionsMO1.observe(el, {childList: true});
-      this._sectionsMO2.observe(el, {attributes: true, attributeOldValue: true, attributeFilter: ['class'], subtree: true});
+      this.#sectionsMO1.observe(el, {childList: true});
+      this.#sectionsMO2.observe(el, {attributes: true, attributeOldValue: true, attributeFilter: ['class'], subtree: true});
     }
 
     /** @type {Scroller} */
     get _sections() {
-      return this._sectionScroller;
+      return this.#sectionScroller;
     }
 
     /** @type {Scroller} */
     get _jobs() {
       const me = 'get jobs';
-      this.logger.entered(me, this._jobScroller);
-      if (!this._jobScroller && this._sections.item) {
-        this._jobScroller = new Scroller({base: this._sections.item, ...Jobs._jobsWhat}, Jobs._jobsHow);
-        this._jobScroller.dispatcher.on('out-of-range', this._returnToSection);
+      this.logger.entered(me, this.#jobScroller);
+      if (!this.#jobScroller && this._sections.item) {
+        this.#jobScroller = new Scroller({base: this._sections.item, ...Jobs.#jobsWhat}, Jobs._jobsHow);
+        this.#jobScroller.dispatcher.on('out-of-range', this.#returnToSection);
       }
-      this.logger.leaving(me, this._jobScroller);
-      return this._jobScroller;
+      this.logger.leaving(me, this.#jobScroller);
+      return this.#jobScroller;
     }
 
     /**
      * Reset the jobs scroller.
      */
-    _clearJobs() {
+    #clearJobs = () => {
       const me = 'clearJobs';
-      this.logger.entered(me, this._jobScroller);
-      if (this._jobScroller) {
-        this._jobScroller.destroy();
-        this._jobScroller = null;
+      this.logger.entered(me, this.#jobScroller);
+      if (this.#jobScroller) {
+        this.#jobScroller.destroy();
+        this.#jobScroller = null;
       }
       this.logger.leaving(me);
     }
@@ -2856,7 +2858,7 @@
      * Reselects current section, triggering same actions as initial
      * selection.
      */
-    _returnToSection = () => {
+    #returnToSection = () => {
       this._sections.item = this._sections.item;
     }
 
@@ -2864,16 +2866,16 @@
      * Updates {@link Jobs} specific watcher text and removes the jobs
      * {@link Scroller}.
      */
-    _onChange = () => {
-      this._sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
-      this._clearJobs();
+    #onChange = () => {
+      this.#sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
+      this.#clearJobs();
     }
 
     /**
      * Recover scroll position after elements were recreated.
      * @param {number} topScroll - Where to scroll to.
      */
-    _resetScroll(topScroll) {
+    #resetScroll = (topScroll) => {
       const me = 'resetScroll';
       this.logger.entered(me, topScroll);
       // Explicitly setting jobs.item below will cause it to scroll to that
@@ -2881,7 +2883,7 @@
       const savedJob = this._jobs?.item;
       this._sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
-      this._clearJobs();
+      this.#clearJobs();
       if (savedJob) {
         this._jobs.item = savedJob;
       }
@@ -2900,28 +2902,28 @@
      * section again.
      * @param {MutationRecord[]} records - Standard mutation records.
      */
-    _mutationHandler = (records) => {
+    #mutationHandler = (records) => {
       const me = 'mutationHandler';
-      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this._sectionWatchText}`);
+      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this.#sectionWatchText}`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
             const newText = node.innerText?.trim().split('\n')[0];
-            if (newText && newText === this._sectionWatchText) {
+            if (newText && newText === this.#sectionWatchText) {
               this.logger.log('via childList');
-              this._resetScroll(document.documentElement.scrollTop);
+              this.#resetScroll(document.documentElement.scrollTop);
             }
           }
         } else if (record.type === 'attributes') {
           const newText = record.target.innerText?.trim().split('\n')[0];
-          if (newText && newText === this._sectionWatchText) {
+          if (newText && newText === this.#sectionWatchText) {
             const attr = record.attributeName;
             const {oldValue} = record;
             const newValue = record.target.attributes[attr].value;
             const same = oldValue === newValue;
             if (!same) {
               this.logger.log('via attributes', record.target, `\nold: ${oldValue}\nnew:${newValue}`);
-              this._resetScroll(document.documentElement.scrollTop);
+              this.#resetScroll(document.documentElement.scrollTop);
             }
           }
         }
@@ -2998,7 +3000,7 @@
         timeout: 3000,
       };
       await otrot(what, how);
-      this._resetScroll(savedScrollTop);
+      this.#resetScroll(savedScrollTop);
     });
 
     _toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
