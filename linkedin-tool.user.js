@@ -2388,14 +2388,17 @@
     /** Create MyNetwork controller. */
     constructor() {
       super();
-      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat, MyNetwork._sectionsHow);
-      this.#sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
+        MyNetwork._sectionsHow);
+      this.#sectionScroller.dispatcher.on('out-of-range',
+        linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
     }
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const section = evt.target.closest('main > ul > li, main > :where(section, div)');
+      const selector = 'main > ul > li, main > :where(section, div)';
+      const section = evt.target.closest(selector);
       if (section && section !== this._sections.item) {
         this._sections.item = section;
       }
@@ -2474,8 +2477,13 @@
     /** @type {Scroller} */
     get _cards() {
       if (!this.#cardScroller && this._sections.item) {
-        this.#cardScroller = new Scroller({base: this._sections.item, ...MyNetwork.#cardsWhat}, MyNetwork._cardsHow);
-        this.#cardScroller.dispatcher.on('out-of-range', this.#returnToSection);
+        this.#cardScroller = new Scroller(
+          {base: this._sections.item, ...MyNetwork.#cardsWhat},
+          MyNetwork._cardsHow
+        );
+        this.#cardScroller.dispatcher.on(
+          'out-of-range', this.#returnToSection
+        );
       }
       return this.#cardScroller;
     }
@@ -2534,10 +2542,12 @@
       }
     });
 
-    focusBrowser = new Shortcut('f', 'Change browser focus to current item', () => {
-      const item = this._cards.item ?? this._sections.item;
-      focusOnElement(item);
-    });
+    focusBrowser = new Shortcut(
+      'f', 'Change browser focus to current item', () => {
+        const item = this._cards.item ?? this._sections.item;
+        focusOnElement(item);
+      }
+    );
 
     viewItem = new Shortcut('v', 'View the current item', () => {
       const card = this._cards?.item;
