@@ -2583,6 +2583,7 @@
     _onClickSelector = 'main';
 
     #inviteScroller
+    #currentInviteText
 
     /** @type {Scroller~What} */
     static #invitesWhat = {
@@ -2626,6 +2627,7 @@
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
+      this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
     /** @inheritdoc */
@@ -2644,6 +2646,18 @@
     _refresh() {
       const me = 'refresh';
       this.logger.entered(me);
+      if (this.#currentInviteText) {
+        this.logger.log(`We will look for ${this.#currentInviteText}`);
+      }
+      this.logger.leaving(me);
+    }
+
+    #onChange = () => {
+      const me = 'onChange';
+      this.logger.entered(me);
+      this.#currentInviteText = this._invites.item?.innerText
+        .trim().split('\n')[0];
+      this.logger.log('current', this.#currentInviteText);
       this.logger.leaving(me);
     }
 
