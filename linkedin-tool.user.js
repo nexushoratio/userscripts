@@ -2940,7 +2940,7 @@
      */
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
-      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} match-text: ${this.#sectionWatchText}`);
+      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} watch-text: -->${this.#sectionWatchText}<--`);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
