@@ -3045,21 +3045,6 @@
     _pathname = '/notifications/';
     _onClickSelector = 'main section div.nt-card-list';
 
-    /** @inheritdoc */
-    get _autoRegisteredKeys() {
-      return [
-        {seq: 'j', desc: 'Next notification', func: this._nextNotification},
-        {seq: 'k', desc: 'Previous notification', func: this._prevNotification},
-        {seq: '<', desc: 'Go to first notification', func: this._firstNotification},
-        {seq: '>', desc: 'Go to last notification', func: this._lastNotification},
-        {seq: 'f', desc: 'Change browser focus to current notification', func: this._focusBrowser},
-        {seq: 'Enter', desc: 'Activate the current notification (click on it)', func: this._activateNotification},
-        {seq: 'l', desc: 'Load more notifications', func: Notifications._loadMoreNotifications},
-        {seq: '=', desc: 'Open the <button class="spa-meatball">⋯</button> menu', func: this._openMeatballMenu},
-        {seq: 'X', desc: 'Toggle current notification deletion', func: this._deleteNotification},
-      ];
-    }
-
     _notificationScroller = null;
 
     /** @type {Scroller~What} */
@@ -3137,46 +3122,28 @@
       return strHash(content);
     }
 
-    /**
-     * Select the next notification.
-     */
-    _nextNotification = () => {
+    _nextNotification = new Shortcut('j', 'Next notification', () => {
       this._notifications.next();
-    }
+    });
 
-    /**
-     * Select the previous notification.
-     */
-    _prevNotification = () => {
+    _prevNotification = new Shortcut('k', 'Previous notification', () => {
       this._notifications.prev();
-    }
+    });
 
-    /**
-     * Select the first notification.
-     */
-    _firstNotification = () => {
+    _firstNotification = new Shortcut('<', 'Go to first notification', () => {
       this._notifications.first();
-    }
+    });
 
-    /**
-     * Select the last notification.
-     */
-    _lastNotification = () => {
+    _lastNotification = new Shortcut('>', 'Go to last notification', () => {
       this._notifications.last();
-    }
+    });
 
-    /**
-     * Change browser focus to the current notification.
-     */
-    _focusBrowser = () => {
+    _focusBrowser = new Shortcut('f', 'Change browser focus to current notification', () => {
       this._notifications.show();
       focusOnElement(this._notifications.item);
-    }
+    });
 
-    /**
-     * Activate the current notification.
-     */
-    _activateNotification = () => {
+    _activateNotification = new Shortcut('Enter', 'Activate the current notification (click on it)', () => {
       const ONE_ITEM = 1;
       const notification = this._notifications.item;
       if (notification) {
@@ -3202,12 +3169,9 @@
         // Again, because we use Enter as the hotkey for this action.
         document.activeElement.click();
       }
-    }
+    });
 
-    /**
-     * Load more notifications.
-     */
-    static _loadMoreNotifications() {
+    _loadMoreNotifications = new Shortcut('l', 'Load more notifications', () => {
       const savedScrollTop = document.documentElement.scrollTop;
       let first = false;
       const notifications = this._notifications;
@@ -3247,19 +3211,13 @@
         duration: 2000,
       };
       otrot2(what, how);
-    }
+    });
 
-    /**
-     * Open the (⋯) menu for the current notification.
-     */
-    _openMeatballMenu = () => {
+    _openMeatballMenu = new Shortcut('=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
       clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
-    }
+    });
 
-    /**
-     * Toggles deletion of the current notification.
-     */
-    _deleteNotification = async () => {
+    _deleteNotification = new Shortcut('X', 'Toggle current notification deletion', async () => {
       const notification = this._notifications.item;
 
       /**
@@ -3289,7 +3247,7 @@
         await otrot(what, how);
         this._notifications.shine();
       }
-    }
+    });
 
   }
 
