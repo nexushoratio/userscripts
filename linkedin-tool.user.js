@@ -2748,7 +2748,7 @@
 
     #sectionsMO1
     #sectionsMO2
-    #sectionWatchText = '';
+    #sectionWatchInfo
 
     /** @type {Scroller~What} */
     static #sectionsWhat = {
@@ -2891,6 +2891,46 @@
     }
 
     /**
+     * @typedef {object} NodeInfo
+     * @property {string} tag - The tagName of the node.
+     * @property {string} text - Identifying text of the node.
+     */
+
+    /**
+     * Compute consistent information about a node (really an HTMLElement, but
+     * node is shorter to type).
+     *
+     * This implementation, which uses the first line of the innerText, is a
+     * bit of a hack.  Do not use this a positive example.
+     *
+     * @param {Element} node - Node to examine.
+     * @returns {NodeInfo} - Information about the node.
+     */
+    #nodeInfo = (node) => {
+      const me = 'nodeInfo';
+      this.logger.entered(me, node);
+      const info = {
+        tag: node?.tagName,
+        text: node?.innerText?.trim().split('\n')[0],
+      };
+      this.logger.leaving(me, info);
+      return info;
+    }
+
+    /**
+     * @param {NodeInfo} left - First item.
+     * @param {NodeInfo} right - Second item.
+     * @returns {boolean} - Equality of the two items.
+     */
+    #eqNodeInfo = (left, right) => {
+      const me = 'eqNodeInfo';
+      this.logger.entered(me, left, right);
+      const res = left?.tag === right?.tag && left?.text === right?.text;
+      this.logger.leaving(me, res);
+      return res;
+    }
+
+    /**
      * Reselects current section, triggering same actions as initial
      * selection.
      */
@@ -2899,12 +2939,16 @@
     }
 
     /**
-     * Updates {@link Jobs} specific watcher text and removes the jobs
+     * Updates {@link Jobs} specific watcher data and removes the jobs
      * {@link Scroller}.
      */
     #onChange = () => {
-      this.#sectionWatchText = this._sections.item?.innerText.trim().split('\n')[0];
+      const me = 'onChange';
+      this.logger.entered(me);
+      this.#sectionWatchInfo = this.#nodeInfo(this._sections.item);
+      this.logger.log('watching for', this.#sectionWatchInfo);
       this.#clearJobs();
+      this.logger.leaving(me);
     }
 
     /**
@@ -2940,19 +2984,19 @@
      */
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
-      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} watch-text: -->${this.#sectionWatchText}<--`);
+      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} watch-info`, this.#sectionWatchInfo);
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
-            const newText = node.innerText?.trim().split('\n')[0];
-            if (newText && newText === this.#sectionWatchText) {
-              this.logger.log('via childList');
+            const newInfo = this.#nodeInfo(node);
+            if (newInfo.text && this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
+              this.logger.log('via childList node', node);
               this.#resetScroll(document.documentElement.scrollTop);
             }
           }
         } else if (record.type === 'attributes') {
-          const newText = record.target.innerText?.trim().split('\n')[0];
-          if (newText && newText === this.#sectionWatchText) {
+          const newInfo = this.#nodeInfo(record.target);
+          if (newInfo.text && this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
             const attr = record.attributeName;
             const {oldValue} = record;
             const newValue = record.target.attributes[attr].value;
