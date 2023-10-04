@@ -214,6 +214,7 @@
    * }
    *
    * Logger.config('Bob').enabled = true;
+   * Logger.config('Bob').groups.set('foo', GroupMode.Silenced);
    */
   class Logger {
 
@@ -262,7 +263,7 @@
 
       /** @type {Map<string,GroupMode>} - Per group settings. */
       get groups() {
-        return new Map(this.#groups);
+        return this.#groups;
       }
 
     }
@@ -312,6 +313,17 @@
       return this.#config.trace;
     }
 
+    /** @type {boolean} - Indicates whether current group is silenced. */
+    get silenced() {
+      let ret = false;
+      const group = this.#groupStack.at(-1);
+      if (group) {
+        const mode = this.#config.groupMode(group);
+        ret = mode === GroupMode.Silenced;
+      }
+      return ret;
+    }
+
     /* eslint-disable no-console */
 
     /**
@@ -323,7 +335,7 @@
     #intro = (group, defaultMode, ...rest) => {
       this.#groupStack.push(group);
       const mode = this.#config.groupMode(group, defaultMode);
-      if (this.enabled) {
+      if (this.enabled && mode !== GroupMode.Silenced) {
         console[mode.func](`${this.name}: ${group}`);
         if (rest.length) {
           const msg = `${mode.greeting} ${group} with`;
@@ -344,7 +356,7 @@
                       `"${group}", expected to see "${lastGroup}"`);
       }
       const mode = this.#config.groupMode(group);
-      if (this.enabled) {
+      if (this.enabled && mode !== GroupMode.Silenced) {
         let msg = `${mode.farewell} ${group}`;
         if (rest.length) {
           msg += ' with:';
@@ -360,7 +372,7 @@
      * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
      */
     log(msg, ...rest) {
-      if (this.enabled) {
+      if (this.enabled && !this.silenced) {
         if (this.trace) {
           console.groupCollapsed(`${this.name} call stack`);
           console.trace();
