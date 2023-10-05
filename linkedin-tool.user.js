@@ -2889,8 +2889,10 @@
      */
     constructor() {
       super();
-      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat, Jobs._sectionsHow);
-      this.#sectionScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
+        Jobs._sectionsHow);
+      this.#sectionScroller.dispatcher.on('out-of-range',
+        linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
       this.#sectionsMO1 = new MutationObserver(this.#mutationHandler);
       this.#sectionsMO2 = new MutationObserver(this.#mutationHandler);
@@ -2909,9 +2911,18 @@
       this._sections.show();
       // The div does get recreated, so setting the observers again is
       // appropriate.
-      const el = document.querySelector('div.scaffold-finite-scroll__content');
+      const el = document
+        .querySelector('div.scaffold-finite-scroll__content');
       this.#sectionsMO1.observe(el, {childList: true});
-      this.#sectionsMO2.observe(el, {attributes: true, attributeOldValue: true, attributeFilter: ['class'], subtree: true});
+      this.#sectionsMO2.observe(
+        el,
+        {
+          attributes: true,
+          attributeOldValue: true,
+          attributeFilter: ['class'],
+          subtree: true,
+        }
+      );
     }
 
     /** @type {Scroller} */
@@ -2924,8 +2935,12 @@
       const me = 'get jobs';
       this.logger.entered(me, this.#jobScroller);
       if (!this.#jobScroller && this._sections.item) {
-        this.#jobScroller = new Scroller({base: this._sections.item, ...Jobs.#jobsWhat}, Jobs._jobsHow);
-        this.#jobScroller.dispatcher.on('out-of-range', this.#returnToSection);
+        this.#jobScroller = new Scroller(
+          {base: this._sections.item, ...Jobs.#jobsWhat},
+          Jobs._jobsHow
+        );
+        this.#jobScroller.dispatcher.on('out-of-range',
+          this.#returnToSection);
       }
       this.logger.leaving(me, this.#jobScroller);
       return this.#jobScroller;
@@ -2987,7 +3002,8 @@
           if (s) {
             content = s;
           } else {
-            options = element.querySelectorAll('.jobs-home-upsell-card__container');
+            options = element
+              .querySelectorAll('.jobs-home-upsell-card__container');
             if (options.length === ONE_ITEM) {
               content = options[0].className;
             }
@@ -3091,25 +3107,35 @@
      */
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
-      this.logger.entered(me, `records: ${records.length} type: ${records[0].type} watch-info`, this.#sectionWatchInfo);
+      this.logger.entered(
+        me,
+        `records: ${records.length} type: ${records[0].type} watch-info`,
+        this.#sectionWatchInfo
+      );
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
             const newInfo = this.#nodeInfo(node);
-            if (newInfo.text && this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
+            if (newInfo.text &&
+                this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
               this.logger.log('via childList node', node);
               this.#resetScroll(document.documentElement.scrollTop);
             }
           }
         } else if (record.type === 'attributes') {
           const newInfo = this.#nodeInfo(record.target);
-          if (newInfo.text && this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
+          if (newInfo.text &&
+              this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
             const attr = record.attributeName;
             const {oldValue} = record;
             const newValue = record.target.attributes[attr].value;
             const same = oldValue === newValue;
             if (!same) {
-              this.logger.log('via attributes', record.target, `\nold: ${oldValue}\nnew:${newValue}`);
+              this.logger.log(
+                'via attributes',
+                record.target,
+                `\nold: ${oldValue}\nnew:${newValue}`
+              );
               this.#resetScroll(document.documentElement.scrollTop);
             }
           }
@@ -3134,89 +3160,114 @@
       this._jobs.prev();
     });
 
-    _firstSectionOrJob = new Shortcut('<', 'Go to to first section or job', () => {
-      if (this._hasActiveJob) {
-        this._jobs.first();
-      } else {
-        this._sections.first();
+    _firstSectionOrJob = new Shortcut(
+      '<', 'Go to to first section or job', () => {
+        if (this._hasActiveJob) {
+          this._jobs.first();
+        } else {
+          this._sections.first();
+        }
       }
-    });
+    );
 
-    _lastSectionOrJob = new Shortcut('>', 'Go to last section or job currently loaded', () => {
-      if (this._hasActiveJob) {
-        this._jobs.last();
-      } else {
-        this._sections.last();
+    _lastSectionOrJob = new Shortcut(
+      '>', 'Go to last section or job currently loaded', () => {
+        if (this._hasActiveJob) {
+          this._jobs.last();
+        } else {
+          this._sections.last();
+        }
       }
-    });
+    );
 
-    _focusBrowser = new Shortcut('f', 'Change browser focus to current section or job', () => {
-      const el = this._jobs.item ?? this._sections.item;
-      this._sections.show();
+    _focusBrowser = new Shortcut(
+      'f', 'Change browser focus to current section or job', () => {
+        const el = this._jobs.item ?? this._sections.item;
+        this._sections.show();
       this._jobs?.show();
       focusOnElement(el);
-    });
+      }
+    );
 
-    _activateJob = new Shortcut('Enter', 'Activate the current job (click on it)', () => {
-      const job = this._jobs?.item;
-      if (job) {
-        if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
-          this.spa.dumpInfoAboutElement(job, 'job');
+    _activateJob = new Shortcut(
+      'Enter',
+      'Activate the current job (click on it)',
+      () => {
+        const job = this._jobs?.item;
+        if (job) {
+          if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
+            this.spa.dumpInfoAboutElement(job, 'job');
+          }
+        } else {
+          // Again, because we use Enter as the hotkey for this action.
+          document.activeElement.click();
         }
-      } else {
-        // Again, because we use Enter as the hotkey for this action.
-        document.activeElement.click();
       }
-    });
+    );
 
-    _loadMoreSections = new Shortcut('l', 'Load more sections (or <i>More jobs for you</i> items)', async () => {
-      const savedScrollTop = document.documentElement.scrollTop;
+    _loadMoreSections = new Shortcut(
+      'l',
+      'Load more sections (or <i>More jobs for you</i> items)',
+      async () => {
+        const savedScrollTop = document.documentElement.scrollTop;
 
-      /**
-       * Trigger function for {@link otrot}.
-       */
-      function trigger() {
-        clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
-      }
-      const what = {
-        name: 'loadMoreSections',
-        base: document.querySelector('div.scaffold-finite-scroll__content'),
-      };
-      const how = {
-        trigger: trigger,
-        timeout: 3000,
-      };
-      await otrot(what, how);
-      this.#resetScroll(savedScrollTop);
-    });
-
-    _toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
-      clickElement(this._jobs?.item, ['button[aria-label^="Save job"]', 'button[aria-label^="Unsave job"]']);
-    });
-
-    _toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', async () => {
-      const savedJob = this._jobs.item;
-
-      /**
-       * Trigger function for {@link otrot}.  Because, of course jobs needs
-       * it.
-       */
-      function trigger() {
-        clickElement(savedJob, ['button[aria-label^="Dismiss job"]:not([disabled])', 'button[aria-label$=" Undo"]']);
-      }
-      if (savedJob) {
+        /**
+         * Trigger function for {@link otrot}.
+         */
+        function trigger() {
+          clickElement(document,
+            ['main button.scaffold-finite-scroll__load-button']);
+        }
         const what = {
-          name: 'toggleDismissJob',
-          base: savedJob,
+          name: 'loadMoreSections',
+          base: document.querySelector('div.scaffold-finite-scroll__content'),
         };
         const how = {
           trigger: trigger,
           timeout: 3000,
         };
         await otrot(what, how);
-        this._jobs.item = savedJob;
+        this.#resetScroll(savedScrollTop);
       }
+    );
+
+    _toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
+      const selector = [
+        'button[aria-label^="Save job"]',
+        'button[aria-label^="Unsave job"]',
+      ].join(',');
+      clickElement(this._jobs?.item, [selector]);
     });
+
+    _toggleDismissJob = new Shortcut('X',
+      'Toggle dismissing job',
+      async () => {
+        const savedJob = this._jobs.item;
+
+        /**
+         * Trigger function for {@link otrot}.  Because, of course jobs needs
+         * it.
+         */
+        function trigger() {
+          const selector = [
+            'button[aria-label^="Dismiss job"]:not([disabled])',
+            'button[aria-label$=" Undo"]',
+          ].join(',');
+          clickElement(savedJob, [selector]);
+        }
+        if (savedJob) {
+          const what = {
+            name: 'toggleDismissJob',
+            base: savedJob,
+          };
+          const how = {
+            trigger: trigger,
+            timeout: 3000,
+          };
+          await otrot(what, how);
+          this._jobs.item = savedJob;
+        }
+      });
 
   }
 
