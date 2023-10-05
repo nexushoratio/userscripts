@@ -2673,6 +2673,10 @@
 
   }
 
+  // TODO(#157)
+  Logger.config('InvitationManager').enabled = testing.enabled;
+  Logger.config('{Invitation cards}').enabled = testing.enabled;
+
   /**
    * Class for handling the Invitation manager page.
    */
