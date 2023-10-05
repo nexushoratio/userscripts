@@ -2867,7 +2867,14 @@
     /** @type {Scroller~What} */
     static #jobsWhat = {
       name: 'Job entries',
-      selectors: [':scope > ul > li', ':scope > div > ul > li', 'div.jobs-home-recent-searches__list-toggle', 'div.discovery-templates-vertical-list__footer'],
+      selectors: [
+        [
+          // Most job entries
+          ':scope > ul > li',
+          // Show all button
+          'div.discovery-templates-vertical-list__footer',
+        ].join(','),
+      ],
     };
 
     /** @type {Scroller~How} */
