@@ -1332,7 +1332,7 @@
      */
     #scrollToCurrentItem = () => {
       const me = 'scrollToCurrentItem';
-      this.#log.entered(me, this.#snapToTop);
+      this.#log.entered(me, `snaptoTop: ${this.#snapToTop}`);
       const {item} = this;
       if (item) {
         item.style.scrollMarginTop = this.#topMarginCss;
@@ -1340,6 +1340,7 @@
           this.#log.log('snapping to top');
           item.scrollIntoView(true);
         } else {
+          this.#log.log('not snapping to top');
           item.style.scrollMarginBottom = this.#bottomMarginCss;
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to fit
