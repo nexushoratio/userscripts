@@ -3100,10 +3100,10 @@
     _pathname = '/notifications/';
     _onClickSelector = 'main section div.nt-card-list';
 
-    _notificationScroller = null;
+    #notificationScroller = null;
 
     /** @type {Scroller~What} */
-    static _notificationsWhat = {
+    static #notificationsWhat = {
       name: 'Notification cards',
       base: document.body,
       selectors: ['main section div.nt-card-list article'],
@@ -3122,8 +3122,8 @@
      */
     constructor() {
       super();
-      this._notificationScroller = new Scroller(Notifications._notificationsWhat, Notifications._notificationsHow);
-      this._notificationScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#notificationScroller = new Scroller(Notifications.#notificationsWhat, Notifications._notificationsHow);
+      this.#notificationScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
     }
 
     /** @inheritdoc */
@@ -3142,7 +3142,7 @@
 
     /** @type {Scroller} */
     get _notifications() {
-      return this._notificationScroller;
+      return this.#notificationScroller;
     }
 
     /**
