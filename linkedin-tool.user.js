@@ -1610,25 +1610,6 @@
      */
     _onClickSelector = null;
 
-
-    /**
-     * Definition for keyboard shortcuts.
-     * @typedef {object} Shortcut
-     * @property {string} seq - Key sequence to activate.
-     * @property {string} desc - Description that goes into the online list of
-     * keys.
-     * @property {SimpleFunction} func - Function to call, usually in the form
-     * of `this.callback`.  Keep JS `this` magic in mind!
-     */
-
-    /**
-     * @type {Shortcut[]} - List of {@link Shortcut}s to register
-     * automatically.
-     */
-    get _autoRegisteredKeys() {  // eslint-disable-line class-methods-use-this
-      return [];
-    }
-
     // Private members.
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1672,8 +1653,8 @@
     start(spa) {
       this.#spa = spa;
       this.#logger = new Logger(this.constructor.name);
-      for (const {seq, func} of this.allShortcuts) {
-        this.#addKey(seq, func);
+      for (const shortcut of this.allShortcuts) {
+        this.#addKey(shortcut);
       }
     }
 
@@ -1682,11 +1663,12 @@
       const shortcuts = [];
       for (const prop of Object.values(this)) {
         if (prop instanceof Shortcut) {
-          shortcuts.push({seq: prop.seq, desc: prop.desc, func: prop});
+          shortcuts.push(prop);
+          // While we are here, give the function a name.
           Object.defineProperty(prop, 'name', {value: name});
         }
       }
-      return this._autoRegisteredKeys.concat(shortcuts);
+      return shortcuts;
     }
 
     /** @type {RegExp} */
@@ -1743,20 +1725,11 @@
     }
 
     /**
-     * @type {Shortcut[]} - The `key` and `desc` properties are important
-     * here.
-     */
-    get keysDescriptions() {
-      return this.allShortcuts;
-    }
-
-    /**
      * Registers a specific key sequence with a function with VM.shortcut.
-     * @param {string} seq - Key sequence.
-     * @param {SimpleFunction} func - Function to call.
+     * @param {Shortcut} shortcut - Shortcut to register.
      */
-    #addKey(seq, func) {
-      this.#keyboard.register(seq, func, Page.#navOption);
+    #addKey(shortcut) {
+      this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
     }
 
     /**
@@ -4219,12 +4192,12 @@
       const section = SPA._parseHeader(page.infoHeader);
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
-      for (const {seq, desc} of page.keysDescriptions) {
+      for (const {seq, desc} of page.allShortcuts) {
         const keys = SPA._parseSeq2(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
-      if (page.keysDescriptions.length) {
+      if (page.allShortcuts.length) {
         shortcuts.innerHTML += s;
         for (const button of shortcuts.querySelectorAll('button')) {
           button.disabled = true;
