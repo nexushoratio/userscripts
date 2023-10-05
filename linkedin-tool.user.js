@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     4.1.4
+// @version     4.2.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2672,8 +2672,6 @@
 
   }
 
-  Logger.config('InvitationManager').enabled = true;
-
   /**
    * Class for handling the Invitation manager page.
    */
@@ -2743,11 +2741,41 @@
     }
 
     /** @inheritdoc */
-    _refresh() {
+    async _refresh() {
       const me = 'refresh';
       this.logger.entered(me);
+
+      /**
+       * Wait for current invitation to show back up.
+       * @implements{Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        for (const el of document.body.querySelectorAll(
+          'main > section section > ul > li'
+        )) {
+          const text = el.innerText.trim().split('\n')[0];
+          if (text === this.#currentInviteText) {
+            return {done: true};
+          }
+        }
+        return {done: false};
+      };
+      const what = {
+        name: 'InviteManager refresh',
+        base: document.body.querySelector('main'),
+      };
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: 3000,
+      };
+
       if (this.#currentInviteText) {
         this.logger.log(`We will look for ${this.#currentInviteText}`);
+        await otmot(what, how);
+        this._invites.shine();
+        this._invites.show();
       }
       this.logger.leaving(me);
     }
