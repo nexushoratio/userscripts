@@ -2685,7 +2685,7 @@
 
     /** @type {Scroller~What} */
     static #invitesWhat = {
-      name: 'Invititation cards',
+      name: 'Invitation cards',
       base: document.body,
       selectors: [
         [
