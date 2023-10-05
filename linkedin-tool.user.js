@@ -1587,6 +1587,100 @@
   }
 
   /**
+   * Base class for building services to go with {@link SPA}.
+   *
+   * This should be subclassed to implement services that instances of {@link
+   * Page} will instantiate, initialize, active and deactivate at appropriate
+   * times.
+   *
+   * It is expected that each {Page} subclass will have individual instances
+   * of the services, though nothing will enforce that.
+   *
+   * @example
+   * class DummyService extends Service {
+   * ... implement methods ...
+   * }
+   *
+   * class CustomPage extends Page {
+   *   constructor() {
+   *     this.addService(DummyService);
+   *   }
+   * }
+   */
+  class Service {
+
+    #logger
+    #name
+
+    /** @type {Logger} - Logger instance. */
+    get logger() {
+      return this.#logger;
+    }
+
+    /** @type {string} - Instance name. */
+    get name() {
+      return this.#name;
+    }
+
+    /**
+     * @param {string} name - Custom portion of this instance
+     */
+    constructor(name) {
+      if (new.target === Service) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+      this.#name = `${this.constructor.name}: ${name}`;
+      this.#logger = new Logger(this.#name);
+    }
+
+    /**
+     * @param {string} name - Name of method that was not implemented.
+     */
+    #notImplemented(name) {
+      const msg = `Class ${this.constructor.name} did not implement ` +
+            `method "${name}".`;
+      this.logger.log(msg);
+      throw new Error(msg);
+    }
+
+    /** Called once when service is started. */
+    start() {
+      this.#notImplemented('start');
+    }
+
+    /** Called each time service is activate. */
+    activate() {
+      this.#notImplemented('activate');
+    }
+
+    /** Called each time service is deactivated. */
+    deactivate() {
+      this.#notImplemented('deactivate');
+    }
+
+  }
+
+  /** Toy service for experimenting. */
+  class DummyService extends Service {
+
+    /** @inheritdoc */
+    start() {
+      this.logger.log('Dummy start');
+    }
+
+    /** @inheritdoc */
+    activate() {
+      this.logger.log('Dummy activate');
+    }
+
+    /** @inheritdoc */
+    deactivate() {
+      this.logger.log('Dummy deactivate');
+    }
+
+  }
+
+  /**
    * Base class for handling various views of a single-page application.
    *
    * Generally, new classes should subclass this, override a few properties
@@ -1624,6 +1718,8 @@
     /** @type {KeyboardService} */
     #keyboard = new VM.shortcut.KeyboardService();
 
+    #services = new Set();
+
     /**
      * @type {Element} - Tracks which HTMLElement holds the `onclick`
      * function.
@@ -1644,6 +1740,24 @@
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
+      this.#logger = new Logger(this.constructor.name);
+    }
+
+    /**
+     * Register a new {@link Service}.
+     * @param {Service} Klass - A service class to instantiate.
+     */
+    addService(Klass) {
+      const me = 'addService';
+      this.logger.entered(me, Klass);
+      if (Klass.prototype instanceof Service) {
+        const instance = new Klass(this.constructor.name);
+        this.#services.add(instance);
+      } else {
+        this.logger.log('Bad class was passed.');
+        throw new Error(`${Klass.name} is not a Service`);
+      }
+      this.logger.leaving(me);
     }
 
     /**
@@ -1652,9 +1766,11 @@
      */
     start(spa) {
       this.#spa = spa;
-      this.#logger = new Logger(this.constructor.name);
       for (const shortcut of this.allShortcuts) {
         this.#addKey(shortcut);
+      }
+      for (const service of this.#services) {
+        service.start();
       }
     }
 
@@ -1708,6 +1824,10 @@
     activate() {
       this.#keyboard.enable();
       this.#enableOnClick();
+      // TODO(#130): Wait until page settles before calling.
+      for (const service of this.#services) {
+        service.activate();
+      }
     }
 
     /**
@@ -1717,6 +1837,9 @@
     deactivate() {
       this.#keyboard.disable();
       this.#disableOnClick();
+      for (const service of this.#services) {
+        service.deactivate();
+      }
     }
 
     /** @type {string} - Describes what the header should be. */
@@ -1882,6 +2005,9 @@
 
   }
 
+  Logger.config('Feed').enabled = testing.enabled;
+  Logger.config('DummyService: Feed').enabled = testing.enabled;
+
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
@@ -1925,6 +2051,7 @@
      */
     constructor() {
       super();
+      this.addService(DummyService);
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
