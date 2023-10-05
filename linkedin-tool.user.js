@@ -2444,7 +2444,7 @@
       // See https://stackoverflow.com/questions/77146570
       selectors: [
         [
-          // Invintations
+          // Invitations
           'main > section',
           // Most sections
           'main > ul > li',
