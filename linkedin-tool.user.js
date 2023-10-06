@@ -3556,13 +3556,20 @@
     /** @type {TabbedUI} */
     _ui = null;
 
+    #logger
+
+    /** @type {Logger} - Logger instance. */
+    get logger() {
+      return this.#logger;
+    }
+
     /** Create a SPADetails instance. */
     constructor() {
       if (new.target === SPADetails) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
 
-      this._log = new Logger(this.constructor.name);
+      this.#logger = new Logger(this.constructor.name);
       this._id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
       this.dispatcher = new Dispatcher('errors', 'news');
     }
@@ -3583,8 +3590,8 @@
      */
     done() {
       const me = 'done (SPADetails)';
-      this._log.entered(me);
-      this._log.leaving(me);
+      this.logger.entered(me);
+      this.logger.leaving(me);
     }
 
     /** @type {TabbedUI} */
@@ -3603,7 +3610,7 @@
      * @param {number} count - Number of errors currently logged.
      */
     _errors = (count) => {
-      this._log.log('errors:', count);
+      this.logger.log('errors:', count);
     }
 
     /**
@@ -3611,7 +3618,7 @@
      * @param {object} data - Undefined at this time.
      */
     _news = (data) => {
-      this._log.log('news', data);
+      this.logger.log('news', data);
     }
 
     /** @type {SetupIssue[]} */
@@ -3625,7 +3632,7 @@
      */
     addSetupIssue(...msgs) {
       for (const msg of msgs) {
-        this._log.log('Setup issue:', msg);
+        this.logger.log('Setup issue:', msg);
       }
       this._setupIssues.push(msgs);
     }
@@ -3636,7 +3643,7 @@
      * and file bugs.
      */
     docTab() {
-      this._log.log('docTab is not implemented');
+      this.logger.log('docTab is not implemented');
       throw new Error('Not implemented.');
       return {  // eslint-disable-line no-unreachable
         name: 'Not implemented.',
@@ -3649,7 +3656,7 @@
      * @returns {TabbedUI~TabDefinition} - License information.
      */
     licenseTab() {
-      this._log.log('licenseTab is not implemented');
+      this.logger.log('licenseTab is not implemented');
       throw new Error('Not implemented.');
       return {  // eslint-disable-line no-unreachable
         name: 'Not implemented.',
@@ -3707,10 +3714,10 @@
     done() {
       super.done();
       const me = 'done';
-      this._log.entered(me);
+      this.logger.entered(me);
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this._licenseHandler);
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** @type {string} - The element.id used to identify the info pop-up. */
@@ -3732,7 +3739,7 @@
     /** @type {LicenseData} */
     get licenseData() {
       const me = 'licenseData';
-      this._log.entered(me);
+      this.logger.entered(me);
 
       if (!this._licenseData) {
         // Different userscript managers do this differently.
@@ -3763,14 +3770,14 @@
         };
       }
 
-      this._log.leaving(me, this._licenseData);
+      this.logger.leaving(me, this._licenseData);
       return this._licenseData;
     }
 
     /** Hang out until enough HTML has been built to be useful. */
     async _waitUntilPageLoadedEnough() {
       const me = 'waitOnPageLoadedEnough';
-      this._log.entered(me);
+      this.logger.entered(me);
 
       /**
        * Monitor for waiting for the navbar to show up.
@@ -3799,19 +3806,19 @@
       this._navbar = await otmot(navWhat, navHow);
       this._finishConstruction();
 
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** Do the bits that were waiting on the page. */
     _finishConstruction() {
       const me = 'finishConstruction';
-      this._log.entered(me);
+      this.logger.entered(me);
 
       this._addLitStyle();
       this._addToolMenuItem();
       this._setNavBarInfo();
 
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -3820,7 +3827,7 @@
      */
     _licenseHandler = async (evt) => {
       const me = 'licenseHandler';
-      this._log.entered(me, evt.target);
+      this.logger.entered(me, evt.target);
 
       // Probably should debounce this.  If the user visits this tab twice
       // fast enough, they end up with two copies loaded.  Amusing, but
@@ -3843,7 +3850,7 @@
         }
       }
 
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
@@ -3857,7 +3864,7 @@
     /** Add a menu item to the global nav bar. */
     _addToolMenuItem() {
       const me = 'addToolMenuItem';
-      this._log.entered(me);
+      this.logger.entered(me);
 
       const ul = document.querySelector('ul.global-nav__primary-items');
       const li = document.createElement('li');
@@ -3888,7 +3895,7 @@
         info.showModal();
         info.dispatchEvent(new Event('open'));
       });
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** Set some useful global variables. */
@@ -3908,7 +3915,7 @@
     /** @inheritdoc */
     _errors = (count) => {
       const me = 'errors';
-      this._log.entered(me, count);
+      this.logger.entered(me, count);
       const button = document.querySelector('#lit-nav-button');
       const toggle = button.querySelector('.notification-badge');
       const badge = button.querySelector('.notification-badge__count');
@@ -3918,13 +3925,13 @@
       } else {
         toggle.classList.remove('notification-badge--show');
       }
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /** @inheritdoc */
     docTab() {
       const me = 'docTab';
-      this._log.entered(me);
+      this.logger.entered(me);
       const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
       const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
       const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
@@ -3942,14 +3949,14 @@
         name: 'Information',
         content: content.join('\n'),
       };
-      this._log.leaving(me, tab);
+      this.logger.leaving(me, tab);
       return tab;
     }
 
     /** @inheritdoc */
     licenseTab() {
       const me = 'licenseTab';
-      this._log.entered(me);
+      this.logger.entered(me);
 
       const {name, url} = this.licenseData;
       const tab = {
@@ -3957,7 +3964,7 @@
         content: `<p><a href="${url}">${name}</a></p>`,
       };
 
-      this._log.leaving(me, tab);
+      this.logger.leaving(me, tab);
       return tab;
     }
 
