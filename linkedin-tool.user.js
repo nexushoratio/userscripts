@@ -67,10 +67,19 @@
   /* eslint-disable max-lines-per-function */
   /* eslint-disable no-magic-numbers */
   /* eslint-disable no-unused-vars */
-  /* eslint-disable require-jsdoc */
+  /** Test case. */
   function testDefaultMap() {
 
-    const noFactory = () => {
+    /**
+     * @typedef {object} DefaultMapTest
+     * @property {function()} test - Function to execute.
+     * @property {*} expected - Expected results.
+     */
+
+    /** @type {Map<string,DefaultMapTest>} */
+    const tests = new Map();
+
+    tests.set('noFactory', {test: () => {
       try {
         const dummy = new DefaultMap();
       } catch (e) {
@@ -79,9 +88,10 @@
         }
       }
       return 'oops';
-    };
+    },
+    expected: 'caught'});
 
-    const badFactory = () => {
+    tests.set('badFactory', {test: () => {
       try {
         const dummy = new DefaultMap('a');
       } catch (e) {
@@ -90,45 +100,37 @@
         }
       }
       return 'oops';
-    };
+    },
+    expected: 'caught'});
 
-    const withIterable = () => {
+    tests.set('withIterable', {test: () => {
       const dummy = new DefaultMap(Number, [[1, 'one'], [2, 'two']]);
       dummy.set(3, ['a', 'b']);
       dummy.get(4);
       return JSON.stringify(Array.from(dummy.entries()));
-    };
+    },
+    expected: '[[1,"one"],[2,"two"],[3,["a","b"]],[4,0]]'});
 
-    const counter = () => {
+    tests.set('counter', {test: () => {
       const dummy = new DefaultMap(Number);
       dummy.get('a');
       dummy.set('b', dummy.get('b') + 1);
       dummy.set('b', dummy.get('b') + 1);
       dummy.get('c');
       return JSON.stringify(Array.from(dummy.entries()));
-    };
+    },
+    expected: '[["a",0],["b",2],["c",0]]'});
 
-    const array = () => {
+    tests.set('array', {test: () => {
       const dummy = new DefaultMap(Array);
       dummy.get('a').push(1, 2, 3);
       dummy.get('b').push(4, 5, 6);
       dummy.get('a').push('one', 'two', 'three');
       return JSON.stringify(Array.from(dummy.entries()));
-    };
+    },
+    expected: '[["a",[1,2,3,"one","two","three"]],["b",[4,5,6]]]'});
 
-    const tests = [
-      {name: 'noFactory', test: noFactory, expected: 'caught'},
-      {name: 'badFactory', test: badFactory, expected: 'caught'},
-      {name: 'withIterable',
-        test: withIterable,
-        expected: '[[1,"one"],[2,"two"],[3,["a","b"]],[4,0]]'},
-      {name: 'counter', test: counter, expected: '[["a",0],["b",2],["c",0]]'},
-      {name: 'array',
-        test: array,
-        expected: '[["a",[1,2,3,"one","two","three"]],["b",[4,5,6]]]'},
-    ];
-
-    for (const {name, test, expected} of tests) {
+    for (const [name, {test, expected}] of tests) {
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
@@ -137,6 +139,7 @@
         throw new Error(msg);
       }
     }
+
   }
   /* eslint-enable */
 
