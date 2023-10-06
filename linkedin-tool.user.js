@@ -3582,7 +3582,7 @@
      * call via super.
      */
     done() {
-      const me = 'done';
+      const me = 'done (SPADetails)';
       this._log.entered(me);
       this._log.leaving(me);
     }
