@@ -334,7 +334,7 @@
      * Introduces a specific group.
      * @param {string} group - Group being created.
      * @param {GroupMode} defaultMode - Mode to use if new.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     #intro = (group, defaultMode, ...rest) => {
       this.#groupStack.push(group);
@@ -351,7 +351,7 @@
     /**
      * Concludes a specific group.
      * @param {string} group - Group leaving.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     #outro = (group, ...rest) => {
       const lastGroup = this.#groupStack.pop();
@@ -373,7 +373,7 @@
     /**
      * Log a specific message.
      * @param {string} msg - Message to send to console.debug.
-     * @param {*} ...rest - Arbitrary arguments to also pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     log(msg, ...rest) {
       if (this.enabled && !this.silenced) {
@@ -391,7 +391,7 @@
     /**
      * Entered a specific group.
      * @param {string} group - Group that was entered.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     entered(group, ...rest) {
       this.#intro(group, GroupMode.Opened, ...rest);
@@ -400,7 +400,7 @@
     /**
      * Leaving a specific group.
      * @param {string} group - Group leaving.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     leaving(group, ...rest) {
       this.#outro(group, ...rest);
@@ -409,7 +409,7 @@
     /**
      * Starting a specific collapsed group.
      * @param {string} group - Group that is being started.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     starting(group, ...rest) {
       this.#intro(group, GroupMode.Closed, ...rest);
@@ -418,7 +418,7 @@
     /**
      * Finished a specific collapsed group.
      * @param {string} group - Group that was entered.
-     * @param {*} ...rest - Arbitrary items to pass to console.debug.
+     * @param {...*} rest - Arbitrary items to pass to console.debug.
      */
     finished(group, ...rest) {
       this.#outro(group, ...rest);
@@ -3621,7 +3621,7 @@
 
     /**
      * Collects {SetupIssue}s for reporting.
-     * @param {string} ...msgs - Text to report.
+     * @param {...string} msgs - Text to report.
      */
     addSetupIssue(...msgs) {
       for (const msg of msgs) {
