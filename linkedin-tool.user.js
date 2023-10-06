@@ -1058,7 +1058,7 @@
     #handlers = new Map();
 
     /**
-     * @param{...string} eventTypes - Event types this instance can handle.
+     * @param {...string} eventTypes - Event types this instance can handle.
      */
     constructor(...eventTypes) {
       for (const eventType of eventTypes) {
@@ -1874,7 +1874,7 @@
         /**
          * Page is dynamically building, so keep watching it until the element
          * shows up.
-         * @implements{Monitor}
+         * @implements {Monitor}
          * @returns {Continuation} - Indicate whether done monitoring.
          */
         const monitor = () => {
@@ -2520,7 +2520,7 @@
       /**
        * Wait for sections to eventually show up to see if our current one
        * comes back.  It may not.
-       * @implements{Monitor}
+       * @implements {Monitor}
        * @param {MutationRecord[]} records - Standard mutation records.
        * @returns {Continuation} - Indicate whether done monitoring.
        */
@@ -2761,7 +2761,7 @@
 
       /**
        * Wait for current invitation to show back up.
-       * @implements{Monitor}
+       * @implements {Monitor}
        * @returns {Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
