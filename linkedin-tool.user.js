@@ -3361,8 +3361,11 @@
      */
     constructor() {
       super();
-      this.#notificationScroller = new Scroller(Notifications.#notificationsWhat, Notifications._notificationsHow);
-      this.#notificationScroller.dispatcher.on('out-of-range', linkedInGlobals.focusOnSidebar);
+      this.#notificationScroller = new Scroller(
+        Notifications.#notificationsWhat, Notifications._notificationsHow
+      );
+      this.#notificationScroller.dispatcher.on('out-of-range',
+        linkedInGlobals.focusOnSidebar);
     }
 
     /** @inheritdoc */
@@ -3401,7 +3404,8 @@
       if (element.childElementCount === MAGIC_COUNT) {
         content = element.children[CONTENT_INDEX].innerText;
         if (content.includes('Reactions')) {
-          for (const el of element.children[CONTENT_INDEX].querySelectorAll('*')) {
+          for (const el of element.children[CONTENT_INDEX]
+            .querySelectorAll('*')) {
             if (el.innerText) {
               content = el.innerText;
               break;
@@ -3432,116 +3436,134 @@
       this._notifications.last();
     });
 
-    _focusBrowser = new Shortcut('f', 'Change browser focus to current notification', () => {
-      this._notifications.show();
-      focusOnElement(this._notifications.item);
-    });
+    _focusBrowser = new Shortcut(
+      'f', 'Change browser focus to current notification', () => {
+        this._notifications.show();
+        focusOnElement(this._notifications.item);
+      }
+    );
 
-    _activateNotification = new Shortcut('Enter', 'Activate the current notification (click on it)', () => {
-      const ONE_ITEM = 1;
-      const notification = this._notifications.item;
-      if (notification) {
-        // Because we are using Enter as the hotkey here, if the active
-        // element is inside the current card, we want that to take
-        // precedence.
-        if (document.activeElement.closest('article') === notification) {
-          return;
-        }
+    _activateNotification = new Shortcut(
+      'Enter', 'Activate the current notification (click on it)', () => {
+        const ONE_ITEM = 1;
+        const notification = this._notifications.item;
+        if (notification) {
+          // Because we are using Enter as the hotkey here, if the active
+          // element is inside the current card, we want that to take
+          // precedence.
+          if (document.activeElement.closest('article') === notification) {
+            return;
+          }
 
-        const elements = notification.querySelectorAll('.nt-card__headline');
-        if (elements.length === ONE_ITEM) {
-          elements[0].click();
-        } else {
-          const ba = notification.querySelectorAll('button,a');
-          if (ba.length === ONE_ITEM) {
-            ba[0].click();
+          const elements = notification.querySelectorAll(
+            '.nt-card__headline'
+          );
+          if (elements.length === ONE_ITEM) {
+            elements[0].click();
           } else {
-            this.spa.dumpInfoAboutElement(notification, 'notification');
-          }
-        }
-      } else {
-        // Again, because we use Enter as the hotkey for this action.
-        document.activeElement.click();
-      }
-    });
-
-    _loadMoreNotifications = new Shortcut('l', 'Load more notifications', () => {
-      const savedScrollTop = document.documentElement.scrollTop;
-      let first = false;
-      const notifications = this._notifications;
-
-      /**
-       * Trigger function for {@link otrot2}.
-       */
-      function trigger() {
-        if (clickElement(document, ['button[aria-label^="Load new notifications"]'])) {
-          first = true;
-        } else {
-          clickElement(document, ['main button.scaffold-finite-scroll__load-button']);
-        }
-      }
-
-      /**
-       * Action function for {@link otrot2}.
-       */
-      const action = () => {
-        if (first) {
-          if (notifications.item) {
-            notifications.first();
+            const ba = notification.querySelectorAll('button,a');
+            if (ba.length === ONE_ITEM) {
+              ba[0].click();
+            } else {
+              this.spa.dumpInfoAboutElement(notification, 'notification');
+            }
           }
         } else {
-          document.documentElement.scrollTop = savedScrollTop;
-          this._notifications.shine();
-        }
-      };
-
-      const what = {
-        name: 'loadMoreNotifications',
-        base: document.querySelector('div.scaffold-finite-scroll__content'),
-      };
-      const how = {
-        trigger: trigger,
-        action: action,
-        duration: 2000,
-      };
-      otrot2(what, how);
-    });
-
-    _openMeatballMenu = new Shortcut('=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
-      clickElement(this._notifications.item, ['button[aria-label^="Settings menu"]']);
-    });
-
-    _deleteNotification = new Shortcut('X', 'Toggle current notification deletion', async () => {
-      const notification = this._notifications.item;
-
-      /**
-       * Trigger function for {@link otrot}.
-       */
-      function trigger() {
-        // Hah.  Unlike in other places, these buttons already exist, just
-        // hidden under the menu.
-        const buttons = Array.from(notification.querySelectorAll('button'));
-        const button = buttons
-          .find(el => (/Delete .*notification/u).test(el.textContent));
-        if (button) {
-          button.click();
-        } else {
-          clickElement(notification, ['button[aria-label^="Undo notification deletion"]']);
+          // Again, because we use Enter as the hotkey for this action.
+          document.activeElement.click();
         }
       }
-      if (notification) {
+    );
+
+    _loadMoreNotifications = new Shortcut(
+      'l', 'Load more notifications', () => {
+        const savedScrollTop = document.documentElement.scrollTop;
+        let first = false;
+        const notifications = this._notifications;
+
+        /**
+         * Trigger function for {@link otrot2}.
+         */
+        function trigger() {
+          if (clickElement(document,
+            ['button[aria-label^="Load new notifications"]'])) {
+            first = true;
+          } else {
+            clickElement(document,
+              ['main button.scaffold-finite-scroll__load-button']);
+          }
+        }
+
+        /**
+         * Action function for {@link otrot2}.
+         */
+        const action = () => {
+          if (first) {
+            if (notifications.item) {
+              notifications.first();
+            }
+          } else {
+            document.documentElement.scrollTop = savedScrollTop;
+            this._notifications.shine();
+          }
+        };
+
         const what = {
-          name: 'deleteNotification',
+          name: 'loadMoreNotifications',
           base: document.querySelector('div.scaffold-finite-scroll__content'),
         };
         const how = {
           trigger: trigger,
-          timeout: 3000,
+          action: action,
+          duration: 2000,
         };
-        await otrot(what, how);
-        this._notifications.shine();
+        otrot2(what, how);
       }
-    });
+    );
+
+    _openMeatballMenu = new Shortcut(
+      '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
+        clickElement(this._notifications.item,
+          ['button[aria-label^="Settings menu"]']);
+      }
+    );
+
+    _deleteNotification = new Shortcut(
+      'X', 'Toggle current notification deletion', async () => {
+        const notification = this._notifications.item;
+
+        /**
+         * Trigger function for {@link otrot}.
+         */
+        function trigger() {
+          // Hah.  Unlike in other places, these buttons already exist, just
+          // hidden under the menu.
+          const buttons = Array.from(notification.querySelectorAll('button'));
+          const button = buttons
+            .find(el => (/Delete .*notification/u).test(el.textContent));
+          if (button) {
+            button.click();
+          } else {
+            clickElement(notification,
+              ['button[aria-label^="Undo notification deletion"]']);
+          }
+        }
+        if (notification) {
+          const what = {
+            name: 'deleteNotification',
+            base: document.querySelector(
+              'div.scaffold-finite-scroll__content'
+            ),
+          };
+          const how = {
+            trigger: trigger,
+            timeout: 3000,
+          };
+          await otrot(what, how);
+          this._notifications.shine();
+        }
+      }
+    );
 
   }
 
