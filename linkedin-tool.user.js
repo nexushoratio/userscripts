@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     4.2.0
+// @version     4.2.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2672,7 +2672,19 @@
 
     enagageCard = new Shortcut(
       'E', 'Engage the card (Connect, Follow, Join, etc)', () => {
-        clickElement(this._cards?.item, ['footer > button']);
+        const me = 'enagageCard';
+        this.logger.entered(me);
+        const selector = [
+          // Connect w/ Person, Join Group, View event
+          'footer > button',
+          // Follow person, Follow page
+          'div.discover-entity-type-card__container-bottom > button',
+          // Subscribe to newsletter
+          'div.p3 > button',
+        ].join(',');
+        this.logger.log('button?', this._cards.item.querySelector(selector));
+        clickElement(this._cards?.item, [selector]);
+        this.logger.leaving(me);
       }
     );
 
