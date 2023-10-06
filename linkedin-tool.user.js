@@ -1755,7 +1755,7 @@
 
     /**
      * Register a new {@link Service}.
-     * @param {Service} Klass - A service class to instantiate.
+     * @param {function(): Service} Klass - A service class to instantiate.
      */
     addService(Klass) {
       const me = 'addService';
