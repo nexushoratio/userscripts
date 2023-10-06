@@ -3980,7 +3980,7 @@
         '',
       ];
       const tab = {
-        name: 'Information',
+        name: 'About',
         content: content.join('\n'),
       };
       this.logger.leaving(me, tab);
