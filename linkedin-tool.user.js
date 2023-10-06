@@ -39,15 +39,16 @@
     #factory
 
     /**
-     * @param {Function} factory - Function that creates a new default value
-     * if a requested key is not present.
+     * @param {function() : *} factory - Function that creates a new default
+     * value if a requested key is not present.
+     * @param {Iterable} [iterable] - Passed to {Map} super().
      */
-    constructor(factory, ...rest) {
+    constructor(factory, iterable) {
       if (!(factory instanceof Function)) {
         throw new TypeError('The factory argument MUST be of ' +
                             `type Function, not ${typeof factory}.`);
       }
-      super(...rest);
+      super(iterable);
 
       this.#factory = factory;
     }
@@ -91,7 +92,7 @@
       return 'oops';
     };
 
-    const asMap = () => {
+    const withIterable = () => {
       const dummy = new DefaultMap(Number, [[1, 'one'], [2, 'two']]);
       dummy.set(3, ['a', 'b']);
       dummy.get(4);
@@ -118,8 +119,8 @@
     const tests = [
       {name: 'noFactory', test: noFactory, expected: 'caught'},
       {name: 'badFactory', test: badFactory, expected: 'caught'},
-      {name: 'asMap',
-        test: asMap,
+      {name: 'withIterable',
+        test: withIterable,
         expected: '[[1,"one"],[2,"two"],[3,["a","b"]],[4,0]]'},
       {name: 'counter', test: counter, expected: '[["a",0],["b",2],["c",0]]'},
       {name: 'array',
