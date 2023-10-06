@@ -1046,6 +1046,11 @@
    */
   class Dispatcher {
 
+    /**
+     * @callback Handler
+     * @param {string} event - Event message.
+     */
+
     #handlers = new Map();
 
     /**
@@ -1062,7 +1067,7 @@
      * @param {string} eventType - Event type to look up.
      * @throws {Error} - When eventType was not registered during
      * instantiation.
-     * @returns {function[]} - Handlers currently registered for this
+     * @returns {Handler[]} - Handlers currently registered for this
      * eventType.
      */
     #getHandlers = (eventType) => {
@@ -1076,7 +1081,7 @@
     /**
      * Attach a function to an eventType.
      * @param {string} eventType - Event type to connect with.
-     * @param {function} func - Single argument function to call.
+     * @param {Handler} func - Single argument function to call.
      */
     on(eventType, func) {
       const handlers = this.#getHandlers(eventType);
@@ -1086,7 +1091,7 @@
     /**
      * Remove all instances of a function registered to an eventType.
      * @param {string} eventType - Event type to disconnect from.
-     * @param {function} func - Function to remove.
+     * @param {Handler} func - Function to remove.
      */
     off(eventType, func) {
       const handlers = this.#getHandlers(eventType);
