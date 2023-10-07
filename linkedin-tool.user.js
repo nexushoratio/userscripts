@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.0.0
+// @version     5.0.1
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -2181,11 +2181,12 @@
     /**
      * Reset the comment scroller.
      */
-    #clearComments() {
+    #resetComments() {
       if (this.#commentScroller) {
         this.#commentScroller.destroy();
         this.#commentScroller = null;
       }
+      this._comments;
     }
 
     /** @type {boolean} */
@@ -2213,10 +2214,13 @@
     }
 
     /**
-     * Removes the comments {@link Scroller}.
+     * Resets the comments {@link Scroller}.
      */
     #onPostChange = () => {
-      this.#clearComments();
+      const me = 'onPostChange';
+      this.logger.entered(me, this._posts.item);
+      this.#resetComments();
+      this.logger.leaving(me);
     }
 
     _nextPost = new Shortcut('j', 'Next post', () => {
