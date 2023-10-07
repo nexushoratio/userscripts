@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     4.2.1
+// @version     5.0.0
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -3322,10 +3322,80 @@
   }
 
   /** Class for handling Job collections. */
-  class JobsCollections extends Page {
+  class JobCollections extends Page {
 
     // eslint-disable-next-line prefer-regex-literals
     _pathname = RegExp('^/jobs/(?:collections|search)/.*', 'u');
+
+    #jobScroller = null;
+
+    /** @type {Scroller} */
+    get _jobs() {
+      return this.#jobScroller;
+    }
+
+    /** @type {Scroller~What} */
+    static #jobsWhat = {
+      name: 'Jobs',
+      base: document.body,
+      selectors: ['div.jobs-search-results-list div[data-job-id]'],
+    };
+
+    /** @type {Scroller~How} */
+    static _jobsHow = {
+      uidCallback: this._uniqueJobIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+    };
+
+    /** Create a JobCollections instance. */
+    constructor() {
+      super();
+      this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
+        JobCollections._jobsHow);
+      this.#jobScroller.dispatcher.on('change', this.#onJobChange);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static _uniqueJobIdentifier(element) {
+      if (element) {
+        return element.dataset.jobId;
+      }
+      return null;
+    }
+
+    #onJobChange = () => {
+      const me = 'onJobChange';
+      this.logger.entered(me, this._jobs.item);
+      this._jobs.item?.click();
+      this.logger.leaving(me);
+    }
+
+    nextJob = new Shortcut('j', 'Next job', () => {
+      this._jobs.next();
+    });
+
+    prevJob = new Shortcut('k', 'Previous job', () => {
+      this._jobs.prev();
+    });
+
+    firstJob = new Shortcut('<', 'Go to first job', () => {
+      this._jobs.first();
+    });
+
+    lastJob = new Shortcut('>', 'Go to last job currently loaded', () => {
+      this._jobs.last();
+    });
+
+    focusBrowser = new Shortcut(
+      'f', 'Move browser focus to current item', () => {
+        focusOnElement(this._jobs.item);
+      }
+    );
 
   }
 
@@ -4662,7 +4732,7 @@
     spa.register(new MyNetwork());
     spa.register(new InvitationManager());
     spa.register(new Jobs());
-    spa.register(new JobsCollections());
+    spa.register(new JobCollections());
     spa.register(new Notifications());
     spa.activate(window.location.pathname);
   });
