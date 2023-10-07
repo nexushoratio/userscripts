@@ -1139,7 +1139,7 @@
     #bottomMarginCss
     #bottomMarginPixels
     #classes
-    #log
+    #logger
     #name
     #selectors
     #snapToTop
@@ -1147,6 +1147,11 @@
     #topMarginCss
     #topMarginPixels
     #uidCallback
+
+    /** @type {Logger} */
+    get logger() {
+      return this.#logger;
+    }
 
     /**
      * Function that generates a, preferably, reproducible unique identifier
@@ -1208,8 +1213,8 @@
         bottomMarginCss: this.#bottomMarginCss = '0',
       } = how);
 
-      this.#log = new Logger(`{${this.#name}}`);
-      this.#log.log('Scroller constructed', this);
+      this.#logger = new Logger(`{${this.#name}}`);
+      this.logger.log('Scroller constructed', this);
     }
 
     /** @type {Dispatcher} */
@@ -1220,11 +1225,11 @@
     /** @type {Element} - Represents the current item. */
     get item() {
       const me = 'get item';
-      this.#log.entered(me);
+      this.logger.entered(me);
       if (this.#destroyed) {
         const msg = `Tried to work with destroyed ${Scroller.name} ` +
               `on ${this.#base}`;
-        this.#log.log(msg);
+        this.logger.log(msg);
         throw new Error(msg);
       }
       const items = this.#getItems();
@@ -1238,17 +1243,17 @@
           this.#bottomHalf(item);
         }
       }
-      this.#log.leaving(me, item);
+      this.logger.leaving(me, item);
       return item;
     }
 
     /** @param {Element} val - Set the current item. */
     set item(val) {
       const me = 'set item';
-      this.#log.entered(me, val);
+      this.logger.entered(me, val);
       this.dull();
       this.#bottomHalf(val);
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -1258,14 +1263,14 @@
      */
     #bottomHalf = (val) => {
       const me = 'bottomHalf';
-      this.#log.entered(me, val);
+      this.logger.entered(me, val);
       this.#currentItemId = this.#uid(val);
       const idx = this.#getItems().indexOf(val);
       this.#historicalIdToIndex.set(this.#currentItemId, idx);
       this.shine();
       this.#scrollToCurrentItem();
       this.dispatcher.fire('change', {});
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -1284,19 +1289,19 @@
      */
     #getItems = () => {
       const me = 'getItems';
-      this.#log.entered(me);
+      this.logger.entered(me);
       const items = [];
       for (const selector of this.#selectors) {
-        this.#log.log(`considering ${selector}`);
+        this.logger.log(`considering ${selector}`);
         items.push(...this.#base.querySelectorAll(selector));
       }
-      this.#log.starting('items');
+      this.logger.starting('items');
       for (const item of items) {
-        this.#log.log('item:', item);
+        this.logger.log('item:', item);
       }
-      this.#log.finished('items');
+      this.logger.finished('items');
 
-      this.#log.leaving(me, `${items.length} items`);
+      this.logger.leaving(me, `${items.length} items`);
       return items;
     }
 
@@ -1308,7 +1313,7 @@
      */
     #uid = (element) => {
       const me = 'uid';
-      this.#log.entered(me, element);
+      this.logger.entered(me, element);
       let uid = null;
       if (element) {
         if (!element.dataset.spaId) {
@@ -1316,7 +1321,7 @@
         }
         uid = element.dataset.spaId;
       }
-      this.#log.leaving(me, uid);
+      this.logger.leaving(me, uid);
       return uid;
     }
 
@@ -1328,9 +1333,9 @@
      */
     #matchItem = (element) => {
       const me = 'matchItem';
-      this.#log.entered(me);
+      this.logger.entered(me);
       const res = this.#currentItemId === this.#uid(element);
-      this.#log.leaving(me, res);
+      this.logger.leaving(me, res);
       return res;
     }
 
@@ -1341,15 +1346,15 @@
      */
     #scrollToCurrentItem = () => {
       const me = 'scrollToCurrentItem';
-      this.#log.entered(me, `snaptoTop: ${this.#snapToTop}`);
+      this.logger.entered(me, `snaptoTop: ${this.#snapToTop}`);
       const {item} = this;
       if (item) {
         item.style.scrollMarginTop = this.#topMarginCss;
         if (this.#snapToTop) {
-          this.#log.log('snapping to top');
+          this.logger.log('snapping to top');
           item.scrollIntoView(true);
         } else {
-          this.#log.log('not snapping to top');
+          this.logger.log('not snapping to top');
           item.style.scrollMarginBottom = this.#bottomMarginCss;
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to fit
@@ -1357,11 +1362,11 @@
           const allowedBottom = document.documentElement.clientHeight -
                 this.#bottomMarginPixels;
           if (rect.bottom > allowedBottom) {
-            this.#log.log('scrolling up onto page');
+            this.logger.log('scrolling up onto page');
             item.scrollIntoView(false);
           }
           if (rect.top < this.#topMarginPixels) {
-            this.#log.log('scrolling down onto page');
+            this.logger.log('scrolling down onto page');
             item.scrollIntoView(true);
           }
           // XXX: The following was added to support horizontal scrolling in
@@ -1371,7 +1376,7 @@
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -1381,7 +1386,7 @@
      */
     #jumpToEndItem = (first) => {
       const me = 'jumpToEndItem';
-      this.#log.entered(me, `first=${first}`);
+      this.logger.entered(me, `first=${first}`);
       // Reset in case item was heavily modified
       this.item = this.item;
 
@@ -1396,14 +1401,14 @@
         // to the last one loaded.
         if (!first) {
           while (!Scroller.#isItemViewable(item)) {
-            this.#log.log('skipping item', item);
+            this.logger.log('skipping item', item);
             idx -= 1;
             item = items[idx];
           }
         }
         this.item = item;
       }
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -1413,14 +1418,14 @@
      */
     #scrollBy = (n) => {  // eslint-disable-line max-statements
       const me = 'scrollBy';
-      this.#log.entered(me, n);
+      this.logger.entered(me, n);
       // Reset in case item was heavily modified
       this.item = this.item;
 
       const items = this.#getItems();
       if (items.length) {
         let idx = items.findIndex(this.#matchItem);
-        this.#log.log('initial idx', idx);
+        this.logger.log('initial idx', idx);
         idx += n;
         if (idx < NOT_FOUND) {
           idx = items.length - 1;
@@ -1432,15 +1437,15 @@
           // Skip over empty items
           let item = items[idx];
           while (!Scroller.#isItemViewable(item)) {
-            this.#log.log('skipping item', item);
+            this.logger.log('skipping item', item);
             idx += n;
             item = items[idx];
           }
-          this.#log.log('final idx', idx);
+          this.logger.log('final idx', idx);
           this.item = item;
         }
       }
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -1497,10 +1502,10 @@
      */
     destroy() {
       const me = 'destroy';
-      this.#log.entered(me);
+      this.logger.entered(me);
       this.item = null;
       this.#destroyed = true;
-      this.#log.leaving(me);
+      this.logger.leaving(me);
     }
 
   }
