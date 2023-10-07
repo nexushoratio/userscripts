@@ -1139,8 +1139,10 @@
     #bottomMarginCss
     #bottomMarginPixels
     #classes
+    #handleClicks
     #logger
     #name
+    #onClickElement
     #selectors
     #snapToTop
     #stackTrace
@@ -1180,6 +1182,8 @@
      * @property {uidCallback} uidCallback - Callback to generate a uid.
      * @property {string[]} classes - Array of CSS classes to add/remove from
      * an element as it becomes current.
+     * @property {boolean} [handleClicks=false] - Whether the scroller should
+     * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [snapToTop=false] - Whether items should snap to
      * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
@@ -1211,6 +1215,7 @@
       ({
         uidCallback: this.#uidCallback,
         classes: this.#classes,
+        handleClicks: this.#handleClicks = false,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
@@ -1220,6 +1225,24 @@
 
       this.#logger = new Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
+    }
+
+    /**
+     * If an item is clicked, switch to it.
+     * @param {Event} evt - Standard 'click' event.
+     */
+    #onClick = (evt) => {
+      const me = 'onClick';
+      this.logger.entered(me, evt);
+      for (const item of this.#getItems()) {
+        if (item.contains(evt.target)) {
+          this.logger.log('found:', item);
+          if (item !== this.item) {
+            this.item = item;
+          }
+        }
+      }
+      this.logger.leaving(me);
     }
 
     /** @type {Element} - Represents the current item. */
@@ -1497,12 +1520,27 @@
       this.#scrollToCurrentItem();
     }
 
+    /** Activate the scroller. */
+    activate() {
+      if (this.#handleClicks) {
+        this.#onClickElement = this.#base;
+        this.#onClickElement.addEventListener('click', this.#onClick);
+      }
+    }
+
+    /** Deactivate the scroller (but do not destroy it). */
+    deactivate() {
+      this.#onClickElement?.removeEventListener('click', this.#onClick);
+      this.#onClickElement = null;
+    }
+
     /**
      * Mark instance as inactive and do any internal cleanup.
      */
     destroy() {
       const me = 'destroy';
       this.logger.entered(me);
+      this.deactivate();
       this.item = null;
       this.#destroyed = true;
       this.logger.leaving(me);
