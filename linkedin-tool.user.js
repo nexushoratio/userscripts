@@ -1745,7 +1745,7 @@
       condition: '!inputFocus && !inDialog',
     };
 
-    /** Creata a Page instance. */
+    /** Create a Page instance. */
     constructor() {
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
@@ -2056,9 +2056,7 @@
       snapToTop: false,
     };
 
-    /**
-     * Create the Feed; includes instantiating the posts {@link Scroller}.
-     */
+    /** Create a Feed instance. */
     constructor() {
       super();
       this.addService(DummyService);
@@ -2495,7 +2493,7 @@
       snapToTop: false,
     };
 
-    /** Create MyNetwork controller. */
+    /** Create a MyNetwork instance. */
     constructor() {
       super();
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
@@ -2745,7 +2743,7 @@
       return this.#inviteScroller;
     }
 
-    /** Create InvitationManager. */
+    /** Create a InvitationManager instance. */
     constructor() {
       super();
       this.#inviteScroller = new Scroller(
@@ -2938,9 +2936,7 @@
       snapToTop: false,
     };
 
-    /**
-     * Create the Jobs; includes instantiating the sections {@link Scroller}.
-     */
+    /** Create a Jobs instance. */
     constructor() {
       super();
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
@@ -3355,10 +3351,7 @@
       snapToTop: false,
     };
 
-    /**
-     * Create the Notifications view; includes instantiating the notifications
-     * {@link Scroller}.
-     */
+    /** Create a Notifications instance. */
     constructor() {
       super();
       this.#notificationScroller = new Scroller(
@@ -4029,7 +4022,7 @@
     _tabUiKeyboard = null;
 
     /**
-     * Create a SPA.
+     * Create a SPA instance.
      * @param {SPADetails} details - Implementation specific details.
      */
     constructor(details) {
