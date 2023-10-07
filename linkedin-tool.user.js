@@ -1180,8 +1180,8 @@
      * @property {uidCallback} uidCallback - Callback to generate a uid.
      * @property {string[]} classes - Array of CSS classes to add/remove from
      * an element as it becomes current.
-     * @property {boolean} snapToTop - Whether items should snap to the top of
-     * the window when coming into view.
+     * @property {boolean} [snapToTop=false] - Whether items should snap to
+     * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
      * should happen when {snapToTop} is false.
      * @property {number} [bottomMarginPixels=0] - Used to determin if
@@ -1211,7 +1211,7 @@
       ({
         uidCallback: this.#uidCallback,
         classes: this.#classes,
-        snapToTop: this.#snapToTop,
+        snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
         topMarginCss: this.#topMarginCss = '0',
