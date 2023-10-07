@@ -3583,7 +3583,13 @@
     /** @type {TabbedUI} */
     _ui = null;
 
+    #id
     #logger
+
+    /** @type {string} - Unique ID for this instance . */
+    get id() {
+      return this.#id;
+    }
 
     /** @type {Logger} - Logger instance. */
     get logger() {
@@ -3597,7 +3603,7 @@
       }
 
       this.#logger = new Logger(this.constructor.name);
-      this._id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
+      this.#id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
       this.dispatcher = new Dispatcher('errors', 'news');
     }
 
@@ -3883,7 +3889,7 @@
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
     _addLitStyle() {
       const style = document.createElement('style');
-      style.id = `${this._id}-style`;
+      style.id = `${this.id}-style`;
       style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }\n';
       document.head.prepend(style);
     }
