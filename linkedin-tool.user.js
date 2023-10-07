@@ -1153,6 +1153,11 @@
       return this.#logger;
     }
 
+    /** @type {Dispatcher} */
+    get dispatcher() {
+      return this.#dispatcher;
+    }
+
     /**
      * Function that generates a, preferably, reproducible unique identifier
      * for an Element.
@@ -1215,11 +1220,6 @@
 
       this.#logger = new Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
-    }
-
-    /** @type {Dispatcher} */
-    get dispatcher() {
-      return this.#dispatcher;
     }
 
     /** @type {Element} - Represents the current item. */
