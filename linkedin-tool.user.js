@@ -2083,6 +2083,7 @@
     static _postsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['tom'],
+      handleClicks: true,
       snapToTop: true,
     };
 
@@ -2096,6 +2097,7 @@
     static _commentsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['dick'],
+      handleClicks: true,
       snapToTop: false,
     };
 
@@ -2104,6 +2106,7 @@
       super();
       this.addService(DummyService);
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
+      this.#postScroller.activate();
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
@@ -2112,10 +2115,7 @@
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const post = evt.target.closest('div[data-id]');
-      if (post && post !== this._posts.item) {
-        this._posts.item = post;
-      }
+      this.logger.log('old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2163,14 +2163,18 @@
 
     /** @type {Scroller} */
     get _comments() {
+      const me = 'get comments';
+      this.logger.entered(me, this.#commentScroller, this._posts.item);
       if (!this.#commentScroller && this._posts.item) {
         this.#commentScroller = new Scroller(
           {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
         );
+        this.#commentScroller.activate();
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
         );
       }
+      this.logger.leaving(me, this.#commentScroller);
       return this.#commentScroller;
     }
 
