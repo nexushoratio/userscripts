@@ -4376,7 +4376,9 @@
       const monitor = () => {
         // The default selector is 'body', so we need to query 'document', not
         // 'document.body'.
-        const element = document.querySelector(this._details.urlChangeMonitorSelector);
+        const element = document.querySelector(
+          this._details.urlChangeMonitorSelector
+        );
         if (element) {
           return {done: true, results: element};
         }
@@ -4451,9 +4453,12 @@
 
     /** Configure handlers for the info view. */
     _addInfoViewHandlers() {
-      const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
+      const errors = document.querySelector(
+        `#${this._infoId} [data-spa-id="errors"]`
+      );
       errors.addEventListener('change', (evt) => {
-        const count = evt.target.value.split('\n').filter(x => x === SPA._errorMarker).length;
+        const count = evt.target.value.split('\n')
+          .filter(x => x === SPA._errorMarker).length;
         this._details.dispatcher.fire('errors', count);
         this._updateInfoErrorsLabel(count);
       });
@@ -4466,8 +4471,16 @@
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-nav-style`);
       const styles = [
-        '.tom { border-color: orange !important; border-style: solid !important; border-width: medium !important; }',
-        '.dick { border-color: red !important; border-style: solid !important; border-width: thin !important; }',
+        '.tom {' +
+          ' border-color: orange !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: medium !important;' +
+          '}',
+        '.dick {' +
+          ' border-color: red !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: thin !important;' +
+          '}',
         '',
       ];
       style.textContent = styles.join('\n');
@@ -4490,25 +4503,54 @@
      */
 
     /** Add CSS styling for use with the info view. */
-    _addInfoStyle() {
+    _addInfoStyle() {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-info-style`);
       const styles = [
-        `#${this._infoId}:modal { height: 100%; width: 65rem; display: flex; flex-direction: column; }`,
+        `#${this._infoId}:modal {` +
+          ' height: 100%;' +
+          ' width: 65rem;' +
+          ' display: flex;' +
+          ' flex-direction: column;' +
+          '}',
         `#${this._infoId} .left { text-align: left; }`,
         `#${this._infoId} .right { text-align: right; }`,
-        `#${this._infoId} .spa-instructions { display: flex; flex-direction: row; padding-bottom: 1ex; border-bottom: 1px solid black; margin-bottom: 5px; }`,
+        `#${this._infoId} .spa-instructions {` +
+           'display: flex;' +
+          ' flex-direction: row;' +
+          ' padding-bottom: 1ex;' +
+          ' border-bottom: 1px solid black;' +
+          ' margin-bottom: 5px;' +
+          '}',
         `#${this._infoId} .spa-instructions > span { flex-grow: 1; }`,
-        `#${this._infoId} textarea[data-spa-id="errors"] { flex-grow: 1; resize: none; }`,
+        `#${this._infoId} textarea[data-spa-id="errors"] {` +
+          ' flex-grow: 1;' +
+          ' resize: none;' +
+          '}',
         `#${this._infoId} .spa-danger { background-color: red; }`,
         `#${this._infoId} .spa-current-page { background-color: lightgray; }`,
-        `#${this._infoId} kbd > kbd { font-size: 0.85em; padding: 0.07em; border-width: 1px; border-style: solid; }`,
+        `#${this._infoId} kbd > kbd {` +
+          ' font-size: 0.85em;' +
+          ' padding: 0.07em;' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          '}',
         `#${this._infoId} p { margin-bottom: 1em; }`,
         `#${this._infoId} th { padding-top: 1em; text-align: left; }`,
-        `#${this._infoId} td:first-child { white-space: nowrap; text-align: right; padding-right: 0.5em; }`,
+        `#${this._infoId} td:first-child {` +
+          ' white-space: nowrap;' +
+          ' text-align: right;' +
+          ' padding-right: 0.5em;' +
+          '}',
         // The "color: unset" addresses dimming because these display-only
         // buttons are disabled.
-        `#${this._infoId} button { border-width: 1px; border-style: solid; border-radius: 1em; color: unset; padding: 3px; }`,
+        `#${this._infoId} button {` +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          ' border-radius: 1em;' +
+          ' color: unset;' +
+          ' padding: 3px;' +
+          '}',
         `#${this._infoId} button.spa-meatball { border-radius: 50%; }`,
         '',
       ];
@@ -4524,14 +4566,16 @@
       const dialog = document.createElement('dialog');
       dialog.id = this._infoId;
       const name = document.createElement('div');
-      name.innerHTML = `<b>${GM.info.script.name}</b> - v${GM.info.script.version}`;
+      name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
+        `v${GM.info.script.version}`;
       const instructions = document.createElement('div');
       instructions.classList.add('spa-instructions');
       const left = SPA._parseSeq2('c-left');
       const right = SPA._parseSeq2('c-right');
       const esc = SPA._parseSeq2('esc');
       instructions.innerHTML =
-        `<span class="left">Use the ${left} and ${right} keys or click to select tab</span>` +
+        `<span class="left">Use the ${left} and ${right} keys or ` +
+        'click to select tab</span>' +
         `<span class="right">Hit ${esc} to close</span>`;
       dialog.append(name, instructions);
       return dialog;
@@ -4588,7 +4632,8 @@
      */
     static _errorPlatformInfo() {
       const gm = GM.info;
-      const header = 'Please consider including some of the following information in any bug report:';
+      const header = 'Please consider including some of the following ' +
+            'information in any bug report:';
       const msgs = [
         `${gm.script.name}: ${gm.script.version}`,
         `Userscript manager: ${gm.scriptHandler} ${gm.version}`,
@@ -4600,7 +4645,9 @@
 
       // Violentmonkey
       if (gm.platform) {
-        msgs.push(`Platform: ${gm.platform.browserName} ${gm.platform.browserVersion} ${gm.platform.os} ${gm.platform.arch}`);
+        msgs.push(`Platform: ${gm.platform.browserName} ` +
+                  `${gm.platform.browserVersion} ${gm.platform.os} ` +
+                  `${gm.platform.arch}`);
       }
 
       // Tampermonkey
@@ -4610,7 +4657,8 @@
           msg += `${brand.brand} ${brand.version} `;
         }
         msg += `${gm.userAgentData?.platform} `;
-        msg += `${gm.userAgentData?.architecture}-${gm.userAgentData?.bitness}`;
+        msg +=
+          `${gm.userAgentData?.architecture}-${gm.userAgentData?.bitness}`;
         msgs.push(msg);
       }
 
@@ -4626,11 +4674,16 @@
       return {
         name: 'Errors',
         content: [
-          '<p>Any information in the text box below could be helpful in fixing a bug.</p>',
-          `<p>The content can be edited and then included in a bug report.  Different errors should be separated by "${SPA._errorMarker}".</p>`,
-          '<p><b>Please remove any identifying information before including it in a bug report!</b></p>',
+          '<p>Any information in the text box below could be helpful in ' +
+            'fixing a bug.</p>',
+          '<p>The content can be edited and then included in a bug ' +
+            'report.  Different errors should be separated by ' +
+            `"${SPA._errorMarker}".</p>`,
+          '<p><b>Please remove any identifying information before ' +
+            'including it in a bug report!</b></p>',
           SPA._errorPlatformInfo(),
-          '<textarea data-spa-id="errors" spellcheck="false" placeholder="No errors logged yet."></textarea>',
+          '<textarea data-spa-id="errors" spellcheck="false" ' +
+            'placeholder="No errors logged yet."></textarea>',
         ].join(''),
       };
     }
@@ -4821,7 +4874,9 @@
      * @param {string} content - Information to add.
      */
     addError(content) {
-      const errors = document.querySelector(`#${this._infoId} [data-spa-id="errors"]`);
+      const errors = document.querySelector(
+        `#${this._infoId} [data-spa-id="errors"]`
+      );
       errors.value += `${content}\n`;
 
       if (content === SPA._errorMarker) {
