@@ -1705,6 +1705,37 @@
 
   }
 
+  /** Manage a {Scroller} via {Service}. */
+  class ScrollerService extends Service {
+
+    #scroller
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Scroller} scroller - Scroller instance to manage.
+     */
+    constructor(name, scroller) {
+      super(name);
+      this.#scroller = scroller;
+    }
+
+    /** @inheritdoc */
+    start() {
+      this.logger.log('Scroller start, no-op');
+    }
+
+    /** @inheritdoc */
+    activate() {
+      this.#scroller.activate();
+    }
+
+    /** @inheritdoc */
+    deactivate() {
+      this.#scroller.deactivate();
+    }
+
+  }
+
   /**
    * Base class for handling various views of a single-page application.
    *
@@ -2058,7 +2089,7 @@
       super(Feed.#details);
       this.#dummy = this.addService(DummyService);
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
-      this.#postScroller.activate();
+      this.addService(ScrollerService, this.#postScroller);
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
