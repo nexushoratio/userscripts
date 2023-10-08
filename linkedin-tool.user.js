@@ -3445,6 +3445,8 @@
     // eslint-disable-next-line prefer-regex-literals
     _pathname = RegExp('^/jobs/(?:collections|search)/.*', 'u');
 
+    #lastScroller
+
     #jobScroller = null;
 
     /** @type {Scroller} */
@@ -3466,12 +3468,36 @@
       snapToTop: true,
     };
 
+    #pageScroller = null;
+
+    /** @type {Scroller} */
+    get _pages() {
+      return this.#pageScroller;
+    }
+
+    /** @type {Scroller~What} */
+    static #pagesWhat = {
+      name: 'Pages',
+      base: document.body,
+      selectors: ['div.jobs-search-results-list__pagination button'],
+    };
+
+    /** @type {Scroller~How} */
+    static #pagesHow = {
+      uidCallback: this._uniquePageIdentifier,
+      snapToTop: false,
+    };
+
     /** Create a JobCollections instance. */
     constructor() {
       super();
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
         JobCollections.#jobsHow);
       this.#jobScroller.dispatcher.on('change', this.#onJobChange);
+      this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
+        JobCollections.#pagesHow);
+      this.#pageScroller.dispatcher.on('change', this.#onPageChange);
+      this.#lastScroller = this.#jobScroller;
     }
 
     /**
@@ -3486,10 +3512,36 @@
       return null;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static _uniquePageIdentifier(element) {
+      let content = '';
+      if (element) {
+        content = element.innerText;
+        const label = element.getAttribute('aria-label');
+        if (label) {
+          content = label;
+        }
+      }
+      return strHash(content);
+    }
+
     #onJobChange = () => {
       const me = 'onJobChange';
       this.logger.entered(me, this._jobs.item);
       this._jobs.item?.click();
+      this.#lastScroller = this._jobs;
+      this.logger.leaving(me);
+    }
+
+    #onPageChange = () => {
+      const me = 'onPageChange';
+      this.logger.entered(me, this._pages.item);
+      this._pages.item?.click();
+      this.#lastScroller = this._pages;
       this.logger.leaving(me);
     }
 
@@ -3501,13 +3553,23 @@
       this._jobs.prev();
     });
 
-    firstJob = new Shortcut('<', 'Go to first job', () => {
-      this._jobs.first();
+    nextPage = new Shortcut('n', 'Next results page', () => {
+      this._pages.next();
     });
 
-    lastJob = new Shortcut('>', 'Go to last job currently loaded', () => {
-      this._jobs.last();
+    prevPage = new Shortcut('p', 'Previous results page', () => {
+      this._pages.prev();
     });
+
+    firstItem = new Shortcut('<', 'Go to first job or results page', () => {
+      this.#lastScroller.first();
+    });
+
+    lastItem = new Shortcut(
+      '>', 'Go to last job currently loaded or results page', () => {
+        this.#lastScroller.last();
+      }
+    );
 
     focusBrowser = new Shortcut(
       'f', 'Move browser focus to current item', () => {
