@@ -1136,7 +1136,7 @@
     #historicalIdToIndex = new Map();
 
     #base
-    #bottomMarginCss
+    #bottomMarginCSS
     #bottomMarginPixels
     #classes
     #handleClicks
@@ -1146,7 +1146,7 @@
     #selectors
     #snapToTop
     #stackTrace
-    #topMarginCss
+    #topMarginCSS
     #topMarginPixels
     #uidCallback
 
@@ -1190,9 +1190,9 @@
      * should happen when {snapToTop} is false.
      * @property {number} [bottomMarginPixels=0] - Used to determin if
      * scrolling should happen when {snapToTop} is false.
-     * @property {string} [topMarginCss='0'] - CSS applied to
+     * @property {string} [topMarginCSS='0'] - CSS applied to
      * `scrollMarginTop`.
-     * @property {string} [bottomMarginCss='0'] - CSS applied to
+     * @property {string} [bottomMarginCSS='0'] - CSS applied to
      * `scrollMarginBottom`.
      */
 
@@ -1219,8 +1219,8 @@
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
-        topMarginCss: this.#topMarginCss = '0',
-        bottomMarginCss: this.#bottomMarginCss = '0',
+        topMarginCSS: this.#topMarginCSS = '0',
+        bottomMarginCSS: this.#bottomMarginCSS = '0',
       } = how);
 
       this.#logger = new Logger(`{${this.#name}}`);
@@ -1372,13 +1372,13 @@
       this.logger.entered(me, `snaptoTop: ${this.#snapToTop}`);
       const {item} = this;
       if (item) {
-        item.style.scrollMarginTop = this.#topMarginCss;
+        item.style.scrollMarginTop = this.#topMarginCSS;
         if (this.#snapToTop) {
           this.logger.log('snapping to top');
           item.scrollIntoView(true);
         } else {
           this.logger.log('not snapping to top');
-          item.style.scrollMarginBottom = this.#bottomMarginCss;
+          item.style.scrollMarginBottom = this.#bottomMarginCSS;
           const rect = item.getBoundingClientRect();
           // If both scrolling happens, it means the item is too tall to fit
           // on the page, so the top is preferred.
@@ -1567,7 +1567,7 @@
     }
 
     /** @type {string} - The height of the navbar as CSS string. */
-    get navBarHeightCss() {
+    get navBarHeightCSS() {
       return `${this.#navBarHeightPixels}px`;
     }
 
@@ -1577,7 +1577,7 @@
     focusOnSidebar = () => {
       const sidebar = document.querySelector('div.scaffold-layout__sidebar');
       if (sidebar) {
-        sidebar.style.scrollMarginTop = this.navBarHeightCss;
+        sidebar.style.scrollMarginTop = this.navBarHeightCSS;
         sidebar.scrollIntoView();
         focusOnElement(sidebar);
       }
@@ -1590,7 +1590,7 @@
     focusOnAside = () => {
       const aside = document.querySelector('aside.scaffold-layout__aside');
       if (aside) {
-        aside.style.scrollMarginTop = this.navBarHeightCss;
+        aside.style.scrollMarginTop = this.navBarHeightCSS;
         aside.scrollIntoView();
         focusOnElement(aside);
       }
@@ -2430,7 +2430,7 @@
         const share = document.querySelector(
           'div.share-box-feed-entry__top-bar'
         ).parentElement;
-        share.style.scrollMarginTop = linkedInGlobals.navBarHeightCss;
+        share.style.scrollMarginTop = linkedInGlobals.navBarHeightCSS;
         share.scrollIntoView();
         share.querySelector('button').focus();
       }
@@ -4066,8 +4066,8 @@
       // configured after we figure out what the values should be.
       for (const how of this._navBarScrollerFixups) {
         how.topMarginPixels = this._globals.navBarHeightPixels;
-        how.topMarginCss = this._globals.navBarHeightCss;
-        how.bottomMarginCss = '3em';
+        how.topMarginCSS = this._globals.navBarHeightCSS;
+        how.bottomMarginCSS = '3em';
       }
     }
 
