@@ -1781,14 +1781,15 @@
     /**
      * Register a new {@link Service}.
      * @param {function(): Service} Klass - A service class to instantiate.
+     * @param {...*} rest - Arbitrary objects to pass to constructor.
      * @returns {Service} - Instance of Klass.
      */
-    addService(Klass) {
+    addService(Klass, ...rest) {
       const me = 'addService';
       let instance = null;
-      this.logger.entered(me, Klass);
+      this.logger.entered(me, Klass, ...rest);
       if (Klass.prototype instanceof Service) {
-        instance = new Klass(this.constructor.name);
+        instance = new Klass(this.constructor.name, ...rest);
         this.#services.add(instance);
       } else {
         this.logger.log('Bad class was passed.');
