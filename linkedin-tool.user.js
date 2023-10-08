@@ -677,6 +677,15 @@
   }
 
   /**
+   * Create a UUID-like string with a base.
+   * @param {string} base - Base value for the string.
+   * @returns {string} - A unique string.
+   */
+  function uuId(base) {
+    return `${base}-${crypto.randomUUID()}`;
+  }
+
+  /**
    * Normalizes a string to be safe to use as an HTML element id.
    * @param {string} input - The string to normalize.
    * @returns {string} - Normlized string.
@@ -783,7 +792,7 @@
       this.#log = new Logger(`TabbedUI ${name}`);
       this.#name = name;
       this.#idName = safeId(name);
-      this.#id = `${this.#idName}-${crypto.randomUUID()}`;
+      this.#id = uuId(this.#idName);
       this.#container = document.createElement('section');
       this.#container.id = `${this.#id}-container`;
       this.#installControls();
@@ -3721,7 +3730,7 @@
       }
 
       this.#logger = new Logger(this.constructor.name);
-      this.#id = safeId(`${this.constructor.name}-${crypto.randomUUID()}`);
+      this.#id = safeId(uuId(this.constructor.name));
       this.dispatcher = new Dispatcher('errors', 'news');
     }
 
@@ -4181,7 +4190,7 @@
     /** @param {SPADetails} details - Implementation specific details. */
     constructor(details) {
       this._name = `${this.constructor.name}: ${details.constructor.name}`;
-      this._id = safeId(`${this._name}-${crypto.randomUUID()}`);
+      this._id = safeId(uuId(this._name));
       this._log = new Logger(this._name);
       this._details = details;
       this._details.init(this);
