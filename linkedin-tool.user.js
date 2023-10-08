@@ -3967,10 +3967,12 @@
       '</mask>' +
       '<mask id="b" maskContentUnits="objectBoundingBox">' +
       '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
-      '<rect x="0.375" y="-0.05" height="0.35" width="0.25" transform="rotate(30 0.5 0.5)"/>' +
+      '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
+      ' transform="rotate(30 0.5 0.5)"/>' +
   '</mask>' +
       '</defs>' +
-      '<rect x="9.5" y="7" width="5" height="10" transform="rotate(45 12 12)"/>' +
+      '<rect x="9.5" y="7" width="5" height="10"' +
+      ' transform="rotate(45 12 12)"/>' +
       '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
@@ -4045,8 +4047,10 @@
         }
 
         if (!license) {
-          // eslint-disable-next-line no-magic-numbers
-          this.addSetupIssue('Unable to extract license information from the userscript.', JSON.stringify(GM.info.script, null, 2));
+          this.addSetupIssue(
+            'Unable to extract license information from the userscript.',
+            JSON.stringify(GM.info.script, null, 2)  // eslint-disable-line no-magic-numbers
+          );
           license = 'Unable to extract: Please file a bug;';
         }
 
@@ -4144,7 +4148,16 @@
     _addLitStyle() {
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
-      style.textContent += '.lit-news { position: absolute; bottom: 14px; right: -5px; width: 16px; height: 16px; border-radius: 50%; border: 5px solid green; }\n';
+      style.textContent +=
+        '.lit-news {' +
+        ' position: absolute;' +
+        ' bottom: 14px;' +
+        ' right: -5px;' +
+        ' width: 16px;' +
+        ' height: 16px;' +
+        ' border-radius: 50%;' +
+        ' border: 5px solid green;' +
+        '}\n';
       document.head.prepend(style);
     }
 
@@ -4158,7 +4171,8 @@
       li.classList.add('global-nav__primary-item');
       li.innerHTML =
         '<button id="lit-nav-button" class="global-nav__primary-link">' +
-        '  <div class="global-nav__primary-link-notif artdeco-notification-badge">' +
+        '  <div class="global-nav__primary-link-notif ' +
+        'artdeco-notification-badge">' +
         '    <div class="notification-badge">' +
         '      <span class="notification-badge__count"></span>' +
         '    </div>' +
@@ -4174,7 +4188,10 @@
         // If the site changed and we cannot insert ourself after the Me menu
         // item, then go first.
         ul.prepend(li);
-        this.addSetupIssue('Unable to find the Profile navbar item.', 'LIT menu installed in non-standard location.');
+        this.addSetupIssue(
+          'Unable to find the Profile navbar item.',
+          'LIT menu installed in non-standard location.'
+        );
       }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
@@ -4189,7 +4206,8 @@
     _setNavBarInfo() {
       const fudgeFactor = 4;
 
-      this._globals.navBarHeightPixels = this._navbar.clientHeight + fudgeFactor;
+      this._globals.navBarHeightPixels = this._navbar.clientHeight +
+        fudgeFactor;
       // XXX: These {Scroller~How} items are static, so they need to be
       // configured after we figure out what the values should be.
       for (const how of this._navBarScrollerFixups) {
@@ -4226,10 +4244,20 @@
       const newGfIssueLink = `${baseGfUrl}/feedback`;
       const releaseNotesLink = `${baseGfUrl}/versions`;
       const content = [
-        `<p>This is information about the <b>${GM.info.script.name}</b> userscript, a type of add-on.  It is not associated with LinkedIn Corporation in any way.</p>`,
-        `<p>Documentation can be found on <a href="${GM.info.script.supportURL}">GitHub</a>.  Release notes are automatically generated on <a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
-        `<p>Existing issues are also on GitHub <a href="${issuesLink}">here</a>.</p>`,
-        `<p>New issues or feature requests can be filed on GitHub (account required) <a href="${newIssueLink}">here</a>.  Then select the appropriate issue template to get started.  Or, on Greasy Fork (account required) <a href="${newGfIssueLink}">here</a>.  Review the <b>Errors</b> tab for any useful information.</p>`,
+        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
+          'userscript, a type of add-on.  It is not associated with ' +
+          'LinkedIn Corporation in any way.</p>',
+        '<p>Documentation can be found on ' +
+          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
+          'notes are automatically generated on ' +
+          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
+        '<p>Existing issues are also on GitHub ' +
+          `<a href="${issuesLink}">here</a>.</p>`,
+        '<p>New issues or feature requests can be filed on GitHub (account ' +
+          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
+          'appropriate issue template to get started.  Or, on Greasy Fork ' +
+          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
+          'Review the <b>Errors</b> tab for any useful information.</p>',
         '',
       ];
       const tab = {
