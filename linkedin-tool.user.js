@@ -1997,7 +1997,7 @@
         const element = await otmot(what, how);
         this._onClickElement = element;
         this._onClickElement.addEventListener('click', this._onClick);
-        // TODO(#46, #130): Find a better place for this.
+        // TODO(#130, #150): Move to activate() if not removed first.
         this._refresh();
       }
     }
