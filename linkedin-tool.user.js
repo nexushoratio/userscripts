@@ -4837,12 +4837,17 @@
 
     /**
      * Add a new page to those supported by this instance.
-     * @param {Page} page - An instance of the Page class.
+     * @param {function(): Page} Klass - A {Page} class to instantiate.
      */
-    register(page) {
-      page.start(this);
-      this._addInfo(page);
-      this._pages.add(page);
+    register(Klass) {
+      if (Klass.prototype instanceof Page) {
+        const page = new Klass();
+        page.start(this);
+        this._addInfo(page);
+        this._pages.add(page);
+      } else {
+        throw new Error(`${Klass.name} is not a Page`);
+      }
     }
 
     /**
@@ -4939,13 +4944,13 @@
   linkedIn.ready.then(() => {
     log.log('proceeding...');
     const spa = new SPA(linkedIn);
-    spa.register(new Global());
-    spa.register(new Feed());
-    spa.register(new MyNetwork());
-    spa.register(new InvitationManager());
-    spa.register(new Jobs());
-    spa.register(new JobCollections());
-    spa.register(new Notifications());
+    spa.register(Global);
+    spa.register(Feed);
+    spa.register(MyNetwork);
+    spa.register(InvitationManager);
+    spa.register(Jobs);
+    spa.register(JobCollections);
+    spa.register(Notifications);
     spa.activate(window.location.pathname);
   });
 
