@@ -2075,6 +2075,8 @@
     #postScroller = null;
     #commentScroller = null;
 
+    #dummy
+
     /** @type {Scroller~What} */
     static #postsWhat = {
       name: 'Feed posts',
@@ -2107,7 +2109,7 @@
     /** Create a Feed instance. */
     constructor() {
       super();
-      this.addService(DummyService);
+      this.#dummy = this.addService(DummyService);
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
       this.#postScroller.activate();
       this.#postScroller.dispatcher.on(
