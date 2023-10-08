@@ -1714,18 +1714,7 @@
    */
   class Page {
 
-    // The immediate following can be set in subclasses.
-
-    /**
-     * @type {string|RegExp} - What pathname part of the URL this page should
-     * handle.  The special case of null is used by the {@link SPA} class to
-     * represent global keys.
-     */
-    _pathname;
-
     #pageReadySelector
-
-    // Private members.
 
     /** @type {SPA} - SPA instance managing this instance. */
     #spa;
@@ -1751,9 +1740,27 @@
     };
 
     /**
+     * Turn a pathname into a RegExp.
+     * @param {string|RegExp} pathname - A pathname to convert.
+     * @returns {RegExp} - A converted pathname.
+     */
+    #computePathname = (pathname) => {
+      const me = 'computePath';
+      this.logger.entered(me, pathname);
+      let pathnameRE = /.*/u;
+      if (pathname instanceof RegExp) {
+        pathnameRE = pathname;
+      } else if (pathname) {
+        pathnameRE = RegExp(`^${pathname}$`, 'u');
+      }
+      this.logger.leaving(me, pathnameRE);
+      return pathnameRE;
+    }
+
+    /**
      * @typedef {object} PageDetails
-     * @property {string|RegExp} [pathname=RegExp] - Pathname portion of the
-     * URL this page should handle.
+     * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
+     * the URL this page should handle.
      * @property {string} [pageReadySelector='body'] - CSS selector that is
      * used to detect that the page is loaded enough to activate.
      */
@@ -1763,17 +1770,11 @@
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
-      if (details.pathname) {
-        if (details.pathname instanceof RegExp) {
-          this.#pathnameRE = details.pathname;
-        } else {
-          this.#pathnameRE = RegExp(`^${details.pathname}$`, 'u');
-        }
-      }
+      this.#logger = new Logger(this.constructor.name);
+      this.#pathnameRE = this.#computePathname(details.pathname);
       ({
         pageReadySelector: this.#pageReadySelector = 'body',
       } = details);
-      this.#logger = new Logger(this.constructor.name);
       this.#logger.log('Base page constructed', this);
     }
 
@@ -1826,16 +1827,6 @@
 
     /** @type {RegExp} */
     get pathname() {
-      if (!this.#pathnameRE) {
-        if (this._pathname instanceof RegExp) {
-          this.#pathnameRE = this._pathname;
-        } else if (this._pathname) {
-          this.#pathnameRE = RegExp(`^${this._pathname}$`, 'u');
-        } else {
-          // New global
-          this.#pathnameRE = /.*/u;
-        }
-      }
       return this.#pathnameRE;
     }
 
@@ -1941,8 +1932,6 @@
    */
   class Global extends Page {
 
-    _pathname = null;
-
     /**
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
@@ -2022,8 +2011,6 @@
 
   /** Class for handling the Posts feed. */
   class Feed extends Page {
-
-    _pathname = '/feed/';
 
     #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
@@ -2438,8 +2425,6 @@
    */
   class MyNetwork extends Page {
 
-    _pathname = '/mynetwork/';
-
     #sectionScroller
     #cardScroller
     #currentSectionText
@@ -2697,8 +2682,6 @@
   /** Class for handling the Invitation manager page. */
   class InvitationManager extends Page {
 
-    _pathname = '/mynetwork/invitation-manager/';
-
     #inviteScroller
     #currentInviteText
 
@@ -2881,8 +2864,6 @@
    * loading more sections or jobs, or toggling state of a job.
    */
   class Jobs extends Page {
-
-    _pathname = '/jobs/';
 
     #sectionScroller = null;
     #jobScroller = null;
@@ -3306,9 +3287,6 @@
   /** Class for handling Job collections. */
   class JobCollections extends Page {
 
-    // eslint-disable-next-line prefer-regex-literals
-    _pathname = RegExp('^/jobs/(?:collections|search)/.*', 'u');
-
     #lastScroller
 
     #jobScroller = null;
@@ -3466,8 +3444,6 @@
 
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
-
-    _pathname = '/notifications/';
 
     #notificationScroller = null;
 
