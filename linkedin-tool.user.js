@@ -1897,6 +1897,8 @@
       this.#keyboard.enable();
       this.#enableOnClick();
       await this.#waitUntilReady();
+      // TODO(#150): Will be removed.
+      this._refresh();
       for (const service of this.#services) {
         service.activate();
       }
@@ -1955,8 +1957,6 @@
         const element = await otmot(what, how);
         this._onClickElement = element;
         this._onClickElement.addEventListener('click', this._onClick);
-        // TODO(#130, #150): Move to activate() if not removed first.
-        this._refresh();
       }
     }
 
