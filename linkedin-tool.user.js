@@ -3581,6 +3581,14 @@
       clickElement(document, ['button.scaffold-layout__list-jump-button']);
     });
 
+    toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', () => {
+      const selector = [
+        'button[aria-label^="Dismiss job"]:not([disabled])',
+        'button[aria-label$=" Undo"]',
+      ].join(',');
+      clickElement(this._jobs.item, [selector]);
+    });
+
   }
 
   /** Class for handling the Notifications page. */
