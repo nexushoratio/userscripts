@@ -3460,7 +3460,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _jobsHow = {
+    static #jobsHow = {
       uidCallback: this._uniqueJobIdentifier,
       classes: ['tom'],
       snapToTop: true,
@@ -3470,7 +3470,7 @@
     constructor() {
       super();
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
-        JobCollections._jobsHow);
+        JobCollections.#jobsHow);
       this.#jobScroller.dispatcher.on('change', this.#onJobChange);
     }
 
