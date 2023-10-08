@@ -1180,8 +1180,8 @@
     /**
      * @typedef {object} How
      * @property {uidCallback} uidCallback - Callback to generate a uid.
-     * @property {string[]} classes - Array of CSS classes to add/remove from
-     * an element as it becomes current.
+     * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
+     * from an element as it becomes current.
      * @property {boolean} [handleClicks=false] - Whether the scroller should
      * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [snapToTop=false] - Whether items should snap to
@@ -1214,7 +1214,7 @@
       }
       ({
         uidCallback: this.#uidCallback,
-        classes: this.#classes,
+        classes: this.#classes = [],
         handleClicks: this.#handleClicks = false,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
