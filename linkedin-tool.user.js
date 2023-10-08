@@ -1668,11 +1668,6 @@
       throw new Error(msg);
     }
 
-    /** Called once when service is started. */
-    start() {
-      this.#notImplemented('start');
-    }
-
     /** Called each time service is activated. */
     activate() {
       this.#notImplemented('activate');
@@ -1687,11 +1682,6 @@
 
   /** Toy service for experimenting. */
   class DummyService extends Service {
-
-    /** @inheritdoc */
-    start() {
-      this.logger.log('Dummy start');
-    }
 
     /** @inheritdoc */
     activate() {
@@ -1717,11 +1707,6 @@
     constructor(name, scroller) {
       super(name);
       this.#scroller = scroller;
-    }
-
-    /** @inheritdoc */
-    start() {
-      this.logger.log('Scroller start, no-op');
     }
 
     /** @inheritdoc */
@@ -1838,9 +1823,6 @@
       this.#spa = spa;
       for (const shortcut of this.allShortcuts) {
         this.#addKey(shortcut);
-      }
-      for (const service of this.#services) {
-        service.start();
       }
     }
 
