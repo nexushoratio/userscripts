@@ -2130,9 +2130,15 @@
       snapToTop: false,
     };
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/feed/',
+      pageReadyCSS: 'main',
+    };
+
     /** Create a Feed instance. */
     constructor() {
-      super();
+      super(Feed.#details);
       this.#dummy = this.addService(DummyService);
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
       this.#postScroller.activate();
