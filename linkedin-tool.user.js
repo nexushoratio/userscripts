@@ -3956,9 +3956,15 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
+    #globals
+    #infoId
+    #licenseData
+    #licenseLoaded
+    #navbar
+
     urlChangeMonitorSelector = 'div.authentication-outlet';
 
-    static _icon =
+    static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
       '<defs>' +
       '<mask id="a" maskContentUnits="objectBoundingBox">' +
@@ -3977,7 +3983,7 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
-    _navBarScrollerFixups = [
+    #navBarScrollerFixups = [
       Feed._postsHow,
       Feed._commentsHow,
       MyNetwork._sectionsHow,
@@ -3995,8 +4001,8 @@
      */
     constructor(globals) {
       super();
-      this._globals = globals;
-      this.ready = this._waitUntilPageLoadedEnough();
+      this.#globals = globals;
+      this.ready = this.#waitUntilPageLoadedEnough();
     }
 
     /** @inheritdoc */
@@ -4005,18 +4011,18 @@
       const me = 'done';
       this.logger.entered(me);
       const licenseEntry = this.ui.tabs.get('License');
-      licenseEntry.panel.addEventListener('expose', this._licenseHandler);
+      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
       this.logger.leaving(me);
     }
 
     /** @type {string} - The element.id used to identify the info pop-up. */
     get infoId() {
-      return this._infoId;
+      return this.#infoId;
     }
 
     /** @param {string} val - Set the value of the info element.id. */
     set infoId(val) {
-      this._infoId = val;
+      this.#infoId = val;
     }
 
     /**
@@ -4030,7 +4036,7 @@
       const me = 'licenseData';
       this.logger.entered(me);
 
-      if (!this._licenseData) {
+      if (!this.#licenseData) {
         // Different userscript managers do this differently.
         let license = GM.info.script.license;
         if (!license) {
@@ -4055,18 +4061,18 @@
         }
 
         const [name, url] = license.split(';');
-        this._licenseData = {
+        this.#licenseData = {
           name: name.trim(),
           url: url.trim(),
         };
       }
 
-      this.logger.leaving(me, this._licenseData);
-      return this._licenseData;
+      this.logger.leaving(me, this.#licenseData);
+      return this.#licenseData;
     }
 
     /** Hang out until enough HTML has been built to be useful. */
-    async _waitUntilPageLoadedEnough() {
+    #waitUntilPageLoadedEnough = async () => {
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
@@ -4094,20 +4100,20 @@
         monitor: navBarMonitor,
       };
 
-      this._navbar = await otmot(navWhat, navHow);
-      this._finishConstruction();
+      this.#navbar = await otmot(navWhat, navHow);
+      this.#finishConstruction();
 
       this.logger.leaving(me);
     }
 
     /** Do the bits that were waiting on the page. */
-    _finishConstruction() {
+    #finishConstruction = () => {
       const me = 'finishConstruction';
       this.logger.entered(me);
 
-      this._addLitStyle();
-      this._addToolMenuItem();
-      this._setNavBarInfo();
+      this.#addLitStyle();
+      this.#addToolMenuItem();
+      this.#setNavBarInfo();
 
       this.logger.leaving(me);
     }
@@ -4116,14 +4122,14 @@
      * Lazily load license text when exposed.
      * @param {Event} evt - The 'expose' event.
      */
-    _licenseHandler = async (evt) => {
+    #licenseHandler = async (evt) => {
       const me = 'licenseHandler';
       this.logger.entered(me, evt.target);
 
       // Probably should debounce this.  If the user visits this tab twice
       // fast enough, they end up with two copies loaded.  Amusing, but
       // probably should be resilient.
-      if (!this._licenseLoaded) {
+      if (!this.#licenseLoaded) {
         const info = document.createElement('p');
         info.innerHTML = '<i>Loading license...</i>';
         evt.target.append(info);
@@ -4137,7 +4143,7 @@
           license.sandbox = '';
           license.srcdoc = await response.text();
           info.replaceWith(license);
-          this._licenseLoaded = true;
+          this.#licenseLoaded = true;
         }
       }
 
@@ -4145,7 +4151,7 @@
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
-    _addLitStyle() {
+    #addLitStyle = () => {
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
       style.textContent +=
@@ -4162,7 +4168,7 @@
     }
 
     /** Add a menu item to the global nav bar. */
-    _addToolMenuItem() {
+    #addToolMenuItem = () => {
       const me = 'addToolMenuItem';
       this.logger.entered(me);
 
@@ -4176,7 +4182,7 @@
         '    <div class="notification-badge">' +
         '      <span class="notification-badge__count"></span>' +
         '    </div>' +
-        `    <div>${LinkedIn._icon}</div>` +
+        `    <div>${LinkedIn.#icon}</div>` +
         '    <span class="lit-news_">TBD</span>' +
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
@@ -4203,16 +4209,16 @@
     }
 
     /** Set some useful global variables. */
-    _setNavBarInfo() {
+    #setNavBarInfo = () => {
       const fudgeFactor = 4;
 
-      this._globals.navBarHeightPixels = this._navbar.clientHeight +
+      this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
         fudgeFactor;
       // XXX: These {Scroller~How} items are static, so they need to be
       // configured after we figure out what the values should be.
-      for (const how of this._navBarScrollerFixups) {
-        how.topMarginPixels = this._globals.navBarHeightPixels;
-        how.topMarginCSS = this._globals.navBarHeightCSS;
+      for (const how of this.#navBarScrollerFixups) {
+        how.topMarginPixels = this.#globals.navBarHeightPixels;
+        how.topMarginCSS = this.#globals.navBarHeightCSS;
         how.bottomMarginCSS = '3em';
       }
     }
