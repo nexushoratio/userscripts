@@ -1673,7 +1673,7 @@
       this.#notImplemented('start');
     }
 
-    /** Called each time service is activate. */
+    /** Called each time service is activated. */
     activate() {
       this.#notImplemented('activate');
     }
