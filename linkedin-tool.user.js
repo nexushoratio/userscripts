@@ -1799,18 +1799,21 @@
     /**
      * Register a new {@link Service}.
      * @param {function(): Service} Klass - A service class to instantiate.
+     * @returns {Service} - Instance of Klass.
      */
     addService(Klass) {
       const me = 'addService';
+      let instance = null;
       this.logger.entered(me, Klass);
       if (Klass.prototype instanceof Service) {
-        const instance = new Klass(this.constructor.name);
+        instance = new Klass(this.constructor.name);
         this.#services.add(instance);
       } else {
         this.logger.log('Bad class was passed.');
         throw new Error(`${Klass.name} is not a Service`);
       }
-      this.logger.leaving(me);
+      this.logger.leaving(me, instance);
+      return instance;
     }
 
     /**
