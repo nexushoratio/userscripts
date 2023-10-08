@@ -275,9 +275,7 @@
     static #loggers = new DefaultMap(Array);
     static #configs = new DefaultMap(() => new Logger.Config());
 
-    /**
-     * @param {string} name - Name for this logger.
-     */
+    /** @param {string} name - Name for this logger. */
     constructor(name) {
       this.#name = name;
       this.#config = Logger.config(name);
@@ -778,7 +776,6 @@
      */
 
     /**
-     * Create a TabbedUI.
      * @param {string} name - Used to distinguish HTML elements and CSS
      * classes.
      */
@@ -839,9 +836,7 @@
       return entries;
     }
 
-    /**
-     * Installs basic CSS styles for the UI.
-     */
+    /** Installs basic CSS styles for the UI. */
     #installStyle = () => {
       this.#style = document.createElement('style');
       this.#style.id = `${this.#id}-style`;
@@ -974,10 +969,7 @@
       this.#log.leaving(me);
     }
 
-    /**
-     * Add a new tab to the UI.
-     * @param {TabDefinition} tab - The new tab.
-     */
+    /** @param {TabDefinition} tab - The new tab. */
     addTab(tab) {
       const me = 'addTab';
       this.#log.entered(me, tab);
@@ -1009,9 +1001,7 @@
       this.#log.leaving(me);
     }
 
-    /**
-     * Activate the next tab.
-     */
+    /** Activate the next tab. */
     next() {
       const me = 'next';
       this.#log.entered(me);
@@ -1019,9 +1009,7 @@
       this.#log.leaving(me);
     }
 
-    /**
-     * Activate the previous tab.
-     */
+    /** Activate the previous tab. */
     prev() {
       const me = 'prev';
       this.#log.entered(me);
@@ -1029,10 +1017,7 @@
       this.#log.leaving(me);
     }
 
-    /**
-     * Go to a tab by name.
-     * @param {string} name - Name of the tab.
-     */
+    /** @param {string} name - Name of the tab to activate. */
     goto(name) {
       const me = 'goto';
       this.#log.entered(me, name);
@@ -1403,7 +1388,7 @@
     }
 
     /**
-     * Jump an item on the end of the collection.
+     * Jump an item on an end of the collection.
      * @param {boolean} first - If true, the first item in the collection,
      * else, the last.
      */
@@ -1471,51 +1456,37 @@
       this.logger.leaving(me);
     }
 
-    /**
-     * Move to the next item in the collection.
-     */
+    /** Move to the next item in the collection. */
     next() {
       this.#scrollBy(1);
     }
 
-    /**
-     * Move to the previous item in the collection.
-     */
+    /** Move to the previous item in the collection. */
     prev() {
       this.#scrollBy(-1);
     }
 
-    /**
-     * Jump to the first item in the collection.
-     */
+    /** Jump to the first item in the collection. */
     first() {
       this.#jumpToEndItem(true);
     }
 
-    /**
-     * Jump to last item in the collection.
-     */
+    /** Jump to last item in the collection. */
     last() {
       this.#jumpToEndItem(false);
     }
 
-    /**
-     * Adds the registered CSS classes to the current element.
-     */
+    /** Adds the registered CSS classes to the current element. */
     shine() {
       this.item?.classList.add(...this.#classes);
     }
 
-    /**
-     * Removes the registered CSS classes from the current element.
-     */
+    /** Removes the registered CSS classes from the current element. */
     dull() {
       this.item?.classList.remove(...this.#classes);
     }
 
-    /**
-     * Bring current item back into view.
-     */
+    /** Bring current item back into view. */
     show() {
       this.#scrollToCurrentItem();
     }
@@ -1534,9 +1505,7 @@
       this.#onClickElement = null;
     }
 
-    /**
-     * Mark instance as inactive and do any internal cleanup.
-     */
+    /** Mark instance as inactive and do any internal cleanup. */
     destroy() {
       const me = 'destroy';
       this.logger.entered(me);
@@ -1571,9 +1540,7 @@
       return `${this.#navBarHeightPixels}px`;
     }
 
-    /**
-     * Scroll common sidebar into view and move focus to it.
-     */
+    /** Scroll common sidebar into view and move focus to it. */
     focusOnSidebar = () => {
       const sidebar = document.querySelector('div.scaffold-layout__sidebar');
       if (sidebar) {
@@ -1584,8 +1551,8 @@
     }
 
     /**
-     * Scroll common aside (right-hand sidebar) into view and move
-     * focus to it.
+     * Scroll common aside (right-hand sidebar) into view and move focus to
+     * it.
      */
     focusOnAside = () => {
       const aside = document.querySelector('aside.scaffold-layout__aside');
@@ -1675,9 +1642,7 @@
       return this.#name;
     }
 
-    /**
-     * @param {string} name - Custom portion of this instance
-     */
+    /** @param {string} name - Custom portion of this instance. */
     constructor(name) {
       if (new.target === Service) {
         throw new TypeError('Abstract class; do not instantiate directly.');
@@ -1686,9 +1651,7 @@
       this.#logger = new Logger(this.#name);
     }
 
-    /**
-     * @param {string} name - Name of method that was not implemented.
-     */
+    /** @param {string} name - Name of method that was not implemented. */
     #notImplemented(name) {
       const msg = `Class ${this.constructor.name} did not implement ` +
             `method "${name}".`;
@@ -1798,10 +1761,7 @@
      * used to detect that the page is loaded enough to activate.
      */
 
-    /**
-     * Create a Page instance.
-     * @param {PageDetails} details - Details about the instance.
-     */
+    /** @param {PageDetails} details - Details about the instance. */
     constructor(details = {}) {
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
@@ -1967,9 +1927,7 @@
       this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
     }
 
-    /**
-     * Enables the 'click' handler for this view.
-     */
+    /** Enables the 'click' handler for this view. */
     #enableOnClick = async () => {
       if (this._onClickSelector) {
 
@@ -2002,9 +1960,7 @@
       }
     }
 
-    /**
-     * Disables the 'click' handler for this view.
-     */
+    /** Disables the 'click' handler for this view. */
     #disableOnClick = () => {
       this._onClickElement?.removeEventListener('click', this._onClick);
       this._onClickElement = null;
@@ -2243,9 +2199,7 @@
       return this.#commentScroller;
     }
 
-    /**
-     * Reset the comment scroller.
-     */
+    /** Reset the comment scroller. */
     #resetComments() {
       if (this.#commentScroller) {
         this.#commentScroller.destroy();
@@ -2278,9 +2232,7 @@
       this._posts.item = this._posts.item;
     }
 
-    /**
-     * Resets the comments {@link Scroller}.
-     */
+    /** Resets the comments {@link Scroller}. */
     #onPostChange = () => {
       const me = 'onPostChange';
       this.logger.entered(me, this._posts.item);
@@ -2352,9 +2304,7 @@
         let first = false;
         const posts = this._posts;
 
-        /**
-         * Trigger function for {@link otrot2}.
-         */
+        /** Trigger function for {@link otrot2}. */
         function trigger() {
           // The topButton only shows up when the app detects new posts.  In
           // that case, going back to the first post is appropriate.
@@ -2369,9 +2319,7 @@
           }
         }
 
-        /**
-         * Action function for {@link otrot2}.
-         */
+        /** Action function for {@link otrot2}. */
         function action() {
           if (first) {
             if (posts.item) {
@@ -2509,9 +2457,7 @@
     _nextPostPlus = new Shortcut(
       'J', 'Toggle hiding then next post', async () => {
 
-        /**
-         * Trigger function for {@link otrot}.
-         */
+        /** Trigger function for {@link otrot}. */
         const trigger = () => {
           this._togglePost();
           this._nextPost();
@@ -2810,9 +2756,7 @@
   Logger.config('InvitationManager').enabled = testing.enabled;
   Logger.config('{Invitation cards}').enabled = testing.enabled;
 
-  /**
-   * Class for handling the Invitation manager page.
-   */
+  /** Class for handling the Invitation manager page. */
   class InvitationManager extends Page {
 
     _pathname = '/mynetwork/invitation-manager/';
@@ -3103,9 +3047,7 @@
       return this.#jobScroller;
     }
 
-    /**
-     * Reset the jobs scroller.
-     */
+    /** Reset the jobs scroller. */
     #clearJobs = () => {
       const me = 'clearJobs';
       this.logger.entered(me, this.#jobScroller);
@@ -3368,9 +3310,7 @@
       async () => {
         const savedScrollTop = document.documentElement.scrollTop;
 
-        /**
-         * Trigger function for {@link otrot}.
-         */
+        /** Trigger function for {@link otrot}. */
         function trigger() {
           clickElement(document,
             ['main button.scaffold-finite-scroll__load-button']);
@@ -3401,10 +3341,7 @@
       async () => {
         const savedJob = this._jobs.item;
 
-        /**
-         * Trigger function for {@link otrot}.  Because, of course jobs needs
-         * it.
-         */
+        /** Trigger function for {@link otrot}. */
         function trigger() {
           const selector = [
             'button[aria-label^="Dismiss job"]:not([disabled])',
@@ -3725,9 +3662,7 @@
         let first = false;
         const notifications = this._notifications;
 
-        /**
-         * Trigger function for {@link otrot2}.
-         */
+        /** Trigger function for {@link otrot2}. */
         function trigger() {
           if (clickElement(document,
             ['button[aria-label^="Load new notifications"]'])) {
@@ -3738,9 +3673,7 @@
           }
         }
 
-        /**
-         * Action function for {@link otrot2}.
-         */
+        /** Action function for {@link otrot2}. */
         const action = () => {
           if (first) {
             if (notifications.item) {
@@ -3776,9 +3709,7 @@
       'X', 'Toggle current notification deletion', async () => {
         const notification = this._notifications.item;
 
-        /**
-         * Trigger function for {@link otrot}.
-         */
+        /** Trigger function for {@link otrot}. */
         function trigger() {
           // Hah.  Unlike in other places, these buttons already exist, just
           // hidden under the menu.
@@ -3992,7 +3923,6 @@
     ];
 
     /**
-     * Create a LinkedIn instance.
      * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
      * circular dependencies.
      */
@@ -4312,10 +4242,7 @@
     /** @type {KeyboardService} */
     _tabUiKeyboard = null;
 
-    /**
-     * Create a SPA instance.
-     * @param {SPADetails} details - Implementation specific details.
-     */
+    /** @param {SPADetails} details - Implementation specific details. */
     constructor(details) {
       this._name = `${this.constructor.name}: ${details.constructor.name}`;
       this._id = safeId(`${this._name}-${crypto.randomUUID()}`);
@@ -4464,9 +4391,7 @@
       });
     }
 
-    /**
-     * Create the CSS styles used for indicating the current items.
-     */
+    /** Create the CSS styles used for indicating the current items. */
     _installNavStyle() {
       const style = document.createElement('style');
       style.id = safeId(`${this._id}-nav-style`);
