@@ -1751,6 +1751,8 @@
      */
     _pathname;
 
+    #pageReadyCSS
+
     /**
      * @type {string} - CSS selector for capturing clicks on this page.  If
      * overridden, then the class should also provide a _onClick() method.
@@ -1788,12 +1790,34 @@
       condition: '!inputFocus && !inDialog',
     };
 
-    /** Create a Page instance. */
-    constructor() {
+    /**
+     * @typedef {object} PageDetails
+     * @property {string|RegExp} [pathname=RegExp] - Pathname portion of the
+     * URL this page should handle.
+     * @property {string} [pageReadyCSS='body'] - CSS selector that is used to
+     * detect that the page is loaded enough to activate.
+     */
+
+    /**
+     * Create a Page instance.
+     * @param {PageDetails} details - Details about the instance.
+     */
+    constructor(details = {}) {
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
+      if (details.pathname) {
+        if (details.pathname instanceof RegExp) {
+          this.#pathnameRE = details.pathname;
+        } else {
+          this.#pathnameRE = RegExp(`^${details.pathname}$`, 'u');
+        }
+      }
+      ({
+        pageReadyCSS: this.#pageReadyCSS = 'body',
+      } = details);
       this.#logger = new Logger(this.constructor.name);
+      this.#logger.log('Base page constructed', this);
     }
 
     /**
