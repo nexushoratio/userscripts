@@ -3515,6 +3515,10 @@
       }
     );
 
+    detailsView = new Shortcut('d', 'Jump to details view', () => {
+      clickElement(document, ['button.scaffold-layout__list-jump-button']);
+    });
+
   }
 
   /** Class for handling the Notifications page. */
