@@ -1716,12 +1716,6 @@
 
     #pageReadySelector
 
-    /**
-     * @type {string} - CSS selector for capturing clicks on this page.  If
-     * overridden, then the class should also provide a _onClick() method.
-     */
-    _onClickSelector = null;
-
     // Private members.
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1737,12 +1731,6 @@
     #keyboard = new VM.shortcut.KeyboardService();
 
     #services = new Set();
-
-    /**
-     * @type {Element} - Tracks which HTMLElement holds the `onclick`
-     * function.
-     */
-    _onClickElement = null;
 
     /**
      * @type {IShortcutOptions} - Disables keys when focus is on an element or
@@ -1895,7 +1883,6 @@
      */
     async activate() {
       this.#keyboard.enable();
-      this.#enableOnClick();
       await this.#waitUntilReady();
       // TODO(#150): Will be removed.
       this._refresh();
@@ -1910,7 +1897,6 @@
      */
     deactivate() {
       this.#keyboard.disable();
-      this.#disableOnClick();
       for (const service of this.#services) {
         service.deactivate();
       }
@@ -1927,57 +1913,6 @@
      */
     #addKey(shortcut) {
       this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
-    }
-
-    /** Enables the 'click' handler for this view. */
-    #enableOnClick = async () => {
-      if (this._onClickSelector) {
-
-        /**
-         * Page is dynamically building, so keep watching it until the element
-         * shows up.
-         * @implements {Monitor}
-         * @returns {Continuation} - Indicate whether done monitoring.
-         */
-        const monitor = () => {
-          const element = document.querySelector(this._onClickSelector);
-          if (element) {
-            return {done: true, results: element};
-          }
-          return {done: false};
-        };
-        const what = {
-          name: 'OnClick',
-          base: document.body,
-        };
-        const how = {
-          observeOptions: {childList: true, subtree: true},
-          monitor: monitor,
-        };
-        const element = await otmot(what, how);
-        this._onClickElement = element;
-        this._onClickElement.addEventListener('click', this._onClick);
-      }
-    }
-
-    /** Disables the 'click' handler for this view. */
-    #disableOnClick = () => {
-      this._onClickElement?.removeEventListener('click', this._onClick);
-      this._onClickElement = null;
-    }
-
-    /**
-     * Override this function in subclasses that want to react to random
-     * clicks on a page, say to update current element in focus.
-     * https://github.com/eslint/eslint/issues/17467
-     * @abstract
-     * @param {Event} evt - Standard 'click' event.
-     */
-    _onClick = (evt) => {  // eslint-disable-line no-unused-vars
-      const msg = `Found a bug! ${this.constructor.name} wants ` +
-            'to handle clicks, but forgot to create a handler.';
-      this.spa.addError(msg);
-      this.spa.addErrorMarker();
     }
 
     /**
@@ -2080,7 +2015,6 @@
   class Feed extends Page {
 
     _pathname = '/feed/';
-    _onClickSelector = 'main';
 
     #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
 
@@ -2132,11 +2066,6 @@
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
       this.#postScroller.dispatcher.on('change', this.#onPostChange);
-    }
-
-    /** @inheritdoc */
-    _onClick = (evt) => {
-      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2501,7 +2430,6 @@
   class MyNetwork extends Page {
 
     _pathname = '/mynetwork/';
-    _onClickSelector = 'main';
 
     #sectionScroller
     #cardScroller
@@ -2570,11 +2498,6 @@
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
-    }
-
-    /** @inheritdoc */
-    _onClick = (evt) => {
-      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2766,7 +2689,6 @@
   class InvitationManager extends Page {
 
     _pathname = '/mynetwork/invitation-manager/';
-    _onClickSelector = 'main';
 
     #inviteScroller
     #currentInviteText
@@ -2821,11 +2743,6 @@
       );
       this.#inviteScroller.activate();
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
-    }
-
-    /** @inheritdoc */
-    _onClick = (evt) => {
-      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2957,7 +2874,6 @@
   class Jobs extends Page {
 
     _pathname = '/jobs/';
-    _onClickSelector = 'main';
 
     #sectionScroller = null;
     #jobScroller = null;
@@ -3017,11 +2933,6 @@
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
       this.#sectionsMO1 = new MutationObserver(this.#mutationHandler);
       this.#sectionsMO2 = new MutationObserver(this.#mutationHandler);
-    }
-
-    /** @inheritdoc */
-    _onClick = (evt) => {
-      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -3548,7 +3459,6 @@
   class Notifications extends Page {
 
     _pathname = '/notifications/';
-    _onClickSelector = 'main section div.nt-card-list';
 
     #notificationScroller = null;
 
@@ -3581,11 +3491,6 @@
       this.#notificationScroller.activate();
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-    }
-
-    /** @inheritdoc */
-    _onClick = (evt) => {
-      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
