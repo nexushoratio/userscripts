@@ -2555,9 +2555,15 @@
       snapToTop: false,
     };
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/mynetwork/',
+      pageReadySelector: 'main > ul',
+    };
+
     /** Create a MyNetwork instance. */
     constructor() {
-      super();
+      super(MyNetwork.#details);
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
         MyNetwork._sectionsHow);
       this.#sectionScroller.activate();
@@ -2801,9 +2807,15 @@
       return this.#inviteScroller;
     }
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/mynetwork/invitation-manager/',
+      pageReadySelector: 'main',
+    };
+
     /** Create a InvitationManager instance. */
     constructor() {
-      super();
+      super(InvitationManager.#details);
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
@@ -2988,9 +3000,15 @@
       snapToTop: false,
     };
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/jobs/',
+      pageReadySelector: 'main',
+    };
+
     /** Create a Jobs instance. */
     constructor() {
-      super();
+      super(Jobs.#details);
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs._sectionsHow);
       this.#sectionScroller.activate();
@@ -3414,9 +3432,16 @@
       snapToTop: false,
     };
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
+      pageReadySelector: 'main',
+    };
+
     /** Create a JobCollections instance. */
     constructor() {
-      super();
+      super(JobCollections.#details);
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
         JobCollections.#jobsHow);
       this.#jobScroller.activate();
@@ -3541,9 +3566,15 @@
       snapToTop: false,
     };
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/notifications/',
+      pageReadySelector: 'main section div.nt-card-list',
+    };
+
     /** Create a Notifications instance. */
     constructor() {
-      super();
+      super(Notifications.#details);
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications._notificationsHow
       );
