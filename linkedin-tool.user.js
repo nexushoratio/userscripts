@@ -3759,7 +3759,7 @@
      */
 
     /** @type {SetupIssue[]} */
-    _setupIssues = [];
+    #setupIssues = [];
 
     /**
      * @type {string} - CSS selector to monitor if self-managing URL changes.
@@ -3769,7 +3769,7 @@
     urlChangeMonitorSelector = 'body';
 
     /** @type {TabbedUI} */
-    _ui = null;
+    #ui = null;
 
     #id
     #logger
@@ -3817,12 +3817,12 @@
 
     /** @type {TabbedUI} */
     get ui() {
-      return this._ui;
+      return this.#ui;
     }
 
     /** @param {TabbedUI} val - UI instance. */
     set ui(val) {
-      this._ui = val;
+      this.#ui = val;
     }
 
     /**
@@ -3844,7 +3844,7 @@
 
     /** @type {SetupIssue[]} */
     get setupIssues() {
-      return this._setupIssues;
+      return this.#setupIssues;
     }
 
     /**
@@ -3855,7 +3855,7 @@
       for (const msg of msgs) {
         this.logger.log('Setup issue:', msg);
       }
-      this._setupIssues.push(msgs);
+      this.#setupIssues.push(msgs);
     }
 
     /**
