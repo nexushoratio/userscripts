@@ -1898,13 +1898,45 @@
     }
 
     /**
+     * Wait until the page has loaded enough to continue.
+     * @returns {Element} - The element matched by #pageReadySelector.
+     */
+    #waitUntilReady = async () => {
+      const me = 'waitUntilReady';
+      this.logger.entered(me);
+
+      /**
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        const element = document.querySelector(this.#pageReadySelector);
+        if (element) {
+          return {done: true, results: element};
+        }
+        return {done: false};
+      };
+      const what = {
+        name: 'waitUntilReady',
+        base: document,
+      };
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+      };
+      const element = await otmot(what, how);
+      this.logger.leaving(me, element);
+      return element;
+    }
+
+    /**
      * Turns on this Page's features.  Called by {@link SPA} when this becomes
      * the current view.
      */
-    activate() {
+    async activate() {
       this.#keyboard.enable();
       this.#enableOnClick();
-      // TODO(#130): Wait until page settles before calling.
+      await this.#waitUntilReady();
       for (const service of this.#services) {
         service.activate();
       }
