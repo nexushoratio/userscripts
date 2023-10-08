@@ -1751,7 +1751,7 @@
      */
     _pathname;
 
-    #pageReadyCSS
+    #pageReadySelector
 
     /**
      * @type {string} - CSS selector for capturing clicks on this page.  If
@@ -1794,8 +1794,8 @@
      * @typedef {object} PageDetails
      * @property {string|RegExp} [pathname=RegExp] - Pathname portion of the
      * URL this page should handle.
-     * @property {string} [pageReadyCSS='body'] - CSS selector that is used to
-     * detect that the page is loaded enough to activate.
+     * @property {string} [pageReadySelector='body'] - CSS selector that is
+     * used to detect that the page is loaded enough to activate.
      */
 
     /**
@@ -1814,7 +1814,7 @@
         }
       }
       ({
-        pageReadyCSS: this.#pageReadyCSS = 'body',
+        pageReadySelector: this.#pageReadySelector = 'body',
       } = details);
       this.#logger = new Logger(this.constructor.name);
       this.#logger.log('Base page constructed', this);
@@ -2133,7 +2133,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/feed/',
-      pageReadyCSS: 'main',
+      pageReadySelector: 'main',
     };
 
     /** Create a Feed instance. */
