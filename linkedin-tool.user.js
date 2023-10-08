@@ -1182,7 +1182,7 @@
      * @property {uidCallback} uidCallback - Callback to generate a uid.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
      * from an element as it becomes current.
-     * @property {boolean} [handleClicks=false] - Whether the scroller should
+     * @property {boolean} [handleClicks=true] - Whether the scroller should
      * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [snapToTop=false] - Whether items should snap to
      * the top of the window when coming into view.
@@ -1215,7 +1215,7 @@
       ({
         uidCallback: this.#uidCallback,
         classes: this.#classes = [],
-        handleClicks: this.#handleClicks = false,
+        handleClicks: this.#handleClicks = true,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
@@ -2144,7 +2144,6 @@
     static _postsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['tom'],
-      handleClicks: true,
       snapToTop: true,
     };
 
@@ -2158,7 +2157,6 @@
     static _commentsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['dick'],
-      handleClicks: true,
       snapToTop: false,
     };
 
@@ -2182,7 +2180,7 @@
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      this.logger.log('old style onclick', evt);
+      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2616,6 +2614,7 @@
       super();
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
         MyNetwork._sectionsHow);
+      this.#sectionScroller.activate();
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
@@ -2623,11 +2622,7 @@
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const selector = 'main > ul > li, main > :where(section, div)';
-      const section = evt.target.closest(selector);
-      if (section && section !== this._sections.item) {
-        this._sections.item = section;
-      }
+      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -2707,6 +2702,7 @@
           {base: this._sections.item, ...MyNetwork.#cardsWhat},
           MyNetwork._cardsHow
         );
+        this.#cardScroller.activate();
         this.#cardScroller.dispatcher.on(
           'out-of-range', this.#returnToSection
         );
@@ -2867,19 +2863,13 @@
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
+      this.#inviteScroller.activate();
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const me = 'onClick';
-      this.logger.entered(me, evt);
-      const invite = evt.target.closest('section > ul > li');
-      this.logger.log('invite:', invite);
-      if (invite && invite !== this._invites.item) {
-        this._invites.item = invite;
-      }
-      this.logger.leaving(me);
+      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -3059,6 +3049,7 @@
       super();
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs._sectionsHow);
+      this.#sectionScroller.activate();
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
@@ -3068,10 +3059,7 @@
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const section = evt.target.closest('section');
-      if (section && section !== this._sections.item) {
-        this._sections.item = section;
-      }
+      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
@@ -3107,6 +3095,7 @@
           {base: this._sections.item, ...Jobs.#jobsWhat},
           Jobs._jobsHow
         );
+        this.#jobScroller.activate();
         this.#jobScroller.dispatcher.on('out-of-range',
           this.#returnToSection);
       }
@@ -3493,9 +3482,11 @@
       super();
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
         JobCollections.#jobsHow);
+      this.#jobScroller.activate();
       this.#jobScroller.dispatcher.on('change', this.#onJobChange);
       this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
         JobCollections.#pagesHow);
+      this.#pageScroller.activate();
       this.#pageScroller.dispatcher.on('change', this.#onPageChange);
       this.#lastScroller = this.#jobScroller;
     }
@@ -3619,16 +3610,14 @@
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications._notificationsHow
       );
+      this.#notificationScroller.activate();
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
     }
 
     /** @inheritdoc */
     _onClick = (evt) => {
-      const notification = evt.target.closest('div.nt-card-list article');
-      if (notification) {
-        this._notifications.item = notification;
-      }
+      this.logger.log('Old style onclick', evt);
     }
 
     /** @inheritdoc */
