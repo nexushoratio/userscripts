@@ -3456,6 +3456,18 @@
       }
     );
 
+    applyToJob = new Shortcut(
+      'A', 'Apply to job (or previous application)', () => {
+        const selectors = [
+        // Apply and Easy Apply buttons
+          'button[aria-label*="Apply to"]',
+          // See application link
+          'a[href^="/jobs/tracker"]',
+        ];
+        clickElement(document, selectors);
+      }
+    );
+
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
       // XXX: There are TWO buttons.  The first one is hidden until the user
       // scrolls down.  This always triggers the first one.
