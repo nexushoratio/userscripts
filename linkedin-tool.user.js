@@ -3449,6 +3449,8 @@
     });
 
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
+      // XXX: There are TWO buttons.  The first one is hidden until the user
+      // scrolls down.  This always triggers the first one.
       clickElement(document, ['button.jobs-save-button']);
     });
 
