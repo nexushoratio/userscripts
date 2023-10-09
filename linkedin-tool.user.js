@@ -2110,12 +2110,35 @@
 
   }
 
+  /** Class for holding keystrokes that simplify debugging. */
+  class DebugKeys {
+
+    clearConsole = new Shortcut('c-c c-c', 'Clear the debug console', () => {
+      Logger.clear();
+    });
+
+  }
+
+  Logger.config('VMKeyboardService: Global').enabled = true;
+
   /**
    * Class for handling aspects common across LinkedIn.
    *
    * This includes things like the global nav bar, information view, etc.
    */
   class Global extends Page {
+
+    #keyboardService
+
+    /** Create a Global instance. */
+    constructor() {
+      super();
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+      if (testing.enabled) {
+        this.#keyboardService.addInstance(new DebugKeys());
+      }
+    }
 
     /**
      * Click on the requested link in the global nav bar.
