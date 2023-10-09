@@ -4165,6 +4165,10 @@
 
     static _errorMarker = '---';
 
+    #details
+    #id
+    #name
+
     /** @type {Set<Page>} - Currently active {Page}s. */
     #activePages = new Set();
 
@@ -4179,11 +4183,11 @@
 
     /** @param {SPADetails} details - Implementation specific details. */
     constructor(details) {
-      this._name = `${this.constructor.name}: ${details.constructor.name}`;
-      this._id = safeId(uuId(this._name));
-      this._log = new Logger(this._name);
-      this._details = details;
-      this._details.init(this);
+      this.#name = `${this.constructor.name}: ${details.constructor.name}`;
+      this.#id = safeId(uuId(this.#name));
+      this._log = new Logger(this.#name);
+      this.#details = details;
+      this.#details.init(this);
       this._installNavStyle();
       this._initializeInfoView();
       for (const issue of details.setupIssues) {
@@ -4196,7 +4200,7 @@
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this._onUrlChange, true);
       this._startUrlMonitor();
-      this._details.done();
+      this.#details.done();
     }
 
     /**
@@ -4239,7 +4243,7 @@
         // The default selector is 'body', so we need to query 'document', not
         // 'document.body'.
         const element = document.querySelector(
-          this._details.urlChangeMonitorSelector
+          this.#details.urlChangeMonitorSelector
         );
         if (element) {
           return {done: true, results: element};
@@ -4321,7 +4325,7 @@
       errors.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n')
           .filter(x => x === SPA._errorMarker).length;
-        this._details.dispatcher.fire('errors', count);
+        this.#details.dispatcher.fire('errors', count);
         this._updateInfoErrorsLabel(count);
       });
     }
@@ -4329,7 +4333,7 @@
     /** Create the CSS styles used for indicating the current items. */
     _installNavStyle() {
       const style = document.createElement('style');
-      style.id = safeId(`${this._id}-nav-style`);
+      style.id = safeId(`${this.#id}-nav-style`);
       const styles = [
         '.tom {' +
           ' border-color: orange !important;' +
@@ -4365,7 +4369,7 @@
     /** Add CSS styling for use with the info view. */
     _addInfoStyle() {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
-      style.id = safeId(`${this._id}-info-style`);
+      style.id = safeId(`${this.#id}-info-style`);
       const styles = [
         `#${this._infoId}:modal {` +
           ' height: 100%;' +
@@ -4448,7 +4452,7 @@
     _addInfoDialog(tabs) {
       const dialog = this._initializeInfoDialog();
 
-      this._info = new TabbedUI(`${this._name} Info`);
+      this._info = new TabbedUI(`${this.#name} Info`);
       for (const tab of tabs) {
         this._info.addTab(tab);
       }
@@ -4550,20 +4554,20 @@
 
     /** Set up everything necessary to get the info view going. */
     _initializeInfoView() {
-      this._infoId = `info-${this._id}`;
-      this._details.infoId = this._infoId;
+      this._infoId = `info-${this.#id}`;
+      this.#details.infoId = this._infoId;
       this._initializeTabUiKeyboard();
 
       const tabGenerators = [
         SPA._shortcutsTab(),
-        this._details.docTab(),
+        this.#details.docTab(),
         SPA._errorTab(),
-        this._details.licenseTab(),
+        this.#details.licenseTab(),
       ];
 
       this._addInfoStyle();
       this._addInfoDialog(tabGenerators);
-      this._details.ui = this._info;
+      this.#details.ui = this._info;
       this._addInfoViewHandlers();
     }
 
