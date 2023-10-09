@@ -3448,6 +3448,10 @@
       ));
     });
 
+    openShareMenu = new Shortcut('s', 'Open share menu', () => {
+      clickElement(document, ['button[aria-label="Share"]']);
+    });
+
     openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
         // XXX: There are TWO buttons.  The *first* one is hidden until the
