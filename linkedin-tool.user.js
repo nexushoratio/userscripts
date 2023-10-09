@@ -3446,6 +3446,10 @@
       clickElement(document, ['button.scaffold-layout__list-jump-button']);
     });
 
+    toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
+      clickElement(document, ['button.jobs-save-button']);
+    });
+
     toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', () => {
       const selector = [
         'button[aria-label^="Dismiss job"]:not([disabled])',
