@@ -3321,7 +3321,7 @@
     static #jobsHow = {
       uidCallback: this._uniqueJobIdentifier,
       classes: ['tom'],
-      snapToTop: true,
+      snapToTop: false,
     };
 
     #pageScroller = null;
