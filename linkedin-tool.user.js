@@ -3448,6 +3448,14 @@
       ));
     });
 
+    openMeatballMenu = new Shortcut(
+      '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
+        // XXX: There are TWO buttons.  The first one is hidden until the user
+        // scrolls down.  This always triggers the first one.
+        clickElement(document, ['.jobs-options button']);
+      }
+    );
+
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
       // XXX: There are TWO buttons.  The first one is hidden until the user
       // scrolls down.  This always triggers the first one.
