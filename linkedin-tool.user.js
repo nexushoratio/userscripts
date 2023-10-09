@@ -3470,6 +3470,13 @@
       clickElement(this._jobs.item, [selector]);
     });
 
+    toggleFollowCompany = new Shortcut(
+      'F', 'Toggle following company', () => {
+      // The button toggles between Follow and Following
+        clickElement(document, ['button[aria-label^="Follow"]']);
+      }
+    );
+
   }
 
   /** Class for handling the Notifications page. */
