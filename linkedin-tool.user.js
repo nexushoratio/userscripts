@@ -3495,6 +3495,13 @@
       }
     );
 
+    toggleAlert = new Shortcut(
+      'L', 'Toggle the job search aLert, if available', () => {
+        clickElement(document,
+          ['main .jobs-search-create-alert__artdeco-toggle']);
+      }
+    );
+
   }
 
   /** Class for handling the Notifications page. */
