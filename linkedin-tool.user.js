@@ -1736,6 +1736,158 @@
   }
 
   /**
+   * @external VMShortcuts
+   * @see {@link https://violentmonkey.github.io/guide/keyboard-shortcuts/}
+   */
+
+  /**
+   * Integrates {@link external:VMShortcuts} with {@link Shortcut}s.
+   *
+   * NB {Shortcut} was designed to work natively with {external:VMShortcuts},
+   * but there should be no known technical reason preventing other
+   * implementations from being used, would have have to write a different
+   * service.
+   *
+   * Instances of classes that have {@link Shortcut} properties on them can be
+   * added and removed to each instance of this service.  The shortcuts will
+   * be enabled and disabled as the service is activated/deactived.  This can
+   * allow each service to have different groups of shortcuts present.
+   *
+   * All Shortcuts can react to VM.shortcut style conditions.  These
+   * conditions are added once during each call to addService(), and default
+   * to '!inputFocus'.
+   *
+   * The built in handler for 'inputFocus' can be enabled by executing:
+   *
+   * @example
+   * VMKeyboardService.start();
+   */
+  class VMKeyboardService extends Service {
+
+    /**
+     * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
+     * an element or info view.
+     */
+    static #navOption = {
+      condition: '!inputFocus',
+      caseSensitive: true,
+    };
+
+    /** @param {string} val - New condition. */
+    static set condition(val) {
+      this.#navOption.condition = val;
+    }
+
+    static #focusOption = {
+      capture: true,
+    };
+
+    #keyboards = new Map();
+
+    static #services = new Set();
+    static #lastFocusedElement = null
+
+    #shortcuts = [];
+
+    /** @inheritdoc */
+    constructor(name) {
+      super(name);
+      VMKeyboardService.#services.add(this);
+    }
+
+    /** @inheritdoc */
+    activate() {
+      for (const keyboard of this.#keyboards.values()) {
+        this.logger.log('would enable keyboard', keyboard);
+        // TODO: keyboard.enable();
+      }
+    }
+
+    /** @inheritdoc */
+    deactivate() {
+      for (const keyboard of this.#keyboards.values()) {
+        this.logger.log('would disable keyboard', keyboard);
+        // TODO: keyboard.disable();
+      }
+    }
+
+    /** Add listener. */
+    static start() {
+      document.addEventListener('focus', this.#onFocus, this.#focusOption);
+    }
+
+    /** Remove listener. */
+    static stop() {
+      document.removeEventListener('focus', this.#onFocus, this.#focusOption);
+    }
+
+    /** @param {*} instance - Object with {Shortcut} properties. */
+    addInstance(instance) {
+      const me = 'addInstance';
+      this.logger.entered(me, instance);
+      if (this.#keyboards.has(instance)) {
+        this.logger.log('Already registered');
+      } else {
+        const keyboard = new VM.shortcut.KeyboardService();
+        for (const prop of Object.values(instance)) {
+          if (prop instanceof Shortcut) {
+            // While we are here, give the function a name.
+            Object.defineProperty(prop, 'name', {value: name});
+            this.#shortcuts.push(prop);
+            keyboard.register(prop.seq, prop, VMKeyboardService.#navOption);
+          }
+        }
+        this.#keyboards.set(instance, keyboard);
+      }
+      this.logger.leaving(me);
+    }
+
+    /** @param {*} instance - Object with {Shortcut} properties. */
+    removeInstance(instance) {
+      const me = 'removeInstance';
+      this.logger.entered(me, instance);
+      if (this.#keyboards.has(instance)) {
+        const keyboard = this.#keyboards.get(instance);
+        keyboard.disable();
+        this.#keyboards.delete(instance);
+      } else {
+        this.logger.log('Was not registered');
+      }
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Handle focus event to determine if shortcuts should be disabled.
+     * @param {Event} evt - Standard 'focus' event.
+     */
+    static #onFocus = (evt) => {
+      if (this.#lastFocusedElement &&
+          evt.target !== this.#lastFocusedElement) {
+        this.#lastFocusedElement = null;
+        this.setKeyboardContext('inputFocus', false);
+      }
+      if (isInput(evt.target)) {
+        this.setKeyboardContext('inputFocus', true);
+        this.#lastFocusedElement = evt.target;
+      }
+    }
+
+    /**
+     * Set the keyboard context to a specific value.
+     * @param {string} context - The name of the context.
+     * @param {object} state - What the value should be.
+     */
+    static setKeyboardContext = (context, state) => {
+      for (const service of this.#services) {
+        for (const keyboard of service.#keyboards) {
+          keyboard.setContext(context, state);
+        }
+      }
+    }
+
+  }
+
+  /**
    * Base class for handling various views of a single-page application.
    *
    * Generally, new classes should subclass this, override a few properties
@@ -3936,6 +4088,8 @@
       this.logger.entered(me);
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
+      VMKeyboardService.condition = '!inputFocus && !inDialog';
+      VMKeyboardService.start();
       this.logger.leaving(me);
     }
 
@@ -4533,6 +4687,7 @@
       // Dialogs do not have a real open event.  We will fake it.
       dialog.addEventListener('open', () => {
         this._setKeyboardContext('inDialog', true);
+        VMKeyboardService.setKeyboardContext('inDialog', true);
         this._tabUiKeyboard.enable();
         for (const {panel} of this._info.tabs.values()) {
           // 0, 0 is good enough
@@ -4541,6 +4696,7 @@
       });
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
+        VMKeyboardService.setKeyboardContext('inDialog', false);
         this._tabUiKeyboard.disable();
       });
     }
