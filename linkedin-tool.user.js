@@ -3465,7 +3465,7 @@
         // XXX: There are TWO apply buttons.  The *second* one is hidden until
         // the user scrolls down.  This always triggers the first one.
         const selectors = [
-        // Apply and Easy Apply buttons
+          // Apply and Easy Apply buttons
           'button[aria-label*="Apply to"]',
           // See application link
           'a[href^="/jobs/tracker"]',
@@ -3490,7 +3490,7 @@
 
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
-      // The button toggles between Follow and Following
+        // The button toggles between Follow and Following
         clickElement(document, ['button[aria-label^="Follow"]']);
       }
     );
