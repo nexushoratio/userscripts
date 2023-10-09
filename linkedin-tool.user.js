@@ -3442,8 +3442,10 @@
       }
     );
 
-    detailsView = new Shortcut('d', 'Jump to details view', () => {
-      clickElement(document, ['button.scaffold-layout__list-jump-button']);
+    detailsPane = new Shortcut('d', 'Jump to details pane', () => {
+      focusOnElement(document.querySelector(
+        'div.jobs-search__job-details--container'
+      ));
     });
 
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
