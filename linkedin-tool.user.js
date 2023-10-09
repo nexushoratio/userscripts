@@ -3450,14 +3450,16 @@
 
     openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
-        // XXX: There are TWO buttons.  The first one is hidden until the user
-        // scrolls down.  This always triggers the first one.
+        // XXX: There are TWO buttons.  The *first* one is hidden until the
+        // user scrolls down.  This always triggers the first one.
         clickElement(document, ['.jobs-options button']);
       }
     );
 
     applyToJob = new Shortcut(
       'A', 'Apply to job (or previous application)', () => {
+        // XXX: There are TWO apply buttons.  The *second* one is hidden until
+        // the user scrolls down.  This always triggers the first one.
         const selectors = [
         // Apply and Easy Apply buttons
           'button[aria-label*="Apply to"]',
@@ -3469,7 +3471,7 @@
     );
 
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
-      // XXX: There are TWO buttons.  The first one is hidden until the user
+      // XXX: There are TWO buttons.  The *first* one is hidden until the user
       // scrolls down.  This always triggers the first one.
       clickElement(document, ['button.jobs-save-button']);
     });
