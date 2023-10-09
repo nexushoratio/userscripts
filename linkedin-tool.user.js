@@ -4215,7 +4215,13 @@
 
     #details
     #id
+    #logger
     #name
+
+    /** @type {Logger} */
+    get logger() {
+      return this.#logger;
+    }
 
     /** @type {Set<Page>} - Currently active {Page}s. */
     #activePages = new Set();
@@ -4233,13 +4239,13 @@
     constructor(details) {
       this.#name = `${this.constructor.name}: ${details.constructor.name}`;
       this.#id = safeId(uuId(this.#name));
-      this._log = new Logger(this.#name);
+      this.#logger = new Logger(this.#name);
       this.#details = details;
       this.#details.init(this);
       this._installNavStyle();
       this._initializeInfoView();
       for (const issue of details.setupIssues) {
-        this._log.log('issue:', issue);
+        this.logger.log('issue:', issue);
         for (const error of issue) {
           this.addError(error);
         }
@@ -4258,7 +4264,7 @@
      * @fires Event#urlchange
      */
     _startUserscriptManagerUrlMonitor() {
-      this._log.log('Using Userscript Manager provided URL monitor.');
+      this.logger.log('Using Userscript Manager provided URL monitor.');
       window.addEventListener('urlchange', (info) => {
         // The info that TM gives is not really an event.  So we turn it into
         // one and throw it again, this time onto `document` where something
@@ -4277,7 +4283,7 @@
      * @fires Event#urlchange
      */
     async _startMutationObserverUrlMonitor() {
-      this._log.log('Using MutationObserver for monitoring URL changes.');
+      this.logger.log('Using MutationObserver for monitoring URL changes.');
 
       const observeOptions = {childList: true, subtree: true};
 
@@ -4307,7 +4313,7 @@
         monitor: monitor,
       };
       const element = await otmot(what, how);
-      this._log.log('element exists:', element);
+      this.logger.log('element exists:', element);
 
       this._oldUrl = new URL(window.location);
       new MutationObserver(() => {
@@ -4728,7 +4734,7 @@
      */
     _updateInfoErrorsLabel(count) {
       const me = 'updateInfoErrorsLabel';
-      this._log.entered(me, count);
+      this.logger.entered(me, count);
       const label = this._info.tabs.get('Errors').label;
       if (count) {
         this._info.goto('Errors');
@@ -4736,7 +4742,7 @@
       } else {
         label.classList.remove('spa-danger');
       }
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -4746,14 +4752,14 @@
      */
     _pageHeader(page) {
       const me = 'pageHeader';
-      this._log.entered(me, page);
+      this.logger.entered(me, page);
       let element = null;
       if (page) {
         const pageId = this._pageInfoId(page);
-        this._log.log('pageId:', pageId);
+        this.logger.log('pageId:', pageId);
         element = document.querySelector(`#${pageId}`);
       }
-      this._log.leaving(me, element);
+      this.logger.leaving(me, element);
       return element;
     }
 
@@ -4763,10 +4769,10 @@
      */
     _shine(page) {
       const me = 'shine';
-      this._log.entered(me, page);
+      this.logger.entered(me, page);
       const element = this._pageHeader(page);
       element?.classList.add('spa-current-page');
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
@@ -4775,10 +4781,10 @@
      */
     _dull(page) {
       const me = 'dull';
-      this._log.entered(me, page);
+      this.logger.entered(me, page);
       const element = this._pageHeader(page);
       element?.classList.remove('spa-current-page');
-      this._log.leaving(me);
+      this.logger.leaving(me);
     }
 
     /**
