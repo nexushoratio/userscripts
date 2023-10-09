@@ -328,6 +328,11 @@
 
     /* eslint-disable no-console */
 
+    /** Clear the console. */
+    static clear() {
+      console.clear();
+    }
+
     /**
      * Introduces a specific group.
      * @param {string} group - Group being created.
