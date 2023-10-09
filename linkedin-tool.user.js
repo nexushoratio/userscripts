@@ -1120,12 +1120,18 @@
    * The dispatcher can be used the handle the following events:
    * - 'out-of-range' - Scrolling went past one end of the collection.
    * - 'change' - The value of item has changed.
+   * - 'activate' - The Scroller was activated.
+   * - 'deactivate' - The Scroller was deactivated.
    * This is NOT an error condition, but rather a design feature.
    */
   class Scroller {
 
     #destroyed = false;
-    #dispatcher = new Dispatcher('change', 'out-of-range');
+
+    #dispatcher = new Dispatcher(
+      'change', 'out-of-range', 'activate', 'deactivate'
+    );
+
     #currentItemId = null;
     #historicalIdToIndex = new Map();
 
@@ -1500,18 +1506,26 @@
       this.#scrollToCurrentItem();
     }
 
-    /** Activate the scroller. */
+    /**
+     * Activate the scroller.
+     * @fires 'out-of-range'
+     */
     activate() {
       if (this.#handleClicks) {
         this.#onClickElement = this.#base;
         this.#onClickElement.addEventListener('click', this.#onClick);
       }
+      this.dispatcher.fire('activate', null);
     }
 
-    /** Deactivate the scroller (but do not destroy it). */
+    /**
+     * Deactivate the scroller (but do not destroy it).
+     * @fires 'out-of-range'
+     */
     deactivate() {
       this.#onClickElement?.removeEventListener('click', this.#onClick);
       this.#onClickElement = null;
+      this.dispatcher.fire('deactivate', null);
     }
 
     /** Mark instance as inactive and do any internal cleanup. */
