@@ -156,8 +156,8 @@
         "exceptAfterSingleLine": true
       }
     ],
-    "max-len": [  // TODO(#148): WIP
-      "off",
+    "max-len": [
+      "error",
       {
         "code": 78,
         "ignorePattern": "eslint-disable-line",
