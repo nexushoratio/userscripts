@@ -2355,7 +2355,7 @@
         this.#commentScroller = new Scroller(
           {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
         );
-        this.#commentScroller.activate();
+        this.addService(ScrollerService, this.#commentScroller);
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
         );
@@ -2726,9 +2726,10 @@
     /** Create a MyNetwork instance. */
     constructor() {
       super(MyNetwork.#details);
+
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
         MyNetwork._sectionsHow);
-      this.#sectionScroller.activate();
+      this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
@@ -2970,10 +2971,11 @@
     /** Create a InvitationManager instance. */
     constructor() {
       super(InvitationManager.#details);
+
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
-      this.#inviteScroller.activate();
+      this.addService(ScrollerService, this.#inviteScroller);
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
@@ -3155,12 +3157,14 @@
     /** Create a Jobs instance. */
     constructor() {
       super(Jobs.#details);
+
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs._sectionsHow);
-      this.#sectionScroller.activate();
+      this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
+
       this.#sectionsMO1 = new MutationObserver(this.#mutationHandler);
       this.#sectionsMO2 = new MutationObserver(this.#mutationHandler);
     }
@@ -3837,10 +3841,11 @@
     /** Create a Notifications instance. */
     constructor() {
       super(Notifications.#details);
+
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications._notificationsHow
       );
-      this.#notificationScroller.activate();
+      this.addService(ScrollerService, this.#notificationScroller);
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
     }
