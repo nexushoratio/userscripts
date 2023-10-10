@@ -3537,6 +3537,7 @@
       uidCallback: this._uniquePageIdentifier,
       classes: ['dick'],
       snapToTop: false,
+      bottomMarginCSS: '3em',
     };
 
     /** @type {Page~PageDetails} */
