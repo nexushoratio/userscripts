@@ -2291,6 +2291,7 @@
     static _commentsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['dick'],
+      autoActivate: true,
       snapToTop: false,
     };
 
@@ -2363,7 +2364,6 @@
         this.#commentScroller = new Scroller(
           {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
         );
-        this.#commentScroller.activate();
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
         );
@@ -2722,6 +2722,7 @@
     static _cardsHow = {
       uidCallback: MyNetwork._uniqueCardsIdentifier,
       classes: ['dick'],
+      autoActivate: true,
       snapToTop: false,
     };
 
@@ -2820,7 +2821,6 @@
           {base: this._sections.item, ...MyNetwork.#cardsWhat},
           MyNetwork._cardsHow
         );
-        this.#cardScroller.activate();
         this.#cardScroller.dispatcher.on(
           'out-of-range', this.#returnToSection
         );
@@ -3154,6 +3154,7 @@
     static _jobsHow = {
       uidCallback: Jobs._uniqueJobIdentifier,
       classes: ['dick'],
+      autoActivate: true,
       snapToTop: false,
     };
 
@@ -3211,7 +3212,6 @@
           {base: this._sections.item, ...Jobs.#jobsWhat},
           Jobs._jobsHow
         );
-        this.#jobScroller.activate();
         this.#jobScroller.dispatcher.on('out-of-range',
           this.#returnToSection);
       }
