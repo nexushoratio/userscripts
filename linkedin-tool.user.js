@@ -3643,7 +3643,7 @@
       ));
     });
 
-    selectItem = new Shortcut('Enter', 'Select current page', () => {
+    selectCurrentPage = new Shortcut('c', 'Select current page', () => {
       clickElement(this._pages.item, ['button']);
     });
 
