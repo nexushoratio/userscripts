@@ -3540,6 +3540,7 @@
     static #jobsWhat = {
       name: 'Jobs',
       base: document.body,
+      // This selector is also used in #onJobActivate.
       selectors: ['div.jobs-search-results-list > ul > li'],
     };
 
@@ -3631,19 +3632,52 @@
       return strHash(content);
     }
 
-    #onJobActivate = () => {
+    #onJobActivate = async () => {
       const me = 'onJobActivate';
       this.logger.entered(me);
 
       const params = new URL(document.location).searchParams;
       const jobId = params.get('currentJobId');
-      this.logger.log('jobId', jobId);
+      this.logger.log('Looking for job card for', jobId);
 
       // Wait some amount of time for a job card to show up, if it ever does.
       // Annoyingly enough, the selection of jobs that shows up on a reload
       // may not include one for the current URL.  Even if the user arrived at
       // the URL moments ago.
-      // TODO(#143): Implement above, likely with otmot()
+
+      /**
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        // This selector must match what is used by the Scroller.
+        const el = document.body.querySelector(
+          `li[data-occludable-job-id="${jobId}"]`
+        );
+        if (el) {
+          return {done: true, results: el};
+        }
+        this.logger.log('not found yet...');
+        return {done: false};
+      };
+
+      const what = {
+        name: 'onJobActivateObserver',
+        base: document.body,
+      };
+
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: 2000,
+      };
+
+      try {
+        const item = await otmot(what, how);
+        this._jobs.gotoUid(JobCollections._uniqueJobIdentifier(item));
+      } catch (e) {
+        this.logger.log('Job card matching URL not found, staying put');
+      }
 
       this.logger.leaving(me);
     }
