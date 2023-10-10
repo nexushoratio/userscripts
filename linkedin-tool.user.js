@@ -3543,23 +3543,23 @@
 
     #lastScroller
 
-    #jobScroller = null;
+    #jobCardScroller = null;
 
     /** @type {Scroller} */
-    get _jobs() {
-      return this.#jobScroller;
+    get _jobCards() {
+      return this.#jobCardScroller;
     }
 
     /** @type {Scroller~What} */
-    static #jobsWhat = {
-      name: 'Jobs',
+    static #jobCardsWhat = {
+      name: 'Job cards',
       base: document.body,
-      // This selector is also used in #onJobActivate.
+      // This selector is also used in #onJobCardActivate.
       selectors: ['div.jobs-search-results-list > ul > li'],
     };
 
     /** @type {Scroller~How} */
-    static #jobsHow = {
+    static #jobCardsHow = {
       uidCallback: this._uniqueJobIdentifier,
       classes: ['tom'],
       snapToTop: false,
@@ -3601,11 +3601,12 @@
     constructor() {
       super(JobCollections.#details);
 
-      this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
-        JobCollections.#jobsHow);
-      this.addService(ScrollerService, this.#jobScroller);
-      this.#jobScroller.dispatcher.on('activate', this.#onJobActivate);
-      this.#jobScroller.dispatcher.on('change', this.#onJobChange);
+      this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
+        JobCollections.#jobCardsHow);
+      this.addService(ScrollerService, this.#jobCardScroller);
+      this.#jobCardScroller.dispatcher.on('activate',
+        this.#onJobCardActivate);
+      this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
 
       this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
         JobCollections.#pagesHow);
@@ -3613,7 +3614,7 @@
       this.#pageScroller.dispatcher.on('activate', this.#onPageActivate);
       this.#pageScroller.dispatcher.on('change', this.#onPageChange);
 
-      this.#lastScroller = this.#jobScroller;
+      this.#lastScroller = this.#jobCardScroller;
     }
 
     /**
@@ -3646,7 +3647,7 @@
       return strHash(content);
     }
 
-    #onJobActivate = async () => {
+    #onJobCardActivate = async () => {
       const me = 'onJobActivate';
       this.logger.entered(me);
 
@@ -3688,7 +3689,7 @@
 
       try {
         const item = await otmot(what, how);
-        this._jobs.gotoUid(JobCollections._uniqueJobIdentifier(item));
+        this._jobCards.gotoUid(JobCollections._uniqueJobIdentifier(item));
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
       }
@@ -3696,11 +3697,11 @@
       this.logger.leaving(me);
     }
 
-    #onJobChange = () => {
-      const me = 'onJobChange';
-      this.logger.entered(me, this._jobs.item);
-      clickElement(this._jobs.item, ['div[data-job-id]']);
-      this.#lastScroller = this._jobs;
+    #onJobCardChange = () => {
+      const me = 'onJobCardChange';
+      this.logger.entered(me, this._jobCards.item);
+      clickElement(this._jobCards.item, ['div[data-job-id]']);
+      this.#lastScroller = this._jobCards;
       this.logger.leaving(me);
     }
 
@@ -3725,12 +3726,12 @@
       this.logger.leaving(me);
     }
 
-    nextJob = new Shortcut('j', 'Next job', () => {
-      this._jobs.next();
+    nextJob = new Shortcut('j', 'Next job card', () => {
+      this._jobCards.next();
     });
 
-    prevJob = new Shortcut('k', 'Previous job', () => {
-      this._jobs.prev();
+    prevJob = new Shortcut('k', 'Previous job card', () => {
+      this._jobCards.prev();
     });
 
     nextPage = new Shortcut('n', 'Next results page', () => {
@@ -3741,12 +3742,14 @@
       this._pages.prev();
     });
 
-    firstItem = new Shortcut('<', 'Go to first job or results page', () => {
-      this.#lastScroller.first();
-    });
+    firstItem = new Shortcut(
+      '<', 'Go to first job card or results page', () => {
+        this.#lastScroller.first();
+      }
+    );
 
     lastItem = new Shortcut(
-      '>', 'Go to last job currently loaded or results page', () => {
+      '>', 'Go to last job card currently loaded or results page', () => {
         this.#lastScroller.last();
       }
     );
@@ -3804,7 +3807,7 @@
         'button[aria-label^="Dismiss job"]:not([disabled])',
         'button[aria-label$=" Undo"]',
       ].join(',');
-      clickElement(this._jobs.item, [selector]);
+      clickElement(this._jobCards.item, [selector]);
     });
 
     toggleFollowCompany = new Shortcut(
