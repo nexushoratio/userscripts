@@ -3577,20 +3577,26 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      pageReadySelector: 'main',
+      // This value is used in #onJobActivate(), so if changed, that will also
+      // need to be updated.
+      pageReadySelector: 'main li.selected',
     };
 
     /** Create a JobCollections instance. */
     constructor() {
       super(JobCollections.#details);
+
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
         JobCollections.#jobsHow);
       this.addService(ScrollerService, this.#jobScroller);
+      this.#jobScroller.dispatcher.on('activate', this.#onJobActivate);
       this.#jobScroller.dispatcher.on('change', this.#onJobChange);
+
       this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
         JobCollections.#pagesHow);
       this.addService(ScrollerService, this.#pageScroller);
       this.#pageScroller.dispatcher.on('change', this.#onPageChange);
+
       this.#lastScroller = this.#jobScroller;
     }
 
@@ -3622,6 +3628,30 @@
         }
       }
       return strHash(content);
+    }
+
+    #onJobActivate = () => {
+      const me = 'onJobActivate';
+      this.logger.entered(me);
+
+      // The following works because pageReadySelector matches the same
+      // elements that the #pageScroller does.
+      const page = document.querySelector(
+        JobCollections.#details.pageReadySelector
+      );
+      this._pages.gotoUid(JobCollections._uniquePageIdentifier(page));
+
+      const params = new URL(document.location).searchParams;
+      const jobId = params.get('currentJobId');
+      this.logger.log('jobId', jobId);
+
+      // Wait some amount of time for a job card to show up, if it ever does.
+      // Annoyingly enough, the selection of jobs that shows up on a reload
+      // may not include one for the current URL.  Even if the user arrived at
+      // the URL moments ago.
+      // TODO(#143): Implement above, likely with otmot()
+
+      this.logger.leaving(me);
     }
 
     #onJobChange = () => {
