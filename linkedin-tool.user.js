@@ -3516,6 +3516,7 @@
       uidCallback: this._uniqueJobIdentifier,
       classes: ['tom'],
       snapToTop: false,
+      bottomMarginCSS: '3em',
     };
 
     #pageScroller = null;
