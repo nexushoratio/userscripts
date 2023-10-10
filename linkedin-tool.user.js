@@ -1250,6 +1250,11 @@
       this.logger.leaving(me);
     }
 
+    /** @type {string} - Current item's uid. */
+    get itemUid() {
+      return this.#currentItemId;
+    }
+
     /** @type {Element} - Represents the current item. */
     get item() {
       const me = 'get item';
@@ -1502,6 +1507,25 @@
      */
     goto(item) {
       this.item = item;
+    }
+
+    /**
+     * Move to a specific item if possible, by uid.
+     * @param {string} uid - The uid of a specific item.
+     * @returns {boolean} - Was able to goto the item.
+     */
+    gotoUid(uid) {
+      const me = 'goto';
+      this.logger.entered(me, uid);
+      const items = this.#getItems();
+      const item = items.find(el => uid === this.#uid(el));
+      let success = false;
+      if (item) {
+        this.item = item;
+        success = true;
+      }
+      this.logger.leaving(me, success, item);
+      return success;
     }
 
     /** Adds the registered CSS classes to the current element. */
