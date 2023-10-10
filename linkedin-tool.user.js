@@ -2355,7 +2355,7 @@
         this.#commentScroller = new Scroller(
           {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
         );
-        this.addService(ScrollerService, this.#commentScroller);
+        this.#commentScroller.activate();
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
         );
@@ -2772,7 +2772,7 @@
         await otmot(what, how);
         this._sections.shine();
         this._sections.show();
-        this.#clearCards();
+        this.#resetCards();
       }
     }
 
@@ -2825,17 +2825,18 @@
       return Boolean(this._cards?.item);
     }
 
-    #clearCards = () => {
+    #resetCards = () => {
       if (this.#cardScroller) {
         this.#cardScroller.destroy();
         this.#cardScroller = null;
       }
+      this._cards;
     }
 
     #onChange = () => {
       this.#currentSectionText = this._sections.item?.innerText
         .trim().split('\n')[0];
-      this.#clearCards();
+      this.#resetCards();
     }
 
     #returnToSection = () => {
@@ -3211,13 +3212,14 @@
     }
 
     /** Reset the jobs scroller. */
-    #clearJobs = () => {
-      const me = 'clearJobs';
+    #resetJobs = () => {
+      const me = 'resetJobs';
       this.logger.entered(me, this.#jobScroller);
       if (this.#jobScroller) {
         this.#jobScroller.destroy();
         this.#jobScroller = null;
       }
+      this._jobs;
       this.logger.leaving(me);
     }
 
@@ -3332,7 +3334,7 @@
       this.logger.entered(me);
       this.#sectionWatchInfo = this.#nodeInfo(this._sections.item);
       this.logger.log('watching for', this.#sectionWatchInfo);
-      this.#clearJobs();
+      this.#resetJobs();
       this.logger.leaving(me);
     }
 
@@ -3348,7 +3350,7 @@
       const savedJob = this._jobs?.item;
       this._sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
-      this.#clearJobs();
+      this.#resetJobs();
       if (savedJob) {
         this._jobs.item = savedJob;
       }
