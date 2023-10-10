@@ -4482,6 +4482,7 @@
     #id
     #logger
     #name
+    #oldUrl
 
     /** @type {Logger} */
     get logger() {
@@ -4517,8 +4518,8 @@
         this.addErrorMarker();
       }
       document.addEventListener('focus', this._onFocus, true);
-      document.addEventListener('urlchange', this._onUrlChange, true);
-      this._startUrlMonitor();
+      document.addEventListener('urlchange', this.#onUrlChange, true);
+      this.#startUrlMonitor();
       this.#details.done();
     }
 
@@ -4528,7 +4529,7 @@
      * the UserScript header.
      * @fires Event#urlchange
      */
-    _startUserscriptManagerUrlMonitor() {
+    #startUserscriptManagerUrlMonitor = () => {
       this.logger.log('Using Userscript Manager provided URL monitor.');
       window.addEventListener('urlchange', (info) => {
         // The info that TM gives is not really an event.  So we turn it into
@@ -4547,7 +4548,7 @@
      * appropriate event.
      * @fires Event#urlchange
      */
-    async _startMutationObserverUrlMonitor() {
+    #startMutationObserverUrlMonitor = async () => {
       this.logger.log('Using MutationObserver for monitoring URL changes.');
 
       const observeOptions = {childList: true, subtree: true};
@@ -4580,23 +4581,23 @@
       const element = await otmot(what, how);
       this.logger.log('element exists:', element);
 
-      this._oldUrl = new URL(window.location);
+      this.#oldUrl = new URL(window.location);
       new MutationObserver(() => {
         const newUrl = new URL(window.location);
-        if (this._oldUrl.href !== newUrl.href) {
+        if (this.#oldUrl.href !== newUrl.href) {
           const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
-          this._oldUrl = newUrl;
+          this.#oldUrl = newUrl;
           document.dispatchEvent(evt);
         }
       }).observe(element, observeOptions);
     }
 
     /** Select which way to monitor the URL for changes and start it. */
-    _startUrlMonitor() {
+    #startUrlMonitor = () => {
       if (window.onurlchange === null) {
-        this._startUserscriptManagerUrlMonitor();
+        this.#startUserscriptManagerUrlMonitor();
       } else {
-        this._startMutationObserverUrlMonitor();
+        this.#startMutationObserverUrlMonitor();
       }
     }
 
@@ -4632,7 +4633,7 @@
      * Handle urlchange events that indicate a switch to a new page.
      * @param {CustomEvent} evt - Custom 'urlchange' event.
      */
-    _onUrlChange = (evt) => {
+    #onUrlChange = (evt) => {
       this.activate(evt.detail.url.pathname);
     }
 
