@@ -1496,6 +1496,14 @@
       this.#jumpToEndItem(false);
     }
 
+    /**
+     * Move to a specific item if possible.
+     * @param {Element} item - Item to go to.
+     */
+    goto(item) {
+      this.item = item;
+    }
+
     /** Adds the registered CSS classes to the current element. */
     shine() {
       this.item?.classList.add(...this.#classes);
