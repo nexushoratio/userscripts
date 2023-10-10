@@ -3631,8 +3631,8 @@
     );
 
     focusBrowser = new Shortcut(
-      'f', 'Move browser focus to current item', () => {
-        focusOnElement(this._jobs.item);
+      'f', 'Move browser focus to most recently selected item', () => {
+        focusOnElement(this.#lastScroller.item);
       }
     );
 
