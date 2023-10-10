@@ -4550,7 +4550,7 @@
     #activePages = new Set();
 
     /** @type {Set<Page>} - Registered {Page}s. */
-    _pages = new Set();
+    #pages = new Set();
 
     /** @type {Element} - The most recent element to receive focus. */
     _lastInputElement = null;
@@ -4664,7 +4664,7 @@
      * @param {object} state - What the value should be.
      */
     _setKeyboardContext(context, state) {
-      const pages = Array.from(this._pages.values());
+      const pages = Array.from(this.#pages.values());
       for (const page of pages) {
         page.keyboard.setContext(context, state);
       }
@@ -5145,7 +5145,7 @@
         const page = new Klass();
         page.start(this);
         this._addInfo(page);
-        this._pages.add(page);
+        this.#pages.add(page);
       } else {
         throw new Error(`${Klass.name} is not a Page`);
       }
@@ -5169,7 +5169,7 @@
      * @returns {Set<Page>} - The pages to use.
      */
     _findPages(pathname) {
-      const pages = Array.from(this._pages.values());
+      const pages = Array.from(this.#pages.values());
       return new Set(pages.filter(page => page.pathname.test(pathname)));
     }
 
