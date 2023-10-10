@@ -3577,8 +3577,8 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      // This value is used in #onJobActivate(), so if changed, that will also
-      // need to be updated.
+      // This value is used in #onPageActivate(), so if changed, that will
+      // also need to be updated.
       pageReadySelector: 'main li.selected',
     };
 
@@ -3595,6 +3595,7 @@
       this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
         JobCollections.#pagesHow);
       this.addService(ScrollerService, this.#pageScroller);
+      this.#pageScroller.dispatcher.on('activate', this.#onPageActivate);
       this.#pageScroller.dispatcher.on('change', this.#onPageChange);
 
       this.#lastScroller = this.#jobScroller;
@@ -3634,13 +3635,6 @@
       const me = 'onJobActivate';
       this.logger.entered(me);
 
-      // The following works because pageReadySelector matches the same
-      // elements that the #pageScroller does.
-      const page = document.querySelector(
-        JobCollections.#details.pageReadySelector
-      );
-      this._pages.gotoUid(JobCollections._uniquePageIdentifier(page));
-
       const params = new URL(document.location).searchParams;
       const jobId = params.get('currentJobId');
       this.logger.log('jobId', jobId);
@@ -3659,6 +3653,20 @@
       this.logger.entered(me, this._jobs.item);
       clickElement(this._jobs.item, ['div[data-job-id]']);
       this.#lastScroller = this._jobs;
+      this.logger.leaving(me);
+    }
+
+    #onPageActivate = () => {
+      const me = 'onPageActivate';
+      this.logger.entered(me);
+
+      // The following works because pageReadySelector matches the same
+      // elements that the #pageScroller does.
+      const page = document.querySelector(
+        JobCollections.#details.pageReadySelector
+      );
+      this._pages.gotoUid(JobCollections._uniquePageIdentifier(page));
+
       this.logger.leaving(me);
     }
 
