@@ -3585,11 +3585,11 @@
       super(JobCollections.#details);
       this.#jobScroller = new Scroller(JobCollections.#jobsWhat,
         JobCollections.#jobsHow);
-      this.#jobScroller.activate();
+      this.addService(ScrollerService, this.#jobScroller);
       this.#jobScroller.dispatcher.on('change', this.#onJobChange);
       this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
         JobCollections.#pagesHow);
-      this.#pageScroller.activate();
+      this.addService(ScrollerService, this.#pageScroller);
       this.#pageScroller.dispatcher.on('change', this.#onPageChange);
       this.#lastScroller = this.#jobScroller;
     }
