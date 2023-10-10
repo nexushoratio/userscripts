@@ -3508,7 +3508,7 @@
     static #jobsWhat = {
       name: 'Jobs',
       base: document.body,
-      selectors: ['div.jobs-search-results-list div[data-job-id]'],
+      selectors: ['div.jobs-search-results-list > ul > li'],
     };
 
     /** @type {Scroller~How} */
@@ -3568,10 +3568,11 @@
      * @returns {string} - A value unique to this element.
      */
     static _uniqueJobIdentifier(element) {
+      let content = '';
       if (element) {
-        return element.dataset.jobId;
+        content = element.dataset.occludableJobId;
       }
-      return null;
+      return strHash(content);
     }
 
     /**
@@ -3594,7 +3595,7 @@
     #onJobChange = () => {
       const me = 'onJobChange';
       this.logger.entered(me, this._jobs.item);
-      this._jobs.item?.click();
+      clickElement(this._jobs.item, ['div[data-job-id]']);
       this.#lastScroller = this._jobs;
       this.logger.leaving(me);
     }
