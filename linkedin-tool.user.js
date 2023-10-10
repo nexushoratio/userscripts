@@ -1140,6 +1140,7 @@
     #currentItemId = null;
     #historicalIdToIndex = new Map();
 
+    #autoActivate
     #base
     #bottomMarginCSS
     #bottomMarginPixels
@@ -1189,6 +1190,8 @@
      * from an element as it becomes current.
      * @property {boolean} [handleClicks=true] - Whether the scroller should
      * watch for clicks and if one is inside an item, select it.
+     * @property {boolean} [autoActivate=false] - Whether to call the activate
+     * method at the end of construction.
      * @property {boolean} [snapToTop=false] - Whether items should snap to
      * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
@@ -1221,6 +1224,7 @@
         uidCallback: this.#uidCallback,
         classes: this.#classes = [],
         handleClicks: this.#handleClicks = true,
+        autoActivate: this.#autoActivate = false,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
@@ -1230,6 +1234,10 @@
 
       this.#logger = new Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
+
+      if (this.#autoActivate) {
+        this.activate();
+      }
     }
 
     /**
