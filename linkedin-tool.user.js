@@ -1884,7 +1884,7 @@
      */
     static setKeyboardContext = (context, state) => {
       for (const service of this.#services) {
-        for (const keyboard of service.#keyboards) {
+        for (const keyboard of service.#keyboards.values()) {
           keyboard.setContext(context, state);
         }
       }
