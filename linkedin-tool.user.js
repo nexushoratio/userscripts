@@ -3529,12 +3529,13 @@
     static #pagesWhat = {
       name: 'Pages',
       base: document.body,
-      selectors: ['div.jobs-search-results-list__pagination button'],
+      selectors: ['div.jobs-search-results-list__pagination li'],
     };
 
     /** @type {Scroller~How} */
     static #pagesHow = {
       uidCallback: this._uniquePageIdentifier,
+      classes: ['dick'],
       snapToTop: false,
     };
 
@@ -3599,7 +3600,6 @@
     #onPageChange = () => {
       const me = 'onPageChange';
       this.logger.entered(me, this._pages.item);
-      this._pages.item?.click();
       this.#lastScroller = this._pages;
       this.logger.leaving(me);
     }
@@ -3640,6 +3640,10 @@
       focusOnElement(document.querySelector(
         'div.jobs-search__job-details--container'
       ));
+    });
+
+    selectItem = new Shortcut('Enter', 'Select current page', () => {
+      clickElement(this._pages.item, ['button']);
     });
 
     openShareMenu = new Shortcut('s', 'Open share menu', () => {
