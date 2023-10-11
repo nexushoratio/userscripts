@@ -455,10 +455,7 @@
   }
 
   const log = new Logger('Default');
-  testing.log = new Logger('Testing');
-
   Logger.config('Default').enabled = true;
-  Logger.config('Testing').enabled = true;
 
   /**
    * Run querySelector to get an element, then click it.
@@ -5336,9 +5333,16 @@
   });
 
   if (testing.enabled) {
+    const me = 'Running tests';
+
+    testing.log = new Logger('Testing');
+    Logger.config('Testing').enabled = true;
+
+    testing.log.starting(me);
     for (const test of testing.funcs) {
       test();
     }
+    testing.log.finished(me);
     testing.log.log('All tests passed.');
   }
 
