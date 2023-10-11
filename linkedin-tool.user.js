@@ -151,6 +151,8 @@
     #farewell
     #func
 
+    static #known = new Map();
+
     static Silenced = new GroupMode('silenced');
     static Opened = new GroupMode('opened', 'Entered', 'Leaving', 'group');
     static Closed = new GroupMode(
@@ -188,11 +190,67 @@
       this.#greeting = greeting;
       this.#farewell = farewell;
       this.#func = func;
+
+      GroupMode.#known.set(name, this);
+    }
+
+    /**
+     * Find GroupMode by name.
+     * @param {string} name - Mode name.
+     * @returns {GroupMode} - Mode, if found.
+     */
+    static byName(name) {
+      return this.#known.get(name);
     }
 
   }
 
   Object.freeze(GroupMode);
+
+  /** Test case. */
+  function testGroupMode() {
+    const tests = new Map();
+
+    tests.set('isFrozen', {test: () => {
+      try {
+        GroupMode.Bob = {};
+      } catch (e) {
+        if (e instanceof TypeError) {
+          return 'cold';
+        }
+      }
+      return 'hot';
+    },
+    expected: 'cold'});
+
+    tests.set('byName', {test: () => {
+      const gm = GroupMode.byName('closed');
+      return gm;
+    },
+    expected: GroupMode.Closed});
+
+    tests.set('byNameBad', {test: () => {
+      const gm = GroupMode.byName('bob');
+      if (!gm) {
+        return 'expected-missing-bob';
+      }
+      return 'confused-bob';
+    },
+    expected: 'expected-missing-bob'});
+
+    for (const [name, {test, expected}] of tests) {
+      const actual = test();
+      const passed = actual === expected;
+      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
+      testing.log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+
+  }
+
+  testing.funcs.push(testGroupMode);
 
   /**
    * Fancy-ish log messages.
