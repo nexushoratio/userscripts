@@ -268,10 +268,37 @@
         return this.#groups;
       }
 
+      /** @returns {object} - Config as a plain object. */
+      toPojo() {
+        const pojo = {
+          enabled: this.enabled,
+          trace: this.trace,
+          groups: {},
+        };
+
+        for (const [k, v] of this.groups) {
+          pojo.groups[k] = v.name;
+        }
+
+        return pojo;
+      }
+
     }
 
     static #loggers = new DefaultMap(Array);
     static #configs = new DefaultMap(() => new Logger.Config());
+
+    /** @returns {object} - Logger.#configs as a plain object. */
+    static toPojo() {
+      const pojo = {
+        type: 'LoggerConfigs',
+        entries: {},
+      };
+      for (const [k, v] of this.#configs.entries()) {
+        pojo.entries[k] = v.toPojo();
+      }
+      return pojo;
+    }
 
     /** @param {string} name - Name for this logger. */
     constructor(name) {
@@ -285,9 +312,9 @@
       return Array.from(this.#loggers.keys());
     }
 
-    /** @type {Map<string,Map>} - Logger configurations. */
+    /** @type {object} - Logger configurations. */
     static get configs() {
-      return new Map(this.#configs);
+      return Logger.toPojo();
     }
 
     /**
@@ -4877,6 +4904,11 @@
         for (const {panel} of this._info.tabs.values()) {
           // 0, 0 is good enough
           panel.scrollTo(0, 0);
+        }
+
+        // TODO(#145): Just here while developing
+        if (testing.enabled) {
+          GM.setValue('Logger', Logger.configs);
         }
       });
       dialog.addEventListener('close', () => {
