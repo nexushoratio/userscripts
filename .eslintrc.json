@@ -77,7 +77,31 @@
       }
     ],
     "no-ternary": "off",
-    "no-underscore-dangle": "off",  // TODO(#141): Incrementally.
+    "no-underscore-dangle": [  // TODO(#141): Periodically review.
+      "error",
+      {
+        "allowAfterThis": true,
+        "allow": [
+          "_cardsHow",
+          "_commentsHow",
+          "_errorMarker",
+          "_errorPlatformInfo",
+          "_errorTab",
+          "_invitesHow",
+          "_jobsHow",
+          "_notificationsHow",
+          "_parseHeader",
+          "_parseSeq2",
+          "_postsHow",
+          "_sectionsHow",
+          "_shortcutsTab",
+          "_uniqueCardsIdentifier",
+          "_uniqueIdentifier",
+          "_uniqueJobIdentifier",
+          "_uniqueResultsPageIdentifier"
+        ]
+      }
+    ],
     "no-unused-expressions": "off",
     "no-warning-comments": [
       "error",

@@ -26,8 +26,6 @@
 
   const NOT_FOUND = -1;
 
-  // TODO(#141): Currently replacing underscores with #private properties.
-
   /**
    * Subclass of {Map} similar to Python's defaultdict.
    *
