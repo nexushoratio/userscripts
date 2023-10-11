@@ -3454,8 +3454,8 @@
       'f', 'Change browser focus to current section or job', () => {
         const el = this._jobs.item ?? this._sections.item;
         this._sections.show();
-      this._jobs?.show();
-      focusOnElement(el);
+        this._jobs?.show();
+        focusOnElement(el);
       }
     );
 
@@ -4236,7 +4236,7 @@
       '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
       '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
       ' transform="rotate(30 0.5 0.5)"/>' +
-  '</mask>' +
+      '</mask>' +
       '</defs>' +
       '<rect x="9.5" y="7" width="5" height="10"' +
       ' transform="rotate(45 12 12)"/>' +
@@ -4787,7 +4787,7 @@
         `#${this._infoId} .left { text-align: left; }`,
         `#${this._infoId} .right { text-align: right; }`,
         `#${this._infoId} .spa-instructions {` +
-           'display: flex;' +
+          ' display: flex;' +
           ' flex-direction: row;' +
           ' padding-bottom: 1ex;' +
           ' border-bottom: 1px solid black;' +
