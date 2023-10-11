@@ -3575,6 +3575,7 @@
     static #resultsPagesWhat = {
       name: 'Results pages',
       base: document.body,
+      // This selector is also used in #onResultsPageActivate.
       selectors: ['div.jobs-search-results-list__pagination li'],
     };
 
@@ -3590,8 +3591,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      // This selector is directly used in #onResultsPageActivate()
-      pageReadySelector: 'main li.selected',
+      pageReadySelector: 'footer.global-footer-compact',
     };
 
     /** Create a JobCollections instance. */
@@ -3672,7 +3672,7 @@
         if (el) {
           return {done: true, results: el};
         }
-        this.logger.log('not found yet...');
+        this.logger.log('No job card found yet...');
         return {done: false};
       };
 
@@ -3705,18 +3705,43 @@
       this.logger.leaving(me);
     }
 
-    #onResultsPageActivate = () => {
+    #onResultsPageActivate = async () => {
       const me = 'onResultsPageActivate';
       this.logger.entered(me);
 
-      // The following works because pageReadySelector matches the same
-      // elements that the #resultsPageScroller does.
-      const resultsPage = document.querySelector(
-        JobCollections.#details.pageReadySelector
-      );
-      this._resultsPages.gotoUid(
-        JobCollections._uniqueResultsPageIdentifier(resultsPage)
-      );
+      /**
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        // This selector must match what is used by the Scroller.
+        const el = document.body.querySelector(
+          'div.jobs-search-results-list__pagination li.selected'
+        );
+        if (el) {
+          return {done: true, results: el};
+        }
+        this.logger.log('No results paginator found yet...');
+        return {done: false};
+      };
+
+      const what = {
+        name: 'onResultsPageActivateObserver',
+        base: document.body,
+      };
+
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: 3000,
+      };
+
+      try {
+        const item = await otmot(what, how);
+        this._resultsPages.goto(item);
+      } catch (e) {
+        this.logger.log('Results paginator not found, staying put');
+      }
 
       this.logger.leaving(me);
     }
