@@ -2181,8 +2181,6 @@
 
   }
 
-  Logger.config('VMKeyboardService: Global').enabled = testing.enabled;
-
   /**
    * Class for handling aspects common across LinkedIn.
    *
@@ -2275,9 +2273,6 @@
     );
 
   }
-
-  Logger.config('Feed').enabled = testing.enabled;
-  Logger.config('DummyService: Feed').enabled = testing.enabled;
 
   /** Class for handling the Posts feed. */
   class Feed extends Page {
@@ -2946,10 +2941,6 @@
     });
 
   }
-
-  // TODO(#157)
-  Logger.config('InvitationManager').enabled = testing.enabled;
-  Logger.config('{Invitation cards}').enabled = testing.enabled;
 
   /** Class for handling the Invitation manager page. */
   class InvitationManager extends Page {
