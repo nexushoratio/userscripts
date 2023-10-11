@@ -3566,23 +3566,23 @@
       bottomMarginCSS: '3em',
     };
 
-    #pageScroller = null;
+    #resultsPageScroller = null;
 
     /** @type {Scroller} */
-    get _pages() {
-      return this.#pageScroller;
+    get _resultsPages() {
+      return this.#resultsPageScroller;
     }
 
     /** @type {Scroller~What} */
-    static #pagesWhat = {
-      name: 'Pages',
+    static #resultsPagesWhat = {
+      name: 'Results pages',
       base: document.body,
       selectors: ['div.jobs-search-results-list__pagination li'],
     };
 
     /** @type {Scroller~How} */
-    static #pagesHow = {
-      uidCallback: this._uniquePageIdentifier,
+    static #resultsPagesHow = {
+      uidCallback: this._uniqueResultsPageIdentifier,
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -3592,8 +3592,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      // This value is used in #onPageActivate(), so if changed, that will
-      // also need to be updated.
+      // This selector is directly used in #onResultsPageActivate()
       pageReadySelector: 'main li.selected',
     };
 
@@ -3608,11 +3607,14 @@
         this.#onJobCardActivate);
       this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
 
-      this.#pageScroller = new Scroller(JobCollections.#pagesWhat,
-        JobCollections.#pagesHow);
-      this.addService(ScrollerService, this.#pageScroller);
-      this.#pageScroller.dispatcher.on('activate', this.#onPageActivate);
-      this.#pageScroller.dispatcher.on('change', this.#onPageChange);
+      this.#resultsPageScroller = new Scroller(
+        JobCollections.#resultsPagesWhat, JobCollections.#resultsPagesHow
+      );
+      this.addService(ScrollerService, this.#resultsPageScroller);
+      this.#resultsPageScroller.dispatcher.on('activate',
+        this.#onResultsPageActivate);
+      this.#resultsPageScroller.dispatcher.on('change',
+        this.#onResultsPageChange);
 
       this.#lastScroller = this.#jobCardScroller;
     }
@@ -3635,7 +3637,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniquePageIdentifier(element) {
+    static _uniqueResultsPageIdentifier(element) {
       let content = '';
       if (element) {
         content = element.innerText;
@@ -3705,24 +3707,26 @@
       this.logger.leaving(me);
     }
 
-    #onPageActivate = () => {
-      const me = 'onPageActivate';
+    #onResultsPageActivate = () => {
+      const me = 'onResultsPageActivate';
       this.logger.entered(me);
 
       // The following works because pageReadySelector matches the same
-      // elements that the #pageScroller does.
-      const page = document.querySelector(
+      // elements that the #resultsPageScroller does.
+      const resultsPage = document.querySelector(
         JobCollections.#details.pageReadySelector
       );
-      this._pages.gotoUid(JobCollections._uniquePageIdentifier(page));
+      this._resultsPages.gotoUid(
+        JobCollections._uniqueResultsPageIdentifier(resultsPage)
+      );
 
       this.logger.leaving(me);
     }
 
-    #onPageChange = () => {
-      const me = 'onPageChange';
-      this.logger.entered(me, this._pages.item);
-      this.#lastScroller = this._pages;
+    #onResultsPageChange = () => {
+      const me = 'onResultsPageChange';
+      this.logger.entered(me, this._resultsPages.item);
+      this.#lastScroller = this._resultsPages;
       this.logger.leaving(me);
     }
 
@@ -3734,22 +3738,20 @@
       this._jobCards.prev();
     });
 
-    nextPage = new Shortcut('n', 'Next results page', () => {
-      this._pages.next();
+    nextResultsPage = new Shortcut('n', 'Next results page', () => {
+      this._resultsPages.next();
     });
 
-    prevPage = new Shortcut('p', 'Previous results page', () => {
-      this._pages.prev();
+    prevResultsPage = new Shortcut('p', 'Previous results page', () => {
+      this._resultsPages.prev();
     });
 
-    firstItem = new Shortcut(
-      '<', 'Go to first job card or results page', () => {
-        this.#lastScroller.first();
-      }
-    );
+    firstItem = new Shortcut('<', 'Go to first job or results page', () => {
+      this.#lastScroller.first();
+    });
 
     lastItem = new Shortcut(
-      '>', 'Go to last job card currently loaded or results page', () => {
+      '>', 'Go to last job currently loaded or results page', () => {
         this.#lastScroller.last();
       }
     );
@@ -3766,9 +3768,11 @@
       ));
     });
 
-    selectCurrentPage = new Shortcut('c', 'Select current page', () => {
-      clickElement(this._pages.item, ['button']);
-    });
+    selectCurrentResultsPage = new Shortcut(
+      'c', 'Select current results page', () => {
+        clickElement(this._resultsPages.item, ['button']);
+      }
+    );
 
     openShareMenu = new Shortcut('s', 'Open share menu', () => {
       clickElement(document, ['button[aria-label="Share"]']);
