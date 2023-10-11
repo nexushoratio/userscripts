@@ -1357,10 +1357,10 @@
       this.logger.entered(me, element);
       let uid = null;
       if (element) {
-        if (!element.dataset.spaId) {
-          element.dataset.spaId = this.#uidCallback(element);
+        if (!element.dataset.scrollerId) {
+          element.dataset.scrollerId = this.#uidCallback(element);
         }
-        uid = element.dataset.spaId;
+        uid = element.dataset.scrollerId;
       }
       this.logger.leaving(me, uid);
       return uid;
