@@ -4472,7 +4472,7 @@
         '      <span class="notification-badge__count"></span>' +
         '    </div>' +
         `    <div>${LinkedIn.#icon}</div>` +
-        '    <span class="lit-news_">TBD</span>' +
+        '    <span class="lit-news-badge">TBD</span>' +
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
