@@ -2157,7 +2157,7 @@
 
   }
 
-  Logger.config('VMKeyboardService: Global').enabled = true;
+  Logger.config('VMKeyboardService: Global').enabled = testing.enabled;
 
   /**
    * Class for handling aspects common across LinkedIn.
