@@ -1866,6 +1866,38 @@
 
   }
 
+  /**
+   * A widget that can be opened and closed on demand, designed for fairly
+   * persistent information.
+   *
+   * Currently built on the dialog element, the content become part of the
+   * DOM.
+   */
+  class InfoWidget {
+
+    #dialog
+    #id
+    #logger
+    #name
+
+    /** @param {string} name - Name for this view. */
+    constructor(name) {
+      this.#name = `${this.constructor.name} ${name}`;
+      this.#id = uuId(this.#name);
+      this.#logger = new Logger(this.constructor.name);
+      this.#dialog = document.createElement('dialog');
+      this.#dialog.id = safeId(this.#id);
+      document.body.prepend(this.#dialog);
+      this.logger.log('Constructed.', this);
+    }
+
+    /** @type {Logger} */
+    get logger() {
+      return this.#logger;
+    }
+
+  }
+
   const linkedInGlobals = new LinkedInGlobals();
 
   /**
@@ -4332,6 +4364,7 @@
 
     #globals
     #infoId
+    #infoWidget
     #licenseData
     #licenseLoaded
     #navbar
@@ -4486,6 +4519,7 @@
       const me = 'finishConstruction';
       this.logger.entered(me);
 
+      this.#createInfoWidget();
       this.#addLitStyle();
       this.#addToolMenuItem();
       this.#setNavBarInfo();
@@ -4523,6 +4557,12 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    #createInfoWidget = () => {
+      this.#infoWidget = new InfoWidget('LinkedIn Tool');
+      // TODO(#130): Once there is a little bit of information in the widget,
+      // make the button handler toggle which one it shows.
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
@@ -4576,6 +4616,7 @@
       }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
+        // TODO(#130): Make this toggle which item it opens
         const info = document.querySelector(`#${this.infoId}`);
         info.showModal();
         info.dispatchEvent(new Event('open'));
