@@ -16,7 +16,7 @@
 /* global VM */
 
 // eslint-disable-next-line max-lines-per-function
-(() => {
+(async () => {
   'use strict';
 
   const testing = {
@@ -638,8 +638,14 @@
 
   testing.funcs.push(testLogger);
 
+  // TODO(#145): The if test is just here while developing.
+  if (testing.enabled) {
+    Logger.configs = await GM.getValue('Logger');
+  } else {
+    Logger.config('Default').enabled = true;
+  }
+
   const log = new Logger('Default');
-  Logger.config('Default').enabled = true;
 
   /**
    * Run querySelector to get an element, then click it.
@@ -5510,9 +5516,8 @@
   if (testing.enabled) {
     const me = 'Running tests';
 
+    // eslint-disable-next-line require-atomic-updates
     testing.log = new Logger('Testing');
-    Logger.config('Testing').enabled = true;
-
     testing.log.entered(me);
     for (const test of testing.funcs) {
       testing.log.starting(test.name);
