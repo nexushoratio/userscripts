@@ -5422,11 +5422,13 @@
     testing.log = new Logger('Testing');
     Logger.config('Testing').enabled = true;
 
-    testing.log.starting(me);
+    testing.log.entered(me);
     for (const test of testing.funcs) {
+      testing.log.starting(test.name);
       test();
+      testing.log.finished(test.name);
     }
-    testing.log.finished(me);
+    testing.log.leaving(me);
     testing.log.log('All tests passed.');
   }
 
