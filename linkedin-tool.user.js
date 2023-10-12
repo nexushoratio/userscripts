@@ -2524,6 +2524,7 @@
 
     #postScroller = null;
     #commentScroller = null;
+    #lastScroller
 
     #dummy
 
@@ -2565,12 +2566,15 @@
     constructor() {
       super(Feed.#details);
       this.#dummy = this.addService(DummyService);
+
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
       this.addService(ScrollerService, this.#postScroller);
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
       this.#postScroller.dispatcher.on('change', this.#onPostChange);
+
+      this.#lastScroller = this.#postScroller;
     }
 
     /** @inheritdoc */
@@ -2620,6 +2624,7 @@
     get _comments() {
       const me = 'get comments';
       this.logger.entered(me, this.#commentScroller, this._posts.item);
+
       if (!this.#commentScroller && this._posts.item) {
         this.#commentScroller = new Scroller(
           {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
@@ -2627,7 +2632,9 @@
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
         );
+        this.#commentScroller.dispatcher.on('change', this.#onCommentChange);
       }
+
       this.logger.leaving(me, this.#commentScroller);
       return this.#commentScroller;
     }
@@ -2639,11 +2646,6 @@
         this.#commentScroller = null;
       }
       this._comments;
-    }
-
-    /** @type {boolean} */
-    get _hasActiveComment() {
-      return Boolean(this._comments?.item);
     }
 
     /**
@@ -2658,6 +2660,10 @@
       return null;
     }
 
+    #onCommentChange = () => {
+      this.#lastScroller = this._comments;
+    }
+
     /**
      * Reselects current post, triggering same actions as initial selection.
      */
@@ -2670,6 +2676,7 @@
       const me = 'onPostChange';
       this.logger.entered(me, this._posts.item);
       this.#resetComments();
+      this.#lastScroller = this._posts;
       this.logger.leaving(me);
     }
 
@@ -2690,26 +2697,18 @@
     });
 
     _firstItem = new Shortcut('<', 'Go to first post or comment', () => {
-      if (this._hasActiveComment) {
-        this._comments.first();
-      } else {
-        this._posts.first();
-      }
+      this.#lastScroller.first();
     });
 
     _lastItem = new Shortcut(
       '>', 'Go to last post or comment currently loaded', () => {
-        if (this._hasActiveComment) {
-          this._comments.last();
-        } else {
-          this._posts.last();
-        }
+        this.#lastScroller.last();
       }
     );
 
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
-        const el = this._comments.item ?? this._posts.item;
+        const el = this.#lastScroller.item;
         this._posts.show();
         this._comments?.show();
         focusOnElement(el);
@@ -2724,7 +2723,7 @@
 
     _seeMore = new Shortcut(
       'm', 'Show more of current post or comment', () => {
-        const el = this._comments.item ?? this._posts.item;
+        const el = this.#lastScroller.item;
         clickElement(el, ['button[aria-label^="see more"]']);
       }
     );
@@ -2794,7 +2793,7 @@
 
     _viewReactions = new Shortcut(
       'v r', 'View reactions on current post or comment', () => {
-        const el = this._comments.item ?? this._posts.item;
+        const el = this.#lastScroller.item;
         const selector = [
           // Button on a comment
           'button.comments-comment-social-bar__reactions-count',
@@ -2822,7 +2821,7 @@
         // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
         // `:has()` pseudo-selector, we can probably use that and use
         // `clickElement()`.
-        const el = this._comments.item ?? this._posts.item;
+        const el = this.#lastScroller.item;
         const selector = [
           // Comment variant
           '[aria-label^="Open options"]',
@@ -2837,19 +2836,18 @@
     );
 
     _likeItem = new Shortcut('L', 'Like current post or comment', () => {
-      const el = this._comments.item ?? this._posts.item;
+      const el = this.#lastScroller.item;
       clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     });
 
     _commentOnItem = new Shortcut(
       'C', 'Comment on current post or comment', () => {
-        if (this._hasActiveComment) {
-          // Yes, Reply, because we are replying to an existing comment.
-          clickElement(this._comments.item, ['button[aria-label^="Reply"]']);
-        } else {
-          // Yes, Comment, because we are creating a new comment on the post.
-          clickElement(this._posts.item, ['button[aria-label^="Comment"]']);
-        }
+        // Order of the queries matters here.  If a post has visible comments,
+        // the wrong button could be selected.
+        clickElement(this.#lastScroller.item, [
+          'button[aria-label^="Comment"]',
+          'button[aria-label^="Reply"]',
+        ]);
       }
     );
 
