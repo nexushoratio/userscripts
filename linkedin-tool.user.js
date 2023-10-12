@@ -388,6 +388,11 @@
       }
     }
 
+    /** Reset all configs to an empty state. */
+    static resetConfigs() {
+      this.#configs.clear();
+    }
+
     /** @param {string} name - Name for this logger. */
     constructor(name) {
       this.#name = name;
@@ -546,6 +551,92 @@
     }
 
   }
+
+  /* eslint-disable max-lines-per-function */
+  /** Test case. */
+  function testLogger() {
+    const tests = new Map();
+
+    tests.set('testReset', {test: () => {
+      Logger.config('UncleBob').enabled = true;
+      Logger.resetConfigs();
+      return JSON.stringify(Logger.configs.entries);
+    },
+    expected: '{}'});
+
+    tests.set('defaultDisabled', {test: () => {
+      const config = Logger.config('Bob');
+      return config.enabled;
+    },
+    expected: false});
+
+    tests.set('defaultNoStackTraces', {test: () => {
+      const config = Logger.config('Bob');
+      return config.trace;
+    },
+    expected: false});
+
+    tests.set('defaultNoGroups', {test: () => {
+      const config = Logger.config('Bob');
+      return config.groups.size;
+    },
+    expected: 0});
+
+    tests.set('openedGroup', {test: () => {
+      const logger = new Logger('Bob');
+      logger.entered('ent');
+      return Logger.config('Bob').groups.get('ent').name;
+    },
+    expected: 'opened'});
+
+    tests.set('closedGroup', {test: () => {
+      const logger = new Logger('Bob');
+      logger.starting('start');
+      return Logger.config('Bob').groups.get('start').name;
+    },
+    expected: 'closed'});
+
+    tests.set('mismatchedGroup', {test: () => {
+      // This test requires manual verification that an error message was
+      // logged:
+      // Bob: Group mismatch!  Passed "two", expected to see "one"
+      const logger = new Logger('Bob');
+      logger.entered('one');
+      logger.leaving('two');
+      return 'x';
+    },
+    expected: 'x'});
+
+    tests.set('restoreConfigs', {test: () => {
+      const results = [];
+      Logger.config('Bob').trace = true;
+      results.push(Logger.config('Bob').trace);
+      const oldConfig = Logger.configs;
+      Logger.resetConfigs();
+      results.push(Logger.config('Bob').trace);
+      Logger.configs = oldConfig;
+      results.push(Logger.config('Bob').trace);
+      return JSON.stringify(results);
+    },
+    expected: '[true,false,true]'});
+
+    const savedConfigs = Logger.configs;
+    for (const [name, {test, expected}] of tests) {
+      Logger.resetConfigs();
+      const actual = test();
+      const passed = actual === expected;
+      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
+      testing.log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+    Logger.configs = savedConfigs;
+
+  }
+  /* eslint-enable */
+
+  testing.funcs.push(testLogger);
 
   const log = new Logger('Default');
   Logger.config('Default').enabled = true;
