@@ -1359,6 +1359,7 @@
     #classes
     #handleClicks
     #logger
+    #mutationObserver
     #name
     #onClickElement
     #selectors
@@ -1444,6 +1445,8 @@
         bottomMarginCSS: this.#bottomMarginCSS = '0',
       } = how);
 
+      this.#mutationObserver = new MutationObserver(this.#mutationHandler);
+
       this.#logger = new Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
 
@@ -1465,6 +1468,22 @@
           if (item !== this.item) {
             this.item = item;
           }
+        }
+      }
+      this.logger.leaving(me);
+    }
+
+    /** @param {MutationRecord[]} records - Standard mutation records. */
+    #mutationHandler = (records) => {
+      const me = 'mutationHandler';
+      this.logger.entered(
+        me, `records: ${records.length} type: ${records[0].type}`
+      );
+      for (const record of records) {
+        if (record.type === 'childList') {
+          this.logger.log('childList record');
+        } else if (record.type === 'attributes') {
+          this.logger.log('attribute records');
         }
       }
       this.logger.leaving(me);
@@ -1772,6 +1791,7 @@
         this.#onClickElement = this.#base;
         this.#onClickElement.addEventListener('click', this.#onClick);
       }
+      this.#mutationObserver.observe(this.#base, {childList: true});
       this.dispatcher.fire('activate', null);
     }
 
@@ -1780,6 +1800,7 @@
      * @fires 'out-of-range'
      */
     deactivate() {
+      this.#mutationObserver.disconnect();
       this.#onClickElement?.removeEventListener('click', this.#onClick);
       this.#onClickElement = null;
       this.dispatcher.fire('deactivate', null);
