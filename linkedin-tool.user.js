@@ -341,6 +341,24 @@
         return pojo;
       }
 
+      /** @param {object} pojo - Config as a plain object. */
+      fromPojo(pojo) {
+        if (Object.hasOwn(pojo, 'enabled')) {
+          this.enabled = pojo.enabled;
+        }
+        if (Object.hasOwn(pojo, 'trace')) {
+          this.trace = pojo.trace;
+        }
+        if (Object.hasOwn(pojo, 'groups')) {
+          for (const [k, v] of Object.entries(pojo.groups)) {
+            const gm = GroupMode.byName(v);
+            if (gm) {
+              this.groupMode(k, gm);
+            }
+          }
+        }
+      }
+
     }
 
     static #loggers = new DefaultMap(Array);
@@ -358,6 +376,18 @@
       return pojo;
     }
 
+    /**
+     * Set Logger configs from a plain object.
+     * @param {object} pojo - Created from {Logger.toPojo}.
+     */
+    static fromPojo(pojo) {
+      if (pojo && pojo.type === 'LoggerConfigs') {
+        for (const [k, v] of Object.entries(pojo.entries)) {
+          this.#configs.get(k).fromPojo(v);
+        }
+      }
+    }
+
     /** @param {string} name - Name for this logger. */
     constructor(name) {
       this.#name = name;
@@ -373,6 +403,11 @@
     /** @type {object} - Logger configurations. */
     static get configs() {
       return Logger.toPojo();
+    }
+
+    /** @param {object} val - Logger configurations. */
+    static set configs(val) {
+      Logger.fromPojo(val);
     }
 
     /**
