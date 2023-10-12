@@ -762,31 +762,40 @@
         monitor,
         timeout = 0,
       } = how;
+
       const logger = new Logger(`otmot ${name}`);
       let timeoutID = null;
-      const observer = new MutationObserver((records) => {
+      let observer = null;
+
+      /** @param {MutationRecord[]} records - Standard mutation records. */
+      const moCallback = (records) => {
         const {done, results} = monitor(records);
         logger.log('monitor:', done, results);
         if (done) {
           observer.disconnect();
           clearTimeout(timeoutID);
-          logger.log('resolving', results);
+          logger.log('resolving');
           resolve(results);
-          logger.log('resolved');
         }
-      });
+      };
+
+      /** Standard setTimeout callback. */
+      const toCallback = () => {
+        observer.disconnect();
+        logger.log('rejecting after timeout');
+        reject(new Error(`otmot ${name} timed out`));
+      };
+
+      observer = new MutationObserver(moCallback);
       if (timeout) {
-        timeoutID = setTimeout(() => {
-          observer.disconnect();
-          logger.log('rejecting after timeout');
-          reject(new Error(`otmot ${name} timed out`));
-        }, timeout);
+        timeoutID = setTimeout(toCallback, timeout);
       }
+
       observer.observe(base, observeOptions);
-      logger.log('Calling trigger');
       trigger();
-      logger.log('Trigger called');
+      logger.log('running');
     });
+
     return prom;
   }
 
@@ -820,43 +829,56 @@
         trigger = () => {},  // eslint-disable-line no-empty-function
         timeout,
       } = how;
-      let timeoutID = null;
-      const logger = new Logger(`otrot ${name}`);
       const {
         clientHeight: initialHeight,
         clientWidth: initialWidth,
       } = base;
+
+      const logger = new Logger(`otrot ${name}`);
+      let timeoutID = null;
+      let observer = null;
       logger.log('initial dimensions:', initialWidth, initialHeight);
-      const observer = new ResizeObserver(() => {
-        logger.log(
-          'observed dimensions:', base.clientWidth, base.clientHeight
-        );
-        if (base.clientHeight !== initialHeight ||
-            base.clientWidth !== initialWidth) {
+
+      /** Standard ResizeObserver callback. */
+      const roCallback = () => {
+        const {clientHeight, clientWidth} = base;
+        logger.log('observed dimensions:', clientWidth, clientHeight);
+        if (clientHeight !== initialHeight || clientWidth !== initialWidth) {
           observer.disconnect();
           clearTimeout(timeoutID);
-          logger.log('resolving', what);
+          logger.log('resolving');
           resolve(what);
-          logger.log('resolved');
         }
-      });
-      timeoutID = setTimeout(() => {
+      };
+
+      /** Standard setTimeout callback. */
+      const toCallback = () => {
         observer.disconnect();
+        logger.log('rejecting after timeout');
         reject(new Error(`otrot ${name} timed out`));
-      }, timeout);
+      };
+
+      observer = new ResizeObserver(roCallback);
+      timeoutID = setTimeout(toCallback, timeout);
+
       observer.observe(base);
-      logger.log('Calling trigger');
       trigger();
-      logger.log('Trigger called');
+      logger.log('running');
     });
+
     return prom;
   }
+
+  /**
+   * @callback ResizeAction
+   * @param {ResizeObserverEntry[]} entries - Standard resize entries.
+   */
 
   /**
    * @typedef {object} Otrot2How
    * @property {SimpleFunction} [trigger] - Function to call that triggers
    * observable events.
-   * @property {SimpleFunction} action - Function to call upon each event
+   * @property {ResizeAction} action - Function to call upon each event
    * observed and also at the end of duration.
    * @property {number} duration - Time to run in milliseconds.
    */
@@ -879,17 +901,32 @@
         action,
         duration,
       } = how;
-      const observer = new ResizeObserver(() => {
-        action();
-      });
-      setTimeout(() => {
+
+      const logger = new Logger(`otrot2 ${name}`);
+      let observer = null;
+
+      /** @param {ResizeObserverEntry[]} entries - Standard entries. */
+      const roCallback = (entries) => {
+        logger.log('calling action');
+        action(entries);
+      };
+
+      /** Standard setTimeout callback. */
+      const toCallback = () => {
         observer.disconnect();
-        action();
+        action([]);
+        logger.log('resolving');
         resolve(`otrot2 ${name} finished`);
-      }, duration);
+      };
+
+      observer = new ResizeObserver(roCallback);
+      setTimeout(toCallback, duration);
+
       observer.observe(base);
       trigger();
+      logger.log('running');
     });
+
     return prom;
   }
 
