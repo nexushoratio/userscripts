@@ -3322,10 +3322,6 @@
     #sectionScroller = null;
     #jobScroller = null;
 
-    #sectionsMO1
-    #sectionsMO2
-    #sectionWatchInfo
-
     /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: 'Jobs sections',
@@ -3377,28 +3373,11 @@
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onChange);
-
-      this.#sectionsMO1 = new MutationObserver(this.#mutationHandler);
-      this.#sectionsMO2 = new MutationObserver(this.#mutationHandler);
     }
 
     /** @inheritdoc */
     _refresh() {
       this._sections.show();
-      // The div does get recreated, so setting the observers again is
-      // appropriate.
-      const el = document
-        .querySelector('div.scaffold-finite-scroll__content');
-      this.#sectionsMO1.observe(el, {childList: true});
-      this.#sectionsMO2.observe(
-        el,
-        {
-          attributes: true,
-          attributeOldValue: true,
-          attributeFilter: ['class'],
-          subtree: true,
-        }
-      );
     }
 
     /** @type {Scroller} */
@@ -3489,46 +3468,6 @@
     }
 
     /**
-     * @typedef {object} NodeInfo
-     * @property {string} tag - The tagName of the node.
-     * @property {string} text - Identifying text of the node.
-     */
-
-    /**
-     * Compute consistent information about a node (really an HTMLElement, but
-     * node is shorter to type).
-     *
-     * This implementation, which uses the first line of the innerText, is a
-     * bit of a hack.  Do not use this a positive example.
-     *
-     * @param {Element} node - Node to examine.
-     * @returns {NodeInfo} - Information about the node.
-     */
-    #nodeInfo = (node) => {
-      const me = 'nodeInfo';
-      this.logger.entered(me, node);
-      const info = {
-        tag: node?.tagName,
-        text: node?.innerText?.trim().split('\n')[0],
-      };
-      this.logger.leaving(me, info);
-      return info;
-    }
-
-    /**
-     * @param {NodeInfo} left - First item.
-     * @param {NodeInfo} right - Second item.
-     * @returns {boolean} - Equality of the two items.
-     */
-    #eqNodeInfo = (left, right) => {
-      const me = 'eqNodeInfo';
-      this.logger.entered(me, left, right);
-      const res = left?.tag === right?.tag && left?.text === right?.text;
-      this.logger.leaving(me, res);
-      return res;
-    }
-
-    /**
      * Reselects current section, triggering same actions as initial
      * selection.
      */
@@ -3543,8 +3482,6 @@
     #onChange = () => {
       const me = 'onChange';
       this.logger.entered(me);
-      this.#sectionWatchInfo = this.#nodeInfo(this._sections.item);
-      this.logger.log('watching for', this.#sectionWatchInfo);
       this.#resetJobs();
       this.logger.leaving(me);
     }
@@ -3566,56 +3503,6 @@
         this._jobs.item = savedJob;
       }
       document.documentElement.scrollTop = topScroll;
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Overly complicated.  The job sections get recreated in toto every time
-     * new sections are loaded, whether manually or automatically triggered
-     * while scrolling.  When this happens, we lose track of it.  So we track
-     * the likely text from the current section, and if we see that show up
-     * again, we put the shine back on.  We could simplify {@link
-     * _loadMoreSections} by calling {@link show} here as well, but if the
-     * user is scrolling for a reason, it seems rude to pop them back to the
-     * section again.
-     * @param {MutationRecord[]} records - Standard mutation records.
-     */
-    #mutationHandler = (records) => {
-      const me = 'mutationHandler';
-      this.logger.entered(
-        me,
-        `records: ${records.length} type: ${records[0].type} watch-info`,
-        this.#sectionWatchInfo
-      );
-      for (const record of records) {
-        if (record.type === 'childList') {
-          for (const node of record.addedNodes) {
-            const newInfo = this.#nodeInfo(node);
-            if (newInfo.text &&
-                this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
-              this.logger.log('via childList node', node);
-              this.#resetScroll(document.documentElement.scrollTop);
-            }
-          }
-        } else if (record.type === 'attributes') {
-          const newInfo = this.#nodeInfo(record.target);
-          if (newInfo.text &&
-              this.#eqNodeInfo(newInfo, this.#sectionWatchInfo)) {
-            const attr = record.attributeName;
-            const {oldValue} = record;
-            const newValue = record.target.attributes[attr].value;
-            const same = oldValue === newValue;
-            if (!same) {
-              this.logger.log(
-                'via attributes',
-                record.target,
-                `\nold: ${oldValue}\nnew:${newValue}`
-              );
-              this.#resetScroll(document.documentElement.scrollTop);
-            }
-          }
-        }
-      }
       this.logger.leaving(me);
     }
 
