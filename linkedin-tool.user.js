@@ -4605,6 +4605,19 @@
 
     #createInfoWidget = () => {
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
+      const name = document.createElement('div');
+      name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
+        `v${GM.info.script.version}`;
+      const instructions = document.createElement('div');
+      instructions.classList.add('spa-instructions');
+      const left = SPA._parseSeq2('c-left');  // eslint-disable-line no-use-before-define
+      const right = SPA._parseSeq2('c-right');  // eslint-disable-line no-use-before-define
+      const esc = SPA._parseSeq2('esc');  // eslint-disable-line no-use-before-define
+      instructions.innerHTML =
+        `<span class="left">Use the ${left} and ${right} keys or ` +
+        'click to select tab</span>' +
+        `<span class="right">Hit ${esc} to close</span>`;
+      this.#infoWidget.element.append(name, instructions);
       // TODO(#130): Once there is a little bit of information in the widget,
       // make the button handler toggle which one it shows.
     }
