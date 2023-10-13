@@ -1937,6 +1937,11 @@
       return this.#logger;
     }
 
+    /** @type {Element} */
+    get element() {
+      return this.#dialog;
+    }
+
   }
 
   const linkedInGlobals = new LinkedInGlobals();
