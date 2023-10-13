@@ -10,21 +10,17 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1263857
 // @grant       window.onurlchange
 // ==/UserScript==
 
-/* global VM */
+/* global VM, NexusHoratio */
 
 // eslint-disable-next-line max-lines-per-function
 (async () => {
   'use strict';
 
-  const testing = {
-    enabled: false,
-    funcs: [],
-  };
-
-  const NOT_FOUND = -1;
+  const NH = NexusHoratio;
 
   /**
    * Subclass of {Map} similar to Python's defaultdict.
@@ -132,7 +128,7 @@
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      testing.log.log(msg);
+      NH.base.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -141,7 +137,7 @@
   }
   /* eslint-enable */
 
-  testing.funcs.push(testDefaultMap);
+  NH.base.testing.funcs.push(testDefaultMap);
 
   /** Enum/helper for Logger groups. */
   class GroupMode {
@@ -242,7 +238,7 @@
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      testing.log.log(msg);
+      NH.base.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -250,7 +246,7 @@
 
   }
 
-  testing.funcs.push(testGroupMode);
+  NH.base.testing.funcs.push(testGroupMode);
 
   /**
    * Fancy-ish log messages.
@@ -626,7 +622,7 @@
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      testing.log.log(msg);
+      NH.base.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -636,10 +632,10 @@
   }
   /* eslint-enable */
 
-  testing.funcs.push(testLogger);
+  NH.base.testing.funcs.push(testLogger);
 
   // TODO(#145): The if test is just here while developing.
-  if (testing.enabled) {
+  if (NH.base.testing.enabled) {
     Logger.configs = await GM.getValue('Logger');
   } else {
     Logger.config('Default').enabled = true;
@@ -972,14 +968,14 @@
       const actual = safeId(test);
       const passed = actual === expected;
       const msg = `${test} ${expected} ${actual}, ${passed}`;
-      testing.log.log(msg);
+      NH.base.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
     }
   }
 
-  testing.funcs.push(testSafeId);
+  NH.base.testing.funcs.push(testSafeId);
 
   /**
    * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
@@ -1155,7 +1151,7 @@
       const controls = this.#getTabControls();
       this.#log.log('controls:', controls);
       let idx = controls.findIndex(item => item.checked);
-      if (idx === NOT_FOUND) {
+      if (idx === NH.base.NOT_FOUND) {
         idx = 0;
       } else {
         idx = (idx + direction + controls.length) % controls.length;
@@ -1348,7 +1344,7 @@
     off(eventType, func) {
       const handlers = this.#getHandlers(eventType);
       let index = 0;
-      while ((index = handlers.indexOf(func)) !== NOT_FOUND) {
+      while ((index = handlers.indexOf(func)) !== NH.base.NOT_FOUND) {
         handlers.splice(index, 1);
       }
     }
@@ -1736,10 +1732,10 @@
         let idx = items.findIndex(this.#matchItem);
         this.logger.log('initial idx', idx);
         idx += n;
-        if (idx < NOT_FOUND) {
+        if (idx < NH.base.NOT_FOUND) {
           idx = items.length - 1;
         }
-        if (idx === NOT_FOUND || idx >= items.length) {
+        if (idx === NH.base.NOT_FOUND || idx >= items.length) {
           this.item = null;
           this.dispatcher.fire('out-of-range', null);
         } else {
@@ -2475,7 +2471,7 @@
       super();
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
-      if (testing.enabled) {
+      if (NH.base.testing.enabled) {
         this.#keyboardService.addInstance(new DebugKeys());
       }
     }
@@ -5069,7 +5065,7 @@
         }
 
         // TODO(#145): Just here while developing
-        if (testing.enabled) {
+        if (NH.base.testing.enabled) {
           GM.setValue('Logger', Logger.configs);
         }
       });
@@ -5466,21 +5462,21 @@
       const actual = SPA._parseSeq2(test);
       const passed = actual === expected;
       const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
-      testing.log.log(msg);
+      NH.base.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
     }
   }
 
-  testing.funcs.push(testParseSeq);
+  NH.base.testing.funcs.push(testParseSeq);
 
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
-  if (testing.enabled) {
+  if (NH.base.testing.enabled) {
     linkedIn.addSetupIssue('This is a dummy test issue.',
-      'It was added because testing is enabled.');
+      'It was added because NH.base.testing is enabled.');
     linkedIn.addSetupIssue('This is a second issue.',
       'We just want to make sure things count properly.');
   }
@@ -5497,19 +5493,19 @@
     spa.activate(window.location.pathname);
   });
 
-  if (testing.enabled) {
+  if (NH.base.testing.enabled) {
     const me = 'Running tests';
 
     // eslint-disable-next-line require-atomic-updates
-    testing.log = new Logger('Testing');
-    testing.log.entered(me);
-    for (const test of testing.funcs) {
-      testing.log.starting(test.name);
+    NH.base.testing.log = new Logger('Testing');
+    NH.base.testing.log.entered(me);
+    for (const test of NH.base.testing.funcs) {
+      NH.base.testing.log.starting(test.name);
       test();
-      testing.log.finished(test.name);
+      NH.base.testing.log.finished(test.name);
     }
-    testing.log.leaving(me);
-    testing.log.log('All tests passed.');
+    NH.base.testing.log.leaving(me);
+    NH.base.testing.log.log('All tests passed.');
   }
 
   log.log('Initialization successful.');
