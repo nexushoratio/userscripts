@@ -1304,7 +1304,8 @@
 
     /**
      * @callback Handler
-     * @param {string} event - Event message.
+     * @param {string} eventType - Event type.
+     * @param {*} data - Event data.
      */
 
     #handlers = new Map();
@@ -1365,7 +1366,7 @@
     fire(eventType, data) {
       const handlers = this.#getHandlers(eventType);
       for (const handler of handlers) {
-        handler(data);
+        handler(eventType, data);
       }
     }
 
@@ -4340,18 +4341,22 @@
     /**
      * Handles notifications about changes to the {@link SPA} Errors tab
      * content.
+     * @implements {Dispatcher~Handler}
+     * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
-    _errors = (count) => {
-      this.logger.log('errors:', count);
+    _errors = (eventType, count) => {
+      this.logger.log('errors:', eventType, count);
     }
 
     /**
      * Handles notifications about activity on the {@link SPA} News tab.
+     * @implements {Dispatcher~Handler}
+     * @param {string} eventType - Event type.
      * @param {object} data - Undefined at this time.
      */
-    _news = (data) => {
-      this.logger.log('news', data);
+    _news = (eventType, data) => {
+      this.logger.log('news', eventType, data);
     }
 
     /** @type {SetupIssue[]} */
@@ -4693,9 +4698,9 @@
     }
 
     /** @inheritdoc */
-    _errors = (count) => {
+    _errors = (eventType, count) => {
       const me = 'errors';
-      this.logger.entered(me, count);
+      this.logger.entered(me, eventType, count);
       const button = document.querySelector('#lit-nav-button');
       const toggle = button.querySelector('.notification-badge');
       const badge = button.querySelector('.notification-badge__count');
