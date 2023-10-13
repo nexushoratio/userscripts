@@ -13,7 +13,7 @@ filename=$1
 workfile=$(mktemp)
 
 sed -e '/-- >8 --/q' $filename | git stripspace --strip-comments > $workfile
-if git diff --cached --name-only | grep -q user.js; then
+if git diff --cached --name-only | grep -q '\.js$'; then
   echo 'info: Adding separator to commit message for Greasy Fork.'
   echo >> $workfile
   echo '␄' >> $workfile
