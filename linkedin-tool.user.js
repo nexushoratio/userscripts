@@ -2979,6 +2979,8 @@
 
     #sectionScroller
     #cardScroller
+    #lastScroller
+
     #currentSectionText
 
     /** @type {Scroller~What} */
@@ -3045,7 +3047,9 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('change', this.#onChange);
+      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
     }
 
     /** @inheritdoc */
@@ -3125,16 +3129,12 @@
           {base: this._sections.item, ...MyNetwork.#cardsWhat},
           MyNetwork._cardsHow
         );
+        this.#cardScroller.dispatcher.on('change', this.#onCardChange);
         this.#cardScroller.dispatcher.on(
           'out-of-range', this.#returnToSection
         );
       }
       return this.#cardScroller;
-    }
-
-    /** @type {boolean} */
-    get _hasActiveCard() {
-      return Boolean(this._cards?.item);
     }
 
     #resetCards = () => {
@@ -3145,10 +3145,15 @@
       this._cards;
     }
 
-    #onChange = () => {
+    #onCardChange = () => {
+      this.#lastScroller = this._cards;
+    }
+
+    #onSectionChange = () => {
       this.#currentSectionText = this._sections.item?.innerText
         .trim().split('\n')[0];
       this.#resetCards();
+      this.#lastScroller = this._sections;
     }
 
     #returnToSection = () => {
@@ -3172,25 +3177,16 @@
     });
 
     firstItem = new Shortcut('<', 'Go to the first section or card', () => {
-      if (this._hasActiveCard) {
-        this._cards.first();
-      } else {
-        this._sections.first();
-      }
+      this.#lastScroller.first();
     });
 
     lastItem = new Shortcut('>', 'Go to the last section or card', () => {
-      if (this._hasActiveCard) {
-        this._cards.last();
-      } else {
-        this._sections.last();
-      }
+      this.#lastScroller.last();
     });
 
     focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
-        const item = this._cards.item ?? this._sections.item;
-        focusOnElement(item);
+        focusOnElement(this.#lastScroller.item);
       }
     );
 
