@@ -378,6 +378,7 @@
      */
     static fromPojo(pojo) {
       if (pojo && pojo.type === 'LoggerConfigs') {
+        this.resetConfigs();
         for (const [k, v] of Object.entries(pojo.entries)) {
           this.#configs.get(k).fromPojo(v);
         }
@@ -607,14 +608,21 @@
       const results = [];
       Logger.config('Bob').trace = true;
       results.push(Logger.config('Bob').trace);
-      const oldConfig = Logger.configs;
+      const oldConfigs = Logger.configs;
+
       Logger.resetConfigs();
       results.push(Logger.config('Bob').trace);
-      Logger.configs = oldConfig;
+
+      // Pat is not in oldConfigs, so should go back to the default (false)
+      // after restoring the configs.
+      Logger.config('Pat').enabled = true;
+      Logger.configs = oldConfigs;
       results.push(Logger.config('Bob').trace);
+      results.push(Logger.config('Pat').enabled);
+
       return JSON.stringify(results);
     },
-    expected: '[true,false,true]'});
+    expected: '[true,false,true,false]'});
 
     const savedConfigs = Logger.configs;
     for (const [name, {test, expected}] of tests) {
