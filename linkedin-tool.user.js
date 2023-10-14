@@ -5349,9 +5349,10 @@
     NH.base.testing.log = new Logger('Testing');
     NH.base.testing.log.entered(me);
     for (const test of NH.base.testing.funcs) {
-      NH.base.testing.log.starting(test.name);
+      const name = test.name || test.testName;
+      NH.base.testing.log.starting(name);
       test();
-      NH.base.testing.log.finished(test.name);
+      NH.base.testing.log.finished(name);
     }
     NH.base.testing.log.leaving(me);
     NH.base.testing.log.log('All tests passed.');
