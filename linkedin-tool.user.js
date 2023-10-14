@@ -937,6 +937,46 @@
   }
 
   /**
+   * Wait for selector to match using querySelector.
+   * @param {string} selector - CSS selector.
+   * @param {number} timeout - Time to wait in milliseconds, 0 disables.
+   * @returns {Promise<Element>} - Matched element.
+   */
+  function waitForSelector(selector, timeout) {
+    const me = 'waitForSelector';
+    const logger = new Logger(me);
+    logger.entered(me, selector, timeout);
+
+    /**
+     * @implements {Monitor}
+     * @returns {Continuation} - Indicate whether done monitoring.
+     */
+    const monitor = () => {
+      const element = document.querySelector(selector);
+      if (element) {
+        logger.log(`match for ${selector}`, element);
+        return {done: true, results: element};
+      }
+      logger.log('Still waiting for', selector);
+      return {done: false};
+    };
+
+    const what = {
+      name: me,
+      base: document,
+    };
+
+    const how = {
+      observeOptions: {childList: true, subtree: true},
+      monitor: monitor,
+      timeout: timeout,
+    };
+
+    logger.leaving(me);
+    return otmot(what, how);
+  }
+
+  /**
    * Create a UUID-like string with a base.
    * @param {string} base - Base value for the string.
    * @returns {string} - A unique string.
@@ -2392,27 +2432,10 @@
       const me = 'waitUntilReady';
       this.logger.entered(me);
 
-      /**
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        const element = document.querySelector(this.#pageReadySelector);
-        if (element) {
-          return {done: true, results: element};
-        }
-        return {done: false};
-      };
-      const what = {
-        name: 'waitUntilReady',
-        base: document,
-      };
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-      };
-      const element = await otmot(what, how);
+      this.logger.log('pageReadySelector:', this.#pageReadySelector);
+      const element = await waitForSelector(this.#pageReadySelector, 0);
       this.logger.leaving(me, element);
+
       return element;
     }
 
@@ -3845,35 +3868,12 @@
       // may not include one for the current URL.  Even if the user arrived at
       // the URL moments ago.
 
-      /**
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        // This selector must match what is used by the Scroller.
-        const el = document.body.querySelector(
-          `li[data-occludable-job-id="${jobId}"]`
-        );
-        if (el) {
-          return {done: true, results: el};
-        }
-        this.logger.log('No job card found yet...');
-        return {done: false};
-      };
-
-      const what = {
-        name: 'onJobActivateObserver',
-        base: document.body,
-      };
-
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 2000,
-      };
-
       try {
-        const item = await otmot(what, how);
+        const timeout = 2000;
+        const item = await waitForSelector(
+          `li[data-occludable-job-id="${jobId}"]`,
+          timeout
+        );
         this._jobCards.gotoUid(JobCollections._uniqueJobIdentifier(item));
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
@@ -3894,35 +3894,11 @@
       const me = 'onResultsPageActivate';
       this.logger.entered(me);
 
-      /**
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        // This selector must match what is used by the Scroller.
-        const el = document.body.querySelector(
-          'div.jobs-search-results-list__pagination li.selected'
-        );
-        if (el) {
-          return {done: true, results: el};
-        }
-        this.logger.log('No results paginator found yet...');
-        return {done: false};
-      };
-
-      const what = {
-        name: 'onResultsPageActivateObserver',
-        base: document.body,
-      };
-
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 3000,
-      };
-
       try {
-        const item = await otmot(what, how);
+        const timeout = 2000;
+        const item = await waitForSelector(
+          'div.jobs-search-results-list__pagination li.selected', timeout
+        );
         this._resultsPages.goto(item);
       } catch (e) {
         this.logger.log('Results paginator not found, staying put');
@@ -4530,31 +4506,7 @@
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
-      /**
-       * Monitor for waiting for the navbar to show up.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      function navBarMonitor() {
-        const navbar = document.querySelector('#global-nav');
-        if (navbar) {
-          return {done: true, results: navbar};
-        }
-        return {done: false};
-      }
-
-      // In this case, the trigger was the page load.  It already happened by
-      // the time we got here.
-      const navWhat = {
-        name: 'navBarObserver',
-        base: document.body,
-      };
-      const navHow = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: navBarMonitor,
-      };
-
-      this.#navbar = await otmot(navWhat, navHow);
+      this.#navbar = await waitForSelector('#global-nav', 0);
       this.#finishConstruction();
 
       this.logger.leaving(me);
@@ -4862,32 +4814,9 @@
 
       const observeOptions = {childList: true, subtree: true};
 
-      /**
-       * Watch for the initial {SPADetails.urlChangeMonitorSelector} to show
-       * up.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        // The default selector is 'body', so we need to query 'document', not
-        // 'document.body'.
-        const element = document.querySelector(
-          this.#details.urlChangeMonitorSelector
-        );
-        if (element) {
-          return {done: true, results: element};
-        }
-        return {done: false};
-      };
-      const what = {
-        name: 'SPA URL initializer observer',
-        base: document.body,
-      };
-      const how = {
-        observeOptions: observeOptions,
-        monitor: monitor,
-      };
-      const element = await otmot(what, how);
+      const element = await waitForSelector(
+        this.#details.urlChangeMonitorSelector, 0
+      );
       this.logger.log('element exists:', element);
 
       this.#oldUrl = new URL(window.location);
