@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1263984
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1264409
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -21,125 +21,6 @@
   'use strict';
 
   const NH = NexusHoratio;
-
-  // TODO(#167): DefaultMap moving to lib/base.
-
-  /**
-   * Subclass of {Map} similar to Python's defaultdict.
-   *
-   * First argument is a factory function that will create a new default value
-   * for the key if not already present in the container.
-   */
-  class DefaultMap extends Map {
-
-    #factory
-
-    /**
-     * @param {function() : *} factory - Function that creates a new default
-     * value if a requested key is not present.
-     * @param {Iterable} [iterable] - Passed to {Map} super().
-     */
-    constructor(factory, iterable) {
-      if (!(factory instanceof Function)) {
-        throw new TypeError('The factory argument MUST be of ' +
-                            `type Function, not ${typeof factory}.`);
-      }
-      super(iterable);
-
-      this.#factory = factory;
-    }
-
-    /** @inheritdoc */
-    get(key) {
-      if (!this.has(key)) {
-        this.set(key, this.#factory());
-      }
-
-      return super.get(key);
-    }
-
-  }
-
-  /* eslint-disable max-lines-per-function */
-  /* eslint-disable no-magic-numbers */
-  /* eslint-disable no-unused-vars */
-  /** Test case. */
-  function testDefaultMap() {
-
-    /**
-     * @typedef {object} DefaultMapTest
-     * @property {function()} test - Function to execute.
-     * @property {*} expected - Expected results.
-     */
-
-    /** @type {Map<string,DefaultMapTest>} */
-    const tests = new Map();
-
-    tests.set('noFactory', {test: () => {
-      try {
-        const dummy = new DefaultMap();
-      } catch (e) {
-        if (e instanceof TypeError) {
-          return 'caught';
-        }
-      }
-      return 'oops';
-    },
-    expected: 'caught'});
-
-    tests.set('badFactory', {test: () => {
-      try {
-        const dummy = new DefaultMap('a');
-      } catch (e) {
-        if (e instanceof TypeError) {
-          return 'caught';
-        }
-      }
-      return 'oops';
-    },
-    expected: 'caught'});
-
-    tests.set('withIterable', {test: () => {
-      const dummy = new DefaultMap(Number, [[1, 'one'], [2, 'two']]);
-      dummy.set(3, ['a', 'b']);
-      dummy.get(4);
-      return JSON.stringify(Array.from(dummy.entries()));
-    },
-    expected: '[[1,"one"],[2,"two"],[3,["a","b"]],[4,0]]'});
-
-    tests.set('counter', {test: () => {
-      const dummy = new DefaultMap(Number);
-      dummy.get('a');
-      dummy.set('b', dummy.get('b') + 1);
-      dummy.set('b', dummy.get('b') + 1);
-      dummy.get('c');
-      return JSON.stringify(Array.from(dummy.entries()));
-    },
-    expected: '[["a",0],["b",2],["c",0]]'});
-
-    tests.set('array', {test: () => {
-      const dummy = new DefaultMap(Array);
-      dummy.get('a').push(1, 2, 3);
-      dummy.get('b').push(4, 5, 6);
-      dummy.get('a').push('one', 'two', 'three');
-      return JSON.stringify(Array.from(dummy.entries()));
-    },
-    expected: '[["a",[1,2,3,"one","two","three"]],["b",[4,5,6]]]'});
-
-    for (const [name, {test, expected}] of tests) {
-      const actual = test();
-      const passed = actual === expected;
-      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      NH.base.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
-    }
-
-  }
-  /* eslint-enable */
-
-  NH.base.testing.funcs.push(testDefaultMap);
 
   /** Enum/helper for Logger groups. */
   class GroupMode {
@@ -359,8 +240,8 @@
 
     }
 
-    static #loggers = new DefaultMap(Array);
-    static #configs = new DefaultMap(() => new Logger.Config());
+    static #loggers = new NH.base.DefaultMap(Array);
+    static #configs = new NH.base.DefaultMap(() => new Logger.Config());
 
     /** @returns {object} - Logger.#configs as a plain object. */
     static toPojo() {
