@@ -3417,6 +3417,7 @@
 
     #sectionScroller = null;
     #jobScroller = null;
+    #lastScroller
 
     /** @type {Scroller~What} */
     static #sectionsWhat = {
@@ -3468,7 +3469,9 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('change', this.#onChange);
+      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
     }
 
     /** @inheritdoc */
@@ -3485,14 +3488,17 @@
     get _jobs() {
       const me = 'get jobs';
       this.logger.entered(me, this.#jobScroller);
+
       if (!this.#jobScroller && this._sections.item) {
         this.#jobScroller = new Scroller(
           {base: this._sections.item, ...Jobs.#jobsWhat},
           Jobs._jobsHow
         );
+        this.#jobScroller.dispatcher.on('change', this.#onJobChange);
         this.#jobScroller.dispatcher.on('out-of-range',
           this.#returnToSection);
       }
+
       this.logger.leaving(me, this.#jobScroller);
       return this.#jobScroller;
     }
@@ -3507,11 +3513,6 @@
       }
       this._jobs;
       this.logger.leaving(me);
-    }
-
-    /** @type {boolean} */
-    get _hasActiveJob() {
-      return Boolean(this._jobs?.item);
     }
 
     /**
@@ -3571,14 +3572,19 @@
       this._sections.item = this._sections.item;
     }
 
+    #onJobChange = () => {
+      this.#lastScroller = this._jobs;
+    }
+
     /**
      * Updates {@link Jobs} specific watcher data and removes the jobs
      * {@link Scroller}.
      */
-    #onChange = () => {
-      const me = 'onChange';
+    #onSectionChange = () => {
+      const me = 'onSectionChange';
       this.logger.entered(me);
       this.#resetJobs();
+      this.#lastScroller = this._sections;
       this.logger.leaving(me);
     }
 
@@ -3620,30 +3626,21 @@
 
     _firstSectionOrJob = new Shortcut(
       '<', 'Go to to first section or job', () => {
-        if (this._hasActiveJob) {
-          this._jobs.first();
-        } else {
-          this._sections.first();
-        }
+        this.#lastScroller.first();
       }
     );
 
     _lastSectionOrJob = new Shortcut(
       '>', 'Go to last section or job currently loaded', () => {
-        if (this._hasActiveJob) {
-          this._jobs.last();
-        } else {
-          this._sections.last();
-        }
+        this.#lastScroller.last();
       }
     );
 
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current section or job', () => {
-        const el = this._jobs.item ?? this._sections.item;
         this._sections.show();
         this._jobs?.show();
-        focusOnElement(el);
+        focusOnElement(this.#lastScroller.item);
       }
     );
 
