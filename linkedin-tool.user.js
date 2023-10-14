@@ -3,14 +3,14 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.4.4
+// @version     5.4.5
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1263857
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1263984
 // @grant       window.onurlchange
 // ==/UserScript==
 
