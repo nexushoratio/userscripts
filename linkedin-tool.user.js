@@ -22,6 +22,8 @@
 
   const NH = NexusHoratio;
 
+  // TODO(#167): DefaultMap moving to lib/base.
+
   /**
    * Subclass of {Map} similar to Python's defaultdict.
    *
