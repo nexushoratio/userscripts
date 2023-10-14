@@ -22,6 +22,8 @@
 
   const NH = NexusHoratio;
 
+  // TODO(#167): GroupMode and Logger moving to lib/base.
+
   /** Enum/helper for Logger groups. */
   class GroupMode {
 
