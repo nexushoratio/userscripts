@@ -4526,6 +4526,8 @@
       return this.#licenseData;
     }
 
+    #useOriginalInfoDialog = true;
+
     /** Hang out until enough HTML has been built to be useful. */
     #waitUntilPageLoadedEnough = async () => {
       const me = 'waitOnPageLoadedEnough';
@@ -4676,10 +4678,19 @@
       }
       const button = li.querySelector('button');
       button.addEventListener('click', () => {
-        // TODO(#130): Make this toggle which item it opens
-        const info = document.querySelector(`#${this.infoId}`);
-        info.showModal();
-        info.dispatchEvent(new Event('open'));
+        if (this.#useOriginalInfoDialog) {
+          const info = document.querySelector(`#${this.infoId}`);
+          info.showModal();
+          info.dispatchEvent(new Event('open'));
+        } else {
+          this.logger.log('TODO(#130): Make this open', this.#infoWidget);
+        }
+        if (NH.base.testing.enabled) {
+          this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
+
+          // TODO(#145): Just here while developing
+          GM.setValue('Logger', Logger.configs);
+        }
       });
       this.logger.leaving(me);
     }
@@ -5091,11 +5102,6 @@
         for (const {panel} of this._info.tabs.values()) {
           // 0, 0 is good enough
           panel.scrollTo(0, 0);
-        }
-
-        // TODO(#145): Just here while developing
-        if (NH.base.testing.enabled) {
-          GM.setValue('Logger', Logger.configs);
         }
       });
       dialog.addEventListener('close', () => {
