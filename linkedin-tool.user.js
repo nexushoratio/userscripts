@@ -1310,32 +1310,6 @@
    */
   class Scroller {
 
-    #destroyed = false;
-
-    #dispatcher = new Dispatcher(
-      'change', 'out-of-range', 'activate', 'deactivate'
-    );
-
-    #currentItemId = null;
-    #historicalIdToIndex = new Map();
-
-    #autoActivate
-    #base
-    #bottomMarginCSS
-    #bottomMarginPixels
-    #classes
-    #handleClicks
-    #logger
-    #mutationObserver
-    #name
-    #onClickElement
-    #selectors
-    #snapToTop
-    #stackTrace
-    #topMarginCSS
-    #topMarginPixels
-    #uidCallback
-
     /** @type {Logger} */
     get logger() {
       return this.#logger;
@@ -1782,6 +1756,31 @@
       this.#destroyed = true;
       this.logger.leaving(me);
     }
+
+    #autoActivate
+    #base
+    #bottomMarginCSS
+    #bottomMarginPixels
+    #classes
+    #currentItemId = null;
+    #destroyed = false;
+
+    #dispatcher = new Dispatcher(
+      'change', 'out-of-range', 'activate', 'deactivate'
+    );
+
+    #handleClicks
+    #historicalIdToIndex = new Map();
+    #logger
+    #mutationObserver
+    #name
+    #onClickElement
+    #selectors
+    #snapToTop
+    #stackTrace
+    #topMarginCSS
+    #topMarginPixels
+    #uidCallback
 
   }
 
