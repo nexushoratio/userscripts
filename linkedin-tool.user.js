@@ -2223,6 +2223,7 @@
 
     /**
      * @typedef {object} PageDetails
+     * @property {SPA} spa - SPA instance that manages this Page.
      * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
      * the URL this page should handle.
      * @property {string} [pageReadySelector='body'] - CSS selector that is
@@ -2234,6 +2235,7 @@
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
+      this.#spa = details.spa;
       this.#logger = new Logger(this.constructor.name);
       this.#pathnameRE = this.#computePathname(details.pathname);
       ({
@@ -2265,10 +2267,8 @@
 
     /**
      * Called when registered via {@link SPA}.
-     * @param {SPA} spa - SPA instance that manages this Page.
      */
-    start(spa) {
-      this.#spa = spa;
+    start() {
       for (const shortcut of this.allShortcuts) {
         this.#addKey(shortcut);
       }
@@ -2388,9 +2388,12 @@
 
     #keyboardService
 
-    /** Create a Global instance. */
-    constructor() {
-      super();
+    /**
+     * Create a Global instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa});
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
       if (NH.base.testing.enabled) {
@@ -2517,9 +2520,12 @@
       pageReadySelector: 'main',
     };
 
-    /** Create a Feed instance. */
-    constructor() {
-      super(Feed.#details);
+    /**
+     * Create a Feed instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Feed.#details});
       this.#dummy = this.addService(DummyService);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
@@ -2947,9 +2953,12 @@
       pageReadySelector: 'main > ul',
     };
 
-    /** Create a MyNetwork instance. */
-    constructor() {
-      super(MyNetwork.#details);
+    /**
+     * Create a MyNetwork instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...MyNetwork.#details});
 
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
         MyNetwork._sectionsHow);
@@ -3182,9 +3191,12 @@
       pageReadySelector: 'main',
     };
 
-    /** Create a InvitationManager instance. */
-    constructor() {
-      super(InvitationManager.#details);
+    /**
+     * Create a InvitationManager instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...InvitationManager.#details});
 
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
@@ -3366,9 +3378,12 @@
       pageReadySelector: 'main',
     };
 
-    /** Create a Jobs instance. */
-    constructor() {
-      super(Jobs.#details);
+    /**
+     * Create a Jobs instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Jobs.#details});
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs._sectionsHow);
@@ -3685,9 +3700,12 @@
       pageReadySelector: 'footer.global-footer-compact',
     };
 
-    /** Create a JobCollections instance. */
-    constructor() {
-      super(JobCollections.#details);
+    /**
+     * Create a JobCollections instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...JobCollections.#details});
 
       this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
         JobCollections.#jobCardsHow);
@@ -3922,9 +3940,12 @@
       pageReadySelector: 'main section div.nt-card-list',
     };
 
-    /** Create a Notifications instance. */
-    constructor() {
-      super(Notifications.#details);
+    /**
+     * Create a Notifications instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Notifications.#details});
 
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications._notificationsHow
@@ -5209,12 +5230,12 @@
 
     /**
      * Add a new page to those supported by this instance.
-     * @param {function(): Page} Klass - A {Page} class to instantiate.
+     * @param {function(SPA): Page} Klass - A {Page} class to instantiate.
      */
     register(Klass) {
       if (Klass.prototype instanceof Page) {
-        const page = new Klass();
-        page.start(this);
+        const page = new Klass(this);
+        page.start();
         this._addInfo(page);
         this.#pages.add(page);
       } else {
