@@ -1361,7 +1361,7 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
-     * @throws {TypeError} - When base is not an Element.
+     * @throws {Scroller.Error} - When base is not an Element.
      */
     constructor(what, how) {
       ({
@@ -1370,8 +1370,8 @@
         selectors: this.#selectors,
       } = what);
       if (!(this.#base instanceof Element)) {
-        throw new TypeError(
-          `Invalid base ${this.#base} given for ${this.#name}`
+        throw new Scroller.Error(
+          `Not an element: base ${this.#base} given for ${this.#name}`
         );
       }
       ({
@@ -1395,6 +1395,16 @@
         this.activate();
       }
     }
+
+    static Error = class extends Error {
+
+      /** @inheritdoc */
+      constructor(...rest) {
+        super(...rest);
+        this.name = this.constructor.name;
+      }
+
+    };
 
     /**
      * If an item is clicked, switch to it.
@@ -1783,6 +1793,45 @@
     #uidCallback
 
   }
+
+  /* eslint-disable max-lines-per-function */
+  /* eslint-disable no-new */
+  /** Test case. */
+  function testScroller() {
+    const tests = new Map();
+
+    tests.set('baseIsValid', {test: () => {
+      const what = {
+        name: 'baseIsValid',
+        base: document,
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error && e.message.includes('element')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
+
+    for (const [name, {test, expected}] of tests) {
+      const actual = test();
+      const passed = actual === expected;
+      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
+      NH.base.testing.log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+
+  }
+
+  NH.base.testing.funcs.push(testScroller);
 
   /**
    * This class exists solely to avoid some `no-use-before-define` linter
