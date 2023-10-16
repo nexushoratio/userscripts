@@ -355,6 +355,8 @@
     return otmot(what, how);
   }
 
+  // TODO(#167): The next few functions are moving to lib/base.
+
   /**
    * Create a UUID-like string with a base.
    * @param {string} base - Base value for the string.
