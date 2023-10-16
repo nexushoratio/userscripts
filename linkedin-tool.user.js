@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.4.7
+// @version     5.4.8
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -3942,7 +3942,7 @@
     toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', () => {
       const selector = [
         'button[aria-label^="Dismiss job"]:not([disabled])',
-        'button[aria-label$=" Undo"]',
+        'button[aria-label$=" Undo" i]',
       ].join(',');
       clickElement(this._jobCards.item, [selector]);
     });
