@@ -2574,6 +2574,10 @@
      */
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
+
+      spa.details.navBarScrollerFixup(Feed._postsHow);
+      spa.details.navBarScrollerFixup(Feed._commentsHow);
+
       this.#dummy = this.addService(DummyService);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
@@ -3008,6 +3012,9 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
+      spa.details.navBarScrollerFixup(MyNetwork._sectionsHow);
+      spa.details.navBarScrollerFixup(MyNetwork._cardsHow);
+
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
         MyNetwork._sectionsHow);
       this.addService(ScrollerService, this.#sectionScroller);
@@ -3246,6 +3253,8 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
+      spa.details.navBarScrollerFixup(InvitationManager._invitesHow);
+
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat, InvitationManager._invitesHow
       );
@@ -3432,6 +3441,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
+
+      spa.details.navBarScrollerFixup(Jobs._sectionsHow);
+      spa.details.navBarScrollerFixup(Jobs._jobsHow);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs._sectionsHow);
@@ -4014,6 +4026,8 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
+      spa.details.navBarScrollerFixup(Notifications._notificationsHow);
+
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications._notificationsHow
       );
@@ -4381,17 +4395,6 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
-    #navBarScrollerFixups = [
-      Feed._postsHow,
-      Feed._commentsHow,
-      MyNetwork._sectionsHow,
-      MyNetwork._cardsHow,
-      InvitationManager._invitesHow,
-      Jobs._sectionsHow,
-      Jobs._jobsHow,
-      Notifications._notificationsHow,
-    ];
-
     /**
      * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
      * circular dependencies.
@@ -4638,13 +4641,6 @@
 
       this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
         fudgeFactor;
-      // XXX: These {Scroller~How} items are static, so they need to be
-      // configured after we figure out what the values should be.
-      for (const how of this.#navBarScrollerFixups) {
-        how.topMarginPixels = this.#globals.navBarHeightPixels;
-        how.topMarginCSS = this.#globals.navBarHeightCSS;
-        how.bottomMarginCSS = '3em';
-      }
     }
 
     /** @inheritdoc */
