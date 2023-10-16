@@ -4483,6 +4483,23 @@
       this.logger.leaving(me);
     }
 
+    /**
+     * Many classes have some static {Scroller~How} items that need to be
+     * fixed up after the page loads enough that the values are available.
+     * They do that by calling this method.
+     * @param {Scroller~How} how - Object to be fixed up.
+     */
+    navBarScrollerFixup(how) {
+      const me = 'navBarScrollerFixup';
+      this.logger.entered(me, how);
+
+      how.topMarginPixels = this.#globals.navBarHeightPixels;
+      how.topMarginCSS = this.#globals.navBarHeightCSS;
+      how.bottomMarginCSS = '3em';
+
+      this.logger.leaving(me, how);
+    }
+
     /** Do the bits that were waiting on the page. */
     #finishConstruction = () => {
       const me = 'finishConstruction';
