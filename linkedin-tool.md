@@ -6,7 +6,10 @@ The major reason for this userscript is to provide keyboard navigation to Linked
 
 A secondary reason is, being my first userscript, it provides me with a platform to learn HTML, JavaScript, CSS and other web technologies.
 
-Mostly it works by mapping keystrokes to mouse event (e.g., hitting a key sequence results in a mouse click), or causing the page to scroll a bit of content into view.  It currently does not collect or save any information, though future enhancements may provide some customization which would require that.
+Mostly it works by mapping keystrokes to mouse event (e.g., hitting a key sequence results in a mouse click), or causing the page to scroll a bit of content into view.  ~~It currently does not collect or save any information, though future enhancements may provide some customization which would require that.~~
+
+> [!WARNING]
+> 2023-10-16 A future change will enable storing information locally.  This is primarly driven by issue https://github.com/nexushoratio/userscripts/issues/106, which will enable a *News* tab, which will be used to track which version a user has installed and provide them with a chance to read about new features.  Other features, such as the ability to enable logging and debugging, will likely come along as well.  The basic ability to save data locally will **not** be enabled before **2023-11-16** and we be marked by the `@grant` lines in the userscript header.  Issue https://github.com/nexushoratio/userscripts/issues/170 has been created to track this and provide more information.  Any major updates to the timeline will be provided there.
 
 ## Installation
 
