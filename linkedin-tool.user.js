@@ -865,9 +865,19 @@
         base: this.#base,
         selectors: this.#selectors,
       } = what);
+      if (!this.#base) {
+        throw new Scroller.Error(
+          `No base: ${this.#name} is missing a base`
+        );
+      }
       if (!(this.#base instanceof Element)) {
         throw new Scroller.Error(
           `Not an element: base ${this.#base} given for ${this.#name}`
+        );
+      }
+      if (!this.#selectors) {
+        throw new Scroller.Error(
+          `No selectors: ${this.#name} is missing selectors`
         );
       }
       ({
@@ -1306,7 +1316,47 @@
       try {
         new Scroller(what, how);
       } catch (e) {
-        if (e instanceof Scroller.Error && e.message.includes('element')) {
+        if (e instanceof Scroller.Error &&
+            e.message.includes('Not an element:')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
+
+    tests.set('baseNeedsSelector', {test: () => {
+      const what = {
+        name: 'baseNeedsSelector',
+        base: document.body,
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error &&
+            e.message.includes('No selectors:')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
+
+    tests.set('selectorNeedsBase', {test: () => {
+      const what = {
+        name: 'baseNeedsSelector',
+        selectors: [],
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error && e.message.includes('No base:')) {
           return 'passed';
         }
         return 'caught-but-wrong-error';
