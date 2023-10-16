@@ -4755,6 +4755,11 @@
       this.#details.done();
     }
 
+    /** @type {SPADetails} */
+    get details() {
+      return this.#details;
+    }
+
     /**
      * Tampermonkey was the first(?) userscript manager to provide events
      * about URLs changing.  Hence the need for `@grant window.onurlchange` in
