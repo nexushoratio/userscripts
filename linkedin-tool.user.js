@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1264409
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1265221
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -22,519 +22,15 @@
 
   const NH = NexusHoratio;
 
-  // TODO(#167): GroupMode and Logger moving to lib/base.
-
-  /** Enum/helper for Logger groups. */
-  class GroupMode {
-
-    #name
-    #greeting
-    #farewell
-    #func
-
-    static #known = new Map();
-
-    static Silenced = new GroupMode('silenced');
-    static Opened = new GroupMode('opened', 'Entered', 'Leaving', 'group');
-    static Closed = new GroupMode(
-      'closed', 'Starting', 'Finished', 'groupCollapsed'
-    );
-
-    /** @type {string} - Mode name. */
-    get name() {
-      return this.#name;
-    }
-
-    /** @type {string} - Greeting when opening group. */
-    get greeting() {
-      return this.#greeting;
-    }
-
-    /** @type {string} - Farewell when closing group. */
-    get farewell() {
-      return this.#farewell;
-    }
-
-    /** @type {string} - console.func to use for opening group. */
-    get func() {
-      return this.#func;
-    }
-
-    /**
-     * @param {string} name - Mode name.
-     * @param {string} [greeting] - Greeting when opening group.
-     * @param {string} [farewell] - Salutation when closing group.
-     * @param {string} [func] - console.func to use for opening group.
-     */
-    constructor(name, greeting, farewell, func) {  // eslint-disable-line max-params
-      this.#name = name;
-      this.#greeting = greeting;
-      this.#farewell = farewell;
-      this.#func = func;
-
-      GroupMode.#known.set(name, this);
-    }
-
-    /**
-     * Find GroupMode by name.
-     * @param {string} name - Mode name.
-     * @returns {GroupMode} - Mode, if found.
-     */
-    static byName(name) {
-      return this.#known.get(name);
-    }
-
-  }
-
-  Object.freeze(GroupMode);
-
-  /** Test case. */
-  function testGroupMode() {
-    const tests = new Map();
-
-    tests.set('isFrozen', {test: () => {
-      try {
-        GroupMode.Bob = {};
-      } catch (e) {
-        if (e instanceof TypeError) {
-          return 'cold';
-        }
-      }
-      return 'hot';
-    },
-    expected: 'cold'});
-
-    tests.set('byName', {test: () => {
-      const gm = GroupMode.byName('closed');
-      return gm;
-    },
-    expected: GroupMode.Closed});
-
-    tests.set('byNameBad', {test: () => {
-      const gm = GroupMode.byName('bob');
-      if (!gm) {
-        return 'expected-missing-bob';
-      }
-      return 'confused-bob';
-    },
-    expected: 'expected-missing-bob'});
-
-    for (const [name, {test, expected}] of tests) {
-      const actual = test();
-      const passed = actual === expected;
-      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      NH.base.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
-    }
-
-  }
-
-  NH.base.testing.funcs.push(testGroupMode);
-
-  /**
-   * Fancy-ish log messages.
-   *
-   * Console message groups can be started and ended using special methods.
-   *
-   * @example
-   * const log = new Logger('Bob');
-   * foo(x) {
-   *  const me = 'foo';
-   *  log.entered(me, x);
-   *  ... do stuff ...
-   *  log.starting('loop');
-   *  for (const item in items) {
-   *    log.log(`Processing ${item}`);
-   *    ...
-   *  }
-   *  log.finished('loop');
-   *  log.leaving(me, y);
-   *  return y;
-   * }
-   *
-   * Logger.config('Bob').enabled = true;
-   * Logger.config('Bob').groups.set('foo', GroupMode.Silenced);
-   */
-  class Logger {
-
-    #name
-    #config
-
-    #groupStack = [];
-
-    static Config = class {
-
-      #enabled = false;
-      #trace = false;
-      #groups = new Map();
-
-      /** @type {boolean} - Whether logging is currently enabled. */
-      get enabled() {
-        return this.#enabled;
-      }
-
-      /** @param {boolean} val - Set whether logging is currently enabled. */
-      set enabled(val) {
-        this.#enabled = Boolean(val);
-      }
-
-      /** @type {boolean} - Whether messages include a stack trace. */
-      get trace() {
-        return this.#trace;
-      }
-
-      /** @param {boolean} val - Set inclusion of stack traces. */
-      set trace(val) {
-        this.#trace = Boolean(val);
-      }
-
-      /**
-       * @param {string} name - Name of the group to get.
-       * @param {GroupMode} mode - Default mode if not seen before.
-       * @returns {GroupMode} - Mode for this group.
-       */
-      groupMode(name, mode) {
-        if (!this.#groups.has(name)) {
-          this.#groups.set(name, mode);
-        }
-        return this.#groups.get(name);
-      }
-
-      /** @type {Map<string,GroupMode>} - Per group settings. */
-      get groups() {
-        return this.#groups;
-      }
-
-      /** @returns {object} - Config as a plain object. */
-      toPojo() {
-        const pojo = {
-          enabled: this.enabled,
-          trace: this.trace,
-          groups: {},
-        };
-
-        for (const [k, v] of this.groups) {
-          pojo.groups[k] = v.name;
-        }
-
-        return pojo;
-      }
-
-      /** @param {object} pojo - Config as a plain object. */
-      fromPojo(pojo) {
-        if (Object.hasOwn(pojo, 'enabled')) {
-          this.enabled = pojo.enabled;
-        }
-        if (Object.hasOwn(pojo, 'trace')) {
-          this.trace = pojo.trace;
-        }
-        if (Object.hasOwn(pojo, 'groups')) {
-          for (const [k, v] of Object.entries(pojo.groups)) {
-            const gm = GroupMode.byName(v);
-            if (gm) {
-              this.groupMode(k, gm);
-            }
-          }
-        }
-      }
-
-    }
-
-    static #loggers = new NH.base.DefaultMap(Array);
-    static #configs = new NH.base.DefaultMap(() => new Logger.Config());
-
-    /** @returns {object} - Logger.#configs as a plain object. */
-    static toPojo() {
-      const pojo = {
-        type: 'LoggerConfigs',
-        entries: {},
-      };
-      for (const [k, v] of this.#configs.entries()) {
-        pojo.entries[k] = v.toPojo();
-      }
-      return pojo;
-    }
-
-    /**
-     * Set Logger configs from a plain object.
-     * @param {object} pojo - Created from {Logger.toPojo}.
-     */
-    static fromPojo(pojo) {
-      if (pojo && pojo.type === 'LoggerConfigs') {
-        this.resetConfigs();
-        for (const [k, v] of Object.entries(pojo.entries)) {
-          this.#configs.get(k).fromPojo(v);
-        }
-      }
-    }
-
-    /** Reset all configs to an empty state. */
-    static resetConfigs() {
-      this.#configs.clear();
-    }
-
-    /** @param {string} name - Name for this logger. */
-    constructor(name) {
-      this.#name = name;
-      this.#config = Logger.config(name);
-      Logger.#loggers.get(this.#name).push(new WeakRef(this));
-    }
-
-    /** @type {string[]} - Known loggers. */
-    static get loggers() {
-      return Array.from(this.#loggers.keys());
-    }
-
-    /** @type {object} - Logger configurations. */
-    static get configs() {
-      return Logger.toPojo();
-    }
-
-    /** @param {object} val - Logger configurations. */
-    static set configs(val) {
-      Logger.fromPojo(val);
-    }
-
-    /**
-     * @param {string} name - Logger configuration to get.
-     * @returns {Logger.Config} - Current config for that Logger.
-     */
-    static config(name) {
-      return this.#configs.get(name);
-    }
-
-    /** @type {string} - Name for this logger. */
-    get name() {
-      return this.#name;
-    }
-
-    /** @type {boolean} - Whether logging is currently enabled. */
-    get enabled() {
-      return this.#config.enabled;
-    }
-
-    /** @type {boolean} - Indicates whether messages include a stack trace. */
-    get trace() {
-      return this.#config.trace;
-    }
-
-    /** @type {boolean} - Indicates whether current group is silenced. */
-    get silenced() {
-      let ret = false;
-      const group = this.#groupStack.at(-1);
-      if (group) {
-        const mode = this.#config.groupMode(group);
-        ret = mode === GroupMode.Silenced;
-      }
-      return ret;
-    }
-
-    /* eslint-disable no-console */
-
-    /** Clear the console. */
-    static clear() {
-      console.clear();
-    }
-
-    /**
-     * Introduces a specific group.
-     * @param {string} group - Group being created.
-     * @param {GroupMode} defaultMode - Mode to use if new.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    #intro = (group, defaultMode, ...rest) => {
-      this.#groupStack.push(group);
-      const mode = this.#config.groupMode(group, defaultMode);
-      if (this.enabled && mode !== GroupMode.Silenced) {
-        console[mode.func](`${this.name}: ${group}`);
-        if (rest.length) {
-          const msg = `${mode.greeting} ${group} with`;
-          this.log(msg, ...rest);
-        }
-      }
-    }
-
-    /**
-     * Concludes a specific group.
-     * @param {string} group - Group leaving.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    #outro = (group, ...rest) => {
-      const lastGroup = this.#groupStack.pop();
-      if (group !== lastGroup) {
-        console.error(`${this.name}: Group mismatch!  Passed ` +
-                      `"${group}", expected to see "${lastGroup}"`);
-      }
-      const mode = this.#config.groupMode(group);
-      if (this.enabled && mode !== GroupMode.Silenced) {
-        let msg = `${mode.farewell} ${group}`;
-        if (rest.length) {
-          msg += ' with:';
-        }
-        this.log(msg, ...rest);
-        console.groupEnd();
-      }
-    }
-
-    /**
-     * Log a specific message.
-     * @param {string} msg - Message to send to console.debug.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    log(msg, ...rest) {
-      if (this.enabled && !this.silenced) {
-        if (this.trace) {
-          console.groupCollapsed(`${this.name} call stack`);
-          console.trace();
-          console.groupEnd();
-        }
-        console.debug(`${this.name}: ${msg}`, ...rest);
-      }
-    }
-
-    /* eslint-enable */
-
-    /**
-     * Entered a specific group.
-     * @param {string} group - Group that was entered.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    entered(group, ...rest) {
-      this.#intro(group, GroupMode.Opened, ...rest);
-    }
-
-    /**
-     * Leaving a specific group.
-     * @param {string} group - Group leaving.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    leaving(group, ...rest) {
-      this.#outro(group, ...rest);
-    }
-
-    /**
-     * Starting a specific collapsed group.
-     * @param {string} group - Group that is being started.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    starting(group, ...rest) {
-      this.#intro(group, GroupMode.Closed, ...rest);
-    }
-
-    /**
-     * Finished a specific collapsed group.
-     * @param {string} group - Group that was entered.
-     * @param {...*} rest - Arbitrary items to pass to console.debug.
-     */
-    finished(group, ...rest) {
-      this.#outro(group, ...rest);
-    }
-
-  }
-
-  /* eslint-disable max-lines-per-function */
-  /** Test case. */
-  function testLogger() {
-    const tests = new Map();
-
-    tests.set('testReset', {test: () => {
-      Logger.config('UncleBob').enabled = true;
-      Logger.resetConfigs();
-      return JSON.stringify(Logger.configs.entries);
-    },
-    expected: '{}'});
-
-    tests.set('defaultDisabled', {test: () => {
-      const config = Logger.config('Bob');
-      return config.enabled;
-    },
-    expected: false});
-
-    tests.set('defaultNoStackTraces', {test: () => {
-      const config = Logger.config('Bob');
-      return config.trace;
-    },
-    expected: false});
-
-    tests.set('defaultNoGroups', {test: () => {
-      const config = Logger.config('Bob');
-      return config.groups.size;
-    },
-    expected: 0});
-
-    tests.set('openedGroup', {test: () => {
-      const logger = new Logger('Bob');
-      logger.entered('ent');
-      return Logger.config('Bob').groups.get('ent').name;
-    },
-    expected: 'opened'});
-
-    tests.set('closedGroup', {test: () => {
-      const logger = new Logger('Bob');
-      logger.starting('start');
-      return Logger.config('Bob').groups.get('start').name;
-    },
-    expected: 'closed'});
-
-    tests.set('mismatchedGroup', {test: () => {
-      // This test requires manual verification that an error message was
-      // logged:
-      // Bob: Group mismatch!  Passed "two", expected to see "one"
-      const logger = new Logger('Bob');
-      logger.entered('one');
-      logger.leaving('two');
-      return 'x';
-    },
-    expected: 'x'});
-
-    tests.set('restoreConfigs', {test: () => {
-      const results = [];
-      Logger.config('Bob').trace = true;
-      results.push(Logger.config('Bob').trace);
-      const oldConfigs = Logger.configs;
-
-      Logger.resetConfigs();
-      results.push(Logger.config('Bob').trace);
-
-      // Pat is not in oldConfigs, so should go back to the default (false)
-      // after restoring the configs.
-      Logger.config('Pat').enabled = true;
-      Logger.configs = oldConfigs;
-      results.push(Logger.config('Bob').trace);
-      results.push(Logger.config('Pat').enabled);
-
-      return JSON.stringify(results);
-    },
-    expected: '[true,false,true,false]'});
-
-    const savedConfigs = Logger.configs;
-    for (const [name, {test, expected}] of tests) {
-      Logger.resetConfigs();
-      const actual = test();
-      const passed = actual === expected;
-      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      NH.base.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
-    }
-    Logger.configs = savedConfigs;
-
-  }
-  /* eslint-enable */
-
-  NH.base.testing.funcs.push(testLogger);
-
   // TODO(#145): The if test is just here while developing.
   if (NH.base.testing.enabled) {
-    Logger.configs = await GM.getValue('Logger');
+    // eslint-disable-next-line require-atomic-updates
+    NH.base.Logger.configs = await GM.getValue('Logger');
   } else {
-    Logger.config('Default').enabled = true;
+    NH.base.Logger.config('Default').enabled = true;
   }
 
-  const log = new Logger('Default');
+  const log = new NH.base.Logger('Default');
 
   /**
    * Run querySelector to get an element, then click it.
@@ -652,7 +148,7 @@
         timeout = 0,
       } = how;
 
-      const logger = new Logger(`otmot ${name}`);
+      const logger = new NH.base.Logger(`otmot ${name}`);
       let timeoutID = null;
       let observer = null;
 
@@ -723,7 +219,7 @@
         clientWidth: initialWidth,
       } = base;
 
-      const logger = new Logger(`otrot ${name}`);
+      const logger = new NH.base.Logger(`otrot ${name}`);
       let timeoutID = null;
       let observer = null;
       logger.log('initial dimensions:', initialWidth, initialHeight);
@@ -791,7 +287,7 @@
         duration,
       } = how;
 
-      const logger = new Logger(`otrot2 ${name}`);
+      const logger = new NH.base.Logger(`otrot2 ${name}`);
       let observer = null;
 
       /** @param {ResizeObserverEntry[]} entries - Standard entries. */
@@ -827,7 +323,7 @@
    */
   function waitForSelector(selector, timeout) {
     const me = 'waitForSelector';
-    const logger = new Logger(me);
+    const logger = new NH.base.Logger(me);
     logger.entered(me, selector, timeout);
 
     /**
@@ -972,7 +468,7 @@
      * classes.
      */
     constructor(name) {
-      this.#log = new Logger(`TabbedUI ${name}`);
+      this.#log = new NH.base.Logger(`TabbedUI ${name}`);
       this.#name = name;
       this.#idName = safeId(name);
       this.#id = uuId(this.#idName);
@@ -1310,7 +806,7 @@
    */
   class Scroller {
 
-    /** @type {Logger} */
+    /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
     }
@@ -1388,7 +884,7 @@
 
       this.#mutationObserver = new MutationObserver(this.#mutationHandler);
 
-      this.#logger = new Logger(`{${this.#name}}`);
+      this.#logger = new NH.base.Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
 
       if (this.#autoActivate) {
@@ -1899,14 +1395,14 @@
     constructor(name) {
       this.#name = `${this.constructor.name} ${name}`;
       this.#id = uuId(this.#name);
-      this.#logger = new Logger(this.constructor.name);
+      this.#logger = new NH.base.Logger(this.constructor.name);
       this.#dialog = document.createElement('dialog');
       this.#dialog.id = safeId(this.#id);
       document.body.prepend(this.#dialog);
       this.logger.log('Constructed.', this);
     }
 
-    /** @type {Logger} */
+    /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
     }
@@ -1985,7 +1481,7 @@
     #logger
     #name
 
-    /** @type {Logger} - Logger instance. */
+    /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
     }
@@ -2001,7 +1497,7 @@
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
       this.#name = `${this.constructor.name}: ${name}`;
-      this.#logger = new Logger(this.#name);
+      this.#logger = new NH.base.Logger(this.#name);
     }
 
     /** @param {string} name - Name of method that was not implemented. */
@@ -2231,7 +1727,7 @@
     /** @type {SPA} - SPA instance managing this instance. */
     #spa;
 
-    /** @type {Logger} - Logger instance. */
+    /** @type {NH.base.Logger} - NH.base.Logger instance. */
     #logger;
 
     /** @type {RegExp} - Computed RegExp version of _pathname. */
@@ -2284,7 +1780,7 @@
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
       this.#spa = details.spa;
-      this.#logger = new Logger(this.constructor.name);
+      this.#logger = new NH.base.Logger(this.constructor.name);
       this.#pathnameRE = this.#computePathname(details.pathname);
       ({
         pageReadySelector: this.#pageReadySelector = 'body',
@@ -2345,7 +1841,7 @@
       return this.#spa;
     }
 
-    /** @type {Logger} */
+    /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
     }
@@ -2422,7 +1918,7 @@
   class DebugKeys {
 
     clearConsole = new Shortcut('c-c c-c', 'Clear the debug console', () => {
-      Logger.clear();
+      NH.base.Logger.clear();
     });
 
   }
@@ -4252,7 +3748,7 @@
       return this.#id;
     }
 
-    /** @type {Logger} - Logger instance. */
+    /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
     }
@@ -4263,7 +3759,7 @@
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
 
-      this.#logger = new Logger(this.constructor.name);
+      this.#logger = new NH.base.Logger(this.constructor.name);
       this.#id = safeId(uuId(this.constructor.name));
       this.dispatcher = new Dispatcher('errors', 'news');
     }
@@ -4629,7 +4125,7 @@
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
 
           // TODO(#145): Just here while developing
-          GM.setValue('Logger', Logger.configs);
+          GM.setValue('Logger', NH.base.Logger.configs);
         }
       });
       this.logger.leaving(me);
@@ -4729,7 +4225,7 @@
     #name
     #oldUrl
 
-    /** @type {Logger} */
+    /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
     }
@@ -4750,7 +4246,7 @@
     constructor(details) {
       this.#name = `${this.constructor.name}: ${details.constructor.name}`;
       this.#id = safeId(uuId(this.#name));
-      this.#logger = new Logger(this.#name);
+      this.#logger = new NH.base.Logger(this.#name);
       this.#details = details;
       this.#details.init(this);
       this._installNavStyle();
@@ -5454,7 +4950,7 @@
     const me = 'Running tests';
 
     // eslint-disable-next-line require-atomic-updates
-    NH.base.testing.log = new Logger('Testing');
+    NH.base.testing.log = new NH.base.Logger('Testing');
     NH.base.testing.log.entered(me);
     for (const test of NH.base.testing.funcs) {
       const name = test.name || test.testName;
