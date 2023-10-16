@@ -3939,13 +3939,12 @@
       clickElement(document, ['button.jobs-save-button']);
     });
 
-    toggleDismissJob = new Shortcut('X', 'Toggle dismissing job', () => {
-      const selector = [
-        'button[aria-label^="Dismiss job"]:not([disabled])',
-        'button[aria-label$=" Undo" i]',
-      ].join(',');
-      clickElement(this._jobCards.item, [selector]);
-    });
+    toggleDismissJob = new Shortcut(
+      'X', 'Toggle dismissing job, if available', () => {
+        // Currently these two are the same, but one never knows.
+        this.toggleThumbsDown();
+      }
+    );
 
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
@@ -3958,6 +3957,26 @@
       'L', 'Toggle the job search aLert, if available', () => {
         clickElement(document,
           ['main .jobs-search-create-alert__artdeco-toggle']);
+      }
+    );
+
+    toggleThumbsUp = new Shortcut(
+      '+', 'Toggle thumbs up, if available', () => {
+        const selector = [
+          'button[aria-label="Like job"]',
+          'button[aria-label="Job is liked, undo"]',
+        ].join(',');
+        clickElement(this._jobCards.item, [selector]);
+      }
+    );
+
+    toggleThumbsDown = new Shortcut(
+      '-', 'Toggle thumbs down, if available', () => {
+        const selector = [
+          'button[aria-label="Dismiss job"]',
+          'button[aria-label="Job is dismissed, undo"]',
+        ].join(',');
+        clickElement(this._jobCards.item, [selector]);
       }
     );
 
