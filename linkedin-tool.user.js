@@ -861,7 +861,7 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
-     * @throws {Scroller.Error} - When base is not an Element.
+     * @throws {Scroller.Error} - On many construction problems.
      */
     constructor(what, how) {
       ({
@@ -869,21 +869,6 @@
         base: this.#base,
         selectors: this.#selectors,
       } = what);
-      if (!this.#base) {
-        throw new Scroller.Error(
-          `No base: ${this.#name} is missing a base`
-        );
-      }
-      if (!(this.#base instanceof Element)) {
-        throw new Scroller.Error(
-          `Not an element: base ${this.#base} given for ${this.#name}`
-        );
-      }
-      if (!this.#selectors) {
-        throw new Scroller.Error(
-          `No selectors: ${this.#name} is missing selectors`
-        );
-      }
       ({
         uidCallback: this.#uidCallback,
         classes: this.#classes = [],
@@ -895,6 +880,8 @@
         topMarginCSS: this.#topMarginCSS = '0',
         bottomMarginCSS: this.#bottomMarginCSS = '0',
       } = how);
+
+      this.#validateInstance();
 
       this.#mutationObserver = new MutationObserver(this.#mutationHandler);
 
@@ -1301,6 +1288,29 @@
     #topMarginCSS
     #topMarginPixels
     #uidCallback
+
+    /** @throws {Scroller.Error} - On many validation issues. */
+    #validateInstance = () => {
+
+      if (!this.#base) {
+        throw new Scroller.Error(
+          `No base: ${this.#name} is missing a base`
+        );
+      }
+
+      if (!(this.#base instanceof Element)) {
+        throw new Scroller.Error(
+          `Not an element: base ${this.#base} given for ${this.#name}`
+        );
+      }
+
+      if (!this.#selectors) {
+        throw new Scroller.Error(
+          `No selectors: ${this.#name} is missing selectors`
+        );
+      }
+
+    }
 
   }
 
