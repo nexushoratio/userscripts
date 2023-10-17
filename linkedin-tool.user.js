@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1265221
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1265624
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -357,73 +357,6 @@
     return otmot(what, how);
   }
 
-  // TODO(#167): The next few functions are moving to lib/base.
-
-  /**
-   * Create a UUID-like string with a base.
-   * @param {string} base - Base value for the string.
-   * @returns {string} - A unique string.
-   */
-  function uuId(base) {
-    return `${base}-${crypto.randomUUID()}`;
-  }
-
-  /**
-   * Normalizes a string to be safe to use as an HTML element id.
-   * @param {string} input - The string to normalize.
-   * @returns {string} - Normlized string.
-   */
-  function safeId(input) {
-    let result = input
-      .replaceAll(' ', '-')
-      .replaceAll('.', '_')
-      .replaceAll(',', '__comma__')
-      .replaceAll(':', '__colon__');
-    if (!(/^[a-z_]/iu).test(result)) {
-      result = `a${result}`;
-    }
-    return result;
-  }
-
-  /** Test case. */
-  function testSafeId() {
-    const tests = [
-      {test: 'Tabby Cat', expected: 'Tabby-Cat'},
-      {test: '_', expected: '_'},
-      {test: '', expected: 'a'},
-      {test: '0', expected: 'a0'},
-      {test: 'a.b.c', expected: 'a_b_c'},
-      {test: 'a,b,c', expected: 'a__comma__b__comma__c'},
-      {test: 'a:b::c', expected: 'a__colon__b__colon____colon__c'},
-    ];
-
-    for (const {test, expected} of tests) {
-      const actual = safeId(test);
-      const passed = actual === expected;
-      const msg = `${test} ${expected} ${actual}, ${passed}`;
-      NH.base.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
-    }
-  }
-
-  NH.base.testing.funcs.push(testSafeId);
-
-  /**
-   * Java's hashCode:  s[0]*31(n-1) + s[1]*31(n-2) + ... + s[n-1]
-   * @param {string} s - String to hash.
-   * @returns {string} - Hash value.
-   */
-  function strHash(s) {
-    let hash = 0;
-    for (let i = 0; i < s.length; i += 1) {
-      // eslint-disable-next-line no-magic-numbers
-      hash = (hash * 31) + s.charCodeAt(i) | 0;
-    }
-    return `${hash}`;
-  }
-
   /**
    * Implement HTML for a tabbed user interface.
    *
@@ -450,8 +383,8 @@
     constructor(name) {
       this.#log = new NH.base.Logger(`TabbedUI ${name}`);
       this.#name = name;
-      this.#idName = safeId(name);
-      this.#id = uuId(this.#idName);
+      this.#idName = NH.base.safeId(name);
+      this.#id = NH.base.uuId(this.#idName);
       this.#container = document.createElement('section');
       this.#container.id = `${this.#id}-container`;
       this.#installControls();
@@ -658,7 +591,7 @@
         name,
         content,
       } = tab;
-      const idName = safeId(name);
+      const idName = NH.base.safeId(name);
       const input = this.#createInput(name, idName);
       const label = this.#createLabel(name, input, idName);
       const panel = this.#createPanel(name, idName, content);
@@ -1460,10 +1393,10 @@
     /** @param {string} name - Name for this view. */
     constructor(name) {
       this.#name = `${this.constructor.name} ${name}`;
-      this.#id = uuId(this.#name);
+      this.#id = NH.base.uuId(this.#name);
       this.#logger = new NH.base.Logger(this.constructor.name);
       this.#dialog = document.createElement('dialog');
-      this.#dialog.id = safeId(this.#id);
+      this.#dialog.id = NH.base.safeId(this.#id);
       document.body.prepend(this.#dialog);
       this.logger.log('Constructed.', this);
     }
@@ -2651,7 +2584,7 @@
       if (h2?.innerText) {
         content = h2.innerText;
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /**
@@ -2661,7 +2594,7 @@
      */
     static _uniqueCardsIdentifier(element) {
       const content = element.innerText;
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /** @type {Scroller} */
@@ -2806,7 +2739,7 @@
       if (anchor?.href) {
         content = anchor.href;
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /** @type {Scroller} */
@@ -3081,7 +3014,7 @@
       if (h2?.innerText) {
         content = h2.innerText;
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /**
@@ -3116,7 +3049,7 @@
           }
         }
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /**
@@ -3370,7 +3303,7 @@
       if (element) {
         content = element.dataset.occludableJobId;
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     /**
@@ -3387,7 +3320,7 @@
           content = label;
         }
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     #onJobCardActivate = async () => {
@@ -3651,7 +3584,7 @@
         // Mix in something unique from the parent.
         content += element.parentElement.dataset.finiteScrollHotkeyItem;
       }
-      return strHash(content);
+      return NH.base.strHash(content);
     }
 
     _nextNotification = new Shortcut('j', 'Next notification', () => {
@@ -3838,7 +3771,7 @@
       }
 
       this.#logger = new NH.base.Logger(this.constructor.name);
-      this.#id = safeId(uuId(this.constructor.name));
+      this.#id = NH.base.safeId(NH.base.uuId(this.constructor.name));
       this.dispatcher = new Dispatcher('errors', 'news');
     }
 
@@ -4321,7 +4254,7 @@
     /** @param {SPADetails} details - Implementation specific details. */
     constructor(details) {
       this.#name = `${this.constructor.name}: ${details.constructor.name}`;
-      this.#id = safeId(uuId(this.#name));
+      this.#id = NH.base.safeId(NH.base.uuId(this.#name));
       this.#logger = new NH.base.Logger(this.#name);
       this.#details = details;
       this.#details.init(this);
@@ -4452,7 +4385,7 @@
     /** Create the CSS styles used for indicating the current items. */
     _installNavStyle() {
       const style = document.createElement('style');
-      style.id = safeId(`${this.#id}-nav-style`);
+      style.id = NH.base.safeId(`${this.#id}-nav-style`);
       const styles = [
         '.tom {' +
           ' border-color: orange !important;' +
@@ -4488,7 +4421,7 @@
     /** Add CSS styling for use with the info view. */
     _addInfoStyle() {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
-      style.id = safeId(`${this.#id}-info-style`);
+      style.id = NH.base.safeId(`${this.#id}-info-style`);
       const styles = [
         `#${this._infoId}:modal {` +
           ' height: 100%;' +
