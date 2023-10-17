@@ -2106,7 +2106,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _postsHow = {
+    static #postsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
@@ -2119,7 +2119,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _commentsHow = {
+    static #commentsHow = {
       uidCallback: Feed._uniqueIdentifier,
       classes: ['dick'],
       autoActivate: true,
@@ -2139,12 +2139,12 @@
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
-      spa.details.navBarScrollerFixup(Feed._postsHow);
-      spa.details.navBarScrollerFixup(Feed._commentsHow);
+      spa.details.navBarScrollerFixup(Feed.#postsHow);
+      spa.details.navBarScrollerFixup(Feed.#commentsHow);
 
       this.#dummy = this.addService(DummyService);
 
-      this.#postScroller = new Scroller(Feed.#postsWhat, Feed._postsHow);
+      this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(ScrollerService, this.#postScroller);
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
@@ -2204,7 +2204,7 @@
 
       if (!this.#commentScroller && this._posts.item) {
         this.#commentScroller = new Scroller(
-          {base: this._posts.item, ...Feed.#commentsWhat}, Feed._commentsHow
+          {base: this._posts.item, ...Feed.#commentsWhat}, Feed.#commentsHow
         );
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
@@ -2532,7 +2532,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _sectionsHow = {
+    static #sectionsHow = {
       uidCallback: MyNetwork._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
@@ -2556,7 +2556,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _cardsHow = {
+    static #cardsHow = {
       uidCallback: MyNetwork._uniqueCardsIdentifier,
       classes: ['dick'],
       autoActivate: true,
@@ -2576,11 +2576,11 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
-      spa.details.navBarScrollerFixup(MyNetwork._sectionsHow);
-      spa.details.navBarScrollerFixup(MyNetwork._cardsHow);
+      spa.details.navBarScrollerFixup(MyNetwork.#sectionsHow);
+      spa.details.navBarScrollerFixup(MyNetwork.#cardsHow);
 
       this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
-        MyNetwork._sectionsHow);
+        MyNetwork.#sectionsHow);
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
@@ -2664,7 +2664,7 @@
       if (!this.#cardScroller && this._sections.item) {
         this.#cardScroller = new Scroller(
           {base: this._sections.item, ...MyNetwork.#cardsWhat},
-          MyNetwork._cardsHow
+          MyNetwork.#cardsHow
         );
         this.#cardScroller.dispatcher.on('change', this.#onCardChange);
         this.#cardScroller.dispatcher.on(
@@ -2780,7 +2780,7 @@
       ],
     };
 
-    static _invitesHow = {
+    static #invitesHow = {
       uidCallback: InvitationManager._uniqueIdentifier,
       classes: ['tom'],
     };
@@ -2817,10 +2817,10 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
-      spa.details.navBarScrollerFixup(InvitationManager._invitesHow);
+      spa.details.navBarScrollerFixup(InvitationManager.#invitesHow);
 
       this.#inviteScroller = new Scroller(
-        InvitationManager.#invitesWhat, InvitationManager._invitesHow
+        InvitationManager.#invitesWhat, InvitationManager.#invitesHow
       );
       this.addService(ScrollerService, this.#inviteScroller);
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
@@ -2966,7 +2966,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _sectionsHow = {
+    static #sectionsHow = {
       uidCallback: Jobs._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
@@ -2986,7 +2986,7 @@
     };
 
     /** @type {Scroller~How} */
-    static _jobsHow = {
+    static #jobsHow = {
       uidCallback: Jobs._uniqueJobIdentifier,
       classes: ['dick'],
       autoActivate: true,
@@ -3006,11 +3006,11 @@
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
 
-      spa.details.navBarScrollerFixup(Jobs._sectionsHow);
-      spa.details.navBarScrollerFixup(Jobs._jobsHow);
+      spa.details.navBarScrollerFixup(Jobs.#sectionsHow);
+      spa.details.navBarScrollerFixup(Jobs.#jobsHow);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
-        Jobs._sectionsHow);
+        Jobs.#sectionsHow);
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
@@ -3037,7 +3037,7 @@
       if (!this.#jobScroller && this._sections.item) {
         this.#jobScroller = new Scroller(
           {base: this._sections.item, ...Jobs.#jobsWhat},
-          Jobs._jobsHow
+          Jobs.#jobsHow
         );
         this.#jobScroller.dispatcher.on('change', this.#onJobChange);
         this.#jobScroller.dispatcher.on('out-of-range',
@@ -3571,7 +3571,7 @@
     };
 
     /** @type {Scroller-How} */
-    static _notificationsHow = {
+    static #notificationsHow = {
       uidCallback: Notifications._uniqueIdentifier,
       classes: ['tom'],
       snapToTop: false,
@@ -3590,10 +3590,10 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
-      spa.details.navBarScrollerFixup(Notifications._notificationsHow);
+      spa.details.navBarScrollerFixup(Notifications.#notificationsHow);
 
       this.#notificationScroller = new Scroller(
-        Notifications.#notificationsWhat, Notifications._notificationsHow
+        Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
       this.addService(ScrollerService, this.#notificationScroller);
       this.#notificationScroller.dispatcher.on('out-of-range',
