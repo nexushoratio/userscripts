@@ -1320,9 +1320,9 @@
   function testScroller() {
     const tests = new Map();
 
-    tests.set('baseIsValid', {test: () => {
+    tests.set('baseIsElement', {test: () => {
       const what = {
-        name: 'baseIsValid',
+        name: 'baseIsElement',
         base: document,
       };
       const how = {
@@ -1362,7 +1362,7 @@
 
     tests.set('selectorNeedsBase', {test: () => {
       const what = {
-        name: 'baseNeedsSelector',
+        name: 'selectorNeedsBase',
         selectors: [],
       };
       const how = {
