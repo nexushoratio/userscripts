@@ -22,6 +22,8 @@
 
   const NH = NexusHoratio;
 
+  // TODO(#170): Placeholder comment to allow easy patching of test code.
+
   // TODO(#145): The if test is just here while developing.
   if (NH.base.testing.enabled) {
     // eslint-disable-next-line require-atomic-updates
