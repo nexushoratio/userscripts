@@ -4958,6 +4958,7 @@
 
   log.log('Initialization successful.');
 
+  // TODO(#172): Moving to lib/base.js
   if (NH.base.testing.enabled) {
     const me = 'Running tests';
 
