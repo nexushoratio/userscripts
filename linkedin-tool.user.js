@@ -4999,18 +4999,21 @@
     linkedIn.addSetupIssue('This is a second issue.',
       'We just want to make sure things count properly.');
   }
-  linkedIn.ready.then(() => {
-    log.log('proceeding...');
-    const spa = new SPA(linkedIn);
-    spa.register(Global);
-    spa.register(Feed);
-    spa.register(MyNetwork);
-    spa.register(InvitationManager);
-    spa.register(Jobs);
-    spa.register(JobCollections);
-    spa.register(Notifications);
-    spa.activate(window.location.pathname);
-  });
+
+  await linkedIn.ready;
+  log.log('proceeding...');
+
+  const spa = new SPA(linkedIn);
+  spa.register(Global);
+  spa.register(Feed);
+  spa.register(MyNetwork);
+  spa.register(InvitationManager);
+  spa.register(Jobs);
+  spa.register(JobCollections);
+  spa.register(Notifications);
+  spa.activate(window.location.pathname);
+
+  log.log('Initialization successful.');
 
   if (NH.base.testing.enabled) {
     const me = 'Running tests';
@@ -5027,7 +5030,5 @@
     NH.base.testing.log.leaving(me);
     NH.base.testing.log.log('All tests passed.');
   }
-
-  log.log('Initialization successful.');
 
 })();
