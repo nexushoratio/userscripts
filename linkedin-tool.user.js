@@ -443,30 +443,6 @@
    */
   class TabbedUI {
 
-    #container
-    #id
-    #idName
-    #log
-    #name
-    #nav
-    #navSpacer
-    #nextButton
-    #prevButton
-    #style
-
-    /**
-     * @typedef {object} TabDefinition
-     * @property {string} name - Tab name.
-     * @property {string} content - HTML to be used as initial content.
-     */
-
-    /**
-     * @typedef {object} TabEntry
-     * @property {string} name - Tab name.
-     * @property {Element} label - Tab label, so CSS can be applied.
-     * @property {Element} panel - Tab panel, so content can be updated.
-     */
-
     /**
      * @param {string} name - Used to distinguish HTML elements and CSS
      * classes.
@@ -511,6 +487,13 @@
     get container() {
       return this.#container;
     }
+
+    /**
+     * @typedef {object} TabEntry
+     * @property {string} name - Tab name.
+     * @property {Element} label - Tab label, so CSS can be applied.
+     * @property {Element} panel - Tab panel, so content can be updated.
+     */
 
     /** @type {Map<string,TabEntry>} */
     get tabs() {
@@ -661,6 +644,12 @@
       this.#log.leaving(me);
     }
 
+    /**
+     * @typedef {object} TabDefinition
+     * @property {string} name - Tab name.
+     * @property {string} content - HTML to be used as initial content.
+     */
+
     /** @param {TabDefinition} tab - The new tab. */
     addTab(tab) {
       const me = 'addTab';
@@ -718,6 +707,17 @@
       control.click();
       this.#log.leaving(me);
     }
+
+    #container
+    #id
+    #idName
+    #log
+    #name
+    #nav
+    #navSpacer
+    #nextButton
+    #prevButton
+    #style
 
   }
 
