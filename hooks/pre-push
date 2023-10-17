@@ -1,0 +1,17 @@
+#!/bin/bash
+# Verifies certain criteria before pushing.
+
+set -e
+
+skip_prepush=$(git config --type bool --get  skip.prepush || echo false)
+skip_prepush_scope=$(git config --list --show-scope | awk '/skip.prepush/ {print $1}' | tail -n1)
+
+echo 'warn: Git pushes are currently failing on purpose.'
+if [ "${skip_prepush}" = "true" -a "${skip_prepush_scope}" = "command" ]; then
+  echo 'info: But the magic code was passed, so ignoring....'
+else
+  echo 'info: Verify version updates present:'
+  git diff origin..HEAD | grep -e '^.// @version' -e '^.  const version ='
+  echo 'info: Use "git -c skip.prepush push" to ignore.'
+  exit 1
+fi
