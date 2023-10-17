@@ -1437,6 +1437,8 @@
    *
    * Currently built on the dialog element, the content become part of the
    * DOM.
+   *
+   * The element will get `open` and `close` events.
    */
   class InfoWidget {
 
@@ -1464,6 +1466,18 @@
     /** @type {Element} */
     get element() {
       return this.#dialog;
+    }
+
+    /** Open the widget. */
+    open() {
+      this.element.showModal();
+      this.element.dispatchEvent(new Event('open'));
+    }
+
+    /** Close the widget. */
+    close() {
+      // HTMLDialogElement sends a close event natively.
+      this.element.close();
     }
 
   }
@@ -4113,8 +4127,6 @@
         'click to select tab</span>' +
         `<span class="right">Hit ${esc} to close</span>`;
       this.#infoWidget.element.append(name, instructions);
-      // TODO(#130): Once there is a little bit of information in the widget,
-      // make the button handler toggle which one it shows.
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
@@ -4173,7 +4185,7 @@
           info.showModal();
           info.dispatchEvent(new Event('open'));
         } else {
-          this.logger.log('TODO(#130): Make this open', this.#infoWidget);
+          this.#infoWidget.open();
         }
         if (NH.base.testing.enabled) {
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
