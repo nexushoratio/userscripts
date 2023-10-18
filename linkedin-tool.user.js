@@ -1608,9 +1608,6 @@
    */
   class Service {
 
-    #logger
-    #name
-
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
@@ -1629,6 +1626,9 @@
       this.#name = `${this.constructor.name}: ${name}`;
       this.#logger = new NH.base.Logger(this.#name);
     }
+
+    #logger
+    #name
 
     /** @param {string} name - Name of method that was not implemented. */
     #notImplemented(name) {
