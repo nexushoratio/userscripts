@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1265624
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1266692
 // @grant       window.onurlchange
 // ==/UserScript==
 
