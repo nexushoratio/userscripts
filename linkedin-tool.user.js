@@ -4194,14 +4194,14 @@
       name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
         `v${GM.info.script.version}`;
       const instructions = document.createElement('div');
-      instructions.classList.add('spa-instructions');
+      instructions.classList.add('lit-instructions');
       const left = SPA._parseSeq2('c-left');  // eslint-disable-line no-use-before-define
       const right = SPA._parseSeq2('c-right');  // eslint-disable-line no-use-before-define
       const esc = SPA._parseSeq2('esc');  // eslint-disable-line no-use-before-define
       instructions.innerHTML =
-        `<span class="left">Use the ${left} and ${right} keys or ` +
-        'click to select tab</span>' +
-        `<span class="right">Hit ${esc} to close</span>`;
+        `<span>Use the ${left} and ${right} keys or click to select ` +
+        'tab</span>' +
+        `<span>Hit ${esc} to close</span>`;
       this.#infoWidget.element.append(name, instructions);
     }
 
@@ -4209,16 +4209,32 @@
     #addLitStyle = () => {
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
-      style.textContent +=
+      const styles = [
         '.lit-news {' +
-        ' position: absolute;' +
-        ' bottom: 14px;' +
-        ' right: -5px;' +
-        ' width: 16px;' +
-        ' height: 16px;' +
-        ' border-radius: 50%;' +
-        ' border: 5px solid green;' +
-        '}\n';
+          ' position: absolute;' +
+          ' bottom: 14px;' +
+          ' right: -5px;' +
+          ' width: 16px;' +
+          ' height: 16px;' +
+          ' border-radius: 50%;' +
+          ' border: 5px solid green;' +
+          '}',
+        '.lit-instructions {' +
+          ' display: flex;' +
+          ' flex-direction: row;' +
+          ' justify-content: space-between;' +
+          ' padding-bottom: 1ex;' +
+          ' border-bottom: 1px solid black;' +
+          ' margin-bottom: 5px;' +
+          '}',
+        '.lit-instructions kbd > kbd {' +
+          ' font-size: 0.85em;' +
+          ' padding: 0.07em;' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          '}',
+      ];
+      style.textContent = styles.join('\n');
       document.head.prepend(style);
     }
 
