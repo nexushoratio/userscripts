@@ -654,6 +654,8 @@
 
   }
 
+  // TODO(#167): Migrating Dispatcher to lib/base.js.
+
   /**
    * Simple dispatcher.  It takes a fixed list of event types upon
    * construction and attempts to use an unknown event will throw an error.
