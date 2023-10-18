@@ -3,6 +3,29 @@
 
 set -e
 
+missing=()
+
+while read local_ref local_oid remote_ref remote_oid; do
+  range="${remote_oid}..${local_oid}"
+  while read filename; do
+    echo -n "filename: $filename "
+
+    if git diff "${range}" $filename |
+        grep -q -e '^[+-]// @version' -e '^[+-]  const version = '; then
+      echo '[good]'
+    else
+      echo '[missing]'
+      missing+=("${filename}")
+    fi
+
+  done < <(git diff --name-only "${range}" | grep '\.js$')
+
+  if [ -n "${missing[*]}" ]; then
+    echo "Some files are missing version updates: ${missing[*]}"
+    exit 1
+  fi
+done
+
 skip_prepush=$(git config --type bool --get  skip.prepush || echo false)
 skip_prepush_scope=$(git config --list --show-scope | awk '/skip.prepush/ {print $1}' | tail -n1)
 
