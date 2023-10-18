@@ -762,12 +762,30 @@
      */
 
     /**
+     * Contains CSS selectors to first find a base element, then items that it
+     * contains.
+     * @typedef {object} ContainerItemsSelector
+     * @property {string} container - CSS selector to find the container
+     * element.
+     * @property {string} items - CSS selector to find the items inside the
+     * container.
+     */
+
+    /**
+     * There are two ways to describe what elements go into a Scroller:
+     * 1. An explicit container (base) element and selectors stemming from it.
+     * 2. An array of ContainerItemsSelector that can allow for multiple
+     *   containers with items.  This approach will also allow the Scroller to
+     *   automatically wait for all container elements to exist during
+     *   activation.
      * @typedef {object} What
      * @property {string} name - Name for this scroller, used for logging.
      * @property {Element} base - The container to use as a base for selecting
      * elements.
      * @property {string[]} selectors - Array of CSS selectors to find
      * elements to collect, calling base.querySelectorAll().
+     * @property {ContainerItemsSelector[]} containerItems - Array of
+     * ContainerItemsSelectors.
      */
 
     /**
@@ -801,6 +819,7 @@
         name: this.#name = 'Unnamed scroller',
         base: this.#base,
         selectors: this.#selectors,
+        containerItems: this.#containerItems,
       } = what);
       ({
         uidCallback: this.#uidCallback,
@@ -1202,6 +1221,7 @@
     #bottomMarginCSS
     #bottomMarginPixels
     #classes
+    #containerItems
     #currentItemId = null;
     #destroyed = false;
 
@@ -1225,21 +1245,40 @@
     /** @throws {Scroller.Error} - On many validation issues. */
     #validateInstance = () => {
 
-      if (!this.#base) {
+      if (this.#base && this.#containerItems) {
         throw new Scroller.Error(
-          `No base: ${this.#name} is missing a base`
+          `Cannot have both base AND containerItems: ${this.#name} has both`
         );
       }
 
-      if (!(this.#base instanceof Element)) {
+      if (!this.#base && !this.#containerItems) {
+        throw new Scroller.Error(
+          `Needs either base OR containerItems: ${this.#name} has neither`
+        );
+      }
+
+      if (this.#base && !(this.#base instanceof Element)) {
         throw new Scroller.Error(
           `Not an element: base ${this.#base} given for ${this.#name}`
         );
       }
 
-      if (!this.#selectors) {
+      if (this.#base && !this.#selectors) {
         throw new Scroller.Error(
           `No selectors: ${this.#name} is missing selectors`
+        );
+      }
+
+      if (this.#selectors && !this.#base) {
+        throw new Scroller.Error(
+          `No base: ${this.#name} is using selectors and so needs a base`
+        );
+      }
+
+      if (this.#containerItems) {
+        throw new Scroller.Error(
+          'The feature containerItems is not supported yet: ' +
+            `${this.#name} used containerItems`
         );
       }
 
@@ -1252,6 +1291,46 @@
   /** Test case. */
   function testScroller() {
     const tests = new Map();
+
+    tests.set('needsBaseOrContainerItems', {test: () => {
+      const what = {
+        name: 'needsBaseOrContainerItems',
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error &&
+            e.message.includes('Needs either base OR containerItems:')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
+
+    tests.set('notBaseAndContainerItems', {test: () => {
+      const what = {
+        name: 'needsBaseAndContainerItems',
+        base: document.body,
+        containerItems: [],
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error &&
+            e.message.includes('Cannot have both base AND containerItems:')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
 
     tests.set('baseIsElement', {test: () => {
       const what = {
@@ -1297,6 +1376,7 @@
       const what = {
         name: 'selectorNeedsBase',
         selectors: [],
+        containerItems: [],
       };
       const how = {
       };
@@ -1304,6 +1384,45 @@
         new Scroller(what, how);
       } catch (e) {
         if (e instanceof Scroller.Error && e.message.includes('No base:')) {
+          return 'passed';
+        }
+        return 'caught-but-wrong-error';
+      }
+      return 'failed';
+    },
+    expected: 'passed'});
+
+    tests.set('baseWithSelectorsIsFine', {test: () => {
+      const what = {
+        name: 'baseWithSelectorsIsFine',
+        base: document.body,
+        selectors: [],
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        return 'failed';
+      }
+      return 'passed';
+    },
+    expected: 'passed'});
+
+    tests.set('containerItemsNotSupported', {test: () => {
+      const what = {
+        name: 'containerItemsNotSupported',
+        containerItems: [],
+      };
+      const how = {
+      };
+      try {
+        new Scroller(what, how);
+      } catch (e) {
+        if (e instanceof Scroller.Error &&
+            e.message.includes(
+              'The feature containerItems is not supported yet:'
+            )) {
           return 'passed';
         }
         return 'caught-but-wrong-error';
