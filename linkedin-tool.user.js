@@ -393,29 +393,6 @@
       this.#log.log(`${this.#name} constructed`);
     }
 
-    /** Installs navigational control elements. */
-    #installControls = () => {
-      this.#nav = document.createElement('nav');
-      this.#nav.id = `${this.#id}-controls`;
-      this.#navSpacer = document.createElement('span');
-      this.#navSpacer.classList.add('spacer');
-      this.#prevButton = document.createElement('button');
-      this.#nextButton = document.createElement('button');
-      this.#prevButton.innerText = '←';
-      this.#nextButton.innerText = '→';
-      this.#prevButton.dataset.name = 'prev';
-      this.#nextButton.dataset.name = 'next';
-      this.#prevButton.addEventListener('click', () => this.prev());
-      this.#nextButton.addEventListener('click', () => this.next());
-      // XXX: Cannot get 'button' elements to style nicely, so cheating by
-      // wrapping them in a label.
-      const prevLabel = document.createElement('label');
-      const nextLabel = document.createElement('label');
-      prevLabel.append(this.#prevButton);
-      nextLabel.append(this.#nextButton);
-      this.#nav.append(this.#navSpacer, prevLabel, nextLabel);
-    }
-
     /** @type {Element} */
     get container() {
       return this.#container;
@@ -651,6 +628,29 @@
     #nextButton
     #prevButton
     #style
+
+    /** Installs navigational control elements. */
+    #installControls = () => {
+      this.#nav = document.createElement('nav');
+      this.#nav.id = `${this.#id}-controls`;
+      this.#navSpacer = document.createElement('span');
+      this.#navSpacer.classList.add('spacer');
+      this.#prevButton = document.createElement('button');
+      this.#nextButton = document.createElement('button');
+      this.#prevButton.innerText = '←';
+      this.#nextButton.innerText = '→';
+      this.#prevButton.dataset.name = 'prev';
+      this.#nextButton.dataset.name = 'next';
+      this.#prevButton.addEventListener('click', () => this.prev());
+      this.#nextButton.addEventListener('click', () => this.next());
+      // XXX: Cannot get 'button' elements to style nicely, so cheating by
+      // wrapping them in a label.
+      const prevLabel = document.createElement('label');
+      const nextLabel = document.createElement('label');
+      prevLabel.append(this.#prevButton);
+      nextLabel.append(this.#nextButton);
+      this.#nav.append(this.#navSpacer, prevLabel, nextLabel);
+    }
 
   }
 
