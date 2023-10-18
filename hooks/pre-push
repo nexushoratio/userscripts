@@ -11,7 +11,9 @@ if [ "${skip_prepush}" = "true" -a "${skip_prepush_scope}" = "command" ]; then
   echo 'info: But the magic code was passed, so ignoring....'
 else
   echo 'info: Verify version updates present:'
-  git diff origin..HEAD | grep -e '^.// @version' -e '^.  const version ='
+  echo 'info: BEGIN DIFF'
+  git diff origin..HEAD | grep -e '^[+-]// @version' -e '^[+-]  const version =' || true
+  echo 'info: END DIFF'
   echo 'info: Use "git -c skip.prepush push" to ignore.'
   exit 1
 fi
