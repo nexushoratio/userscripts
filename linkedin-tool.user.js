@@ -1186,7 +1186,9 @@
      * Activate the scroller.
      * @fires 'out-of-range'
      */
-    activate() {
+    async activate() {
+      await this.#waitForBases();
+
       if (this.#handleClicks) {
         this.#onClickElement = this.#base;
         this.#onClickElement.addEventListener('click', this.#onClick);
@@ -1282,6 +1284,17 @@
         );
       }
 
+    }
+
+    /** The page may be reloading, for wait for many things to settle. */
+    #waitForBases = async () => {
+      const results = [];
+
+      for (const {container} of this.#containerItems) {
+        results.push(waitForSelector(container, 0));
+      }
+
+      await Promise.all(results);
     }
 
   }
