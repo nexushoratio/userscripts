@@ -1385,11 +1385,6 @@
    */
   class InfoWidget {
 
-    #dialog
-    #id
-    #logger
-    #name
-
     /** @param {string} name - Name for this view. */
     constructor(name) {
       this.#name = `${this.constructor.name} ${name}`;
@@ -1422,6 +1417,11 @@
       // HTMLDialogElement sends a close event natively.
       this.element.close();
     }
+
+    #dialog
+    #id
+    #logger
+    #name
 
   }
 
