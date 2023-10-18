@@ -5127,21 +5127,6 @@
 
   log.log('Initialization successful.');
 
-  // TODO(#172): Moving to lib/base.js
-  if (NH.base.testing.enabled) {
-    const me = 'Running tests';
-
-    // eslint-disable-next-line require-atomic-updates
-    NH.base.testing.log = new NH.base.Logger('Testing');
-    NH.base.testing.log.entered(me);
-    for (const test of NH.base.testing.funcs) {
-      const name = test.name || test.testName;
-      NH.base.testing.log.starting(name);
-      test();
-      NH.base.testing.log.finished(name);
-    }
-    NH.base.testing.log.leaving(me);
-    NH.base.testing.log.log('All tests passed.');
-  }
+  NH.base.testing.run();
 
 })();
