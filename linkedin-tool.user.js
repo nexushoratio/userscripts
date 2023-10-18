@@ -4287,12 +4287,12 @@
     docTab() {
       const me = 'docTab';
       this.logger.entered(me);
-      const baseGhUrl = 'https://github.com/nexushoratio/userscripts';
-      const baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
-      const issuesLink = `${baseGhUrl}/labels/linkedin-tool`;
-      const newIssueLink = `${baseGhUrl}/issues/new/choose`;
-      const newGfIssueLink = `${baseGfUrl}/feedback`;
-      const releaseNotesLink = `${baseGfUrl}/versions`;
+
+      const issuesLink = `${LinkedIn.#baseGhUrl}/labels/linkedin-tool`;
+      const newIssueLink = `${LinkedIn.#baseGhUrl}/issues/new/choose`;
+      const newGfIssueLink = `${LinkedIn.#baseGfUrl}/feedback`;
+      const releaseNotesLink = `${LinkedIn.#baseGfUrl}/versions`;
+
       const content = [
         `<p>This is information about the <b>${GM.info.script.name}</b> ` +
           'userscript, a type of add-on.  It is not associated with ' +
@@ -4310,10 +4310,12 @@
           'Review the <b>Errors</b> tab for any useful information.</p>',
         '',
       ];
+
       const tab = {
         name: 'About',
         content: content.join('\n'),
       };
+
       this.logger.leaving(me, tab);
       return tab;
     }
@@ -4332,6 +4334,9 @@
       this.logger.leaving(me, tab);
       return tab;
     }
+
+    static #baseGhUrl = 'https://github.com/nexushoratio/userscripts';
+    static #baseGfUrl = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
 
   }
 
