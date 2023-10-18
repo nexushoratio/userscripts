@@ -819,7 +819,7 @@
         name: this.#name = 'Unnamed scroller',
         base: this.#base,
         selectors: this.#selectors,
-        containerItems: this.#containerItems,
+        containerItems: this.#containerItems = [],
       } = what);
       ({
         uidCallback: this.#uidCallback,
@@ -1245,13 +1245,13 @@
     /** @throws {Scroller.Error} - On many validation issues. */
     #validateInstance = () => {
 
-      if (this.#base && this.#containerItems) {
+      if (this.#base && this.#containerItems.length) {
         throw new Scroller.Error(
           `Cannot have both base AND containerItems: ${this.#name} has both`
         );
       }
 
-      if (!this.#base && !this.#containerItems) {
+      if (!this.#base && !this.#containerItems.length) {
         throw new Scroller.Error(
           `Needs either base OR containerItems: ${this.#name} has neither`
         );
@@ -1275,7 +1275,7 @@
         );
       }
 
-      if (this.#containerItems) {
+      if (this.#containerItems.length) {
         throw new Scroller.Error(
           'The feature containerItems is not supported yet: ' +
             `${this.#name} used containerItems`
@@ -1315,7 +1315,7 @@
       const what = {
         name: 'needsBaseAndContainerItems',
         base: document.body,
-        containerItems: [],
+        containerItems: [{}],
       };
       const how = {
       };
@@ -1376,7 +1376,7 @@
       const what = {
         name: 'selectorNeedsBase',
         selectors: [],
-        containerItems: [],
+        containerItems: [{}],
       };
       const how = {
       };
@@ -1412,7 +1412,7 @@
     tests.set('containerItemsNotSupported', {test: () => {
       const what = {
         name: 'containerItemsNotSupported',
-        containerItems: [],
+        containerItems: [{}],
       };
       const how = {
       };
