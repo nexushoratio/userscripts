@@ -666,8 +666,6 @@
      * @param {*} data - Event data.
      */
 
-    #handlers = new Map();
-
     /**
      * @param {...string} eventTypes - Event types this instance can handle.
      */
@@ -675,22 +673,6 @@
       for (const eventType of eventTypes) {
         this.#handlers.set(eventType, []);
       }
-    }
-
-    /**
-     * Look up array of handlers by event type.
-     * @param {string} eventType - Event type to look up.
-     * @throws {Error} - When eventType was not registered during
-     * instantiation.
-     * @returns {Handler[]} - Handlers currently registered for this
-     * eventType.
-     */
-    #getHandlers = (eventType) => {
-      const handlers = this.#handlers.get(eventType);
-      if (!handlers) {
-        throw new Error(`Unknown event type: ${eventType}`);
-      }
-      return handlers;
     }
 
     /**
@@ -726,6 +708,24 @@
       for (const handler of handlers) {
         handler(eventType, data);
       }
+    }
+
+    #handlers = new Map();
+
+    /**
+     * Look up array of handlers by event type.
+     * @param {string} eventType - Event type to look up.
+     * @throws {Error} - When eventType was not registered during
+     * instantiation.
+     * @returns {Handler[]} - Handlers currently registered for this
+     * eventType.
+     */
+    #getHandlers = (eventType) => {
+      const handlers = this.#handlers.get(eventType);
+      if (!handlers) {
+        throw new Error(`Unknown event type: ${eventType}`);
+      }
+      return handlers;
     }
 
   }
