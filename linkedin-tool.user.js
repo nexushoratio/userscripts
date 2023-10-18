@@ -4176,6 +4176,20 @@
 
     #createInfoWidget = () => {
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
+      const id = this.#infoWidget.element.id;
+      const style = document.createElement('style');
+      style.id = `${id}-style`;
+      const styles = [
+        '#{id}:modal {' +
+          ' height: 100%;' +
+          ' width: 65rem;' +
+          ' display: flex;' +
+          ' flex-direction: column;' +
+          '}',
+      ];
+      style.textContent = styles.join('\n');
+      document.head.append(style);
+
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
         `v${GM.info.script.version}`;
