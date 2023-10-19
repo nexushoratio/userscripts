@@ -3064,51 +3064,6 @@
    */
   class Jobs extends Page {
 
-    #sectionScroller = null;
-    #jobScroller = null;
-    #lastScroller
-
-    /** @type {Scroller~What} */
-    static #sectionsWhat = {
-      name: 'Jobs sections',
-      base: document.body,
-      selectors: ['main section'],
-    };
-
-    /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: Jobs._uniqueIdentifier,
-      classes: ['tom'],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #jobsWhat = {
-      name: 'Job entries',
-      selectors: [
-        [
-          // Most job entries
-          ':scope > ul > li',
-          // Show all button
-          'div.discovery-templates-vertical-list__footer',
-        ].join(','),
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #jobsHow = {
-      uidCallback: Jobs._uniqueJobIdentifier,
-      classes: ['dick'],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/jobs/',
-      pageReadySelector: 'main',
-    };
-
     /**
      * Create a Jobs instance.
      * @param {SPA} spa - SPA instance that manages this Page.
@@ -3373,6 +3328,51 @@
           this._jobs.item = savedJob;
         }
       });
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/jobs/',
+      pageReadySelector: 'main',
+    };
+
+    /** @type {Scroller~What} */
+    static #jobsWhat = {
+      name: 'Job entries',
+      selectors: [
+        [
+          // Most job entries
+          ':scope > ul > li',
+          // Show all button
+          'div.discovery-templates-vertical-list__footer',
+        ].join(','),
+      ],
+    };
+
+    /** @type {Scroller~How} */
+    static #jobsHow = {
+      uidCallback: Jobs._uniqueJobIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #sectionsWhat = {
+      name: 'Jobs sections',
+      base: document.body,
+      selectors: ['main section'],
+    };
+
+    /** @type {Scroller~How} */
+    static #sectionsHow = {
+      uidCallback: Jobs._uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+    };
+
+    #sectionScroller = null;
+    #jobScroller = null;
+    #lastScroller
 
   }
 
