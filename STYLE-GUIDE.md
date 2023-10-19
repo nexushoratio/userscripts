@@ -8,7 +8,7 @@ For things is cannot handle at the moment:
 - constructor
 - static public fields (alphabetical, usually none)
 - static public getters/setters (alphabetical)
-- static methods
+- static public methods
 - public fields (alphabetical, usually none)
 - public getters/setters (alphabetical)
 - public methods
