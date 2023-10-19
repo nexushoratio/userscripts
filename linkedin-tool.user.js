@@ -1389,6 +1389,7 @@
     }
 
   }
+  /* eslint-enable */
 
   NH.base.testing.funcs.push(testScroller);
 
