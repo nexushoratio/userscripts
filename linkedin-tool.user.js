@@ -1189,6 +1189,9 @@
      * @fires 'out-of-range'
      */
     async activate() {
+      const me = 'activate';
+      this.logger.entered(me);
+
       await this.#waitForBases();
 
       if (this.#handleClicks) {
@@ -1197,6 +1200,8 @@
       }
       this.#mutationObserver.observe(this.#base, {childList: true});
       this.dispatcher.fire('activate', null);
+
+      this.logger.leaving(me);
     }
 
     /**
@@ -1290,6 +1295,9 @@
 
     /** The page may be reloading, for wait for many things to settle. */
     #waitForBases = async () => {
+      const me = 'waitForBases';
+      this.logger.entered(me);
+
       const results = [];
 
       for (const {container} of this.#containerItems) {
@@ -1297,6 +1305,8 @@
       }
 
       await Promise.all(results);
+
+      this.logger.leaving(me);
     }
 
   }
