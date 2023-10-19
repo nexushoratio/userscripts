@@ -421,6 +421,70 @@
       return entries;
     }
 
+    /**
+     * @typedef {object} TabDefinition
+     * @property {string} name - Tab name.
+     * @property {string} content - HTML to be used as initial content.
+     */
+
+    /** @param {TabDefinition} tab - The new tab. */
+    addTab(tab) {
+      const me = 'addTab';
+      this.#log.entered(me, tab);
+      const {
+        name,
+        content,
+      } = tab;
+      const idName = NH.base.safeId(name);
+      const input = this.#createInput(name, idName);
+      const label = this.#createLabel(name, input, idName);
+      const panel = this.#createPanel(name, idName, content);
+      input.addEventListener('change', this.#onChange.bind(this, panel));
+      this.#nav.before(input);
+      this.#navSpacer.before(label);
+      this.container.append(panel);
+
+      const inputChecked =
+            `#${this.container.id} > ` +
+            `input[data-tabbed-name="${name}"]:checked`;
+      this.#style.textContent +=
+        `${inputChecked} ~ nav > [data-tabbed-name="${name}"] {` +
+        ' border-bottom: 3px solid black;' +
+        '}\n';
+      this.#style.textContent +=
+        `${inputChecked} ~ div[data-tabbed-name="${name}"] {` +
+        ' display: flex;' +
+        '}\n';
+
+      this.#log.leaving(me);
+    }
+
+    /** Activate the next tab. */
+    next() {
+      const me = 'next';
+      this.#log.entered(me);
+      this.#switchTab(1);
+      this.#log.leaving(me);
+    }
+
+    /** Activate the previous tab. */
+    prev() {
+      const me = 'prev';
+      this.#log.entered(me);
+      this.#switchTab(-1);
+      this.#log.leaving(me);
+    }
+
+    /** @param {string} name - Name of the tab to activate. */
+    goto(name) {
+      const me = 'goto';
+      this.#log.entered(me, name);
+      const controls = this.#getTabControls();
+      const control = controls.find(item => item.dataset.tabbedName === name);
+      control.click();
+      this.#log.leaving(me);
+    }
+
     /** Installs basic CSS styles for the UI. */
     #installStyle = () => {
       this.#style = document.createElement('style');
@@ -551,70 +615,6 @@
       const me = 'onChange';
       this.#log.entered(me, evt, panel);
       panel.dispatchEvent(new Event('expose'));
-      this.#log.leaving(me);
-    }
-
-    /**
-     * @typedef {object} TabDefinition
-     * @property {string} name - Tab name.
-     * @property {string} content - HTML to be used as initial content.
-     */
-
-    /** @param {TabDefinition} tab - The new tab. */
-    addTab(tab) {
-      const me = 'addTab';
-      this.#log.entered(me, tab);
-      const {
-        name,
-        content,
-      } = tab;
-      const idName = NH.base.safeId(name);
-      const input = this.#createInput(name, idName);
-      const label = this.#createLabel(name, input, idName);
-      const panel = this.#createPanel(name, idName, content);
-      input.addEventListener('change', this.#onChange.bind(this, panel));
-      this.#nav.before(input);
-      this.#navSpacer.before(label);
-      this.container.append(panel);
-
-      const inputChecked =
-            `#${this.container.id} > ` +
-            `input[data-tabbed-name="${name}"]:checked`;
-      this.#style.textContent +=
-        `${inputChecked} ~ nav > [data-tabbed-name="${name}"] {` +
-        ' border-bottom: 3px solid black;' +
-        '}\n';
-      this.#style.textContent +=
-        `${inputChecked} ~ div[data-tabbed-name="${name}"] {` +
-        ' display: flex;' +
-        '}\n';
-
-      this.#log.leaving(me);
-    }
-
-    /** Activate the next tab. */
-    next() {
-      const me = 'next';
-      this.#log.entered(me);
-      this.#switchTab(1);
-      this.#log.leaving(me);
-    }
-
-    /** Activate the previous tab. */
-    prev() {
-      const me = 'prev';
-      this.#log.entered(me);
-      this.#switchTab(-1);
-      this.#log.leaving(me);
-    }
-
-    /** @param {string} name - Name of the tab to activate. */
-    goto(name) {
-      const me = 'goto';
-      this.#log.entered(me, name);
-      const controls = this.#getTabControls();
-      const control = controls.find(item => item.dataset.tabbedName === name);
-      control.click();
       this.#log.leaving(me);
     }
 
