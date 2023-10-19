@@ -4030,13 +4030,6 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
-    #globals
-    #infoId
-    #infoWidget
-    #licenseData
-    #licenseLoaded
-    #navbar
-
     urlChangeMonitorSelector = 'div.authentication-outlet';
 
     static #icon =
@@ -4401,6 +4394,13 @@
       this.logger.leaving(me, tab);
       return tab;
     }
+
+    #globals
+    #infoId
+    #infoWidget
+    #licenseData
+    #licenseLoaded
+    #navbar
 
   }
 
