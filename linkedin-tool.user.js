@@ -4206,19 +4206,7 @@
 
     #createInfoWidget = () => {
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
-      const id = this.#infoWidget.element.id;
-      const style = document.createElement('style');
-      style.id = `${id}-style`;
-      const styles = [
-        '#{id}:modal {' +
-          ' height: 100%;' +
-          ' width: 65rem;' +
-          ' display: flex;' +
-          ' flex-direction: column;' +
-          '}',
-      ];
-      style.textContent = styles.join('\n');
-      document.head.append(style);
+      this.#infoWidget.element.classList.add('lit-info');
 
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
@@ -4243,6 +4231,12 @@
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
       const styles = [
+        '.lit-info:modal {' +
+          ' height: 100%;' +
+          ' width: 65rem;' +
+          ' display: flex;' +
+          ' flex-direction: column;' +
+          '}',
         '.lit-news {' +
           ' position: absolute;' +
           ' bottom: 14px;' +
