@@ -4223,7 +4223,9 @@
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
         `v${GM.info.script.version}`;
+
       const instructions = document.createElement('div');
+      instructions.classList.add('lit-justify');
       instructions.classList.add('lit-instructions');
       const left = SPA._parseSeq2('c-left');  // eslint-disable-line no-use-before-define
       const right = SPA._parseSeq2('c-right');  // eslint-disable-line no-use-before-define
@@ -4232,6 +4234,7 @@
         `<span>Use the ${left} and ${right} keys or click to select ` +
         'tab</span>' +
         `<span>Hit ${esc} to close</span>`;
+
       this.#infoWidget.element.append(name, instructions);
     }
 
@@ -4249,10 +4252,12 @@
           ' border-radius: 50%;' +
           ' border: 5px solid green;' +
           '}',
-        '.lit-instructions {' +
+        '.lit-justify {' +
           ' display: flex;' +
           ' flex-direction: row;' +
           ' justify-content: space-between;' +
+          '}',
+        '.lit-instructions {' +
           ' padding-bottom: 1ex;' +
           ' border-bottom: 1px solid black;' +
           ' margin-bottom: 5px;' +
