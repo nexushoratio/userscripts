@@ -2050,11 +2050,12 @@
     async activate() {
       this.#keyboard.enable();
       await this.#waitUntilReady();
-      // TODO(#150): Will be removed.
-      this._refresh();
       for (const service of this.#services) {
         service.activate();
       }
+
+      // TODO(#150): Will be removed.
+      this._refresh();
     }
 
     /**
