@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1266692
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1266925
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -654,84 +654,6 @@
 
   }
 
-  // TODO(#167): Migrating Dispatcher to lib/base.js.
-
-  /**
-   * Simple dispatcher.  It takes a fixed list of event types upon
-   * construction and attempts to use an unknown event will throw an error.
-   */
-  class Dispatcher {
-
-    /**
-     * @callback Handler
-     * @param {string} eventType - Event type.
-     * @param {*} data - Event data.
-     */
-
-    /**
-     * @param {...string} eventTypes - Event types this instance can handle.
-     */
-    constructor(...eventTypes) {
-      for (const eventType of eventTypes) {
-        this.#handlers.set(eventType, []);
-      }
-    }
-
-    /**
-     * Attach a function to an eventType.
-     * @param {string} eventType - Event type to connect with.
-     * @param {Handler} func - Single argument function to call.
-     */
-    on(eventType, func) {
-      const handlers = this.#getHandlers(eventType);
-      handlers.push(func);
-    }
-
-    /**
-     * Remove all instances of a function registered to an eventType.
-     * @param {string} eventType - Event type to disconnect from.
-     * @param {Handler} func - Function to remove.
-     */
-    off(eventType, func) {
-      const handlers = this.#getHandlers(eventType);
-      let index = 0;
-      while ((index = handlers.indexOf(func)) !== NH.base.NOT_FOUND) {
-        handlers.splice(index, 1);
-      }
-    }
-
-    /**
-     * Calls all registered functions for the given eventType.
-     * @param {string} eventType - Event type to use.
-     * @param {object} data - Data to pass to each function.
-     */
-    fire(eventType, data) {
-      const handlers = this.#getHandlers(eventType);
-      for (const handler of handlers) {
-        handler(eventType, data);
-      }
-    }
-
-    #handlers = new Map();
-
-    /**
-     * Look up array of handlers by event type.
-     * @param {string} eventType - Event type to look up.
-     * @throws {Error} - When eventType was not registered during
-     * instantiation.
-     * @returns {Handler[]} - Handlers currently registered for this
-     * eventType.
-     */
-    #getHandlers = (eventType) => {
-      const handlers = this.#handlers.get(eventType);
-      if (!handlers) {
-        throw new Error(`Unknown event type: ${eventType}`);
-      }
-      return handlers;
-    }
-
-  }
-
   /**
    * An ordered collection of HTMLElements for a user to continuously scroll
    * through.
@@ -847,7 +769,7 @@
 
     };
 
-    /** @type {Dispatcher} */
+    /** @type {NH.base.Dispatcher} */
     get dispatcher() {
       return this.#dispatcher;
     }
@@ -1234,7 +1156,7 @@
     #currentItemId = null;
     #destroyed = false;
 
-    #dispatcher = new Dispatcher(
+    #dispatcher = new NH.base.Dispatcher(
       'change', 'out-of-range', 'activate', 'deactivate'
     );
 
@@ -3939,7 +3861,7 @@
 
       this.#logger = new NH.base.Logger(this.constructor.name);
       this.#id = NH.base.safeId(NH.base.uuId(this.constructor.name));
-      this.dispatcher = new Dispatcher('errors', 'news');
+      this.dispatcher = new NH.base.Dispatcher('errors', 'news');
     }
 
     /**
@@ -3975,7 +3897,7 @@
     /**
      * Handles notifications about changes to the {@link SPA} Errors tab
      * content.
-     * @implements {Dispatcher~Handler}
+     * @implements {NH.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
@@ -3985,7 +3907,7 @@
 
     /**
      * Handles notifications about activity on the {@link SPA} News tab.
-     * @implements {Dispatcher~Handler}
+     * @implements {NH.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {object} data - Undefined at this time.
      */
