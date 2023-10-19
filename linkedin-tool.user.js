@@ -1466,8 +1466,6 @@
    */
   class LinkedInGlobals {
 
-    #navBarHeightPixels = 0;
-
     /** @type {number} - The height of the navbar in pixels. */
     get navBarHeightPixels() {
       return this.#navBarHeightPixels;
@@ -1505,6 +1503,8 @@
         focusOnElement(aside);
       }
     }
+
+    #navBarHeightPixels = 0;
 
   }
 
