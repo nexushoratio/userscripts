@@ -745,16 +745,6 @@
    */
   class Scroller {
 
-    /** @type {NH.base.Logger} */
-    get logger() {
-      return this.#logger;
-    }
-
-    /** @type {Dispatcher} */
-    get dispatcher() {
-      return this.#dispatcher;
-    }
-
     /**
      * Function that generates a, preferably, reproducible unique identifier
      * for an Element.
@@ -857,38 +847,9 @@
 
     };
 
-    /**
-     * If an item is clicked, switch to it.
-     * @param {Event} evt - Standard 'click' event.
-     */
-    #onClick = (evt) => {
-      const me = 'onClick';
-      this.logger.entered(me, evt);
-      for (const item of this.#getItems()) {
-        if (item.contains(evt.target)) {
-          this.logger.log('found:', item);
-          if (item !== this.item) {
-            this.item = item;
-          }
-        }
-      }
-      this.logger.leaving(me);
-    }
-
-    /** @param {MutationRecord[]} records - Standard mutation records. */
-    #mutationHandler = (records) => {
-      const me = 'mutationHandler';
-      this.logger.entered(
-        me, `records: ${records.length} type: ${records[0].type}`
-      );
-      for (const record of records) {
-        if (record.type === 'childList') {
-          this.logger.log('childList record');
-        } else if (record.type === 'attributes') {
-          this.logger.log('attribute records');
-        }
-      }
-      this.logger.leaving(me);
+    /** @type {Dispatcher} */
+    get dispatcher() {
+      return this.#dispatcher;
     }
 
     /** @type {string} - Current item's uid. */
@@ -927,6 +888,45 @@
       this.logger.entered(me, val);
       this.dull();
       this.#bottomHalf(val);
+      this.logger.leaving(me);
+    }
+
+    /** @type {NH.base.Logger} */
+    get logger() {
+      return this.#logger;
+    }
+
+    /**
+     * If an item is clicked, switch to it.
+     * @param {Event} evt - Standard 'click' event.
+     */
+    #onClick = (evt) => {
+      const me = 'onClick';
+      this.logger.entered(me, evt);
+      for (const item of this.#getItems()) {
+        if (item.contains(evt.target)) {
+          this.logger.log('found:', item);
+          if (item !== this.item) {
+            this.item = item;
+          }
+        }
+      }
+      this.logger.leaving(me);
+    }
+
+    /** @param {MutationRecord[]} records - Standard mutation records. */
+    #mutationHandler = (records) => {
+      const me = 'mutationHandler';
+      this.logger.entered(
+        me, `records: ${records.length} type: ${records[0].type}`
+      );
+      for (const record of records) {
+        if (record.type === 'childList') {
+          this.logger.log('childList record');
+        } else if (record.type === 'attributes') {
+          this.logger.log('attribute records');
+        }
+      }
       this.logger.leaving(me);
     }
 
