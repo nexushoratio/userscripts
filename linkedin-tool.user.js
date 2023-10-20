@@ -4314,6 +4314,52 @@
     }
 
     /** @inheritdoc */
+    newsTab() {
+      const me = 'newsTab';
+      this.logger.entered(me);
+
+      const {dates, knownIssues} = this.#preprocessKnownIssues();
+
+      const content = [
+        '<p>The contains a manually curated list of changes over the last ' +
+          'month or so that:',
+        '<ul>',
+        '<li>Added new features like support for new pages or more ' +
+          'hotkeys</li>',
+        '<li>Explicitly fixed a bug</li>',
+        '<li>May cause a use noticeable change</li>',
+        '</ul>',
+        '</p>',
+        '<p>See the <b>About</b> tab for finding all changes by release.</p>',
+      ];
+
+      const dateHeader = 'h3';
+      const issueHeader = 'h4';
+
+      for (const [date, items] of dates) {
+        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
+        for (const [issue, subjects] of items) {
+          content.push(
+            `<${issueHeader}>${knownIssues.get(issue)}</${issueHeader}>`
+          );
+          content.push('<ul>');
+          for (const subject of subjects) {
+            content.push(`<li>${subject}</li>`);
+          }
+          content.push('</ul>');
+        }
+      }
+
+      const tab = {
+        name: 'News',
+        content: content.join('\n'),
+      };
+
+      this.logger.leaving(me);
+      return tab;
+    }
+
+    /** @inheritdoc */
     licenseTab() {
       const me = 'licenseTab';
       this.logger.entered(me);
@@ -4328,12 +4374,482 @@
       return tab;
     }
 
+    static #knownIssues = [
+      ['Bob', 'Bob has no issues'],
+      ['', 'Minor internal improvement'],
+      ['#106', 'info view: more tabs: News, License'],
+      [
+        '#110', 'info view: replace <kbd><kbd>X</kbd></kbd> with ' +
+       '<kbd><kbd>Shift</kbd>+<kbd>x</kbd></kbd>',
+      ],
+      ['#116', 'help view: Rename as info view or something'],
+      ['#130', 'Factor hotkey handling out of SPA'],
+      ['#140', 'Self registering keyboard shortcuts'],
+      ['#142', 'Support My Network view'],
+      ['#143', 'Support jobs search view'],
+      ['#145', 'Logger: improved controls'],
+      ['#149', 'Scroller: support onclick natively'],
+      ['#150', 'Scroller: handle page reloads better'],
+      ['#151', 'MyNetwork: card scrolling does not work after return'],
+      ['#153', 'Support Invitation manager view'],
+      [
+        '#154', 'Notifications: <kbd><kbd>X</kbd></kbd> no longer works to ' +
+       'dismiss',
+      ],
+      [
+        '#155', 'Jobs: The <i>More jobs few you</i> section no longer ' +
+       'navigates jobs',
+      ],
+      [
+        '#157', 'InvitationManager: Invite not scrolling into view upon ' +
+       'refresh',
+      ],
+      [
+        '#159', 'MyNetwork: Trying to <kbd><kbd>E</kbd></kbd>ngage does ' +
+          'not always work',
+      ],
+      ['#167', 'Refactor into libraries'],
+      [
+        '#168', 'JobCollections: <kbd><kbd>X</kbd></kbd> will not recover ' +
+          'a dismissed job card',
+      ],
+    ];
+
+    static #newsContent = [
+      {
+        date: '2023-10-20',
+        issues: ['#106'],
+        subject: 'Basic News tab',
+      },
+      {
+        date: '2023-10-19',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 9, switch to that ' +
+          '<i>Dispatcher</i>',
+      },
+      {
+        date: '2023-10-18',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 8, for new features',
+      },
+      {
+        date: '2023-10-17',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 6, switch to that <i>uuId</i>, ' +
+          '<i>safeId</i>, and <i>strHash</i>',
+      },
+      {
+        date: '2023-10-16',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 5, switch to that <i>Logger</i>',
+      },
+      {
+        date: '2023-10-15',
+        issues: ['#168'],
+        subject: 'Implement <kbd><kbd>+</kbd></kbd> and ' +
+          '<kbd><kbd>-</kbd></kbd> for thumbs-up and thumbs-down on job ' +
+          'cards',
+      },
+      {
+        date: '2023-10-15',
+        issues: ['#168'],
+        subject: 'Make a CSS selector case insensitive',
+      },
+      {
+        date: '2023-10-14',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 3, switch to that ' +
+          '<i>DefaultMap</i>',
+      },
+      {
+        date: '2023-10-13',
+        issues: ['#167'],
+        subject: 'Bump lib/base to version 2, still learning the ropes',
+      },
+      {
+        date: '2023-10-12',
+        issues: ['#167'],
+        subject: 'Include libraries and version numbers in the ' +
+          '<b>Errors</b> tab',
+      },
+      {
+        date: '2023-10-12',
+        issues: ['#167'],
+        subject: 'First use of the new base library',
+      },
+      {
+        date: '2023-10-12',
+        issues: ['#150'],
+        subject: 'Rip out <i>Jobs</i> Rube Goldberg device for monitoring ' +
+          'changes',
+      },
+      {
+        date: '2023-10-11',
+        issues: ['#145'],
+        subject: 'Plug in loading saved <i>Logger</i> configs (dev only)',
+      },
+      {
+        date: '2023-10-11',
+        issues: ['#145'],
+        subject: 'Implement setting configs from an object',
+      },
+      {
+        date: '2023-10-11',
+        issues: ['#145'],
+        subject: 'Remove explicit setting of <i>Logger</i>s for debug ' +
+          'reasons',
+      },
+      {
+        date: '2023-10-11',
+        issues: ['#145'],
+        subject: 'Initial implementation of saving <i>Logger</i> config ' +
+          '(dev only)',
+      },
+      {
+        date: '2023-10-10',
+        issues: ['#149'],
+        subject: 'Migrate all secondary <i>Scroller</i>s to using ' +
+          '<i>autoActivate</i>',
+      },
+      {
+        date: '2023-10-10',
+        issues: ['#149'],
+        subject: 'Give <i>Scroller</i> the option to call <i>activate</i> ' +
+          'upon construction',
+      },
+      {
+        date: '2023-10-10',
+        issues: ['#149'],
+        subject: 'Have all secondary <i>Scroller</i>s created immediately',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Initial work selecting job card on initial page load',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Change the job card <i>Scroller</i> to use a different ' +
+          'element',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Give the job cards a bottom scroll margin as well',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Change hotkey from <kbd><kbd>Enter</kbd></kbd> to ' +
+          '<kbd>c</kbd>',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Give pagination <i>Scroller</i> a bit of a buffer on the ' +
+          'bottom',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Allow pagination <i>Scroller</i> to get focus',
+      },
+      {
+        date: '2023-10-09',
+        issues: ['#143'],
+        subject: 'Change the pagination <i>Scroller</i> to use a different ' +
+          'element',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement toggle the job search ' +
+          'a<kbd><kbd>L</kbd></kbd>ert',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement opening the job <kbd><kbd>s</kbd></kbd>hare menu',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement <kbd><kbd>A</kbd></kbd>pply to job',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement toggle to <kbd><kbd>F</kbd></kbd>ollow the ' +
+          'company',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the job ' +
+          'details menu',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Update focusing on the details pane',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Explicitly set <i>snapToTop</i> false',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Implement <kbd><kbd>S</kbd></kbd>ave job toggle',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#149'],
+        subject: 'Remove all click handling from <i>Page</i> and subclasses',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#149'],
+        subject: 'Enable click handling by default in <i>Scroller</i>',
+      },
+      {
+        date: '2023-10-08',
+        issues: ['#143'],
+        subject: 'Use <kbd><kbd>X</kbd></kbd> to toggle dismissing job',
+      },
+      {
+        date: '2023-10-07',
+        issues: ['#143'],
+        subject: 'Use <kbd><kbd>d</kbd></kbd> to jump to the job details ' +
+          'pane',
+      },
+      {
+        date: '2023-10-07',
+        issues: ['#149'],
+        subject: 'Switch <i>Feed</i> to use the new <i>Scroller</i> click ' +
+          'handler',
+      },
+      {
+        date: '2023-10-07',
+        issues: ['#143'],
+        subject: 'Support the <i>/jobs/{collections,search}/</i> pages',
+      },
+      {
+        date: '2023-10-06',
+        issues: [''],
+        subject: 'Rename <i>Information</i> tab to <i>About</i>',
+      },
+      {
+        date: '2023-10-06',
+        issues: ['#159'],
+        subject: 'The <i>MyNetwork</i> cards need more selectors',
+      },
+      {
+        date: '2023-10-06',
+        issues: ['#142'],
+        subject: 'Change <i>MyNetwork</i> card viewing from ' +
+          '<kbd><kbd>v</kbd></kbd> to <kbd><kbd>Enter</kbd></kbd>',
+      },
+      {
+        date: '2023-10-05',
+        issues: ['#157'],
+        subject: 'Enable some logging while working on this issue',
+      },
+      {
+        date: '2023-10-05',
+        issues: ['#157'],
+        subject: 'Additional logging',
+      },
+      {
+        date: '2023-10-04',
+        issues: ['#153'],
+        subject: 'Track current invite so it can be found again later',
+      },
+      {
+        date: '2023-10-04',
+        issues: ['#140'],
+        subject: 'Migrate <i>Notifications</i> to self-registering shortcuts',
+      },
+      {
+        date: '2023-10-03',
+        issues: ['#154'],
+        subject: 'Update text used to find a button',
+      },
+      {
+        date: '2023-10-03',
+        issues: ['#153'],
+        subject: 'Support clicking on an invite to select it',
+      },
+      {
+        date: '2023-10-01',
+        issues: ['#153'],
+        subject: 'Implement many <i>Invitation manager</i> actions',
+      },
+      {
+        date: '2023-09-30',
+        issues: ['#140'],
+        subject: 'Migrate <i>Feed</i> to self-registering shortcuts',
+      },
+      {
+        date: '2023-09-29',
+        issues: ['#153'],
+        subject: 'Support the <i>/mynetwork/invitation-manager/</i> page',
+      },
+      {
+        date: '2023-09-29',
+        issues: ['#142'],
+        subject: 'Correct the description for <kbd><kbd>f</kbd></kbd>ocus',
+      },
+      {
+        date: '2023-09-29',
+        issues: ['#151'],
+        subject: 'Reset card scroller when revisiting the <i>MyNetwork</i> ' +
+          'page',
+      },
+      {
+        date: '2023-09-28',
+        issues: ['#140'],
+        subject: 'Migrate <i>Global</i> to self-registering shortcuts',
+      },
+      {
+        date: '2023-09-28',
+        issues: ['#142'],
+        subject: 'Enable <kbd><kbd>X</kbd></kbd> to dismiss a card',
+      },
+      {
+        date: '2023-09-28',
+        issues: ['#142'],
+        subject: 'Disable debugging in card scroller',
+      },
+      {
+        date: '2023-09-27',
+        issues: ['#142'],
+        subject: 'Add <kbd><kbd>E</kbd></kbd>ngage as a way to interact ' +
+          'with the current card',
+      },
+      {
+        date: '2023-09-27',
+        issues: ['#142'],
+        subject: 'Reword <i>Activate</i> to <i>View</i>',
+      },
+      {
+        date: '2023-09-26',
+        issues: ['#145'],
+        subject: 'Give testing its own <i>Logger</i>',
+      },
+      {
+        date: '2023-09-26',
+        issues: ['#142'],
+        subject: 'A fix to yesterday\'s <b>improvement</b> to CSS selectors',
+      },
+      {
+        date: '2023-09-25',
+        issues: ['#142'],
+        subject: 'Improve CSS selectors for both sections and cards',
+      },
+      {
+        date: '2023-09-24',
+        issues: ['#142'],
+        subject: 'Bring current section back into view if possible',
+      },
+      {
+        date: '2023-09-24',
+        issues: ['#116'],
+        subject: 'Last bit of <i>help</i> to <i>info</i> migration',
+      },
+      {
+        date: '2023-09-24',
+        issues: ['#110'],
+        subject: 'Switch everything over to the new key table generator',
+      },
+      {
+        date: '2023-09-23',
+        issues: ['#116'],
+        subject: 'Some more <i>help</i> to <i>info</i> migration',
+      },
+      {
+        date: '2023-09-22',
+        issues: ['#142'],
+        subject: 'Add navigation amongst cards in a section using ' +
+          '<kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd>',
+      },
+      {
+        date: '2023-09-22',
+        issues: ['#142'],
+        subject: 'Turn off debugging for <i>MyNetwork</i> sections scroller',
+      },
+      {
+        date: '2023-09-22',
+        issues: ['#116'],
+        subject: 'Rename some properties with <i>help</i> in them',
+      },
+      {
+        date: '2023-09-21',
+        issues: ['#142'],
+        subject: 'Add a simple <i>Activate current item</i> feature',
+      },
+      {
+        date: '2023-09-21',
+        issues: ['#116'],
+        subject: 'A batch of variable renaming from <i>help</i> to ' +
+          '<i>info</i>',
+      },
+      {
+        date: '2023-09-20',
+        issues: ['#140'],
+        subject: 'Give self-registering shortcuts a try',
+      },
+      {
+        date: '2023-09-20',
+        issues: ['#142'],
+        subject: 'Support the <i>/mynetwork/</i> page',
+      },
+      {
+        date: '2023-09-20',
+        issues: ['#116'],
+        subject: 'More <i>help</i> to <i>info</i> migrations',
+      },
+    ];
+
     #globals
     #infoId
     #infoWidget
     #licenseData
     #licenseLoaded
     #navbar
+
+    /** @returns {obj} - dates and known issues. */
+    #preprocessKnownIssues = () => {
+      const knownIssues = new Map(LinkedIn.#knownIssues);
+      const unknownIssues = new Set();
+      const unusedIssues = new Set(knownIssues.keys());
+
+      const dates = new NH.base.DefaultMap(
+        () => new NH.base.DefaultMap(Array)
+      );
+
+      for (const item of LinkedIn.#newsContent) {
+        for (const issue of item.issues) {
+          if (knownIssues.has(issue)) {
+            unusedIssues.delete(issue);
+            dates.get(item.date).get(issue)
+              .push(item.subject);
+          } else {
+            unknownIssues.add(issue);
+          }
+        }
+      }
+
+      this.logger.log('unknown', unknownIssues);
+      this.logger.log('unused', unusedIssues);
+
+      return {
+        dates: dates,
+        knownIssues: knownIssues,
+      };
+    }
 
   }
 
@@ -4588,6 +5104,9 @@
           ' color: unset;' +
           ' padding: 3px;' +
           '}',
+        `#${this._infoId} ul {` +
+          ' padding-inline: revert !important;' +
+          '}',
         `#${this._infoId} button.spa-meatball { border-radius: 50%; }`,
         '',
       ];
@@ -4743,6 +5262,7 @@
       const tabGenerators = [
         SPA._shortcutsTab(),
         this.#details.docTab(),
+        this.#details.newsTab(),
         SPA._errorTab(),
         this.#details.licenseTab(),
       ];
