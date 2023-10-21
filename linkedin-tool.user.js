@@ -4140,7 +4140,8 @@
 
     #createInfoWidget = () => {
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
-      this.#infoWidget.element.classList.add('lit-info');
+      const widget = this.#infoWidget.element;
+      widget.classList.add('lit-info');
 
       const name = document.createElement('div');
       name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
@@ -4157,7 +4158,7 @@
         'tab</span>' +
         `<span>Hit ${esc} to close</span>`;
 
-      this.#infoWidget.element.append(name, instructions);
+      widget.append(name, instructions);
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
