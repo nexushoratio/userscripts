@@ -124,3 +124,60 @@ inotifywait --quiet --monitor --event CLOSE_WRITE --format '%w%f' lib | while re
 As the libraries are updated, the extra `@require`statements will be updated which will force *VM* to reload them because the URLs have changed.  Two versions of the library will be loaded, but the second one will take precedence.  Not yet tested with other userscript managers.
 
 Do **NOT** check in!
+
+### Supporting a new page
+
+Supporting a new page is not always easy.  Many pages load dynamically, which is why things like `Page`'s *pageReadySelector* exists.  Learning what that selector should be can be challenging, and it will be discovered that, depending on what gets loaded onto the page, it may change from time to time.
+
+One technique is to create *MutationObserver* that simply adds a counter to each element on the page as it arrives.  Elements that existed before the observe gets activated will have no counter.  Simply watching to see when the page settles down can provide a strong hint on when things are ready.
+
+The is an example of a new `Page` that does this.  Note that sometimes, nodes get removed from a page moments after they get added.  Shipping your org chart FTW!
+
+```
+  class WatchPage extends Page {
+
+    constructor(spa) {
+      super({spa: spa});
+
+      this.#MO = new MutationObserver(this.#mutationHandler);
+    }
+
+    #MO
+
+    _refresh() {
+      this.counter = 1;
+      this.#MO.observe(document.querySelector('body'), {childList: true, subtree: true});
+    }
+
+    #mutationHandler = (records) => {
+      const me = 'mutationHandler';
+      this.logger.entered(me, `records: ${records.length}`);
+      log.log('this from mutationHandler:', this);
+      for (const record of records) {
+        if (record.type === 'childList') {
+          for (const node of record.addedNodes) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              node.dataset.counter = this.counter;
+              this.counter += 1;
+            }
+          }
+          for (const node of record.removedNodes) {
+            if (node.nodeType === Node.ELEMENT_NODE && node.matches('[data-counter]')) {
+              this.logger.log('removed node:', node);
+            }
+          }
+        } else if (record.type === 'attributes') {
+          this.logger.log('attribute records');
+        }
+      }
+      this.logger.leaving(me, this.counter);
+    }
+
+  }
+```
+Then in the console, do a query for the largest *data-counter* to see what the last thing loaded was.  Having timestamps turned on in the console helps.
+```
+$('[data-counter="NUM"]')
+```
+
+Without true details passed to *super()*, this will watch any page being loaded, so careful.
