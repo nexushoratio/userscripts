@@ -152,23 +152,39 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
       this.logger.entered(me, `records: ${records.length}`);
-      log.log('this from mutationHandler:', this);
+
+      const adds = [];
+      const dels = [];
       for (const record of records) {
         if (record.type === 'childList') {
           for (const node of record.addedNodes) {
             if (node.nodeType === Node.ELEMENT_NODE) {
               node.dataset.counter = this.counter;
               this.counter += 1;
+              adds.push(node);
             }
           }
           for (const node of record.removedNodes) {
             if (node.nodeType === Node.ELEMENT_NODE && node.matches('[data-counter]')) {
-              this.logger.log('removed node:', node);
+              dels.push(node);
             }
           }
-        } else if (record.type === 'attributes') {
-          this.logger.log('attribute records');
         }
+      }
+
+      if (adds.length) {
+        this.logger.starting('adds', adds.length);
+        for (const node of adds) {
+          this.logger.log('node:', node, node.innerText);
+        }
+        this.logger.finished('adds');
+      }
+      if (dels.length) {
+        this.logger.starting('dels', dels.length);
+        for (const node of dels) {
+          this.logger.log('node:', node);
+        }
+        this.logger.finished('dels');
       }
       this.logger.leaving(me, this.counter);
     }
