@@ -3591,6 +3591,26 @@
 
   }
 
+  /** Class for handling the Messaging page. */
+  class Messaging extends Page {
+
+    /**
+     * Create a Messaging instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Messaging.#details});
+    }
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/messaging/.*', 'u'),
+      pageReadySelector: '#compactfooter-copyright',
+    };
+
+  }
+
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
 
@@ -5606,6 +5626,7 @@
   spa.register(Global);
   spa.register(Feed);
   spa.register(MyNetwork);
+  spa.register(Messaging);
   spa.register(InvitationManager);
   spa.register(Jobs);
   spa.register(JobCollections);
