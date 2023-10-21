@@ -4144,8 +4144,12 @@
       widget.classList.add('lit-info');
 
       const name = document.createElement('div');
-      name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
-        `v${GM.info.script.version}`;
+      name.classList.add('lit-justify');
+      const title = `<b>${GM.info.script.name}</b> - ` +
+            `v${GM.info.script.version}`;
+      const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
+      const dismiss = `<button id=${dismissId}>X</button>`;
+      name.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
 
       const instructions = document.createElement('div');
       instructions.classList.add('lit-justify');
@@ -4159,6 +4163,10 @@
         `<span>Hit ${esc} to close</span>`;
 
       widget.append(name, instructions);
+
+      document.getElementById(dismissId).addEventListener('click', () => {
+        this.#infoWidget.close();
+      });
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
@@ -4171,6 +4179,12 @@
           ' width: 65rem;' +
           ' display: flex;' +
           ' flex-direction: column;' +
+          '}',
+        '.lit-info button {' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          ' border-radius: 1em;' +
+          ' padding: 3px;' +
           '}',
         '.lit-news {' +
           ' position: absolute;' +
