@@ -3002,14 +3002,11 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller.dispatcher.on('activate',
+        this.#onSectionActivate);
       this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
 
       this.#lastScroller = this.#sectionScroller;
-    }
-
-    /** @inheritdoc */
-    _refresh() {
-      this._sections.show();
     }
 
     /** @type {Scroller} */
@@ -3107,6 +3104,14 @@
 
     #onJobChange = () => {
       this.#lastScroller = this._jobs;
+    }
+
+    #onSectionActivate = () => {
+      const me = 'onSectionActivate';
+      this.logger.entered(me);
+      this._sections.show();
+      this._sections.shine();
+      this.logger.leaving(me);
     }
 
     /**
