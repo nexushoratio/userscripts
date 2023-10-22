@@ -1114,13 +1114,18 @@
       const me = 'activate';
       this.logger.entered(me);
 
-      await this.#waitForBases();
-
-      if (this.#handleClicks) {
-        this.#onClickElement = this.#base;
-        this.#onClickElement.addEventListener('click', this.#onClick);
+      const bases = new Set(await this.#waitForBases());
+      if (this.#base) {
+        bases.add(this.#base);
       }
-      this.#mutationObserver.observe(this.#base, {childList: true});
+
+      for (const base of bases) {
+        if (this.#handleClicks) {
+          this.#onClickElements.add(base);
+          base.addEventListener('click', this.#onClick);
+        }
+        this.#mutationObserver.observe(base, {childList: true});
+      }
       this.dispatcher.fire('activate', null);
 
       this.logger.leaving(me);
@@ -1132,8 +1137,10 @@
      */
     deactivate() {
       this.#mutationObserver.disconnect();
-      this.#onClickElement?.removeEventListener('click', this.#onClick);
-      this.#onClickElement = null;
+      for (const base of this.#onClickElements) {
+        base.removeEventListener('click', this.#onClick);
+      }
+      this.#onClickElements.clear();
       this.dispatcher.fire('deactivate', null);
     }
 
@@ -1165,7 +1172,7 @@
     #logger
     #mutationObserver
     #name
-    #onClickElement
+    #onClickElements = new Set();
     #selectors
     #snapToTop
     #stackTrace
