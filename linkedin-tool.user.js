@@ -2996,6 +2996,12 @@
 
       spa.details.navBarScrollerFixup(Jobs.#sectionsHow);
       spa.details.navBarScrollerFixup(Jobs.#jobsHow);
+      if (NH.base.testing.enabled) {
+        Jobs.#sectionsWhat.base = null;
+        Jobs.#sectionsWhat.selectors = null;
+      } else {
+        Jobs.#sectionsWhat.containerItems = [];
+      }
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
@@ -3289,6 +3295,7 @@
       name: 'Jobs sections',
       base: document.body,
       selectors: ['main section'],
+      containerItems: [{container: 'main', items: 'section'}],
     };
 
     /** @type {Scroller~How} */
