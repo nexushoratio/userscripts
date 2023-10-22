@@ -17,6 +17,32 @@ while read local_ref local_oid remote_ref remote_oid; do
       missing+=("${filename}")
     fi
 
+    case $filename in
+      *.user.js)
+        echo "skipping"
+        ;;
+      *.js)
+        at_ver=$(git diff "${range}" $filename |
+                   awk '/^\+\/\/ @version/ {print $NF}')
+        lib_ver=$(git diff "${range}" $filename |
+                    awk '/^\+  const version = / {
+                      sub(/;/, "")
+                      print $NF
+                    }')
+        if [ -z "$at_ver" ]; then
+          echo 'error: The library @version was not parsed.'
+          exit 1
+        fi
+        if [ -z "$lib_ver" ]; then
+          echo 'error: The library internal version was not updated.'
+        fi
+        if [ "$at_ver" != "$lib_ver" ]; then
+          echo "error: Library versions do not match: ${at_ver} ${lib_ver}"
+          exit 1
+        fi
+        ;;
+    esac
+
   done < <(git diff --name-only "${range}" | grep '\.js$')
 
   if [ -n "${missing[*]}" ]; then
