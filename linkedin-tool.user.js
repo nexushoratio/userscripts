@@ -1215,8 +1215,11 @@
 
     }
 
-    /** The page may be reloading, for wait for many things to settle. */
-    #waitForBases = async () => {
+    /**
+     * The page may still be loading, so wait for many things to settle.
+     * @returns {Promise<Element[]>} - All the new base elements.
+     */
+    #waitForBases = () => {
       const me = 'waitForBases';
       this.logger.entered(me);
 
@@ -1226,9 +1229,8 @@
         results.push(waitForSelector(container, 0));
       }
 
-      await Promise.all(results);
-
-      this.logger.leaving(me);
+      this.logger.leaving(me, results);
+      return Promise.all(results);
     }
 
   }
