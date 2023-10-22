@@ -4124,6 +4124,7 @@
       this.logger.entered(me);
 
       this.#createInfoWidget();
+      this.#addInfoTabs();
       this.#addLitStyle();
       this.#addToolMenuItem();
       this.#setNavBarInfo();
@@ -4250,6 +4251,27 @@
       ];
       style.textContent = styles.join('\n');
       document.head.prepend(style);
+    }
+
+    #addInfoTabs = () => {
+      const me = 'addInfoTabs';
+      this.logger.entered(me);
+
+      const tabs = [
+        this.docTab(),
+        this.newsTab(),
+      ];
+
+      this.#infoTabs = new TabbedUI('LinkedIn Tool');
+
+      for (const tab of tabs) {
+        this.#infoTabs.addTab(tab);
+      }
+      this.#infoTabs.goto(tabs[0].name);
+
+      this.#infoWidget.element.append(this.#infoTabs.container);
+
+      this.logger.leaving(me);
     }
 
     /** Add a menu item to the global nav bar. */
@@ -4871,6 +4893,7 @@
 
     #globals
     #infoId
+    #infoTabs
     #infoWidget
     #licenseData
     #licenseLoaded
