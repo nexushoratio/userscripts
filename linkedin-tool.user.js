@@ -485,6 +485,17 @@
       this.#log.leaving(me);
     }
 
+    #container
+    #id
+    #idName
+    #log
+    #name
+    #nav
+    #navSpacer
+    #nextButton
+    #prevButton
+    #style
+
     /** Installs basic CSS styles for the UI. */
     #installStyle = () => {
       this.#style = document.createElement('style');
@@ -617,17 +628,6 @@
       panel.dispatchEvent(new Event('expose'));
       this.#log.leaving(me);
     }
-
-    #container
-    #id
-    #idName
-    #log
-    #name
-    #nav
-    #navSpacer
-    #nextButton
-    #prevButton
-    #style
 
     /** Installs navigational control elements. */
     #installControls = () => {
