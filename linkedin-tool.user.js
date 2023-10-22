@@ -4192,6 +4192,17 @@
       document.getElementById(dismissId).addEventListener('click', () => {
         this.#infoWidget.close();
       });
+
+      widget.addEventListener('open', this.#onInfoOpen);
+      widget.addEventListener('close', this.#onInfoClose);
+    }
+
+    #onInfoOpen = () => {
+      this.logger.log('info opened');
+    }
+
+    #onInfoClose = () => {
+      this.logger.log('info closed');
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
