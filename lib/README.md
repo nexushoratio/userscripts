@@ -6,7 +6,7 @@ As with my scripts, the libraries can also be found on [Greasy Fork](https://gre
 
 Issue https://github.com/nexushoratio/userscripts/issues/167 is tracking the initial population of this directory.
 
-See the [style guide)[https://github.com/nexushoratio/userscripts/blob/main/STYLE-GUIDE.md) for how I expect the lay out the code.
+See the [style guide](https://github.com/nexushoratio/userscripts/blob/main/STYLE-GUIDE.md) for how I expect the lay out the code.
 
 In general, each library will be in the `NexusHoratio` global name space with each library in a property named after the library.  That is, functions from [base.js](base.js) will accessible via `NexusHoratio.base`.
 
