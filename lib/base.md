@@ -12,7 +12,7 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * Logger - Fancy-ish log messages (likely over engineered).
 * uuId - Create a UUID-like string with a base.
 * safeId - Normalizes a string to be safe to use as an HTML element id.
-* strHash - Equivalent (for now) of Java's hashCode, do not expect it to be stable across releases.
-* Dispatcher - Simple dispatcher (event handler).
+* strHash - Equivalent (for now) of Java's hashCode (do not store externally).
+* Dispatcher - Simple dispatcher (event bus).
 
 More details are in [base.js](base.js) as JSDoc.
