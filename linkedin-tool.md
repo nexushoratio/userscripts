@@ -26,8 +26,6 @@ New bugs and feature requests can be filed on [GitHub](https://github.com/nexush
 
 ## Versioning
 
-Currently I am using a [SemVer](https://semver.org/) inspired scheme of `x.y.z`.
+~~Currently I am using a [SemVer](https://semver.org/) inspired scheme of `x.y.z`.~~
 
-* `x` will be bumped whenever a new page is handled.  0 was for `/feed/`, 1 introduced `/notification/` support.
-* `y' will be a new feature (e.g., new keystrokes)
-* `z` bumps are bug fixes or internal changes (refactorings and the like)
+I am replacing SerVer with single strictly increasing numbers.  I have dropped down to two digits for the moment.  Likely once I get issue https://github.com/nexushoratio/userscripts/issues/106 to the point of tracking releases, I will switch to single digits.
