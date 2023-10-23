@@ -654,6 +654,8 @@
 
   }
 
+  // TODO(#173): Migrate to style guide
+
   /**
    * An ordered collection of HTMLElements for a user to continuously scroll
    * through.
@@ -816,6 +818,116 @@
     /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
+    }
+
+    /** Move to the next item in the collection. */
+    next() {
+      this.#scrollBy(1);
+    }
+
+    /** Move to the previous item in the collection. */
+    prev() {
+      this.#scrollBy(-1);
+    }
+
+    /** Jump to the first item in the collection. */
+    first() {
+      this.#jumpToEndItem(true);
+    }
+
+    /** Jump to last item in the collection. */
+    last() {
+      this.#jumpToEndItem(false);
+    }
+
+    /**
+     * Move to a specific item if possible.
+     * @param {Element} item - Item to go to.
+     */
+    goto(item) {
+      this.item = item;
+    }
+
+    /**
+     * Move to a specific item if possible, by uid.
+     * @param {string} uid - The uid of a specific item.
+     * @returns {boolean} - Was able to goto the item.
+     */
+    gotoUid(uid) {
+      const me = 'goto';
+      this.logger.entered(me, uid);
+      const items = this.#getItems();
+      const item = items.find(el => uid === this.#uid(el));
+      let success = false;
+      if (item) {
+        this.item = item;
+        success = true;
+      }
+      this.logger.leaving(me, success, item);
+      return success;
+    }
+
+    /** Adds the registered CSS classes to the current element. */
+    shine() {
+      this.item?.classList.add(...this.#classes);
+    }
+
+    /** Removes the registered CSS classes from the current element. */
+    dull() {
+      this.item?.classList.remove(...this.#classes);
+    }
+
+    /** Bring current item back into view. */
+    show() {
+      this.#scrollToCurrentItem();
+    }
+
+    /**
+     * Activate the scroller.
+     * @fires 'out-of-range'
+     */
+    async activate() {
+      const me = 'activate';
+      this.logger.entered(me);
+
+      const bases = new Set(await this.#waitForBases());
+      if (this.#base) {
+        bases.add(this.#base);
+      }
+
+      for (const base of bases) {
+        if (this.#handleClicks) {
+          this.#onClickElements.add(base);
+          base.addEventListener('click', this.#onClick);
+        }
+        this.#mutationObserver.observe(base, {childList: true});
+      }
+      this.dispatcher.fire('activate', null);
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Deactivate the scroller (but do not destroy it).
+     * @fires 'out-of-range'
+     */
+    deactivate() {
+      this.#mutationObserver.disconnect();
+      for (const base of this.#onClickElements) {
+        base.removeEventListener('click', this.#onClick);
+      }
+      this.#onClickElements.clear();
+      this.dispatcher.fire('deactivate', null);
+    }
+
+    /** Mark instance as inactive and do any internal cleanup. */
+    destroy() {
+      const me = 'destroy';
+      this.logger.entered(me);
+      this.deactivate();
+      this.item = null;
+      this.#destroyed = true;
+      this.logger.leaving(me);
     }
 
     /**
@@ -1041,116 +1153,6 @@
           this.item = item;
         }
       }
-      this.logger.leaving(me);
-    }
-
-    /** Move to the next item in the collection. */
-    next() {
-      this.#scrollBy(1);
-    }
-
-    /** Move to the previous item in the collection. */
-    prev() {
-      this.#scrollBy(-1);
-    }
-
-    /** Jump to the first item in the collection. */
-    first() {
-      this.#jumpToEndItem(true);
-    }
-
-    /** Jump to last item in the collection. */
-    last() {
-      this.#jumpToEndItem(false);
-    }
-
-    /**
-     * Move to a specific item if possible.
-     * @param {Element} item - Item to go to.
-     */
-    goto(item) {
-      this.item = item;
-    }
-
-    /**
-     * Move to a specific item if possible, by uid.
-     * @param {string} uid - The uid of a specific item.
-     * @returns {boolean} - Was able to goto the item.
-     */
-    gotoUid(uid) {
-      const me = 'goto';
-      this.logger.entered(me, uid);
-      const items = this.#getItems();
-      const item = items.find(el => uid === this.#uid(el));
-      let success = false;
-      if (item) {
-        this.item = item;
-        success = true;
-      }
-      this.logger.leaving(me, success, item);
-      return success;
-    }
-
-    /** Adds the registered CSS classes to the current element. */
-    shine() {
-      this.item?.classList.add(...this.#classes);
-    }
-
-    /** Removes the registered CSS classes from the current element. */
-    dull() {
-      this.item?.classList.remove(...this.#classes);
-    }
-
-    /** Bring current item back into view. */
-    show() {
-      this.#scrollToCurrentItem();
-    }
-
-    /**
-     * Activate the scroller.
-     * @fires 'out-of-range'
-     */
-    async activate() {
-      const me = 'activate';
-      this.logger.entered(me);
-
-      const bases = new Set(await this.#waitForBases());
-      if (this.#base) {
-        bases.add(this.#base);
-      }
-
-      for (const base of bases) {
-        if (this.#handleClicks) {
-          this.#onClickElements.add(base);
-          base.addEventListener('click', this.#onClick);
-        }
-        this.#mutationObserver.observe(base, {childList: true});
-      }
-      this.dispatcher.fire('activate', null);
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Deactivate the scroller (but do not destroy it).
-     * @fires 'out-of-range'
-     */
-    deactivate() {
-      this.#mutationObserver.disconnect();
-      for (const base of this.#onClickElements) {
-        base.removeEventListener('click', this.#onClick);
-      }
-      this.#onClickElements.clear();
-      this.dispatcher.fire('deactivate', null);
-    }
-
-    /** Mark instance as inactive and do any internal cleanup. */
-    destroy() {
-      const me = 'destroy';
-      this.logger.entered(me);
-      this.deactivate();
-      this.item = null;
-      this.#destroyed = true;
       this.logger.leaving(me);
     }
 
