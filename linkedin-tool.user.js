@@ -3279,7 +3279,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/jobs/',
-      pageReadySelector: '#compactfooter-copyright',
+      pageReadySelector: 'aside.scaffold-layout__aside',
     };
 
     /** @type {Scroller~What} */
