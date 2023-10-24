@@ -4188,15 +4188,38 @@
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
       const widget = this.#infoWidget.element;
       widget.classList.add('lit-info');
+      const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
 
+      const name = this.#infoName(dismissId);
+      const instructions = this.#infoInstructions();
+
+      widget.append(name, instructions);
+
+      document.getElementById(dismissId).addEventListener('click', () => {
+        this.#infoWidget.close();
+      });
+
+      widget.addEventListener('open', this.#onInfoOpen);
+      widget.addEventListener('close', this.#onInfoClose);
+    }
+
+    /**
+     * @param {string} dismissId - Element #id to give dismiss button.
+     * @returns {Element} - For the info widget name header.
+     */
+    #infoName = (dismissId) => {
       const name = document.createElement('div');
       name.classList.add('lit-justify');
       const title = `<b>${GM.info.script.name}</b> - ` +
             `v${GM.info.script.version}`;
-      const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
       const dismiss = `<button id=${dismissId}>X</button>`;
       name.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
 
+      return name;
+    }
+
+    /** @returns {Element} - Instructions for navigating the info widget. */
+    #infoInstructions = () => {
       const instructions = document.createElement('div');
       instructions.classList.add('lit-justify');
       instructions.classList.add('lit-instructions');
@@ -4208,14 +4231,7 @@
         'tab</span>' +
         `<span>Hit ${esc} to close</span>`;
 
-      widget.append(name, instructions);
-
-      document.getElementById(dismissId).addEventListener('click', () => {
-        this.#infoWidget.close();
-      });
-
-      widget.addEventListener('open', this.#onInfoOpen);
-      widget.addEventListener('close', this.#onInfoClose);
+      return instructions;
     }
 
     #onInfoOpen = () => {
