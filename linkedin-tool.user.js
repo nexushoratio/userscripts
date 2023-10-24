@@ -656,8 +656,6 @@
 
   }
 
-  // TODO(#173): Migrate to style guide
-
   /**
    * An ordered collection of HTMLElements for a user to continuously scroll
    * through.
@@ -933,6 +931,42 @@
     }
 
     /**
+     * Determines if the item can be viewed.  Usually this means the content
+     * is being loaded lazily and is not ready yet.
+     * @param {Element} item - The item to inspect.
+     * @returns {boolean} - Whether the item has viewable content.
+     */
+    static #isItemViewable(item) {
+      return item.clientHeight && item.innerText.length;
+    }
+
+    #autoActivate
+    #base
+    #bottomMarginCSS
+    #bottomMarginPixels
+    #classes
+    #containerItems
+    #currentItemId = null;
+    #destroyed = false;
+
+    #dispatcher = new NH.base.Dispatcher(
+      'change', 'out-of-range', 'activate', 'deactivate'
+    );
+
+    #handleClicks
+    #historicalIdToIndex = new Map();
+    #logger
+    #mutationObserver
+    #name
+    #onClickElements = new Set();
+    #selectors
+    #snapToTop
+    #stackTrace
+    #topMarginCSS
+    #topMarginPixels
+    #uidCallback
+
+    /**
      * If an item is clicked, switch to it.
      * @param {Event} evt - Standard 'click' event.
      */
@@ -981,16 +1015,6 @@
       this.#scrollToCurrentItem();
       this.dispatcher.fire('change', {});
       this.logger.leaving(me);
-    }
-
-    /**
-     * Determines if the item can be viewed.  Usually this means the content
-     * is being loaded lazily and is not ready yet.
-     * @param {Element} item - The item to inspect.
-     * @returns {boolean} - Whether the item has viewable content.
-     */
-    static #isItemViewable(item) {
-      return item.clientHeight && item.innerText.length;
     }
 
     /**
@@ -1164,32 +1188,6 @@
       }
       this.logger.leaving(me);
     }
-
-    #autoActivate
-    #base
-    #bottomMarginCSS
-    #bottomMarginPixels
-    #classes
-    #containerItems
-    #currentItemId = null;
-    #destroyed = false;
-
-    #dispatcher = new NH.base.Dispatcher(
-      'change', 'out-of-range', 'activate', 'deactivate'
-    );
-
-    #handleClicks
-    #historicalIdToIndex = new Map();
-    #logger
-    #mutationObserver
-    #name
-    #onClickElements = new Set();
-    #selectors
-    #snapToTop
-    #stackTrace
-    #topMarginCSS
-    #topMarginPixels
-    #uidCallback
 
     /** @throws {Scroller.Error} - On many validation issues. */
     #validateInstance = () => {
@@ -1412,6 +1410,8 @@
   /* eslint-enable */
 
   NH.base.testing.funcs.push(testScroller);
+
+  // TODO(#173): Migrate to style guide
 
   /**
    * This class exists solely to avoid some `no-use-before-define` linter
