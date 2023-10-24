@@ -4199,6 +4199,7 @@
         this.#infoWidget.close();
       });
 
+      this.#infoKeyboard = new VM.shortcut.KeyboardService();
       widget.addEventListener('open', this.#onInfoOpen);
       widget.addEventListener('close', this.#onInfoClose);
     }
@@ -4235,10 +4236,14 @@
     }
 
     #onInfoOpen = () => {
+      VMKeyboardService.setKeyboardContext('inDialog', true);
+      this.#infoKeyboard.enable();
       this.logger.log('info opened');
     }
 
     #onInfoClose = () => {
+      this.#infoKeyboard.disable();
+      VMKeyboardService.setKeyboardContext('inDialog', false);
       this.logger.log('info closed');
     }
 
@@ -4307,7 +4312,18 @@
 
       this.#infoWidget.element.append(this.#infoTabs.container);
 
+      this.#infoKeyboard.register('c-right', this.#nextTab);
+      this.#infoKeyboard.register('c-left', this.#prevTab);
+
       this.logger.leaving(me);
+    }
+
+    #nextTab = () => {
+      this.#infoTabs.next();
+    }
+
+    #prevTab = () => {
+      this.#infoTabs.prev();
     }
 
     /** Add a menu item to the global nav bar. */
@@ -4929,6 +4945,7 @@
 
     #globals
     #infoId
+    #infoKeyboard
     #infoTabs
     #infoWidget
     #licenseData
