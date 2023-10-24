@@ -1001,9 +1001,16 @@
       const me = 'getItems';
       this.logger.entered(me);
       const items = [];
-      for (const selector of this.#selectors) {
-        this.logger.log(`considering ${selector}`);
-        items.push(...this.#base.querySelectorAll(selector));
+      if (this.#base) {
+        for (const selector of this.#selectors) {
+          this.logger.log(`considering ${selector}`);
+          items.push(...this.#base.querySelectorAll(selector));
+        }
+      } else {
+        for (const {container, items: selector} of this.#containerItems) {
+          const base = document.querySelector(container);
+          items.push(...base.querySelectorAll(selector));
+        }
       }
       this.logger.starting('items');
       for (const item of items) {
