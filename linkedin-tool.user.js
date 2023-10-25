@@ -1723,6 +1723,11 @@
       VMKeyboardService.#services.add(this);
     }
 
+    /** @type {Shortcut[]} - Well, seq and desc properties only. */
+    get shortcuts() {
+      return this.#shortcuts;
+    }
+
     /** @inheritdoc */
     activate() {
       for (const keyboard of this.#keyboards.values()) {
@@ -1761,11 +1766,11 @@
           if (prop instanceof Shortcut) {
             // While we are here, give the function a name.
             Object.defineProperty(prop, 'name', {value: name});
-            this.#shortcuts.push(prop);
             keyboard.register(prop.seq, prop, VMKeyboardService.#navOption);
           }
         }
         this.#keyboards.set(instance, keyboard);
+        this.#rebuildShortcuts();
       }
       this.logger.leaving(me);
     }
@@ -1778,6 +1783,7 @@
         const keyboard = this.#keyboards.get(instance);
         keyboard.disable();
         this.#keyboards.delete(instance);
+        this.#rebuildShortcuts();
       } else {
         this.logger.log('Was not registered');
       }
@@ -1809,6 +1815,17 @@
       for (const service of this.#services) {
         for (const keyboard of service.#keyboards.values()) {
           keyboard.setContext(context, state);
+        }
+      }
+    }
+
+    #rebuildShortcuts = () => {
+      this.#shortcuts = [];
+      for (const instance of this.#keyboards.keys()) {
+        for (const prop of Object.values(instance)) {
+          if (prop instanceof Shortcut) {
+            this.#shortcuts.push({seq: prop.seq, desc: prop.desc});
+          }
         }
       }
     }
