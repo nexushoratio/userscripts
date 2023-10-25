@@ -1226,13 +1226,6 @@
         );
       }
 
-      if (this.#containerItems.length) {
-        throw new Scroller.Error(
-          'The feature containerItems is not supported yet: ' +
-            `${this.#name} used containerItems`
-        );
-      }
-
     }
 
     /**
@@ -1375,28 +1368,6 @@
         return 'failed';
       }
       return 'passed';
-    },
-    expected: 'passed'});
-
-    tests.set('containerItemsNotSupported', {test: () => {
-      const what = {
-        name: 'containerItemsNotSupported',
-        containerItems: [{}],
-      };
-      const how = {
-      };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error &&
-            e.message.includes(
-              'The feature containerItems is not supported yet:'
-            )) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
     },
     expected: 'passed'});
 
