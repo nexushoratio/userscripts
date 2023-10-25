@@ -5713,6 +5713,8 @@
 
   NH.base.testing.funcs.push(testParseSeq);
 
+  NH.base.testing.run();
+
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
@@ -5738,7 +5740,5 @@
   spa.activate(window.location.pathname);
 
   log.log('Initialization successful.');
-
-  NH.base.testing.run();
 
 })();
