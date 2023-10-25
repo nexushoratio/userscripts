@@ -4182,8 +4182,8 @@
       });
 
       this.#infoKeyboard = new VM.shortcut.KeyboardService();
-      widget.addEventListener('open', this.#onInfoOpen);
-      widget.addEventListener('close', this.#onInfoClose);
+      widget.addEventListener('open', this.#onOpenInfo);
+      widget.addEventListener('close', this.#onCloseInfo);
     }
 
     /**
@@ -4217,13 +4217,13 @@
       return instructions;
     }
 
-    #onInfoOpen = () => {
+    #onOpenInfo = () => {
       VMKeyboardService.setKeyboardContext('inDialog', true);
       this.#infoKeyboard.enable();
       this.logger.log('info opened');
     }
 
-    #onInfoClose = () => {
+    #onCloseInfo = () => {
       this.#infoKeyboard.disable();
       VMKeyboardService.setKeyboardContext('inDialog', false);
       this.logger.log('info closed');
