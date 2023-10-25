@@ -1583,17 +1583,24 @@
       return this.#name;
     }
 
+    /** @type {string} - Shorter instance name. */
+    get shortName() {
+      return this.#shortName;
+    }
+
     /** @param {string} name - Custom portion of this instance. */
     constructor(name) {
       if (new.target === Service) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
       this.#name = `${this.constructor.name}: ${name}`;
+      this.#shortName = name;
       this.#logger = new NH.base.Logger(this.#name);
     }
 
     #logger
     #name
+    #shortName
 
     /** @param {string} name - Name of method that was not implemented. */
     #notImplemented(name) {
