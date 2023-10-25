@@ -4960,6 +4960,10 @@
       this.logger.log('unknown', unknownIssues);
       this.logger.log('unused', unusedIssues);
 
+      if (unknownIssues.size) {
+        throw new Error('Unknown issues were detected.');
+      }
+
       return {
         dates: dates,
         knownIssues: knownIssues,
