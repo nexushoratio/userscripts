@@ -1,4 +1,4 @@
-# lib/xunit
+# lib/xunit - A [NexusHoratio](https://github.com/nexushoratio/userscripts/blob/main/lib/README.md) library.
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUnit](https://en.wikipedia.org/wiki/XUnit) style test framework.
 

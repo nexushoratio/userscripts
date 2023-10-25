@@ -1,4 +1,4 @@
-# lib/base
+# lib/base - A [NexusHoratio](https://github.com/nexushoratio/userscripts/blob/main/lib/README.md) library.
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 

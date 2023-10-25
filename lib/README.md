@@ -14,3 +14,4 @@ The function `NexusHoration.base.ensure()` can be used to make sure appropriate 
 
 ## The libraries
 * [base](base.md) - Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
+* [xunit](xunit.md) - Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUnit](https://en.wikipedia.org/wiki/XUnit) style test framework.
