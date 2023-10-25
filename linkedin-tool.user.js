@@ -10,6 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
+// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1269821
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1268651
 // @grant       window.onurlchange
 // ==/UserScript==
@@ -22,7 +23,10 @@
 
   const NH = NexusHoratio;
 
-  NH.base.ensure([{name: 'base', minVersion: 12}]);
+  NH.base.ensure([
+    {name: 'xunit'},
+    {name: 'base', minVersion: 12},
+  ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
 
