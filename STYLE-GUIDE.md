@@ -88,7 +88,7 @@ Skeleton for *bar.user.js*:
 
   const NH = NexusHoratio;
 
-}());
+})();
 ```
 
 ## Developer environment
