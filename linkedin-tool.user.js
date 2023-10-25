@@ -4494,6 +4494,7 @@
       ['#140', 'Self registering keyboard shortcuts'],
       ['#142', 'Support My Network view'],
       ['#143', 'Support jobs search view'],
+      ['#144', 'Support Messaging view'],
       ['#145', 'Logger: improved controls'],
       ['#149', 'Scroller: support onclick natively'],
       ['#150', 'Scroller: handle page reloads better'],
