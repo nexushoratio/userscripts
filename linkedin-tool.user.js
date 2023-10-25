@@ -4090,7 +4090,7 @@
       return this.#licenseData;
     }
 
-    #useOriginalInfoDialog = true;
+    #useOriginalInfoDialog = !NH.base.testing.enabled;
 
     /** Hang out until enough HTML has been built to be useful. */
     #waitUntilPageLoadedEnough = async () => {
