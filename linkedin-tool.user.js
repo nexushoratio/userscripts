@@ -4081,6 +4081,7 @@
       this.logger.entered(me);
 
       if (!this.#licenseData) {
+        // TODO(#167): Migrating this to lib/userscript
         // Different userscript managers do this differently.
         let license = GM.info.script.license;
         if (!license) {
