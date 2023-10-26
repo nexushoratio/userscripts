@@ -1386,13 +1386,16 @@
 
   NH.xunit.testing.funcs.push(testScroller);
 
-  // TODO(#173): Migrate to style guide
-
   /**
    * This class exists solely to avoid some `no-use-before-define` linter
    * issues.
    */
   class LinkedInGlobals {
+
+    /** @type {string} - The height of the navbar as CSS string. */
+    get navBarHeightCSS() {
+      return `${this.#navBarHeightPixels}px`;
+    }
 
     /** @type {number} - The height of the navbar in pixels. */
     get navBarHeightPixels() {
@@ -1402,11 +1405,6 @@
     /** @param {number} val - Set height of the navbar in pixels. */
     set navBarHeightPixels(val) {
       this.#navBarHeightPixels = val;
-    }
-
-    /** @type {string} - The height of the navbar as CSS string. */
-    get navBarHeightCSS() {
-      return `${this.#navBarHeightPixels}px`;
     }
 
     /** Scroll common sidebar into view and move focus to it. */
@@ -1549,6 +1547,8 @@
     }
 
   }
+
+  // TODO(#173): Migrate to style guide
 
   /**
    * Base class for building services to go with {@link SPA}.
