@@ -1721,6 +1721,11 @@
       VMKeyboardService.#services.add(this);
     }
 
+    /** @type {boolean} */
+    get active() {
+      return this.#active;
+    }
+
     /** @type {Shortcut[]} - Well, seq and desc properties only. */
     get shortcuts() {
       return this.#shortcuts;
@@ -1732,6 +1737,7 @@
         this.logger.log('would enable keyboard', keyboard);
         // TODO: keyboard.enable();
       }
+      this.#active = true;
     }
 
     /** @inheritdoc */
@@ -1740,6 +1746,7 @@
         this.logger.log('would disable keyboard', keyboard);
         // TODO: keyboard.disable();
       }
+      this.#active = false;
     }
 
     /** Add listener. */
@@ -1816,6 +1823,8 @@
         }
       }
     }
+
+    #active = false;
 
     #rebuildShortcuts = () => {
       this.#shortcuts = [];
