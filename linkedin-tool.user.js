@@ -10,8 +10,8 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1269821
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1268651
+// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1270273
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1270272
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -24,14 +24,14 @@
   const NH = NexusHoratio;
 
   NH.base.ensure([
-    {name: 'xunit'},
-    {name: 'base', minVersion: 12},
+    {name: 'xunit', minVersion: 1},
+    {name: 'base', minVersion: 15},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
 
   // TODO(#145): The if test is just here while developing.
-  if (NH.base.testing.enabled) {
+  if (NH.xunit.testing.enabled) {
     // eslint-disable-next-line require-atomic-updates
     NH.base.Logger.configs = await GM.getValue('Logger');
   } else {
@@ -1375,7 +1375,7 @@
       const actual = test();
       const passed = actual === expected;
       const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      NH.base.testing.log.log(msg);
+      NH.xunit.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
@@ -1384,7 +1384,7 @@
   }
   /* eslint-enable */
 
-  NH.base.testing.funcs.push(testScroller);
+  NH.xunit.testing.funcs.push(testScroller);
 
   // TODO(#173): Migrate to style guide
 
@@ -2060,7 +2060,7 @@
       super({spa: spa});
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
-      if (NH.base.testing.enabled) {
+      if (NH.xunit.testing.enabled) {
         this.#keyboardService.addInstance(new DebugKeys());
       }
     }
@@ -3015,7 +3015,7 @@
 
       spa.details.navBarScrollerFixup(Jobs.#sectionsHow);
       spa.details.navBarScrollerFixup(Jobs.#jobsHow);
-      if (NH.base.testing.enabled) {
+      if (NH.xunit.testing.enabled) {
         Jobs.#sectionsWhat.base = null;
         Jobs.#sectionsWhat.selectors = null;
       } else {
@@ -4114,7 +4114,7 @@
       return this.#licenseData;
     }
 
-    #useOriginalInfoDialog = !NH.base.testing.enabled;
+    #useOriginalInfoDialog = !NH.xunit.testing.enabled;
 
     /** Hang out until enough HTML has been built to be useful. */
     #waitUntilPageLoadedEnough = async () => {
@@ -4373,7 +4373,7 @@
         } else {
           this.#infoWidget.open();
         }
-        if (NH.base.testing.enabled) {
+        if (NH.xunit.testing.enabled) {
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
 
           // TODO(#145): Just here while developing
@@ -5708,23 +5708,23 @@
       const actual = SPA._parseSeq2(test);
       const passed = actual === expected;
       const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
-      NH.base.testing.log.log(msg);
+      NH.xunit.testing.log.log(msg);
       if (!passed) {
         throw new Error(msg);
       }
     }
   }
 
-  NH.base.testing.funcs.push(testParseSeq);
+  NH.xunit.testing.funcs.push(testParseSeq);
 
-  NH.base.testing.run();
+  NH.xunit.testing.run();
 
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
-  if (NH.base.testing.enabled) {
+  if (NH.xunit.testing.enabled) {
     linkedIn.addSetupIssue('This is a dummy test issue.',
-      'It was added because NH.base.testing is enabled.');
+      'It was added because NH.xunit.testing is enabled.');
     linkedIn.addSetupIssue('This is a second issue.',
       'We just want to make sure things count properly.');
   }
