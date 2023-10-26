@@ -1507,8 +1507,6 @@
 
   }
 
-  const linkedInGlobals = new LinkedInGlobals();
-
   /**
    * Self-decorating class useful for integrating with a hotkey service.
    *
@@ -2042,6 +2040,8 @@
     });
 
   }
+
+  const linkedInGlobals = new LinkedInGlobals();
 
   /**
    * Class for handling aspects common across LinkedIn.
