@@ -3301,7 +3301,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/jobs/',
-      pageReadySelector: 'aside.scaffold-layout__aside',
+      pageReadySelector: LinkedInGlobals.asideSelector,
     };
 
     /** @type {Scroller~What} */
