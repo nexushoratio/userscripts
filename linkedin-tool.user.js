@@ -4249,6 +4249,7 @@
     #onOpenInfo = () => {
       VMKeyboardService.setKeyboardContext('inDialog', true);
       this.#infoKeyboard.enable();
+      this.#buildShortcutsInfo();
       this.logger.log('info opened');
     }
 
@@ -4422,6 +4423,18 @@
         content: '<div>We will build a whole new accordion widget!</div>',
       };
       return tab;
+    }
+
+    #buildShortcutsInfo = () => {
+      const me = 'buildShortcutsInfo';
+      this.logger.entered(me);
+      for (const service of VMKeyboardService.services) {
+        this.logger.log('service:', service.shortName, service.active);
+        for (const shortcut of service.shortcuts) {
+          this.logger.log('shortcut:', shortcut);
+        }
+      }
+      this.logger.leaving(me);
     }
 
     /** @inheritdoc */
