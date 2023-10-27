@@ -1546,8 +1546,6 @@
 
   }
 
-  // TODO(#173): Migrate to style guide
-
   /**
    * Base class for building services to go with {@link SPA}.
    *
@@ -1571,6 +1569,16 @@
    */
   class Service {
 
+    /** @param {string} name - Custom portion of this instance. */
+    constructor(name) {
+      if (new.target === Service) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+      this.#name = `${this.constructor.name}: ${name}`;
+      this.#shortName = name;
+      this.#logger = new NH.base.Logger(this.#name);
+    }
+
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
@@ -1586,14 +1594,14 @@
       return this.#shortName;
     }
 
-    /** @param {string} name - Custom portion of this instance. */
-    constructor(name) {
-      if (new.target === Service) {
-        throw new TypeError('Abstract class; do not instantiate directly.');
-      }
-      this.#name = `${this.constructor.name}: ${name}`;
-      this.#shortName = name;
-      this.#logger = new NH.base.Logger(this.#name);
+    /** Called each time service is activated. */
+    activate() {
+      this.#notImplemented('activate');
+    }
+
+    /** Called each time service is deactivated. */
+    deactivate() {
+      this.#notImplemented('deactivate');
     }
 
     #logger
@@ -1606,16 +1614,6 @@
             `method "${name}".`;
       this.logger.log(msg);
       throw new Error(msg);
-    }
-
-    /** Called each time service is activated. */
-    activate() {
-      this.#notImplemented('activate');
-    }
-
-    /** Called each time service is deactivated. */
-    deactivate() {
-      this.#notImplemented('deactivate');
     }
 
   }
@@ -1634,6 +1632,8 @@
     }
 
   }
+
+  // TODO(#173): Migrate to style guide
 
   /** Manage a {Scroller} via {Service}. */
   class ScrollerService extends Service {
