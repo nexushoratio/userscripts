@@ -101,6 +101,8 @@
             ['input', 'textarea'].includes(tagName));
   }
 
+  // TODO(#167): Migrating to lib/web
+
   /**
    * @typedef {object} Continuation
    * @property {boolean} done - Indicate whether the monitor is done
