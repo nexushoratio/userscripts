@@ -1734,6 +1734,11 @@
       VMKeyboardService.#services.add(this);
     }
 
+    /** @type {Set<VMKeyboardService>} - Instantiated services. */
+    static get services() {
+      return new Set(this.#services.values());
+    }
+
     /** @type {boolean} */
     get active() {
       return this.#active;
