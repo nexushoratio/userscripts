@@ -12,6 +12,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1270273
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1270272
+// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1270857
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -26,6 +27,7 @@
   NH.base.ensure([
     {name: 'xunit', minVersion: 1},
     {name: 'base', minVersion: 15},
+    {name: 'userscript'},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
@@ -4099,35 +4101,18 @@
       this.logger.entered(me);
 
       if (!this.#licenseData) {
-        // TODO(#167): Migrating this to lib/userscript
-        // Different userscript managers do this differently.
-        let license = GM.info.script.license;
-        if (!license) {
-          const magic = '// @license ';
-
-          // Try Tampermonkey's way.
-          const header = GM.info.script.header;
-          if (header) {
-            const line = header.split('\n').find(l => l.startsWith(magic));
-            if (line) {
-              license = line.slice(magic.length).trim();
-            }
+        try {
+          this.#licenseData = NH.userscript.licenseData();
+        } catch (e) {
+          if (e instanceof NH.userscript.UserscriptError) {
+            this.logger.log('e:', e);
+            this.addSetupIssue(e.message);
+            this.#licenseData = {
+              name: 'Unable to extract: Please file a bug',
+              url: '',
+            };
           }
         }
-
-        if (!license) {
-          this.addSetupIssue(
-            'Unable to extract license information from the userscript.',
-            JSON.stringify(GM.info.script, null, 2)  // eslint-disable-line no-magic-numbers
-          );
-          license = 'Unable to extract: Please file a bug;';
-        }
-
-        const [name, url] = license.split(';');
-        this.#licenseData = {
-          name: name.trim(),
-          url: url.trim(),
-        };
       }
 
       this.logger.leaving(me, this.#licenseData);
