@@ -2182,8 +2182,10 @@
     /** @type {Scroller~What} */
     static #postsWhat = {
       name: 'Feed posts',
-      base: document.body,
-      selectors: ['main div[data-id]'],
+      containerItems: [
+        {container: 'main div.scaffold-finite-scroll__content',
+          items: 'div[data-id]'},
+      ],
     };
 
     /** @type {Scroller~How} */
