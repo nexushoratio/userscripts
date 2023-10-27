@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.14
+// @version     5.15
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -4580,6 +4580,12 @@
     ];
 
     static #newsContent = [
+      {
+        date: '2023-10-27',
+        issues: ['#165'],
+        subject: 'Switch `Feed` to using *containerItems* for primary ' +
+          '`Scroller`',
+      },
       {
         date: '2023-10-22',
         issues: ['#144'],
