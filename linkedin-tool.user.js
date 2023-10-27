@@ -4325,6 +4325,7 @@
       this.logger.entered(me);
 
       const tabs = [
+        this.#shortcutsTab(),
         this.docTab(),
         this.newsTab(),
       ];
@@ -4425,6 +4426,17 @@
         toggle.classList.remove('notification-badge--show');
       }
       this.logger.leaving(me);
+    }
+
+    /**
+     * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
+     */
+    #shortcutsTab = () => {
+      const tab = {
+        name: 'Keyboard Shortcuts',
+        content: '<div>We will build a whole new accordion widget!</div>',
+      };
+      return tab;
     }
 
     /** @inheritdoc */
