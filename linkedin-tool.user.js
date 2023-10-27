@@ -1703,6 +1703,32 @@
    */
   class VMKeyboardService extends Service {
 
+    /** @inheritdoc */
+    constructor(name) {
+      super(name);
+      VMKeyboardService.#services.add(this);
+    }
+
+    /** @param {string} val - New condition. */
+    static set condition(val) {
+      this.#navOption.condition = val;
+    }
+
+    /** @type {Set<VMKeyboardService>} - Instantiated services. */
+    static get services() {
+      return new Set(this.#services.values());
+    }
+
+    /** Add listener. */
+    static start() {
+      document.addEventListener('focus', this.#onFocus, this.#focusOption);
+    }
+
+    /** Remove listener. */
+    static stop() {
+      document.removeEventListener('focus', this.#onFocus, this.#focusOption);
+    }
+
     /**
      * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
      * an element or info view.
@@ -1711,11 +1737,6 @@
       condition: '!inputFocus',
       caseSensitive: true,
     };
-
-    /** @param {string} val - New condition. */
-    static set condition(val) {
-      this.#navOption.condition = val;
-    }
 
     static #focusOption = {
       capture: true,
@@ -1727,17 +1748,6 @@
     static #lastFocusedElement = null
 
     #shortcuts = [];
-
-    /** @inheritdoc */
-    constructor(name) {
-      super(name);
-      VMKeyboardService.#services.add(this);
-    }
-
-    /** @type {Set<VMKeyboardService>} - Instantiated services. */
-    static get services() {
-      return new Set(this.#services.values());
-    }
 
     /** @type {boolean} */
     get active() {
@@ -1765,16 +1775,6 @@
         // TODO: keyboard.disable();
       }
       this.#active = false;
-    }
-
-    /** Add listener. */
-    static start() {
-      document.addEventListener('focus', this.#onFocus, this.#focusOption);
-    }
-
-    /** Remove listener. */
-    static stop() {
-      document.removeEventListener('focus', this.#onFocus, this.#focusOption);
     }
 
     /** @param {*} instance - Object with {Shortcut} properties. */
