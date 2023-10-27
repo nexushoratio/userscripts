@@ -10,24 +10,22 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1270273
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1270272
-// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1270857
+// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
+// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271282
 // @grant       window.onurlchange
 // ==/UserScript==
 
-/* global VM, NexusHoratio */
+/* global VM */
 
 // eslint-disable-next-line max-lines-per-function
 (async () => {
   'use strict';
 
-  const NH = NexusHoratio;
-
-  NH.base.ensure([
-    {name: 'xunit', minVersion: 1},
-    {name: 'base', minVersion: 15},
-    {name: 'userscript'},
+  const NH = window.NexusHoratio.base.ensure([
+    {name: 'xunit', minVersion: 3},
+    {name: 'base', minVersion: 16},
+    {name: 'userscript', minVersion: 1},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
