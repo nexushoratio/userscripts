@@ -1392,6 +1392,16 @@
    */
   class LinkedInGlobals {
 
+    /** @type {string} - LinkedIn's common aside used in many layouts. */
+    static get asideSelector() {
+      return this.#asideSelector;
+    }
+
+    /** @type {string} - LinkedIn's common sidebar used in many layouts. */
+    static get sidebarSelector() {
+      return this.#sidebarSelector;
+    }
+
     /** @type {string} - The height of the navbar as CSS string. */
     get navBarHeightCSS() {
       return `${this.#navBarHeightPixels}px`;
@@ -1409,7 +1419,7 @@
 
     /** Scroll common sidebar into view and move focus to it. */
     focusOnSidebar = () => {
-      const sidebar = document.querySelector('div.scaffold-layout__sidebar');
+      const sidebar = document.querySelector(LinkedInGlobals.sidebarSelector);
       if (sidebar) {
         sidebar.style.scrollMarginTop = this.navBarHeightCSS;
         sidebar.scrollIntoView();
@@ -1422,7 +1432,7 @@
      * it.
      */
     focusOnAside = () => {
-      const aside = document.querySelector('aside.scaffold-layout__aside');
+      const aside = document.querySelector(LinkedInGlobals.asideSelector);
       if (aside) {
         aside.style.scrollMarginTop = this.navBarHeightCSS;
         aside.scrollIntoView();
@@ -1451,6 +1461,9 @@
       const url = `${base}/${path}`;
       return url;
     }
+
+    static #asideSelector = 'aside.scaffold-layout__aside';
+    static #sidebarSelector = 'div.scaffold-layout__sidebar';
 
     #navBarHeightPixels = 0;
 
