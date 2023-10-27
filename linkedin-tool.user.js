@@ -376,7 +376,7 @@
    * tabby.addTab(contactTabDefinition);
    * tabby.goto(helpTabDefinition.name);  // Set initial tab
    * tabby.next();
-   * const entry = tabby.tabs.get(contactTabDefinition);
+   * const entry = tabby.tabs.get(contactTabDefinition.name);
    * entry.classList.add('random-css');
    * entry.innerHTML += '<p>More contact info.</p>';
    */
