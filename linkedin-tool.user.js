@@ -1646,12 +1646,8 @@
 
   }
 
-  // TODO(#173): Migrate to style guide
-
   /** Manage a {Scroller} via {Service}. */
   class ScrollerService extends Service {
-
-    #scroller
 
     /**
      * @param {string} name - Custom portion of this instance.
@@ -1672,7 +1668,11 @@
       this.#scroller.deactivate();
     }
 
+    #scroller
+
   }
+
+  // TODO(#173): Migrate to style guide
 
   /**
    * @external VMShortcuts
