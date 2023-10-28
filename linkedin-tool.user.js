@@ -1503,8 +1503,6 @@
 
   }
 
-  // TODO(#173): Migrate to style guide
-
   /**
    * @external VMShortcuts
    * @see {@link https://violentmonkey.github.io/guide/keyboard-shortcuts/}
@@ -1573,22 +1571,6 @@
       }
     }
 
-    /**
-     * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
-     * an element or info view.
-     */
-    static #navOption = {
-      condition: '!inputFocus',
-      caseSensitive: true,
-    };
-
-    static #focusOption = {
-      capture: true,
-    };
-
-    static #services = new Set();
-    static #lastFocusedElement = null
-
     /** @type {boolean} */
     get active() {
       return this.#active;
@@ -1654,6 +1636,22 @@
     }
 
     /**
+     * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
+     * an element or info view.
+     */
+    static #navOption = {
+      condition: '!inputFocus',
+      caseSensitive: true,
+    };
+
+    static #focusOption = {
+      capture: true,
+    };
+
+    static #lastFocusedElement = null
+    static #services = new Set();
+
+    /**
      * Handle focus event to determine if shortcuts should be disabled.
      * @param {Event} evt - Standard 'focus' event.
      */
@@ -1685,6 +1683,8 @@
     }
 
   }
+
+  // TODO(#173): Migrate to style guide
 
   /**
    * Base class for handling various views of a single-page application.
