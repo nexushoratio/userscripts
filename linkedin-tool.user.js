@@ -42,6 +42,8 @@
 
   const log = new NH.base.Logger('Default');
 
+  // TODO(#167): Migrate to lib/web
+
   /**
    * Run querySelector to get an element, then click it.
    * @param {Element} base - Where to start looking.

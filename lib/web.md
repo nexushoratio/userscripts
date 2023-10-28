@@ -2,8 +2,11 @@
 
 Common patterns for working with the [WEB API](https://developer.mozilla.org/en-US/docs/Web/API).
 
-## Exported properties (as of version 0)
+## Exported properties (as of version 1)
 * version - Bumped per release.
+* clickElement - Run querySelector to get an element, then click it.
+* focusOnElement - Bring the Browser's focus onto element.
+* isInput - Determines if the element accepts keyboard input.
 * otmot - One time mutation observer with timeout.
 * otrot - One time resize observer with timeout.
 * otrot2 - One time resize observer with action callback and duration.
