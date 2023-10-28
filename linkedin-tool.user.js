@@ -1265,6 +1265,62 @@
 
   }
 
+  /** A table with collapsible sections. */
+  class AccordionTableWidget extends Widget {
+
+    /** @param {string} name - Name for this instance. */
+    constructor(name) {
+      super(name, 'table');
+      this.logger.log(`${this.name} constructed`);
+    }
+
+    /**
+     * This becomes the current section.
+     * @param {string} name - Name of the new section.
+     * @returns {Element} - The new section.
+     */
+    addSection(name) {
+      this.#currentSection = document.createElement('tbody');
+      this.#currentSection.id = NH.base.safeId(`${this.id}-${name}`);
+      this.container.append(this.#currentSection);
+      return this.#currentSection;
+    }
+
+    /**
+     * Add a row of header cells to the current section.
+     * @param {...string} items - To make up the row cells.
+     */
+    addHeader(...items) {
+      this.#addRow('th', ...items);
+    }
+
+    /**
+     * Add a row of data cells to the current section.
+     * @param {...string} items - To make up the row cells.
+     */
+    addData(...items) {
+      this.#addRow('td', ...items);
+    }
+
+    /**
+     * Add a row to the current section.
+     * @param {string} type - Cell type, typically 'td' or 'th'.
+     * @param {...string} items - To make up the row cells.
+     */
+    #addRow = (type, ...items) => {
+      const tr = document.createElement('tr');
+      for (const item of items) {
+        const cell = document.createElement(type);
+        cell.innerHTML = item;
+        tr.append(cell);
+      }
+      this.container.append(tr);
+    }
+
+    #currentSection
+
+  }
+
   /**
    * A widget that can be opened and closed on demand, designed for fairly
    * persistent information.
@@ -4193,9 +4249,11 @@
      * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
      */
     #shortcutsTab = () => {
+      this.#shortcutsWidget = new AccordionTableWidget('Shortcuts');
+
       const tab = {
         name: 'Keyboard Shortcuts',
-        content: '<div>We will build a whole new accordion widget!</div>',
+        content: this.#shortcutsWidget.container,
       };
       return tab;
     }
@@ -4699,6 +4757,7 @@
     #licenseData
     #licenseLoaded
     #navbar
+    #shortcutsWidget
 
     /** @returns {obj} - dates and known issues. */
     #preprocessKnownIssues = () => {
