@@ -12,7 +12,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
-// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271282
+// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271425
 // @grant       window.onurlchange
 // ==/UserScript==
@@ -26,7 +26,7 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 3},
     {name: 'base', minVersion: 16},
-    {name: 'userscript', minVersion: 1},
+    {name: 'userscript', minVersion: 2},
     {name: 'web'},
   ]);
 
@@ -5182,46 +5182,10 @@
      * @returns {string} - Text with some wrapped in a `pre` element.
      */
     static _errorPlatformInfo() {
-      const gm = GM.info;
       const header = 'Please consider including some of the following ' +
             'information in any bug report:';
 
-      // TODO(#167): Migrating to lib/userscript.js
-
-      const msgs = [`${gm.script.name}: ${gm.script.version}`];
-
-      for (const [lib, obj] of Object.entries(NH)) {
-        if (Object.hasOwn(obj, 'version')) {
-          msgs.push(`  ${lib}: ${obj.version}`);
-        } else {
-          msgs.push(`  ${lib}: Unknown version`);
-        }
-      }
-
-      msgs.push(`Userscript manager: ${gm.scriptHandler} ${gm.version}`);
-
-      if (gm.injectInto) {
-        msgs.push(`  injected into "${gm.injectInto}"`);
-      }
-
-      // Violentmonkey
-      if (gm.platform) {
-        msgs.push(`Platform: ${gm.platform.browserName} ` +
-                  `${gm.platform.browserVersion} ${gm.platform.os} ` +
-                  `${gm.platform.arch}`);
-      }
-
-      // Tampermonkey
-      if (gm.userAgentData) {
-        let msg = 'Platform: ';
-        for (const brand of gm.userAgentData.brands.values()) {
-          msg += `${brand.brand} ${brand.version} `;
-        }
-        msg += `${gm.userAgentData?.platform} `;
-        msg +=
-          `${gm.userAgentData?.architecture}-${gm.userAgentData?.bitness}`;
-        msgs.push(msg);
-      }
+      const msgs = NH.userscript.environmentData();
 
       return `${header}<pre>${msgs.join('\n')}</pre>`;
     }
