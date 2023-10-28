@@ -1259,7 +1259,7 @@
    */
   class InfoWidget extends Widget {
 
-    /** @param {string} name - Name for this view. */
+    /** @param {string} name - Name for this instance. */
     constructor(name) {
       super(name, 'dialog');
       this.logger.log(`${this.name} constructed`);
