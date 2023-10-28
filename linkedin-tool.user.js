@@ -1253,6 +1253,11 @@
       return this.#name;
     }
 
+    /** Clears the container element. */
+    clear() {
+      this.#container.innerHTML = '';
+    }
+
     #container
     #id
     #logger
