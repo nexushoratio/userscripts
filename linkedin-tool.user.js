@@ -1209,26 +1209,29 @@
 
   }
 
-  /**
-   * A widget that can be opened and closed on demand, designed for fairly
-   * persistent information.
-   *
-   * Currently built on the dialog element, the content become part of the
-   * DOM.
-   *
-   * The element will get `open` and `close` events.
-   */
-  class InfoWidget {
+  /** Base class for other rendering widgets. */
+  class Widget {
 
-    /** @param {string} name - Name for this view. */
-    constructor(name) {
+    /**
+     * @param {string} name - Name for this instance.
+     * @param {string} element - Type of element to use for the container.
+     */
+    constructor(name, element) {
       this.#name = `${this.constructor.name} ${name}`;
-      this.#id = NH.base.uuId(this.#name);
-      this.#logger = new NH.base.Logger(this.constructor.name);
-      this.#dialog = document.createElement('dialog');
-      this.#dialog.id = NH.base.safeId(this.#id);
-      document.body.prepend(this.#dialog);
-      this.logger.log('Constructed.', this);
+      this.#id = NH.base.uuId(NH.base.safeId(this.name));
+      this.#container = document.createElement(element);
+      this.#container.id = `${this.id}-container`;
+      this.#logger = new NH.base.Logger(`${this.constructor.name}`);
+    }
+
+    /** @type {Element} */
+    get container() {
+      return this.#container;
+    }
+
+    /** @type {string} */
+    get id() {
+      return this.#id;
     }
 
     /** @type {NH.base.Logger} */
@@ -1236,27 +1239,43 @@
       return this.#logger;
     }
 
-    /** @type {Element} */
-    get element() {
-      return this.#dialog;
+    /** @type {string} */
+    get name() {
+      return this.#name;
+    }
+
+    #container
+    #id
+    #logger
+    #name
+
+  }
+
+  /**
+   * A widget that can be opened and closed on demand, designed for fairly
+   * persistent information.
+   *
+   * The element will get `open` and `close` events.
+   */
+  class InfoWidget extends Widget {
+
+    /** @param {string} name - Name for this view. */
+    constructor(name) {
+      super(name, 'dialog');
+      this.logger.log(`${this.name} constructed`);
     }
 
     /** Open the widget. */
     open() {
-      this.element.showModal();
-      this.element.dispatchEvent(new Event('open'));
+      this.container.showModal();
+      this.container.dispatchEvent(new Event('open'));
     }
 
     /** Close the widget. */
     close() {
       // HTMLDialogElement sends a close event natively.
-      this.element.close();
+      this.container.close();
     }
-
-    #dialog
-    #id
-    #logger
-    #name
 
   }
 
@@ -3939,8 +3958,9 @@
 
     #createInfoWidget = () => {
       this.#infoWidget = new InfoWidget('LinkedIn Tool');
-      const widget = this.#infoWidget.element;
+      const widget = this.#infoWidget.container;
       widget.classList.add('lit-info');
+      document.body.prepend(widget);
       const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
 
       const name = this.#infoName(dismissId);
@@ -4065,7 +4085,7 @@
       }
       this.#infoTabs.goto(tabs[0].name);
 
-      this.#infoWidget.element.append(this.#infoTabs.container);
+      this.#infoWidget.container.append(this.#infoTabs.container);
 
       this.#infoKeyboard.register('c-right', this.#nextTab);
       this.#infoKeyboard.register('c-left', this.#prevTab);
