@@ -3324,7 +3324,7 @@
     }
 
     #onJobCardActivate = async () => {
-      const me = 'onJobActivate';
+      const me = 'onJobCardActivate';
       this.logger.entered(me);
 
       const params = new URL(document.location).searchParams;
