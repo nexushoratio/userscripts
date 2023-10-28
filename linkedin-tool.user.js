@@ -4343,6 +4343,12 @@
       {
         date: '2023-10-27',
         issues: ['#165'],
+        subject: 'Switch `MyNetwork` to using *containerItems* for primary ' +
+          '`Scroller`',
+      },
+      {
+        date: '2023-10-27',
+        issues: ['#165'],
         subject: 'Switch `Feed` to using *containerItems* for primary ' +
           '`Scroller`',
       },
@@ -4668,83 +4674,6 @@
         date: '2023-09-27',
         issues: ['#142'],
         subject: 'Reword <i>Activate</i> to <i>View</i>',
-      },
-      {
-        date: '2023-09-26',
-        issues: ['#145'],
-        subject: 'Give testing its own <i>Logger</i>',
-      },
-      {
-        date: '2023-09-26',
-        issues: ['#142'],
-        subject: 'A fix to yesterday\'s <b>improvement</b> to CSS selectors',
-      },
-      {
-        date: '2023-09-25',
-        issues: ['#142'],
-        subject: 'Improve CSS selectors for both sections and cards',
-      },
-      {
-        date: '2023-09-24',
-        issues: ['#142'],
-        subject: 'Bring current section back into view if possible',
-      },
-      {
-        date: '2023-09-24',
-        issues: ['#116'],
-        subject: 'Last bit of <i>help</i> to <i>info</i> migration',
-      },
-      {
-        date: '2023-09-24',
-        issues: ['#110'],
-        subject: 'Switch everything over to the new key table generator',
-      },
-      {
-        date: '2023-09-23',
-        issues: ['#116'],
-        subject: 'Some more <i>help</i> to <i>info</i> migration',
-      },
-      {
-        date: '2023-09-22',
-        issues: ['#142'],
-        subject: 'Add navigation amongst cards in a section using ' +
-          '<kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd>',
-      },
-      {
-        date: '2023-09-22',
-        issues: ['#142'],
-        subject: 'Turn off debugging for <i>MyNetwork</i> sections scroller',
-      },
-      {
-        date: '2023-09-22',
-        issues: ['#116'],
-        subject: 'Rename some properties with <i>help</i> in them',
-      },
-      {
-        date: '2023-09-21',
-        issues: ['#142'],
-        subject: 'Add a simple <i>Activate current item</i> feature',
-      },
-      {
-        date: '2023-09-21',
-        issues: ['#116'],
-        subject: 'A batch of variable renaming from <i>help</i> to ' +
-          '<i>info</i>',
-      },
-      {
-        date: '2023-09-20',
-        issues: ['#140'],
-        subject: 'Give self-registering shortcuts a try',
-      },
-      {
-        date: '2023-09-20',
-        issues: ['#142'],
-        subject: 'Support the <i>/mynetwork/</i> page',
-      },
-      {
-        date: '2023-09-20',
-        issues: ['#116'],
-        subject: 'More <i>help</i> to <i>info</i> migrations',
       },
     ];
 
