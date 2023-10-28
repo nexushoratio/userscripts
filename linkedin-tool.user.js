@@ -2359,17 +2359,18 @@
     /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: 'MyNetwork sections',
-      base: document.body,
-      // See https://stackoverflow.com/questions/77146570
-      selectors: [
-        [
-          // Invitations
-          'main > section',
-          // Most sections
-          'main > ul > li',
-          // More suggestions for you section
-          'main > div > section',
-        ].join(','),
+      containerItems: [
+        {
+          container: 'main',
+          items: [
+            // Invitations
+            ':scope > section',
+            // Most sections
+            ':scope > ul > li',
+            // More suggestions for you section
+            ':scope > div > section',
+          ].join(','),
+        },
       ],
     };
 
