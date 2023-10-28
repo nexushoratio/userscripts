@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.15
+// @version     5.16
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -4572,6 +4572,7 @@
         '#159', 'MyNetwork: Trying to <kbd><kbd>E</kbd></kbd>ngage does ' +
           'not always work',
       ],
+      ['#165', 'Scroller: Wait until base shows up'],
       ['#167', 'Refactor into libraries'],
       [
         '#168', 'JobCollections: <kbd><kbd>X</kbd></kbd> will not recover ' +
