@@ -4261,12 +4261,21 @@
     #buildShortcutsInfo = () => {
       const me = 'buildShortcutsInfo';
       this.logger.entered(me);
+
+      this.#shortcutsWidget.clear();
       for (const service of VMKeyboardService.services) {
         this.logger.log('service:', service.shortName, service.active);
-        for (const shortcut of service.shortcuts) {
-          this.logger.log('shortcut:', shortcut);
+        // Works in progress may not have any shortcuts yet.
+        if (service.shortcuts.length) {
+          this.#shortcutsWidget.addSection(service.shortName);
+          this.#shortcutsWidget.addHeader(service.active, service.shortName);
+          for (const shortcut of service.shortcuts) {
+            this.logger.log('shortcut:', shortcut);
+            this.#shortcutsWidget.addData(shortcut.seq, shortcut.desc);
+          }
         }
       }
+
       this.logger.leaving(me);
     }
 
