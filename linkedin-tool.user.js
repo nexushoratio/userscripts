@@ -3246,7 +3246,7 @@
       name: 'Results pages',
       base: document.body,
       // This selector is also used in #onResultsPageActivate.
-      selectors: ['div.jobs-search-results-list__pagination li'],
+      selectors: ['div.jobs-search-results-list__pagination > ul > li'],
     };
 
     /** @type {Scroller~How} */
@@ -3365,7 +3365,8 @@
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
-          'div.jobs-search-results-list__pagination li.selected', timeout
+          'div.jobs-search-results-list__pagination > ul > li.selected',
+          timeout
         );
         this._resultsPages.goto(item);
       } catch (e) {
