@@ -3217,9 +3217,13 @@
     /** @type {Scroller~What} */
     static #jobCardsWhat = {
       name: 'Job cards',
-      base: document.body,
-      // This selector is also used in #onJobCardActivate.
-      selectors: ['div.jobs-search-results-list > ul > li'],
+      containerItems: [
+        {
+          container: 'div.jobs-search-results-list > ul',
+          // This selector is also used in #onJobCardActivate.
+          items: ':scope > li',
+        },
+      ],
     };
 
     /** @type {Scroller~How} */
