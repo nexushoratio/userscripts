@@ -168,9 +168,14 @@
     }
 
     /**
+     * A string of HTML or a prebuilt Element.
+     * @typedef {(string|Element)} TabContent
+     */
+
+    /**
      * @typedef {object} TabDefinition
      * @property {string} name - Tab name.
-     * @property {string} content - HTML to be used as initial content.
+     * @property {TabContent} content - Initial content.
      */
 
     /** @param {TabDefinition} tab - The new tab. */
@@ -346,7 +351,7 @@
     /**
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @param {string} content - Raw HTML content to put into the panel.
+     * @param {TabContent} content - Initial content.
      * @returns {Element} - Panel portion of the tab.
      */
     #createPanel = (name, idName, content) => {
@@ -356,7 +361,11 @@
       panel.dataset.tabbedId = `${this.#idName}-panel-${idName}`;
       panel.dataset.tabbedName = name;
       panel.classList.add(`${this.#idName}-panel`);
-      panel.innerHTML = content;
+      if (content instanceof Element) {
+        panel.append(content);
+      } else {
+        panel.innerHTML = content;
+      }
       this.#log.leaving(me, panel);
       return panel;
     }
