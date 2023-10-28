@@ -1914,6 +1914,7 @@
      */
     constructor(spa) {
       super({spa: spa});
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
       if (NH.xunit.testing.enabled) {
@@ -2048,6 +2049,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(Feed.#postsHow);
       spa.details.navBarScrollerFixup(Feed.#commentsHow);
@@ -2408,6 +2412,8 @@
       }
     );
 
+    #keyboardService
+
   }
 
   /**
@@ -2486,6 +2492,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(MyNetwork.#sectionsHow);
       spa.details.navBarScrollerFixup(MyNetwork.#cardsHow);
@@ -2671,6 +2680,8 @@
       clickElement(this._cards?.item, ['button.artdeco-card__dismiss']);
     });
 
+    #keyboardService
+
   }
 
   /** Class for handling the Invitation manager page. */
@@ -2727,6 +2738,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(InvitationManager.#invitesHow);
 
@@ -2853,6 +2867,8 @@
       clickElement(this._invites?.item, ['button[aria-label*=" message"]']);
     });
 
+    #keyboardService
+
   }
 
   /**
@@ -2871,6 +2887,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(Jobs.#sectionsHow);
       spa.details.navBarScrollerFixup(Jobs.#jobsHow);
@@ -3179,6 +3198,8 @@
     #jobScroller = null;
     #lastScroller
 
+    #keyboardService
+
   }
 
   /** Class for handling Job collections. */
@@ -3245,6 +3266,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...JobCollections.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
         JobCollections.#jobCardsHow);
@@ -3471,6 +3495,8 @@
       }
     );
 
+    #keyboardService
+
   }
 
   /** Class for handling the Messaging page. */
@@ -3482,6 +3508,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...Messaging.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
     }
 
     /** @type {Page~PageDetails} */
@@ -3490,6 +3519,8 @@
       pathname: RegExp('^/messaging/.*', 'u'),
       pageReadySelector: LinkedInGlobals.asideSelector,
     };
+
+    #keyboardService
 
   }
 
@@ -3524,6 +3555,9 @@
      */
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(Notifications.#notificationsHow);
 
@@ -3717,6 +3751,8 @@
         }
       }
     );
+
+    #keyboardService
 
   }
 
