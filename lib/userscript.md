@@ -6,5 +6,6 @@ Wrappers for dealing with variations in userscript managers.
 * version - Bumped per release.
 * UserscriptError - Library specific exception.
 * licenseData - License data extracted from the userscript header.
+* environmentData - Raw text about the current environment.
 
 More details are in [userscript.js](userscript.js) as JSDoc.

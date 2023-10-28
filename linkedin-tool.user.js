@@ -5135,6 +5135,9 @@
       const gm = GM.info;
       const header = 'Please consider including some of the following ' +
             'information in any bug report:';
+
+      // TODO(#167): Migrating to lib/userscript.js
+
       const msgs = [`${gm.script.name}: ${gm.script.version}`];
 
       for (const [lib, obj] of Object.entries(NH)) {
