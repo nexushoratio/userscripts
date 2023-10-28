@@ -13,6 +13,7 @@
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271282
+// @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271425
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -26,6 +27,7 @@
     {name: 'xunit', minVersion: 3},
     {name: 'base', minVersion: 16},
     {name: 'userscript', minVersion: 1},
+    {name: 'web'},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
@@ -99,270 +101,6 @@
     // eslint-disable-next-line no-extra-parens
     return (element.isContentEditable ||
             ['input', 'textarea'].includes(tagName));
-  }
-
-  // TODO(#167): Migrating to lib/web
-
-  /**
-   * @typedef {object} Continuation
-   * @property {boolean} done - Indicate whether the monitor is done
-   * processing.
-   * @property {object} [results] - Optional results object.
-   */
-
-  /**
-   * @callback Monitor
-   * @param {MutationRecord[]} records - Standard mutation records.
-   * @returns {Continuation} - Indicate whether done monitoring.
-   */
-
-  /**
-   * Simple function that takes no parameters and returns nothing.
-   * @callback SimpleFunction
-   */
-
-  /**
-   * @typedef {object} OtmotWhat
-   * @property {string} name - The name for this observer.
-   * @property {Element} base - Element to observe.
-   */
-
-  /**
-   * @typedef {object} OtmotHow
-   * @property {object} observeOptions - MutationObserver().observe() options.
-   * @property {SimpleFunction} [trigger] - Function to call that triggers
-   * observable results.
-   * @property {Monitor} monitor - Callback used to process MutationObserver
-   * records.
-   * @property {number} [timeout] - Time to wait for completion in
-   * milliseconds, default of 0 disables.
-   */
-
-  /**
-   * One time mutation observer with timeout.
-   * @param {OtmotWhat} what - What to observe.
-   * @param {OtmotHow} how - How to observe.
-   * @returns {Promise<Continuation.results>} - Will resolve with the results
-   * from monitor when done is true.
-   */
-  function otmot(what, how) {
-    const prom = new Promise((resolve, reject) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        observeOptions,
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        monitor,
-        timeout = 0,
-      } = how;
-
-      const logger = new NH.base.Logger(`otmot ${name}`);
-      let timeoutID = null;
-      let observer = null;
-
-      /** @param {MutationRecord[]} records - Standard mutation records. */
-      const moCallback = (records) => {
-        const {done, results} = monitor(records);
-        logger.log('monitor:', done, results);
-        if (done) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          logger.log('resolving');
-          resolve(results);
-        }
-      };
-
-      /** Standard setTimeout callback. */
-      const toCallback = () => {
-        observer.disconnect();
-        logger.log('rejecting after timeout');
-        reject(new Error(`otmot ${name} timed out`));
-      };
-
-      observer = new MutationObserver(moCallback);
-      if (timeout) {
-        timeoutID = setTimeout(toCallback, timeout);
-      }
-
-      observer.observe(base, observeOptions);
-      trigger();
-      logger.log('running');
-    });
-
-    return prom;
-  }
-
-  /**
-   * @typedef {object} OtrotWhat
-   * @property {string} name - The name for this observer.
-   * @property {Element} base - Element to observe.
-   */
-
-  /**
-   * @typedef {object} OtrotHow
-   * @property {SimpleFunction} [trigger] - Function to call that triggers
-   * observable events.
-   * @property {number} timeout - Time to wait for completion in milliseconds.
-   */
-
-  /**
-   * One time resize observer with timeout.  Will resolve automatically upon
-   * first resize change.
-   * @param {OtrotWhat} what - What to observe.
-   * @param {OtrotHow} how - How to observe.
-   * @returns {Promise<OtrotWhat>} - Will resolve with the what parameter.
-   */
-  function otrot(what, how) {
-    const prom = new Promise((resolve, reject) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        timeout,
-      } = how;
-      const {
-        clientHeight: initialHeight,
-        clientWidth: initialWidth,
-      } = base;
-
-      const logger = new NH.base.Logger(`otrot ${name}`);
-      let timeoutID = null;
-      let observer = null;
-      logger.log('initial dimensions:', initialWidth, initialHeight);
-
-      /** Standard ResizeObserver callback. */
-      const roCallback = () => {
-        const {clientHeight, clientWidth} = base;
-        logger.log('observed dimensions:', clientWidth, clientHeight);
-        if (clientHeight !== initialHeight || clientWidth !== initialWidth) {
-          observer.disconnect();
-          clearTimeout(timeoutID);
-          logger.log('resolving');
-          resolve(what);
-        }
-      };
-
-      /** Standard setTimeout callback. */
-      const toCallback = () => {
-        observer.disconnect();
-        logger.log('rejecting after timeout');
-        reject(new Error(`otrot ${name} timed out`));
-      };
-
-      observer = new ResizeObserver(roCallback);
-      timeoutID = setTimeout(toCallback, timeout);
-
-      observer.observe(base);
-      trigger();
-      logger.log('running');
-    });
-
-    return prom;
-  }
-
-  /**
-   * @callback ResizeAction
-   * @param {ResizeObserverEntry[]} entries - Standard resize entries.
-   */
-
-  /**
-   * @typedef {object} Otrot2How
-   * @property {SimpleFunction} [trigger] - Function to call that triggers
-   * observable events.
-   * @property {ResizeAction} action - Function to call upon each event
-   * observed and also at the end of duration.
-   * @property {number} duration - Time to run in milliseconds.
-   */
-
-  /**
-   * One time resize observer with action callback and duration.  Will resolve
-   * upon duration expiration.  Uses the same what parameter as {@link otrot}.
-   * @param {OtrotWhat} what - What to observe.
-   * @param {Otrow2How} how - How to observe.
-   * @returns {Promise<string>} - Will resolve after duration expires.
-   */
-  function otrot2(what, how) {
-    const prom = new Promise((resolve) => {
-      const {
-        name,
-        base,
-      } = what;
-      const {
-        trigger = () => {},  // eslint-disable-line no-empty-function
-        action,
-        duration,
-      } = how;
-
-      const logger = new NH.base.Logger(`otrot2 ${name}`);
-      let observer = null;
-
-      /** @param {ResizeObserverEntry[]} entries - Standard entries. */
-      const roCallback = (entries) => {
-        logger.log('calling action');
-        action(entries);
-      };
-
-      /** Standard setTimeout callback. */
-      const toCallback = () => {
-        observer.disconnect();
-        action([]);
-        logger.log('resolving');
-        resolve(`otrot2 ${name} finished`);
-      };
-
-      observer = new ResizeObserver(roCallback);
-      setTimeout(toCallback, duration);
-
-      observer.observe(base);
-      trigger();
-      logger.log('running');
-    });
-
-    return prom;
-  }
-
-  /**
-   * Wait for selector to match using querySelector.
-   * @param {string} selector - CSS selector.
-   * @param {number} timeout - Time to wait in milliseconds, 0 disables.
-   * @returns {Promise<Element>} - Matched element.
-   */
-  function waitForSelector(selector, timeout) {
-    const me = 'waitForSelector';
-    const logger = new NH.base.Logger(me);
-    logger.entered(me, selector, timeout);
-
-    /**
-     * @implements {Monitor}
-     * @returns {Continuation} - Indicate whether done monitoring.
-     */
-    const monitor = () => {
-      const element = document.querySelector(selector);
-      if (element) {
-        logger.log(`match for ${selector}`, element);
-        return {done: true, results: element};
-      }
-      logger.log('Still waiting for', selector);
-      return {done: false};
-    };
-
-    const what = {
-      name: me,
-      base: document,
-    };
-
-    const how = {
-      observeOptions: {childList: true, subtree: true},
-      monitor: monitor,
-      timeout: timeout,
-    };
-
-    logger.leaving(me);
-    return otmot(what, how);
   }
 
   /**
@@ -1241,7 +979,7 @@
       const results = [];
 
       for (const {container} of this.#containerItems) {
-        results.push(waitForSelector(container, 0));
+        results.push(NH.web.waitForSelector(container, 0));
       }
 
       this.logger.leaving(me, results);
@@ -2006,7 +1744,9 @@
       this.logger.entered(me);
 
       this.logger.log('pageReadySelector:', this.#pageReadySelector);
-      const element = await waitForSelector(this.#pageReadySelector, 0);
+      const element = await NH.web.waitForSelector(
+        this.#pageReadySelector, 0
+      );
       this.logger.leaving(me, element);
 
       return element;
@@ -2268,7 +2008,7 @@
           monitor: monitor,
           timeout: 5000,
         };
-        otmot(what, how).finally(() => {
+        NH.web.otmot(what, how).finally(() => {
           this._posts.shine();
           this._posts.show();
         });
@@ -2396,7 +2136,7 @@
         let first = false;
         const posts = this._posts;
 
-        /** Trigger function for {@link otrot2}. */
+        /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
           // The topButton only shows up when the app detects new posts.  In
           // that case, going back to the first post is appropriate.
@@ -2411,7 +2151,7 @@
           }
         }
 
-        /** Action function for {@link otrot2}. */
+        /** Action function for {@link NH.web.otrot2}. */
         function action() {
           if (first) {
             if (posts.item) {
@@ -2431,7 +2171,7 @@
           action: action,
           duration: 2000,
         };
-        otrot2(what, how);
+        NH.web.otrot2(what, how);
       }
     );
 
@@ -2548,13 +2288,13 @@
     _nextPostPlus = new Shortcut(
       'J', 'Toggle hiding then next post', async () => {
 
-        /** Trigger function for {@link otrot}. */
+        /** Trigger function for {@link NH.web.otrot}. */
         const trigger = () => {
           this._togglePost();
           this._nextPost();
         };
-        // XXX: Need to remove the highlights before otrot sees it because it
-        // affects the .clientHeight.
+        // XXX: Need to remove the highlights before NH.web.otrot sees it
+        // because it affects the .clientHeight.
         this._posts.dull();
         this._comments?.dull();
         if (this._posts.item) {
@@ -2566,7 +2306,7 @@
             trigger: trigger,
             timeout: 3000,
           };
-          await otrot(what, how);
+          await NH.web.otrot(what, how);
           this._posts.show();
         } else {
           trigger();
@@ -2706,7 +2446,7 @@
       };
 
       if (this.#currentSectionText) {
-        await otmot(what, how);
+        await NH.web.otmot(what, how);
         this._sections.shine();
         this._sections.show();
         this.#resetCards();
@@ -2942,7 +2682,7 @@
 
       if (this.#currentInviteText) {
         this.logger.log(`We will look for ${this.#currentInviteText}`);
-        await otmot(what, how);
+        await NH.web.otmot(what, how);
         this._invites.shine();
         this._invites.show();
       }
@@ -3254,7 +2994,7 @@
       async () => {
         const savedScrollTop = document.documentElement.scrollTop;
 
-        /** Trigger function for {@link otrot}. */
+        /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
           clickElement(document,
             ['main button.scaffold-finite-scroll__load-button']);
@@ -3267,7 +3007,7 @@
           trigger: trigger,
           timeout: 3000,
         };
-        await otrot(what, how);
+        await NH.web.otrot(what, how);
         this.#resetScroll(savedScrollTop);
       }
     );
@@ -3285,7 +3025,7 @@
       async () => {
         const savedJob = this._jobs.item;
 
-        /** Trigger function for {@link otrot}. */
+        /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
           const selector = [
             'button[aria-label^="Dismiss job"]:not([disabled])',
@@ -3302,7 +3042,7 @@
             trigger: trigger,
             timeout: 3000,
           };
-          await otrot(what, how);
+          await NH.web.otrot(what, how);
           this._jobs.item = savedJob;
         }
       });
@@ -3482,7 +3222,7 @@
 
       try {
         const timeout = 2000;
-        const item = await waitForSelector(
+        const item = await NH.web.waitForSelector(
           `li[data-occludable-job-id="${jobId}"]`,
           timeout
         );
@@ -3508,7 +3248,7 @@
 
       try {
         const timeout = 2000;
-        const item = await waitForSelector(
+        const item = await NH.web.waitForSelector(
           'div.jobs-search-results-list__pagination li.selected', timeout
         );
         this._resultsPages.goto(item);
@@ -3812,7 +3552,7 @@
         let first = false;
         const notifications = this._notifications;
 
-        /** Trigger function for {@link otrot2}. */
+        /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
           if (clickElement(document,
             ['button[aria-label^="Load new notifications"]'])) {
@@ -3823,7 +3563,7 @@
           }
         }
 
-        /** Action function for {@link otrot2}. */
+        /** Action function for {@link NH.web.otrot2}. */
         const action = () => {
           if (first) {
             if (notifications.item) {
@@ -3844,7 +3584,7 @@
           action: action,
           duration: 2000,
         };
-        otrot2(what, how);
+        NH.web.otrot2(what, how);
       }
     );
 
@@ -3859,7 +3599,7 @@
       'X', 'Toggle current notification deletion', async () => {
         const notification = this._notifications.item;
 
-        /** Trigger function for {@link otrot}. */
+        /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
           // Hah.  Unlike in other places, these buttons already exist, just
           // hidden under the menu.
@@ -3884,7 +3624,7 @@
             trigger: trigger,
             timeout: 3000,
           };
-          await otrot(what, how);
+          await NH.web.otrot(what, how);
           this._notifications.shine();
         }
       }
@@ -4128,7 +3868,7 @@
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
-      this.#navbar = await waitForSelector('#global-nav', 0);
+      this.#navbar = await NH.web.waitForSelector('#global-nav', 0);
       this.#finishConstruction();
 
       this.logger.leaving(me);
@@ -5127,7 +4867,7 @@
 
       const observeOptions = {childList: true, subtree: true};
 
-      const element = await waitForSelector(
+      const element = await NH.web.waitForSelector(
         this.#details.urlChangeMonitorSelector, 0
       );
       this.logger.log('element exists:', element);
