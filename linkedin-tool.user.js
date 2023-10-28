@@ -1489,6 +1489,19 @@
     }
 
     /**
+     * Set the keyboard context to a specific value.
+     * @param {string} context - The name of the context.
+     * @param {object} state - What the value should be.
+     */
+    static setKeyboardContext(context, state) {
+      for (const service of this.#services) {
+        for (const keyboard of service.#keyboards.values()) {
+          keyboard.setContext(context, state);
+        }
+      }
+    }
+
+    /**
      * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
      * an element or info view.
      */
@@ -1501,12 +1514,8 @@
       capture: true,
     };
 
-    #keyboards = new Map();
-
     static #services = new Set();
     static #lastFocusedElement = null
-
-    #shortcuts = [];
 
     /** @type {boolean} */
     get active() {
@@ -1588,20 +1597,9 @@
       }
     }
 
-    /**
-     * Set the keyboard context to a specific value.
-     * @param {string} context - The name of the context.
-     * @param {object} state - What the value should be.
-     */
-    static setKeyboardContext = (context, state) => {
-      for (const service of this.#services) {
-        for (const keyboard of service.#keyboards.values()) {
-          keyboard.setContext(context, state);
-        }
-      }
-    }
-
     #active = false;
+    #keyboards = new Map();
+    #shortcuts = [];
 
     #rebuildShortcuts = () => {
       this.#shortcuts = [];
