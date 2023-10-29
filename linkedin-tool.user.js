@@ -2118,8 +2118,10 @@
     static #postsWhat = {
       name: 'Feed posts',
       containerItems: [
-        {container: 'main div.scaffold-finite-scroll__content',
-          items: 'div[data-id]'},
+        {
+          container: 'main div.scaffold-finite-scroll__content',
+          items: 'div[data-id]',
+        },
       ],
     };
 
