@@ -1740,13 +1740,13 @@
     #pageReadySelector
 
     /** @type {SPA} - SPA instance managing this instance. */
-    #spa;
+    #spa
 
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
-    #logger;
+    #logger
 
     /** @type {RegExp} - Computed RegExp version of _pathname. */
-    #pathnameRE;
+    #pathnameRE
 
     /** @type {KeyboardService} */
     #keyboard = new VM.shortcut.KeyboardService();
