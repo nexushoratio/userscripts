@@ -3644,8 +3644,12 @@
     /** @type {Scroller~What} */
     static #notificationsWhat = {
       name: 'Notification cards',
-      base: document.body,
-      selectors: ['main section div.nt-card-list article'],
+      containerItems: [
+        {
+          container: 'main section div.nt-card-list',
+          items: 'article',
+        },
+      ],
     };
 
     /** @type {Scroller-How} */
