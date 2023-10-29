@@ -1737,6 +1737,29 @@
    */
   class Page {
 
+    /**
+     * @typedef {object} PageDetails
+     * @property {SPA} spa - SPA instance that manages this Page.
+     * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
+     * the URL this page should handle.
+     * @property {string} [pageReadySelector='body'] - CSS selector that is
+     * used to detect that the page is loaded enough to activate.
+     */
+
+    /** @param {PageDetails} details - Details about the instance. */
+    constructor(details = {}) {
+      if (new.target === Page) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+      this.#spa = details.spa;
+      this.#logger = new NH.base.Logger(this.constructor.name);
+      this.#pathnameRE = this.#computePathname(details.pathname);
+      ({
+        pageReadySelector: this.#pageReadySelector = 'body',
+      } = details);
+      this.#logger.log('Base page constructed', this);
+    }
+
     #pageReadySelector
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1778,29 +1801,6 @@
       }
       this.logger.leaving(me, pathnameRE);
       return pathnameRE;
-    }
-
-    /**
-     * @typedef {object} PageDetails
-     * @property {SPA} spa - SPA instance that manages this Page.
-     * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
-     * the URL this page should handle.
-     * @property {string} [pageReadySelector='body'] - CSS selector that is
-     * used to detect that the page is loaded enough to activate.
-     */
-
-    /** @param {PageDetails} details - Details about the instance. */
-    constructor(details = {}) {
-      if (new.target === Page) {
-        throw new TypeError('Abstract class; do not instantiate directly.');
-      }
-      this.#spa = details.spa;
-      this.#logger = new NH.base.Logger(this.constructor.name);
-      this.#pathnameRE = this.#computePathname(details.pathname);
-      ({
-        pageReadySelector: this.#pageReadySelector = 'body',
-      } = details);
-      this.#logger.log('Base page constructed', this);
     }
 
     /**
