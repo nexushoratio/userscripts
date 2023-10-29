@@ -1538,6 +1538,13 @@
       VMKeyboardService.#services.add(this);
     }
 
+    static keyMap = new Map([
+      ['LEFT', '←'],
+      ['UP', '↑'],
+      ['RIGHT', '→'],
+      ['DOWN', '↓'],
+    ]);
+
     /** @param {string} val - New condition. */
     static set condition(val) {
       this.#navOption.condition = val;
@@ -1569,6 +1576,53 @@
           keyboard.setContext(context, state);
         }
       }
+    }
+
+    /**
+     * Parse a {@link Shortcut.seq} and wrap it in HTML.
+     * @example
+     * 'a c-b' ->
+     *   '<kbd><kbd>a</kbd> then <kbd>Ctrl</kbd> + <kbd>b</kbd></kbd>'
+     * @param {Shortcut.seq} seq - Keystroke sequence.
+     * @returns {string} - Appropriately wrapped HTML.
+     */
+    static parseSeq(seq) {
+
+      /**
+       * Convert a VM.shortcut style into an HTML snippet.
+       * @param {IShortcutKey} key - A particular key press.
+       * @returns {string} - HTML snippet.
+       */
+      function reprKey(key) {
+        if (key.base.length === 1) {
+          if ((/\p{Uppercase_Letter}/u).test(key.base)) {
+            key.base = key.base.toLowerCase();
+            key.modifierState.s = true;
+          }
+        } else {
+          key.base = key.base.toUpperCase();
+          const mapped = VMKeyboardService.keyMap.get(key.base);
+          if (mapped) {
+            key.base = mapped;
+          }
+        }
+        const sequence = [];
+        if (key.modifierState.c) {
+          sequence.push('Ctrl');
+        }
+        if (key.modifierState.a) {
+          sequence.push('Alt');
+        }
+        if (key.modifierState.s) {
+          sequence.push('Shift');
+        }
+        sequence.push(key.base);
+        return sequence.map(c => `<kbd>${c}</kbd>`).join('+');
+      }
+      const res = VM.shortcut.normalizeSequence(seq, true)
+        .map(key => reprKey(key))
+        .join(' then ');
+      return `<kbd>${res}</kbd>`;
     }
 
     /** @type {boolean} */
@@ -1683,6 +1737,57 @@
     }
 
   }
+
+  /** Test case. */
+  function testParseSeq() {
+    const tests = [
+      {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
+      {test: 's-q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'Q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
+      {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
+      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+      {test: 'c-a-t',
+        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
+       '<kbd>t</kbd></kbd>'},
+      {test: 'a-c-T',
+        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
+       '<kbd>Shift</kbd>+<kbd>t</kbd></kbd>'},
+      {test: 'c-down esc',
+        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>↓</kbd> ' +
+       'then <kbd>ESC</kbd></kbd>'},
+      {test: 'alt-up tab',
+        expected: '<kbd><kbd>Alt</kbd>+<kbd>↑</kbd> ' +
+       'then <kbd>TAB</kbd></kbd>'},
+      {test: 'shift-X control-alt-del',
+        expected: '<kbd><kbd>Shift</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>DEL</kbd></kbd>'},
+      {test: 'c-x c-v',
+        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>Ctrl</kbd>+<kbd>v</kbd></kbd>'},
+      {test: 'a-x enter',
+        expected: '<kbd><kbd>Alt</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>ENTER</kbd></kbd>'},
+      {test: 'up up down down left right left right b shift-a enter',
+        expected: '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> ' +
+       'then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> ' +
+       'then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> ' +
+       'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>'},
+    ];
+
+    for (const {test, expected} of tests) {
+      const actual = VMKeyboardService.parseSeq(test);
+      const passed = actual === expected;
+      const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
+      NH.xunit.testing.log.log(msg);
+      if (!passed) {
+        throw new Error(msg);
+      }
+    }
+  }
+
+  NH.xunit.testing.funcs.push(testParseSeq);
 
   // TODO(#173): Migrate to style guide
 
@@ -2001,7 +2106,7 @@
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
-    #tabSnippet = SPA._parseSeq2('tab');  // eslint-disable-line no-use-before-define
+    #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     #postScroller = null;
     #commentScroller = null;
@@ -4109,9 +4214,9 @@
       const instructions = document.createElement('div');
       instructions.classList.add('lit-justify');
       instructions.classList.add('lit-instructions');
-      const left = SPA._parseSeq2('c-left');  // eslint-disable-line no-use-before-define
-      const right = SPA._parseSeq2('c-right');  // eslint-disable-line no-use-before-define
-      const esc = SPA._parseSeq2('esc');  // eslint-disable-line no-use-before-define
+      const left = VMKeyboardService.parseSeq('c-left');
+      const right = VMKeyboardService.parseSeq('c-right');
+      const esc = VMKeyboardService.parseSeq('esc');
       instructions.innerHTML =
         `<span>Use the ${left} and ${right} keys or click to select ` +
         'tab</span>' +
@@ -5121,9 +5226,9 @@
         `v${GM.info.script.version}`;
       const instructions = document.createElement('div');
       instructions.classList.add('spa-instructions');
-      const left = SPA._parseSeq2('c-left');
-      const right = SPA._parseSeq2('c-right');
-      const esc = SPA._parseSeq2('esc');
+      const left = VMKeyboardService.parseSeq('c-left');
+      const right = VMKeyboardService.parseSeq('c-right');
+      const esc = VMKeyboardService.parseSeq('esc');
       instructions.innerHTML =
         `<span class="left">Use the ${left} and ${right} keys or ` +
         'click to select tab</span>' +
@@ -5253,60 +5358,6 @@
       return text.replace(/(?<cameo>[A-Z])/gu, ' $<cameo>').trim();
     }
 
-    static keyMap = new Map([
-      ['LEFT', '←'],
-      ['UP', '↑'],
-      ['RIGHT', '→'],
-      ['DOWN', '↓'],
-    ]);
-
-    /**
-     * Parse a {@link Shortcut.seq} and wrap it in HTML.
-     * @example
-     * 'a c-b' ->
-     *   '<kbd><kbd>a</kbd> then <kbd>Ctrl</kbd> + <kbd>b</kbd></kbd>'
-     * @param {Shortcut.seq} seq - Keystroke sequence.
-     * @returns {string} - Appropriately wrapped HTML.
-     */
-    static _parseSeq2(seq) {
-
-      /**
-       * Convert a VM.shortcut style into an HTML snippet.
-       * @param {IShortcutKey} key - A particular key press.
-       * @returns {string} - HTML snippet.
-       */
-      function reprKey(key) {
-        if (key.base.length === 1) {
-          if ((/\p{Uppercase_Letter}/u).test(key.base)) {
-            key.base = key.base.toLowerCase();
-            key.modifierState.s = true;
-          }
-        } else {
-          key.base = key.base.toUpperCase();
-          const mapped = SPA.keyMap.get(key.base);
-          if (mapped) {
-            key.base = mapped;
-          }
-        }
-        const sequence = [];
-        if (key.modifierState.c) {
-          sequence.push('Ctrl');
-        }
-        if (key.modifierState.a) {
-          sequence.push('Alt');
-        }
-        if (key.modifierState.s) {
-          sequence.push('Shift');
-        }
-        sequence.push(key.base);
-        return sequence.map(c => `<kbd>${c}</kbd>`).join('+');
-      }
-      const res = VM.shortcut.normalizeSequence(seq, true)
-        .map(key => reprKey(key))
-        .join(' then ');
-      return `<kbd>${res}</kbd>`;
-    }
-
     /**
      * Generate a unique id for page views.
      * @param {Page} page - An instance of the Page class.
@@ -5326,7 +5377,7 @@
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.allShortcuts) {
-        const keys = SPA._parseSeq2(seq);
+        const keys = VMKeyboardService.parseSeq(seq);
         s += `<tr><td>${keys}:</td><td>${desc}</td></tr>`;
       }
       // Don't include works in progress that have no keys yet.
@@ -5484,57 +5535,6 @@
     }
 
   }
-
-  /** Test case. */
-  function testParseSeq() {
-    const tests = [
-      {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
-      {test: 's-q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'Q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
-      {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
-      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'c-a-t',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
-       '<kbd>t</kbd></kbd>'},
-      {test: 'a-c-T',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
-       '<kbd>Shift</kbd>+<kbd>t</kbd></kbd>'},
-      {test: 'c-down esc',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>↓</kbd> ' +
-       'then <kbd>ESC</kbd></kbd>'},
-      {test: 'alt-up tab',
-        expected: '<kbd><kbd>Alt</kbd>+<kbd>↑</kbd> ' +
-       'then <kbd>TAB</kbd></kbd>'},
-      {test: 'shift-X control-alt-del',
-        expected: '<kbd><kbd>Shift</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>DEL</kbd></kbd>'},
-      {test: 'c-x c-v',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>Ctrl</kbd>+<kbd>v</kbd></kbd>'},
-      {test: 'a-x enter',
-        expected: '<kbd><kbd>Alt</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>ENTER</kbd></kbd>'},
-      {test: 'up up down down left right left right b shift-a enter',
-        expected: '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> ' +
-       'then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> ' +
-       'then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> ' +
-       'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>'},
-    ];
-
-    for (const {test, expected} of tests) {
-      const actual = SPA._parseSeq2(test);
-      const passed = actual === expected;
-      const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
-      NH.xunit.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
-    }
-  }
-
-  NH.xunit.testing.funcs.push(testParseSeq);
 
   NH.xunit.testing.run();
 
