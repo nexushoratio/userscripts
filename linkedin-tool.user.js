@@ -13,7 +13,7 @@
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
-// @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271425
+// @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271884
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -27,7 +27,7 @@
     {name: 'xunit', minVersion: 3},
     {name: 'base', minVersion: 16},
     {name: 'userscript', minVersion: 2},
-    {name: 'web'},
+    {name: 'web', minVersion: 1},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
@@ -41,69 +41,6 @@
   }
 
   const log = new NH.base.Logger('Default');
-
-  // TODO(#167): Migrate to lib/web
-
-  /**
-   * Run querySelector to get an element, then click it.
-   * @param {Element} base - Where to start looking.
-   * @param {string[]} selectorArray - CSS selectors to use to find an
-   * element.
-   * @param {boolean} [matchSelf=false] - If a CSS selector would match base,
-   * then use it.
-   * @returns {boolean} - Whether an element could be found.
-   */
-  function clickElement(base, selectorArray, matchSelf = false) {
-    if (base) {
-      for (const selector of selectorArray) {
-        let el = null;
-        if (matchSelf && base.matches(selector)) {
-          el = base;
-        } else {
-          el = base.querySelector(selector);
-        }
-        if (el) {
-          el.click();
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Bring the Browser's focus onto element.
-   * @param {Element} element - HTML Element to focus on.
-   */
-  function focusOnElement(element) {
-    if (element) {
-      const magicTabIndex = -1;
-      const tabIndex = element.getAttribute('tabindex');
-      element.setAttribute('tabindex', magicTabIndex);
-      element.focus();
-      if (tabIndex) {
-        element.setAttribute('tabindex', tabIndex);
-      } else {
-        element.removeAttribute('tabindex');
-      }
-    }
-  }
-
-  /**
-   * Determines if the element accepts keyboard input.
-   * @param {Element} element - HTML Element to examine.
-   * @returns {boolean} - Indicating whether the element accepts keyboard
-   * input.
-   */
-  function isInput(element) {
-    let tagName = '';
-    if ('tagName' in element) {
-      tagName = element.tagName.toLowerCase();
-    }
-    // eslint-disable-next-line no-extra-parens
-    return (element.isContentEditable ||
-            ['input', 'textarea'].includes(tagName));
-  }
 
   /**
    * Implement HTML for a tabbed user interface.
@@ -1174,7 +1111,7 @@
       if (sidebar) {
         sidebar.style.scrollMarginTop = this.navBarHeightCSS;
         sidebar.scrollIntoView();
-        focusOnElement(sidebar);
+        NH.web.focusOnElement(sidebar);
       }
     }
 
@@ -1187,7 +1124,7 @@
       if (aside) {
         aside.style.scrollMarginTop = this.navBarHeightCSS;
         aside.scrollIntoView();
-        focusOnElement(aside);
+        NH.web.focusOnElement(aside);
       }
     }
 
@@ -1715,7 +1652,7 @@
         this.#lastFocusedElement = null;
         this.setKeyboardContext('inputFocus', false);
       }
-      if (isInput(evt.target)) {
+      if (NH.web.isInput(evt.target)) {
         this.setKeyboardContext('inputFocus', true);
         this.#lastFocusedElement = evt.target;
       }
@@ -2034,7 +1971,7 @@
      * @param {string} item - Portion of the link to match.
      */
     static #gotoNavLink = (item) => {
-      clickElement(document, [`#global-nav a[href*="/${item}"`]);
+      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
     /**
@@ -2054,7 +1991,7 @@
     });
 
     gotoSearch = new Shortcut('/', 'Go to Search box', () => {
-      clickElement(document, ['#global-nav-search button']);
+      NH.web.clickElement(document, ['#global-nav-search button']);
     });
 
     goHome = new Shortcut('g h', 'Go Home (aka, Feed)', () => {
@@ -2311,20 +2248,22 @@
         const el = this.#lastScroller.item;
         this._posts.show();
         this._comments?.show();
-        focusOnElement(el);
+        NH.web.focusOnElement(el);
       }
     );
 
     _showComments = new Shortcut('c', 'Show comments', () => {
-      if (!clickElement(this._comments.item, ['button.show-prev-replies'])) {
-        clickElement(this._posts.item, ['button[aria-label*="comment"]']);
+      if (!NH.web.clickElement(this._comments.item,
+        ['button.show-prev-replies'])) {
+        NH.web.clickElement(this._posts.item,
+          ['button[aria-label*="comment"]']);
       }
     });
 
     _seeMore = new Shortcut(
       'm', 'Show more of current post or comment', () => {
         const el = this.#lastScroller.item;
-        clickElement(el, ['button[aria-label^="see more"]']);
+        NH.web.clickElement(el, ['button[aria-label^="see more"]']);
       }
     );
 
@@ -2344,10 +2283,10 @@
           // If there is not top button, there should always be a button at
           // the bottom the click.
           const botButton = 'main button.scaffold-finite-scroll__load-button';
-          if (clickElement(document, [topButton])) {
+          if (NH.web.clickElement(document, [topButton])) {
             first = true;
           } else {
-            clickElement(document, [botButton]);
+            NH.web.clickElement(document, [botButton]);
           }
         }
 
@@ -2402,13 +2341,14 @@
           // Possibly new button on a post
           'button.social-details-social-counts__count-value',
         ].join(',');
-        clickElement(el, [selector]);
+        NH.web.clickElement(el, [selector]);
       }
     );
 
     _viewReposts = new Shortcut(
       'v R', 'View reposts of current post', () => {
-        clickElement(this._posts.item, ['button[aria-label*="repost"]']);
+        NH.web.clickElement(this._posts.item,
+          ['button[aria-label*="repost"]']);
       }
     );
 
@@ -2420,7 +2360,7 @@
         // button, so use the parentElement.  When Firefox [fully
         // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
         // `:has()` pseudo-selector, we can probably use that and use
-        // `clickElement()`.
+        // `NH.web.clickElement()`.
         const el = this.#lastScroller.item;
         const selector = [
           // Comment variant
@@ -2437,14 +2377,14 @@
 
     _likeItem = new Shortcut('L', 'Like current post or comment', () => {
       const el = this.#lastScroller.item;
-      clickElement(el, ['button[aria-label^="Open reactions menu"]']);
+      NH.web.clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     });
 
     _commentOnItem = new Shortcut(
       'C', 'Comment on current post or comment', () => {
         // Order of the queries matters here.  If a post has visible comments,
         // the wrong button could be selected.
-        clickElement(this.#lastScroller.item, [
+        NH.web.clickElement(this.#lastScroller.item, [
           'button[aria-label^="Comment"]',
           'button[aria-label^="Reply"]',
         ]);
@@ -2453,12 +2393,12 @@
 
     _repost = new Shortcut('R', 'Repost current post', () => {
       const el = this._posts.item;
-      clickElement(el, ['button.social-reshare-button']);
+      NH.web.clickElement(el, ['button.social-reshare-button']);
     });
 
     _sendPost = new Shortcut('S', 'Send current post privately', () => {
       const el = this._posts.item;
-      clickElement(el, ['button.send-privately-button']);
+      NH.web.clickElement(el, ['button.send-privately-button']);
     });
 
     _gotoShare = new Shortcut(
@@ -2476,7 +2416,7 @@
     );
 
     _togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
-      clickElement(
+      NH.web.clickElement(
         this._posts.item,
         [
           'button[aria-label^="Dismiss post"]',
@@ -2752,14 +2692,14 @@
 
     focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
-        focusOnElement(this.#lastScroller.item);
+        NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
     viewItem = new Shortcut('Enter', 'View the current item', () => {
       const card = this._cards?.item;
       if (card) {
-        if (!clickElement(card, ['a', 'button'], true)) {
+        if (!NH.web.clickElement(card, ['a', 'button'], true)) {
           this.spa.dumpInfoAboutElement(card, 'network card');
         }
       } else {
@@ -2780,13 +2720,14 @@
           'div.p3 > button',
         ].join(',');
         this.logger.log('button?', this._cards.item.querySelector(selector));
-        clickElement(this._cards?.item, [selector]);
+        NH.web.clickElement(this._cards?.item, [selector]);
         this.logger.leaving(me);
       }
     );
 
     dismissCard = new Shortcut('X', 'Dismiss current card', () => {
-      clickElement(this._cards?.item, ['button.artdeco-card__dismiss']);
+      NH.web.clickElement(this._cards?.item,
+        ['button.artdeco-card__dismiss']);
     });
 
     #keyboardService
@@ -2928,13 +2869,13 @@
     focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
         const item = this._invites.item;
-        focusOnElement(item);
+        NH.web.focusOnElement(item);
       }
     );
 
     seeMore = new Shortcut(
       'm', 'Toggle seeing more of current invite', () => {
-        clickElement(
+        NH.web.clickElement(
           this._invites?.item,
           ['a.lt-line-clamp__more, a.lt-line-clamp__less']
         );
@@ -2942,7 +2883,7 @@
     );
 
     viewInviter = new Shortcut('i', 'View inviter', () => {
-      clickElement(this._invites?.item,
+      NH.web.clickElement(this._invites?.item,
         ['a.app-aware-link:not(.invitation-card__picture)']);
     });
 
@@ -2951,7 +2892,8 @@
       'View invitation target ' +
         '(may not be the same as inviter, e.g., Newsletter)',
       () => {
-        clickElement(this._invites?.item, ['a.invitation-card__picture']);
+        NH.web.clickElement(this._invites?.item,
+          ['a.invitation-card__picture']);
       }
     );
 
@@ -2965,15 +2907,18 @@
     );
 
     acceptInvite = new Shortcut('A', 'Accept invite', () => {
-      clickElement(this._invites?.item, ['button[aria-label^="Accept"]']);
+      NH.web.clickElement(this._invites?.item,
+        ['button[aria-label^="Accept"]']);
     });
 
     ignoreInvite = new Shortcut('I', 'Ignore invite', () => {
-      clickElement(this._invites?.item, ['button[aria-label^="Ignore"]']);
+      NH.web.clickElement(this._invites?.item,
+        ['button[aria-label^="Ignore"]']);
     });
 
     messageInviter = new Shortcut('M', 'Message inviter', () => {
-      clickElement(this._invites?.item, ['button[aria-label*=" message"]']);
+      NH.web.clickElement(this._invites?.item,
+        ['button[aria-label*=" message"]']);
     });
 
     #keyboardService
@@ -3184,7 +3129,7 @@
       'f', 'Change browser focus to current section or job', () => {
         this._sections.show();
         this._jobs?.show();
-        focusOnElement(this.#lastScroller.item);
+        NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
@@ -3194,7 +3139,8 @@
       () => {
         const job = this._jobs?.item;
         if (job) {
-          if (!clickElement(job, ['div[data-view-name]', 'a', 'button'])) {
+          if (!NH.web.clickElement(job,
+            ['div[data-view-name]', 'a', 'button'])) {
             this.spa.dumpInfoAboutElement(job, 'job');
           }
         } else {
@@ -3212,7 +3158,7 @@
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
-          clickElement(document,
+          NH.web.clickElement(document,
             ['main button.scaffold-finite-scroll__load-button']);
         }
         const what = {
@@ -3233,7 +3179,7 @@
         'button[aria-label^="Save job"]',
         'button[aria-label^="Unsave job"]',
       ].join(',');
-      clickElement(this._jobs?.item, [selector]);
+      NH.web.clickElement(this._jobs?.item, [selector]);
     });
 
     _toggleDismissJob = new Shortcut('X',
@@ -3247,7 +3193,7 @@
             'button[aria-label^="Dismiss job"]:not([disabled])',
             'button[aria-label$=" Undo"]',
           ].join(',');
-          clickElement(savedJob, [selector]);
+          NH.web.clickElement(savedJob, [selector]);
         }
         if (savedJob) {
           const what = {
@@ -3462,7 +3408,7 @@
     #onJobCardChange = () => {
       const me = 'onJobCardChange';
       this.logger.entered(me, this._jobCards.item);
-      clickElement(this._jobCards.item, ['div[data-job-id]']);
+      NH.web.clickElement(this._jobCards.item, ['div[data-job-id]']);
       this.#lastScroller = this._jobCards;
       this.logger.leaving(me);
     }
@@ -3520,31 +3466,31 @@
 
     focusBrowser = new Shortcut(
       'f', 'Move browser focus to most recently selected item', () => {
-        focusOnElement(this.#lastScroller.item);
+        NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
     detailsPane = new Shortcut('d', 'Jump to details pane', () => {
-      focusOnElement(document.querySelector(
+      NH.web.focusOnElement(document.querySelector(
         'div.jobs-search__job-details--container'
       ));
     });
 
     selectCurrentResultsPage = new Shortcut(
       'c', 'Select current results page', () => {
-        clickElement(this._resultsPages.item, ['button']);
+        NH.web.clickElement(this._resultsPages.item, ['button']);
       }
     );
 
     openShareMenu = new Shortcut('s', 'Open share menu', () => {
-      clickElement(document, ['button[aria-label="Share"]']);
+      NH.web.clickElement(document, ['button[aria-label="Share"]']);
     });
 
     openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
         // XXX: There are TWO buttons.  The *first* one is hidden until the
         // user scrolls down.  This always triggers the first one.
-        clickElement(document, ['.jobs-options button']);
+        NH.web.clickElement(document, ['.jobs-options button']);
       }
     );
 
@@ -3558,14 +3504,14 @@
           // See application link
           'a[href^="/jobs/tracker"]',
         ];
-        clickElement(document, selectors);
+        NH.web.clickElement(document, selectors);
       }
     );
 
     toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
       // XXX: There are TWO buttons.  The *first* one is hidden until the user
       // scrolls down.  This always triggers the first one.
-      clickElement(document, ['button.jobs-save-button']);
+      NH.web.clickElement(document, ['button.jobs-save-button']);
     });
 
     toggleDismissJob = new Shortcut(
@@ -3578,13 +3524,13 @@
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
         // The button toggles between Follow and Following
-        clickElement(document, ['button[aria-label^="Follow"]']);
+        NH.web.clickElement(document, ['button[aria-label^="Follow"]']);
       }
     );
 
     toggleAlert = new Shortcut(
       'L', 'Toggle the job search aLert, if available', () => {
-        clickElement(document,
+        NH.web.clickElement(document,
           ['main .jobs-search-create-alert__artdeco-toggle']);
       }
     );
@@ -3595,7 +3541,7 @@
           'button[aria-label="Like job"]',
           'button[aria-label="Job is liked, undo"]',
         ].join(',');
-        clickElement(this._jobCards.item, [selector]);
+        NH.web.clickElement(this._jobCards.item, [selector]);
       }
     );
 
@@ -3605,7 +3551,7 @@
           'button[aria-label="Dismiss job"]',
           'button[aria-label="Job is dismissed, undo"]',
         ].join(',');
-        clickElement(this._jobCards.item, [selector]);
+        NH.web.clickElement(this._jobCards.item, [selector]);
       }
     );
 
@@ -3750,7 +3696,7 @@
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current notification', () => {
         this._notifications.show();
-        focusOnElement(this._notifications.item);
+        NH.web.focusOnElement(this._notifications.item);
       }
     );
 
@@ -3794,11 +3740,11 @@
 
         /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
-          if (clickElement(document,
+          if (NH.web.clickElement(document,
             ['button[aria-label^="Load new notifications"]'])) {
             first = true;
           } else {
-            clickElement(document,
+            NH.web.clickElement(document,
               ['main button.scaffold-finite-scroll__load-button']);
           }
         }
@@ -3830,7 +3776,7 @@
 
     _openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
-        clickElement(this._notifications.item,
+        NH.web.clickElement(this._notifications.item,
           ['button[aria-label^="Settings menu"]']);
       }
     );
@@ -3849,7 +3795,7 @@
           if (button) {
             button.click();
           } else {
-            clickElement(notification,
+            NH.web.clickElement(notification,
               ['button[aria-label^="Undo notification deletion"]']);
           }
         }
@@ -5098,7 +5044,7 @@
         this._lastInputElement = null;
         this._setKeyboardContext('inputFocus', false);
       }
-      if (isInput(evt.target)) {
+      if (NH.web.isInput(evt.target)) {
         this._setKeyboardContext('inputFocus', true);
         this._lastInputElement = evt.target;
       }
