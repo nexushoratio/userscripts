@@ -4184,7 +4184,8 @@
       this.logger.log('info opened');
     }
 
-    #onCloseInfo = () => {
+    #onCloseInfo = async () => {
+      await GM.setValue('Logger', NH.base.Logger.configs);
       this.#infoKeyboard.disable();
       VMKeyboardService.setKeyboardContext('inDialog', false);
       this.logger.log('info closed');
@@ -4313,9 +4314,6 @@
         }
         if (NH.xunit.testing.enabled) {
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
-
-          // TODO(#145): Just here while developing
-          GM.setValue('Logger', NH.base.Logger.configs);
         }
       });
       this.logger.leaving(me);
