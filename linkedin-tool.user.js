@@ -4498,11 +4498,6 @@
       ['Bob', 'Bob has no issues'],
       ['', 'Minor internal improvement'],
       ['#106', 'info view: more tabs: News, License'],
-      [
-        '#110', 'info view: replace <kbd><kbd>X</kbd></kbd> with ' +
-       '<kbd><kbd>Shift</kbd>+<kbd>x</kbd></kbd>',
-      ],
-      ['#116', 'help view: Rename as info view or something'],
       ['#130', 'Factor hotkey handling out of SPA'],
       ['#140', 'Self registering keyboard shortcuts'],
       ['#142', 'Support My Network view'],
@@ -4535,30 +4530,46 @@
         '#168', 'JobCollections: <kbd><kbd>X</kbd></kbd> will not recover ' +
           'a dismissed job card',
       ],
+      [
+        '#178', 'Migrate all Scrollers from <i>_refresh()</i> to ' +
+          '<i>#onScrollerActivate</i>',
+      ],
     ];
 
     static #newsContent = [
       {
-        date: '2023-10-27',
-        issues: ['#165'],
-        subject: 'Switch `MyNetwork` to using *containerItems* for primary ' +
-          '`Scroller`',
+        date: '2023-10-30',
+        issues: ['#178'],
+        subject: 'Migrate <i>Feed</i> from using <i>refresh</i> to ' +
+          '<i>onScrollerActivate</i>',
+      },
+      {
+        date: '2023-10-30',
+        issues: ['#144'],
+        subject: 'Implement <kbd><kbd>l</kbd></kbd> to load more ' +
+          'conversations',
       },
       {
         date: '2023-10-27',
         issues: ['#165'],
-        subject: 'Switch `Feed` to using *containerItems* for primary ' +
-          '`Scroller`',
+        subject: 'Switch <i>MyNetwork</i> to using <i>containerItems</i> ' +
+          'for primary <i>Scroller</i>',
+      },
+      {
+        date: '2023-10-27',
+        issues: ['#165'],
+        subject: 'Switch <i>Feed</i> to using <i>containerItems</i> ' +
+          'primary <i>Scroller</i>',
       },
       {
         date: '2023-10-22',
         issues: ['#144'],
-        subject: 'Initial support for the *Messaging* page',
+        subject: 'Initial support for the <i>Messaging</i> page',
       },
       {
         date: '2023-10-20',
         issues: ['#106'],
-        subject: 'Basic News tab',
+        subject: 'Basic <b>News</b> tab',
       },
       {
         date: '2023-10-19',
@@ -4846,32 +4857,6 @@
         issues: ['#151'],
         subject: 'Reset card scroller when revisiting the <i>MyNetwork</i> ' +
           'page',
-      },
-      {
-        date: '2023-09-28',
-        issues: ['#140'],
-        subject: 'Migrate <i>Global</i> to self-registering shortcuts',
-      },
-      {
-        date: '2023-09-28',
-        issues: ['#142'],
-        subject: 'Enable <kbd><kbd>X</kbd></kbd> to dismiss a card',
-      },
-      {
-        date: '2023-09-28',
-        issues: ['#142'],
-        subject: 'Disable debugging in card scroller',
-      },
-      {
-        date: '2023-09-27',
-        issues: ['#142'],
-        subject: 'Add <kbd><kbd>E</kbd></kbd>ngage as a way to interact ' +
-          'with the current card',
-      },
-      {
-        date: '2023-09-27',
-        issues: ['#142'],
-        subject: 'Reword <i>Activate</i> to <i>View</i>',
       },
     ];
 
