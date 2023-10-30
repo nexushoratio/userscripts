@@ -1760,6 +1760,44 @@
       this.#logger.log('Base page constructed', this);
     }
 
+    /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
+    get allShortcuts() {
+      const shortcuts = [];
+      for (const prop of Object.values(this)) {
+        if (prop instanceof Shortcut) {
+          shortcuts.push(prop);
+          // While we are here, give the function a name.
+          Object.defineProperty(prop, 'name', {value: name});
+        }
+      }
+      return shortcuts;
+    }
+
+    /** @type {string} - Describes what the header should be. */
+    get infoHeader() {
+      return this.constructor.name;
+    }
+
+    /** @type {KeyboardService} */
+    get keyboard() {
+      return this.#keyboard;
+    }
+
+    /** @type {NH.base.Logger} */
+    get logger() {
+      return this.#logger;
+    }
+
+    /** @type {RegExp} */
+    get pathname() {
+      return this.#pathnameRE;
+    }
+
+    /** @type {SPA} */
+    get spa() {
+      return this.#spa;
+    }
+
     #pageReadySelector
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1833,39 +1871,6 @@
       }
     }
 
-    /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
-    get allShortcuts() {
-      const shortcuts = [];
-      for (const prop of Object.values(this)) {
-        if (prop instanceof Shortcut) {
-          shortcuts.push(prop);
-          // While we are here, give the function a name.
-          Object.defineProperty(prop, 'name', {value: name});
-        }
-      }
-      return shortcuts;
-    }
-
-    /** @type {RegExp} */
-    get pathname() {
-      return this.#pathnameRE;
-    }
-
-    /** @type {SPA} */
-    get spa() {
-      return this.#spa;
-    }
-
-    /** @type {NH.base.Logger} */
-    get logger() {
-      return this.#logger;
-    }
-
-    /** @type {KeyboardService} */
-    get keyboard() {
-      return this.#keyboard;
-    }
-
     /**
      * Wait until the page has loaded enough to continue.
      * @returns {Element} - The element matched by #pageReadySelector.
@@ -1907,11 +1912,6 @@
       for (const service of this.#services) {
         service.deactivate();
       }
-    }
-
-    /** @type {string} - Describes what the header should be. */
-    get infoHeader() {
-      return this.constructor.name;
     }
 
     /**
