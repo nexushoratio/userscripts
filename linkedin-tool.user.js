@@ -4244,7 +4244,7 @@
           ' border-bottom: 1px solid black;' +
           ' margin-bottom: 5px;' +
           '}',
-        '.lit-instructions kbd > kbd {' +
+        '.lit-info kbd > kbd {' +
           ' font-size: 0.85em;' +
           ' padding: 0.07em;' +
           ' border-width: 1px;' +
@@ -4386,7 +4386,9 @@
           this.#shortcutsWidget.addHeader(service.active, service.shortName);
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
-            this.#shortcutsWidget.addData(shortcut.seq, shortcut.desc);
+            this.#shortcutsWidget.addData(
+              VMKeyboardService.parseSeq(shortcut.seq), shortcut.desc
+            );
           }
         }
       }
