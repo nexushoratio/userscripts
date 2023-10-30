@@ -3597,6 +3597,16 @@
       }
     );
 
+    newMessage = new Shortcut('N', 'Compose a new message', () => {
+      const me = 'newMessage';
+      this.logger.entered(me);
+
+      NH.web.clickElement(document,
+        ['a[aria-label="Compose a new message"]']);
+
+      this.logger.leaving(me);
+    });
+
     #keyboardService
 
   }
