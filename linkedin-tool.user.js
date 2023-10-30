@@ -3580,6 +3580,21 @@
       pageReadySelector: LinkedInGlobals.asideSelector,
     };
 
+    loadMoreConversations = new Shortcut(
+      'l', 'Load more conversations', () => {
+        const me = 'loadMoreConversations';
+        this.logger.entered(me);
+
+        // This button has no distinguishing features, so look for the text
+        // the nested span, then click the button.
+        const span = Array.from(document.querySelectorAll('button > span'))
+          .find(el => el.innerText === 'Load more conversations');
+        span?.parentElement?.click();
+
+        this.logger.leaving(me);
+      }
+    );
+
     #keyboardService
 
   }
