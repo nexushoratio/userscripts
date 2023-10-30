@@ -54,9 +54,9 @@ window.NexusHoratio.foo = (function foo() {
 ```
 Some of the above is simply to keep eslint happy.
 
-Libraries and apps may locally rename `NexusHoratio` to `NH`.
+Libraries and apps should use *base.ensure()* to restrict the namespace and verify minimal versions are present.
 ```
-const NH = NexusHoratio;
+const NH = window.NexusHoratio.base.ensure([{name: 'base'}]);
 ```
 
 ## Applications
@@ -81,12 +81,13 @@ Skeleton for *bar.user.js*:
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=XYZ
 // ==/UserScript==
 
-/* global NexusHoratio */
-
 (async () => {
   'use strict';
 
-  const NH = NexusHoratio;
+  // Note that *ver* here is from base.version, NOT the @require URL.
+  const NH = window.NexusHoratio.base.ensure([
+    {name: 'base', minVersion: ver},
+  ]);
 
 })();
 ```
