@@ -2111,13 +2111,13 @@
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
+      this.#postScroller.dispatcher.on('activate', this.#onPostActivate);
       this.#postScroller.dispatcher.on('change', this.#onPostChange);
 
       this.#lastScroller = this.#postScroller;
     }
 
-    /** @inheritdoc */
-    _refresh() {
+    #onPostActivate = () => {
 
       /**
        * Wait for the post to be reloaded.
@@ -2135,7 +2135,7 @@
       }
       if (this._posts.item) {
         const what = {
-          name: 'Feed._refresh',
+          name: 'Feed onPostActivate',
           base: this._posts.item,
         };
         const how = {
