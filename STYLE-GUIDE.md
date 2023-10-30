@@ -56,7 +56,7 @@ Some of the above is simply to keep eslint happy.
 
 Libraries and apps should use *base.ensure()* to restrict the namespace and verify minimal versions are present.
 ```
-const NH = window.NexusHoratio.base.ensure([{name: 'base'}]);
+const NH = window.NexusHoratio.base.ensure([{name: 'xunit'}, {name: 'base'}]);
 ```
 
 ## Applications
@@ -78,16 +78,20 @@ Skeleton for *bar.user.js*:
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/bar.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/bar.md
+// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=ABC
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=XYZ
 // ==/UserScript==
 
 (async () => {
   'use strict';
 
-  // Note that *ver* here is from base.version, NOT the @require URL.
+  // Note that *ver?* here is from {xunit,base}.version, NOT the @require URL.
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'base', minVersion: ver},
+    {name: 'xunit', minVersion: ver0}
+    {name: 'base', minVersion: ver1},
   ]);
+
+  NH.xunit.testing.run();
 
 })();
 ```
@@ -100,6 +104,40 @@ git config core.hooksPath hooks
 ```
 
 I am not wholly committed to the `npm` ecosystem.  If it cannot easily be installed on a Debian system using `apt install`, I will not use it.  Unfortunately, this can mean things like using older versions of tools like eslint as well as emacs plugins.
+
+## Write tests
+
+Most libraries, include *base* depend on *xunit*.
+
+All new tests should use the `TestCase` class, and existing function tests will be rewritten.
+
+Assertions are being added to `TestCase` as needed.  Use https://docs.python.org/3/library/unittest.html for naming guidance.
+
+All tests are ran in the browser, and applications should include the following line, which will run all tests registered in *testing.testCases*.
+```
+NH.xunit.testing.run();
+```
+
+Typically, a library or app will do something like the following to register tests:
+```
+/* eslint-disable no-empty-function */
+/* eslint-disable no-magic-numbers */
+/* eslint-disable no-new */
+/* eslint-disable require-jsdoc */
+class FooTestCase extends NH.xunit.TestCase {
+  ... do test stuff ...
+}
+/* eslint-enable */
+
+NH.xunit.testing.testCases.push(FooTestCase);
+```
+
+> [!NOTE]
+> Keep any *eslint-disable* directives used minimal and sorted.
+
+The *NH.xunit.testing.run()* mentioned above will then execute the tests on page load, *iff* `NH.xunit.testing.enabled === true`;
+
+Experience has shown that test logs can become interleaved with other messages, so the *run()* may want to be placed after the application has defined tests, but before it starts doing anything.
 
 ### Fun trick
 
