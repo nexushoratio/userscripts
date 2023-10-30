@@ -1157,6 +1157,8 @@
 
   }
 
+  // TODO(#167): Migrating to lib/widget
+
   /** Base class for other rendering widgets. */
   class Widget {
 
