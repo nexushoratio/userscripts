@@ -2418,6 +2418,8 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller.dispatcher.on('activate',
+        this.#onSectionActivate);
       this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
 
       this.#lastScroller = this.#sectionScroller;
@@ -2486,7 +2488,7 @@
     };
 
     /** @inheritdoc */
-    async _refresh() {
+    #onSectionActivate = async () => {
 
       /**
        * Wait for sections to eventually show up to see if our current one
@@ -2509,7 +2511,7 @@
         return {done: false};
       };
       const what = {
-        name: 'MyNetwork._refresh',
+        name: 'MyNetwork onSectionActivate',
         base: document.body.querySelector('main'),
       };
       const how = {
