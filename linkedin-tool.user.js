@@ -2019,6 +2019,32 @@
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
+    /**
+     * Create a Feed instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Feed.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(Feed.#postsHow);
+      spa.details.navBarScrollerFixup(Feed.#commentsHow);
+
+      this.#dummy = this.addService(DummyService);
+
+      this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
+      this.addService(ScrollerService, this.#postScroller);
+      this.#postScroller.dispatcher.on(
+        'out-of-range', linkedInGlobals.focusOnSidebar
+      );
+      this.#postScroller.dispatcher.on('activate', this.#onPostActivate);
+      this.#postScroller.dispatcher.on('change', this.#onPostChange);
+
+      this.#lastScroller = this.#postScroller;
+    }
+
     #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     #postScroller = null;
@@ -2064,32 +2090,6 @@
       pathname: '/feed/',
       pageReadySelector: 'main',
     };
-
-    /**
-     * Create a Feed instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...Feed.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(Feed.#postsHow);
-      spa.details.navBarScrollerFixup(Feed.#commentsHow);
-
-      this.#dummy = this.addService(DummyService);
-
-      this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
-      this.addService(ScrollerService, this.#postScroller);
-      this.#postScroller.dispatcher.on(
-        'out-of-range', linkedInGlobals.focusOnSidebar
-      );
-      this.#postScroller.dispatcher.on('activate', this.#onPostActivate);
-      this.#postScroller.dispatcher.on('change', this.#onPostChange);
-
-      this.#lastScroller = this.#postScroller;
-    }
 
     #onPostActivate = () => {
 
@@ -2449,6 +2449,29 @@
    */
   class MyNetwork extends Page {
 
+    /**
+     * Create a MyNetwork instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...MyNetwork.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(MyNetwork.#sectionsHow);
+      spa.details.navBarScrollerFixup(MyNetwork.#cardsHow);
+
+      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
+        MyNetwork.#sectionsHow);
+      this.addService(ScrollerService, this.#sectionScroller);
+      this.#sectionScroller.dispatcher.on('out-of-range',
+        linkedInGlobals.focusOnSidebar);
+      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
+    }
+
     #sectionScroller
     #cardScroller
     #lastScroller
@@ -2510,29 +2533,6 @@
       pathname: '/mynetwork/',
       pageReadySelector: 'main > ul',
     };
-
-    /**
-     * Create a MyNetwork instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...MyNetwork.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(MyNetwork.#sectionsHow);
-      spa.details.navBarScrollerFixup(MyNetwork.#cardsHow);
-
-      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
-        MyNetwork.#sectionsHow);
-      this.addService(ScrollerService, this.#sectionScroller);
-      this.#sectionScroller.dispatcher.on('out-of-range',
-        linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
-
-      this.#lastScroller = this.#sectionScroller;
-    }
 
     /** @inheritdoc */
     async _refresh() {
@@ -2713,6 +2713,25 @@
   /** Class for handling the Invitation manager page. */
   class InvitationManager extends Page {
 
+    /**
+     * Create a InvitationManager instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...InvitationManager.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(InvitationManager.#invitesHow);
+
+      this.#inviteScroller = new Scroller(
+        InvitationManager.#invitesWhat, InvitationManager.#invitesHow
+      );
+      this.addService(ScrollerService, this.#inviteScroller);
+      this.#inviteScroller.dispatcher.on('change', this.#onChange);
+    }
+
     #inviteScroller
     #currentInviteText
 
@@ -2757,25 +2776,6 @@
       pathname: '/mynetwork/invitation-manager/',
       pageReadySelector: 'main',
     };
-
-    /**
-     * Create a InvitationManager instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...InvitationManager.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(InvitationManager.#invitesHow);
-
-      this.#inviteScroller = new Scroller(
-        InvitationManager.#invitesWhat, InvitationManager.#invitesHow
-      );
-      this.addService(ScrollerService, this.#inviteScroller);
-      this.#inviteScroller.dispatcher.on('change', this.#onChange);
-    }
 
     /** @inheritdoc */
     async _refresh() {
@@ -3236,6 +3236,35 @@
   /** Class for handling Job collections. */
   class JobCollections extends Page {
 
+    /**
+     * Create a JobCollections instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...JobCollections.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
+        JobCollections.#jobCardsHow);
+      this.addService(ScrollerService, this.#jobCardScroller);
+      this.#jobCardScroller.dispatcher.on('activate',
+        this.#onJobCardActivate);
+      this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
+
+      this.#resultsPageScroller = new Scroller(
+        JobCollections.#resultsPagesWhat, JobCollections.#resultsPagesHow
+      );
+      this.addService(ScrollerService, this.#resultsPageScroller);
+      this.#resultsPageScroller.dispatcher.on('activate',
+        this.#onResultsPageActivate);
+      this.#resultsPageScroller.dispatcher.on('change',
+        this.#onResultsPageChange);
+
+      this.#lastScroller = this.#jobCardScroller;
+    }
+
     #lastScroller
 
     #jobCardScroller = null;
@@ -3294,35 +3323,6 @@
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
       pageReadySelector: 'footer.global-footer-compact',
     };
-
-    /**
-     * Create a JobCollections instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...JobCollections.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
-        JobCollections.#jobCardsHow);
-      this.addService(ScrollerService, this.#jobCardScroller);
-      this.#jobCardScroller.dispatcher.on('activate',
-        this.#onJobCardActivate);
-      this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
-
-      this.#resultsPageScroller = new Scroller(
-        JobCollections.#resultsPagesWhat, JobCollections.#resultsPagesHow
-      );
-      this.addService(ScrollerService, this.#resultsPageScroller);
-      this.#resultsPageScroller.dispatcher.on('activate',
-        this.#onResultsPageActivate);
-      this.#resultsPageScroller.dispatcher.on('change',
-        this.#onResultsPageChange);
-
-      this.#lastScroller = this.#jobCardScroller;
-    }
 
     /**
      * @implements {Scroller~uidCallback}
@@ -3588,6 +3588,26 @@
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
 
+    /**
+     * Create a Notifications instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Notifications.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(Notifications.#notificationsHow);
+
+      this.#notificationScroller = new Scroller(
+        Notifications.#notificationsWhat, Notifications.#notificationsHow
+      );
+      this.addService(ScrollerService, this.#notificationScroller);
+      this.#notificationScroller.dispatcher.on('out-of-range',
+        linkedInGlobals.focusOnSidebar);
+    }
+
     #notificationScroller = null;
 
     /** @type {Scroller~What} */
@@ -3613,26 +3633,6 @@
       pathname: '/notifications/',
       pageReadySelector: 'main section div.nt-card-list',
     };
-
-    /**
-     * Create a Notifications instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...Notifications.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(Notifications.#notificationsHow);
-
-      this.#notificationScroller = new Scroller(
-        Notifications.#notificationsWhat, Notifications.#notificationsHow
-      );
-      this.addService(ScrollerService, this.#notificationScroller);
-      this.#notificationScroller.dispatcher.on('out-of-range',
-        linkedInGlobals.focusOnSidebar);
-    }
 
     /** @inheritdoc */
     _refresh() {
@@ -3824,6 +3824,17 @@
   /** Base class for {@link SPA} instance details. */
   class SPADetails {
 
+    /** Create a SPADetails instance. */
+    constructor() {
+      if (new.target === SPADetails) {
+        throw new TypeError('Abstract class; do not instantiate directly.');
+      }
+
+      this.#logger = new NH.base.Logger(this.constructor.name);
+      this.#id = NH.base.safeId(NH.base.uuId(this.constructor.name));
+      this.dispatcher = new NH.base.Dispatcher('errors', 'news');
+    }
+
     /**
      * An issue that happened during construction.  SPA will ask for them and
      * add them to the Errors tab.
@@ -3855,17 +3866,6 @@
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
-    }
-
-    /** Create a SPADetails instance. */
-    constructor() {
-      if (new.target === SPADetails) {
-        throw new TypeError('Abstract class; do not instantiate directly.');
-      }
-
-      this.#logger = new NH.base.Logger(this.constructor.name);
-      this.#id = NH.base.safeId(NH.base.uuId(this.constructor.name));
-      this.dispatcher = new NH.base.Dispatcher('errors', 'news');
     }
 
     /**
@@ -3967,6 +3967,16 @@
   /** LinkedIn specific information. */
   class LinkedIn extends SPADetails {
 
+    /**
+     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
+     * circular dependencies.
+     */
+    constructor(globals) {
+      super();
+      this.#globals = globals;
+      this.ready = this.#waitUntilPageLoadedEnough();
+    }
+
     urlChangeMonitorSelector = 'div.authentication-outlet';
 
     static #icon =
@@ -3987,16 +3997,6 @@
       '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
-
-    /**
-     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
-     * circular dependencies.
-     */
-    constructor(globals) {
-      super();
-      this.#globals = globals;
-      this.ready = this.#waitUntilPageLoadedEnough();
-    }
 
     /** @inheritdoc */
     done() {
@@ -4901,6 +4901,28 @@
    */
   class SPA {
 
+    /** @param {SPADetails} details - Implementation specific details. */
+    constructor(details) {
+      this.#name = `${this.constructor.name}: ${details.constructor.name}`;
+      this.#id = NH.base.safeId(NH.base.uuId(this.#name));
+      this.#logger = new NH.base.Logger(this.#name);
+      this.#details = details;
+      this.#details.init(this);
+      this._installNavStyle();
+      this._initializeInfoView();
+      for (const issue of details.setupIssues) {
+        this.logger.log('issue:', issue);
+        for (const error of issue) {
+          this.addError(error);
+        }
+        this.addErrorMarker();
+      }
+      document.addEventListener('focus', this._onFocus, true);
+      document.addEventListener('urlchange', this.#onUrlChange, true);
+      this.#startUrlMonitor();
+      this.#details.done();
+    }
+
     static _errorMarker = '---';
 
     #details
@@ -4925,28 +4947,6 @@
 
     /** @type {KeyboardService} */
     _tabUiKeyboard = null;
-
-    /** @param {SPADetails} details - Implementation specific details. */
-    constructor(details) {
-      this.#name = `${this.constructor.name}: ${details.constructor.name}`;
-      this.#id = NH.base.safeId(NH.base.uuId(this.#name));
-      this.#logger = new NH.base.Logger(this.#name);
-      this.#details = details;
-      this.#details.init(this);
-      this._installNavStyle();
-      this._initializeInfoView();
-      for (const issue of details.setupIssues) {
-        this.logger.log('issue:', issue);
-        for (const error of issue) {
-          this.addError(error);
-        }
-        this.addErrorMarker();
-      }
-      document.addEventListener('focus', this._onFocus, true);
-      document.addEventListener('urlchange', this.#onUrlChange, true);
-      this.#startUrlMonitor();
-      this.#details.done();
-    }
 
     /** @type {SPADetails} */
     get details() {
