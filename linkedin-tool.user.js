@@ -4529,6 +4529,16 @@
     static #newsContent = [
       {
         date: '2023-10-30',
+        issues: ['#167'],
+        subject: 'Depend on lib/widget version 0',
+      },
+      {
+        date: '2023-10-30',
+        issues: ['#144'],
+        subject: 'Implement `N` to compose a New message',
+      },
+      {
+        date: '2023-10-30',
         issues: ['#178'],
         subject: 'Migrate <i>Feed</i> from using <i>refresh</i> to ' +
           '<i>onScrollerActivate</i>',
