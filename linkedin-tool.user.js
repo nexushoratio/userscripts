@@ -14,6 +14,7 @@
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271884
+// @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js?version=1272929
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -28,6 +29,7 @@
     {name: 'base', minVersion: 16},
     {name: 'userscript', minVersion: 2},
     {name: 'web', minVersion: 1},
+    {name: 'widget'},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
@@ -1259,34 +1261,6 @@
     }
 
     #currentSection
-
-  }
-
-  /**
-   * A widget that can be opened and closed on demand, designed for fairly
-   * persistent information.
-   *
-   * The element will get `open` and `close` events.
-   */
-  class InfoWidget extends Widget {
-
-    /** @param {string} name - Name for this instance. */
-    constructor(name) {
-      super(name, 'dialog');
-      this.logger.log(`${this.name} constructed`);
-    }
-
-    /** Open the widget. */
-    open() {
-      this.container.showModal();
-      this.container.dispatchEvent(new Event('open'));
-    }
-
-    /** Close the widget. */
-    close() {
-      // HTMLDialogElement sends a close event natively.
-      this.container.close();
-    }
 
   }
 
@@ -4153,7 +4127,7 @@
     }
 
     #createInfoWidget = () => {
-      this.#infoWidget = new InfoWidget('LinkedIn Tool');
+      this.#infoWidget = new NH.widget.Info('LinkedIn Tool');
       const widget = this.#infoWidget.container;
       widget.classList.add('lit-info');
       document.body.prepend(widget);
