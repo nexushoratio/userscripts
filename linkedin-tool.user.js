@@ -4377,7 +4377,7 @@
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
             this.#shortcutsWidget.addData(
-              VMKeyboardService.parseSeq(shortcut.seq), shortcut.desc
+              `${VMKeyboardService.parseSeq(shortcut.seq)}:`, shortcut.desc
             );
           }
         }
