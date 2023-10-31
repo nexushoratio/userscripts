@@ -4193,7 +4193,7 @@
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
-    #addLitStyle = () => {
+    #addLitStyle = () => {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
       const styles = [
@@ -4233,6 +4233,12 @@
           ' padding: 0.07em;' +
           ' border-width: 1px;' +
           ' border-style: solid;' +
+          '}',
+        '.lit-info th { text-align: left; }',
+        '.lit-info td:first-child {' +
+          ' white-space: nowrap;' +
+          ' text-align: right;' +
+          ' padding-right: 0.5em;' +
           '}',
       ];
       style.textContent = styles.join('\n');
