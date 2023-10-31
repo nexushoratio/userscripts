@@ -14,7 +14,7 @@
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271884
-// @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js?version=1272929
+// @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js?version=1273298
 // @grant       window.onurlchange
 // ==/UserScript==
 
@@ -29,7 +29,7 @@
     {name: 'base', minVersion: 16},
     {name: 'userscript', minVersion: 2},
     {name: 'web', minVersion: 1},
-    {name: 'widget'},
+    {name: 'widget', minVersion: 1},
   ]);
 
   // TODO(#170): Placeholder comment to allow easy patching of test code.
@@ -1159,57 +1159,8 @@
 
   }
 
-  // TODO(#167): Migrating to lib/widget
-
-  /** Base class for other rendering widgets. */
-  class Widget {
-
-    /**
-     * @param {string} name - Name for this instance.
-     * @param {string} element - Type of element to use for the container.
-     */
-    constructor(name, element) {
-      this.#name = `${this.constructor.name} ${name}`;
-      this.#id = NH.base.uuId(NH.base.safeId(this.name));
-      this.#container = document.createElement(element);
-      this.#container.id = `${this.id}-container`;
-      this.#logger = new NH.base.Logger(`${this.constructor.name}`);
-    }
-
-    /** @type {Element} */
-    get container() {
-      return this.#container;
-    }
-
-    /** @type {string} */
-    get id() {
-      return this.#id;
-    }
-
-    /** @type {NH.base.Logger} */
-    get logger() {
-      return this.#logger;
-    }
-
-    /** @type {string} */
-    get name() {
-      return this.#name;
-    }
-
-    /** Clears the container element. */
-    clear() {
-      this.#container.innerHTML = '';
-    }
-
-    #container
-    #id
-    #logger
-    #name
-
-  }
-
   /** A table with collapsible sections. */
-  class AccordionTableWidget extends Widget {
+  class AccordionTableWidget extends NH.widget.Widget {
 
     /** @param {string} name - Name for this instance. */
     constructor(name) {
