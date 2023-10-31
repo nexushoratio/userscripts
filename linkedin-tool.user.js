@@ -1942,26 +1942,6 @@
       }
     }
 
-    /**
-     * Click on the requested link in the global nav bar.
-     * @param {string} item - Portion of the link to match.
-     */
-    static #gotoNavLink = (item) => {
-      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
-    }
-
-    /**
-     * Click on the requested button in the global nav bar.
-     * @param {string} item - Text on the button to look for.
-     */
-    static #gotoNavButton = (item) => {
-      const buttons = Array.from(
-        document.querySelectorAll('#global-nav button')
-      );
-      const button = buttons.find(el => el.textContent.includes(item));
-      button?.click();
-    }
-
     info = new Shortcut('?', 'Show this information view', () => {
       Global.#gotoNavButton('Tool');
     });
@@ -2013,6 +1993,26 @@
         linkedInGlobals.focusOnAside();
       }
     );
+
+    /**
+     * Click on the requested link in the global nav bar.
+     * @param {string} item - Portion of the link to match.
+     */
+    static #gotoNavLink = (item) => {
+      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
+    }
+
+    /**
+     * Click on the requested button in the global nav bar.
+     * @param {string} item - Text on the button to look for.
+     */
+    static #gotoNavButton = (item) => {
+      const buttons = Array.from(
+        document.querySelectorAll('#global-nav button')
+      );
+      const button = buttons.find(el => el.textContent.includes(item));
+      button?.click();
+    }
 
   }
 
