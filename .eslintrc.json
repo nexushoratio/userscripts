@@ -86,12 +86,10 @@
           "_errorPlatformInfo",
           "_errorTab",
           "_parseHeader",
-          "_parseSeq2",
           "_shortcutsTab",
           "_uniqueCardsIdentifier",
           "_uniqueIdentifier",
-          "_uniqueJobIdentifier",
-          "_uniqueResultsPageIdentifier"
+          "_uniqueJobIdentifier"
         ]
       }
     ],
