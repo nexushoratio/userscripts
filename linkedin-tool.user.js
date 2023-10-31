@@ -1894,7 +1894,7 @@
      * Registers a specific key sequence with a function with VM.shortcut.
      * @param {Shortcut} shortcut - Shortcut to register.
      */
-    #addKey(shortcut) {
+    #addKey = (shortcut) => {
       this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
     }
 
