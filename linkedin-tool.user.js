@@ -1774,6 +1774,62 @@
       return this.#spa;
     }
 
+    /**
+     * Register a new {@link Service}.
+     * @param {function(): Service} Klass - A service class to instantiate.
+     * @param {...*} rest - Arbitrary objects to pass to constructor.
+     * @returns {Service} - Instance of Klass.
+     */
+    addService(Klass, ...rest) {
+      const me = 'addService';
+      let instance = null;
+      this.logger.entered(me, Klass, ...rest);
+      if (Klass.prototype instanceof Service) {
+        instance = new Klass(this.constructor.name, ...rest);
+        this.#services.add(instance);
+      } else {
+        this.logger.log('Bad class was passed.');
+        throw new Error(`${Klass.name} is not a Service`);
+      }
+      this.logger.leaving(me, instance);
+      return instance;
+    }
+
+    /**
+     * Called when registered via {@link SPA}.
+     */
+    start() {
+      for (const shortcut of this.allShortcuts) {
+        this.#addKey(shortcut);
+      }
+    }
+
+    /**
+     * Turns on this Page's features.  Called by {@link SPA} when this becomes
+     * the current view.
+     */
+    async activate() {
+      this.#keyboard.enable();
+      await this.#waitUntilReady();
+      for (const service of this.#services) {
+        service.activate();
+      }
+
+      // TODO(#150): Will be removed.
+      this._refresh();
+    }
+
+    /**
+     * Turns off this Page's features.  Called by {@link SPA} when this is no
+     * longer the current view.
+     */
+    deactivate() {
+      this.#keyboard.disable();
+      for (const service of this.#services) {
+        service.deactivate();
+      }
+    }
+
     #pageReadySelector
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1818,36 +1874,6 @@
     }
 
     /**
-     * Register a new {@link Service}.
-     * @param {function(): Service} Klass - A service class to instantiate.
-     * @param {...*} rest - Arbitrary objects to pass to constructor.
-     * @returns {Service} - Instance of Klass.
-     */
-    addService(Klass, ...rest) {
-      const me = 'addService';
-      let instance = null;
-      this.logger.entered(me, Klass, ...rest);
-      if (Klass.prototype instanceof Service) {
-        instance = new Klass(this.constructor.name, ...rest);
-        this.#services.add(instance);
-      } else {
-        this.logger.log('Bad class was passed.');
-        throw new Error(`${Klass.name} is not a Service`);
-      }
-      this.logger.leaving(me, instance);
-      return instance;
-    }
-
-    /**
-     * Called when registered via {@link SPA}.
-     */
-    start() {
-      for (const shortcut of this.allShortcuts) {
-        this.#addKey(shortcut);
-      }
-    }
-
-    /**
      * Wait until the page has loaded enough to continue.
      * @returns {Element} - The element matched by #pageReadySelector.
      */
@@ -1862,32 +1888,6 @@
       this.logger.leaving(me, element);
 
       return element;
-    }
-
-    /**
-     * Turns on this Page's features.  Called by {@link SPA} when this becomes
-     * the current view.
-     */
-    async activate() {
-      this.#keyboard.enable();
-      await this.#waitUntilReady();
-      for (const service of this.#services) {
-        service.activate();
-      }
-
-      // TODO(#150): Will be removed.
-      this._refresh();
-    }
-
-    /**
-     * Turns off this Page's features.  Called by {@link SPA} when this is no
-     * longer the current view.
-     */
-    deactivate() {
-      this.#keyboard.disable();
-      for (const service of this.#services) {
-        service.deactivate();
-      }
     }
 
     /**
