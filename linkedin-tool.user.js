@@ -2017,7 +2017,7 @@
 
     /** @type {Scroller~How} */
     static #postsHow = {
-      uidCallback: Feed._uniqueIdentifier,
+      uidCallback: Feed.uniqueIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -2030,7 +2030,7 @@
 
     /** @type {Scroller~How} */
     static #commentsHow = {
-      uidCallback: Feed._uniqueIdentifier,
+      uidCallback: Feed.uniqueIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -2117,7 +2117,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueIdentifier(element) {
+    static uniqueIdentifier(element) {
       if (element) {
         return element.dataset.id;
       }
@@ -2449,7 +2449,7 @@
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
-      uidCallback: MyNetwork._uniqueIdentifier,
+      uidCallback: MyNetwork.uniqueSectionIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -2473,7 +2473,7 @@
 
     /** @type {Scroller~How} */
     static #cardsHow = {
-      uidCallback: MyNetwork._uniqueCardsIdentifier,
+      uidCallback: MyNetwork.uniqueCardsIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -2531,7 +2531,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueIdentifier(element) {
+    static uniqueSectionIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
       if (h2?.innerText) {
@@ -2545,7 +2545,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueCardsIdentifier(element) {
+    static uniqueCardsIdentifier(element) {
       const content = element.innerText;
       return NH.base.strHash(content);
     }
@@ -2699,7 +2699,7 @@
     };
 
     static #invitesHow = {
-      uidCallback: InvitationManager._uniqueIdentifier,
+      uidCallback: InvitationManager.uniqueIdentifier,
       classes: ['tom'],
     };
 
@@ -2708,7 +2708,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueIdentifier(element) {
+    static uniqueIdentifier(element) {
       let content = element.innerText;
       const anchor = element.querySelector('a');
       if (anchor?.href) {
@@ -2928,7 +2928,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueIdentifier(element) {
+    static uniqueSectionIdentifier(element) {
       const h2 = element.querySelector('h2');
       let content = element.innerText;
       if (h2?.innerText) {
@@ -2943,7 +2943,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueJobIdentifier(element) {
+    static uniqueJobIdentifier(element) {
       const ONE_ITEM = 1;
       let content = element.innerText;
       let options = element.querySelectorAll('a[data-control-id]');
@@ -3157,7 +3157,7 @@
 
     /** @type {Scroller~How} */
     static #jobsHow = {
-      uidCallback: Jobs._uniqueJobIdentifier,
+      uidCallback: Jobs.uniqueJobIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -3171,7 +3171,7 @@
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
-      uidCallback: Jobs._uniqueIdentifier,
+      uidCallback: Jobs.uniqueSectionIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -3239,7 +3239,7 @@
 
     /** @type {Scroller~How} */
     static #jobCardsHow = {
-      uidCallback: this._uniqueJobIdentifier,
+      uidCallback: this.uniqueJobIdentifier,
       classes: ['tom'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -3262,7 +3262,7 @@
 
     /** @type {Scroller~How} */
     static #resultsPagesHow = {
-      uidCallback: this._uniqueResultsPageIdentifier,
+      uidCallback: this.uniqueResultsPageIdentifier,
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -3280,7 +3280,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueJobIdentifier(element) {
+    static uniqueJobIdentifier(element) {
       let content = '';
       if (element) {
         content = element.dataset.occludableJobId;
@@ -3293,7 +3293,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueResultsPageIdentifier(element) {
+    static uniqueResultsPageIdentifier(element) {
       let content = '';
       if (element) {
         content = element.innerText;
@@ -3324,7 +3324,7 @@
           `li[data-occludable-job-id="${jobId}"]`,
           timeout
         );
-        this._jobCards.gotoUid(JobCollections._uniqueJobIdentifier(item));
+        this._jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
       }
@@ -3574,7 +3574,7 @@
 
     /** @type {Scroller-How} */
     static #notificationsHow = {
-      uidCallback: Notifications._uniqueIdentifier,
+      uidCallback: Notifications.uniqueIdentifier,
       classes: ['tom'],
       snapToTop: false,
     };
@@ -3604,7 +3604,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static _uniqueIdentifier(element) {
+    static uniqueIdentifier(element) {
       // All known <articles> have three children: icon/presence indicator,
       // content, and menu/timestamp.
       const MAGIC_COUNT = 3;
