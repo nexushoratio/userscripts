@@ -38,6 +38,11 @@
   if (NH.xunit.testing.enabled) {
     // eslint-disable-next-line require-atomic-updates
     NH.base.Logger.configs = await GM.getValue('Logger');
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'hidden') {
+        await GM.setValue('Logger', NH.base.Logger.configs);
+      }
+    });
   } else {
     NH.base.Logger.config('Default').enabled = true;
   }
@@ -4147,8 +4152,7 @@
       this.logger.log('info opened');
     }
 
-    #onCloseInfo = async () => {
-      await GM.setValue('Logger', NH.base.Logger.configs);
+    #onCloseInfo = () => {
       this.#infoKeyboard.disable();
       VMKeyboardService.setKeyboardContext('inDialog', false);
       this.logger.log('info closed');
