@@ -2682,6 +2682,7 @@
         InvitationManager.#invitesWhat, InvitationManager.#invitesHow
       );
       this.addService(ScrollerService, this.#inviteScroller);
+      this.#inviteScroller.dispatcher.on('activate', this.#onActivate);
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
@@ -2730,9 +2731,8 @@
       pageReadySelector: 'main',
     };
 
-    /** @inheritdoc */
-    async _refresh() {
-      const me = 'refresh';
+    #onActivate = async () => {
+      const me = 'onActivate';
       this.logger.entered(me);
 
       /**
@@ -2752,7 +2752,7 @@
         return {done: false};
       };
       const what = {
-        name: 'InviteManager refresh',
+        name: 'InviteManager onActivate',
         base: document.body.querySelector('main'),
       };
       const how = {
