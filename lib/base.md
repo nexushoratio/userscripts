@@ -5,7 +5,6 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 ## Exported properties (as of version 15)
 * version - Bumped per release.
 * NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
-* testing - Object for testing support (to be replaced with `TestCase`).
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
 * DefaultMap - Subclass of *Map* similar to Python's *defaultdict*.
 * Logger - Fancy-ish log messages (likely over engineered).
