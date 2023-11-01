@@ -3524,6 +3524,15 @@
       }
     );
 
+    searchMessages = new Shortcut('s', 'Go to Search messages', () => {
+      const me = 'searchMessages';
+      this.logger.entered(me);
+
+      NH.web.focusOnElement(document.querySelector('#search-conversations'));
+
+      this.logger.leaving(me);
+    });
+
     newMessage = new Shortcut('N', 'Compose a new message', () => {
       const me = 'newMessage';
       this.logger.entered(me);
