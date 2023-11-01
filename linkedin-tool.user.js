@@ -1996,6 +1996,18 @@
       this.#lastScroller = this.#postScroller;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueIdentifier(element) {
+      if (element) {
+        return element.dataset.id;
+      }
+      return null;
+    }
+
     #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     #postScroller = null;
@@ -2110,18 +2122,6 @@
         this.#commentScroller = null;
       }
       this._comments;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIdentifier(element) {
-      if (element) {
-        return element.dataset.id;
-      }
-      return null;
     }
 
     #onCommentChange = () => {
@@ -2425,6 +2425,30 @@
       this.#lastScroller = this.#sectionScroller;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueSectionIdentifier(element) {
+      const h2 = element.querySelector('h2');
+      let content = element.innerText;
+      if (h2?.innerText) {
+        content = h2.innerText;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueCardsIdentifier(element) {
+      const content = element.innerText;
+      return NH.base.strHash(content);
+    }
+
     #sectionScroller
     #cardScroller
     #lastScroller
@@ -2526,30 +2550,6 @@
         this._sections.show();
         this.#resetCards();
       }
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueSectionIdentifier(element) {
-      const h2 = element.querySelector('h2');
-      let content = element.innerText;
-      if (h2?.innerText) {
-        content = h2.innerText;
-      }
-      return NH.base.strHash(content);
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueCardsIdentifier(element) {
-      const content = element.innerText;
-      return NH.base.strHash(content);
     }
 
     /** @type {Scroller} */
@@ -2685,6 +2685,20 @@
       this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueIdentifier(element) {
+      let content = element.innerText;
+      const anchor = element.querySelector('a');
+      if (anchor?.href) {
+        content = anchor.href;
+      }
+      return NH.base.strHash(content);
+    }
+
     #inviteScroller
     #currentInviteText
 
@@ -2704,20 +2718,6 @@
       uidCallback: InvitationManager.uniqueIdentifier,
       classes: ['tom'],
     };
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIdentifier(element) {
-      let content = element.innerText;
-      const anchor = element.querySelector('a');
-      if (anchor?.href) {
-        content = anchor.href;
-      }
-      return NH.base.strHash(content);
-    }
 
     /** @type {Scroller} */
     get _invites() {
@@ -2889,42 +2889,6 @@
       this.#lastScroller = this.#sectionScroller;
     }
 
-    /** @type {Scroller} */
-    get _sections() {
-      return this.#sectionScroller;
-    }
-
-    /** @type {Scroller} */
-    get _jobs() {
-      const me = 'get jobs';
-      this.logger.entered(me, this.#jobScroller);
-
-      if (!this.#jobScroller && this._sections.item) {
-        this.#jobScroller = new Scroller(
-          {base: this._sections.item, ...Jobs.#jobsWhat},
-          Jobs.#jobsHow
-        );
-        this.#jobScroller.dispatcher.on('change', this.#onJobChange);
-        this.#jobScroller.dispatcher.on('out-of-range',
-          this.#returnToSection);
-      }
-
-      this.logger.leaving(me, this.#jobScroller);
-      return this.#jobScroller;
-    }
-
-    /** Reset the jobs scroller. */
-    #resetJobs = () => {
-      const me = 'resetJobs';
-      this.logger.entered(me, this.#jobScroller);
-      if (this.#jobScroller) {
-        this.#jobScroller.destroy();
-        this.#jobScroller = null;
-      }
-      this._jobs;
-      this.logger.leaving(me);
-    }
-
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
@@ -2972,6 +2936,42 @@
         }
       }
       return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get _sections() {
+      return this.#sectionScroller;
+    }
+
+    /** @type {Scroller} */
+    get _jobs() {
+      const me = 'get jobs';
+      this.logger.entered(me, this.#jobScroller);
+
+      if (!this.#jobScroller && this._sections.item) {
+        this.#jobScroller = new Scroller(
+          {base: this._sections.item, ...Jobs.#jobsWhat},
+          Jobs.#jobsHow
+        );
+        this.#jobScroller.dispatcher.on('change', this.#onJobChange);
+        this.#jobScroller.dispatcher.on('out-of-range',
+          this.#returnToSection);
+      }
+
+      this.logger.leaving(me, this.#jobScroller);
+      return this.#jobScroller;
+    }
+
+    /** Reset the jobs scroller. */
+    #resetJobs = () => {
+      const me = 'resetJobs';
+      this.logger.entered(me, this.#jobScroller);
+      if (this.#jobScroller) {
+        this.#jobScroller.destroy();
+        this.#jobScroller = null;
+      }
+      this._jobs;
+      this.logger.leaving(me);
     }
 
     /**
@@ -3218,6 +3218,36 @@
       this.#lastScroller = this.#jobCardScroller;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueJobIdentifier(element) {
+      let content = '';
+      if (element) {
+        content = element.dataset.occludableJobId;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueResultsPageIdentifier(element) {
+      let content = '';
+      if (element) {
+        content = element.innerText;
+        const label = element.getAttribute('aria-label');
+        if (label) {
+          content = label;
+        }
+      }
+      return NH.base.strHash(content);
+    }
+
     #lastScroller
 
     #jobCardScroller = null;
@@ -3276,36 +3306,6 @@
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
       pageReadySelector: 'footer.global-footer-compact',
     };
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueJobIdentifier(element) {
-      let content = '';
-      if (element) {
-        content = element.dataset.occludableJobId;
-      }
-      return NH.base.strHash(content);
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueResultsPageIdentifier(element) {
-      let content = '';
-      if (element) {
-        content = element.innerText;
-        const label = element.getAttribute('aria-label');
-        if (label) {
-          content = label;
-        }
-      }
-      return NH.base.strHash(content);
-    }
 
     #onJobCardActivate = async () => {
       const me = 'onJobCardActivate';
@@ -3570,6 +3570,39 @@
         linkedInGlobals.focusOnSidebar);
     }
 
+    /**
+     * Complicated because there are so many variations in notification cards.
+     * We do not want to use reaction counts because they can change too
+     * quickly.
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueIdentifier(element) {
+      // All known <articles> have three children: icon/presence indicator,
+      // content, and menu/timestamp.
+      const MAGIC_COUNT = 3;
+      const CONTENT_INDEX = 1;
+      let content = element.innerText;
+      if (element.childElementCount === MAGIC_COUNT) {
+        content = element.children[CONTENT_INDEX].innerText;
+        if (content.includes('Reactions')) {
+          for (const el of element.children[CONTENT_INDEX]
+            .querySelectorAll('*')) {
+            if (el.innerText) {
+              content = el.innerText;
+              break;
+            }
+          }
+        }
+      }
+      if (content.startsWith('Notification deleted.')) {
+        // Mix in something unique from the parent.
+        content += element.parentElement.dataset.finiteScrollHotkeyItem;
+      }
+      return NH.base.strHash(content);
+    }
+
     #notificationScroller = null;
 
     /** @type {Scroller~What} */
@@ -3605,39 +3638,6 @@
     /** @type {Scroller} */
     get _notifications() {
       return this.#notificationScroller;
-    }
-
-    /**
-     * Complicated because there are so many variations in notification cards.
-     * We do not want to use reaction counts because they can change too
-     * quickly.
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIdentifier(element) {
-      // All known <articles> have three children: icon/presence indicator,
-      // content, and menu/timestamp.
-      const MAGIC_COUNT = 3;
-      const CONTENT_INDEX = 1;
-      let content = element.innerText;
-      if (element.childElementCount === MAGIC_COUNT) {
-        content = element.children[CONTENT_INDEX].innerText;
-        if (content.includes('Reactions')) {
-          for (const el of element.children[CONTENT_INDEX]
-            .querySelectorAll('*')) {
-            if (el.innerText) {
-              content = el.innerText;
-              break;
-            }
-          }
-        }
-      }
-      if (content.startsWith('Notification deleted.')) {
-        // Mix in something unique from the parent.
-        content += element.parentElement.dataset.finiteScrollHotkeyItem;
-      }
-      return NH.base.strHash(content);
     }
 
     _nextNotification = new Shortcut('j', 'Next notification', () => {
