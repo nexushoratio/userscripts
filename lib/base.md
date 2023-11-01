@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 
-## Exported properties (as of version 15)
+## Exported properties (as of version 20)
 * version - Bumped per release.
 * NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
