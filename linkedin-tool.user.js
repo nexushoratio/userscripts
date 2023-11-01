@@ -3206,14 +3206,14 @@
         this.#onJobCardActivate);
       this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
 
-      this.#resultsPageScroller = new Scroller(
-        JobCollections.#resultsPagesWhat, JobCollections.#resultsPagesHow
+      this.#paginationScroller = new Scroller(
+        JobCollections.#paginationWhat, JobCollections.#paginationHow
       );
-      this.addService(ScrollerService, this.#resultsPageScroller);
-      this.#resultsPageScroller.dispatcher.on('activate',
-        this.#onResultsPageActivate);
-      this.#resultsPageScroller.dispatcher.on('change',
-        this.#onResultsPageChange);
+      this.addService(ScrollerService, this.#paginationScroller);
+      this.#paginationScroller.dispatcher.on('activate',
+        this.#onPaginationActivate);
+      this.#paginationScroller.dispatcher.on('change',
+        this.#onPaginationChange);
 
       this.#lastScroller = this.#jobCardScroller;
     }
@@ -3236,7 +3236,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueResultsPageIdentifier(element) {
+    static uniquePaginationIdentifier(element) {
       let content = '';
       if (element) {
         content = element.innerText;
@@ -3277,24 +3277,24 @@
       bottomMarginCSS: '3em',
     };
 
-    #resultsPageScroller = null;
+    #paginationScroller = null;
 
     /** @type {Scroller} */
-    get _resultsPages() {
-      return this.#resultsPageScroller;
+    get paginator() {
+      return this.#paginationScroller;
     }
 
     /** @type {Scroller~What} */
-    static #resultsPagesWhat = {
-      name: 'Results pages',
+    static #paginationWhat = {
+      name: 'Results pagination',
       base: document.body,
-      // This selector is also used in #onResultsPageActivate.
+      // This selector is also used in #onPaginationActivate.
       selectors: ['div.jobs-search-results-list__pagination > ul > li'],
     };
 
     /** @type {Scroller~How} */
-    static #resultsPagesHow = {
-      uidCallback: this.uniqueResultsPageIdentifier,
+    static #paginationHow = {
+      uidCallback: this.uniquePaginationIdentifier,
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -3342,8 +3342,8 @@
       this.logger.leaving(me);
     }
 
-    #onResultsPageActivate = async () => {
-      const me = 'onResultsPageActivate';
+    #onPaginationActivate = async () => {
+      const me = 'onPaginationActivate';
       this.logger.entered(me);
 
       try {
@@ -3352,7 +3352,7 @@
           'div.jobs-search-results-list__pagination > ul > li.selected',
           timeout
         );
-        this._resultsPages.goto(item);
+        this.paginator.goto(item);
       } catch (e) {
         this.logger.log('Results paginator not found, staying put');
       }
@@ -3360,10 +3360,10 @@
       this.logger.leaving(me);
     }
 
-    #onResultsPageChange = () => {
+    #onPaginationChange = () => {
       const me = 'onResultsPageChange';
-      this.logger.entered(me, this._resultsPages.item);
-      this.#lastScroller = this._resultsPages;
+      this.logger.entered(me, this.paginator.item);
+      this.#lastScroller = this.paginator;
       this.logger.leaving(me);
     }
 
@@ -3376,11 +3376,11 @@
     });
 
     nextResultsPage = new Shortcut('n', 'Next results page', () => {
-      this._resultsPages.next();
+      this.paginator.next();
     });
 
     prevResultsPage = new Shortcut('p', 'Previous results page', () => {
-      this._resultsPages.prev();
+      this.paginator.prev();
     });
 
     firstItem = new Shortcut('<', 'Go to first job or results page', () => {
@@ -3407,7 +3407,7 @@
 
     selectCurrentResultsPage = new Shortcut(
       'c', 'Select current results page', () => {
-        NH.web.clickElement(this._resultsPages.item, ['button']);
+        NH.web.clickElement(this.paginator.item, ['button']);
       }
     );
 
