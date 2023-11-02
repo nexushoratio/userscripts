@@ -1882,8 +1882,6 @@
    */
   class Global extends Page {
 
-    #keyboardService
-
     /**
      * Create a Global instance.
      * @param {SPA} spa - SPA instance that manages this Page.
@@ -1969,6 +1967,8 @@
       const button = buttons.find(el => el.textContent.includes(item));
       button?.click();
     }
+
+    #keyboardService
 
   }
 
