@@ -1201,6 +1201,8 @@
       this.#addRow('td', ...items);
     }
 
+    #currentSection
+
     /**
      * Add a row to the current section.
      * @param {string} type - Cell type, typically 'td' or 'th'.
@@ -1215,8 +1217,6 @@
       }
       this.container.append(tr);
     }
-
-    #currentSection
 
   }
 
