@@ -2,7 +2,7 @@ The following is subject to change.  The goal is to put all user serviceable par
 
 Use eslint and the configured `.eslintrc.json`.  The primary dev machine comes with v6.4.0, which is an older release.
 
-For things is cannot handle at the moment:
+For things it cannot handle at the moment:
 
 - `@typedef` before the first use
 - constructor
