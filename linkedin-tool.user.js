@@ -4494,6 +4494,18 @@
 
     static #newsContent = [
       {
+        date: '2023-11-01',
+        issues: ['#178'],
+        subject: 'Migrate <i>InvitationManager</i> from <i>refresh</i> ' +
+          'to <i>onScrollerActivate</i>',
+      },
+      {
+        date: '2023-11-01',
+        issues: ['#144'],
+        subject: 'Implement <kbd><kbd>s</kbd></kbd> to focus on the ' +
+          '<i>Search messages</i> input field',
+      },
+      {
         date: '2023-10-30',
         issues: ['#167'],
         subject: 'Depend on lib/widget version 0',
@@ -4501,7 +4513,7 @@
       {
         date: '2023-10-30',
         issues: ['#144'],
-        subject: 'Implement `N` to compose a New message',
+        subject: 'Implement <kbd><kbd>N</kbd></kbd> to compose a New message',
       },
       {
         date: '2023-10-30',
@@ -4797,32 +4809,6 @@
         date: '2023-10-03',
         issues: ['#153'],
         subject: 'Support clicking on an invite to select it',
-      },
-      {
-        date: '2023-10-01',
-        issues: ['#153'],
-        subject: 'Implement many <i>Invitation manager</i> actions',
-      },
-      {
-        date: '2023-09-30',
-        issues: ['#140'],
-        subject: 'Migrate <i>Feed</i> to self-registering shortcuts',
-      },
-      {
-        date: '2023-09-29',
-        issues: ['#153'],
-        subject: 'Support the <i>/mynetwork/invitation-manager/</i> page',
-      },
-      {
-        date: '2023-09-29',
-        issues: ['#142'],
-        subject: 'Correct the description for <kbd><kbd>f</kbd></kbd>ocus',
-      },
-      {
-        date: '2023-09-29',
-        issues: ['#151'],
-        subject: 'Reset card scroller when revisiting the <i>MyNetwork</i> ' +
-          'page',
       },
     ];
 
