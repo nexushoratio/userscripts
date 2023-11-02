@@ -1558,6 +1558,12 @@
       this.logger.leaving(me);
     }
 
+    static #focusOption = {
+      capture: true,
+    };
+
+    static #lastFocusedElement = null
+
     /**
      * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
      * an element or info view.
@@ -1567,11 +1573,6 @@
       caseSensitive: true,
     };
 
-    static #focusOption = {
-      capture: true,
-    };
-
-    static #lastFocusedElement = null
     static #services = new Set();
 
     /**
