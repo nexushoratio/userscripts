@@ -361,7 +361,7 @@
    *
    * The dispatcher can be used the handle the following events:
    * - 'out-of-range' - Scrolling went past one end of the collection.  This
-       is NOT an error condition, but rather a design feature.
+   *   is NOT an error condition, but rather a design feature.
    * - 'change' - The value of item has changed.
    * - 'activate' - The Scroller was activated.
    * - 'deactivate' - The Scroller was deactivated.
