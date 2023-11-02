@@ -475,11 +475,6 @@
       return this.#dispatcher;
     }
 
-    /** @type {string} - Current item's uid. */
-    get itemUid() {
-      return this.#currentItemId;
-    }
-
     /** @type {Element} - Represents the current item. */
     get item() {
       const me = 'get item';
@@ -512,6 +507,11 @@
       this.dull();
       this.#bottomHalf(val);
       this.logger.leaving(me);
+    }
+
+    /** @type {string} - Current item's uid. */
+    get itemUid() {
+      return this.#currentItemId;
     }
 
     /** @type {NH.base.Logger} */
