@@ -1786,6 +1786,15 @@
       }
     }
 
+    /**
+     * @type {IShortcutOptions} - Disables keys when focus is on an element or
+     * info view.
+     */
+    static #navOption = {
+      caseSensitive: true,
+      condition: '!inputFocus && !inDialog',
+    };
+
     #pageReadySelector
 
     /** @type {SPA} - SPA instance managing this instance. */
@@ -1801,15 +1810,6 @@
     #keyboard = new VM.shortcut.KeyboardService();
 
     #services = new Set();
-
-    /**
-     * @type {IShortcutOptions} - Disables keys when focus is on an element or
-     * info view.
-     */
-    static #navOption = {
-      caseSensitive: true,
-      condition: '!inputFocus && !inDialog',
-    };
 
     /**
      * Turn a pathname into a RegExp.
