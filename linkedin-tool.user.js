@@ -3811,12 +3811,6 @@
      */
     urlChangeMonitorSelector = 'body';
 
-    /** @type {TabbedUI} */
-    #ui = null;
-
-    #id
-    #logger
-
     /** @type {string} - Unique ID for this instance . */
     get id() {
       return this.#id;
@@ -3826,6 +3820,27 @@
     get logger() {
       return this.#logger;
     }
+
+    /** @type {SetupIssue[]} */
+    get setupIssues() {
+      return this.#setupIssues;
+    }
+
+    /** @type {TabbedUI} */
+    get ui() {
+      return this.#ui;
+    }
+
+    /** @param {TabbedUI} val - UI instance. */
+    set ui(val) {
+      this.#ui = val;
+    }
+
+    /** @type {TabbedUI} */
+    #ui = null;
+
+    #id
+    #logger
 
     /**
      * Called by SPA instance during its construction to allow post
@@ -3847,16 +3862,6 @@
       this.logger.leaving(me);
     }
 
-    /** @type {TabbedUI} */
-    get ui() {
-      return this.#ui;
-    }
-
-    /** @param {TabbedUI} val - UI instance. */
-    set ui(val) {
-      this.#ui = val;
-    }
-
     /**
      * Handles notifications about changes to the {@link SPA} Errors tab
      * content.
@@ -3876,11 +3881,6 @@
      */
     _news = (eventType, data) => {
       this.logger.log('news', eventType, data);
-    }
-
-    /** @type {SetupIssue[]} */
-    get setupIssues() {
-      return this.#setupIssues;
     }
 
     /**
