@@ -4947,11 +4947,6 @@
     #name
     #oldUrl
 
-    /** @type {NH.base.Logger} */
-    get logger() {
-      return this.#logger;
-    }
-
     /** @type {Set<Page>} - Currently active {Page}s. */
     #activePages = new Set();
 
@@ -4967,6 +4962,11 @@
     /** @type {SPADetails} */
     get details() {
       return this.#details;
+    }
+
+    /** @type {NH.base.Logger} */
+    get logger() {
+      return this.#logger;
     }
 
     /**
