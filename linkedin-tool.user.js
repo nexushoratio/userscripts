@@ -1771,9 +1771,6 @@
       for (const service of this.#services) {
         service.activate();
       }
-
-      // TODO(#150): Will be removed.
-      this._refresh();
     }
 
     /**
@@ -1853,14 +1850,6 @@
      */
     #addKey = (shortcut) => {
       this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
-    }
-
-    /**
-     * Override this function in subclasses to take action upon becoming the
-     * current view again.
-     */
-    _refresh() {
-      this.logger.log('In base refresh.');
     }
 
   }
