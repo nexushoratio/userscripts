@@ -4497,6 +4497,12 @@
 
     static #newsContent = [
       {
+        date: '2023-11-02',
+        issues: ['#178'],
+        subject: 'Migrate <i>Notifications</i> from <i>refresh</i> ' +
+          'to <i>onScrollerActivate</i>',
+      },
+      {
         date: '2023-11-01',
         issues: ['#178'],
         subject: 'Migrate <i>InvitationManager</i> from <i>refresh</i> ' +
