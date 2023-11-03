@@ -1796,21 +1796,21 @@
       condition: '!inputFocus && !inDialog',
     };
 
-    #pageReadySelector
-
-    /** @type {SPA} - SPA instance managing this instance. */
-    #spa
+    /** @type {KeyboardService} */
+    #keyboard = new VM.shortcut.KeyboardService();
 
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     #logger
 
+    #pageReadySelector
+
     /** @type {RegExp} - Computed RegExp version of _pathname. */
     #pathnameRE
 
-    /** @type {KeyboardService} */
-    #keyboard = new VM.shortcut.KeyboardService();
-
     #services = new Set();
+
+    /** @type {SPA} - SPA instance managing this instance. */
+    #spa
 
     /**
      * Turn a pathname into a RegExp.
