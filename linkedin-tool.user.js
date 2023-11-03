@@ -3957,18 +3957,6 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
-    /** @inheritdoc */
-    done() {
-      super.done();
-      const me = 'done';
-      this.logger.entered(me);
-      const licenseEntry = this.ui.tabs.get('License');
-      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
-      VMKeyboardService.condition = '!inputFocus && !inDialog';
-      VMKeyboardService.start();
-      this.logger.leaving(me);
-    }
-
     /** @type {string} - The element.id used to identify the info pop-up. */
     get infoId() {
       return this.#infoId;
@@ -4009,16 +3997,15 @@
       return this.#licenseData;
     }
 
-    #useOriginalInfoDialog = !NH.xunit.testing.enabled;
-
-    /** Hang out until enough HTML has been built to be useful. */
-    #waitUntilPageLoadedEnough = async () => {
-      const me = 'waitOnPageLoadedEnough';
+    /** @inheritdoc */
+    done() {
+      super.done();
+      const me = 'done';
       this.logger.entered(me);
-
-      this.#navbar = await NH.web.waitForSelector('#global-nav', 0);
-      this.#finishConstruction();
-
+      const licenseEntry = this.ui.tabs.get('License');
+      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
+      VMKeyboardService.condition = '!inputFocus && !inDialog';
+      VMKeyboardService.start();
       this.logger.leaving(me);
     }
 
@@ -4037,6 +4024,133 @@
       how.bottomMarginCSS = '3em';
 
       this.logger.leaving(me, how);
+    }
+
+    /** @inheritdoc */
+    _errors = (eventType, count) => {
+      const me = 'errors';
+      this.logger.entered(me, eventType, count);
+      const button = document.querySelector('#lit-nav-button');
+      const toggle = button.querySelector('.notification-badge');
+      const badge = button.querySelector('.notification-badge__count');
+      badge.innerText = `${count}`;
+      if (count) {
+        toggle.classList.add('notification-badge--show');
+      } else {
+        toggle.classList.remove('notification-badge--show');
+      }
+      this.logger.leaving(me);
+    }
+
+    /** @inheritdoc */
+    docTab() {
+      const me = 'docTab';
+      this.logger.entered(me);
+
+      const issuesLink = this.#globals.ghUrl('labels/linkedin-tool');
+      const newIssueLink = this.#globals.ghUrl('issues/new/choose');
+      const newGfIssueLink = this.#globals.gfUrl('feedback');
+      const releaseNotesLink = this.#globals.gfUrl('versions');
+
+      const content = [
+        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
+          'userscript, a type of add-on.  It is not associated with ' +
+          'LinkedIn Corporation in any way.</p>',
+        '<p>Documentation can be found on ' +
+          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
+          'notes are automatically generated on ' +
+          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
+        '<p>Existing issues are also on GitHub ' +
+          `<a href="${issuesLink}">here</a>.</p>`,
+        '<p>New issues or feature requests can be filed on GitHub (account ' +
+          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
+          'appropriate issue template to get started.  Or, on Greasy Fork ' +
+          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
+          'Review the <b>Errors</b> tab for any useful information.</p>',
+        '',
+      ];
+
+      const tab = {
+        name: 'About',
+        content: content.join('\n'),
+      };
+
+      this.logger.leaving(me, tab);
+      return tab;
+    }
+
+    /** @inheritdoc */
+    newsTab() {
+      const me = 'newsTab';
+      this.logger.entered(me);
+
+      const {dates, knownIssues} = this.#preprocessKnownIssues();
+
+      const content = [
+        '<p>The contains a manually curated list of changes over the last ' +
+          'month or so that:',
+        '<ul>',
+        '<li>Added new features like support for new pages or more ' +
+          'hotkeys</li>',
+        '<li>Explicitly fixed a bug</li>',
+        '<li>May cause a use noticeable change</li>',
+        '</ul>',
+        '</p>',
+        '<p>See the <b>About</b> tab for finding all changes by release.</p>',
+      ];
+
+      const dateHeader = 'h3';
+      const issueHeader = 'h4';
+
+      for (const [date, items] of dates) {
+        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
+        for (const [issue, subjects] of items) {
+          content.push(
+            `<${issueHeader}>${knownIssues.get(issue)}</${issueHeader}>`
+          );
+          content.push('<ul>');
+          for (const subject of subjects) {
+            content.push(`<li>${subject}</li>`);
+          }
+          content.push('</ul>');
+        }
+      }
+
+      const tab = {
+        name: 'News',
+        content: content.join('\n'),
+      };
+
+      this.logger.leaving(me);
+      return tab;
+    }
+
+    /** @inheritdoc */
+    licenseTab() {
+      const me = 'licenseTab';
+      this.logger.entered(me);
+
+      const {name, url} = this.licenseData;
+      const tab = {
+        name: 'License',
+        content: `<p><a href="${url}">${name}</a></p>`,
+      };
+
+      this.logger.leaving(me, tab);
+      return tab;
+    }
+
+    #useOriginalInfoDialog = !NH.xunit.testing.enabled;
+
+    /** Hang out until enough HTML has been built to be useful. */
+    #waitUntilPageLoadedEnough = async () => {
+      const me = 'waitOnPageLoadedEnough';
+      this.logger.entered(me);
+
+      this.#navbar = await NH.web.waitForSelector('#global-nav', 0);
+      this.#finishConstruction();
+
+      this.logger.leaving(me);
     }
 
     /** Do the bits that were waiting on the page. */
@@ -4292,22 +4406,6 @@
         fudgeFactor;
     }
 
-    /** @inheritdoc */
-    _errors = (eventType, count) => {
-      const me = 'errors';
-      this.logger.entered(me, eventType, count);
-      const button = document.querySelector('#lit-nav-button');
-      const toggle = button.querySelector('.notification-badge');
-      const badge = button.querySelector('.notification-badge__count');
-      badge.innerText = `${count}`;
-      if (count) {
-        toggle.classList.add('notification-badge--show');
-      } else {
-        toggle.classList.remove('notification-badge--show');
-      }
-      this.logger.leaving(me);
-    }
-
     /**
      * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
      */
@@ -4343,104 +4441,6 @@
       }
 
       this.logger.leaving(me);
-    }
-
-    /** @inheritdoc */
-    docTab() {
-      const me = 'docTab';
-      this.logger.entered(me);
-
-      const issuesLink = this.#globals.ghUrl('labels/linkedin-tool');
-      const newIssueLink = this.#globals.ghUrl('issues/new/choose');
-      const newGfIssueLink = this.#globals.gfUrl('feedback');
-      const releaseNotesLink = this.#globals.gfUrl('versions');
-
-      const content = [
-        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
-          'userscript, a type of add-on.  It is not associated with ' +
-          'LinkedIn Corporation in any way.</p>',
-        '<p>Documentation can be found on ' +
-          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
-          'notes are automatically generated on ' +
-          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
-        '<p>Existing issues are also on GitHub ' +
-          `<a href="${issuesLink}">here</a>.</p>`,
-        '<p>New issues or feature requests can be filed on GitHub (account ' +
-          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
-          'appropriate issue template to get started.  Or, on Greasy Fork ' +
-          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
-          'Review the <b>Errors</b> tab for any useful information.</p>',
-        '',
-      ];
-
-      const tab = {
-        name: 'About',
-        content: content.join('\n'),
-      };
-
-      this.logger.leaving(me, tab);
-      return tab;
-    }
-
-    /** @inheritdoc */
-    newsTab() {
-      const me = 'newsTab';
-      this.logger.entered(me);
-
-      const {dates, knownIssues} = this.#preprocessKnownIssues();
-
-      const content = [
-        '<p>The contains a manually curated list of changes over the last ' +
-          'month or so that:',
-        '<ul>',
-        '<li>Added new features like support for new pages or more ' +
-          'hotkeys</li>',
-        '<li>Explicitly fixed a bug</li>',
-        '<li>May cause a use noticeable change</li>',
-        '</ul>',
-        '</p>',
-        '<p>See the <b>About</b> tab for finding all changes by release.</p>',
-      ];
-
-      const dateHeader = 'h3';
-      const issueHeader = 'h4';
-
-      for (const [date, items] of dates) {
-        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
-        for (const [issue, subjects] of items) {
-          content.push(
-            `<${issueHeader}>${knownIssues.get(issue)}</${issueHeader}>`
-          );
-          content.push('<ul>');
-          for (const subject of subjects) {
-            content.push(`<li>${subject}</li>`);
-          }
-          content.push('</ul>');
-        }
-      }
-
-      const tab = {
-        name: 'News',
-        content: content.join('\n'),
-      };
-
-      this.logger.leaving(me);
-      return tab;
-    }
-
-    /** @inheritdoc */
-    licenseTab() {
-      const me = 'licenseTab';
-      this.logger.entered(me);
-
-      const {name, url} = this.licenseData;
-      const tab = {
-        name: 'License',
-        content: `<p><a href="${url}">${name}</a></p>`,
-      };
-
-      this.logger.leaving(me, tab);
-      return tab;
     }
 
     static #knownIssues = [
