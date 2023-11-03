@@ -3572,6 +3572,8 @@
         Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
       this.addService(ScrollerService, this.#notificationScroller);
+      this.#notificationScroller.dispatcher.on('activate',
+        this.#onNotifcationsActivate);
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
     }
@@ -3636,7 +3638,7 @@
     };
 
     /** @inheritdoc */
-    _refresh() {
+    #onNotifcationsActivate = () => {
       this._notifications.shine();
       this._notifications.show();
     }
