@@ -4891,6 +4891,55 @@
 
     static _errorMarker = '---';
 
+    /**
+     * @implements {TabGenerator}
+     * @returns {TabbedUI~TabDefinition} - Initial table for the keyboard
+     * shortcuts.
+     */
+    static _shortcutsTab() {
+      return {
+        name: 'Keyboard shortcuts',
+        content: '<table data-spa-id="shortcuts"><tbody></tbody></table>',
+      };
+    }
+
+    /**
+     * Generate information about the current environment useful in bug
+     * reports.
+     * @returns {string} - Text with some wrapped in a `pre` element.
+     */
+    static _errorPlatformInfo() {
+      const header = 'Please consider including some of the following ' +
+            'information in any bug report:';
+
+      const msgs = NH.userscript.environmentData();
+
+      return `${header}<pre>${msgs.join('\n')}</pre>`;
+    }
+
+    /**
+     * @implements {TabGenerator}
+     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
+     * logging.
+     */
+    static _errorTab() {
+      return {
+        name: 'Errors',
+        content: [
+          '<p>Any information in the text box below could be helpful in ' +
+            'fixing a bug.</p>',
+          '<p>The content can be edited and then included in a bug ' +
+            'report.  Different errors should be separated by ' +
+            `"${SPA._errorMarker}".</p>`,
+          '<p><b>Please remove any identifying information before ' +
+            'including it in a bug report!</b></p>',
+          SPA._errorPlatformInfo(),
+          '<textarea data-spa-id="errors" spellcheck="false" ' +
+            'placeholder="No errors logged yet."></textarea>',
+        ].join(''),
+      };
+    }
+
     #details
     #id
     #logger
@@ -5173,55 +5222,6 @@
         VMKeyboardService.setKeyboardContext('inDialog', false);
         this._tabUiKeyboard.disable();
       });
-    }
-
-    /**
-     * @implements {TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - Initial table for the keyboard
-     * shortcuts.
-     */
-    static _shortcutsTab() {
-      return {
-        name: 'Keyboard shortcuts',
-        content: '<table data-spa-id="shortcuts"><tbody></tbody></table>',
-      };
-    }
-
-    /**
-     * Generate information about the current environment useful in bug
-     * reports.
-     * @returns {string} - Text with some wrapped in a `pre` element.
-     */
-    static _errorPlatformInfo() {
-      const header = 'Please consider including some of the following ' +
-            'information in any bug report:';
-
-      const msgs = NH.userscript.environmentData();
-
-      return `${header}<pre>${msgs.join('\n')}</pre>`;
-    }
-
-    /**
-     * @implements {TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
-     * logging.
-     */
-    static _errorTab() {
-      return {
-        name: 'Errors',
-        content: [
-          '<p>Any information in the text box below could be helpful in ' +
-            'fixing a bug.</p>',
-          '<p>The content can be edited and then included in a bug ' +
-            'report.  Different errors should be separated by ' +
-            `"${SPA._errorMarker}".</p>`,
-          '<p><b>Please remove any identifying information before ' +
-            'including it in a bug report!</b></p>',
-          SPA._errorPlatformInfo(),
-          '<textarea data-spa-id="errors" spellcheck="false" ' +
-            'placeholder="No errors logged yet."></textarea>',
-        ].join(''),
-      };
     }
 
     /** Set up everything necessary to get the info view going. */
