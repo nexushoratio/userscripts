@@ -2087,11 +2087,6 @@
     }
 
     /** @type {Scroller} */
-    get _posts() {
-      return this.#postScroller;
-    }
-
-    /** @type {Scroller} */
     get _comments() {
       const me = 'get comments';
       this.logger.entered(me, this.#commentScroller, this._posts.item);
@@ -2108,6 +2103,11 @@
 
       this.logger.leaving(me, this.#commentScroller);
       return this.#commentScroller;
+    }
+
+    /** @type {Scroller} */
+    get _posts() {
+      return this.#postScroller;
     }
 
     /** Reset the comment scroller. */
@@ -2548,11 +2548,6 @@
     }
 
     /** @type {Scroller} */
-    get _sections() {
-      return this.#sectionScroller;
-    }
-
-    /** @type {Scroller} */
     get _cards() {
       if (!this.#cardScroller && this._sections.item) {
         this.#cardScroller = new Scroller(
@@ -2565,6 +2560,11 @@
         );
       }
       return this.#cardScroller;
+    }
+
+    /** @type {Scroller} */
+    get _sections() {
+      return this.#sectionScroller;
     }
 
     #resetCards = () => {
@@ -2934,11 +2934,6 @@
     }
 
     /** @type {Scroller} */
-    get _sections() {
-      return this.#sectionScroller;
-    }
-
-    /** @type {Scroller} */
     get _jobs() {
       const me = 'get jobs';
       this.logger.entered(me, this.#jobScroller);
@@ -2955,6 +2950,11 @@
 
       this.logger.leaving(me, this.#jobScroller);
       return this.#jobScroller;
+    }
+
+    /** @type {Scroller} */
+    get _sections() {
+      return this.#sectionScroller;
     }
 
     /** Reset the jobs scroller. */
