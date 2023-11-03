@@ -11,7 +11,7 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1271281
+// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1274745
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271884
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js?version=1273298
@@ -26,7 +26,7 @@
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 3},
-    {name: 'base', minVersion: 16},
+    {name: 'base', minVersion: 22},
     {name: 'userscript', minVersion: 2},
     {name: 'web', minVersion: 1},
     {name: 'widget', minVersion: 1},
@@ -4330,8 +4330,9 @@
         this.logger.log('service:', service.shortName, service.active);
         // Works in progress may not have any shortcuts yet.
         if (service.shortcuts.length) {
+          const name = NH.base.simpleParseWords(service.shortName).join(' ');
           this.#shortcutsWidget.addSection(service.shortName);
-          this.#shortcutsWidget.addHeader(service.active, service.shortName);
+          this.#shortcutsWidget.addHeader(service.active, name);
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
             this.#shortcutsWidget.addData(
@@ -5253,16 +5254,6 @@
     }
 
     /**
-     * Convert a string in CamelCase to separate words, like Camel Case.
-     * @param {string} text - Text to parse.
-     * @returns {string} - Parsed text.
-     */
-    static _parseHeader(text) {
-      // Word Up!
-      return text.replace(/(?<cameo>[A-Z])/gu, ' $<cameo>').trim();
-    }
-
-    /**
      * Generate a unique id for page views.
      * @param {Page} page - An instance of the Page class.
      * @returns {string} - Unique identifier.
@@ -5277,7 +5268,7 @@
      */
     _addInfo(page) {
       const shortcuts = document.querySelector(`#${this._infoId} tbody`);
-      const section = SPA._parseHeader(page.infoHeader);
+      const section = NH.base.simpleParseWords(page.infoHeader).join(' ');
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.allShortcuts) {
