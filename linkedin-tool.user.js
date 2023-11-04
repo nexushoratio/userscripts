@@ -4488,6 +4488,11 @@
 
     static #newsContent = [
       {
+        date: '2023-11-03',
+        issues: ['#130', '#180'],
+        subject: 'Bump lib/base to version 22',
+      },
+      {
         date: '2023-11-02',
         issues: ['#178'],
         subject: 'Migrate <i>Notifications</i> from <i>refresh</i> ' +
@@ -4799,16 +4804,6 @@
         date: '2023-10-04',
         issues: ['#140'],
         subject: 'Migrate <i>Notifications</i> to self-registering shortcuts',
-      },
-      {
-        date: '2023-10-03',
-        issues: ['#154'],
-        subject: 'Update text used to find a button',
-      },
-      {
-        date: '2023-10-03',
-        issues: ['#153'],
-        subject: 'Support clicking on an invite to select it',
       },
     ];
 
