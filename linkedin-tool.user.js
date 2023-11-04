@@ -12,7 +12,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=1271279
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=1274745
-// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1271747
+// @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js?version=1275173
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js?version=1271884
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js?version=1273298
 // @grant       window.onurlchange
@@ -27,7 +27,7 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 3},
     {name: 'base', minVersion: 22},
-    {name: 'userscript', minVersion: 2},
+    {name: 'userscript', minVersion: 3},
     {name: 'web', minVersion: 1},
     {name: 'widget', minVersion: 1},
   ]);
