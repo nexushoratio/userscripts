@@ -554,7 +554,7 @@
      * @returns {boolean} - Was able to goto the item.
      */
     gotoUid(uid) {
-      const me = 'goto';
+      const me = 'gotoUid';
       this.logger.entered(me, uid);
       const items = this.#getItems();
       const item = items.find(el => uid === this.#uid(el));
