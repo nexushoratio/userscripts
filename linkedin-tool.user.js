@@ -3939,25 +3939,6 @@
 
     urlChangeMonitorSelector = 'div.authentication-outlet';
 
-    static #icon =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
-      '<defs>' +
-      '<mask id="a" maskContentUnits="objectBoundingBox">' +
-      '<path fill="#fff" d="M0 0h1v1H0z"/>' +
-      '<circle cx=".5" cy=".5" r=".25"/>' +
-      '</mask>' +
-      '<mask id="b" maskContentUnits="objectBoundingBox">' +
-      '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
-      '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
-      ' transform="rotate(30 0.5 0.5)"/>' +
-      '</mask>' +
-      '</defs>' +
-      '<rect x="9.5" y="7" width="5" height="10"' +
-      ' transform="rotate(45 12 12)"/>' +
-      '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
-      '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
-      '</svg>';
-
     /** @type {string} - The element.id used to identify the info pop-up. */
     get infoId() {
       return this.#infoId;
@@ -4140,6 +4121,25 @@
       this.logger.leaving(me, tab);
       return tab;
     }
+
+    static #icon =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
+      '<defs>' +
+      '<mask id="a" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" d="M0 0h1v1H0z"/>' +
+      '<circle cx=".5" cy=".5" r=".25"/>' +
+      '</mask>' +
+      '<mask id="b" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
+      '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
+      ' transform="rotate(30 0.5 0.5)"/>' +
+      '</mask>' +
+      '</defs>' +
+      '<rect x="9.5" y="7" width="5" height="10"' +
+      ' transform="rotate(45 12 12)"/>' +
+      '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
+      '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
+      '</svg>';
 
     #useOriginalInfoDialog = !NH.xunit.testing.enabled;
 
