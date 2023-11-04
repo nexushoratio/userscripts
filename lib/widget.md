@@ -1,4 +1,4 @@
-# lib/userscript - A [NexusHoratio](https://github.com/nexushoratio/userscripts/blob/main/lib/README.md) library.
+# lib/widget - A [NexusHoratio](https://github.com/nexushoratio/userscripts/blob/main/lib/README.md) library.
 
 Widgets for user interactions.
 
