@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.25
+// @version     5.26
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -4484,6 +4484,7 @@
         '#178', 'Migrate all Scrollers from <i>_refresh()</i> to ' +
           '<i>#onScrollerActivate</i>',
       ],
+      ['#180', 'Add Shortcuts tab to new info view'],
     ];
 
     static #newsContent = [
