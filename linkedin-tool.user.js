@@ -43,6 +43,7 @@
         await GM.setValue('Logger', NH.base.Logger.configs);
       }
     });
+    await NH.widget.w2uiCssInstall();
   } else {
     NH.base.Logger.config('Default').enabled = true;
   }
