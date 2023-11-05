@@ -4844,7 +4844,8 @@
       this.logger.log('unused', unusedIssues);
 
       if (unknownIssues.size) {
-        throw new Error('Unknown issues were detected.');
+        const issues = Array.from(unknownIssues).join(', ');
+        throw new Error(`Unknown issues were detected: ${issues}`);
       }
 
       return {
