@@ -782,6 +782,8 @@
      * `scrollMarginTop`.
      * @property {string} [bottomMarginCSS='0'] - CSS applied to
      * `scrollMarginBottom`.
+     * @property {number} [waitForItemTimeout=3000] - Time to wait, in
+     * milliseconds, for existing item to reappear upon reactivation.
      */
 
     /**
@@ -790,6 +792,8 @@
      * @throws {Scroller.Error} - On many construction problems.
      */
     constructor(what, how) {
+      const WAIT_FOR_ITEM = 3000;
+
       ({
         name: this.#name = 'Unnamed scroller',
         base: this.#base,
@@ -806,6 +810,7 @@
         bottomMarginPixels: this.#bottomMarginPixels = 0,
         topMarginCSS: this.#topMarginCSS = '0',
         bottomMarginCSS: this.#bottomMarginCSS = '0',
+        waitForItemTimeout: this.#waitForItemTimeout = WAIT_FOR_ITEM,
       } = how);
 
       this.#validateInstance();
@@ -954,6 +959,8 @@
         bases.add(this.#base);
       }
 
+      const watcher = this.#currentItemWatcher();
+
       for (const base of bases) {
         if (this.#handleClicks) {
           this.#onClickElements.add(base);
@@ -961,6 +968,9 @@
         }
         this.#mutationObserver.observe(base, {childList: true});
       }
+
+      this.logger.log('watcher:', await watcher);
+
       this.dispatcher.fire('activate', null);
 
       this.logger.leaving(me);
@@ -1016,6 +1026,7 @@
     #historicalIdToIndex = new Map();
     #logger
     #mutationObserver
+    #mutationDispatcher = new NH.base.Dispatcher('records');
     #name
     #onClickElements = new Set();
     #selectors
@@ -1024,6 +1035,7 @@
     #topMarginCSS
     #topMarginPixels
     #uidCallback
+    #waitForItemTimeout
 
     /**
      * If an item is clicked, switch to it.
@@ -1049,6 +1061,7 @@
       this.logger.entered(
         me, `records: ${records.length} type: ${records[0].type}`
       );
+      this.#mutationDispatcher.fire('records', null);
       for (const record of records) {
         if (record.type === 'childList') {
           this.logger.log('childList record');
@@ -1299,6 +1312,69 @@
 
       this.logger.leaving(me, results);
       return Promise.all(results);
+    }
+
+    /**
+     * Watches for the current item, if there was one, to return.
+     *
+     * Used during activation to deal with items still being loaded.
+     *
+     * TODO(#150): This is a good start but needs more work.  Hooking into the
+     * MutationObserver seemed like a good idea, but in practice, we only get
+     * invoked once, then time out.  Likely the observe options need some
+     * tweaking.  Will need to balance between what we do on activation as
+     * well as long term monitoring (which is not being done yet anyway).
+     * Also note the call to Scroller.#isItemViewable, a direct nod to what
+     * Feed needs to do.
+     *
+     * @returns {Promise<string>} - Wait on this to finish with something
+     * useful to log.
+     */
+    #currentItemWatcher = () => {
+      const me = 'currentItemWatcher';
+      this.logger.entered(me);
+
+      const uid = this.itemUid;
+      let prom = Promise.resolve('nothing to watch for');
+
+      if (uid) {
+        this.logger.log('reactivation with', uid);
+        let timeoutID = null;
+
+        prom = new Promise((resolve) => {
+
+          /** Dispatcher monitor. */
+          const moCallback = () => {
+            this.logger.log('moCallback');
+            if (this.gotoUid(uid)) {
+              this.logger.log('item is present', this.item);
+              this.#mutationDispatcher.off('records', moCallback);
+              clearTimeout(timeoutID);
+              const msg = Scroller.#isItemViewable(this.item)
+                ? 'looks good'
+                : 'not viewable yet';
+              resolve(msg);
+            } else {
+              this.logger.log('not ready yet');
+            }
+          };
+
+          /** Standard setTimeout callback. */
+          const toCallback = () => {
+            this.#mutationDispatcher.off('records', moCallback);
+            this.logger.log('one last try...');
+            moCallback();
+            resolve('we tried...');
+          };
+
+          this.#mutationDispatcher.on('records', moCallback);
+          timeoutID = setTimeout(toCallback, this.#waitForItemTimeout);
+          moCallback();
+        });
+      }
+
+      this.logger.leaving(me, prom);
+      return prom;
     }
 
   }
@@ -2773,8 +2849,6 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('activate',
-        this.#onSectionActivate);
       this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
 
       this.#lastScroller = this.#sectionScroller;
@@ -2807,49 +2881,6 @@
     #sectionScroller
     #cardScroller
     #lastScroller
-
-    #currentSectionText
-
-    /** @inheritdoc */
-    #onSectionActivate = async () => {
-
-      /**
-       * Wait for sections to eventually show up to see if our current one
-       * comes back.  It may not.
-       * @implements {Monitor}
-       * @param {MutationRecord[]} records - Standard mutation records.
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = (records) => {
-        for (const record of records) {
-          if (record.type === 'childList') {
-            for (const node of record.addedNodes) {
-              const newText = node.innerText?.trim().split('\n')[0];
-              if (newText && newText === this.#currentSectionText) {
-                return {done: true};
-              }
-            }
-          }
-        }
-        return {done: false};
-      };
-      const what = {
-        name: 'MyNetwork onSectionActivate',
-        base: document.body.querySelector('main'),
-      };
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 10000,
-      };
-
-      if (this.#currentSectionText) {
-        await NH.web.otmot(what, how);
-        this._sections.shine();
-        this._sections.show();
-        this.#resetCards();
-      }
-    }
 
     /** @type {Scroller} */
     get _cards() {
@@ -2884,8 +2915,6 @@
     }
 
     #onSectionChange = () => {
-      this.#currentSectionText = this._sections.item?.innerText
-        .trim().split('\n')[0];
       this.#resetCards();
       this.#lastScroller = this._sections;
     }
@@ -3237,8 +3266,6 @@
       this.addService(ScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('activate',
-        this.#onSectionActivate);
       this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
 
       this.#lastScroller = this.#sectionScroller;
@@ -3339,14 +3366,6 @@
 
     #onJobChange = () => {
       this.#lastScroller = this._jobs;
-    }
-
-    #onSectionActivate = () => {
-      const me = 'onSectionActivate';
-      this.logger.entered(me);
-      this._sections.show();
-      this._sections.shine();
-      this.logger.leaving(me);
     }
 
     /**
@@ -3921,8 +3940,6 @@
         Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
       this.addService(ScrollerService, this.#notificationScroller);
-      this.#notificationScroller.dispatcher.on('activate',
-        this.#onNotifcationsActivate);
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
     }
@@ -3961,12 +3978,6 @@
     }
 
     #notificationScroller = null;
-
-    /** @inheritdoc */
-    #onNotifcationsActivate = () => {
-      this._notifications.shine();
-      this._notifications.show();
-    }
 
     /** @type {Scroller} */
     get _notifications() {
