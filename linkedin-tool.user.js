@@ -2012,44 +2012,6 @@
 
     #dummy
 
-    /** @type {Scroller~What} */
-    static #postsWhat = {
-      name: 'Feed posts',
-      containerItems: [
-        {
-          container: 'main div.scaffold-finite-scroll__content',
-          items: 'div[data-id]',
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #postsHow = {
-      uidCallback: Feed.uniqueIdentifier,
-      classes: ['tom'],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #commentsWhat = {
-      name: 'Feed comments',
-      selectors: ['article.comments-comment-item'],
-    };
-
-    /** @type {Scroller~How} */
-    static #commentsHow = {
-      uidCallback: Feed.uniqueIdentifier,
-      classes: ['dick'],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/feed/',
-      pageReadySelector: 'main',
-    };
-
     #onPostActivate = () => {
 
       /**
@@ -2384,6 +2346,44 @@
       }
     );
 
+    /** @type {Scroller~How} */
+    static #commentsHow = {
+      uidCallback: Feed.uniqueIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #commentsWhat = {
+      name: 'Feed comments',
+      selectors: ['article.comments-comment-item'],
+    };
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/feed/',
+      pageReadySelector: 'main',
+    };
+
+    /** @type {Scroller~How} */
+    static #postsHow = {
+      uidCallback: Feed.uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+    };
+
+    /** @type {Scroller~What} */
+    static #postsWhat = {
+      name: 'Feed posts',
+      containerItems: [
+        {
+          container: 'main div.scaffold-finite-scroll__content',
+          items: 'div[data-id]',
+        },
+      ],
+    };
+
     #keyboardService
 
   }
@@ -2450,62 +2450,6 @@
     #lastScroller
 
     #currentSectionText
-
-    /** @type {Scroller~What} */
-    static #sectionsWhat = {
-      name: 'MyNetwork sections',
-      containerItems: [
-        {
-          container: 'main',
-          items: [
-            // Invitations
-            ':scope > section',
-            // Most sections
-            ':scope > ul > li',
-            // More suggestions for you section
-            ':scope > div > section',
-          ].join(','),
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: MyNetwork.uniqueSectionIdentifier,
-      classes: ['tom'],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #cardsWhat = {
-      name: 'MyNetwork cards',
-      selectors: [
-        [
-          // Invitations -> See all
-          ':scope > header > a',
-          // Other sections -> See all
-          ':scope > div > button',
-          // Most cards
-          ':scope > ul > li',
-          // More suggestions for you cards
-          ':scope > section ul > li section',
-        ].join(','),
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #cardsHow = {
-      uidCallback: MyNetwork.uniqueCardsIdentifier,
-      classes: ['dick'],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/mynetwork/',
-      pageReadySelector: 'main > ul',
-    };
 
     /** @inheritdoc */
     #onSectionActivate = async () => {
@@ -2655,6 +2599,62 @@
         ['button.artdeco-card__dismiss']);
     });
 
+    /** @type {Scroller~How} */
+    static #cardsHow = {
+      uidCallback: MyNetwork.uniqueCardsIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #cardsWhat = {
+      name: 'MyNetwork cards',
+      selectors: [
+        [
+          // Invitations -> See all
+          ':scope > header > a',
+          // Other sections -> See all
+          ':scope > div > button',
+          // Most cards
+          ':scope > ul > li',
+          // More suggestions for you cards
+          ':scope > section ul > li section',
+        ].join(','),
+      ],
+    };
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/mynetwork/',
+      pageReadySelector: 'main > ul',
+    };
+
+    /** @type {Scroller~How} */
+    static #sectionsHow = {
+      uidCallback: MyNetwork.uniqueSectionIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
+    };
+
+    /** @type {Scroller~What} */
+    static #sectionsWhat = {
+      name: 'MyNetwork sections',
+      containerItems: [
+        {
+          container: 'main',
+          items: [
+            // Invitations
+            ':scope > section',
+            // Most sections
+            ':scope > ul > li',
+            // More suggestions for you section
+            ':scope > div > section',
+          ].join(','),
+        },
+      ],
+    };
+
     #keyboardService
 
   }
@@ -2699,33 +2699,10 @@
     #inviteScroller
     #currentInviteText
 
-    /** @type {Scroller~What} */
-    static #invitesWhat = {
-      name: 'Invitation cards',
-      base: document.body,
-      selectors: [
-        [
-          // Actual invites
-          'main > section section > ul > li',
-        ].join(','),
-      ],
-    };
-
-    static #invitesHow = {
-      uidCallback: InvitationManager.uniqueIdentifier,
-      classes: ['tom'],
-    };
-
     /** @type {Scroller} */
     get _invites() {
       return this.#inviteScroller;
     }
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/mynetwork/invitation-manager/',
-      pageReadySelector: 'main',
-    };
 
     #onActivate = async () => {
       const me = 'onActivate';
@@ -2845,6 +2822,29 @@
       NH.web.clickElement(this._invites?.item,
         ['button[aria-label*=" message"]']);
     });
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/mynetwork/invitation-manager/',
+      pageReadySelector: 'main',
+    };
+
+    static #invitesHow = {
+      uidCallback: InvitationManager.uniqueIdentifier,
+      classes: ['tom'],
+    };
+
+    /** @type {Scroller~What} */
+    static #invitesWhat = {
+      name: 'Invitation cards',
+      base: document.body,
+      selectors: [
+        [
+          // Actual invites
+          'main > section section > ul > li',
+        ].join(','),
+      ],
+    };
 
     #keyboardService
 
@@ -3140,6 +3140,14 @@
       pageReadySelector: LinkedInGlobals.asideSelector,
     };
 
+    /** @type {Scroller~How} */
+    static #jobsHow = {
+      uidCallback: Jobs.uniqueJobIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
     /** @type {Scroller~What} */
     static #jobsWhat = {
       name: 'Job entries',
@@ -3154,24 +3162,16 @@
     };
 
     /** @type {Scroller~How} */
-    static #jobsHow = {
-      uidCallback: Jobs.uniqueJobIdentifier,
-      classes: ['dick'],
-      autoActivate: true,
-      snapToTop: false,
+    static #sectionsHow = {
+      uidCallback: Jobs.uniqueSectionIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
     };
 
     /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: 'Jobs sections',
       containerItems: [{container: 'main', items: 'section'}],
-    };
-
-    /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: Jobs.uniqueSectionIdentifier,
-      classes: ['tom'],
-      snapToTop: true,
     };
 
     #sectionScroller = null;
@@ -3253,55 +3253,12 @@
       return this.#jobCardScroller;
     }
 
-    /** @type {Scroller~What} */
-    static #jobCardsWhat = {
-      name: 'Job cards',
-      containerItems: [
-        {
-          container: 'div.jobs-search-results-list > ul',
-          // This selector is also used in #onJobCardActivate.
-          items: ':scope > li',
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #jobCardsHow = {
-      uidCallback: this.uniqueJobIdentifier,
-      classes: ['tom'],
-      snapToTop: false,
-      bottomMarginCSS: '3em',
-    };
-
     #paginationScroller = null;
 
     /** @type {Scroller} */
     get paginator() {
       return this.#paginationScroller;
     }
-
-    /** @type {Scroller~What} */
-    static #paginationWhat = {
-      name: 'Results pagination',
-      base: document.body,
-      // This selector is also used in #onPaginationActivate.
-      selectors: ['div.jobs-search-results-list__pagination > ul > li'],
-    };
-
-    /** @type {Scroller~How} */
-    static #paginationHow = {
-      uidCallback: this.uniquePaginationIdentifier,
-      classes: ['dick'],
-      snapToTop: false,
-      bottomMarginCSS: '3em',
-    };
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      pageReadySelector: 'footer.global-footer-compact',
-    };
 
     #onJobCardActivate = async () => {
       const me = 'onJobCardActivate';
@@ -3480,6 +3437,49 @@
       }
     );
 
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
+      pageReadySelector: 'footer.global-footer-compact',
+    };
+
+    /** @type {Scroller~How} */
+    static #jobCardsHow = {
+      uidCallback: this.uniqueJobIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+      bottomMarginCSS: '3em',
+    };
+
+    /** @type {Scroller~What} */
+    static #jobCardsWhat = {
+      name: 'Job cards',
+      containerItems: [
+        {
+          container: 'div.jobs-search-results-list > ul',
+          // This selector is also used in #onJobCardActivate.
+          items: ':scope > li',
+        },
+      ],
+    };
+
+    /** @type {Scroller~How} */
+    static #paginationHow = {
+      uidCallback: this.uniquePaginationIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+      bottomMarginCSS: '3em',
+    };
+
+    /** @type {Scroller~What} */
+    static #paginationWhat = {
+      name: 'Results pagination',
+      base: document.body,
+      // This selector is also used in #onPaginationActivate.
+      selectors: ['div.jobs-search-results-list__pagination > ul > li'],
+    };
+
     #keyboardService
 
   }
@@ -3497,13 +3497,6 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
     }
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/messaging/.*', 'u'),
-      pageReadySelector: LinkedInGlobals.asideSelector,
-    };
 
     loadMoreConversations = new Shortcut(
       'l', 'Load more conversations', () => {
@@ -3538,6 +3531,13 @@
 
       this.logger.leaving(me);
     });
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/messaging/.*', 'u'),
+      pageReadySelector: LinkedInGlobals.asideSelector,
+    };
 
     #keyboardService
 
@@ -3602,30 +3602,6 @@
     }
 
     #notificationScroller = null;
-
-    /** @type {Scroller~What} */
-    static #notificationsWhat = {
-      name: 'Notification cards',
-      containerItems: [
-        {
-          container: 'main section div.nt-card-list',
-          items: 'article',
-        },
-      ],
-    };
-
-    /** @type {Scroller-How} */
-    static #notificationsHow = {
-      uidCallback: Notifications.uniqueIdentifier,
-      classes: ['tom'],
-      snapToTop: false,
-    };
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/notifications/',
-      pageReadySelector: 'main section div.nt-card-list',
-    };
 
     /** @inheritdoc */
     #onNotifcationsActivate = () => {
@@ -3776,6 +3752,30 @@
         }
       }
     );
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/notifications/',
+      pageReadySelector: 'main section div.nt-card-list',
+    };
+
+    /** @type {Scroller-How} */
+    static #notificationsHow = {
+      uidCallback: Notifications.uniqueIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #notificationsWhat = {
+      name: 'Notification cards',
+      containerItems: [
+        {
+          container: 'main section div.nt-card-list',
+          items: 'article',
+        },
+      ],
+    };
 
     #keyboardService
 
