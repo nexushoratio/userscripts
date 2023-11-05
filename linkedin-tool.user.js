@@ -4453,44 +4453,49 @@
       ['#142', 'Support My Network view'],
       ['#143', 'Support jobs search view'],
       ['#144', 'Support Messaging view'],
-      ['#145', 'Logger: improved controls'],
-      ['#149', 'Scroller: support onclick natively'],
-      ['#150', 'Scroller: handle page reloads better'],
-      ['#151', 'MyNetwork: card scrolling does not work after return'],
+      ['#145', '<b>Logger</b>: improved controls'],
+      ['#149', '<b>Scroller</b>: support onclick natively'],
+      ['#150', '<b>Scroller</b>: handle page reloads better'],
+      ['#151', '<b>MyNetwork</b>: card scrolling does not work after return'],
       ['#153', 'Support Invitation manager view'],
       [
-        '#154', 'Notifications: <kbd><kbd>X</kbd></kbd> no longer works to ' +
-       'dismiss',
+        '#154', '<b>Notifications</b>: <kbd><kbd>X</kbd></kbd> no longer ' +
+          'works to dismiss',
       ],
       [
-        '#155', 'Jobs: The <i>More jobs few you</i> section no longer ' +
-       'navigates jobs',
+        '#155', '<b>Jobs</b>: The <i>More jobs few you</i> section no ' +
+          'longer navigates jobs',
       ],
       [
-        '#157', 'InvitationManager: Invite not scrolling into view upon ' +
-       'refresh',
+        '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
+          'view upon refresh',
       ],
       [
-        '#159', 'MyNetwork: Trying to <kbd><kbd>E</kbd></kbd>ngage does ' +
-          'not always work',
+        '#159', '<b>MyNetwork</b>: Trying to <kbd><kbd>E</kbd></kbd>ngage ' +
+          'does not always work',
       ],
-      ['#165', 'Scroller: Wait until base shows up'],
+      ['#165', '<b>Scroller</b>: Wait until base shows up'],
       ['#167', 'Refactor into libraries'],
       [
-        '#168', 'JobCollections: <kbd><kbd>X</kbd></kbd> will not recover ' +
-          'a dismissed job card',
+        '#168', '<b>JobCollections</b>: <kbd><kbd>X</kbd></kbd> will not ' +
+          'recover a dismissed job card',
       ],
       [
-        '#178', 'Migrate all Scrollers from <i>_refresh()</i> to ' +
+        '#178', 'Migrate all <b>Scrollers</b> from <i>_refresh()</i> to ' +
           '<i>#onScrollerActivate</i>',
       ],
-      ['#180', 'Add Shortcuts tab to new info view'],
+      ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
     ];
 
     static #newsContent = [
       {
+        date: '2023-11-04',
+        issues: ['#187'],
+        subject: 'Bump lib/userscript to version 3',
+      },
+      {
         date: '2023-11-03',
-        issues: ['#130', '#180'],
+        issues: ['#130'],
         subject: 'Bump lib/base to version 22',
       },
       {
@@ -4795,16 +4800,6 @@
         date: '2023-10-05',
         issues: ['#157'],
         subject: 'Additional logging',
-      },
-      {
-        date: '2023-10-04',
-        issues: ['#153'],
-        subject: 'Track current invite so it can be found again later',
-      },
-      {
-        date: '2023-10-04',
-        issues: ['#140'],
-        subject: 'Migrate <i>Notifications</i> to self-registering shortcuts',
       },
     ];
 
