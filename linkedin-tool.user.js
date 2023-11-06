@@ -95,6 +95,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-05',
+      issues: ['#150'],
+      subject: 'Wait for current item to reappear when <i>Scroller</i> ' +
+        'is reactivated',
+    },
+    {
       date: '2023-11-04',
       issues: ['#187'],
       subject: 'Bump lib/userscript to version 3',
@@ -396,16 +402,6 @@
       issues: ['#142'],
       subject: 'Change <i>MyNetwork</i> card viewing from ' +
         '<kbd><kbd>v</kbd></kbd> to <kbd><kbd>Enter</kbd></kbd>',
-    },
-    {
-      date: '2023-10-05',
-      issues: ['#157'],
-      subject: 'Enable some logging while working on this issue',
-    },
-    {
-      date: '2023-10-05',
-      issues: ['#157'],
-      subject: 'Additional logging',
     },
   ];
 
