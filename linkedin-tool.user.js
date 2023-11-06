@@ -1025,8 +1025,8 @@
     #handleClicks
     #historicalIdToIndex = new Map();
     #logger
-    #mutationObserver
     #mutationDispatcher = new NH.base.Dispatcher('records');
+    #mutationObserver
     #name
     #onClickElements = new Set();
     #selectors
