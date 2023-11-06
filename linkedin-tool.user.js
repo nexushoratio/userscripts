@@ -4147,9 +4147,6 @@
      * @property {string[]} messages - What to pass to {@link SPA.addError}.
      */
 
-    /** @type {SetupIssue[]} */
-    #setupIssues = [];
-
     /**
      * @type {string} - CSS selector to monitor if self-managing URL changes.
      * The selector must resolve to an element that, once it exists, will
@@ -4181,12 +4178,6 @@
     set ui(val) {
       this.#ui = val;
     }
-
-    /** @type {TabbedUI} */
-    #ui = null;
-
-    #id
-    #logger
 
     /**
      * Called by SPA instance during its construction to allow post
@@ -4266,6 +4257,15 @@
         content: 'Not implemented.',
       };
     }
+
+    #id
+    #logger
+
+    /** @type {SetupIssue[]} */
+    #setupIssues = [];
+
+    /** @type {TabbedUI} */
+    #ui = null;
 
   }
 
