@@ -1769,21 +1769,6 @@
 
   }
 
-  /** Toy service for experimenting. */
-  class DummyService extends Service {
-
-    /** @inheritdoc */
-    activate() {
-      this.logger.log('Dummy activate');
-    }
-
-    /** @inheritdoc */
-    deactivate() {
-      this.logger.log('Dummy deactivate');
-    }
-
-  }
-
   /** Manage a {Scroller} via {Service}. */
   class ScrollerService extends Service {
 
@@ -2416,8 +2401,6 @@
       spa.details.navBarScrollerFixup(Feed.#postsHow);
       spa.details.navBarScrollerFixup(Feed.#commentsHow);
 
-      this.#dummy = this.addService(DummyService);
-
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(ScrollerService, this.#postScroller);
       this.#postScroller.dispatcher.on(
@@ -2446,8 +2429,6 @@
     #postScroller = null;
     #commentScroller = null;
     #lastScroller
-
-    #dummy
 
     #onPostActivate = () => {
       const me = 'onPostActivate';
