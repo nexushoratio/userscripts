@@ -4919,18 +4919,6 @@
       };
     }
 
-    #details
-    #id
-    #logger
-    #name
-    #oldUrl
-
-    /** @type {Set<Page>} - Currently active {Page}s. */
-    #activePages = new Set();
-
-    /** @type {Set<Page>} - Registered {Page}s. */
-    #pages = new Set();
-
     /** @type {Element} - The most recent element to receive focus. */
     _lastInputElement = null;
 
@@ -5406,6 +5394,18 @@
       }
       this.#activePages = pages;
     }
+
+    /** @type {Set<Page>} - Currently active {Page}s. */
+    #activePages = new Set();
+
+    #details
+    #id
+    #logger
+    #name
+    #oldUrl
+
+    /** @type {Set<Page>} - Registered {Page}s. */
+    #pages = new Set();
 
   }
 
