@@ -2426,10 +2426,6 @@
 
     #tabSnippet = VMKeyboardService.parseSeq('tab');
 
-    #postScroller = null;
-    #commentScroller = null;
-    #lastScroller
-
     #onPostActivate = () => {
       const me = 'onPostActivate';
       this.logger.entered(me);
@@ -2802,7 +2798,10 @@
       ],
     };
 
+    #commentScroller
     #keyboardService
+    #lastScroller
+    #postScroller
 
   }
 
@@ -2860,10 +2859,6 @@
       const content = element.innerText;
       return NH.base.strHash(content);
     }
-
-    #sectionScroller
-    #cardScroller
-    #lastScroller
 
     /** @type {Scroller} */
     get _cards() {
@@ -3026,7 +3021,10 @@
       ],
     };
 
+    #cardScroller
     #keyboardService
+    #lastScroller
+    #sectionScroller
 
   }
 
@@ -3066,9 +3064,6 @@
       }
       return NH.base.strHash(content);
     }
-
-    #inviteScroller
-    #currentInviteText
 
     /** @type {Scroller} */
     get _invites() {
@@ -3217,6 +3212,8 @@
       ],
     };
 
+    #currentInviteText
+    #inviteScroller
     #keyboardService
 
   }
@@ -3535,11 +3532,10 @@
       containerItems: [{container: 'main', items: 'section'}],
     };
 
-    #sectionScroller = null;
-    #jobScroller = null;
-    #lastScroller
-
+    #jobScroller
     #keyboardService
+    #lastScroller
+    #sectionScroller
 
   }
 
@@ -3605,16 +3601,10 @@
       return NH.base.strHash(content);
     }
 
-    #lastScroller
-
-    #jobCardScroller = null;
-
     /** @type {Scroller} */
     get _jobCards() {
       return this.#jobCardScroller;
     }
-
-    #paginationScroller = null;
 
     /** @type {Scroller} */
     get paginator() {
@@ -3841,7 +3831,10 @@
       selectors: ['div.jobs-search-results-list__pagination > ul > li'],
     };
 
+    #jobCardScroller
     #keyboardService
+    #lastScroller
+    #paginationScroller
 
   }
 
@@ -3959,8 +3952,6 @@
       }
       return NH.base.strHash(content);
     }
-
-    #notificationScroller = null;
 
     /** @type {Scroller} */
     get _notifications() {
@@ -4131,6 +4122,7 @@
     };
 
     #keyboardService
+    #notificationScroller
 
   }
 
