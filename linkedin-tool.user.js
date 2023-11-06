@@ -32,17 +32,20 @@
     {name: 'widget', minVersion: 2},
   ]);
 
-  // TODO(#170): Placeholder comment to allow easy patching of test code.
+  /* eslint-disable require-atomic-updates */
+  NH.base.Logger.configs = await NH.userscript.getValue('Logger');
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'hidden') {
+      await NH.userscript.setValue('Logger', NH.base.Logger.configs);
+    }
+    if (document.visibilityState === 'visible') {
+      NH.base.Logger.configs = await NH.userscript.getValue('Logger');
+    }
+  });
+  /* eslint-enable */
 
   // TODO(#145): The if test is just here while developing.
   if (NH.xunit.testing.enabled) {
-    // eslint-disable-next-line require-atomic-updates
-    NH.base.Logger.configs = await GM.getValue('Logger');
-    document.addEventListener('visibilitychange', async () => {
-      if (document.visibilityState === 'hidden') {
-        await GM.setValue('Logger', NH.base.Logger.configs);
-      }
-    });
     await NH.widget.w2uiCssInstall();
   } else {
     NH.base.Logger.config('Default').enabled = true;
