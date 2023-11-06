@@ -965,7 +965,8 @@
           this.#onClickElements.add(base);
           base.addEventListener('click', this.#onClick);
         }
-        this.#mutationObserver.observe(base, {childList: true});
+        this.#mutationObserver.observe(base,
+          {childList: true, subtree: true});
       }
 
       this.logger.log('watcher:', await watcher);
@@ -1347,12 +1348,14 @@
             this.logger.log('moCallback');
             if (this.gotoUid(uid)) {
               this.logger.log('item is present', this.item);
-              this.#mutationDispatcher.off('records', moCallback);
-              clearTimeout(timeoutID);
-              const msg = Scroller.#isItemViewable(this.item)
-                ? 'looks good'
-                : 'not viewable yet';
-              resolve(msg);
+              if (Scroller.#isItemViewable(this.item)) {
+                this.logger.log('and viewable');
+                this.#mutationDispatcher.off('records', moCallback);
+                clearTimeout(timeoutID);
+                resolve('looks good');
+              } else {
+                this.logger.log('but not yet viewable');
+              }
             } else {
               this.logger.log('not ready yet');
             }
