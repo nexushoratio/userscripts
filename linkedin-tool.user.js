@@ -2447,21 +2447,20 @@
     #dummy
 
     #onPostActivate = () => {
+      const me = 'onPostActivate';
+      this.logger.entered(me);
 
       /**
        * Wait for the post to be reloaded.
        * @implements {Monitor}
-       * @param {MutationRecord[]} records - Standard mutation records.
        * @returns {Continuation} - Indicate whether done monitoring.
        */
-      function monitor(records) {
-        for (const record of records) {
-          if (record.oldValue.includes('has-occluded-height')) {
-            return {done: true};
-          }
-        }
-        return {done: false};
-      }
+      const monitor = () => {
+        this.logger.log('monitor item classes:', this._posts.item.classList);
+        return {
+          done: !this._posts.item.classList.contains('has-occluded-height'),
+        };
+      };
       if (this._posts.item) {
         const what = {
           name: 'Feed onPostActivate',
@@ -2471,7 +2470,6 @@
           observeOptions: {
             attributeFilter: ['class'],
             attributes: true,
-            attributeOldValue: true,
           },
           monitor: monitor,
           timeout: 5000,
@@ -2481,6 +2479,8 @@
           this._posts.show();
         });
       }
+
+      this.logger.leaving(me);
     }
 
     /** @type {Scroller} */
