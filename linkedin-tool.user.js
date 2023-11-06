@@ -4486,6 +4486,15 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    #globals
+    #infoId
+    #infoKeyboard
+    #infoTabs
+    #infoWidget
+    #licenseData
+    #licenseLoaded
+    #navbar
+    #shortcutsWidget
     #useOriginalInfoDialog = !NH.xunit.testing.enabled;
 
     /** Hang out until enough HTML has been built to be useful. */
@@ -4788,16 +4797,6 @@
 
       this.logger.leaving(me);
     }
-
-    #globals
-    #infoId
-    #infoKeyboard
-    #infoTabs
-    #infoWidget
-    #licenseData
-    #licenseLoaded
-    #navbar
-    #shortcutsWidget
 
     /** @returns {obj} - dates and known issues. */
     #preprocessKnownIssues = () => {
