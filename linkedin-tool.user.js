@@ -89,6 +89,7 @@
       '#168', '<b>JobCollections</b>: <kbd><kbd>X</kbd></kbd> will not ' +
         'recover a dismissed job card',
     ],
+    ['#170', 'Enable <i>GM.setValue</i> and <i>GM.getValue</i> functions'],
     [
       '#178', 'Migrate all <b>Scrollers</b> from <i>_refresh()</i> to ' +
         '<i>#onScrollerActivate</i>',
@@ -97,6 +98,21 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-06',
+      issues: ['#150'],
+      subject: 'Make item being viewable a criteria for reactivation',
+    },
+    {
+      date: '2023-11-06',
+      issues: ['#150'],
+      subject: 'Simplify <i>Feed.#onPostActivate()</i>',
+    },
+    {
+      date: '2023-11-06',
+      issues: ['#170'],
+      subject: 'Bump versions of many libraries',
+    },
     {
       date: '2023-11-05',
       issues: ['#150'],
@@ -389,22 +405,6 @@
       date: '2023-10-07',
       issues: ['#143'],
       subject: 'Support the <i>/jobs/{collections,search}/</i> pages',
-    },
-    {
-      date: '2023-10-06',
-      issues: [''],
-      subject: 'Rename <i>Information</i> tab to <i>About</i>',
-    },
-    {
-      date: '2023-10-06',
-      issues: ['#159'],
-      subject: 'The <i>MyNetwork</i> cards need more selectors',
-    },
-    {
-      date: '2023-10-06',
-      issues: ['#142'],
-      subject: 'Change <i>MyNetwork</i> card viewing from ' +
-        '<kbd><kbd>v</kbd></kbd> to <kbd><kbd>Enter</kbd></kbd>',
     },
   ];
 
