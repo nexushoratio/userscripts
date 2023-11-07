@@ -2424,8 +2424,6 @@
       return null;
     }
 
-    #tabSnippet = VMKeyboardService.parseSeq('tab');
-
     #onPostActivate = () => {
       const me = 'onPostActivate';
       this.logger.entered(me);
@@ -2702,7 +2700,7 @@
 
     _gotoShare = new Shortcut(
       'P',
-      `Go to the share box to start a post or ${this.#tabSnippet} ` +
+      `Go to the share box to start a post or ${Feed.#tabSnippet} ` +
         'to the other creator options',
       () => {
         const share = document.querySelector(
@@ -2797,6 +2795,8 @@
         },
       ],
     };
+
+    static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     #commentScroller
     #keyboardService
