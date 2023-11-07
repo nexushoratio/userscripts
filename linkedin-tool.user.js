@@ -4936,61 +4936,6 @@
     }
 
     /**
-     * Tampermonkey was the first(?) userscript manager to provide events
-     * about URLs changing.  Hence the need for `@grant window.onurlchange` in
-     * the UserScript header.
-     * @fires Event#urlchange
-     */
-    #startUserscriptManagerUrlMonitor = () => {
-      this.logger.log('Using Userscript Manager provided URL monitor.');
-      window.addEventListener('urlchange', (info) => {
-        // The info that TM gives is not really an event.  So we turn it into
-        // one and throw it again, this time onto `document` where something
-        // is listening for it.
-        const newUrl = new URL(info.url);
-        const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
-        document.dispatchEvent(evt);
-      });
-    }
-
-    /**
-     * Install a long lived MutationObserver that watches
-     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is triggered, it
-     * will check to see if the current URL has changed, and if so, send an
-     * appropriate event.
-     * @fires Event#urlchange
-     */
-    #startMutationObserverUrlMonitor = async () => {
-      this.logger.log('Using MutationObserver for monitoring URL changes.');
-
-      const observeOptions = {childList: true, subtree: true};
-
-      const element = await NH.web.waitForSelector(
-        this.#details.urlChangeMonitorSelector, 0
-      );
-      this.logger.log('element exists:', element);
-
-      this.#oldUrl = new URL(window.location);
-      new MutationObserver(() => {
-        const newUrl = new URL(window.location);
-        if (this.#oldUrl.href !== newUrl.href) {
-          const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
-          this.#oldUrl = newUrl;
-          document.dispatchEvent(evt);
-        }
-      }).observe(element, observeOptions);
-    }
-
-    /** Select which way to monitor the URL for changes and start it. */
-    #startUrlMonitor = () => {
-      if (window.onurlchange === null) {
-        this.#startUserscriptManagerUrlMonitor();
-      } else {
-        this.#startMutationObserverUrlMonitor();
-      }
-    }
-
-    /**
      * Set the context (used by VM.shortcut) to a specific value.
      * @param {string} context - The name of the context.
      * @param {object} state - What the value should be.
@@ -5016,14 +4961,6 @@
         this._setKeyboardContext('inputFocus', true);
         this._lastInputElement = evt.target;
       }
-    }
-
-    /**
-     * Handle urlchange events that indicate a switch to a new page.
-     * @param {CustomEvent} evt - Custom 'urlchange' event.
-     */
-    #onUrlChange = (evt) => {
-      this.activate(evt.detail.url.pathname);
     }
 
     /** Configure handlers for the info view. */
@@ -5406,6 +5343,69 @@
 
     /** @type {Set<Page>} - Registered {Page}s. */
     #pages = new Set();
+
+    /**
+     * Tampermonkey was the first(?) userscript manager to provide events
+     * about URLs changing.  Hence the need for `@grant window.onurlchange` in
+     * the UserScript header.
+     * @fires Event#urlchange
+     */
+    #startUserscriptManagerUrlMonitor = () => {
+      this.logger.log('Using Userscript Manager provided URL monitor.');
+      window.addEventListener('urlchange', (info) => {
+        // The info that TM gives is not really an event.  So we turn it into
+        // one and throw it again, this time onto `document` where something
+        // is listening for it.
+        const newUrl = new URL(info.url);
+        const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+        document.dispatchEvent(evt);
+      });
+    }
+
+    /**
+     * Install a long lived MutationObserver that watches
+     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is triggered, it
+     * will check to see if the current URL has changed, and if so, send an
+     * appropriate event.
+     * @fires Event#urlchange
+     */
+    #startMutationObserverUrlMonitor = async () => {
+      this.logger.log('Using MutationObserver for monitoring URL changes.');
+
+      const observeOptions = {childList: true, subtree: true};
+
+      const element = await NH.web.waitForSelector(
+        this.#details.urlChangeMonitorSelector, 0
+      );
+      this.logger.log('element exists:', element);
+
+      this.#oldUrl = new URL(window.location);
+      new MutationObserver(() => {
+        const newUrl = new URL(window.location);
+        if (this.#oldUrl.href !== newUrl.href) {
+          const evt = new CustomEvent('urlchange', {detail: {url: newUrl}});
+          this.#oldUrl = newUrl;
+          document.dispatchEvent(evt);
+        }
+      }).observe(element, observeOptions);
+    }
+
+    /** Select which way to monitor the URL for changes and start it. */
+    #startUrlMonitor = () => {
+      if (window.onurlchange === null) {
+        this.#startUserscriptManagerUrlMonitor();
+      } else {
+        this.#startMutationObserverUrlMonitor();
+      }
+    }
+
+    /**
+     * Handle urlchange events that indicate a switch to a new page.
+     * @param {CustomEvent} evt - Custom 'urlchange' event.
+     */
+    #onUrlChange = (evt) => {
+      this.activate(evt.detail.url.pathname);
+    }
 
   }
 
