@@ -2424,43 +2424,6 @@
       return null;
     }
 
-    #onPostActivate = () => {
-      const me = 'onPostActivate';
-      this.logger.entered(me);
-
-      /**
-       * Wait for the post to be reloaded.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        this.logger.log('monitor item classes:', this._posts.item.classList);
-        return {
-          done: !this._posts.item.classList.contains('has-occluded-height'),
-        };
-      };
-      if (this._posts.item) {
-        const what = {
-          name: 'Feed onPostActivate',
-          base: this._posts.item,
-        };
-        const how = {
-          observeOptions: {
-            attributeFilter: ['class'],
-            attributes: true,
-          },
-          monitor: monitor,
-          timeout: 5000,
-        };
-        NH.web.otmot(what, how).finally(() => {
-          this._posts.shine();
-          this._posts.show();
-        });
-      }
-
-      this.logger.leaving(me);
-    }
-
     /** @type {Scroller} */
     get _comments() {
       const me = 'get comments';
@@ -2483,35 +2446,6 @@
     /** @type {Scroller} */
     get _posts() {
       return this.#postScroller;
-    }
-
-    /** Reset the comment scroller. */
-    #resetComments() {
-      if (this.#commentScroller) {
-        this.#commentScroller.destroy();
-        this.#commentScroller = null;
-      }
-      this._comments;
-    }
-
-    #onCommentChange = () => {
-      this.#lastScroller = this._comments;
-    }
-
-    /**
-     * Reselects current post, triggering same actions as initial selection.
-     */
-    #returnToPost = () => {
-      this._posts.item = this._posts.item;
-    }
-
-    /** Resets the comments {@link Scroller}. */
-    #onPostChange = () => {
-      const me = 'onPostChange';
-      this.logger.entered(me, this._posts.item);
-      this.#resetComments();
-      this.#lastScroller = this._posts;
-      this.logger.leaving(me);
     }
 
     _nextPost = new Shortcut('j', 'Next post', () => {
@@ -2803,6 +2737,72 @@
     #lastScroller
     #postScroller
 
+    #onPostActivate = () => {
+      const me = 'onPostActivate';
+      this.logger.entered(me);
+
+      /**
+       * Wait for the post to be reloaded.
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        this.logger.log('monitor item classes:', this._posts.item.classList);
+        return {
+          done: !this._posts.item.classList.contains('has-occluded-height'),
+        };
+      };
+      if (this._posts.item) {
+        const what = {
+          name: 'Feed onPostActivate',
+          base: this._posts.item,
+        };
+        const how = {
+          observeOptions: {
+            attributeFilter: ['class'],
+            attributes: true,
+          },
+          monitor: monitor,
+          timeout: 5000,
+        };
+        NH.web.otmot(what, how).finally(() => {
+          this._posts.shine();
+          this._posts.show();
+        });
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /** Reset the comment scroller. */
+    #resetComments = () => {
+      if (this.#commentScroller) {
+        this.#commentScroller.destroy();
+        this.#commentScroller = null;
+      }
+      this._comments;
+    }
+
+    #onCommentChange = () => {
+      this.#lastScroller = this._comments;
+    }
+
+    /**
+     * Reselects current post, triggering same actions as initial selection.
+     */
+    #returnToPost = () => {
+      this._posts.item = this._posts.item;
+    }
+
+    /** Resets the comments {@link Scroller}. */
+    #onPostChange = () => {
+      const me = 'onPostChange';
+      this.logger.entered(me, this._posts.item);
+      this.#resetComments();
+      this.#lastScroller = this._posts;
+      this.logger.leaving(me);
+    }
+
   }
 
   /**
@@ -2878,27 +2878,6 @@
     /** @type {Scroller} */
     get _sections() {
       return this.#sectionScroller;
-    }
-
-    #resetCards = () => {
-      if (this.#cardScroller) {
-        this.#cardScroller.destroy();
-        this.#cardScroller = null;
-      }
-      this._cards;
-    }
-
-    #onCardChange = () => {
-      this.#lastScroller = this._cards;
-    }
-
-    #onSectionChange = () => {
-      this.#resetCards();
-      this.#lastScroller = this._sections;
-    }
-
-    #returnToSection = () => {
-      this._sections.item = this._sections.item;
     }
 
     nextSection = new Shortcut('j', 'Next section', () => {
@@ -3026,6 +3005,27 @@
     #lastScroller
     #sectionScroller
 
+    #resetCards = () => {
+      if (this.#cardScroller) {
+        this.#cardScroller.destroy();
+        this.#cardScroller = null;
+      }
+      this._cards;
+    }
+
+    #onCardChange = () => {
+      this.#lastScroller = this._cards;
+    }
+
+    #onSectionChange = () => {
+      this.#resetCards();
+      this.#lastScroller = this._sections;
+    }
+
+    #returnToSection = () => {
+      this._sections.item = this._sections.item;
+    }
+
   }
 
   /** Class for handling the Invitation manager page. */
@@ -3068,54 +3068,6 @@
     /** @type {Scroller} */
     get _invites() {
       return this.#inviteScroller;
-    }
-
-    #onActivate = async () => {
-      const me = 'onActivate';
-      this.logger.entered(me);
-
-      /**
-       * Wait for current invitation to show back up.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        for (const el of document.body.querySelectorAll(
-          'main > section section > ul > li'
-        )) {
-          const text = el.innerText.trim().split('\n')[0];
-          if (text === this.#currentInviteText) {
-            return {done: true};
-          }
-        }
-        return {done: false};
-      };
-      const what = {
-        name: 'InviteManager onActivate',
-        base: document.body.querySelector('main'),
-      };
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 3000,
-      };
-
-      if (this.#currentInviteText) {
-        this.logger.log(`We will look for ${this.#currentInviteText}`);
-        await NH.web.otmot(what, how);
-        this._invites.shine();
-        this._invites.show();
-      }
-      this.logger.leaving(me);
-    }
-
-    #onChange = () => {
-      const me = 'onChange';
-      this.logger.entered(me);
-      this.#currentInviteText = this._invites.item?.innerText
-        .trim().split('\n')[0];
-      this.logger.log('current', this.#currentInviteText);
-      this.logger.leaving(me);
     }
 
     nextInvite = new Shortcut('j', 'Next invitation', () => {
@@ -3215,6 +3167,54 @@
     #currentInviteText
     #inviteScroller
     #keyboardService
+
+    #onActivate = async () => {
+      const me = 'onActivate';
+      this.logger.entered(me);
+
+      /**
+       * Wait for current invitation to show back up.
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        for (const el of document.body.querySelectorAll(
+          'main > section section > ul > li'
+        )) {
+          const text = el.innerText.trim().split('\n')[0];
+          if (text === this.#currentInviteText) {
+            return {done: true};
+          }
+        }
+        return {done: false};
+      };
+      const what = {
+        name: 'InviteManager onActivate',
+        base: document.body.querySelector('main'),
+      };
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: 3000,
+      };
+
+      if (this.#currentInviteText) {
+        this.logger.log(`We will look for ${this.#currentInviteText}`);
+        await NH.web.otmot(what, how);
+        this._invites.shine();
+        this._invites.show();
+      }
+      this.logger.leaving(me);
+    }
+
+    #onChange = () => {
+      const me = 'onChange';
+      this.logger.entered(me);
+      this.#currentInviteText = this._invites.item?.innerText
+        .trim().split('\n')[0];
+      this.logger.log('current', this.#currentInviteText);
+      this.logger.leaving(me);
+    }
 
   }
 
@@ -3322,62 +3322,6 @@
     /** @type {Scroller} */
     get _sections() {
       return this.#sectionScroller;
-    }
-
-    /** Reset the jobs scroller. */
-    #resetJobs = () => {
-      const me = 'resetJobs';
-      this.logger.entered(me, this.#jobScroller);
-      if (this.#jobScroller) {
-        this.#jobScroller.destroy();
-        this.#jobScroller = null;
-      }
-      this._jobs;
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Reselects current section, triggering same actions as initial
-     * selection.
-     */
-    #returnToSection = () => {
-      this._sections.item = this._sections.item;
-    }
-
-    #onJobChange = () => {
-      this.#lastScroller = this._jobs;
-    }
-
-    /**
-     * Updates {@link Jobs} specific watcher data and removes the jobs
-     * {@link Scroller}.
-     */
-    #onSectionChange = () => {
-      const me = 'onSectionChange';
-      this.logger.entered(me);
-      this.#resetJobs();
-      this.#lastScroller = this._sections;
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Recover scroll position after elements were recreated.
-     * @param {number} topScroll - Where to scroll to.
-     */
-    #resetScroll = (topScroll) => {
-      const me = 'resetScroll';
-      this.logger.entered(me, topScroll);
-      // Explicitly setting jobs.item below will cause it to scroll to that
-      // item.  We do not want to do that if the user is manually scrolling.
-      const savedJob = this._jobs?.item;
-      this._sections.shine();
-      // Section was probably rebuilt, assume jobs scroller is invalid.
-      this.#resetJobs();
-      if (savedJob) {
-        this._jobs.item = savedJob;
-      }
-      document.documentElement.scrollTop = topScroll;
-      this.logger.leaving(me);
     }
 
     _nextSection = new Shortcut('j', 'Next section', () => {
@@ -3537,6 +3481,62 @@
     #lastScroller
     #sectionScroller
 
+    /** Reset the jobs scroller. */
+    #resetJobs = () => {
+      const me = 'resetJobs';
+      this.logger.entered(me, this.#jobScroller);
+      if (this.#jobScroller) {
+        this.#jobScroller.destroy();
+        this.#jobScroller = null;
+      }
+      this._jobs;
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Reselects current section, triggering same actions as initial
+     * selection.
+     */
+    #returnToSection = () => {
+      this._sections.item = this._sections.item;
+    }
+
+    #onJobChange = () => {
+      this.#lastScroller = this._jobs;
+    }
+
+    /**
+     * Updates {@link Jobs} specific watcher data and removes the jobs
+     * {@link Scroller}.
+     */
+    #onSectionChange = () => {
+      const me = 'onSectionChange';
+      this.logger.entered(me);
+      this.#resetJobs();
+      this.#lastScroller = this._sections;
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Recover scroll position after elements were recreated.
+     * @param {number} topScroll - Where to scroll to.
+     */
+    #resetScroll = (topScroll) => {
+      const me = 'resetScroll';
+      this.logger.entered(me, topScroll);
+      // Explicitly setting jobs.item below will cause it to scroll to that
+      // item.  We do not want to do that if the user is manually scrolling.
+      const savedJob = this._jobs?.item;
+      this._sections.shine();
+      // Section was probably rebuilt, assume jobs scroller is invalid.
+      this.#resetJobs();
+      if (savedJob) {
+        this._jobs.item = savedJob;
+      }
+      document.documentElement.scrollTop = topScroll;
+      this.logger.leaving(me);
+    }
+
   }
 
   /** Class for handling Job collections. */
@@ -3609,66 +3609,6 @@
     /** @type {Scroller} */
     get paginator() {
       return this.#paginationScroller;
-    }
-
-    #onJobCardActivate = async () => {
-      const me = 'onJobCardActivate';
-      this.logger.entered(me);
-
-      const params = new URL(document.location).searchParams;
-      const jobId = params.get('currentJobId');
-      this.logger.log('Looking for job card for', jobId);
-
-      // Wait some amount of time for a job card to show up, if it ever does.
-      // Annoyingly enough, the selection of jobs that shows up on a reload
-      // may not include one for the current URL.  Even if the user arrived at
-      // the URL moments ago.
-
-      try {
-        const timeout = 2000;
-        const item = await NH.web.waitForSelector(
-          `li[data-occludable-job-id="${jobId}"]`,
-          timeout
-        );
-        this._jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
-      } catch (e) {
-        this.logger.log('Job card matching URL not found, staying put');
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #onJobCardChange = () => {
-      const me = 'onJobCardChange';
-      this.logger.entered(me, this._jobCards.item);
-      NH.web.clickElement(this._jobCards.item, ['div[data-job-id]']);
-      this.#lastScroller = this._jobCards;
-      this.logger.leaving(me);
-    }
-
-    #onPaginationActivate = async () => {
-      const me = 'onPaginationActivate';
-      this.logger.entered(me);
-
-      try {
-        const timeout = 2000;
-        const item = await NH.web.waitForSelector(
-          'div.jobs-search-results-list__pagination > ul > li.selected',
-          timeout
-        );
-        this.paginator.goto(item);
-      } catch (e) {
-        this.logger.log('Results paginator not found, staying put');
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #onPaginationChange = () => {
-      const me = 'onResultsPageChange';
-      this.logger.entered(me, this.paginator.item);
-      this.#lastScroller = this.paginator;
-      this.logger.leaving(me);
     }
 
     nextJob = new Shortcut('j', 'Next job card', () => {
@@ -3835,6 +3775,66 @@
     #keyboardService
     #lastScroller
     #paginationScroller
+
+    #onJobCardActivate = async () => {
+      const me = 'onJobCardActivate';
+      this.logger.entered(me);
+
+      const params = new URL(document.location).searchParams;
+      const jobId = params.get('currentJobId');
+      this.logger.log('Looking for job card for', jobId);
+
+      // Wait some amount of time for a job card to show up, if it ever does.
+      // Annoyingly enough, the selection of jobs that shows up on a reload
+      // may not include one for the current URL.  Even if the user arrived at
+      // the URL moments ago.
+
+      try {
+        const timeout = 2000;
+        const item = await NH.web.waitForSelector(
+          `li[data-occludable-job-id="${jobId}"]`,
+          timeout
+        );
+        this._jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
+      } catch (e) {
+        this.logger.log('Job card matching URL not found, staying put');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onJobCardChange = () => {
+      const me = 'onJobCardChange';
+      this.logger.entered(me, this._jobCards.item);
+      NH.web.clickElement(this._jobCards.item, ['div[data-job-id]']);
+      this.#lastScroller = this._jobCards;
+      this.logger.leaving(me);
+    }
+
+    #onPaginationActivate = async () => {
+      const me = 'onPaginationActivate';
+      this.logger.entered(me);
+
+      try {
+        const timeout = 2000;
+        const item = await NH.web.waitForSelector(
+          'div.jobs-search-results-list__pagination > ul > li.selected',
+          timeout
+        );
+        this.paginator.goto(item);
+      } catch (e) {
+        this.logger.log('Results paginator not found, staying put');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onPaginationChange = () => {
+      const me = 'onResultsPageChange';
+      this.logger.entered(me, this.paginator.item);
+      this.#lastScroller = this.paginator;
+      this.logger.leaving(me);
+    }
 
   }
 
