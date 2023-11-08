@@ -45,9 +45,7 @@
   /* eslint-enable */
 
   // TODO(#145): The if test is just here while developing.
-  if (NH.xunit.testing.enabled) {
-    await NH.widget.w2uiCssInstall();
-  } else {
+  if (!NH.xunit.testing.enabled) {
     NH.base.Logger.config('Default').enabled = true;
   }
 
