@@ -961,7 +961,7 @@
       for (const base of bases) {
         if (this.#handleClicks) {
           this.#onClickElements.add(base);
-          base.addEventListener('click', this.#onClick);
+          base.addEventListener('click', this.#onClick, this.#clickOptions);
         }
         this.#mutationObserver.observe(base,
           {childList: true, subtree: true});
@@ -981,7 +981,7 @@
     deactivate() {
       this.#mutationObserver.disconnect();
       for (const base of this.#onClickElements) {
-        base.removeEventListener('click', this.#onClick);
+        base.removeEventListener('click', this.#onClick, this.#clickOptions);
       }
       this.#onClickElements.clear();
       this.dispatcher.fire('deactivate', null);
@@ -1012,6 +1012,7 @@
     #bottomMarginCSS
     #bottomMarginPixels
     #classes
+    #clickOptions = {capture: true};
     #containerItems
     #currentItemId = null;
     #destroyed = false;
