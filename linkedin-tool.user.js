@@ -2423,13 +2423,13 @@
     }
 
     /** @type {Scroller} */
-    get _comments() {
+    get comments() {
       const me = 'get comments';
-      this.logger.entered(me, this.#commentScroller, this._posts.item);
+      this.logger.entered(me, this.#commentScroller, this.posts.item);
 
-      if (!this.#commentScroller && this._posts.item) {
+      if (!this.#commentScroller && this.posts.item) {
         this.#commentScroller = new Scroller(
-          {base: this._posts.item, ...Feed.#commentsWhat}, Feed.#commentsHow
+          {base: this.posts.item, ...Feed.#commentsWhat}, Feed.#commentsHow
         );
         this.#commentScroller.dispatcher.on(
           'out-of-range', this.#returnToPost
@@ -2442,24 +2442,24 @@
     }
 
     /** @type {Scroller} */
-    get _posts() {
+    get posts() {
       return this.#postScroller;
     }
 
     _nextPost = new Shortcut('j', 'Next post', () => {
-      this._posts.next();
+      this.posts.next();
     });
 
     _prevPost = new Shortcut('k', 'Previous post', () => {
-      this._posts.prev();
+      this.posts.prev();
     });
 
     _nextComment = new Shortcut('n', 'Next comment', () => {
-      this._comments.next();
+      this.comments.next();
     });
 
     _prevComment = new Shortcut('p', 'Previous comment', () => {
-      this._comments.prev();
+      this.comments.prev();
     });
 
     _firstItem = new Shortcut('<', 'Go to first post or comment', () => {
@@ -2475,16 +2475,16 @@
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
         const el = this.#lastScroller.item;
-        this._posts.show();
-        this._comments?.show();
+        this.posts.show();
+        this.comments?.show();
         NH.web.focusOnElement(el);
       }
     );
 
     _showComments = new Shortcut('c', 'Show comments', () => {
-      if (!NH.web.clickElement(this._comments.item,
+      if (!NH.web.clickElement(this.comments.item,
         ['button.show-prev-replies'])) {
-        NH.web.clickElement(this._posts.item,
+        NH.web.clickElement(this.posts.item,
           ['button[aria-label*="comment"]']);
       }
     });
@@ -2502,7 +2502,7 @@
         'is available, load those)', () => {
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
-        const posts = this._posts;
+        const posts = this.posts;
 
         /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
@@ -2544,7 +2544,7 @@
     );
 
     _viewPost = new Shortcut('v p', 'View current post directly', () => {
-      const post = this._posts.item;
+      const post = this.posts.item;
       if (post) {
         const urn = post.dataset.id;
         const id = `lt-${urn.replaceAll(':', '-')}`;
@@ -2576,7 +2576,7 @@
 
     _viewReposts = new Shortcut(
       'v R', 'View reposts of current post', () => {
-        NH.web.clickElement(this._posts.item,
+        NH.web.clickElement(this.posts.item,
           ['button[aria-label*="repost"]']);
       }
     );
@@ -2621,12 +2621,12 @@
     );
 
     _repost = new Shortcut('R', 'Repost current post', () => {
-      const el = this._posts.item;
+      const el = this.posts.item;
       NH.web.clickElement(el, ['button.social-reshare-button']);
     });
 
     _sendPost = new Shortcut('S', 'Send current post privately', () => {
-      const el = this._posts.item;
+      const el = this.posts.item;
       NH.web.clickElement(el, ['button.send-privately-button']);
     });
 
@@ -2646,7 +2646,7 @@
 
     _togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
       NH.web.clickElement(
-        this._posts.item,
+        this.posts.item,
         [
           'button[aria-label^="Dismiss post"]',
           'button[aria-label^="Undo and show"]',
@@ -2664,19 +2664,19 @@
         };
         // XXX: Need to remove the highlights before NH.web.otrot sees it
         // because it affects the .clientHeight.
-        this._posts.dull();
-        this._comments?.dull();
-        if (this._posts.item) {
+        this.posts.dull();
+        this.comments?.dull();
+        if (this.posts.item) {
           const what = {
             name: 'nextPostPlus',
-            base: this._posts.item,
+            base: this.posts.item,
           };
           const how = {
             trigger: trigger,
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this._posts.show();
+          this.posts.show();
         } else {
           trigger();
         }
@@ -2745,15 +2745,15 @@
        * @returns {Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
-        this.logger.log('monitor item classes:', this._posts.item.classList);
+        this.logger.log('monitor item classes:', this.posts.item.classList);
         return {
-          done: !this._posts.item.classList.contains('has-occluded-height'),
+          done: !this.posts.item.classList.contains('has-occluded-height'),
         };
       };
-      if (this._posts.item) {
+      if (this.posts.item) {
         const what = {
           name: 'Feed onPostActivate',
-          base: this._posts.item,
+          base: this.posts.item,
         };
         const how = {
           observeOptions: {
@@ -2764,8 +2764,8 @@
           timeout: 5000,
         };
         NH.web.otmot(what, how).finally(() => {
-          this._posts.shine();
-          this._posts.show();
+          this.posts.shine();
+          this.posts.show();
         });
       }
 
@@ -2778,26 +2778,26 @@
         this.#commentScroller.destroy();
         this.#commentScroller = null;
       }
-      this._comments;
+      this.comments;
     }
 
     #onCommentChange = () => {
-      this.#lastScroller = this._comments;
+      this.#lastScroller = this.comments;
     }
 
     /**
      * Reselects current post, triggering same actions as initial selection.
      */
     #returnToPost = () => {
-      this._posts.item = this._posts.item;
+      this.posts.item = this.posts.item;
     }
 
     /** Resets the comments {@link Scroller}. */
     #onPostChange = () => {
       const me = 'onPostChange';
-      this.logger.entered(me, this._posts.item);
+      this.logger.entered(me, this.posts.item);
       this.#resetComments();
-      this.#lastScroller = this._posts;
+      this.#lastScroller = this.posts;
       this.logger.leaving(me);
     }
 
