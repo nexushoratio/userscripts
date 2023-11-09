@@ -81,6 +81,10 @@
       '#159', '<b>MyNetwork</b>: Trying to <kbd><kbd>E</kbd></kbd>ngage ' +
         'does not always work',
     ],
+    [
+      '#161',
+      'Clicking on <i>Load more comments</i> does not select the post',
+    ],
     ['#165', '<b>Scroller</b>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
     [
@@ -96,6 +100,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-09',
+      issues: ['#161'],
+      subject: 'Listen for clicks during the capture phase in `Scroller`',
+    },
     {
       date: '2023-11-06',
       issues: ['#150'],
@@ -328,81 +337,6 @@
       issues: ['#143'],
       subject: 'Change the pagination <i>Scroller</i> to use a different ' +
         'element',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement toggle the job search ' +
-        'a<kbd><kbd>L</kbd></kbd>ert',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement opening the job <kbd><kbd>s</kbd></kbd>hare menu',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement <kbd><kbd>A</kbd></kbd>pply to job',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement toggle to <kbd><kbd>F</kbd></kbd>ollow the ' +
-        'company',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the job ' +
-        'details menu',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Update focusing on the details pane',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Explicitly set <i>snapToTop</i> false',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Implement <kbd><kbd>S</kbd></kbd>ave job toggle',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#149'],
-      subject: 'Remove all click handling from <i>Page</i> and subclasses',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#149'],
-      subject: 'Enable click handling by default in <i>Scroller</i>',
-    },
-    {
-      date: '2023-10-08',
-      issues: ['#143'],
-      subject: 'Use <kbd><kbd>X</kbd></kbd> to toggle dismissing job',
-    },
-    {
-      date: '2023-10-07',
-      issues: ['#143'],
-      subject: 'Use <kbd><kbd>d</kbd></kbd> to jump to the job details ' +
-        'pane',
-    },
-    {
-      date: '2023-10-07',
-      issues: ['#149'],
-      subject: 'Switch <i>Feed</i> to use the new <i>Scroller</i> click ' +
-        'handler',
-    },
-    {
-      date: '2023-10-07',
-      issues: ['#143'],
-      subject: 'Support the <i>/jobs/{collections,search}/</i> pages',
     },
   ];
 
