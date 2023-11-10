@@ -885,19 +885,21 @@
       const me = 'activate';
       this.logger.entered(me);
 
-      const bases = new Set(await this.#waitForBases());
+      const containers = new Set(await this.#waitForContainers());
       if (this.#base) {
-        bases.add(this.#base);
+        containers.add(this.#base);
       }
 
       const watcher = this.#currentItemWatcher();
 
-      for (const base of bases) {
+      for (const container of containers) {
         if (this.#handleClicks) {
-          this.#onClickElements.add(base);
-          base.addEventListener('click', this.#onClick, this.#clickOptions);
+          this.#onClickElements.add(container);
+          container.addEventListener('click',
+            this.#onClick,
+            this.#clickOptions);
         }
-        this.#mutationObserver.observe(base,
+        this.#mutationObserver.observe(container,
           {childList: true, subtree: true});
       }
 
@@ -914,8 +916,10 @@
      */
     deactivate() {
       this.#mutationObserver.disconnect();
-      for (const base of this.#onClickElements) {
-        base.removeEventListener('click', this.#onClick, this.#clickOptions);
+      for (const container of this.#onClickElements) {
+        container.removeEventListener('click',
+          this.#onClick,
+          this.#clickOptions);
       }
       this.#onClickElements.clear();
       this.dispatcher.fire('deactivate', null);
@@ -1233,8 +1237,8 @@
      * The page may still be loading, so wait for many things to settle.
      * @returns {Promise<Element[]>} - All the new base elements.
      */
-    #waitForBases = () => {
-      const me = 'waitForBases';
+    #waitForContainers = () => {
+      const me = 'waitForContainers';
       this.logger.entered(me);
 
       const results = [];
