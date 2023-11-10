@@ -91,7 +91,7 @@ Skeleton for *bar.user.js*:
 
   // Note that *ver?* here is from {xunit,base}.version, NOT the @require URL.
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: ver0}
+    {name: 'xunit', minVersion: ver0},
     {name: 'base', minVersion: ver1},
   ]);
 
