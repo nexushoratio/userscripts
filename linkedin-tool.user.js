@@ -1318,32 +1318,28 @@
 
   }
 
-  /* eslint-disable max-lines-per-function */
+  /* eslint-disable class-methods-use-this */
   /* eslint-disable no-new */
-  /** Test case. */
-  function testScroller() {
-    const tests = new Map();
+  /* eslint-disable require-jsdoc */
+  class ScrollerTestCase extends NH.xunit.TestCase {
 
-    tests.set('needsBaseOrContainerItems', {test: () => {
+    testNeedsBaseOrContainerItems() {
       const what = {
         name: 'needsBaseOrContainerItems',
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error &&
-            e.message.includes('Needs either base OR containerItems:')) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
-    },
-    expected: 'passed'});
 
-    tests.set('notBaseAndContainerItems', {test: () => {
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Needs either base OR containerItems:/u,
+        () => {
+          new Scroller(what, how);
+        }
+      );
+    }
+
+    testNotBaseAndContainerItems() {
       const what = {
         name: 'needsBaseAndContainerItems',
         base: document.body,
@@ -1351,60 +1347,51 @@
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error &&
-            e.message.includes('Cannot have both base AND containerItems:')) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
-    },
-    expected: 'passed'});
 
-    tests.set('baseIsElement', {test: () => {
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Cannot have both base AND containerItems:/u,
+        () => {
+          new Scroller(what, how);
+        }
+      );
+    }
+
+    testBaseIsElement() {
       const what = {
         name: 'baseIsElement',
         base: document,
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error &&
-            e.message.includes('Not an element:')) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
-    },
-    expected: 'passed'});
 
-    tests.set('baseNeedsSelector', {test: () => {
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Not an element:/u,
+        () => {
+          new Scroller(what, how);
+        }
+      );
+    }
+
+    testBaseNeedsSelector() {
       const what = {
         name: 'baseNeedsSelector',
         base: document.body,
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error &&
-            e.message.includes('No selectors:')) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
-    },
-    expected: 'passed'});
 
-    tests.set('selectorNeedsBase', {test: () => {
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /No selectors:/u,
+        () => {
+          new Scroller(what, how);
+        }
+      );
+    }
+
+    testSelectorNeedsBase() {
       const what = {
         name: 'selectorNeedsBase',
         selectors: [],
@@ -1412,19 +1399,17 @@
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        if (e instanceof Scroller.Error && e.message.includes('No base:')) {
-          return 'passed';
-        }
-        return 'caught-but-wrong-error';
-      }
-      return 'failed';
-    },
-    expected: 'passed'});
 
-    tests.set('baseWithSelectorsIsFine', {test: () => {
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /No base:/u,
+        () => {
+          new Scroller(what, how);
+        }
+      );
+    }
+
+    testBaseWithSelectorIsFine() {
       const what = {
         name: 'baseWithSelectorsIsFine',
         base: document.body,
@@ -1432,29 +1417,14 @@
       };
       const how = {
       };
-      try {
-        new Scroller(what, how);
-      } catch (e) {
-        return 'failed';
-      }
-      return 'passed';
-    },
-    expected: 'passed'});
 
-    for (const [name, {test, expected}] of tests) {
-      const actual = test();
-      const passed = actual === expected;
-      const msg = `t:${name} e:${expected} a:${actual} p:${passed}`;
-      NH.xunit.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
-      }
+      new Scroller(what, how);
     }
 
   }
   /* eslint-enable */
 
-  NH.xunit.testing.funcs.push(testScroller);
+  NH.xunit.testing.testCases.push(ScrollerTestCase);
 
   /**
    * This class exists solely to avoid some `no-use-before-define` linter
