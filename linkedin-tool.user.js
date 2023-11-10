@@ -2794,10 +2794,10 @@
     }
 
     /** @type {Scroller} */
-    get _cards() {
-      if (!this.#cardScroller && this._sections.item) {
+    get cards() {
+      if (!this.#cardScroller && this.sections.item) {
         this.#cardScroller = new Scroller(
-          {base: this._sections.item, ...MyNetwork.#cardsWhat},
+          {base: this.sections.item, ...MyNetwork.#cardsWhat},
           MyNetwork.#cardsHow
         );
         this.#cardScroller.dispatcher.on('change', this.#onCardChange);
@@ -2809,24 +2809,24 @@
     }
 
     /** @type {Scroller} */
-    get _sections() {
+    get sections() {
       return this.#sectionScroller;
     }
 
     nextSection = new Shortcut('j', 'Next section', () => {
-      this._sections.next();
+      this.sections.next();
     });
 
     prevSection = new Shortcut('k', 'Previous section', () => {
-      this._sections.prev();
+      this.sections.prev();
     });
 
     nextCard = new Shortcut('n', 'Next card in section', () => {
-      this._cards.next();
+      this.cards.next();
     });
 
     prevCard = new Shortcut('p', 'Previous card in section', () => {
-      this._cards.prev();
+      this.cards.prev();
     });
 
     firstItem = new Shortcut('<', 'Go to the first section or card', () => {
@@ -2844,7 +2844,7 @@
     );
 
     viewItem = new Shortcut('Enter', 'View the current item', () => {
-      const card = this._cards?.item;
+      const card = this.cards?.item;
       if (card) {
         if (!NH.web.clickElement(card, ['a', 'button'], true)) {
           this.spa.dumpInfoAboutElement(card, 'network card');
@@ -2866,14 +2866,14 @@
           // Subscribe to newsletter
           'div.p3 > button',
         ].join(',');
-        this.logger.log('button?', this._cards.item.querySelector(selector));
-        NH.web.clickElement(this._cards?.item, [selector]);
+        this.logger.log('button?', this.cards.item.querySelector(selector));
+        NH.web.clickElement(this.cards?.item, [selector]);
         this.logger.leaving(me);
       }
     );
 
     dismissCard = new Shortcut('X', 'Dismiss current card', () => {
-      NH.web.clickElement(this._cards?.item,
+      NH.web.clickElement(this.cards?.item,
         ['button.artdeco-card__dismiss']);
     });
 
@@ -2943,20 +2943,20 @@
         this.#cardScroller.destroy();
         this.#cardScroller = null;
       }
-      this._cards;
+      this.cards;
     }
 
     #onCardChange = () => {
-      this.#lastScroller = this._cards;
+      this.#lastScroller = this.cards;
     }
 
     #onSectionChange = () => {
       this.#resetCards();
-      this.#lastScroller = this._sections;
+      this.#lastScroller = this.sections;
     }
 
     #returnToSection = () => {
-      this._sections.item = this._sections.item;
+      this.sections.item = this.sections.item;
     }
 
   }
@@ -2999,29 +2999,29 @@
     }
 
     /** @type {Scroller} */
-    get _invites() {
+    get invites() {
       return this.#inviteScroller;
     }
 
     nextInvite = new Shortcut('j', 'Next invitation', () => {
-      this._invites.next();
+      this.invites.next();
     });
 
     prevInvite = new Shortcut('k', 'Previous invitation', () => {
-      this._invites.prev();
+      this.invites.prev();
     });
 
     firstInvite = new Shortcut('<', 'Go to the first invitation', () => {
-      this._invites.first();
+      this.invites.first();
     });
 
     lastInvite = new Shortcut('>', 'Go to the last invitation', () => {
-      this._invites.last();
+      this.invites.last();
     });
 
     focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
-        const item = this._invites.item;
+        const item = this.invites.item;
         NH.web.focusOnElement(item);
       }
     );
@@ -3029,14 +3029,14 @@
     seeMore = new Shortcut(
       'm', 'Toggle seeing more of current invite', () => {
         NH.web.clickElement(
-          this._invites?.item,
+          this.invites?.item,
           ['a.lt-line-clamp__more, a.lt-line-clamp__less']
         );
       }
     );
 
     viewInviter = new Shortcut('i', 'View inviter', () => {
-      NH.web.clickElement(this._invites?.item,
+      NH.web.clickElement(this.invites?.item,
         ['a.app-aware-link:not(.invitation-card__picture)']);
     });
 
@@ -3045,14 +3045,14 @@
       'View invitation target ' +
         '(may not be the same as inviter, e.g., Newsletter)',
       () => {
-        NH.web.clickElement(this._invites?.item,
+        NH.web.clickElement(this.invites?.item,
           ['a.invitation-card__picture']);
       }
     );
 
     openMeatballMenu = new Shortcut(
       '=', 'Open <button class="spa-meatball">⋯</button> menu', () => {
-        this._invites?.item
+        this.invites?.item
           .querySelector('svg[aria-label^="Report message"]')
           ?.closest('button')
           ?.click();
@@ -3060,17 +3060,17 @@
     );
 
     acceptInvite = new Shortcut('A', 'Accept invite', () => {
-      NH.web.clickElement(this._invites?.item,
+      NH.web.clickElement(this.invites?.item,
         ['button[aria-label^="Accept"]']);
     });
 
     ignoreInvite = new Shortcut('I', 'Ignore invite', () => {
-      NH.web.clickElement(this._invites?.item,
+      NH.web.clickElement(this.invites?.item,
         ['button[aria-label^="Ignore"]']);
     });
 
     messageInviter = new Shortcut('M', 'Message inviter', () => {
-      NH.web.clickElement(this._invites?.item,
+      NH.web.clickElement(this.invites?.item,
         ['button[aria-label*=" message"]']);
     });
 
@@ -3134,8 +3134,8 @@
       if (this.#currentInviteText) {
         this.logger.log(`We will look for ${this.#currentInviteText}`);
         await NH.web.otmot(what, how);
-        this._invites.shine();
-        this._invites.show();
+        this.invites.shine();
+        this.invites.show();
       }
       this.logger.leaving(me);
     }
@@ -3143,7 +3143,7 @@
     #onChange = () => {
       const me = 'onChange';
       this.logger.entered(me);
-      this.#currentInviteText = this._invites.item?.innerText
+      this.#currentInviteText = this.invites.item?.innerText
         .trim().split('\n')[0];
       this.logger.log('current', this.#currentInviteText);
       this.logger.leaving(me);
@@ -3234,13 +3234,13 @@
     }
 
     /** @type {Scroller} */
-    get _jobs() {
+    get jobs() {
       const me = 'get jobs';
       this.logger.entered(me, this.#jobScroller);
 
-      if (!this.#jobScroller && this._sections.item) {
+      if (!this.#jobScroller && this.sections.item) {
         this.#jobScroller = new Scroller(
-          {base: this._sections.item, ...Jobs.#jobsWhat},
+          {base: this.sections.item, ...Jobs.#jobsWhat},
           Jobs.#jobsHow
         );
         this.#jobScroller.dispatcher.on('change', this.#onJobChange);
@@ -3253,24 +3253,24 @@
     }
 
     /** @type {Scroller} */
-    get _sections() {
+    get sections() {
       return this.#sectionScroller;
     }
 
     _nextSection = new Shortcut('j', 'Next section', () => {
-      this._sections.next();
+      this.sections.next();
     });
 
     _prevSection = new Shortcut('k', 'Previous section', () => {
-      this._sections.prev();
+      this.sections.prev();
     });
 
     _nextJob = new Shortcut('n', 'Next job', () => {
-      this._jobs.next();
+      this.jobs.next();
     });
 
     _prevJob = new Shortcut('p', 'Previous job', () => {
-      this._jobs.prev();
+      this.jobs.prev();
     });
 
     _firstSectionOrJob = new Shortcut(
@@ -3287,8 +3287,8 @@
 
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current section or job', () => {
-        this._sections.show();
-        this._jobs?.show();
+        this.sections.show();
+        this.jobs?.show();
         NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
@@ -3297,7 +3297,7 @@
       'Enter',
       'Activate the current job (click on it)',
       () => {
-        const job = this._jobs?.item;
+        const job = this.jobs?.item;
         if (job) {
           if (!NH.web.clickElement(job,
             ['div[data-view-name]', 'a', 'button'])) {
@@ -3339,13 +3339,13 @@
         'button[aria-label^="Save job"]',
         'button[aria-label^="Unsave job"]',
       ].join(',');
-      NH.web.clickElement(this._jobs?.item, [selector]);
+      NH.web.clickElement(this.jobs?.item, [selector]);
     });
 
     _toggleDismissJob = new Shortcut('X',
       'Toggle dismissing job',
       async () => {
-        const savedJob = this._jobs.item;
+        const savedJob = this.jobs.item;
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
@@ -3365,7 +3365,7 @@
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this._jobs.item = savedJob;
+          this.jobs.item = savedJob;
         }
       });
 
@@ -3422,7 +3422,7 @@
         this.#jobScroller.destroy();
         this.#jobScroller = null;
       }
-      this._jobs;
+      this.jobs;
       this.logger.leaving(me);
     }
 
@@ -3431,11 +3431,11 @@
      * selection.
      */
     #returnToSection = () => {
-      this._sections.item = this._sections.item;
+      this.sections.item = this.sections.item;
     }
 
     #onJobChange = () => {
-      this.#lastScroller = this._jobs;
+      this.#lastScroller = this.jobs;
     }
 
     /**
@@ -3446,7 +3446,7 @@
       const me = 'onSectionChange';
       this.logger.entered(me);
       this.#resetJobs();
-      this.#lastScroller = this._sections;
+      this.#lastScroller = this.sections;
       this.logger.leaving(me);
     }
 
@@ -3459,12 +3459,12 @@
       this.logger.entered(me, topScroll);
       // Explicitly setting jobs.item below will cause it to scroll to that
       // item.  We do not want to do that if the user is manually scrolling.
-      const savedJob = this._jobs?.item;
-      this._sections.shine();
+      const savedJob = this.jobs?.item;
+      this.sections.shine();
       // Section was probably rebuilt, assume jobs scroller is invalid.
       this.#resetJobs();
       if (savedJob) {
-        this._jobs.item = savedJob;
+        this.jobs.item = savedJob;
       }
       document.documentElement.scrollTop = topScroll;
       this.logger.leaving(me);
@@ -3535,7 +3535,7 @@
     }
 
     /** @type {Scroller} */
-    get _jobCards() {
+    get jobCards() {
       return this.#jobCardScroller;
     }
 
@@ -3545,11 +3545,11 @@
     }
 
     nextJob = new Shortcut('j', 'Next job card', () => {
-      this._jobCards.next();
+      this.jobCards.next();
     });
 
     prevJob = new Shortcut('k', 'Previous job card', () => {
-      this._jobCards.prev();
+      this.jobCards.prev();
     });
 
     nextResultsPage = new Shortcut('n', 'Next results page', () => {
@@ -3647,7 +3647,7 @@
           'button[aria-label="Like job"]',
           'button[aria-label="Job is liked, undo"]',
         ].join(',');
-        NH.web.clickElement(this._jobCards.item, [selector]);
+        NH.web.clickElement(this.jobCards.item, [selector]);
       }
     );
 
@@ -3657,7 +3657,7 @@
           'button[aria-label="Dismiss job"]',
           'button[aria-label="Job is dismissed, undo"]',
         ].join(',');
-        NH.web.clickElement(this._jobCards.item, [selector]);
+        NH.web.clickElement(this.jobCards.item, [selector]);
       }
     );
 
@@ -3728,7 +3728,7 @@
           `li[data-occludable-job-id="${jobId}"]`,
           timeout
         );
-        this._jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
+        this.jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
       }
@@ -3738,9 +3738,9 @@
 
     #onJobCardChange = () => {
       const me = 'onJobCardChange';
-      this.logger.entered(me, this._jobCards.item);
-      NH.web.clickElement(this._jobCards.item, ['div[data-job-id]']);
-      this.#lastScroller = this._jobCards;
+      this.logger.entered(me, this.jobCards.item);
+      NH.web.clickElement(this.jobCards.item, ['div[data-job-id]']);
+      this.#lastScroller = this.jobCards;
       this.logger.leaving(me);
     }
 
@@ -3887,37 +3887,37 @@
     }
 
     /** @type {Scroller} */
-    get _notifications() {
+    get notifications() {
       return this.#notificationScroller;
     }
 
     _nextNotification = new Shortcut('j', 'Next notification', () => {
-      this._notifications.next();
+      this.notifications.next();
     });
 
     _prevNotification = new Shortcut('k', 'Previous notification', () => {
-      this._notifications.prev();
+      this.notifications.prev();
     });
 
     _firstNotification = new Shortcut('<', 'Go to first notification', () => {
-      this._notifications.first();
+      this.notifications.first();
     });
 
     _lastNotification = new Shortcut('>', 'Go to last notification', () => {
-      this._notifications.last();
+      this.notifications.last();
     });
 
     _focusBrowser = new Shortcut(
       'f', 'Change browser focus to current notification', () => {
-        this._notifications.show();
-        NH.web.focusOnElement(this._notifications.item);
+        this.notifications.show();
+        NH.web.focusOnElement(this.notifications.item);
       }
     );
 
     _activateNotification = new Shortcut(
       'Enter', 'Activate the current notification (click on it)', () => {
         const ONE_ITEM = 1;
-        const notification = this._notifications.item;
+        const notification = this.notifications.item;
         if (notification) {
           // Because we are using Enter as the hotkey here, if the active
           // element is inside the current card, we want that to take
@@ -3950,7 +3950,7 @@
       'l', 'Load more notifications', () => {
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
-        const notifications = this._notifications;
+        const notifications = this.notifications;
 
         /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
@@ -3971,7 +3971,7 @@
             }
           } else {
             document.documentElement.scrollTop = savedScrollTop;
-            this._notifications.shine();
+            this.notifications.shine();
           }
         };
 
@@ -3990,14 +3990,14 @@
 
     _openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
-        NH.web.clickElement(this._notifications.item,
+        NH.web.clickElement(this.notifications.item,
           ['button[aria-label^="Settings menu"]']);
       }
     );
 
     _deleteNotification = new Shortcut(
       'X', 'Toggle current notification deletion', async () => {
-        const notification = this._notifications.item;
+        const notification = this.notifications.item;
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
@@ -4025,7 +4025,7 @@
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this._notifications.shine();
+          this.notifications.shine();
         }
       }
     );
