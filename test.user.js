@@ -20,10 +20,15 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit'},
     {name: 'base'},
+    {name: 'userscript'},
   ]);
 
   const logger = new NH.base.Logger('Testing');
   NH.base.Logger.config('Testing').enabled = true;
+
+  for (const entry of NH.userscript.environmentData()) {
+    logger.log(entry);
+  }
 
   NH.xunit.testing.enabled = true;
   NH.xunit.testing.run();
