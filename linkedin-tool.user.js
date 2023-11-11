@@ -2131,7 +2131,7 @@
 
     #pageReadySelector
 
-    /** @type {RegExp} - Computed RegExp version of _pathname. */
+    /** @type {RegExp} - Computed RegExp version of details.pathname. */
     #pathnameRE
 
     #services = new Set();
