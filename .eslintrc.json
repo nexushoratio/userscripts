@@ -99,19 +99,15 @@
           "_installNavStyle",
           "_lastInputElement",
           "_news",
-          "_nextPost",
           "_nextTab",
           "_onFocus",
           "_pageHeader",
           "_pageInfoId",
-          "_parseHeader",
-          "_prevPost",
           "_prevTab",
           "_setKeyboardContext",
           "_shine",
           "_shortcutsTab",
           "_tabUiKeyboard",
-          "_togglePost",
           "_updateInfoErrorsLabel"
         ]
       }

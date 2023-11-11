@@ -2355,33 +2355,33 @@
       return this.#postScroller;
     }
 
-    _nextPost = new Shortcut('j', 'Next post', () => {
+    nextPost = new Shortcut('j', 'Next post', () => {
       this.posts.next();
     });
 
-    _prevPost = new Shortcut('k', 'Previous post', () => {
+    prevPost = new Shortcut('k', 'Previous post', () => {
       this.posts.prev();
     });
 
-    _nextComment = new Shortcut('n', 'Next comment', () => {
+    nextComment = new Shortcut('n', 'Next comment', () => {
       this.comments.next();
     });
 
-    _prevComment = new Shortcut('p', 'Previous comment', () => {
+    prevComment = new Shortcut('p', 'Previous comment', () => {
       this.comments.prev();
     });
 
-    _firstItem = new Shortcut('<', 'Go to first post or comment', () => {
+    firstItem = new Shortcut('<', 'Go to first post or comment', () => {
       this.#lastScroller.first();
     });
 
-    _lastItem = new Shortcut(
+    lastItem = new Shortcut(
       '>', 'Go to last post or comment currently loaded', () => {
         this.#lastScroller.last();
       }
     );
 
-    _focusBrowser = new Shortcut(
+    focusBrowser = new Shortcut(
       'f', 'Change browser focus to current item', () => {
         const el = this.#lastScroller.item;
         this.posts.show();
@@ -2390,7 +2390,7 @@
       }
     );
 
-    _showComments = new Shortcut('c', 'Show comments', () => {
+    showComments = new Shortcut('c', 'Show comments', () => {
       if (!NH.web.clickElement(this.comments.item,
         ['button.show-prev-replies'])) {
         NH.web.clickElement(this.posts.item,
@@ -2398,14 +2398,14 @@
       }
     });
 
-    _seeMore = new Shortcut(
+    seeMore = new Shortcut(
       'm', 'Show more of current post or comment', () => {
         const el = this.#lastScroller.item;
         NH.web.clickElement(el, ['button[aria-label^="see more"]']);
       }
     );
 
-    _loadMorePosts = new Shortcut(
+    loadMorePosts = new Shortcut(
       'l',
       'Load more posts (if the <button>New Posts</button> button ' +
         'is available, load those)', () => {
@@ -2452,7 +2452,7 @@
       }
     );
 
-    _viewPost = new Shortcut('v p', 'View current post directly', () => {
+    viewPost = new Shortcut('v p', 'View current post directly', () => {
       const post = this.posts.item;
       if (post) {
         const urn = post.dataset.id;
@@ -2468,7 +2468,7 @@
       }
     });
 
-    _viewReactions = new Shortcut(
+    viewReactions = new Shortcut(
       'v r', 'View reactions on current post or comment', () => {
         const el = this.#lastScroller.item;
         const selector = [
@@ -2483,14 +2483,14 @@
       }
     );
 
-    _viewReposts = new Shortcut(
+    viewReposts = new Shortcut(
       'v R', 'View reposts of current post', () => {
         NH.web.clickElement(this.posts.item,
           ['button[aria-label*="repost"]']);
       }
     );
 
-    _openMeatballMenu = new Shortcut(
+    openMeatballMenu = new Shortcut(
       '=',
       'Open closest <button class="spa-meatball">⋯</button> menu',
       () => {
@@ -2513,12 +2513,12 @@
       }
     );
 
-    _likeItem = new Shortcut('L', 'Like current post or comment', () => {
+    likeItem = new Shortcut('L', 'Like current post or comment', () => {
       const el = this.#lastScroller.item;
       NH.web.clickElement(el, ['button[aria-label^="Open reactions menu"]']);
     });
 
-    _commentOnItem = new Shortcut(
+    commentOnItem = new Shortcut(
       'C', 'Comment on current post or comment', () => {
         // Order of the queries matters here.  If a post has visible comments,
         // the wrong button could be selected.
@@ -2529,17 +2529,17 @@
       }
     );
 
-    _repost = new Shortcut('R', 'Repost current post', () => {
+    repost = new Shortcut('R', 'Repost current post', () => {
       const el = this.posts.item;
       NH.web.clickElement(el, ['button.social-reshare-button']);
     });
 
-    _sendPost = new Shortcut('S', 'Send current post privately', () => {
+    sendPost = new Shortcut('S', 'Send current post privately', () => {
       const el = this.posts.item;
       NH.web.clickElement(el, ['button.send-privately-button']);
     });
 
-    _gotoShare = new Shortcut(
+    gotoShare = new Shortcut(
       'P',
       `Go to the share box to start a post or ${Feed.#tabSnippet} ` +
         'to the other creator options',
@@ -2553,7 +2553,7 @@
       }
     );
 
-    _togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
+    togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
       NH.web.clickElement(
         this.posts.item,
         [
@@ -2563,13 +2563,13 @@
       );
     });
 
-    _nextPostPlus = new Shortcut(
+    nextPostPlus = new Shortcut(
       'J', 'Toggle hiding then next post', async () => {
 
         /** Trigger function for {@link NH.web.otrot}. */
         const trigger = () => {
-          this._togglePost();
-          this._nextPost();
+          this.togglePost();
+          this.nextPost();
         };
         // XXX: Need to remove the highlights before NH.web.otrot sees it
         // because it affects the .clientHeight.
@@ -2592,10 +2592,10 @@
       }
     );
 
-    _prevPostPlus = new Shortcut(
+    prevPostPlus = new Shortcut(
       'K', 'Toggle hiding then previous post', () => {
-        this._togglePost();
-        this._prevPost();
+        this.togglePost();
+        this.prevPost();
       }
     );
 
@@ -3231,35 +3231,35 @@
       return this.#sectionScroller;
     }
 
-    _nextSection = new Shortcut('j', 'Next section', () => {
+    nextSection = new Shortcut('j', 'Next section', () => {
       this.sections.next();
     });
 
-    _prevSection = new Shortcut('k', 'Previous section', () => {
+    prevSection = new Shortcut('k', 'Previous section', () => {
       this.sections.prev();
     });
 
-    _nextJob = new Shortcut('n', 'Next job', () => {
+    nextJob = new Shortcut('n', 'Next job', () => {
       this.jobs.next();
     });
 
-    _prevJob = new Shortcut('p', 'Previous job', () => {
+    prevJob = new Shortcut('p', 'Previous job', () => {
       this.jobs.prev();
     });
 
-    _firstSectionOrJob = new Shortcut(
+    firstSectionOrJob = new Shortcut(
       '<', 'Go to to first section or job', () => {
         this.#lastScroller.first();
       }
     );
 
-    _lastSectionOrJob = new Shortcut(
+    lastSectionOrJob = new Shortcut(
       '>', 'Go to last section or job currently loaded', () => {
         this.#lastScroller.last();
       }
     );
 
-    _focusBrowser = new Shortcut(
+    focusBrowser = new Shortcut(
       'f', 'Change browser focus to current section or job', () => {
         this.sections.show();
         this.jobs?.show();
@@ -3267,7 +3267,7 @@
       }
     );
 
-    _activateJob = new Shortcut(
+    activateJob = new Shortcut(
       'Enter',
       'Activate the current job (click on it)',
       () => {
@@ -3284,7 +3284,7 @@
       }
     );
 
-    _loadMoreSections = new Shortcut(
+    loadMoreSections = new Shortcut(
       'l',
       'Load more sections (or <i>More jobs for you</i> items)',
       async () => {
@@ -3308,7 +3308,7 @@
       }
     );
 
-    _toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
+    toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
       const selector = [
         'button[aria-label^="Save job"]',
         'button[aria-label^="Unsave job"]',
@@ -3316,7 +3316,7 @@
       NH.web.clickElement(this.jobs?.item, [selector]);
     });
 
-    _toggleDismissJob = new Shortcut('X',
+    toggleDismissJob = new Shortcut('X',
       'Toggle dismissing job',
       async () => {
         const savedJob = this.jobs.item;
@@ -3865,30 +3865,30 @@
       return this.#notificationScroller;
     }
 
-    _nextNotification = new Shortcut('j', 'Next notification', () => {
+    nextNotification = new Shortcut('j', 'Next notification', () => {
       this.notifications.next();
     });
 
-    _prevNotification = new Shortcut('k', 'Previous notification', () => {
+    prevNotification = new Shortcut('k', 'Previous notification', () => {
       this.notifications.prev();
     });
 
-    _firstNotification = new Shortcut('<', 'Go to first notification', () => {
+    firstNotification = new Shortcut('<', 'Go to first notification', () => {
       this.notifications.first();
     });
 
-    _lastNotification = new Shortcut('>', 'Go to last notification', () => {
+    lastNotification = new Shortcut('>', 'Go to last notification', () => {
       this.notifications.last();
     });
 
-    _focusBrowser = new Shortcut(
+    focusBrowser = new Shortcut(
       'f', 'Change browser focus to current notification', () => {
         this.notifications.show();
         NH.web.focusOnElement(this.notifications.item);
       }
     );
 
-    _activateNotification = new Shortcut(
+    activateNotification = new Shortcut(
       'Enter', 'Activate the current notification (click on it)', () => {
         const ONE_ITEM = 1;
         const notification = this.notifications.item;
@@ -3920,7 +3920,7 @@
       }
     );
 
-    _loadMoreNotifications = new Shortcut(
+    loadMoreNotifications = new Shortcut(
       'l', 'Load more notifications', () => {
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
@@ -3962,14 +3962,14 @@
       }
     );
 
-    _openMeatballMenu = new Shortcut(
+    openMeatballMenu = new Shortcut(
       '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
         NH.web.clickElement(this.notifications.item,
           ['button[aria-label^="Settings menu"]']);
       }
     );
 
-    _deleteNotification = new Shortcut(
+    deleteNotification = new Shortcut(
       'X', 'Toggle current notification deletion', async () => {
         const notification = this.notifications.item;
 
