@@ -1041,8 +1041,11 @@
         }
       } else {
         for (const {container, items: selector} of this.#containerItems) {
+          this.logger.log(`considering ${container} with ${selector}`);
           const base = document.querySelector(container);
-          items.push(...base.querySelectorAll(selector));
+          if (base) {
+            items.push(...base.querySelectorAll(selector));
+          }
         }
       }
       this.logger.starting('items');
