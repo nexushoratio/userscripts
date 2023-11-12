@@ -672,6 +672,11 @@
      * `scrollMarginBottom`.
      * @property {number} [waitForItemTimeout=3000] - Time to wait, in
      * milliseconds, for existing item to reappear upon reactivation.
+     * @property {number} [containerTimeout=0] - Time to wait, in
+     * milliseconds, for a {ContainerItemsSelector.container} to show up.
+     * Some pages may not always provide all identified containers.  The
+     * default of 0 disables timing out.  NB: Any containers that timeout will
+     * not handle further activate() processing, such as handleClicks.
      */
 
     /**
@@ -699,6 +704,7 @@
         topMarginCSS: this.#topMarginCSS = '0',
         bottomMarginCSS: this.#bottomMarginCSS = '0',
         waitForItemTimeout: this.#waitForItemTimeout = WAIT_FOR_ITEM,
+        containerTimeout: this.#containerTimeout = 0,
       } = how);
 
       this.#validateInstance();
@@ -842,7 +848,9 @@
       const me = 'activate';
       this.logger.entered(me);
 
-      const containers = new Set(await this.#waitForContainers());
+      const containers = new Set(
+        Array.from(await this.#waitForContainers()).filter(x => x)
+      );
       if (this.#base) {
         containers.add(this.#base);
       }
@@ -909,6 +917,7 @@
     #classes
     #clickOptions = {capture: true};
     #containerItems
+    #containerTimeout
     #currentItemId = null;
     #destroyed = false;
 
@@ -1203,8 +1212,25 @@
 
       const results = [];
 
+      /**
+       * Simply eats any exception throw by the Promise.
+       * @param {Promise} prom - Whatever Promise we are wrapping.
+       * @param {string} note - Put into log on error.
+       * @returns {Promise} - Resolved promise.
+       */
+      const wrapper = async (prom, note) => {
+        this.logger.log('wrapping', prom);
+        try {
+          return await prom;
+        } catch (e) {
+          this.logger.log(`wrapper ate error (${note}):`, e);
+          return Promise.resolve();
+        }
+      };
+
       for (const {container} of this.#containerItems) {
-        results.push(NH.web.waitForSelector(container, 0));
+        results.push(wrapper(NH.web.waitForSelector(container,
+          this.#containerTimeout), container));
       }
 
       this.logger.leaving(me, results);
