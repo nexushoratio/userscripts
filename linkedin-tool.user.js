@@ -32,6 +32,30 @@
     {name: 'widget', minVersion: 2},
   ]);
 
+  /**
+   * Load options from storage.
+   *
+   * TODO: Over engineer this into having a schema that could be used for
+   * building an edit widget.
+   *
+   * Saved options will be augmented by any new defaults and resaved.
+   * @returns {object} - Options key/value pairs.
+   */
+  async function loadOptions() {
+    const defaultOptions = {
+      enableDevMode: false,
+    };
+    const options = {
+      ...defaultOptions,
+      ...await NH.userscript.getValue('Options', {}),
+    };
+    NH.userscript.setValue('Options', options);
+    return options;
+  }
+
+  const litOptions = await loadOptions();
+  NH.xunit.testing.enabled = litOptions.enableDevMode;
+
   /* eslint-disable require-atomic-updates */
   NH.base.Logger.configs = await NH.userscript.getValue('Logger');
   document.addEventListener('visibilitychange', async () => {
