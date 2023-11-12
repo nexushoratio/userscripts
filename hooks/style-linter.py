@@ -7,12 +7,14 @@ import glob
 import re
 
 method_re = re.compile(r'(\) {)|(\) => {)')
+static_class_re = re.compile(r' = class ')
 skip_re = re.compile(r'( \+= )')
 
 class C(enum.IntEnum):
   name = 0
   constructor = enum.auto()
 
+  static_public_class = enum.auto()
   static_public_field = enum.auto()
   static_public_getter = enum.auto()
   static_public_method = enum.auto()
@@ -21,6 +23,7 @@ class C(enum.IntEnum):
   public_getter = enum.auto()
   public_method = enum.auto()
 
+  static_private_class = enum.auto()
   static_private_field = enum.auto()
   static_private_getter = enum.auto()
   static_private_method = enum.auto()
@@ -131,6 +134,11 @@ def process(fn):
                 current.append(D(C.static_private_getter, code, num, parent))
               else:
                 current.append(D(C.static_public_getter, code, num, parent))
+            elif static_class_re.search(code):
+              if words[1][0] == '#':
+                current.append(D(C.static_private_class, words[1], num, parent))
+              else:
+                current.append(D(C.static_public_class, words[1], num, parent))
             elif method_re.search(code):
               if words[1][0] == '#':
                 current.append(D(C.static_private_method, code, num, parent))

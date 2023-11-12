@@ -7,6 +7,7 @@ For things it cannot handle at the moment:
 - `@typedef` before the first use
 - constructor
 
+- static public classes
 - static public fields (alphabetical, usually none)
 - static public getters/setters (alphabetical)
 - static public methods
@@ -15,6 +16,7 @@ For things it cannot handle at the moment:
 - public getters/setters (alphabetical)
 - public methods
 
+- static private classes
 - static private fields (alphabetical)
 - static private getters/setters (alphabetical)
 - static private methods
