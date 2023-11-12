@@ -51,9 +51,9 @@ class D:
   def __lt__(self, other):
     if self.parent == other.parent:
       if self.c == other.c:
-        if 'field' in self.c.name:
+        if '_field' in self.c.name:
           return self.code < other.code
-        elif 'getter' in self.c.name:
+        elif '_getter' in self.c.name:
           self_word = self.code.split()[-2].split('(')[0]
           other_word = other.code.split()[-2].split('(')[0]
           return self_word < other_word
