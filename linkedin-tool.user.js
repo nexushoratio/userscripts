@@ -69,7 +69,7 @@
   /* eslint-enable */
 
   // TODO(#145): The if test is just here while developing.
-  if (!NH.xunit.testing.enabled) {
+  if (!litOptions.enableDevMode) {
     NH.base.Logger.config('Default').enabled = true;
   }
 
@@ -2197,7 +2197,7 @@
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
-      if (NH.xunit.testing.enabled) {
+      if (litOptions.enableDevMode) {
         this.#keyboardService.addInstance(new DebugKeys());
       }
     }
@@ -4393,7 +4393,7 @@
     #licenseLoaded
     #navbar
     #shortcutsWidget
-    #useOriginalInfoDialog = !NH.xunit.testing.enabled;
+    #useOriginalInfoDialog = !litOptions.enableDevMode;
 
     /** Hang out until enough HTML has been built to be useful. */
     #waitUntilPageLoadedEnough = async () => {
@@ -4644,7 +4644,7 @@
         } else {
           this.#infoWidget.open();
         }
-        if (NH.xunit.testing.enabled) {
+        if (litOptions.enableDevMode) {
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
         }
       });
@@ -5312,7 +5312,7 @@
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
-  if (NH.xunit.testing.enabled) {
+  if (litOptions.enableDevMode) {
     linkedIn.addSetupIssue('This is a dummy test issue.',
       'It was added because NH.xunit.testing is enabled.');
     linkedIn.addSetupIssue('This is a second issue.',
