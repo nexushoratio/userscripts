@@ -52,14 +52,18 @@ class D:
     if self.parent == other.parent:
       if self.c == other.c:
         if '_field' in self.c.name:
+          # Alphabetize by field name
           return self.code < other.code
         elif '_getter' in self.c.name:
+          # Parse (irony) out the name of the {g,s}etters
           self_word = self.code.split()[-2].split('(')[0]
           other_word = other.code.split()[-2].split('(')[0]
+          # Then alphabetize
           return self_word < other_word
         else:
           return self.line < other.line
       else:
+        # Everything else being equal, keep current relative order
         return self.c < other.c
     else:
       if other.parent.name in self.code:
@@ -169,5 +173,3 @@ def process(fn):
 
 for fn in (glob.glob('**/*.js', recursive=True)):
   process(fn)
-
-
