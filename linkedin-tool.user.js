@@ -121,9 +121,20 @@
         '<i>#onScrollerActivate</i>',
     ],
     ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
+    ['#198', 'Add default options'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-12',
+      issues: ['#198'],
+      subject: 'Implement a simple (for now!) *loadOptions()*',
+    },
+    {
+      date: '2023-11-11',
+      issues: ['#165'],
+      subject: 'Verify a container exists before looking for items',
+    },
     {
       date: '2023-11-09',
       issues: ['#161'],
@@ -283,84 +294,6 @@
       issues: ['#150'],
       subject: 'Rip out <i>Jobs</i> Rube Goldberg device for monitoring ' +
         'changes',
-    },
-    {
-      date: '2023-10-11',
-      issues: ['#145'],
-      subject: 'Plug in loading saved <i>Logger</i> configs (dev only)',
-    },
-    {
-      date: '2023-10-11',
-      issues: ['#145'],
-      subject: 'Implement setting configs from an object',
-    },
-    {
-      date: '2023-10-11',
-      issues: ['#145'],
-      subject: 'Remove explicit setting of <i>Logger</i>s for debug ' +
-        'reasons',
-    },
-    {
-      date: '2023-10-11',
-      issues: ['#145'],
-      subject: 'Initial implementation of saving <i>Logger</i> config ' +
-        '(dev only)',
-    },
-    {
-      date: '2023-10-10',
-      issues: ['#149'],
-      subject: 'Migrate all secondary <i>Scroller</i>s to using ' +
-        '<i>autoActivate</i>',
-    },
-    {
-      date: '2023-10-10',
-      issues: ['#149'],
-      subject: 'Give <i>Scroller</i> the option to call <i>activate</i> ' +
-        'upon construction',
-    },
-    {
-      date: '2023-10-10',
-      issues: ['#149'],
-      subject: 'Have all secondary <i>Scroller</i>s created immediately',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Initial work selecting job card on initial page load',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Change the job card <i>Scroller</i> to use a different ' +
-        'element',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Give the job cards a bottom scroll margin as well',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Change hotkey from <kbd><kbd>Enter</kbd></kbd> to ' +
-        '<kbd>c</kbd>',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Give pagination <i>Scroller</i> a bit of a buffer on the ' +
-        'bottom',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Allow pagination <i>Scroller</i> to get focus',
-    },
-    {
-      date: '2023-10-09',
-      issues: ['#143'],
-      subject: 'Change the pagination <i>Scroller</i> to use a different ' +
-        'element',
     },
   ];
 
