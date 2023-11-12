@@ -3654,14 +3654,19 @@
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
+      containerTimeout: 1000,
     };
 
     /** @type {Scroller~What} */
     static #paginationWhat = {
       name: 'Results pagination',
-      base: document.body,
-      // This selector is also used in #onPaginationActivate.
-      selectors: ['div.jobs-search-results-list__pagination > ul > li'],
+      containerItems: [
+        {
+          container: 'div.jobs-search-results-list__pagination > ul',
+          // This selector is also used in #onJobCardActivate.
+          items: ':scope > li',
+        },
+      ],
     };
 
     #jobCardScroller
