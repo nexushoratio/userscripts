@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import collections
 import dataclasses
 import difflib
 import enum
@@ -34,13 +35,13 @@ class C(enum.IntEnum):
 
   end = enum.auto()
 
-@dataclasses.dataclass(order=True)
+@dataclasses.dataclass(order=True, frozen=True)
 class Nest:
   indent: int
   line: int
   name: str
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class D:
   c: C
   code: str
@@ -74,6 +75,36 @@ class D:
       lt = self.parent < other.parent
       # print(f'less than: {lt}\n{self}\n{other}\n')
       return lt
+
+def tsort(data):
+  parents = dict()
+  tdata = collections.defaultdict(list)
+
+  # Gather the parents first
+  for item in data:
+    if item.c in (C.name, C.static_public_class, C.static_private_class):
+      parents[item.code] = item
+
+  # Separate items out under their parents
+  for item in data:
+    parent = parents.get(item.parent.name)
+    tdata[parent].append(item)
+
+  # Reassemble in order
+  results = list()
+  # Start at the root
+  working = sorted(tdata[None])
+  while working:
+    item = working.pop(0)
+    results.append(item)
+
+    # If it has children, insert them next
+    if item in tdata:
+      old = working
+      working = sorted(tdata[item])
+      working.extend(old)
+
+  return results
 
 def process(fn):
   classes = list()
@@ -171,7 +202,7 @@ def process(fn):
     classes.append(current)
 
   for item in classes:
-    srt = sorted(item)
+    srt = tsort(item)
     if srt != item:
       print(f'bad: {fn}: {item[0]}')
       item = [str(x) for x in item]
