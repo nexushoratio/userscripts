@@ -1924,56 +1924,59 @@
 
   }
 
-  /** Test case. */
-  function testParseSeq() {
-    const tests = [
-      {test: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
-      {test: 's-q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'Q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
-      {test: '<', expected: '<kbd><kbd><</kbd></kbd>'},
-      {test: 'C-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'c-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
-      {test: 'c-a-t',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
-       '<kbd>t</kbd></kbd>'},
-      {test: 'a-c-T',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
-       '<kbd>Shift</kbd>+<kbd>t</kbd></kbd>'},
-      {test: 'c-down esc',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>↓</kbd> ' +
-       'then <kbd>ESC</kbd></kbd>'},
-      {test: 'alt-up tab',
-        expected: '<kbd><kbd>Alt</kbd>+<kbd>↑</kbd> ' +
-       'then <kbd>TAB</kbd></kbd>'},
-      {test: 'shift-X control-alt-del',
-        expected: '<kbd><kbd>Shift</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>DEL</kbd></kbd>'},
-      {test: 'c-x c-v',
-        expected: '<kbd><kbd>Ctrl</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>Ctrl</kbd>+<kbd>v</kbd></kbd>'},
-      {test: 'a-x enter',
-        expected: '<kbd><kbd>Alt</kbd>+<kbd>x</kbd> ' +
-       'then <kbd>ENTER</kbd></kbd>'},
-      {test: 'up up down down left right left right b shift-a enter',
-        expected: '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> ' +
-       'then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> ' +
-       'then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> ' +
-       'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>'},
-    ];
+  /* eslint-disable require-jsdoc */
+  class ParseSeqTestCase extends NH.xunit.TestCase {
 
-    for (const {test, expected} of tests) {
-      const actual = VMKeyboardService.parseSeq(test);
-      const passed = actual === expected;
-      const msg = `t:${test} e:${expected} a:${actual}, p:${passed}`;
-      NH.xunit.testing.log.log(msg);
-      if (!passed) {
-        throw new Error(msg);
+    testNormalInputs() {
+      const tests = [
+        {text: 'q', expected: '<kbd><kbd>q</kbd></kbd>'},
+        {text: 's-q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
+        {text: 'Q', expected: '<kbd><kbd>Shift</kbd>+<kbd>q</kbd></kbd>'},
+        {text: 'a b', expected: '<kbd><kbd>a</kbd> then <kbd>b</kbd></kbd>'},
+        {text: '<', expected: '<kbd><kbd><</kbd></kbd>'},
+        {text: 'C-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+        {text: 'c-q', expected: '<kbd><kbd>Ctrl</kbd>+<kbd>q</kbd></kbd>'},
+        {text: 'c-a-t',
+          expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
+       '<kbd>t</kbd></kbd>'},
+        {text: 'a-c-T',
+          expected: '<kbd><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+' +
+       '<kbd>Shift</kbd>+<kbd>t</kbd></kbd>'},
+        {text: 'c-down esc',
+          expected: '<kbd><kbd>Ctrl</kbd>+<kbd>↓</kbd> ' +
+       'then <kbd>ESC</kbd></kbd>'},
+        {text: 'alt-up tab',
+          expected: '<kbd><kbd>Alt</kbd>+<kbd>↑</kbd> ' +
+       'then <kbd>TAB</kbd></kbd>'},
+        {text: 'shift-X control-alt-del',
+          expected: '<kbd><kbd>Shift</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>DEL</kbd></kbd>'},
+        {text: 'c-x c-v',
+          expected: '<kbd><kbd>Ctrl</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>Ctrl</kbd>+<kbd>v</kbd></kbd>'},
+        {text: 'a-x enter',
+          expected: '<kbd><kbd>Alt</kbd>+<kbd>x</kbd> ' +
+       'then <kbd>ENTER</kbd></kbd>'},
+      ];
+      for (const {text, expected} of tests) {
+        this.assertEqual(VMKeyboardService.parseSeq(text), expected);
       }
     }
-  }
 
-  NH.xunit.testing.funcs.push(testParseSeq);
+    testKonamiCode() {
+      this.assertEqual(VMKeyboardService.parseSeq(
+        'up up down down left right left right b shift-a enter'
+      ),
+      '<kbd><kbd>↑</kbd> then <kbd>↑</kbd> then <kbd>↓</kbd> ' +
+      'then <kbd>↓</kbd> then <kbd>←</kbd> then <kbd>→</kbd> ' +
+      'then <kbd>←</kbd> then <kbd>→</kbd> then <kbd>b</kbd> ' +
+      'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>');
+    }
+
+  }
+  /* eslint-enable */
+
+  NH.xunit.testing.testCases.push(ParseSeqTestCase);
 
   /**
    * Base class for handling various views of a single-page application.
