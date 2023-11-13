@@ -84,45 +84,51 @@
     ['#142', 'Support My Network view'],
     ['#143', 'Support jobs search view'],
     ['#144', 'Support Messaging view'],
-    ['#145', '<b>Logger</b>: improved controls'],
-    ['#149', '<b>Scroller</b>: support onclick natively'],
-    ['#150', '<b>Scroller</b>: handle page reloads better'],
-    ['#151', '<b>MyNetwork</b>: card scrolling does not work after return'],
+    ['#145', '<code>Logger</code>: improved controls'],
+    ['#149', '<code>Scroller</code>: support onclick natively'],
+    ['#150', '<code>Scroller</code>: handle page reloads better'],
+    [
+      '#151', '<code>MyNetwork</code>: card scrolling does not work ' +
+     'after return',
+    ],
     ['#153', 'Support Invitation manager view'],
     [
-      '#154', '<b>Notifications</b>: <kbd><kbd>X</kbd></kbd> no longer ' +
-        'works to dismiss',
+      '#154', '<code>Notifications</code>: <kbd><kbd>X</kbd></kbd> no ' +
+        'longer works to dismiss',
     ],
     [
-      '#155', '<b>Jobs</b>: The <i>More jobs few you</i> section no ' +
-        'longer navigates jobs',
+      '#155', '<code>Jobs</code>: The <em>More jobs few you</code> ' +
+        'section no longer navigates jobs',
     ],
     [
-      '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
+      '#157', '<code>InvitationManager</code>: Invite not scrolling into ' +
         'view upon refresh',
     ],
     [
-      '#159', '<b>MyNetwork</b>: Trying to <kbd><kbd>E</kbd></kbd>ngage ' +
-        'does not always work',
+      '#159', '<code>MyNetwork</code>: Trying to ' +
+     '<kbd><kbd>E</kbd></kbd>ngage does not always work',
     ],
     [
       '#161',
-      'Clicking on <i>Load more comments</i> does not select the post',
+      'Clicking on <em>Load more comments</em> does not select the post',
     ],
-    ['#165', '<b>Scroller</b>: Wait until base shows up'],
+    ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
     [
-      '#168', '<b>JobCollections</b>: <kbd><kbd>X</kbd></kbd> will not ' +
-        'recover a dismissed job card',
-    ],
-    ['#170', 'Enable <i>GM.setValue</i> and <i>GM.getValue</i> functions'],
-    [
-      '#177', '<b>JobCollections</b> Results pages: Convert to ' +
-     '<i>containerItems</i>',
+      '#168', '<code>JobCollections</code>: <kbd><kbd>X</kbd></kbd> will ' +
+     'not recover a dismissed job card',
     ],
     [
-      '#178', 'Migrate all <b>Scrollers</b> from <i>_refresh()</i> to ' +
-        '<i>#onScrollerActivate</i>',
+      '#170', 'Enable <em>GM.setValue</em> and <em>GM.getValue</em> ' +
+     'functions',
+    ],
+    [
+      '#177', '<code>JobCollections</code> Results pages: Convert to ' +
+     '<em>containerItems</em>',
+    ],
+    [
+      '#178', 'Migrate all <code>Scrollers</code> from <em>_refresh()</em> ' +
+     'to <em>#onScrollerActivate</em>',
     ],
     ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
     ['#198', 'Add default options'],
@@ -132,18 +138,19 @@
     {
       date: '2023-11-12',
       issues: ['#177'],
-      subject: 'Switch the <i>paginationScroller</i> to using ' +
-        '<i>containeritems</i>',
+      subject: 'Switch the <em>paginationScroller</em> to using ' +
+        '<em>containeritems</em>',
     },
     {
       date: '2023-11-12',
       issues: ['#165'],
-      subject: 'Support an optional timeout on containers in <i>Scroller</i>',
+      subject: 'Support an optional timeout on containers in ' +
+        '<code>Scroller</code>',
     },
     {
       date: '2023-11-12',
       issues: ['#198'],
-      subject: 'Implement a simple (for now!) *loadOptions()*',
+      subject: 'Implement a simple (for now!) <em>loadOptions()</em>',
     },
     {
       date: '2023-11-11',
@@ -154,7 +161,7 @@
       date: '2023-11-09',
       issues: ['#161'],
       subject: 'Listen for clicks during the capture phase in ' +
-        '<i>Scroller</i>',
+        '<code>Scroller</code>',
     },
     {
       date: '2023-11-06',
@@ -164,7 +171,7 @@
     {
       date: '2023-11-06',
       issues: ['#150'],
-      subject: 'Simplify <i>Feed.#onPostActivate()</i>',
+      subject: 'Simplify <code>Feed.#onPostActivate()</code>',
     },
     {
       date: '2023-11-06',
@@ -174,8 +181,8 @@
     {
       date: '2023-11-05',
       issues: ['#150'],
-      subject: 'Wait for current item to reappear when <i>Scroller</i> ' +
-        'is reactivated',
+      subject: 'Wait for current item to reappear when ' +
+        '<code>Scroller</code> is reactivated',
     },
     {
       date: '2023-11-04',
@@ -190,20 +197,20 @@
     {
       date: '2023-11-02',
       issues: ['#178'],
-      subject: 'Migrate <i>Notifications</i> from <i>refresh</i> ' +
-        'to <i>onScrollerActivate</i>',
+      subject: 'Migrate <code>Notifications</code> from <em>_refresh</em> ' +
+        'to <em>onScrollerActivate</em>',
     },
     {
       date: '2023-11-01',
       issues: ['#178'],
-      subject: 'Migrate <i>InvitationManager</i> from <i>refresh</i> ' +
-        'to <i>onScrollerActivate</i>',
+      subject: 'Migrate <code>InvitationManager</code> from ' +
+        '<em>refresh</em> to <em>onScrollerActivate</em>',
     },
     {
       date: '2023-11-01',
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>s</kbd></kbd> to focus on the ' +
-        '<i>Search messages</i> input field',
+        '<em>Search messages</em> input field',
     },
     {
       date: '2023-10-30',
@@ -218,8 +225,8 @@
     {
       date: '2023-10-30',
       issues: ['#178'],
-      subject: 'Migrate <i>Feed</i> from using <i>refresh</i> to ' +
-        '<i>onScrollerActivate</i>',
+      subject: 'Migrate <code>Feed</code> from using <em>refresh</em> to ' +
+        '<em>onScrollerActivate</em>',
     },
     {
       date: '2023-10-30',
@@ -230,19 +237,19 @@
     {
       date: '2023-10-27',
       issues: ['#165'],
-      subject: 'Switch <i>MyNetwork</i> to using <i>containerItems</i> ' +
-        'for primary <i>Scroller</i>',
+      subject: 'Switch <code>MyNetwork</code> to using ' +
+        '<em>containerItems</em> for primary <code>Scroller</code>',
     },
     {
       date: '2023-10-27',
       issues: ['#165'],
-      subject: 'Switch <i>Feed</i> to using <i>containerItems</i> ' +
-        'primary <i>Scroller</i>',
+      subject: 'Switch <code>Feed</code> to using <em>containerItems</em> ' +
+        'primary <code>Scroller</code>',
     },
     {
       date: '2023-10-22',
       issues: ['#144'],
-      subject: 'Initial support for the <i>Messaging</i> page',
+      subject: 'Initial support for the <code>Messaging</code> page',
     },
     {
       date: '2023-10-20',
@@ -253,7 +260,7 @@
       date: '2023-10-19',
       issues: ['#167'],
       subject: 'Bump lib/base to version 9, switch to that ' +
-        '<i>Dispatcher</i>',
+        '<code>Dispatcher</code>',
     },
     {
       date: '2023-10-18',
@@ -263,13 +270,14 @@
     {
       date: '2023-10-17',
       issues: ['#167'],
-      subject: 'Bump lib/base to version 6, switch to that <i>uuId</i>, ' +
-        '<i>safeId</i>, and <i>strHash</i>',
+      subject: 'Bump lib/base to version 6, switch to that <em>uuId</em>, ' +
+        '<em>safeId</em>, and <em>strHash</em>',
     },
     {
       date: '2023-10-16',
       issues: ['#167'],
-      subject: 'Bump lib/base to version 5, switch to that <i>Logger</i>',
+      subject: 'Bump lib/base to version 5, switch to that ' +
+        '<code>Logger</code>',
     },
     {
       date: '2023-10-15',
@@ -287,7 +295,7 @@
       date: '2023-10-14',
       issues: ['#167'],
       subject: 'Bump lib/base to version 3, switch to that ' +
-        '<i>DefaultMap</i>',
+        '<code>DefaultMap</code>',
     },
     {
       date: '2023-10-13',
