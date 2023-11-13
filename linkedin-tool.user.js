@@ -117,6 +117,10 @@
     ],
     ['#170', 'Enable <i>GM.setValue</i> and <i>GM.getValue</i> functions'],
     [
+      '#177', '<b>JobCollections</b> Results pages: Convert to ' +
+     '<i>containerItems</i>',
+    ],
+    [
       '#178', 'Migrate all <b>Scrollers</b> from <i>_refresh()</i> to ' +
         '<i>#onScrollerActivate</i>',
     ],
@@ -125,6 +129,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-12',
+      issues: ['#177'],
+      subject: 'Switch the <i>paginationScroller</i> to using ' +
+        '<i>containeritems</i>',
+    },
+    {
+      date: '2023-11-12',
+      issues: ['#165'],
+      subject: 'Support an optional timeout on containers in <i>Scroller</i>',
+    },
     {
       date: '2023-11-12',
       issues: ['#198'],
@@ -138,7 +153,8 @@
     {
       date: '2023-11-09',
       issues: ['#161'],
-      subject: 'Listen for clicks during the capture phase in `Scroller`',
+      subject: 'Listen for clicks during the capture phase in ' +
+        '<i>Scroller</i>',
     },
     {
       date: '2023-11-06',
@@ -277,23 +293,6 @@
       date: '2023-10-13',
       issues: ['#167'],
       subject: 'Bump lib/base to version 2, still learning the ropes',
-    },
-    {
-      date: '2023-10-12',
-      issues: ['#167'],
-      subject: 'Include libraries and version numbers in the ' +
-        '<b>Errors</b> tab',
-    },
-    {
-      date: '2023-10-12',
-      issues: ['#167'],
-      subject: 'First use of the new base library',
-    },
-    {
-      date: '2023-10-12',
-      issues: ['#150'],
-      subject: 'Rip out <i>Jobs</i> Rube Goldberg device for monitoring ' +
-        'changes',
     },
   ];
 
