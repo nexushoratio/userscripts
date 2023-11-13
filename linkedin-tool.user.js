@@ -1975,8 +1975,6 @@
 
   NH.xunit.testing.funcs.push(testParseSeq);
 
-  // TODO(#173): Migrate to style guide
-
   /**
    * Base class for handling various views of a single-page application.
    *
