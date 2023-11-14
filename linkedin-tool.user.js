@@ -136,6 +136,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-13',
+      issues: [''],
+      subject: 'Tweak HTML in news content',
+    },
+    {
       date: '2023-11-12',
       issues: ['#177'],
       subject: 'Switch the <em>paginationScroller</em> to using ' +
@@ -296,11 +301,6 @@
       issues: ['#167'],
       subject: 'Bump lib/base to version 3, switch to that ' +
         '<code>DefaultMap</code>',
-    },
-    {
-      date: '2023-10-13',
-      issues: ['#167'],
-      subject: 'Bump lib/base to version 2, still learning the ropes',
     },
   ];
 
