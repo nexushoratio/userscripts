@@ -138,6 +138,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-16',
+      issues: ['#170'],
+      subject: 'Enable <em>GM.setValue()</em> and <em>GM.getValue()</em>',
+    },
+    {
       date: '2023-11-13',
       issues: [''],
       subject: 'Tweak HTML in news content',
@@ -285,24 +290,6 @@
       issues: ['#167'],
       subject: 'Bump lib/base to version 5, switch to that ' +
         '<code>Logger</code>',
-    },
-    {
-      date: '2023-10-15',
-      issues: ['#168'],
-      subject: 'Implement <kbd><kbd>+</kbd></kbd> and ' +
-        '<kbd><kbd>-</kbd></kbd> for thumbs-up and thumbs-down on job ' +
-        'cards',
-    },
-    {
-      date: '2023-10-15',
-      issues: ['#168'],
-      subject: 'Make a CSS selector case insensitive',
-    },
-    {
-      date: '2023-10-14',
-      issues: ['#167'],
-      subject: 'Bump lib/base to version 3, switch to that ' +
-        '<code>DefaultMap</code>',
     },
   ];
 
