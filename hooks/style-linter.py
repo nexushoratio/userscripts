@@ -9,6 +9,7 @@ import re
 
 method_re = re.compile(r'(\) {)|(\) => {)')
 static_class_re = re.compile(r' = class ')
+nested_testcase_re = re.compile(r' = class extends NH.xunit.TestCase {')
 skip_re = re.compile(r'( \+= )')
 
 class C(enum.IntEnum):
@@ -32,6 +33,8 @@ class C(enum.IntEnum):
   private_field = enum.auto()
   private_getter = enum.auto()
   private_method = enum.auto()
+
+  nested_testcase = enum.auto()
 
   end = enum.auto()
 
@@ -82,7 +85,8 @@ def tsort(data):
 
   # Gather the parents first
   for item in data:
-    if item.c in (C.name, C.static_public_class, C.static_private_class):
+    if item.c in (C.name, C.static_public_class, C.static_private_class,
+                  C.nested_testcase):
       parents[item.code] = item
 
   # Separate items out under their parents
@@ -168,6 +172,8 @@ def process(fn):
                 current.append(D(C.static_private_getter, code, num, parent))
               else:
                 current.append(D(C.static_public_getter, code, num, parent))
+            elif nested_testcase_re.search(code):
+              current.append(D(C.nested_testcase, words[1], num, parent))
             elif static_class_re.search(code):
               if words[1][0] == '#':
                 current.append(D(C.static_private_class, words[1], num, parent))

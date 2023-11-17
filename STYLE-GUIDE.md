@@ -25,6 +25,8 @@ For things it cannot handle at the moment:
 - private getters/setters (alphabetical)
 - private methods
 
+- nested testcases (*friends*)
+
 ## Libraries
 
 Should go into the `NexusHoratio` namespace object with an object the same name as the library.
