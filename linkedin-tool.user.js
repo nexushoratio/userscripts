@@ -3745,6 +3745,13 @@
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
+
+      this.#activator = this.addService(Messaging.#Activator);
+      this.#activator.page = this;
+
+      // Focused/Other tab
+      this.#messagingTablistObserver =
+        new MutationObserver(this.#messagingTablistHandler);
     }
 
     loadMoreConversations = new Shortcut(
@@ -3781,6 +3788,48 @@
       this.logger.leaving(me);
     });
 
+    /** Handles Messaging specific issues. */
+    static #Activator = class extends Service {
+
+      /** @returns {Messaging} - Associated instance. */
+      get page() {
+        return this.#page;
+      }
+
+      /** @param {Messaging} val - Associated instance. */
+      set page(val) {
+        this.#page = val;
+      }
+
+      /** Called each time service is activated. */
+      activate() {
+        const me = 'activate';
+        this.logger.entered(me);
+
+        const tab = document.querySelector(Messaging.#messagingTabSelector);
+        this.page.#messagingTablistObserver.observe(tab,
+          {attributes: true, subtree: true});
+
+        // Guarantee it is called at least once.
+        this.page.#messagingTablistHandler();
+
+        this.logger.leaving(me);
+      }
+
+      /** Called each time service is deactivated. */
+      deactivate() {
+        const me = 'deactivate';
+        this.logger.entered(me);
+
+        this.page.#messagingTablistObserver.disconnect();
+
+        this.logger.leaving(me);
+      }
+
+      #page
+
+    }
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -3788,7 +3837,25 @@
       pageReadySelector: LinkedInGlobals.asideSelector,
     };
 
+    static #messagingTabSelector = 'main div.msg-focused-inbox-tabs';
+    static #messagingTabSelectorCurrent =
+      `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
+
+    #activator
     #keyboardService
+    #messagingTablistObserver
+
+    #messagingTablistHandler = () => {
+      const me = 'messagingTablistHandler';
+      this.logger.entered(me);
+
+      const current = document.querySelector(
+        Messaging.#messagingTabSelectorCurrent
+      );
+      this.logger.log('current:', current);
+
+      this.logger.leaving(me);
+    }
 
   }
 
