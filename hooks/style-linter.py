@@ -150,6 +150,9 @@ def process(fn):
 
         if indent < 8:
           # print(num, code)
+          # For lack of a proper JS parser, making a guess that things looking
+          # like assigning a field is actually a local variable in a method.
+          suspect = indent > (parent.indent + 2)
           words = code.split()
           if words[0] == 'class':
             if current:
@@ -196,7 +199,8 @@ def process(fn):
               if 'new Shortcut' in code:
                 current.append(D(C.public_method, code, num, parent))
               else:
-                current.append(D(C.public_field, code, num, parent))
+                if not suspect:
+                  current.append(D(C.public_field, code, num, parent))
 
   if current and current[0].c == C.name:
     classes.append(current)
