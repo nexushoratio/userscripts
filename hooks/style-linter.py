@@ -211,14 +211,21 @@ def process(fn):
   if current and current[0].c == C.name:
     classes.append(current)
 
+  clean = True
   for item in classes:
     srt = tsort(item)
     if srt != item:
+      clean = False
       print(f'bad: {fn}: {item[0]}')
       item = [str(x) for x in item]
       srt = [str(x) for x in srt]
       print('\n'.join(difflib.unified_diff(item, srt)))
       print('\n\n')
 
+  return clean
+
+clean = True
 for fn in (glob.glob('**/*.js', recursive=True)):
-  process(fn)
+  clean &= process(fn)
+
+exit(not clean);

@@ -41,6 +41,7 @@ git diff --stat
 
 # This is the test we want to run.
 eslint .
+hooks/style-linter.py
 
 # Clean up.
 popd > /dev/null
