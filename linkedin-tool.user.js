@@ -3769,6 +3769,17 @@
       }
     );
 
+    messageTab = new Shortcut('m', 'Go to messaging tablist', () => {
+      const me = 'messageTab';
+      this.logger.entered(me);
+
+      NH.web.focusOnElement(
+        document.querySelector(Messaging.#messagingTabSelectorCurrent)
+      );
+
+      this.logger.leaving(me);
+    });
+
     searchMessages = new Shortcut('s', 'Go to Search messages', () => {
       const me = 'searchMessages';
       this.logger.entered(me);
