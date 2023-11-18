@@ -4,7 +4,7 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUni
 
 ## Exported properties (as of version 6)
 * version - Bumped per release.
-* testing - Object for testing support (to be replaced with `TestCase`).
+* testing - Object for testing support.
 * TestCase - An xUnit style test framework (WIP: https://github.com/nexushoratio/userscripts/issues/172).
 * runTests - Run registered TestCases.
 

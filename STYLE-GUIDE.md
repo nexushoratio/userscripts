@@ -117,7 +117,7 @@ I am not wholly committed to the `npm` ecosystem.  If it cannot easily be instal
 
 Most libraries, include *base* depend on *xunit*.
 
-All new tests should use the `TestCase` class, and existing function tests will be rewritten.
+All tests should subclass `TestCase` and register itself with *testing.testCases*.
 
 Assertions are being added to `TestCase` as needed.  Use https://docs.python.org/3/library/unittest.html for naming guidance.
 
