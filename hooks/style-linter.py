@@ -6,6 +6,7 @@ import difflib
 import enum
 import glob
 import re
+import sys
 
 method_re = re.compile(r'(\) {)|(\) => {)')
 static_class_re = re.compile(r' = class ')
@@ -228,4 +229,4 @@ clean = True
 for fn in (glob.glob('**/*.js', recursive=True)):
   clean &= process(fn)
 
-exit(not clean);
+sys.exit(not clean);
