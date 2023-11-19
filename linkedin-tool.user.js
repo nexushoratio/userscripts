@@ -1191,6 +1191,18 @@
         );
       }
 
+      if (!this.#uidCallback) {
+        throw new Scroller.Error(
+          `Missing uidCallback: ${this.#name} has no uidCallback defined`
+        );
+      }
+
+      if (!(this.#uidCallback instanceof Function)) {
+        throw new Scroller.Error(
+          `Invalid uidCallback: ${this.#name} uidCallback is not a function`
+        );
+      }
+
     }
 
     /**
@@ -1296,6 +1308,7 @@
   }
 
   /* eslint-disable class-methods-use-this */
+  /* eslint-disable no-empty-function */
   /* eslint-disable no-new */
   /* eslint-disable require-jsdoc */
   class ScrollerTestCase extends NH.xunit.TestCase {
@@ -1393,8 +1406,44 @@
         selectors: [],
       };
       const how = {
+        uidCallback: () => {},
       };
 
+      new Scroller(what, how);
+    }
+
+    testValidUidCallback() {
+      const what = {
+        name: this.id,
+        base: document.body,
+        selectors: [],
+      };
+      const how = {
+      };
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Missing uidCallback:/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'missing',
+      );
+
+      how.uidCallback = {};
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Invalid uidCallback:/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'invalid',
+      );
+
+      how.uidCallback = () => {};
+
+      // And finally, good.
       new Scroller(what, how);
     }
 
