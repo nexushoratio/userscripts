@@ -1315,7 +1315,7 @@
 
     testNeedsBaseOrContainerItems() {
       const what = {
-        name: 'needsBaseOrContainerItems',
+        name: this.id,
       };
       const how = {
       };
@@ -1331,7 +1331,7 @@
 
     testNotBaseAndContainerItems() {
       const what = {
-        name: 'needsBaseAndContainerItems',
+        name: this.id,
         base: document.body,
         containerItems: [{}],
       };
@@ -1349,7 +1349,7 @@
 
     testBaseIsElement() {
       const what = {
-        name: 'baseIsElement',
+        name: this.id,
         base: document,
       };
       const how = {
@@ -1366,7 +1366,7 @@
 
     testBaseNeedsSelector() {
       const what = {
-        name: 'baseNeedsSelector',
+        name: this.id,
         base: document.body,
       };
       const how = {
@@ -1383,7 +1383,7 @@
 
     testSelectorNeedsBase() {
       const what = {
-        name: 'selectorNeedsBase',
+        name: this.id,
         selectors: [],
         containerItems: [{}],
       };
@@ -1401,7 +1401,7 @@
 
     testBaseWithSelectorIsFine() {
       const what = {
-        name: 'baseWithSelectorsIsFine',
+        name: this.id,
         base: document.body,
         selectors: [],
       };
