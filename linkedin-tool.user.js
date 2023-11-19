@@ -139,6 +139,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-18',
+      issues: ['#144'],
+      subject: 'Implement moving to the <kbd><kbd>m</kbd></kbd>essage ' +
+        'tablist',
+    },
+    {
       date: '2023-11-16',
       issues: ['#200'],
       subject: 'Bump all libraries to the current version',
@@ -279,17 +285,6 @@
       issues: ['#167'],
       subject: 'Bump lib/base to version 9, switch to that ' +
         '<code>Dispatcher</code>',
-    },
-    {
-      date: '2023-10-18',
-      issues: ['#167'],
-      subject: 'Bump lib/base to version 8, for new features',
-    },
-    {
-      date: '2023-10-17',
-      issues: ['#167'],
-      subject: 'Bump lib/base to version 6, switch to that <em>uuId</em>, ' +
-        '<em>safeId</em>, and <em>strHash</em>',
     },
   ];
 
