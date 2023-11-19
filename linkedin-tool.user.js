@@ -3796,6 +3796,34 @@
       // Focused/Other tab
       this.#messagingTablistObserver =
         new MutationObserver(this.#messagingTablistHandler);
+
+      this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
+        Messaging.#convoCardsHow);
+      this.addService(ScrollerService, this.#convoCardScroller);
+      this.#convoCardScroller.dispatcher.on('activate',
+        this.#onConvoCardActivate);
+      this.#convoCardScroller.dispatcher.on('change',
+        this.#onConvoCardChange);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueConvoCardsIdentifier(element) {
+      log.log('uniqueConvoCardsIdentifier', element);
+      let content = element.innerText;
+      const anchor = element.querySelector('a');
+      if (anchor?.href) {
+        content = anchor.href;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get convoCards() {
+      return this.#convoCardScroller;
     }
 
     loadMoreConversations = new Shortcut(
@@ -3885,6 +3913,25 @@
 
     }
 
+    /** @type {Scroller~How} */
+    static #convoCardsHow = {
+      uidCallback: Messaging.uniqueConvoCardsIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #convoCardsWhat = {
+      name: 'Messaging conversations',
+      containerItems: [
+        {
+          container:
+          'main ul.msg-conversations-container__conversations-list',
+          items: ':scope > li',
+        },
+      ],
+    };
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -3897,17 +3944,44 @@
       `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
 
     #activator
+    #convoCardScroller
     #keyboardService
     #messagingTablistObserver
 
-    #messagingTablistHandler = () => {
+    #onConvoCardActivate = async () => {
+      const me = 'onConvoCardActivate';
+      this.logger.entered(me);
+
+      await this.#findActiveConvo();
+
+      this.logger.leaving(me);
+    }
+
+    #onConvoCardChange = () => {
+      NH.web.clickElement(this.convoCards.item, ['a']);
+    }
+
+    #findActiveConvo = async () => {
+      const me = 'findActiveConvo';
+      this.logger.entered(me);
+
+      // Look for 'a.active'
+      try {
+        const timeout = 2000;
+        const item = await NH.web.waitForSelector('li a.active', timeout);
+        this.convoCards.goto(item.closest('li'));
+      } catch (e) {
+        this.logger.log('Active conversation card not found, staying put');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #messagingTablistHandler = async () => {
       const me = 'messagingTablistHandler';
       this.logger.entered(me);
 
-      const current = document.querySelector(
-        Messaging.#messagingTabSelectorCurrent
-      );
-      this.logger.log('current:', current);
+      await this.#findActiveConvo();
 
       this.logger.leaving(me);
     }
