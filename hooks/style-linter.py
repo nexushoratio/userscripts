@@ -118,7 +118,7 @@ def process(fn):
   in_class = False
 
   for num, line in enumerate(open(fn).readlines(), start=1):
-    words = line.split();
+    words = line.split()
     if line.startswith(' ') and words:
       code = words.pop(0)
       indent = line.index(code)
@@ -229,4 +229,4 @@ clean = True
 for fn in (glob.glob('**/*.js', recursive=True)):
   clean &= process(fn)
 
-sys.exit(not clean);
+sys.exit(not clean)
