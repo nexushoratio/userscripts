@@ -3811,7 +3811,6 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueConvoCardsIdentifier(element) {
-      log.log('uniqueConvoCardsIdentifier', element);
       let content = element.innerText;
       const anchor = element.querySelector('a');
       if (anchor?.href) {
