@@ -139,6 +139,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-19',
+      issues: ['#144'],
+      subject: 'Add <code>Scroller</code> for <code>Messaging</code> view',
+    },
+    {
       date: '2023-11-18',
       issues: ['#144'],
       subject: 'Implement moving to the <kbd><kbd>m</kbd></kbd>essage ' +
@@ -279,12 +284,6 @@
       date: '2023-10-20',
       issues: ['#106'],
       subject: 'Basic <b>News</b> tab',
-    },
-    {
-      date: '2023-10-19',
-      issues: ['#167'],
-      subject: 'Bump lib/base to version 9, switch to that ' +
-        '<code>Dispatcher</code>',
     },
   ];
 
