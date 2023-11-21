@@ -3789,9 +3789,6 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      this.#activator = this.addService(Messaging.#Activator);
-      this.#activator.page = this;
-
       // Focused/Other tab
       this.#messagingTablistObserver =
         new MutationObserver(this.#messagingTablistHandler);
@@ -3801,6 +3798,8 @@
       this.addService(ScrollerService, this.#convoCardScroller);
       this.#convoCardScroller.dispatcher.on('activate',
         this.#onConvoCardActivate);
+      this.#convoCardScroller.dispatcher.on('deactivate',
+        this.#onConvoCardDeactivate);
       this.#convoCardScroller.dispatcher.on('change',
         this.#onConvoCardChange);
     }
@@ -3869,48 +3868,6 @@
       this.logger.leaving(me);
     });
 
-    /** Handles Messaging specific issues. */
-    static #Activator = class extends Service {
-
-      /** @returns {Messaging} - Associated instance. */
-      get page() {
-        return this.#page;
-      }
-
-      /** @param {Messaging} val - Associated instance. */
-      set page(val) {
-        this.#page = val;
-      }
-
-      /** Called each time service is activated. */
-      activate() {
-        const me = 'activate';
-        this.logger.entered(me);
-
-        const tab = document.querySelector(Messaging.#messagingTabSelector);
-        this.page.#messagingTablistObserver.observe(tab,
-          {attributes: true, subtree: true});
-
-        // Guarantee it is called at least once.
-        this.page.#messagingTablistHandler();
-
-        this.logger.leaving(me);
-      }
-
-      /** Called each time service is deactivated. */
-      deactivate() {
-        const me = 'deactivate';
-        this.logger.entered(me);
-
-        this.page.#messagingTablistObserver.disconnect();
-
-        this.logger.leaving(me);
-      }
-
-      #page
-
-    }
-
     /** @type {Scroller~How} */
     static #convoCardsHow = {
       uidCallback: Messaging.uniqueConvoCardsIdentifier,
@@ -3951,6 +3908,19 @@
       this.logger.entered(me);
 
       await this.#findActiveConvo();
+
+      const tab = document.querySelector(Messaging.#messagingTabSelector);
+      this.#messagingTablistObserver.observe(tab,
+        {attributes: true, subtree: true});
+
+      this.logger.leaving(me);
+    }
+
+    #onConvoCardDeactivate = () => {
+      const me = 'onConvoCardDeactivate';
+      this.logger.entered(me);
+
+      this.#messagingTablistObserver.disconnect();
 
       this.logger.leaving(me);
     }
