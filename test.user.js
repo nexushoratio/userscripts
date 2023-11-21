@@ -25,6 +25,7 @@
 
   const logger = new NH.base.Logger('Testing');
   NH.base.Logger.config('Testing').enabled = true;
+  NH.base.Logger.config('Testing').group('Failures').mode = 'opened';
 
   for (const entry of NH.userscript.environmentData()) {
     logger.log(entry);
