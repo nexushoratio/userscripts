@@ -14,30 +14,30 @@ nested_testcase_re = re.compile(r' = class extends NH.xunit.TestCase {')
 skip_re = re.compile(r'( \+= )')
 
 class C(enum.IntEnum):
-  name = 0
-  constructor = enum.auto()
+  NAME = 0
+  CONSTRUCTOR = enum.auto()
 
-  static_public_class = enum.auto()
-  static_public_field = enum.auto()
-  static_public_getter = enum.auto()
-  static_public_method = enum.auto()
+  STATIC_PUBLIC_CLASS = enum.auto()
+  STATIC_PUBLIC_FIELD = enum.auto()
+  STATIC_PUBLIC_GETTER = enum.auto()
+  STATIC_PUBLIC_METHOD = enum.auto()
 
-  public_field = enum.auto()
-  public_getter = enum.auto()
-  public_method = enum.auto()
+  PUBLIC_FIELD = enum.auto()
+  PUBLIC_GETTER = enum.auto()
+  PUBLIC_METHOD = enum.auto()
 
-  static_private_class = enum.auto()
-  static_private_field = enum.auto()
-  static_private_getter = enum.auto()
-  static_private_method = enum.auto()
+  STATIC_PRIVATE_CLASS = enum.auto()
+  STATIC_PRIVATE_FIELD = enum.auto()
+  STATIC_PRIVATE_GETTER = enum.auto()
+  STATIC_PRIVATE_METHOD = enum.auto()
 
-  private_field = enum.auto()
-  private_getter = enum.auto()
-  private_method = enum.auto()
+  PRIVATE_FIELD = enum.auto()
+  PRIVATE_GETTER = enum.auto()
+  PRIVATE_METHOD = enum.auto()
 
-  nested_testcase = enum.auto()
+  NESTED_TESTCASE = enum.auto()
 
-  end = enum.auto()
+  END = enum.auto()
 
 @dataclasses.dataclass(order=True, frozen=True)
 class Nest:
@@ -59,10 +59,10 @@ class D:
   def __lt__(self, other):
     if self.parent == other.parent:
       if self.c == other.c:
-        if '_field' in self.c.name:
+        if '_FIELD' in self.c.name:
           # Alphabetize by field name
           return self.code < other.code
-        elif '_getter' in self.c.name:
+        elif '_GETTER' in self.c.name:
           # Parse (irony) out the name of the {g,s}etters
           self_word = self.code.split()[-2].split('(')[0]
           other_word = other.code.split()[-2].split('(')[0]
@@ -86,8 +86,8 @@ def tsort(data):
 
   # Gather the parents first
   for item in data:
-    if item.c in (C.name, C.static_public_class, C.static_private_class,
-                  C.nested_testcase):
+    if item.c in (C.NAME, C.STATIC_PUBLIC_CLASS, C.STATIC_PRIVATE_CLASS,
+                  C.NESTED_TESTCASE):
       parents[item.code] = item
 
   # Separate items out under their parents
@@ -161,55 +161,55 @@ def process(fn):
           words = code.split()
           if words[0] == 'class':
             if current:
-              if current[0].c == C.name:
+              if current[0].c == C.NAME:
                 classes.append(current)
               current = []
-            current.append(D(C.name, words[1], num, parent))
+            current.append(D(C.NAME, words[1], num, parent))
           elif words[0].startswith('constructor'):
-            current.append(D(C.constructor, words[0], num, parent))
+            current.append(D(C.CONSTRUCTOR, words[0], num, parent))
           elif words[0] == 'static':
             if words[1] in ('get', 'set'):
               if words[2][0] == '#':
-                current.append(D(C.static_private_getter, code, num, parent))
+                current.append(D(C.STATIC_PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(C.static_public_getter, code, num, parent))
+                current.append(D(C.STATIC_PUBLIC_GETTER, code, num, parent))
             elif nested_testcase_re.search(code):
-              current.append(D(C.nested_testcase, words[1], num, parent))
+              current.append(D(C.NESTED_TESTCASE, words[1], num, parent))
             elif static_class_re.search(code):
               if words[1][0] == '#':
-                current.append(D(C.static_private_class, words[1], num, parent))
+                current.append(D(C.STATIC_PRIVATE_CLASS, words[1], num, parent))
               else:
-                current.append(D(C.static_public_class, words[1], num, parent))
+                current.append(D(C.STATIC_PUBLIC_CLASS, words[1], num, parent))
             elif method_re.search(code):
               if words[1][0] == '#':
-                current.append(D(C.static_private_method, code, num, parent))
+                current.append(D(C.STATIC_PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(C.static_public_method, code, num, parent))
+                current.append(D(C.STATIC_PUBLIC_METHOD, code, num, parent))
             elif words[1][0] == '#':
-              current.append(D(C.static_private_field, code, num, parent))
+              current.append(D(C.STATIC_PRIVATE_FIELD, code, num, parent))
             else:
-              current.append(D(C.static_public_field, code, num, parent))
+              current.append(D(C.STATIC_PUBLIC_FIELD, code, num, parent))
           else:
             if words[0] in ('get', 'set'):
               if words[1][0] == '#':
-                current.append(D(C.private_getter, code, num, parent))
+                current.append(D(C.PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(C.public_getter, code, num, parent))
+                current.append(D(C.PUBLIC_GETTER, code, num, parent))
             elif method_re.search(code):
               if words[0][0] == '#':
-                current.append(D(C.private_method, code, num, parent))
+                current.append(D(C.PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(C.public_method, code, num, parent))
+                current.append(D(C.PUBLIC_METHOD, code, num, parent))
             elif words[0][0] == '#':
-              current.append(D(C.private_field, code, num, parent))
+              current.append(D(C.PRIVATE_FIELD, code, num, parent))
             else:
               if 'new Shortcut' in code:
-                current.append(D(C.public_method, code, num, parent))
+                current.append(D(C.PUBLIC_METHOD, code, num, parent))
               else:
                 if not suspect:
-                  current.append(D(C.public_field, code, num, parent))
+                  current.append(D(C.PUBLIC_FIELD, code, num, parent))
 
-  if current and current[0].c == C.name:
+  if current and current[0].c == C.NAME:
     classes.append(current)
 
   clean = True
