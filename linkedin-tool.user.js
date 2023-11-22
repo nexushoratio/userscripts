@@ -139,6 +139,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-21',
+      issues: ['#144'],
+      subject: 'Move control of the tablist monitor into ' +
+        '<code>Scroller</code> activation',
+    },
+    {
       date: '2023-11-19',
       issues: ['#144'],
       subject: 'Add <code>Scroller</code> for <code>Messaging</code> view',
@@ -279,11 +285,6 @@
       date: '2023-10-22',
       issues: ['#144'],
       subject: 'Initial support for the <code>Messaging</code> page',
-    },
-    {
-      date: '2023-10-20',
-      issues: ['#106'],
-      subject: 'Basic <b>News</b> tab',
     },
   ];
 
