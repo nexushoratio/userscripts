@@ -76,9 +76,7 @@ class D:
     else:
       if other.parent.name in self.code:
         return False
-      lt = self.parent < other.parent
-      # print(f'less than: {lt}\n{self}\n{other}\n')
-      return lt
+      return self.parent < other.parent
 
 def tsort(data):
   parents = dict()
@@ -111,13 +109,13 @@ def tsort(data):
 
   return results
 
-def process(fn):
+def process(filename):
   classes = list()
   current = list()
   nesting = [Nest(0, 0, '')]
   in_class = False
 
-  for num, line in enumerate(open(fn).readlines(), start=1):
+  for num, line in enumerate(open(filename).readlines(), start=1):
     words = line.split()
     if line.startswith(' ') and words:
       code = words.pop(0)
@@ -217,7 +215,7 @@ def process(fn):
     srt = tsort(item)
     if srt != item:
       clean = False
-      print(f'bad: {fn}: {item[0]}')
+      print(f'bad: {filename}: {item[0]}')
       item = [str(x) for x in item]
       srt = [str(x) for x in srt]
       print('\n'.join(difflib.unified_diff(item, srt)))
