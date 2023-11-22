@@ -3926,8 +3926,24 @@
       this.logger.leaving(me);
     }
 
-    #onConvoCardChange = () => {
-      NH.web.clickElement(this.convoCards.item, ['a']);
+    #onConvoCardChange = async () => {
+      const me = 'onConvoCardChange';
+      this.logger.entered(me);
+
+      const selector = '.msg-form__contenteditable[data-artdeco-is-focused';
+      const timeout = 2000;
+
+      if (this.convoCards.item) {
+        try {
+          NH.web.clickElement(this.convoCards.item, ['a']);
+          await NH.web.waitForSelector(selector, timeout);
+          NH.web.focusOnElement(this.convoCards.item);
+        } catch (e) {
+          this.logger.log('Focus to message box not detected, staying put');
+        }
+      }
+
+      this.logger.leaving(me);
     }
 
     #findActiveConvo = async () => {
