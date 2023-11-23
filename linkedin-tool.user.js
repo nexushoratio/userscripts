@@ -3655,8 +3655,9 @@
     toggleThumbsDown = new Shortcut(
       '-', 'Toggle thumbs down, if available', () => {
         const selector = [
-          'button[aria-label="Dismiss job"]',
+          'button[aria-label^="Dismiss job"]:not([disabled])',
           'button[aria-label="Job is dismissed, undo"]',
+          'button[aria-label$=" Undo"]',
         ].join(',');
         NH.web.clickElement(this.jobCards.item, [selector]);
       }
