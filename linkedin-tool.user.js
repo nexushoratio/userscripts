@@ -3947,7 +3947,7 @@
       const me = 'onConvoCardChange';
       this.logger.entered(me);
 
-      const selector = '.msg-form__contenteditable[data-artdeco-is-focused';
+      const selector = '.msg-form__contenteditable[data-artdeco-is-focused]';
       const timeout = 2000;
 
       if (this.convoCards.item) {
