@@ -3949,12 +3949,13 @@
 
       const selector = '.msg-form__contenteditable[data-artdeco-is-focused]';
       const timeout = 2000;
+      const currentCard = this.convoCards.item;
 
-      if (this.convoCards.item) {
+      if (currentCard) {
         try {
-          NH.web.clickElement(this.convoCards.item, ['a']);
+          NH.web.clickElement(currentCard, ['a']);
           await NH.web.waitForSelector(selector, timeout);
-          NH.web.focusOnElement(this.convoCards.item);
+          NH.web.focusOnElement(currentCard);
         } catch (e) {
           this.logger.log(
             'Focus moving message box not detected, staying put'
