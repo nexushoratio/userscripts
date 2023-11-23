@@ -135,9 +135,25 @@
     ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
     ['#198', 'Add default options'],
     ['#200', 'Implement <code>TestResult.summary()</code>'],
+    [
+      '#206', '<code>JobCollections</code>: Dismissing/thumbs-downing a ' +
+     'job card is not working (neither does <em>Undo</em>)',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-22',
+      issues: ['#206'],
+      subject: 'Update selectors for hide/show job card in ' +
+        '<code>JobCollections</code>',
+    },
+    {
+      date: '2023-11-22',
+      issues: ['#144'],
+      subject: 'Detect when focus shows up in message box and act ' +
+        'accordingly',
+    },
     {
       date: '2023-11-21',
       issues: ['#144'],
