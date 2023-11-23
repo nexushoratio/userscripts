@@ -856,7 +856,8 @@
       this.logger.entered(me);
 
       const containers = new Set(
-        Array.from(await this.#waitForContainers()).filter(x => x)
+        Array.from(await this.#waitForContainers())
+          .filter(x => x)
       );
       if (this.#base) {
         containers.add(this.#base);
@@ -991,7 +992,8 @@
       const me = 'bottomHalf';
       this.logger.entered(me, val);
       this.#currentItemId = this.#uid(val);
-      const idx = this.#getItems().indexOf(val);
+      const idx = this.#getItems()
+        .indexOf(val);
       this.#historicalIdToIndex.set(this.#currentItemId, idx);
       this.shine();
       this.#scrollToCurrentItem();
@@ -1858,7 +1860,8 @@
           sequence.push('Shift');
         }
         sequence.push(key.base);
-        return sequence.map(c => `<kbd>${c}</kbd>`).join('+');
+        return sequence.map(c => `<kbd>${c}</kbd>`)
+          .join('+');
       }
       const res = VM.shortcut.normalizeSequence(seq, true)
         .map(key => reprKey(key))
@@ -2592,7 +2595,8 @@
         ).parentElement;
         share.style.scrollMarginTop = linkedInGlobals.navBarHeightCSS;
         share.scrollIntoView();
-        share.querySelector('button').focus();
+        share.querySelector('button')
+          .focus();
       }
     );
 
@@ -2715,10 +2719,11 @@
           monitor: monitor,
           timeout: 5000,
         };
-        NH.web.otmot(what, how).finally(() => {
-          this.posts.shine();
-          this.posts.show();
-        });
+        NH.web.otmot(what, how)
+          .finally(() => {
+            this.posts.shine();
+            this.posts.show();
+          });
       }
 
       this.logger.leaving(me);
@@ -3131,7 +3136,8 @@
         for (const el of document.body.querySelectorAll(
           'main > section section > ul > li'
         )) {
-          const text = el.innerText.trim().split('\n')[0];
+          const text = el.innerText.trim()
+            .split('\n')[0];
           if (text === this.#currentInviteText) {
             return {done: true};
           }
@@ -3161,7 +3167,8 @@
       const me = 'onChange';
       this.logger.entered(me);
       this.#currentInviteText = this.invites.item?.innerText
-        .trim().split('\n')[0];
+        .trim()
+        .split('\n')[0];
       this.logger.log('current', this.#currentInviteText);
       this.logger.leaving(me);
     }
@@ -4662,9 +4669,10 @@
 
       widget.append(name, instructions);
 
-      document.getElementById(dismissId).addEventListener('click', () => {
-        this.#infoWidget.close();
-      });
+      document.getElementById(dismissId)
+        .addEventListener('click', () => {
+          this.#infoWidget.close();
+        });
 
       this.#infoKeyboard = new VM.shortcut.KeyboardService();
       widget.addEventListener('open', this.#onOpenInfo);
@@ -4821,7 +4829,8 @@
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
-      const navMe = ul.querySelector('li .global-nav__me').closest('li');
+      const navMe = ul.querySelector('li .global-nav__me')
+        .closest('li');
       if (navMe) {
         navMe.after(li);
       } else {
@@ -4879,7 +4888,8 @@
         this.logger.log('service:', service.shortName, service.active);
         // Works in progress may not have any shortcuts yet.
         if (service.shortcuts.length) {
-          const name = NH.base.simpleParseWords(service.shortName).join(' ');
+          const name = NH.base.simpleParseWords(service.shortName)
+            .join(' ');
           this.#shortcutsWidget.addSection(service.shortName);
           this.#shortcutsWidget.addHeader(service.active, name);
           for (const shortcut of service.shortcuts) {
@@ -4908,7 +4918,8 @@
         for (const issue of item.issues) {
           if (knownIssues.has(issue)) {
             unusedIssues.delete(issue);
-            dates.get(item.date).get(issue)
+            dates.get(item.date)
+              .get(issue)
               .push(item.subject);
           } else {
             unknownIssues.add(issue);
@@ -4920,7 +4931,8 @@
       this.logger.log('unused', unusedIssues);
 
       if (unknownIssues.size) {
-        const issues = Array.from(unknownIssues).join(', ');
+        const issues = Array.from(unknownIssues)
+          .join(', ');
         throw new Error(`Unknown issues were detected: ${issues}`);
       }
 
@@ -5267,7 +5279,8 @@
      */
     _addInfo(page) {
       const shortcuts = document.querySelector(`#${this._infoId} tbody`);
-      const section = NH.base.simpleParseWords(page.infoHeader).join(' ');
+      const section = NH.base.simpleParseWords(page.infoHeader)
+        .join(' ');
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.allShortcuts) {
@@ -5483,7 +5496,8 @@
           this.#oldUrl = newUrl;
           document.dispatchEvent(evt);
         }
-      }).observe(element, observeOptions);
+      })
+        .observe(element, observeOptions);
     }
 
     /** Select which way to monitor the URL for changes and start it. */
