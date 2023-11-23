@@ -3956,7 +3956,9 @@
           await NH.web.waitForSelector(selector, timeout);
           NH.web.focusOnElement(this.convoCards.item);
         } catch (e) {
-          this.logger.log('Focus to message box not detected, staying put');
+          this.logger.log(
+            'Focus moving message box not detected, staying put'
+          );
         }
       }
 
