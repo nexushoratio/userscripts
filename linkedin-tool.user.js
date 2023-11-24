@@ -1042,7 +1042,7 @@
         this.logger.log('item:', item);
         const uid = this.#uid(item);
         if (uids.has(uid)) {
-          this.logger.log(`Duplicate item: "${uid}"`, item);
+          NH.base.issues.post(`Duplicate item: "${uid}"`, item.outerHTML);
         }
         uids.add(uid);
       }
