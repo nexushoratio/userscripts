@@ -4986,6 +4986,7 @@
         }
         this.addErrorMarker();
       }
+      NH.base.issues.listen(this.#issueListener);
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this.#onUrlChange, true);
       this.#startUrlMonitor();
@@ -5469,6 +5470,13 @@
     /** @type {Set<Page>} - Registered {Page}s. */
     #pages = new Set();
 
+    #issueListener = (...issues) => {
+      for (const issue of issues) {
+        this.addError(issue);
+      }
+      this.addErrorMarker();
+    }
+
     /**
      * Tampermonkey was the first(?) userscript manager to provide events
      * about URLs changing.  Hence the need for `@grant window.onurlchange` in
@@ -5541,9 +5549,9 @@
 
   // Inject some test errors
   if (litOptions.enableDevMode) {
-    linkedIn.addSetupIssue('This is a dummy test issue.',
-      'It was added because NH.xunit.testing is enabled.');
-    linkedIn.addSetupIssue('This is a second issue.',
+    NH.base.issues.post('This is a dummy test issue.',
+      'It was added because enableDevMode is true.');
+    NH.base.issues.post('This is a second issue.',
       'We just want to make sure things count properly.');
   }
 
