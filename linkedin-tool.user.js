@@ -1040,11 +1040,13 @@
       const uids = new Set();
       for (const item of items) {
         this.logger.log('item:', item);
-        const uid = this.#uid(item);
-        if (uids.has(uid)) {
-          NH.base.issues.post(`Duplicate item: "${uid}"`, item.outerHTML);
+        if (Scroller.#isItemViewable(item)) {
+          const uid = this.#uid(item);
+          if (uids.has(uid)) {
+            NH.base.issues.post(`Duplicate item: "${uid}"`, item.outerHTML);
+          }
+          uids.add(uid);
         }
-        uids.add(uid);
       }
       this.logger.finished(me, `uid count: ${uids.size}`);
     }
