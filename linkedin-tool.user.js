@@ -135,6 +135,7 @@
     ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
     ['#198', 'Add default options'],
     ['#200', 'Implement <code>TestResult.summary()</code>'],
+    ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
     [
       '#206', '<code>JobCollections</code>: Dismissing/thumbs-downing a ' +
      'job card is not working (neither does <em>Undo</em>)',
@@ -142,6 +143,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-23',
+      issues: ['#204'],
+      subject: 'Log detection of duplicate items in a <code>Scroller</code>',
+    },
     {
       date: '2023-11-22',
       issues: ['#206'],
@@ -296,11 +302,6 @@
       issues: ['#165'],
       subject: 'Switch <code>Feed</code> to using <em>containerItems</em> ' +
         'primary <code>Scroller</code>',
-    },
-    {
-      date: '2023-10-22',
-      issues: ['#144'],
-      subject: 'Initial support for the <code>Messaging</code> page',
     },
   ];
 
