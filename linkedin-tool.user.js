@@ -1023,14 +1023,29 @@
           }
         }
       }
-      this.logger.starting('items');
+      this.#postProcessItems(items);
+
+      this.logger.leaving(me);
+      return items;
+    }
+
+    /**
+     * Log items and do any fixups on them.
+     * @param {[Element]} items - Elements in the Scroller.
+     */
+    #postProcessItems = (items) => {
+      const me = 'postProcessItems';
+      this.logger.starting(me, `count: ${items.length}`);
+      const uids = new Set();
       for (const item of items) {
         this.logger.log('item:', item);
+        const uid = this.#uid(item);
+        if (uids.has(uid)) {
+          this.logger.log(`Duplicate item: "${uid}"`, item);
+        }
+        uids.add(uid);
       }
-      this.logger.finished('items');
-
-      this.logger.leaving(me, `${items.length} items`);
-      return items;
+      this.logger.finished(me, `uid count: ${uids.size}`);
     }
 
     /**
