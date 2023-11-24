@@ -13,6 +13,7 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * strHash - Equivalent (for now) of Java's hashCode (do not store externally).
 * Dispatcher - Simple dispatcher (event bus).
 * MessageQueue - A simple message system that will queue messages to be delivered.
+* issues - NexusHoratio libraries log issues here.
 * simpleParseWords - Separate a string of concatenated words along transitions.
 
 More details are in [base.js](base.js) as JSDoc.

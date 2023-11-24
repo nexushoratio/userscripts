@@ -54,6 +54,18 @@ window.NexusHoratio.foo = (function foo() {
 
   const version = N;
 
+  // Note that *ver?* here is from {xunit,base}.version, NOT the @require URL.
+  const NH = window.NexusHoratio.base.ensure([
+    {name: 'xunit', minVersion: ver0},
+    {name: 'base', minVersion: ver1},
+  ]);
+
+  function bar() {
+    if (!right) {
+      NH.base.issues.post('Something was not right with bar', 'Details ...');
+    }
+  }
+
   return {
     version: version,
   };
@@ -65,6 +77,11 @@ Some of the above is simply to keep eslint happy.
 Libraries and apps should use *base.ensure()* to restrict the namespace and verify minimal versions are present.
 ```
 const NH = window.NexusHoratio.base.ensure([{name: 'xunit'}, {name: 'base'}]);
+```
+
+Libraries and apps should use *base.issues* to post bugs.  Apps should set a listener on *base.issues* to process those bugs (e.g., put them somewhere a user can easily get to them that is not just the console logs).
+```
+NH.base.issues.post('Something bad', 'detail 1', 'detail 2');
 ```
 
 ## Applications
@@ -98,6 +115,12 @@ Skeleton for *bar.user.js*:
     {name: 'xunit', minVersion: ver0},
     {name: 'base', minVersion: ver1},
   ]);
+
+  function issueListener(...issues) {
+    // Handle issues
+  }
+
+  NH.base.issues.listener(issueListener);
 
   NH.xunit.testing.run();
 
