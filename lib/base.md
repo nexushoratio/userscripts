@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 
-## Exported properties (as of version 21)
+## Exported properties (as of version 36)
 * version - Bumped per release.
 * NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
@@ -12,6 +12,7 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * safeId - Normalizes a string to be safe to use as an HTML element id.
 * strHash - Equivalent (for now) of Java's hashCode (do not store externally).
 * Dispatcher - Simple dispatcher (event bus).
+* MessageQueue - A simple message system that will queue messages to be delivered.
 * simpleParseWords - Separate a string of concatenated words along transitions.
 
 More details are in [base.js](base.js) as JSDoc.
