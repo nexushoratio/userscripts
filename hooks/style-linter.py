@@ -115,7 +115,7 @@ def process(filename):
   nesting = [Nest(0, 0, '')]
   in_class = False
 
-  for num, line in enumerate(open(filename).readlines(), start=1):
+  for num, line in enumerate(open(filename, encoding='utf-8').readlines(), start=1):
     words = line.split()
     if line.startswith(' ') and words:
       code = words.pop(0)
