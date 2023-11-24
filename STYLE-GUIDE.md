@@ -88,7 +88,7 @@ NH.base.issues.post('Something bad', 'detail 1', 'detail 2');
 
 Use the `https://github.com/nexushoratio/userscripts` userscript namespace.
 
-Use libraries as hosted on [Greasy Fork](https://greasyfork.org/en/users/1139937-mike-castle-nexus).
+Use libraries as hosted on [Greasy Fork](https://greasyfork.org/en/users/1139937-mike-castle-nexus).  As of 2023-10-16, we now use the new format that embeds the Greasy Fork version (different from the library version), inside the URL.  See the strings `ABC` and `XYZ` in the skeleton.
 
 Skeleton for *bar.user.js*:
 ```
@@ -103,8 +103,8 @@ Skeleton for *bar.user.js*:
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/bar.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/bar.md
-// @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js?version=ABC
-// @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js?version=XYZ
+// @require     https://update.greasyfork.org/scripts/478188/ABC/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/477290/XYZ/NH_base.js
 // ==/UserScript==
 
 (async () => {
