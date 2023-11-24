@@ -10,11 +10,11 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1281409/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1281408/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1275719/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478188/1285521/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/477290/1285523/NH_base.js
+// @require     https://update.greasyfork.org/scripts/478349/1284417/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1276563/NH_web.js
-// @require     https://update.greasyfork.org/scripts/478676/1281410/NH_widget.js
+// @require     https://update.greasyfork.org/scripts/478676/1285522/NH_widget.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -27,11 +27,11 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 24},
-    {name: 'base', minVersion: 33},
-    {name: 'userscript', minVersion: 4},
+    {name: 'xunit', minVersion: 31},
+    {name: 'base', minVersion: 36},
+    {name: 'userscript', minVersion: 5},
     {name: 'web', minVersion: 2},
-    {name: 'widget', minVersion: 8},
+    {name: 'widget', minVersion: 14},
   ]);
 
   /**
