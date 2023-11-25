@@ -13,6 +13,7 @@ static_class_re = re.compile(r' = class ')
 nested_testcase_re = re.compile(r' = class extends NH.xunit.TestCase {')
 skip_re = re.compile(r'( \+= )')
 
+
 class C(enum.IntEnum):
   NAME = 0
   CONSTRUCTOR = enum.auto()
@@ -39,11 +40,13 @@ class C(enum.IntEnum):
 
   END = enum.auto()
 
+
 @dataclasses.dataclass(order=True, frozen=True)
 class Nest:
   indent: int
   line: int
   name: str
+
 
 @dataclasses.dataclass(frozen=True)
 class D:
@@ -78,6 +81,7 @@ class D:
         return False
       return self.parent < other.parent
 
+
 def tsort(data):
   parents = dict()
   tdata = collections.defaultdict(list)
@@ -109,21 +113,28 @@ def tsort(data):
 
   return results
 
+
 def process(filename):
   classes = list()
   current = list()
   nesting = [Nest(0, 0, '')]
   in_class = False
 
-  for num, line in enumerate(open(filename, encoding='utf-8').readlines(), start=1):
+  for num, line in enumerate(open(filename, encoding='utf-8').readlines(),
+                             start=1):
     words = line.split()
     if line.startswith(' ') and words:
       code = words.pop(0)
       indent = line.index(code)
       parent = nesting[-1]
 
-      if code in ('const', 'if', 'await', 'return', 'for', 'while', 'function', 'let', 'throw', 'new', 'try') or '.' in code or '`' in code or "'" in code or code.startswith('(') or code.startswith('super('):
-        if code == 'function' and (indent <= parent.indent or not parent.indent):
+      if code in (
+          'const', 'if', 'await', 'return', 'for', 'while', 'function', 'let',
+          'throw', 'new', 'try'
+      ) or '.' in code or '`' in code or "'" in code or code.startswith(
+          '(') or code.startswith('super('):
+        if code == 'function' and (indent <= parent.indent
+                                   or not parent.indent):
           in_class = False
         continue
 
@@ -175,7 +186,8 @@ def process(filename):
               current.append(D(C.NESTED_TESTCASE, words[1], num, parent))
             elif static_class_re.search(code):
               if words[1][0] == '#':
-                current.append(D(C.STATIC_PRIVATE_CLASS, words[1], num, parent))
+                current.append(D(C.STATIC_PRIVATE_CLASS, words[1], num,
+                                 parent))
               else:
                 current.append(D(C.STATIC_PUBLIC_CLASS, words[1], num, parent))
             elif method_re.search(code):
@@ -222,6 +234,7 @@ def process(filename):
       print('\n\n')
 
   return clean
+
 
 clean = True
 for fn in (glob.glob('**/*.js', recursive=True)):
