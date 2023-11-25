@@ -136,6 +136,7 @@
     ['#198', 'Add default options'],
     ['#200', 'Implement <code>TestResult.summary()</code>'],
     ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
+    ['#205', 'Generic way to capture bugs'],
     [
       '#206', '<code>JobCollections</code>: Dismissing/thumbs-downing a ' +
      'job card is not working (neither does <em>Undo</em>)',
@@ -143,6 +144,27 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-11-24',
+      issues: ['#204'],
+      subject: 'Ignore non-viewable items when checking for duplicates',
+    },
+    {
+      date: '2023-11-24',
+      issues: ['#204'],
+      subject: 'Replace logging duplicates to posting to the new issues ' +
+        'listener',
+    },
+    {
+      date: '2023-11-24',
+      issues: ['#205'],
+      subject: 'Plug in using <em>NH.base.issues</em>',
+    },
+    {
+      date: '2023-11-24',
+      issues: ['#205'],
+      subject: 'Bump all libraries to the current version',
+    },
     {
       date: '2023-11-23',
       issues: ['#204'],
