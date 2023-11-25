@@ -4284,13 +4284,6 @@
     }
 
     /**
-     * An issue that happened during construction.  SPA will ask for them and
-     * add them to the Errors tab.
-     * @typedef {object} SetupIssue
-     * @property {string[]} messages - What to pass to {@link SPA.addError}.
-     */
-
-    /**
      * @type {string} - CSS selector to monitor if self-managing URL changes.
      * The selector must resolve to an element that, once it exists, will
      * continue to exist for the lifetime of the SPA.
@@ -4305,11 +4298,6 @@
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     get logger() {
       return this.#logger;
-    }
-
-    /** @type {SetupIssue[]} */
-    get setupIssues() {
-      return this.#setupIssues;
     }
 
     /** @type {TabbedUI} */
@@ -4364,17 +4352,6 @@
     }
 
     /**
-     * Collects {SetupIssue}s for reporting.
-     * @param {...string} msgs - Text to report.
-     */
-    addSetupIssue(...msgs) {
-      for (const msg of msgs) {
-        this.logger.log('Setup issue:', msg);
-      }
-      this.#setupIssues.push(msgs);
-    }
-
-    /**
      * @implements {SPA~TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Where to find documentation
      * and file bugs.
@@ -4403,9 +4380,6 @@
 
     #id
     #logger
-
-    /** @type {SetupIssue[]} */
-    #setupIssues = [];
 
     /** @type {TabbedUI} */
     #ui = null;
@@ -4454,7 +4428,7 @@
         } catch (e) {
           if (e instanceof NH.userscript.UserscriptError) {
             this.logger.log('e:', e);
-            this.addSetupIssue(e.message);
+            NH.base.issues.post(e.message);
             this.#licenseData = {
               name: 'Unable to extract: Please file a bug',
               url: '',
@@ -4877,7 +4851,7 @@
         // If the site changed and we cannot insert ourself after the Me menu
         // item, then go first.
         ul.prepend(li);
-        this.addSetupIssue(
+        NH.base.issues.post(
           'Unable to find the Profile navbar item.',
           'LIT menu installed in non-standard location.'
         );
@@ -5003,13 +4977,6 @@
       this.#details.init(this);
       this._installNavStyle();
       this._initializeInfoView();
-      for (const issue of details.setupIssues) {
-        this.logger.log('issue:', issue);
-        for (const error of issue) {
-          this.addError(error);
-        }
-        this.addErrorMarker();
-      }
       NH.base.issues.listen(this.#issueListener);
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this.#onUrlChange, true);
