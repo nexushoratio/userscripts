@@ -768,6 +768,7 @@
     get item() {
       const me = 'get item';
       this.logger.entered(me);
+
       if (this.#destroyed) {
         const msg = `Tried to work with destroyed ${Scroller.name} ` +
               `on ${this.#base}`;
@@ -785,6 +786,7 @@
           this.#bottomHalf(item);
         }
       }
+
       this.logger.leaving(me, item);
       return item;
     }
@@ -793,8 +795,10 @@
     set item(val) {
       const me = 'set item';
       this.logger.entered(me, val);
+
       this.dull();
       this.#bottomHalf(val);
+
       this.logger.leaving(me);
     }
 
@@ -844,6 +848,7 @@
     gotoUid(uid) {
       const me = 'gotoUid';
       this.logger.entered(me, uid);
+
       const items = this.#getItems();
       const item = items.find(el => uid === this.#uid(el));
       let success = false;
@@ -851,6 +856,7 @@
         this.item = item;
         success = true;
       }
+
       this.logger.leaving(me, success, item);
       return success;
     }
@@ -925,9 +931,11 @@
     destroy() {
       const me = 'destroy';
       this.logger.entered(me);
+
       this.deactivate();
       this.item = null;
       this.#destroyed = true;
+
       this.logger.leaving(me);
     }
 
@@ -978,6 +986,7 @@
     #onClick = (evt) => {
       const me = 'onClick';
       this.logger.entered(me, evt);
+
       for (const item of this.#getItems()) {
         if (item.contains(evt.target)) {
           this.logger.log('found:', item);
@@ -986,6 +995,7 @@
           }
         }
       }
+
       this.logger.leaving(me);
     }
 
@@ -995,6 +1005,7 @@
       this.logger.entered(
         me, `records: ${records.length} type: ${records[0].type}`
       );
+
       this.#mutationDispatcher.fire('records', null);
       for (const record of records) {
         if (record.type === 'childList') {
@@ -1003,6 +1014,7 @@
           this.logger.log('attribute records');
         }
       }
+
       this.logger.leaving(me);
     }
 
@@ -1014,6 +1026,7 @@
     #bottomHalf = (val) => {
       const me = 'bottomHalf';
       this.logger.entered(me, val);
+
       this.#currentItemId = this.#uid(val);
       const idx = this.#getItems()
         .indexOf(val);
@@ -1021,6 +1034,7 @@
       this.shine();
       this.#scrollToCurrentItem();
       this.dispatcher.fire('change', {});
+
       this.logger.leaving(me);
     }
 
@@ -1031,6 +1045,7 @@
     #getItems = () => {
       const me = 'getItems';
       this.logger.entered(me);
+
       const items = [];
       if (this.#base) {
         for (const selector of this.#selectors) {
@@ -1082,6 +1097,7 @@
     #uid = (element) => {
       const me = 'uid';
       this.logger.entered(me, element);
+
       let uid = null;
       if (element) {
         if (!element.dataset.scrollerId) {
@@ -1089,6 +1105,7 @@
         }
         uid = element.dataset.scrollerId;
       }
+
       this.logger.leaving(me, uid);
       return uid;
     }
@@ -1102,7 +1119,9 @@
     #matchItem = (element) => {
       const me = 'matchItem';
       this.logger.entered(me);
+
       const res = this.#currentItemId === this.#uid(element);
+
       this.logger.leaving(me, res);
       return res;
     }
@@ -1115,6 +1134,7 @@
     #scrollToCurrentItem = () => {
       const me = 'scrollToCurrentItem';
       this.logger.entered(me, `snaptoTop: ${this.#snapToTop}`);
+
       const {item} = this;
       if (item) {
         item.style.scrollMarginTop = this.#topMarginCSS;
@@ -1144,6 +1164,7 @@
           item.scrollIntoView({block: 'nearest', inline: 'nearest'});
         }
       }
+
       this.logger.leaving(me);
     }
 
@@ -1155,6 +1176,7 @@
     #jumpToEndItem = (first) => {
       const me = 'jumpToEndItem';
       this.logger.entered(me, `first=${first}`);
+
       // Reset in case item was heavily modified
       this.item = this.item;
 
@@ -1176,6 +1198,7 @@
         }
         this.item = item;
       }
+
       this.logger.leaving(me);
     }
 
@@ -1187,6 +1210,7 @@
     #scrollBy = (n) => {  // eslint-disable-line max-statements
       const me = 'scrollBy';
       this.logger.entered(me, n);
+
       // Reset in case item was heavily modified
       this.item = this.item;
 
@@ -1213,6 +1237,7 @@
           this.item = item;
         }
       }
+
       this.logger.leaving(me);
     }
 
