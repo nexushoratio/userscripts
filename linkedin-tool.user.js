@@ -4870,7 +4870,7 @@
         '  </div>' +
         '</button>';
       const navMe = ul.querySelector('li .global-nav__me')
-        .closest('li');
+        ?.closest('li');
       if (navMe) {
         navMe.after(li);
       } else {
