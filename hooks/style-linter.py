@@ -1,4 +1,5 @@
 #!/usr/bin/python
+"""Lint against the userscript/STYLE-GUIDE.md."""
 
 import collections
 import dataclasses
