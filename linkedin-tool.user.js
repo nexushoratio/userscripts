@@ -1080,15 +1080,23 @@
     #postProcessItems = (items) => {
       const me = 'postProcessItems';
       this.logger.starting(me, `count: ${items.length}`);
-      const uids = new Set();
+      const uids = new NH.base.DefaultMap(Array);
       for (const item of items) {
         this.logger.log('item:', item);
-        if (Scroller.#isItemViewable(item)) {
-          const uid = this.#uid(item);
-          if (uids.has(uid)) {
-            NH.base.issues.post(`Duplicate item: "${uid}"`, item.outerHTML);
+        const uid = this.#uid(item);
+        uids.get(uid)
+          .push(item);
+      }
+      for (const [uid, list] of uids.entries()) {
+        if (list.length > 1) {
+          this.logger.log(`${list.length} duplicates with "${uid}"`);
+          for (const item of list) {
+            // Try again, maybe they can be de-duped this time.  The overall
+            // experience seems to work better if the uid is recalculated
+            // right away, but yeah, a bit of a hack.
+            delete item.dataset.scrollerId;
+            this.#uid(item);
           }
-          uids.add(uid);
         }
       }
       this.logger.finished(me, `uid count: ${uids.size}`);
