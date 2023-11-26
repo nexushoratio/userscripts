@@ -145,6 +145,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-25',
+      issues: ['#205'],
+      subject: 'Retire <code>SPADetails</code> setup issues in favor of ' +
+        '<em>NH.base.issues</em>',
+    },
+    {
       date: '2023-11-24',
       issues: ['#204'],
       subject: 'Ignore non-viewable items when checking for duplicates',
