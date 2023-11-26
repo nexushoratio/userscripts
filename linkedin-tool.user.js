@@ -10,7 +10,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1285521/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/478188/1286498/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1285523/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1284417/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1276563/NH_web.js
@@ -27,7 +27,7 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 31},
+    {name: 'xunit', minVersion: 33},
     {name: 'base', minVersion: 36},
     {name: 'userscript', minVersion: 5},
     {name: 'web', minVersion: 2},
@@ -1404,7 +1404,6 @@
 
   }
 
-  /* eslint-disable class-methods-use-this */
   /* eslint-disable no-empty-function */
   /* eslint-disable no-new */
   /* eslint-disable require-jsdoc */
@@ -1506,7 +1505,9 @@
         uidCallback: () => {},
       };
 
-      new Scroller(what, how);
+      this.assertNoRaises(() => {
+        new Scroller(what, how);
+      }, 'everything is in place');
     }
 
     testValidUidCallback() {
@@ -1540,8 +1541,9 @@
 
       how.uidCallback = () => {};
 
-      // And finally, good.
-      new Scroller(what, how);
+      this.assertNoRaises(() => {
+        new Scroller(what, how);
+      }, 'finally, good');
     }
 
   }
