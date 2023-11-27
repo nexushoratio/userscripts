@@ -3988,7 +3988,7 @@
         {
           container:
           'main ul.msg-conversations-container__conversations-list',
-          items: ':scope > li',
+          items: ':scope > li.msg-conversations-container__pillar',
         },
       ],
     };
