@@ -145,6 +145,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-27',
+      issues: ['#144'],
+      subject: 'Fine tune the conversation card selector',
+    },
+    {
       date: '2023-11-25',
       issues: ['#205'],
       subject: 'Retire <code>SPADetails</code> setup issues in favor of ' +
@@ -318,18 +323,6 @@
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>l</kbd></kbd> to load more ' +
         'conversations',
-    },
-    {
-      date: '2023-10-27',
-      issues: ['#165'],
-      subject: 'Switch <code>MyNetwork</code> to using ' +
-        '<em>containerItems</em> for primary <code>Scroller</code>',
-    },
-    {
-      date: '2023-10-27',
-      issues: ['#165'],
-      subject: 'Switch <code>Feed</code> to using <em>containerItems</em> ' +
-        'primary <code>Scroller</code>',
     },
   ];
 
