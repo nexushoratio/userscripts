@@ -15,7 +15,7 @@ nested_testcase_re = re.compile(r' = class extends NH.xunit.TestCase {')
 skip_re = re.compile(r'( \+= )')
 
 
-class C(enum.IntEnum):
+class Type(enum.IntEnum):
   NAME = 0
   CONSTRUCTOR = enum.auto()
 
@@ -51,7 +51,7 @@ class Nest:
 
 @dataclasses.dataclass(frozen=True)
 class D:
-  c: C
+  c: Type
   code: str
   line: int
   parent: Nest
@@ -89,8 +89,8 @@ def tsort(data):
 
   # Gather the parents first
   for item in data:
-    if item.c in (C.NAME, C.STATIC_PUBLIC_CLASS, C.STATIC_PRIVATE_CLASS,
-                  C.NESTED_TESTCASE):
+    if item.c in (Type.NAME, Type.STATIC_PUBLIC_CLASS, Type.STATIC_PRIVATE_CLASS,
+                  Type.NESTED_TESTCASE):
       parents[item.code] = item
 
   # Separate items out under their parents
@@ -171,56 +171,56 @@ def process(filename):
           words = code.split()
           if words[0] == 'class':
             if current:
-              if current[0].c == C.NAME:
+              if current[0].c == Type.NAME:
                 classes.append(current)
               current = []
-            current.append(D(C.NAME, words[1], num, parent))
+            current.append(D(Type.NAME, words[1], num, parent))
           elif words[0].startswith('constructor'):
-            current.append(D(C.CONSTRUCTOR, words[0], num, parent))
+            current.append(D(Type.CONSTRUCTOR, words[0], num, parent))
           elif words[0] == 'static':
             if words[1] in ('get', 'set'):
               if words[2][0] == '#':
-                current.append(D(C.STATIC_PRIVATE_GETTER, code, num, parent))
+                current.append(D(Type.STATIC_PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(C.STATIC_PUBLIC_GETTER, code, num, parent))
+                current.append(D(Type.STATIC_PUBLIC_GETTER, code, num, parent))
             elif nested_testcase_re.search(code):
-              current.append(D(C.NESTED_TESTCASE, words[1], num, parent))
+              current.append(D(Type.NESTED_TESTCASE, words[1], num, parent))
             elif static_class_re.search(code):
               if words[1][0] == '#':
-                current.append(D(C.STATIC_PRIVATE_CLASS, words[1], num,
+                current.append(D(Type.STATIC_PRIVATE_CLASS, words[1], num,
                                  parent))
               else:
-                current.append(D(C.STATIC_PUBLIC_CLASS, words[1], num, parent))
+                current.append(D(Type.STATIC_PUBLIC_CLASS, words[1], num, parent))
             elif method_re.search(code):
               if words[1][0] == '#':
-                current.append(D(C.STATIC_PRIVATE_METHOD, code, num, parent))
+                current.append(D(Type.STATIC_PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(C.STATIC_PUBLIC_METHOD, code, num, parent))
+                current.append(D(Type.STATIC_PUBLIC_METHOD, code, num, parent))
             elif words[1][0] == '#':
-              current.append(D(C.STATIC_PRIVATE_FIELD, code, num, parent))
+              current.append(D(Type.STATIC_PRIVATE_FIELD, code, num, parent))
             else:
-              current.append(D(C.STATIC_PUBLIC_FIELD, code, num, parent))
+              current.append(D(Type.STATIC_PUBLIC_FIELD, code, num, parent))
           else:
             if words[0] in ('get', 'set'):
               if words[1][0] == '#':
-                current.append(D(C.PRIVATE_GETTER, code, num, parent))
+                current.append(D(Type.PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(C.PUBLIC_GETTER, code, num, parent))
+                current.append(D(Type.PUBLIC_GETTER, code, num, parent))
             elif method_re.search(code):
               if words[0][0] == '#':
-                current.append(D(C.PRIVATE_METHOD, code, num, parent))
+                current.append(D(Type.PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(C.PUBLIC_METHOD, code, num, parent))
+                current.append(D(Type.PUBLIC_METHOD, code, num, parent))
             elif words[0][0] == '#':
-              current.append(D(C.PRIVATE_FIELD, code, num, parent))
+              current.append(D(Type.PRIVATE_FIELD, code, num, parent))
             else:
               if 'new Shortcut' in code:
-                current.append(D(C.PUBLIC_METHOD, code, num, parent))
+                current.append(D(Type.PUBLIC_METHOD, code, num, parent))
               else:
                 if not suspect:
-                  current.append(D(C.PUBLIC_FIELD, code, num, parent))
+                  current.append(D(Type.PUBLIC_FIELD, code, num, parent))
 
-  if current and current[0].c == C.NAME:
+  if current and current[0].c == Type.NAME:
     classes.append(current)
 
   clean = True
