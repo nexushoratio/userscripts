@@ -3922,6 +3922,30 @@
       return this.#convoCardScroller;
     }
 
+    nextConvo = new Shortcut('j', 'Next conversation card', () => {
+      this.convoCards.next();
+    });
+
+    prevConvo = new Shortcut('k', 'Previous conversation card', () => {
+      this.convoCards.prev();
+    });
+
+    firstConvo = new Shortcut('<', 'First conversation card', () => {
+      this.convoCards.first();
+    });
+
+    lastConvo = new Shortcut('>', 'Last conversation card', () => {
+      this.convoCards.last();
+    });
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Move browser focus to most recently selected item',
+      () => {
+        NH.web.focusOnElement(this.convoCards.item);
+      }
+    );
+
     loadMoreConversations = new Shortcut(
       'l', 'Load more conversations', () => {
         const me = 'loadMoreConversations';
