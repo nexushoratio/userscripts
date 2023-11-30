@@ -50,7 +50,7 @@ class Nest:
 
 
 @dataclasses.dataclass(frozen=True)
-class D:
+class Snippet:
   c: Type
   code: str
   line: int
@@ -174,51 +174,51 @@ def process(filename):
               if current[0].c == Type.NAME:
                 classes.append(current)
               current = []
-            current.append(D(Type.NAME, words[1], num, parent))
+            current.append(Snippet(Type.NAME, words[1], num, parent))
           elif words[0].startswith('constructor'):
-            current.append(D(Type.CONSTRUCTOR, words[0], num, parent))
+            current.append(Snippet(Type.CONSTRUCTOR, words[0], num, parent))
           elif words[0] == 'static':
             if words[1] in ('get', 'set'):
               if words[2][0] == '#':
-                current.append(D(Type.STATIC_PRIVATE_GETTER, code, num, parent))
+                current.append(Snippet(Type.STATIC_PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(Type.STATIC_PUBLIC_GETTER, code, num, parent))
+                current.append(Snippet(Type.STATIC_PUBLIC_GETTER, code, num, parent))
             elif nested_testcase_re.search(code):
-              current.append(D(Type.NESTED_TESTCASE, words[1], num, parent))
+              current.append(Snippet(Type.NESTED_TESTCASE, words[1], num, parent))
             elif static_class_re.search(code):
               if words[1][0] == '#':
-                current.append(D(Type.STATIC_PRIVATE_CLASS, words[1], num,
+                current.append(Snippet(Type.STATIC_PRIVATE_CLASS, words[1], num,
                                  parent))
               else:
-                current.append(D(Type.STATIC_PUBLIC_CLASS, words[1], num, parent))
+                current.append(Snippet(Type.STATIC_PUBLIC_CLASS, words[1], num, parent))
             elif method_re.search(code):
               if words[1][0] == '#':
-                current.append(D(Type.STATIC_PRIVATE_METHOD, code, num, parent))
+                current.append(Snippet(Type.STATIC_PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(Type.STATIC_PUBLIC_METHOD, code, num, parent))
+                current.append(Snippet(Type.STATIC_PUBLIC_METHOD, code, num, parent))
             elif words[1][0] == '#':
-              current.append(D(Type.STATIC_PRIVATE_FIELD, code, num, parent))
+              current.append(Snippet(Type.STATIC_PRIVATE_FIELD, code, num, parent))
             else:
-              current.append(D(Type.STATIC_PUBLIC_FIELD, code, num, parent))
+              current.append(Snippet(Type.STATIC_PUBLIC_FIELD, code, num, parent))
           else:
             if words[0] in ('get', 'set'):
               if words[1][0] == '#':
-                current.append(D(Type.PRIVATE_GETTER, code, num, parent))
+                current.append(Snippet(Type.PRIVATE_GETTER, code, num, parent))
               else:
-                current.append(D(Type.PUBLIC_GETTER, code, num, parent))
+                current.append(Snippet(Type.PUBLIC_GETTER, code, num, parent))
             elif method_re.search(code):
               if words[0][0] == '#':
-                current.append(D(Type.PRIVATE_METHOD, code, num, parent))
+                current.append(Snippet(Type.PRIVATE_METHOD, code, num, parent))
               else:
-                current.append(D(Type.PUBLIC_METHOD, code, num, parent))
+                current.append(Snippet(Type.PUBLIC_METHOD, code, num, parent))
             elif words[0][0] == '#':
-              current.append(D(Type.PRIVATE_FIELD, code, num, parent))
+              current.append(Snippet(Type.PRIVATE_FIELD, code, num, parent))
             else:
               if 'new Shortcut' in code:
-                current.append(D(Type.PUBLIC_METHOD, code, num, parent))
+                current.append(Snippet(Type.PUBLIC_METHOD, code, num, parent))
               else:
                 if not suspect:
-                  current.append(D(Type.PUBLIC_FIELD, code, num, parent))
+                  current.append(Snippet(Type.PUBLIC_FIELD, code, num, parent))
 
   if current and current[0].c == Type.NAME:
     classes.append(current)
