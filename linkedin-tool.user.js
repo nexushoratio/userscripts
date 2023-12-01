@@ -4007,12 +4007,14 @@
     #activator
     #convoCardScroller
     #keyboardService
+    #lastConvoCard
     #messagingTablistObserver
 
     #onConvoCardActivate = async () => {
       const me = 'onConvoCardActivate';
       this.logger.entered(me);
 
+      this.#lastConvoCard = null;
       await this.#findActiveConvo();
 
       const tab = document.querySelector(Messaging.#messagingTabSelector);
@@ -4031,24 +4033,65 @@
       this.logger.leaving(me);
     }
 
-    #onConvoCardChange = async () => {
+    #onConvoCardChange = async () => {  // eslint-disable-line max-lines-per-function
       const me = 'onConvoCardChange';
       this.logger.entered(me);
 
-      const selector = '.msg-form__contenteditable[data-artdeco-is-focused]';
-      const timeout = 2000;
+      const msgBox = document.querySelector('.msg-form__contenteditable');
+      let gotFocus = false;
       const currentCard = this.convoCards.item;
 
-      if (currentCard) {
+      /** Basic event handler. */
+      const onFocus = () => {
+        gotFocus = true;
+      };
+
+      /** Trigger function for {@link NH.web.otrot}. */
+      const trigger = () => {
+        msgBox.addEventListener('focus', onFocus);
+        NH.web.clickElement(currentCard, ['a']);
+      };
+
+      /**
+       * Wait for focus in the message box.
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        this.logger.log('monitor:', gotFocus, msgBox);
+        return {
+          done: gotFocus,
+        };
+      };
+
+      const what = {
+        name: `${this.constructor.name} ${me}`,
+        base: msgBox,
+      };
+      const how = {
+        observeOptions: {
+          attributes: true,
+        },
+        monitor: monitor,
+        trigger: trigger,
+        timeout: 500,
+      };
+
+      // Some methods in `Scroller` will reset the current item to itself,
+      // resulting in a 'change' event (necessary for containers that redraw
+      // themselves).  In this case, we want to ignore that particular reset.
+      if (currentCard && currentCard !== this.#lastConvoCard) {
         try {
-          NH.web.clickElement(currentCard, ['a']);
-          await NH.web.waitForSelector(selector, timeout);
-          NH.web.focusOnElement(currentCard);
+          await NH.web.otmot(what, how);
         } catch (e) {
           this.logger.log(
-            'Focus moving message box not detected, staying put'
+            'Focus moving to message box not detected, staying put'
           );
+        } finally {
+          msgBox.removeEventListener('focus', onFocus);
+          NH.web.focusOnElement(currentCard);
         }
+        this.#lastConvoCard = currentCard;
       }
 
       this.logger.leaving(me);
