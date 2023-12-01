@@ -145,6 +145,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-11-30',
+      issues: ['#144'],
+      subject: 'Basic conversation card scrolling',
+    },
+    {
       date: '2023-11-27',
       issues: ['#144'],
       subject: 'Fine tune the conversation card selector',
@@ -301,28 +306,6 @@
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>s</kbd></kbd> to focus on the ' +
         '<em>Search messages</em> input field',
-    },
-    {
-      date: '2023-10-30',
-      issues: ['#167'],
-      subject: 'Depend on lib/widget version 0',
-    },
-    {
-      date: '2023-10-30',
-      issues: ['#144'],
-      subject: 'Implement <kbd><kbd>N</kbd></kbd> to compose a New message',
-    },
-    {
-      date: '2023-10-30',
-      issues: ['#178'],
-      subject: 'Migrate <code>Feed</code> from using <em>refresh</em> to ' +
-        '<em>onScrollerActivate</em>',
-    },
-    {
-      date: '2023-10-30',
-      issues: ['#144'],
-      subject: 'Implement <kbd><kbd>l</kbd></kbd> to load more ' +
-        'conversations',
     },
   ];
 
