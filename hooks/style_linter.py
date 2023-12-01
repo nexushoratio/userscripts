@@ -51,7 +51,7 @@ class Nest:
 
 @dataclasses.dataclass(frozen=True)
 class Snippet:
-  c: Type
+  type: Type
   code: str
   line: int
   parent: Nest
@@ -62,11 +62,11 @@ class Snippet:
 
   def __lt__(self, other):
     if self.parent == other.parent:
-      if self.c == other.c:
-        if '_FIELD' in self.c.name:
+      if self.type == other.type:
+        if '_FIELD' in self.type.name:
           # Alphabetize by field name
           return self.code < other.code
-        elif '_GETTER' in self.c.name:
+        elif '_GETTER' in self.type.name:
           # Parse (irony) out the name of the {g,s}etters
           self_word = self.code.split()[-2].split('(')[0]
           other_word = other.code.split()[-2].split('(')[0]
@@ -76,7 +76,7 @@ class Snippet:
           return self.line < other.line
       else:
         # Everything else being equal, keep current relative order
-        return self.c < other.c
+        return self.type < other.type
     else:
       if other.parent.name in self.code:
         return False
@@ -89,7 +89,7 @@ def tsort(data):
 
   # Gather the parents first
   for item in data:
-    if item.c in (Type.NAME, Type.STATIC_PUBLIC_CLASS, Type.STATIC_PRIVATE_CLASS,
+    if item.type in (Type.NAME, Type.STATIC_PUBLIC_CLASS, Type.STATIC_PRIVATE_CLASS,
                   Type.NESTED_TESTCASE):
       parents[item.code] = item
 
@@ -171,7 +171,7 @@ def process(filename):
           words = code.split()
           if words[0] == 'class':
             if current:
-              if current[0].c == Type.NAME:
+              if current[0].type == Type.NAME:
                 classes.append(current)
               current = []
             current.append(Snippet(Type.NAME, words[1], num, parent))
@@ -220,7 +220,7 @@ def process(filename):
                 if not suspect:
                   current.append(Snippet(Type.PUBLIC_FIELD, code, num, parent))
 
-  if current and current[0].c == Type.NAME:
+  if current and current[0].type == Type.NAME:
     classes.append(current)
 
   clean = True
