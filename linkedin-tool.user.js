@@ -3970,6 +3970,14 @@
       this.logger.leaving(me);
     });
 
+    messageBox = new Shortcut(
+      'M',
+      'Go to the <i>Write a message</i> box',
+      () => {
+        NH.web.clickElement(document, [Messaging.#messageBoxSelector]);
+      }
+    );
+
     newMessage = new Shortcut('N', 'Compose a new message', () => {
       const me = 'newMessage';
       this.logger.entered(me);
@@ -4006,6 +4014,7 @@
       pageReadySelector: LinkedInGlobals.asideSelector,
     };
 
+    static #messageBoxSelector = 'main div.msg-form__contenteditable';
     static #messagingTabSelector = 'main div.msg-focused-inbox-tabs';
     static #messagingTabSelectorCurrent =
       `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
@@ -4043,7 +4052,7 @@
       const me = 'onConvoCardChange';
       this.logger.entered(me);
 
-      const msgBox = document.querySelector('.msg-form__contenteditable');
+      const msgBox = document.querySelector(Messaging.#messageBoxSelector);
       let gotFocus = false;
       const currentCard = this.convoCards.item;
 
