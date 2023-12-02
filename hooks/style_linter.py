@@ -16,6 +16,7 @@ skip_re = re.compile(r'( \+= )')
 
 
 class Type(enum.IntEnum):
+  """Identify the code snippet type."""
   NAME = 0
   CONSTRUCTOR = enum.auto()
 
@@ -44,6 +45,7 @@ class Type(enum.IntEnum):
 
 @dataclasses.dataclass(order=True, frozen=True)
 class Nest:
+  """Details about the nest (often class) of an entry."""
   indent: int
   line: int
   name: str
@@ -51,6 +53,7 @@ class Nest:
 
 @dataclasses.dataclass(frozen=True)
 class Snippet:
+  """Snippet identifying interesting bits of code."""
   type: Type
   code: str
   line: int
