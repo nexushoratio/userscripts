@@ -145,6 +145,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-12-01',
+      issues: ['#144'],
+      subject: 'Switch monitoring of the message box to a ' +
+        '<code>focus</code> event',
+    },
+    {
       date: '2023-11-30',
       issues: ['#144'],
       subject: 'Basic conversation card scrolling',
