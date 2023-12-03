@@ -1166,9 +1166,6 @@
       const me = 'jumpToEndItem';
       this.logger.entered(me, `first=${first}`);
 
-      // Reset in case item was heavily modified
-      this.item = this.item;
-
       const items = this.#getItems();
       if (items.length) {
         // eslint-disable-next-line no-extra-parens
@@ -1199,9 +1196,6 @@
     #scrollBy = (n) => {  // eslint-disable-line max-statements
       const me = 'scrollBy';
       this.logger.entered(me, n);
-
-      // Reset in case item was heavily modified
-      this.item = this.item;
 
       const items = this.#getItems();
       if (items.length) {
