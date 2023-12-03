@@ -145,6 +145,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-12-02',
+      issues: ['#144'],
+      subject: 'Implement moving to the <kbd><kbd>M</kbd></kbd>essage box',
+    },
+    {
       date: '2023-12-01',
       issues: ['#144'],
       subject: 'Switch monitoring of the message box to a ' +
@@ -300,18 +305,6 @@
       issues: ['#178'],
       subject: 'Migrate <code>Notifications</code> from <em>_refresh</em> ' +
         'to <em>onScrollerActivate</em>',
-    },
-    {
-      date: '2023-11-01',
-      issues: ['#178'],
-      subject: 'Migrate <code>InvitationManager</code> from ' +
-        '<em>refresh</em> to <em>onScrollerActivate</em>',
-    },
-    {
-      date: '2023-11-01',
-      issues: ['#144'],
-      subject: 'Implement <kbd><kbd>s</kbd></kbd> to focus on the ' +
-        '<em>Search messages</em> input field',
     },
   ];
 
