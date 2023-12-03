@@ -87,6 +87,10 @@ class Snippet:
 
 
 def tsort(data):
+  """Perform a topological sort on the data.
+
+  Mostly, place nested items under their parents.
+  """
   parents = dict()
   tdata = collections.defaultdict(list)
 
@@ -119,6 +123,7 @@ def tsort(data):
 
 
 def process(filename):
+  """Lint the given filename."""
   classes = list()
   current = list()
   nesting = [Nest(0, 0, '')]
