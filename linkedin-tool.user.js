@@ -3899,9 +3899,34 @@
       return NH.base.strHash(content);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueMessageIdentifier(element) {
+      return NH.base.strHash(element.dataset.eventUrn);
+    }
+
     /** @type {Scroller} */
     get convoCards() {
       return this.#convoCardScroller;
+    }
+
+    /** @type {Scroller} */
+    get messages() {
+      const me = 'get messages';
+      this.logger.entered(me, this.convoCards.item);
+
+      if (!this.#messageScroller && this.convoCards.item) {
+        this.#messageScroller = new Scroller(
+          Messaging.#messagesWhat, Messaging.#messagesHow
+        );
+        this.#messageScroller.dispatcher.on('change', this.#onMessageChange);
+      }
+
+      this.logger.leaving(me, this.#messageScroller);
+      return this.#messageScroller;
     }
 
     nextConvo = new Shortcut('j', 'Next conversation card', () => {
@@ -3912,19 +3937,39 @@
       this.convoCards.prev();
     });
 
-    firstConvo = new Shortcut('<', 'First conversation card', () => {
-      this.convoCards.first();
+    nextMessage = new Shortcut('n', 'Next message in conversation', () => {
+      this.messages.next();
     });
 
-    lastConvo = new Shortcut('>', 'Last conversation card', () => {
-      this.convoCards.last();
-    });
+    prevMessage = new Shortcut(
+      'p',
+      'Previous message in conversation',
+      () => {
+        this.messages.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'First conversation card or message',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Last conversation card or message',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
 
     focusBrowser = new Shortcut(
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        NH.web.focusOnElement(this.convoCards.item);
+        NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
@@ -4008,6 +4053,27 @@
     };
 
     static #messageBoxSelector = 'main div.msg-form__contenteditable';
+
+    /** @type {Scroller~How} */
+    static #messagesHow = {
+      uidCallback: Messaging.uniqueMessageIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #messagesWhat = {
+      name: 'Messaging messages',
+      containerItems: [
+        {
+          container: 'ul.msg-s-message-list-content',
+          items:
+          ':scope > li.msg-s-message-list__event > div[data-event-urn]',
+        },
+      ],
+    };
+
     static #messagingTabSelector = 'main div.msg-focused-inbox-tabs';
     static #messagingTabSelectorCurrent =
       `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
@@ -4016,6 +4082,8 @@
     #convoCardScroller
     #keyboardService
     #lastConvoCard
+    #lastScroller
+    #messageScroller
     #messagingTablistObserver
 
     #onConvoCardActivate = async () => {
@@ -4102,7 +4170,21 @@
         this.#lastConvoCard = currentCard;
       }
 
+      this.#resetMessages();
+      this.#lastScroller = this.convoCards;
       this.logger.leaving(me);
+    }
+
+    #resetMessages = () => {
+      if (this.#messageScroller) {
+        this.#messageScroller.destroy();
+        this.#messageScroller = null;
+      }
+      this.messages;
+    }
+
+    #onMessageChange = () => {
+      this.#lastScroller = this.messages;
     }
 
     #findActiveConvo = async () => {
