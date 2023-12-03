@@ -1684,8 +1684,8 @@
      * Wrap a function.
      * @param {string} seq - Key sequence to activate this function.
      * @param {string} desc - Human readable documenation about this function.
-     * @param {SimpleFunction} func - Function to wrap, usually in the form of
-     * an arrow function.  Keep JS `this` magic in mind!
+     * @param {NH.web.SimpleFunction} func - Function to wrap, usually in the
+     * form of an arrow function.  Keep JS `this` magic in mind!
      */
     constructor(seq, desc, func) {
       super('return this.func();');
@@ -2854,8 +2854,8 @@
 
       /**
        * Wait for the post to be reloaded.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
+       * @implements {NH.web.Monitor}
+       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
         this.logger.log('monitor item classes:', this.posts.item.classList);
@@ -3286,8 +3286,8 @@
 
       /**
        * Wait for current invitation to show back up.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
+       * @implements {NH.web.Monitor}
+       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
         for (const el of document.body.querySelectorAll(
@@ -4231,8 +4231,8 @@
 
       /**
        * Wait for focus in the message box.
-       * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
+       * @implements {NH.web.Monitor}
+       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
        */
       const monitor = () => {
         this.logger.log('monitor:', gotFocus, msgBox);
