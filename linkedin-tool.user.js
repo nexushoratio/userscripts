@@ -2283,9 +2283,13 @@
   /** Class for holding keystrokes that simplify debugging. */
   class DebugKeys {
 
-    clearConsole = new Shortcut('c-c c-c', 'Clear the debug console', () => {
-      NH.base.Logger.clear();
-    });
+    clearConsole = new Shortcut(
+      'c-c c-c',
+      'Clear the debug console',
+      () => {
+        NH.base.Logger.clear();
+      }
+    );
 
   }
 
@@ -2312,54 +2316,98 @@
       }
     }
 
-    info = new Shortcut('?', 'Show this information view', () => {
-      Global.#gotoNavButton('Tool');
-    });
+    info = new Shortcut(
+      '?',
+      'Show this information view',
+      () => {
+        Global.#gotoNavButton('Tool');
+      }
+    );
 
-    gotoSearch = new Shortcut('/', 'Go to Search box', () => {
-      NH.web.clickElement(document, ['#global-nav-search button']);
-    });
+    gotoSearch = new Shortcut(
+      '/',
+      'Go to Search box',
+      () => {
+        NH.web.clickElement(document, ['#global-nav-search button']);
+      }
+    );
 
-    goHome = new Shortcut('g h', 'Go Home (aka, Feed)', () => {
-      Global.#gotoNavLink('feed');
-    });
+    goHome = new Shortcut(
+      'g h',
+      'Go Home (aka, Feed)',
+      () => {
+        Global.#gotoNavLink('feed');
+      }
+    );
 
-    gotoMyNetwork = new Shortcut('g m', 'Go to My Network', () => {
-      Global.#gotoNavLink('mynetwork');
-    });
+    gotoMyNetwork = new Shortcut(
+      'g m',
+      'Go to My Network',
+      () => {
+        Global.#gotoNavLink('mynetwork');
+      }
+    );
 
-    gotoJobs = new Shortcut('g j', 'Go to Jobs', () => {
-      Global.#gotoNavLink('jobs');
-    });
+    gotoJobs = new Shortcut(
+      'g j',
+      'Go to Jobs',
+      () => {
+        Global.#gotoNavLink('jobs');
+      }
+    );
 
-    gotoMessaging = new Shortcut('g g', 'Go to Messaging', () => {
-      Global.#gotoNavLink('messaging');
-    });
+    gotoMessaging = new Shortcut(
+      'g g',
+      'Go to Messaging',
+      () => {
+        Global.#gotoNavLink('messaging');
+      }
+    );
 
-    gotoNotifications = new Shortcut('g n', 'Go to Notifications', () => {
-      Global.#gotoNavLink('notifications');
-    });
+    gotoNotifications = new Shortcut(
+      'g n',
+      'Go to Notifications',
+      () => {
+        Global.#gotoNavLink('notifications');
+      }
+    );
 
-    gotoProfile = new Shortcut('g p', 'Go to Profile (aka, Me)', () => {
-      Global.#gotoNavButton('Me');
-    });
+    gotoProfile = new Shortcut(
+      'g p',
+      'Go to Profile (aka, Me)',
+      () => {
+        Global.#gotoNavButton('Me');
+      }
+    );
 
-    gotoBusiness = new Shortcut('g b', 'Go to Business', () => {
-      Global.#gotoNavButton('Business');
-    });
+    gotoBusiness = new Shortcut(
+      'g b',
+      'Go to Business',
+      () => {
+        Global.#gotoNavButton('Business');
+      }
+    );
 
-    gotoLearning = new Shortcut('g l', 'Go to Learning', () => {
-      Global.#gotoNavLink('learning');
-    });
+    gotoLearning = new Shortcut(
+      'g l',
+      'Go to Learning',
+      () => {
+        Global.#gotoNavLink('learning');
+      }
+    );
 
     focusOnSidebar = new Shortcut(
-      ',', 'Focus on the left/top sidebar (not always present)', () => {
+      ',',
+      'Focus on the left/top sidebar (not always present)',
+      () => {
         linkedInGlobals.focusOnSidebar();
       }
     );
 
     focusOnAside = new Shortcut(
-      '.', 'Focus on the right/bottom sidebar (not always present)', () => {
+      '.',
+      'Focus on the right/bottom sidebar (not always present)',
+      () => {
         linkedInGlobals.focusOnAside();
       }
     );
@@ -2451,25 +2499,45 @@
       return this.#postScroller;
     }
 
-    nextPost = new Shortcut('j', 'Next post', () => {
-      this.posts.next();
-    });
+    nextPost = new Shortcut(
+      'j',
+      'Next post',
+      () => {
+        this.posts.next();
+      }
+    );
 
-    prevPost = new Shortcut('k', 'Previous post', () => {
-      this.posts.prev();
-    });
+    prevPost = new Shortcut(
+      'k',
+      'Previous post',
+      () => {
+        this.posts.prev();
+      }
+    );
 
-    nextComment = new Shortcut('n', 'Next comment', () => {
-      this.comments.next();
-    });
+    nextComment = new Shortcut(
+      'n',
+      'Next comment',
+      () => {
+        this.comments.next();
+      }
+    );
 
-    prevComment = new Shortcut('p', 'Previous comment', () => {
-      this.comments.prev();
-    });
+    prevComment = new Shortcut(
+      'p',
+      'Previous comment',
+      () => {
+        this.comments.prev();
+      }
+    );
 
-    firstItem = new Shortcut('<', 'Go to first post or comment', () => {
-      this.#lastScroller.first();
-    });
+    firstItem = new Shortcut(
+      '<',
+      'Go to first post or comment',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
 
     lastItem = new Shortcut(
       '>', 'Go to last post or comment currently loaded', () => {
@@ -2478,7 +2546,9 @@
     );
 
     focusBrowser = new Shortcut(
-      'f', 'Change browser focus to current item', () => {
+      'f',
+      'Change browser focus to current item',
+      () => {
         const el = this.#lastScroller.item;
         this.posts.show();
         this.comments?.show();
@@ -2486,16 +2556,22 @@
       }
     );
 
-    showComments = new Shortcut('c', 'Show comments', () => {
-      if (!NH.web.clickElement(this.comments.item,
-        ['button.show-prev-replies'])) {
-        NH.web.clickElement(this.posts.item,
-          ['button[aria-label*="comment"]']);
+    showComments = new Shortcut(
+      'c',
+      'Show comments',
+      () => {
+        if (!NH.web.clickElement(this.comments.item,
+          ['button.show-prev-replies'])) {
+          NH.web.clickElement(this.posts.item,
+            ['button[aria-label*="comment"]']);
+        }
       }
-    });
+    );
 
     seeMore = new Shortcut(
-      'm', 'Show more of current post or comment', () => {
+      'm',
+      'Show more of current post or comment',
+      () => {
         const el = this.#lastScroller.item;
         NH.web.clickElement(el, ['button[aria-label^="see more"]']);
       }
@@ -2548,24 +2624,31 @@
       }
     );
 
-    viewPost = new Shortcut('v p', 'View current post directly', () => {
-      const post = this.posts.item;
-      if (post) {
-        const urn = post.dataset.id;
-        const id = `lt-${urn.replaceAll(':', '-')}`;
-        let a = post.querySelector(`#${id}`);
-        if (!a) {
-          a = document.createElement('a');
-          a.href = `/feed/update/${urn}/`;
-          a.id = id;
-          post.append(a);
+    viewPost = new Shortcut(
+      'v p',
+      'View current post directly',
+      () => {
+        const post = this.posts.item;
+        if (post) {
+          const urn = post.dataset.id;
+          const id = `lt-${urn.replaceAll(':',
+            '-')}`;
+          let a = post.querySelector(`#${id}`);
+          if (!a) {
+            a = document.createElement('a');
+            a.href = `/feed/update/${urn}/`;
+            a.id = id;
+            post.append(a);
+          }
+          a.click();
         }
-        a.click();
       }
-    });
+    );
 
     viewReactions = new Shortcut(
-      'v r', 'View reactions on current post or comment', () => {
+      'v r',
+      'View reactions on current post or comment',
+      () => {
         const el = this.#lastScroller.item;
         const selector = [
           // Button on a comment
@@ -2580,7 +2663,9 @@
     );
 
     viewReposts = new Shortcut(
-      'v R', 'View reposts of current post', () => {
+      'v R',
+      'View reposts of current post',
+      () => {
         NH.web.clickElement(this.posts.item,
           ['button[aria-label*="repost"]']);
       }
@@ -2609,13 +2694,19 @@
       }
     );
 
-    likeItem = new Shortcut('L', 'Like current post or comment', () => {
-      const el = this.#lastScroller.item;
-      NH.web.clickElement(el, ['button[aria-label^="Open reactions menu"]']);
-    });
+    likeItem = new Shortcut(
+      'L',
+      'Like current post or comment',
+      () => {
+        NH.web.clickElement(this.#lastScroller.item,
+          ['button[aria-label^="Open reactions menu"]']);
+      }
+    );
 
     commentOnItem = new Shortcut(
-      'C', 'Comment on current post or comment', () => {
+      'C',
+      'Comment on current post or comment',
+      () => {
         // Order of the queries matters here.  If a post has visible comments,
         // the wrong button could be selected.
         NH.web.clickElement(this.#lastScroller.item, [
@@ -2625,15 +2716,23 @@
       }
     );
 
-    repost = new Shortcut('R', 'Repost current post', () => {
-      const el = this.posts.item;
-      NH.web.clickElement(el, ['button.social-reshare-button']);
-    });
+    repost = new Shortcut(
+      'R',
+      'Repost current post',
+      () => {
+        const el = this.posts.item;
+        NH.web.clickElement(el, ['button.social-reshare-button']);
+      }
+    );
 
-    sendPost = new Shortcut('S', 'Send current post privately', () => {
-      const el = this.posts.item;
-      NH.web.clickElement(el, ['button.send-privately-button']);
-    });
+    sendPost = new Shortcut(
+      'S',
+      'Send current post privately',
+      () => {
+        const el = this.posts.item;
+        NH.web.clickElement(el, ['button.send-privately-button']);
+      }
+    );
 
     gotoShare = new Shortcut(
       'P',
@@ -2650,18 +2749,24 @@
       }
     );
 
-    togglePost = new Shortcut('X', 'Toggle hiding current post', () => {
-      NH.web.clickElement(
-        this.posts.item,
-        [
-          'button[aria-label^="Dismiss post"]',
-          'button[aria-label^="Undo and show"]',
-        ]
-      );
-    });
+    togglePost = new Shortcut(
+      'X',
+      'Toggle hiding current post',
+      () => {
+        NH.web.clickElement(
+          this.posts.item,
+          [
+            'button[aria-label^="Dismiss post"]',
+            'button[aria-label^="Undo and show"]',
+          ]
+        );
+      }
+    );
 
     nextPostPlus = new Shortcut(
-      'J', 'Toggle hiding then next post', async () => {
+      'J',
+      'Toggle hiding then next post',
+      async () => {
 
         /** Trigger function for {@link NH.web.otrot}. */
         const trigger = () => {
@@ -2690,7 +2795,9 @@
     );
 
     prevPostPlus = new Shortcut(
-      'K', 'Toggle hiding then previous post', () => {
+      'K',
+      'Toggle hiding then previous post',
+      () => {
         this.togglePost();
         this.prevPost();
       }
