@@ -3,7 +3,7 @@
 // @namespace   https://github.com/nexushoratio/userscripts
 // @match       http://localhost:8000/
 // @noframes
-// @version     2
+// @version     3
 // @author      Mike Castle
 // @description Just for running tests.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -27,6 +27,8 @@
   NH.base.Logger.config('Testing').enabled = true;
   NH.base.Logger.config('Testing')
     .group('Failures').mode = 'opened';
+  NH.base.Logger.config('Testing')
+    .group('Errors').mode = 'opened';
 
   for (const entry of NH.userscript.environmentData()) {
     logger.log(entry);
