@@ -1674,10 +1674,14 @@
    *
    * @example
    * // Wrap an arrow function:
-   * foo = new Shortcut('c-c', 'Clear the console.', () => {
-   *   console.clear();
-   *   console.log('I did it!', this);
-   * });
+   * foo = new Shortcut(
+   *   'c-c',
+   *   'Clear the console.',
+   *   () => {
+   *     console.clear();
+   *     console.log('I did it!', this);
+   *   }
+   * );
    *
    * // Search for instances:
    * const keys = [];
