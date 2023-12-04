@@ -4411,6 +4411,7 @@
 
     activateNotification = new Shortcut(
       'Enter', 'Activate the current notification (click on it)', () => {
+        // TODO(#216): ONE_ITEM is going to get a promotion!
         const ONE_ITEM = 1;
         const notification = this.notifications.item;
         if (notification) {
