@@ -3006,49 +3006,81 @@
       return this.#sectionScroller;
     }
 
-    nextSection = new Shortcut('j', 'Next section', () => {
-      this.sections.next();
-    });
+    nextSection = new Shortcut(
+      'j',
+      'Next section',
+      () => {
+        this.sections.next();
+      }
+    );
 
-    prevSection = new Shortcut('k', 'Previous section', () => {
-      this.sections.prev();
-    });
+    prevSection = new Shortcut(
+      'k',
+      'Previous section',
+      () => {
+        this.sections.prev();
+      }
+    );
 
-    nextCard = new Shortcut('n', 'Next card in section', () => {
-      this.cards.next();
-    });
+    nextCard = new Shortcut(
+      'n',
+      'Next card in section',
+      () => {
+        this.cards.next();
+      }
+    );
 
-    prevCard = new Shortcut('p', 'Previous card in section', () => {
-      this.cards.prev();
-    });
+    prevCard = new Shortcut(
+      'p',
+      'Previous card in section',
+      () => {
+        this.cards.prev();
+      }
+    );
 
-    firstItem = new Shortcut('<', 'Go to the first section or card', () => {
-      this.#lastScroller.first();
-    });
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first section or card',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
 
-    lastItem = new Shortcut('>', 'Go to the last section or card', () => {
-      this.#lastScroller.last();
-    });
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last section or card',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
 
     focusBrowser = new Shortcut(
-      'f', 'Change browser focus to current item', () => {
+      'f',
+      'Change browser focus to current item',
+      () => {
         NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
-    viewItem = new Shortcut('Enter', 'View the current item', () => {
-      const card = this.cards?.item;
-      if (card) {
-        if (!NH.web.clickElement(card, ['a', 'button'], true)) {
-          this.spa.dumpInfoAboutElement(card, 'network card');
+    viewItem = new Shortcut(
+      'Enter',
+      'View the current item',
+      () => {
+        const card = this.cards?.item;
+        if (card) {
+          if (!NH.web.clickElement(card, ['a', 'button'], true)) {
+            this.spa.dumpInfoAboutElement(card, 'network card');
+          }
+        } else {
+          document.activeElement.click();
         }
-      } else {
-        document.activeElement.click();
       }
-    });
+    );
 
     enagageCard = new Shortcut(
-      'E', 'Engage the card (Connect, Follow, Join, etc)', () => {
+      'E',
+      'Engage the card (Connect, Follow, Join, etc)',
+      () => {
         const me = 'enagageCard';
         this.logger.entered(me);
         const selector = [
@@ -3065,10 +3097,14 @@
       }
     );
 
-    dismissCard = new Shortcut('X', 'Dismiss current card', () => {
-      NH.web.clickElement(this.cards?.item,
-        ['button.artdeco-card__dismiss']);
-    });
+    dismissCard = new Shortcut(
+      'X',
+      'Dismiss current card',
+      () => {
+        NH.web.clickElement(this.cards?.item,
+          ['button.artdeco-card__dismiss']);
+      }
+    );
 
     /** @type {Scroller~How} */
     static #cardsHow = {
@@ -3196,31 +3232,51 @@
       return this.#inviteScroller;
     }
 
-    nextInvite = new Shortcut('j', 'Next invitation', () => {
-      this.invites.next();
-    });
+    nextInvite = new Shortcut(
+      'j',
+      'Next invitation',
+      () => {
+        this.invites.next();
+      }
+    );
 
-    prevInvite = new Shortcut('k', 'Previous invitation', () => {
-      this.invites.prev();
-    });
+    prevInvite = new Shortcut(
+      'k',
+      'Previous invitation',
+      () => {
+        this.invites.prev();
+      }
+    );
 
-    firstInvite = new Shortcut('<', 'Go to the first invitation', () => {
-      this.invites.first();
-    });
+    firstInvite = new Shortcut(
+      '<',
+      'Go to the first invitation',
+      () => {
+        this.invites.first();
+      }
+    );
 
-    lastInvite = new Shortcut('>', 'Go to the last invitation', () => {
-      this.invites.last();
-    });
+    lastInvite = new Shortcut(
+      '>',
+      'Go to the last invitation',
+      () => {
+        this.invites.last();
+      }
+    );
 
     focusBrowser = new Shortcut(
-      'f', 'Change browser focus to current item', () => {
+      'f',
+      'Change browser focus to current item',
+      () => {
         const item = this.invites.item;
         NH.web.focusOnElement(item);
       }
     );
 
     seeMore = new Shortcut(
-      'm', 'Toggle seeing more of current invite', () => {
+      'm',
+      'Toggle seeing more of current invite',
+      () => {
         NH.web.clickElement(
           this.invites?.item,
           ['a.lt-line-clamp__more, a.lt-line-clamp__less']
@@ -3228,10 +3284,14 @@
       }
     );
 
-    viewInviter = new Shortcut('i', 'View inviter', () => {
-      NH.web.clickElement(this.invites?.item,
-        ['a.app-aware-link:not(.invitation-card__picture)']);
-    });
+    viewInviter = new Shortcut(
+      'i',
+      'View inviter',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['a.app-aware-link:not(.invitation-card__picture)']);
+      }
+    );
 
     viewTarget = new Shortcut(
       't',
@@ -3244,7 +3304,9 @@
     );
 
     openMeatballMenu = new Shortcut(
-      '=', 'Open <button class="spa-meatball">⋯</button> menu', () => {
+      '=',
+      'Open <button class="spa-meatball">⋯</button> menu',
+      () => {
         this.invites?.item
           .querySelector('svg[aria-label^="Report message"]')
           ?.closest('button')
@@ -3252,20 +3314,32 @@
       }
     );
 
-    acceptInvite = new Shortcut('A', 'Accept invite', () => {
-      NH.web.clickElement(this.invites?.item,
-        ['button[aria-label^="Accept"]']);
-    });
+    acceptInvite = new Shortcut(
+      'A',
+      'Accept invite',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['button[aria-label^="Accept"]']);
+      }
+    );
 
-    ignoreInvite = new Shortcut('I', 'Ignore invite', () => {
-      NH.web.clickElement(this.invites?.item,
-        ['button[aria-label^="Ignore"]']);
-    });
+    ignoreInvite = new Shortcut(
+      'I',
+      'Ignore invite',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['button[aria-label^="Ignore"]']);
+      }
+    );
 
-    messageInviter = new Shortcut('M', 'Message inviter', () => {
-      NH.web.clickElement(this.invites?.item,
-        ['button[aria-label*=" message"]']);
-    });
+    messageInviter = new Shortcut(
+      'M',
+      'Message inviter',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['button[aria-label*=" message"]']);
+      }
+    );
 
     /** @type {Page~PageDetails} */
     static #details = {
