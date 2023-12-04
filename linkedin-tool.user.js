@@ -141,9 +141,25 @@
       '#206', '<code>JobCollections</code>: Dismissing/thumbs-downing a ' +
      'job card is not working (neither does <em>Undo</em>)',
     ],
+    [
+      '#212', '<code>Scroller</code>: Investigate if we still need the ' +
+     'current item resets',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-03',
+      issues: ['#212'],
+      subject: 'Remove some resets in <code>Scroller</code>',
+    },
+    {
+      date: '2023-12-03',
+      issues: ['#144'],
+      subject:
+      'Implement <kbd><kbd>n</kbd></kbd>ext/<kbd><kbd>p</kbd></kbd>revious ' +
+        'message for conversation pane',
+    },
     {
       date: '2023-12-02',
       issues: ['#144'],
@@ -299,12 +315,6 @@
       date: '2023-11-03',
       issues: ['#130'],
       subject: 'Bump lib/base to version 22',
-    },
-    {
-      date: '2023-11-02',
-      issues: ['#178'],
-      subject: 'Migrate <code>Notifications</code> from <em>_refresh</em> ' +
-        'to <em>onScrollerActivate</em>',
     },
   ];
 
