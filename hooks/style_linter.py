@@ -69,21 +69,26 @@ class Snippet:
         if '_FIELD' in self.type.name:
           # Alphabetize by field name
           return self.code < other.code
-        elif '_GETTER' in self.type.name:
+
+        if '_GETTER' in self.type.name:
           # Parse (irony) out the name of the {g,s}etters
           self_word = self.code.split()[-2].split('(')[0]
           other_word = other.code.split()[-2].split('(')[0]
           # Then alphabetize
           return self_word < other_word
-        else:
-          return self.line < other.line
-      else:
+
         # Everything else being equal, keep current relative order
-        return self.type < other.type
-    else:
-      if other.parent.name in self.code:
-        return False
-      return self.parent < other.parent
+        return self.line < other.line
+
+      # Order by type
+      return self.type < other.type
+
+    # Is it our parent?
+    if other.parent.name in self.code:
+      return False
+
+    # Otherwise, order by our parents
+    return self.parent < other.parent
 
 
 def tsort(data):
