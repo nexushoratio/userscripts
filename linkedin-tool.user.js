@@ -3527,36 +3527,58 @@
       return this.#sectionScroller;
     }
 
-    nextSection = new Shortcut('j', 'Next section', () => {
-      this.sections.next();
-    });
+    nextSection = new Shortcut(
+      'j',
+      'Next section',
+      () => {
+        this.sections.next();
+      }
+    );
 
-    prevSection = new Shortcut('k', 'Previous section', () => {
-      this.sections.prev();
-    });
+    prevSection = new Shortcut(
+      'k',
+      'Previous section',
+      () => {
+        this.sections.prev();
+      }
+    );
 
-    nextJob = new Shortcut('n', 'Next job', () => {
-      this.jobs.next();
-    });
+    nextJob = new Shortcut(
+      'n',
+      'Next job',
+      () => {
+        this.jobs.next();
+      }
+    );
 
-    prevJob = new Shortcut('p', 'Previous job', () => {
-      this.jobs.prev();
-    });
+    prevJob = new Shortcut(
+      'p',
+      'Previous job',
+      () => {
+        this.jobs.prev();
+      }
+    );
 
     firstSectionOrJob = new Shortcut(
-      '<', 'Go to to first section or job', () => {
+      '<',
+      'Go to to first section or job',
+      () => {
         this.#lastScroller.first();
       }
     );
 
     lastSectionOrJob = new Shortcut(
-      '>', 'Go to last section or job currently loaded', () => {
+      '>',
+      'Go to last section or job currently loaded',
+      () => {
         this.#lastScroller.last();
       }
     );
 
     focusBrowser = new Shortcut(
-      'f', 'Change browser focus to current section or job', () => {
+      'f',
+      'Change browser focus to current section or job',
+      () => {
         this.sections.show();
         this.jobs?.show();
         NH.web.focusOnElement(this.#lastScroller.item);
@@ -3570,7 +3592,11 @@
         const job = this.jobs?.item;
         if (job) {
           if (!NH.web.clickElement(job,
-            ['div[data-view-name]', 'a', 'button'])) {
+            [
+              'div[data-view-name]',
+              'a',
+              'button',
+            ])) {
             this.spa.dumpInfoAboutElement(job, 'job');
           }
         } else {
@@ -3604,15 +3630,20 @@
       }
     );
 
-    toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
-      const selector = [
-        'button[aria-label^="Save job"]',
-        'button[aria-label^="Unsave job"]',
-      ].join(',');
-      NH.web.clickElement(this.jobs?.item, [selector]);
-    });
+    toggleSaveJob = new Shortcut(
+      'S',
+      'Toggle saving job',
+      () => {
+        const selector = [
+          'button[aria-label^="Save job"]',
+          'button[aria-label^="Unsave job"]',
+        ].join(',');
+        NH.web.clickElement(this.jobs?.item, [selector]);
+      }
+    );
 
-    toggleDismissJob = new Shortcut('X',
+    toggleDismissJob = new Shortcut(
+      'X',
       'Toggle dismissing job',
       async () => {
         const savedJob = this.jobs.item;
@@ -3637,7 +3668,8 @@
           await NH.web.otrot(what, how);
           this.jobs.item = savedJob;
         }
-      });
+      }
+    );
 
     /** @type {Page~PageDetails} */
     static #details = {
@@ -3814,56 +3846,92 @@
       return this.#paginationScroller;
     }
 
-    nextJob = new Shortcut('j', 'Next job card', () => {
-      this.jobCards.next();
-    });
+    nextJob = new Shortcut(
+      'j',
+      'Next job card',
+      () => {
+        this.jobCards.next();
+      }
+    );
 
-    prevJob = new Shortcut('k', 'Previous job card', () => {
-      this.jobCards.prev();
-    });
+    prevJob = new Shortcut(
+      'k',
+      'Previous job card',
+      () => {
+        this.jobCards.prev();
+      }
+    );
 
-    nextResultsPage = new Shortcut('n', 'Next results page', () => {
-      this.paginator.next();
-    });
+    nextResultsPage = new Shortcut(
+      'n',
+      'Next results page',
+      () => {
+        this.paginator.next();
+      }
+    );
 
-    prevResultsPage = new Shortcut('p', 'Previous results page', () => {
-      this.paginator.prev();
-    });
+    prevResultsPage = new Shortcut(
+      'p',
+      'Previous results page',
+      () => {
+        this.paginator.prev();
+      }
+    );
 
-    firstItem = new Shortcut('<', 'Go to first job or results page', () => {
-      this.#lastScroller.first();
-    });
+    firstItem = new Shortcut(
+      '<',
+      'Go to first job or results page',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
 
     lastItem = new Shortcut(
-      '>', 'Go to last job currently loaded or results page', () => {
+      '>',
+      'Go to last job currently loaded or results page',
+      () => {
         this.#lastScroller.last();
       }
     );
 
     focusBrowser = new Shortcut(
-      'f', 'Move browser focus to most recently selected item', () => {
+      'f',
+      'Move browser focus to most recently selected item',
+      () => {
         NH.web.focusOnElement(this.#lastScroller.item);
       }
     );
 
-    detailsPane = new Shortcut('d', 'Jump to details pane', () => {
-      NH.web.focusOnElement(document.querySelector(
-        'div.jobs-search__job-details--container'
-      ));
-    });
+    detailsPane = new Shortcut(
+      'd',
+      'Jump to details pane',
+      () => {
+        NH.web.focusOnElement(document.querySelector(
+          'div.jobs-search__job-details--container'
+        ));
+      }
+    );
 
     selectCurrentResultsPage = new Shortcut(
-      'c', 'Select current results page', () => {
+      'c',
+      'Select current results page',
+      () => {
         NH.web.clickElement(this.paginator.item, ['button']);
       }
     );
 
-    openShareMenu = new Shortcut('s', 'Open share menu', () => {
-      NH.web.clickElement(document, ['button[aria-label="Share"]']);
-    });
+    openShareMenu = new Shortcut(
+      's',
+      'Open share menu',
+      () => {
+        NH.web.clickElement(document, ['button[aria-label="Share"]']);
+      }
+    );
 
     openMeatballMenu = new Shortcut(
-      '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
+      '=',
+      'Open the <button class="spa-meatball">⋯</button> menu',
+      () => {
         // XXX: There are TWO buttons.  The *first* one is hidden until the
         // user scrolls down.  This always triggers the first one.
         NH.web.clickElement(document, ['.jobs-options button']);
@@ -3871,7 +3939,9 @@
     );
 
     applyToJob = new Shortcut(
-      'A', 'Apply to job (or previous application)', () => {
+      'A',
+      'Apply to job (or previous application)',
+      () => {
         // XXX: There are TWO apply buttons.  The *second* one is hidden until
         // the user scrolls down.  This always triggers the first one.
         const selectors = [
@@ -3884,11 +3954,15 @@
       }
     );
 
-    toggleSaveJob = new Shortcut('S', 'Toggle saving job', () => {
-      // XXX: There are TWO buttons.  The *first* one is hidden until the user
-      // scrolls down.  This always triggers the first one.
-      NH.web.clickElement(document, ['button.jobs-save-button']);
-    });
+    toggleSaveJob = new Shortcut(
+      'S',
+      'Toggle saving job',
+      () => {
+        // XXX: There are TWO buttons.  The *first* one is hidden until the
+        // user scrolls down.  This always triggers the first one.
+        NH.web.clickElement(document, ['button.jobs-save-button']);
+      }
+    );
 
     toggleDismissJob = new Shortcut(
       'X', 'Toggle dismissing job, if available', () => {
