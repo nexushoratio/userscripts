@@ -46,6 +46,7 @@
   async function loadOptions() {
     const defaultOptions = {
       enableDevMode: false,
+      fakeErrorRate: 0.8,
     };
     const options = {
       ...defaultOptions,
@@ -5904,7 +5905,7 @@
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
-  if (litOptions.enableDevMode) {
+  if (litOptions.enableDevMode && Math.random() < litOptions.fakeErrorRate) {
     NH.base.issues.post('This is a dummy test issue.',
       'It was added because enableDevMode is true.');
     NH.base.issues.post('This is a second issue.',
