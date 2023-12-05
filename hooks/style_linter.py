@@ -249,9 +249,13 @@ def process(filename):
 
   return clean
 
+def main():
+  """Main."""
+  clean = True
+  for fn in (glob.glob('**/*.js', recursive=True)):
+    clean &= process(fn)
 
-clean = True
-for fn in (glob.glob('**/*.js', recursive=True)):
-  clean &= process(fn)
+  return not clean
 
-sys.exit(not clean)
+if __name__ == '__main__':
+    sys.exit(main())
