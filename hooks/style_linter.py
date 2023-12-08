@@ -252,8 +252,8 @@ def process(filename):
 def main():
   """Main."""
   clean = True
-  for fn in (glob.glob('**/*.js', recursive=True)):
-    clean &= process(fn)
+  for filename in (glob.glob('**/*.js', recursive=True)):
+    clean &= process(filename)
 
   return not clean
 
