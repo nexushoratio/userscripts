@@ -4193,17 +4193,29 @@
       return this.#messageScroller;
     }
 
-    nextConvo = new Shortcut('j', 'Next conversation card', () => {
-      this.convoCards.next();
-    });
+    nextConvo = new Shortcut(
+      'j',
+      'Next conversation card',
+      () => {
+        this.convoCards.next();
+      }
+    );
 
-    prevConvo = new Shortcut('k', 'Previous conversation card', () => {
-      this.convoCards.prev();
-    });
+    prevConvo = new Shortcut(
+      'k',
+      'Previous conversation card',
+      () => {
+        this.convoCards.prev();
+      }
+    );
 
-    nextMessage = new Shortcut('n', 'Next message in conversation', () => {
-      this.messages.next();
-    });
+    nextMessage = new Shortcut(
+      'n',
+      'Next message in conversation',
+      () => {
+        this.messages.next();
+      }
+    );
 
     prevMessage = new Shortcut(
       'p',
@@ -4238,7 +4250,9 @@
     );
 
     loadMoreConversations = new Shortcut(
-      'l', 'Load more conversations', () => {
+      'l',
+      'Load more conversations',
+      () => {
         const me = 'loadMoreConversations';
         this.logger.entered(me);
 
@@ -4252,25 +4266,35 @@
       }
     );
 
-    messageTab = new Shortcut('m', 'Go to messaging tablist', () => {
-      const me = 'messageTab';
-      this.logger.entered(me);
+    messageTab = new Shortcut(
+      'm',
+      'Go to messaging tablist',
+      () => {
+        const me = 'messageTab';
+        this.logger.entered(me);
 
-      NH.web.focusOnElement(
-        document.querySelector(Messaging.#messagingTabSelectorCurrent)
-      );
+        NH.web.focusOnElement(
+          document.querySelector(Messaging.#messagingTabSelectorCurrent)
+        );
 
-      this.logger.leaving(me);
-    });
+        this.logger.leaving(me);
+      }
+    );
 
-    searchMessages = new Shortcut('s', 'Go to Search messages', () => {
-      const me = 'searchMessages';
-      this.logger.entered(me);
+    searchMessages = new Shortcut(
+      's',
+      'Go to Search messages',
+      () => {
+        const me = 'searchMessages';
+        this.logger.entered(me);
 
-      NH.web.focusOnElement(document.querySelector('#search-conversations'));
+        NH.web.focusOnElement(
+          document.querySelector('#search-conversations')
+        );
 
-      this.logger.leaving(me);
-    });
+        this.logger.leaving(me);
+      }
+    );
 
     messageBox = new Shortcut(
       'M',
@@ -4280,15 +4304,19 @@
       }
     );
 
-    newMessage = new Shortcut('N', 'Compose a new message', () => {
-      const me = 'newMessage';
-      this.logger.entered(me);
+    newMessage = new Shortcut(
+      'N',
+      'Compose a new message',
+      () => {
+        const me = 'newMessage';
+        this.logger.entered(me);
 
-      NH.web.clickElement(document,
-        ['a[aria-label="Compose a new message"]']);
+        NH.web.clickElement(document,
+          ['a[aria-label="Compose a new message"]']);
 
-      this.logger.leaving(me);
-    });
+        this.logger.leaving(me);
+      }
+    );
 
     /** @type {Scroller~How} */
     static #convoCardsHow = {
@@ -4539,31 +4567,49 @@
       return this.#notificationScroller;
     }
 
-    nextNotification = new Shortcut('j', 'Next notification', () => {
-      this.notifications.next();
-    });
+    nextNotification = new Shortcut(
+      'j',
+      'Next notification',
+      () => {
+        this.notifications.next();
+      }
+    );
 
-    prevNotification = new Shortcut('k', 'Previous notification', () => {
-      this.notifications.prev();
-    });
+    prevNotification = new Shortcut(
+      'k',
+      'Previous notification',
+      () => {
+        this.notifications.prev();
+      }
+    );
 
-    firstNotification = new Shortcut('<', 'Go to first notification', () => {
-      this.notifications.first();
-    });
+    firstNotification = new Shortcut(
+      '<',
+      'Go to first notification',
+      () => {
+        this.notifications.first();
+      }
+    );
 
-    lastNotification = new Shortcut('>', 'Go to last notification', () => {
-      this.notifications.last();
-    });
+    lastNotification = new Shortcut(
+      '>', 'Go to last notification', () => {
+        this.notifications.last();
+      }
+    );
 
     focusBrowser = new Shortcut(
-      'f', 'Change browser focus to current notification', () => {
+      'f',
+      'Change browser focus to current notification',
+      () => {
         this.notifications.show();
         NH.web.focusOnElement(this.notifications.item);
       }
     );
 
     activateNotification = new Shortcut(
-      'Enter', 'Activate the current notification (click on it)', () => {
+      'Enter',
+      'Activate the current notification (click on it)',
+      () => {
         // TODO(#216): ONE_ITEM is going to get a promotion!
         const ONE_ITEM = 1;
         const notification = this.notifications.item;
@@ -4596,7 +4642,9 @@
     );
 
     loadMoreNotifications = new Shortcut(
-      'l', 'Load more notifications', () => {
+      'l',
+      'Load more notifications',
+      () => {
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
         const notifications = this.notifications;
@@ -4638,14 +4686,18 @@
     );
 
     openMeatballMenu = new Shortcut(
-      '=', 'Open the <button class="spa-meatball">⋯</button> menu', () => {
+      '=',
+      'Open the <button class="spa-meatball">⋯</button> menu',
+      () => {
         NH.web.clickElement(this.notifications.item,
           ['button[aria-label^="Settings menu"]']);
       }
     );
 
     deleteNotification = new Shortcut(
-      'X', 'Toggle current notification deletion', async () => {
+      'X',
+      'Toggle current notification deletion',
+      async () => {
         const notification = this.notifications.item;
 
         /** Trigger function for {@link NH.web.otrot}. */
