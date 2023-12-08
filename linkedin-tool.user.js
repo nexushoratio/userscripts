@@ -2083,7 +2083,7 @@
        'then <kbd>ENTER</kbd></kbd>'},
       ];
       for (const {text, expected} of tests) {
-        this.assertEqual(VMKeyboardService.parseSeq(text), expected);
+        this.assertEqual(VMKeyboardService.parseSeq(text), expected, text);
       }
     }
 
