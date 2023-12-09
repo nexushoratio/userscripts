@@ -127,6 +127,70 @@ def tsort(data):
   return results
 
 
+def extract_snippet(code, line_number, parent, indent):
+  """Returns a Snippet() that represents the current line of code.
+
+  Args:
+    code: str, Line of code to examine.
+    line_number: int, Current line line_numberber in the file.
+    parent: Nest, Parent context.
+    indent: int, How many spaces the current line is indented.
+  """
+  snippet = None
+  words = code.split()
+  if words[0] == 'class':
+    snippet = Snippet(Type.NAME, words[1], line_number, parent)
+  elif words[0].startswith('constructor'):
+    snippet = Snippet(Type.CONSTRUCTOR, words[0], line_number, parent)
+  elif words[0] == 'static':
+    if words[1] in ('get', 'set'):
+      if words[2][0] == '#':
+        snippet = Snippet(Type.STATIC_PRIVATE_GETTER, code, line_number, parent)
+      else:
+        snippet = Snippet(Type.STATIC_PUBLIC_GETTER, code, line_number, parent)
+    elif nested_testcase_re.search(code):
+      snippet = Snippet(Type.NESTED_TESTCASE, words[1], line_number, parent)
+    elif static_class_re.search(code):
+      if words[1][0] == '#':
+        snippet = Snippet(Type.STATIC_PRIVATE_CLASS, words[1], line_number, parent)
+      else:
+        snippet = Snippet(Type.STATIC_PUBLIC_CLASS, words[1], line_number, parent)
+    elif method_re.search(code):
+      if words[1][0] == '#':
+        snippet = Snippet(Type.STATIC_PRIVATE_METHOD, code, line_number, parent)
+      else:
+        snippet = Snippet(Type.STATIC_PUBLIC_METHOD, code, line_number, parent)
+    elif words[1][0] == '#':
+      snippet = Snippet(Type.STATIC_PRIVATE_FIELD, code, line_number, parent)
+    else:
+      snippet = Snippet(Type.STATIC_PUBLIC_FIELD, code, line_number, parent)
+  else:
+    if words[0] in ('get', 'set'):
+      if words[1][0] == '#':
+        snippet = Snippet(Type.PRIVATE_GETTER, code, line_number, parent)
+      else:
+        snippet = Snippet(Type.PUBLIC_GETTER, code, line_number, parent)
+    elif method_re.search(code):
+      if words[0][0] == '#':
+        snippet = Snippet(Type.PRIVATE_METHOD, code, line_number, parent)
+      else:
+        snippet = Snippet(Type.PUBLIC_METHOD, code, line_number, parent)
+    elif words[0][0] == '#':
+      snippet = Snippet(Type.PRIVATE_FIELD, code, line_number, parent)
+    else:
+      if 'new Shortcut' in code:
+        snippet = Snippet(Type.PUBLIC_METHOD, code, line_number, parent)
+      else:
+        # For lack of a proper JS parser, making a guess that things
+        # looking like assigning a field is actually a local variable
+        # in a method.
+        likely_local_variable_assignment = indent > (parent.indent + 2)
+        if not likely_local_variable_assignment:
+          snippet = Snippet(Type.PUBLIC_FIELD, code, line_number, parent)
+
+  return snippet
+
+
 def process(filename):
   """Lint the given filename."""
   classes = list()
@@ -177,62 +241,16 @@ def process(filename):
           continue
 
         if indent < 8:
-          words = code.split()
-          if words[0] == 'class':
-            if current:
+          snippet = extract_snippet(code, num, parent, indent)
+          if snippet:
+            # New class
+            if snippet.type == Type.NAME and current:
               if current[0].type == Type.NAME:
                 classes.append(current)
               current = []
-            current.append(Snippet(Type.NAME, words[1], num, parent))
-          elif words[0].startswith('constructor'):
-            current.append(Snippet(Type.CONSTRUCTOR, words[0], num, parent))
-          elif words[0] == 'static':
-            if words[1] in ('get', 'set'):
-              if words[2][0] == '#':
-                current.append(Snippet(Type.STATIC_PRIVATE_GETTER, code, num, parent))
-              else:
-                current.append(Snippet(Type.STATIC_PUBLIC_GETTER, code, num, parent))
-            elif nested_testcase_re.search(code):
-              current.append(Snippet(Type.NESTED_TESTCASE, words[1], num, parent))
-            elif static_class_re.search(code):
-              if words[1][0] == '#':
-                current.append(Snippet(Type.STATIC_PRIVATE_CLASS, words[1], num,
-                                 parent))
-              else:
-                current.append(Snippet(Type.STATIC_PUBLIC_CLASS, words[1], num, parent))
-            elif method_re.search(code):
-              if words[1][0] == '#':
-                current.append(Snippet(Type.STATIC_PRIVATE_METHOD, code, num, parent))
-              else:
-                current.append(Snippet(Type.STATIC_PUBLIC_METHOD, code, num, parent))
-            elif words[1][0] == '#':
-              current.append(Snippet(Type.STATIC_PRIVATE_FIELD, code, num, parent))
-            else:
-              current.append(Snippet(Type.STATIC_PUBLIC_FIELD, code, num, parent))
-          else:
-            if words[0] in ('get', 'set'):
-              if words[1][0] == '#':
-                current.append(Snippet(Type.PRIVATE_GETTER, code, num, parent))
-              else:
-                current.append(Snippet(Type.PUBLIC_GETTER, code, num, parent))
-            elif method_re.search(code):
-              if words[0][0] == '#':
-                current.append(Snippet(Type.PRIVATE_METHOD, code, num, parent))
-              else:
-                current.append(Snippet(Type.PUBLIC_METHOD, code, num, parent))
-            elif words[0][0] == '#':
-              current.append(Snippet(Type.PRIVATE_FIELD, code, num, parent))
-            else:
-              if 'new Shortcut' in code:
-                current.append(Snippet(Type.PUBLIC_METHOD, code, num, parent))
-              else:
-                # For lack of a proper JS parser, making a guess that things
-                # looking like assigning a field is actually a local variable
-                # in a method.
-                likely_local_variable_assignment = indent > (parent.indent + 2)
-                if not likely_local_variable_assignment:
-                  current.append(Snippet(Type.PUBLIC_FIELD, code, num, parent))
+            current.append(snippet)
 
+  # Catch the last class being worked on
   if current and current[0].type == Type.NAME:
     classes.append(current)
 
