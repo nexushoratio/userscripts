@@ -3070,7 +3070,7 @@
         const card = this.cards?.item;
         if (card) {
           if (!NH.web.clickElement(card, ['a', 'button'], true)) {
-            this.spa.dumpInfoAboutElement(card, 'network card');
+            NH.web.postInfoAboutElement(card, 'network card');
           }
         } else {
           document.activeElement.click();
@@ -3597,7 +3597,7 @@
               'a',
               'button',
             ])) {
-            this.spa.dumpInfoAboutElement(job, 'job');
+            NH.web.postInfoAboutElement(job, 'job');
           }
         } else {
           // Again, because we use Enter as the hotkey for this action.
@@ -4631,7 +4631,7 @@
             if (ba.length === ONE_ITEM) {
               ba[0].click();
             } else {
-              this.spa.dumpInfoAboutElement(notification, 'notification');
+              NH.web.postInfoAboutElement(notification, 'notification');
             }
           }
         } else {
