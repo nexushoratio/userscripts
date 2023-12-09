@@ -177,10 +177,6 @@ def process(filename):
           continue
 
         if indent < 8:
-          # print(num, code)
-          # For lack of a proper JS parser, making a guess that things looking
-          # like assigning a field is actually a local variable in a method.
-          suspect = indent > (parent.indent + 2)
           words = code.split()
           if words[0] == 'class':
             if current:
@@ -230,7 +226,11 @@ def process(filename):
               if 'new Shortcut' in code:
                 current.append(Snippet(Type.PUBLIC_METHOD, code, num, parent))
               else:
-                if not suspect:
+                # For lack of a proper JS parser, making a guess that things
+                # looking like assigning a field is actually a local variable
+                # in a method.
+                likely_local_variable_assignment = indent > (parent.indent + 2)
+                if not likely_local_variable_assignment:
                   current.append(Snippet(Type.PUBLIC_FIELD, code, num, parent))
 
   if current and current[0].type == Type.NAME:
