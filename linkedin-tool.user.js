@@ -3475,14 +3475,13 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueJobIdentifier(element) {
-      const ONE_ITEM = 1;
       let content = element.innerText;
       let options = element.querySelectorAll('a[data-control-id]');
-      if (options.length === ONE_ITEM) {
+      if (options.length === NH.base.ONE_ITEM) {
         content = options[0].dataset.controlId;
       } else {
         options = element.querySelectorAll('a[id]');
-        if (options.length === ONE_ITEM) {
+        if (options.length === NH.base.ONE_ITEM) {
           content = options[0].id;
         } else {
           let s = '';
@@ -3494,7 +3493,7 @@
           } else {
             options = element
               .querySelectorAll('.jobs-home-upsell-card__container');
-            if (options.length === ONE_ITEM) {
+            if (options.length === NH.base.ONE_ITEM) {
               content = options[0].className;
             }
           }
