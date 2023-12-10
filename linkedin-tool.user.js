@@ -4295,6 +4295,47 @@
       }
     );
 
+    openMeatballMenu = new Shortcut(
+      '=',
+      'Open closest <button class="spa-meatball">⋯</button> menu (tricky, ' +
+        'as there are currently four buttons to choose from)',
+      () => {
+        if (this.convoCards.item.contains(document.activeElement) ||
+            this.messages.item?.contains(document.activeElement)) {
+          let buttons = null;
+          if (this.#lastScroller === this.convoCards) {
+            buttons = this.convoCards.item.querySelectorAll('button');
+            if (buttons.length === NH.base.ONE_ITEM) {
+              buttons[0].click();
+            } else {
+              NH.base.issues.post(
+                'Current conversation card does not have only one button',
+                this.convoCards.item.outerHTML
+              );
+            }
+          } else {
+            this.logger.log('Using messages', this.messages.item);
+            buttons = document.querySelectorAll(
+              'div.msg-title-bar button.msg-thread-actions__control'
+            );
+            if (buttons.length === NH.base.ONE_ITEM) {
+              buttons[0].click();
+            } else {
+              const msgs = Array.from(buttons)
+                .map(x => x.outerHTML);
+              NH.base.issues.post(
+                'The message title bar did not have exactly one button ' +
+                  'matching the search criteria',
+                ...msgs
+              );
+            }
+          }
+        } else {
+          this.#clickClosestMenuButton();
+        }
+      }
+    );
+
     messageBox = new Shortcut(
       'M',
       'Go to the <i>Write a message</i> box',
@@ -4365,9 +4406,14 @@
       ],
     };
 
+    static #messagingOptionsSelector =
+      'button[aria-label="See more messaging options"]';
+
     static #messagingTabSelector = 'main div.msg-focused-inbox-tabs';
     static #messagingTabSelectorCurrent =
       `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
+
+    static #sendToggleSelector = 'button.msg-form__send-toggle';
 
     #activator
     #convoCardScroller
@@ -4376,6 +4422,91 @@
     #lastScroller
     #messageScroller
     #messagingTablistObserver
+
+    /**
+     * @typedef {object} Point
+     * @property {number} x - Horizontal location in pixels.
+     * @property {number} y - Vertical location in pixels.
+     * @property {HTMLElement} element - Associated element.
+     */
+
+    /**
+     * @param {HTMLElement} element - Element to examine.
+     * @returns {Point} - Center of the element.
+     */
+    #centerOfElement = (element) => {
+      const TWO = 2;
+
+      const center = {
+        x: 0,
+        y: 0,
+        element: element,
+      };
+      if (element) {
+        const bbox = element.getBoundingClientRect();
+        this.logger.log('bbox:', bbox);
+        center.x = (bbox.left + bbox.right) / TWO;
+        center.y = (bbox.top + bbox.bottom) / TWO;
+      }
+      return center;
+    }
+
+    #clickClosestMenuButton = () => {
+      // Two more buttons to choose from.  There are two ways of calculating
+      // the distance from the activeElement to the buttons: Path in the DOM
+      // tree or geometry.  Considering the buttons are fixed, I suspect
+      // geometry is probably easier than trying to find the common ancestors.
+      const messagingOptions = document.querySelector(
+        Messaging.#messagingOptionsSelector
+      );
+      if (!messagingOptions) {
+        NH.base.issues.post(
+          'Unable to find the messaging options button.',
+          'Selector used:',
+          Messaging.#messagingOptionsSelector
+        );
+      }
+
+      const sendToggle = document.querySelector(
+        Messaging.#sendToggleSelector
+      );
+      if (!sendToggle) {
+        NH.base.issues.post(
+          'Unable to find the messaging send toggle button',
+          'Selector used:',
+          Messaging.#sendToggleSelector
+        );
+      }
+      const activeCenter = this.#centerOfElement(document.activeElement);
+      const optionsCenter = this.#centerOfElement(messagingOptions);
+      const toggleCenter = this.#centerOfElement(sendToggle);
+      optionsCenter.distance = this.#distanceBetweenPoints(
+        activeCenter, optionsCenter
+      );
+      toggleCenter.distance = this.#distanceBetweenPoints(
+        activeCenter, toggleCenter
+      );
+      const centers = [optionsCenter, toggleCenter];
+      centers.sort((a, b) => a.distance - b.distance);
+      centers[0].element.click();
+    }
+
+    /**
+     * @param {Point} one - First point.
+     * @param {Point} two - Second point.
+     * @returns {number} - Distance between the points in pixels.
+     */
+    #distanceBetweenPoints = (one, two) => {
+      const me = 'distanceBetweenPoints';
+      this.logger.entered(me, one, two);
+
+      const xd = one.x - two.x;
+      const yd = one.y - two.y;
+      const distance = Math.sqrt((xd * xd) + (yd * yd));
+
+      this.logger.leaving(me, distance);
+      return distance;
+    }
 
     #onConvoCardActivate = async () => {
       const me = 'onConvoCardActivate';
