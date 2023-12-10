@@ -6023,19 +6023,6 @@
       }
     }
 
-    // TODO(#205): Promoting to lib/web.js
-    /**
-     * Dump a bunch of information about an HTML element.
-     * @param {Element} element - Element to get information about.
-     * @param {string} name - What area this information came from.
-     */
-    dumpInfoAboutElement(element, name) {
-      const msg = `An unsupported ${name} element was discovered:`;
-      this.addError(msg);
-      this.addError(element.outerHTML);
-      this.addErrorMarker();
-    }
-
     /**
      * Determine which page can handle this portion of the URL.
      * @param {string} pathname - A {URL.pathname}.
