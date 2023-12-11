@@ -150,6 +150,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-12-10',
+      issues: ['#144'],
+      subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the nearest menu',
+    },
+    {
       date: '2023-12-03',
       issues: ['#212'],
       subject: 'Remove some resets in <code>Scroller</code>',
@@ -279,43 +284,6 @@
       date: '2023-11-11',
       issues: ['#165'],
       subject: 'Verify a container exists before looking for items',
-    },
-    {
-      date: '2023-11-09',
-      issues: ['#161'],
-      subject: 'Listen for clicks during the capture phase in ' +
-        '<code>Scroller</code>',
-    },
-    {
-      date: '2023-11-06',
-      issues: ['#150'],
-      subject: 'Make item being viewable a criteria for reactivation',
-    },
-    {
-      date: '2023-11-06',
-      issues: ['#150'],
-      subject: 'Simplify <code>Feed.#onPostActivate()</code>',
-    },
-    {
-      date: '2023-11-06',
-      issues: ['#170'],
-      subject: 'Bump versions of many libraries',
-    },
-    {
-      date: '2023-11-05',
-      issues: ['#150'],
-      subject: 'Wait for current item to reappear when ' +
-        '<code>Scroller</code> is reactivated',
-    },
-    {
-      date: '2023-11-04',
-      issues: ['#187'],
-      subject: 'Bump lib/userscript to version 3',
-    },
-    {
-      date: '2023-11-03',
-      issues: ['#130'],
-      subject: 'Bump lib/base to version 22',
     },
   ];
 
