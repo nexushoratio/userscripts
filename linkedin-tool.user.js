@@ -4326,6 +4326,18 @@
       }
     );
 
+    toggleStar = new Shortcut(
+      'S',
+      'Toggle star on the current conversation',
+      () => {
+        const selector = [
+          'button[aria-label^="Star conversation"]',
+          'button[aria-label^="Remove star"]',
+        ].join(',');
+        NH.web.clickElement(document, [selector]);
+      }
+    );
+
     /** @type {Scroller~How} */
     static #convoCardsHow = {
       uidCallback: Messaging.uniqueConvoCardsIdentifier,
