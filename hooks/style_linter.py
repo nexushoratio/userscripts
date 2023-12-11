@@ -12,7 +12,7 @@ import sys
 method_re = re.compile(r'(\) {)|(\) => {)')
 static_class_re = re.compile(r' = class ')
 nested_testcase_re = re.compile(r' = class extends NH.xunit.TestCase {')
-skip_re = re.compile(r'( \+= )')
+skip_re = re.compile(r'( \+= )|(^static {)|(^async \(\))')
 
 
 class Type(enum.IntEnum):
@@ -241,11 +241,6 @@ def process(filename):
                     in_class = True
                     nest = Nest(indent, num, words[0])
                     nesting.append(nest)
-
-                if code in ('class', 'static', 'get', 'set', 'async'):
-                    code = f'{code} {words.pop(0)}'
-                    if code in ('static {', 'async ()'):
-                        continue
 
                 if not in_class:
                     continue
