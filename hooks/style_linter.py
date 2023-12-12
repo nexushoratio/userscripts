@@ -202,6 +202,11 @@ def extract_snippet(code, line_number, parent, indent):
 
     return snippet
 
+def add_current_to_classes(current, classes):
+    """Add the current collection to classes if it represents a class."""
+    if current and current[0].type == Type.NAME:
+        classes.append(current)
+
 
 def process(filename):
     """Lint the given filename."""
@@ -251,15 +256,13 @@ def process(filename):
                     snippet = extract_snippet(code, num, parent, indent)
                     if snippet:
                         # New class
-                        if snippet.type == Type.NAME and current:
-                            if current[0].type == Type.NAME:
-                                classes.append(current)
+                        if snippet.type == Type.NAME:
+                            add_current_to_classes(current, classes)
                             current = []
                         current.append(snippet)
 
     # Catch the last class being worked on
-    if current and current[0].type == Type.NAME:
-        classes.append(current)
+    add_current_to_classes(current, classes)
 
     clean = True
     for item in classes:
