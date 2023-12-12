@@ -59,10 +59,6 @@ class Snippet:
     line: int
     parent: Nest
 
-    def __post_init__(self):
-        pass
-        # print('post_init:', self)
-
     def __lt__(self, other):
         if self.parent == other.parent:
             if self.type == other.type:
