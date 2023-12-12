@@ -150,6 +150,12 @@
 
   const globalNewsContent = [
     {
+      date: '2023-12-11',
+      issues: ['#144'],
+      subject: 'Implement <kbd><kbd>S</kbd></kbd> to toggle the star on ' +
+        'a conversation',
+    },
+    {
       date: '2023-12-10',
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the nearest menu',
