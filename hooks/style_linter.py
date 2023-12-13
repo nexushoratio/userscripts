@@ -223,14 +223,15 @@ def process(filename):
             indent = line.index(code)
             parent = nesting[-1]
 
+            if code == 'function' and (indent <= parent.indent
+                                       or not parent.indent):
+                in_class = False
+
             if code in (
                     'const', 'if', 'await', 'return', 'for', 'while',
                     'function', 'let', 'throw', 'new', 'try'
             ) or '.' in code or '`' in code or "'" in code or code.startswith(
                     '(') or code.startswith('super('):
-                if code == 'function' and (indent <= parent.indent
-                                           or not parent.indent):
-                    in_class = False
                 continue
 
             if indent <= parent.indent:
