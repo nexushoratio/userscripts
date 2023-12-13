@@ -202,6 +202,7 @@ def extract_snippet(code, line_number, parent, indent):
 
     return snippet
 
+
 def add_current_to_classes(current, classes):
     """Add the current collection to classes if it represents a class."""
     if current and current[0].type == Type.NAME:
@@ -244,16 +245,9 @@ def process(filename):
                     nest = Nest(indent, num, words[0])
                     nesting.append(nest)
 
-                if not in_class:
-                    continue
-
                 code += ' ' + ' '.join(words)
 
-                if skip_re.search(code):
-                    # print('skipping', code)
-                    continue
-
-                if indent < 8:
+                if in_class and indent < 8 and not skip_re.search(code):
                     snippet = extract_snippet(code, num, parent, indent)
                     if snippet:
                         # New class
