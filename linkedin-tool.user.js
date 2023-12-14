@@ -4876,6 +4876,26 @@
 
   }
 
+  /** Class for handling the Profile page. */
+  class Profile extends Page {
+
+    /**
+     * Create a Profile instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...Profile.#details});
+    }
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/in/.*', 'u'),
+      pageReadySelector: 'aside > section[data-view-name]',
+    };
+
+  }
+
   /** Base class for {@link SPA} instance details. */
   class SPADetails {
 
@@ -6153,6 +6173,7 @@
   spa.register(Jobs);
   spa.register(JobCollections);
   spa.register(Notifications);
+  spa.register(Profile);
   spa.activate(window.location.pathname);
 
   log.log('Initialization successful.');
