@@ -83,26 +83,12 @@
     ['', 'Minor internal improvement'],
     ['#106', 'info view: more tabs: News, License'],
     ['#130', 'Factor hotkey handling out of SPA'],
-    ['#140', 'Self registering keyboard shortcuts'],
-    ['#142', 'Support My Network view'],
-    ['#143', 'Support jobs search view'],
     ['#144', 'Support Messaging view'],
-    ['#145', '<code>Logger</code>: improved controls'],
-    ['#149', '<code>Scroller</code>: support onclick natively'],
-    ['#150', '<code>Scroller</code>: handle page reloads better'],
-    [
-      '#151', '<code>MyNetwork</code>: card scrolling does not work ' +
-     'after return',
-    ],
-    ['#153', 'Support Invitation manager view'],
-    [
-      '#154', '<code>Notifications</code>: <kbd><kbd>X</kbd></kbd> no ' +
-        'longer works to dismiss',
-    ],
     [
       '#155', '<code>Jobs</code>: The <em>More jobs few you</code> ' +
         'section no longer navigates jobs',
     ],
+    ['#156', 'Support Profile view'],
     [
       '#157', '<code>InvitationManager</code>: Invite not scrolling into ' +
         'view upon refresh',
@@ -149,6 +135,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-14',
+      issues: ['#156'],
+      subject: 'Initial support for the <code>Profile</code> view',
+    },
     {
       date: '2023-12-11',
       issues: ['#144'],
@@ -268,28 +259,6 @@
       date: '2023-11-13',
       issues: [''],
       subject: 'Tweak HTML in news content',
-    },
-    {
-      date: '2023-11-12',
-      issues: ['#177'],
-      subject: 'Switch the <em>paginationScroller</em> to using ' +
-        '<em>containeritems</em>',
-    },
-    {
-      date: '2023-11-12',
-      issues: ['#165'],
-      subject: 'Support an optional timeout on containers in ' +
-        '<code>Scroller</code>',
-    },
-    {
-      date: '2023-11-12',
-      issues: ['#198'],
-      subject: 'Implement a simple (for now!) <em>loadOptions()</em>',
-    },
-    {
-      date: '2023-11-11',
-      issues: ['#165'],
-      subject: 'Verify a container exists before looking for items',
     },
   ];
 
