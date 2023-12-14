@@ -210,15 +210,55 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
       super({spa: spa});
 
       this.#MO = new MutationObserver(this.#mutationHandler);
+      this.#activator = this.addService(WatchPage.#Activator);
+      this.#activator.page = this;
+    }
+
+    static #Activator = class extends Service {
+
+      /** @returns {Messaging} - Associated instance. */
+      get page() {
+        return this.#page;
+      }
+
+      /** @param {Messaging} val - Associated instance. */
+      set page(val) {
+        this.#page = val;
+      }
+
+      /** Called each time service is activated. */
+      activate() {
+        const me = 'activate';
+        this.logger.entered(me);
+
+        this.page.counter = 1;
+        this.page.#MO.observe(document.querySelector('body'),
+          {childList: true, subtree: true});
+
+        this.logger.leaving(me);
+      }
+
+      /** Called each time service is deactivated. */
+      deactivate() {
+        const me = 'deactivate';
+        this.logger.entered(me);
+
+        this.page.#MO.disconnect();
+
+        this.logger.leaving(me);
+      }
+
+      #page
+
     }
 
     #MO
+    #activator
 
-    _refresh() {
-      this.counter = 1;
-      this.#MO.observe(document.querySelector('body'), {childList: true, subtree: true});
-    }
-
+    /**
+     * MutationObserver callback.
+     * @param {MutationRecord[]} records - Standard mutation records.
+     */
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
       this.logger.entered(me, `records: ${records.length}`);
