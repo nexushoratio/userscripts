@@ -209,6 +209,23 @@ def add_current_to_classes(current, classes):
         classes.append(current)
 
 
+def should_skip(code):
+    """Returns whether this code should be skipped."""
+    # Reserved words
+    if code in (
+            'const', 'if', 'await', 'return', 'for', 'while', 'function',
+            'let', 'throw', 'new', 'try'
+    ):
+        return True
+    # Certain punctuation marks
+    if '.' in code or '`' in code or "'" in code:
+        return True
+    # Internal line
+    if code.startswith('(') or code.startswith('super('):
+        return True
+    return False
+
+
 def process(filename):
     """Lint the given filename."""
     classes = list()
@@ -228,11 +245,7 @@ def process(filename):
                                        or not parent.indent):
                 in_class = False
 
-            if code in (
-                    'const', 'if', 'await', 'return', 'for', 'while',
-                    'function', 'let', 'throw', 'new', 'try'
-            ) or '.' in code or '`' in code or "'" in code or code.startswith(
-                    '(') or code.startswith('super('):
+            if should_skip(code):
                 continue
 
             if indent <= parent.indent:
