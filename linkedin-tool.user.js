@@ -4854,7 +4854,78 @@
      */
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(Profile.#sectionsHow);
+
+      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
+        Profile.#sectionsHow);
+      this.addService(ScrollerService, this.#sectionScroller);
+      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
     }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueSectionIdentifier(element) {
+      const div = element.querySelector('div');
+      let content = element.innerText;
+      if (div?.id) {
+        content = div.id;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get sections() {
+      return this.#sectionScroller;
+    }
+
+    nextSection = new Shortcut(
+      'j',
+      'Next section',
+      () => {
+        this.sections.next();
+      }
+    );
+
+    prevSection = new Shortcut(
+      'k',
+      'Previous section',
+      () => {
+        this.sections.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first section',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last section',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        NH.web.focusOnElement(this.#lastScroller.item);
+      }
+    );
 
     /** @type {Page~PageDetails} */
     static #details = {
@@ -4862,6 +4933,35 @@
       pathname: RegExp('^/in/.*', 'u'),
       pageReadySelector: 'aside > section[data-view-name]',
     };
+
+    /** @type {Scroller~How} */
+    static #sectionsHow = {
+      uidCallback: Profile.uniqueSectionIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #sectionsWhat = {
+      name: 'Profile sections',
+      containerItems: [
+        {
+          container: 'main',
+          items: [
+            // Major sections
+            ':scope > section',
+          ].join(','),
+        },
+      ],
+    };
+
+    #keyboardService
+    #lastScroller
+    #sectionScroller
+
+    #onSectionChange = () => {
+      this.#lastScroller = this.sections;
+    }
 
   }
 
