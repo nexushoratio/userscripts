@@ -84,22 +84,10 @@
     ['#106', 'info view: more tabs: News, License'],
     ['#130', 'Factor hotkey handling out of SPA'],
     ['#144', 'Support Messaging view'],
-    [
-      '#155', '<code>Jobs</code>: The <em>More jobs few you</code> ' +
-        'section no longer navigates jobs',
-    ],
     ['#156', 'Support Profile view'],
     [
       '#157', '<code>InvitationManager</code>: Invite not scrolling into ' +
         'view upon refresh',
-    ],
-    [
-      '#159', '<code>MyNetwork</code>: Trying to ' +
-     '<kbd><kbd>E</kbd></kbd>ngage does not always work',
-    ],
-    [
-      '#161',
-      'Clicking on <em>Load more comments</em> does not select the post',
     ],
     ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
@@ -111,16 +99,6 @@
       '#170', 'Enable <em>GM.setValue</em> and <em>GM.getValue</em> ' +
      'functions',
     ],
-    [
-      '#177', '<code>JobCollections</code> Results pages: Convert to ' +
-     '<em>containerItems</em>',
-    ],
-    [
-      '#178', 'Migrate all <code>Scrollers</code> from <em>_refresh()</em> ' +
-     'to <em>#onScrollerActivate</em>',
-    ],
-    ['#187', 'Issues on <b>Greasemonkey</b> userscript manager'],
-    ['#198', 'Add default options'],
     ['#200', 'Implement <code>TestResult.summary()</code>'],
     ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
     ['#205', 'Generic way to capture bugs'],
@@ -135,6 +113,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-15',
+      issues: ['#156'],
+      subject: 'Basic navigation keys',
+    },
     {
       date: '2023-12-14',
       issues: ['#156'],
@@ -254,11 +237,6 @@
       date: '2023-11-16',
       issues: ['#170'],
       subject: 'Enable <em>GM.setValue()</em> and <em>GM.getValue()</em>',
-    },
-    {
-      date: '2023-11-13',
-      issues: [''],
-      subject: 'Tweak HTML in news content',
     },
   ];
 
