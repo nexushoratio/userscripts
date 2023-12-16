@@ -4860,6 +4860,31 @@
       return NH.base.strHash(content);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueEntryIdentifier(element) {
+      const content = element.innerText;
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get entries() {
+      if (!this.#entryScroller && this.sections.item) {
+        this.#entryScroller = new Scroller(
+          {base: this.sections.item, ...Profile.#entriesWhat},
+          Profile.#entriesHow
+        );
+        this.#entryScroller.dispatcher.on('change', this.#onEntryChange);
+        this.#entryScroller.dispatcher.on(
+          'out-of-range', this.#returnToSection
+        );
+      }
+      return this.#entryScroller;
+    }
+
     /** @type {Scroller} */
     get sections() {
       return this.#sectionScroller;
@@ -4878,6 +4903,22 @@
       'Previous section',
       () => {
         this.sections.prev();
+      }
+    );
+
+    nextEntry = new Shortcut(
+      'n',
+      'Next entry in a section',
+      () => {
+        this.entries.next();
+      }
+    );
+
+    prevEntry = new Shortcut(
+      'p',
+      'Previous entry in a section',
+      () => {
+        this.entries.prev();
       }
     );
 
@@ -4913,6 +4954,48 @@
     };
 
     /** @type {Scroller~How} */
+    static #entriesHow = {
+      uidCallback: Profile.uniqueEntryIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #entriesWhat = {
+      name: 'Profile entries',
+      // There are a couple of selector variants that work with most sections,
+      // then a few specific ones.
+      selectors: [
+        // Common selectors (the pvs-list stuff can also be nested deep into
+        // an entry, so we have to be explicit with the divs near the top.
+        ':scope > div.pvs-list__outer-container > ul.pvs-list > li',
+        ':scope > div > div.pvs-list__outer-container > ul.pvs-list > li',
+
+        // Member school/work
+        ':scope ul.pv-text-details__right-panel > li',
+        // Member edit carousel
+        ':scope ul.artdeco-carousel__slider > li',
+
+        // Activity
+        ':scope div.scaffold-finite-scroll__content > ul > li',
+
+        // Interests/Recommendations - Have tabs inside of them to make things
+        // interesting
+        ':scope div[role="tablist"]',
+        ':scope div[role="tabpanel"] > div.pvs-list__outer-container ' +
+          '> ul.pvs-list > li',
+
+        // Footer - catches most
+        ':scope div.pvs-list__outer-container > div.pvs-list__footer-wrapper',
+        ':scope > footer',
+
+        // Catch all for debugging
+        // ':scope ul > li',
+      ],
+    };
+
+    /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Profile.uniqueSectionIdentifier,
       classes: ['tom'],
@@ -4933,12 +5016,30 @@
       ],
     };
 
+    #entryScroller
     #keyboardService
     #lastScroller
     #sectionScroller
 
+    #resetEntries = () => {
+      if (this.#entryScroller) {
+        this.#entryScroller.destroy();
+        this.#entryScroller = null;
+      }
+      this.entries;
+    }
+
+    #onEntryChange = () => {
+      this.#lastScroller = this.entries;
+    }
+
     #onSectionChange = () => {
+      this.#resetEntries();
       this.#lastScroller = this.sections;
+    }
+
+    #returnToSection = () => {
+      this.sections.item = this.sections.item;
     }
 
   }
