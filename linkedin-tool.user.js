@@ -859,7 +859,7 @@
      * @returns {boolean} - Whether the item has viewable content.
      */
     static #isItemViewable(item) {
-      return item.clientHeight && item.innerText.length;
+      return Boolean(item.clientHeight && item.innerText.length);
     }
 
     #autoActivate
@@ -989,7 +989,7 @@
       this.logger.starting(me, `count: ${items.length}`);
       const uids = new NH.base.DefaultMap(Array);
       for (const item of items) {
-        this.logger.log('item:', item);
+        this.logger.log('item:', item, Scroller.#isItemViewable(item));
         const uid = this.#uid(item);
         uids.get(uid)
           .push(item);
