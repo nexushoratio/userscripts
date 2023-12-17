@@ -83,18 +83,14 @@
     ['', 'Minor internal improvement'],
     ['#106', 'info view: more tabs: News, License'],
     ['#130', 'Factor hotkey handling out of SPA'],
-    ['#144', 'Support Messaging view'],
-    ['#156', 'Support Profile view'],
+    ['#144', 'Support <b>Messaging</b> view'],
+    ['#156', 'Support <b>Profile</b> view'],
     [
-      '#157', '<code>InvitationManager</code>: Invite not scrolling into ' +
+      '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
         'view upon refresh',
     ],
     ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
-    [
-      '#168', '<code>JobCollections</code>: <kbd><kbd>X</kbd></kbd> will ' +
-     'not recover a dismissed job card',
-    ],
     [
       '#170', 'Enable <em>GM.setValue</em> and <em>GM.getValue</em> ' +
      'functions',
@@ -103,8 +99,12 @@
     ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
     ['#205', 'Generic way to capture bugs'],
     [
-      '#206', '<code>JobCollections</code>: Dismissing/thumbs-downing a ' +
+      '#206', '<b>JobCollections</b>: Dismissing/thumbs-downing a ' +
      'job card is not working (neither does <em>Undo</em>)',
+    ],
+    [
+      '#208', '<code>Scroller</code>: If end-item is never viewable ' +
+     '(e.g., empty), cannot wrap',
     ],
     [
       '#212', '<code>Scroller</code>: Investigate if we still need the ' +
@@ -113,6 +113,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-17',
+      issues: ['#208'],
+      subject: 'Filter out non-viewable items before scrolling by N',
+    },
+    {
+      date: '2023-12-16',
+      issues: ['#156', '#208'],
+      subject: 'Implement <kbd><kbd>n</kbd></kbd>ext/' +
+        '<kbd><kbd>p</kbd></kbd>revious for entries inside a section',
+    },
     {
       date: '2023-12-15',
       issues: ['#156'],
