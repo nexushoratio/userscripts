@@ -1129,7 +1129,26 @@
       const me = 'scrollBy';
       this.logger.entered(me, n);
 
-      const items = this.#getItems();
+      /**
+       * Keep viewable items and the current one.
+       *
+       * The current item may not yet be viewable after a reload, but give it
+       * a chance.
+       * @param {HTMLElement} item - Item to check.
+       * @returns {boolean} - Whether to keep or not.
+       */
+      const filterItem = (item) => {
+        if (Scroller.#isItemViewable(item)) {
+          return true;
+        }
+        if (this.#uid(item) === this.#currentItemId) {
+          return true;
+        }
+        return false;
+      };
+
+      const items = this.#getItems()
+        .filter(item => filterItem(item));
       if (items.length) {
         let idx = items.findIndex(this.#matchItem);
         this.logger.log('initial idx', idx);
@@ -1141,15 +1160,7 @@
           this.item = null;
           this.dispatcher.fire('out-of-range', null);
         } else {
-          // Skip over empty items
-          let item = items[idx];
-          while (!Scroller.#isItemViewable(item)) {
-            this.logger.log('skipping item', item);
-            idx += n;
-            item = items[idx];
-          }
-          this.logger.log('final idx', idx);
-          this.item = item;
+          this.item = items[idx];
         }
       }
 
