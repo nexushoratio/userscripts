@@ -4968,6 +4968,34 @@
       }
     );
 
+    seeMore = new Shortcut(
+      'm',
+      'Show more/all of current item (context sensitive, may go to new page)',
+      () => {
+        // Slightly more complicated than something like `Feed`.  Some items
+        // (e.g., Experiences), will expand and stay that way, making it easy
+        // to find the next one.  Others (e.g., Activity), will navigate away,
+        // and then come back, staying collapsed.  Then there are the
+        // tabpanels which have multiple links at the section level.  So, we
+        // will look for the 'Show all' links in the current item first, then
+        // look for buttons with 'more' in them.
+        const el = this.#lastScroller.item;
+        if (el) {
+          const links = Array.from(el.querySelectorAll('a'))
+            .filter(x => x.innerText.includes('Show all'))
+            .filter(x => x.clientHeight);
+          if (links.length === NH.base.ONE_ITEM) {
+            links[0].click();
+          } else {
+            NH.web.clickElement(el, [
+              'button.inline-show-more-text__button',
+              'button[aria-label="More actions"]',
+            ]);
+          }
+        }
+      }
+    );
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
