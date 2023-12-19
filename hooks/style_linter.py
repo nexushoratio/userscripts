@@ -212,10 +212,8 @@ def add_current_to_classes(current, classes):
 def should_skip(code):
     """Returns whether this code should be skipped."""
     # Reserved words
-    if code in (
-            'const', 'if', 'await', 'return', 'for', 'while', 'function',
-            'let', 'throw', 'new', 'try'
-    ):
+    if code in ('const', 'if', 'await', 'return', 'for', 'while', 'function',
+                'let', 'throw', 'new', 'try'):
         return True
     # Certain punctuation marks
     if '.' in code or '`' in code or "'" in code:
@@ -233,41 +231,41 @@ def process(filename):
     nesting = [Nest(0, 0, '')]
     in_class = False
 
-    for num, line in enumerate(open(filename, encoding='utf-8').readlines(),
-                               start=1):
-        words = line.split()
-        if line.startswith(' ') and words:
-            code = words.pop(0)
-            indent = line.index(code)
-            parent = nesting[-1]
-
-            if code == 'function' and (indent <= parent.indent
-                                       or not parent.indent):
-                in_class = False
-
-            if should_skip(code):
-                continue
-
-            if indent <= parent.indent:
-                nesting.pop()
+    with open(filename, encoding='utf-8') as handle:
+        for num, line in enumerate(handle.readlines(), start=1):
+            words = line.split()
+            if line.startswith(' ') and words:
+                code = words.pop(0)
+                indent = line.index(code)
                 parent = nesting[-1]
 
-            if code.isalnum() or code[0] in ('#', '_') or '(' in code:
-                if 'class' in [code] + words:
-                    in_class = True
-                    nest = Nest(indent, num, words[0])
-                    nesting.append(nest)
+                if code == 'function' and (indent <= parent.indent
+                                           or not parent.indent):
+                    in_class = False
 
-                code += ' ' + ' '.join(words)
+                if should_skip(code):
+                    continue
 
-                if in_class and indent < 8 and not skip_re.search(code):
-                    snippet = extract_snippet(code, num, parent, indent)
-                    if snippet:
-                        # New class
-                        if snippet.type == Type.NAME:
-                            add_current_to_classes(current, classes)
-                            current = []
-                        current.append(snippet)
+                if indent <= parent.indent:
+                    nesting.pop()
+                    parent = nesting[-1]
+
+                if code.isalnum() or code[0] in ('#', '_') or '(' in code:
+                    if 'class' in [code] + words:
+                        in_class = True
+                        nest = Nest(indent, num, words[0])
+                        nesting.append(nest)
+
+                    code += ' ' + ' '.join(words)
+
+                    if in_class and indent < 8 and not skip_re.search(code):
+                        snippet = extract_snippet(code, num, parent, indent)
+                        if snippet:
+                            # New class
+                            if snippet.type == Type.NAME:
+                                add_current_to_classes(current, classes)
+                                current = []
+                            current.append(snippet)
 
     # Catch the last class being worked on
     add_current_to_classes(current, classes)
