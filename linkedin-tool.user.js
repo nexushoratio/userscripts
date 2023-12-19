@@ -4695,8 +4695,6 @@
       'Enter',
       'Activate the current notification (click on it)',
       () => {
-        // TODO(#216): ONE_ITEM is going to get a promotion!
-        const ONE_ITEM = 1;
         const notification = this.notifications.item;
         if (notification) {
           // Because we are using Enter as the hotkey here, if the active
@@ -4709,11 +4707,11 @@
           const elements = notification.querySelectorAll(
             '.nt-card__headline'
           );
-          if (elements.length === ONE_ITEM) {
+          if (elements.length === NH.base.ONE_ITEM) {
             elements[0].click();
           } else {
             const ba = notification.querySelectorAll('button,a');
-            if (ba.length === ONE_ITEM) {
+            if (ba.length === NH.base.ONE_ITEM) {
               ba[0].click();
             } else {
               NH.web.postInfoAboutElement(notification, 'notification');
