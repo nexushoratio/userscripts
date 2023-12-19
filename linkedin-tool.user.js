@@ -91,11 +91,6 @@
     ],
     ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
-    [
-      '#170', 'Enable <em>GM.setValue</em> and <em>GM.getValue</em> ' +
-     'functions',
-    ],
-    ['#200', 'Implement <code>TestResult.summary()</code>'],
     ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
     ['#205', 'Generic way to capture bugs'],
     [
@@ -113,6 +108,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-18',
+      issues: ['#156'],
+      subject: 'Implement <kbd><kbd>m</kbd></kbd> to view more ' +
+        '(or Show all...) for the current item',
+    },
     {
       date: '2023-12-17',
       issues: ['#208'],
@@ -238,16 +239,6 @@
       issues: ['#144'],
       subject: 'Implement moving to the <kbd><kbd>m</kbd></kbd>essage ' +
         'tablist',
-    },
-    {
-      date: '2023-11-16',
-      issues: ['#200'],
-      subject: 'Bump all libraries to the current version',
-    },
-    {
-      date: '2023-11-16',
-      issues: ['#170'],
-      subject: 'Enable <em>GM.setValue()</em> and <em>GM.getValue()</em>',
     },
   ];
 
