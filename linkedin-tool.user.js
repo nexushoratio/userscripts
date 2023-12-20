@@ -4985,6 +4985,26 @@
       }
     );
 
+    editItem = new Shortcut(
+      'E',
+      'Edit the current section (if possible)',
+      () => {
+        const current = this.sections.item;
+        // And, of course, the sections are inconsistent
+        if (current) {
+          let item = current.querySelector(
+            '[aria-label^="Edit "],[aria-label^="View "]'
+          );
+          if (item) {
+            if (!['A', 'BUTTON'].includes(item.tagName)) {
+              item = item.closest('a,button');
+            }
+            item.click();
+          }
+        }
+      }
+    );
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
