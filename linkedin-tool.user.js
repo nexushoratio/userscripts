@@ -2269,7 +2269,7 @@
       '?',
       'Show this information view',
       () => {
-        Global.#gotoNavButton('Tool');
+        this.#gotoNavButton('Tool');
       }
     );
 
@@ -2285,7 +2285,7 @@
       'g h',
       'Go Home (aka, Feed)',
       () => {
-        Global.#gotoNavLink('feed');
+        this.#gotoNavLink('feed');
       }
     );
 
@@ -2293,7 +2293,7 @@
       'g m',
       'Go to My Network',
       () => {
-        Global.#gotoNavLink('mynetwork');
+        this.#gotoNavLink('mynetwork');
       }
     );
 
@@ -2301,7 +2301,7 @@
       'g j',
       'Go to Jobs',
       () => {
-        Global.#gotoNavLink('jobs');
+        this.#gotoNavLink('jobs');
       }
     );
 
@@ -2309,7 +2309,7 @@
       'g g',
       'Go to Messaging',
       () => {
-        Global.#gotoNavLink('messaging');
+        this.#gotoNavLink('messaging');
       }
     );
 
@@ -2317,7 +2317,7 @@
       'g n',
       'Go to Notifications',
       () => {
-        Global.#gotoNavLink('notifications');
+        this.#gotoNavLink('notifications');
       }
     );
 
@@ -2325,7 +2325,7 @@
       'g p',
       'Go to Profile (aka, Me)',
       () => {
-        Global.#gotoNavButton('Me');
+        this.#gotoNavButton('Me');
       }
     );
 
@@ -2333,7 +2333,7 @@
       'g b',
       'Go to Business',
       () => {
-        Global.#gotoNavButton('Business');
+        this.#gotoNavButton('Business');
       }
     );
 
@@ -2341,7 +2341,7 @@
       'g l',
       'Go to Learning',
       () => {
-        Global.#gotoNavLink('learning');
+        this.#gotoNavLink('learning');
       }
     );
 
@@ -2361,11 +2361,13 @@
       }
     );
 
+    #keyboardService
+
     /**
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
      */
-    static #gotoNavLink = (item) => {
+    #gotoNavLink = (item) => {
       NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
     }
 
@@ -2373,15 +2375,13 @@
      * Click on the requested button in the global nav bar.
      * @param {string} item - Text on the button to look for.
      */
-    static #gotoNavButton = (item) => {
+    #gotoNavButton = (item) => {
       const buttons = Array.from(
         document.querySelectorAll('#global-nav button')
       );
       const button = buttons.find(el => el.textContent.includes(item));
       button?.click();
     }
-
-    #keyboardService
 
   }
 
