@@ -3,7 +3,7 @@
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
 // @noframes
-// @version     5.62
+// @version     5.63
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -105,9 +105,15 @@
       '#212', '<code>Scroller</code>: Investigate if we still need the ' +
      'current item resets',
     ],
+    ['#219', '<code>MyNetwork</code> navigation is broken'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-21',
+      issues: ['#219'],
+      subject: 'Update <code>MyNetwork</code> to the new layout',
+    },
     {
       date: '2023-12-20',
       issues: ['#156'],
