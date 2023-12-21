@@ -2898,7 +2898,11 @@
      */
     static uniqueSectionIdentifier(element) {
       const h2 = element.querySelector('h2');
+      const h3 = element.querySelector('h3');
       let content = element.innerText;
+      if (h3?.innerText) {
+        content = h3.innerText;
+      }
       if (h2?.innerText) {
         content = h2.innerText;
       }
@@ -2911,7 +2915,17 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCardsIdentifier(element) {
-      const content = element.innerText;
+      let content = element.innerText;
+
+      const hrefs = Array.from(element.querySelectorAll('a'))
+        .filter(x => x.innerText)
+        .map(x => x.href);
+
+      if (hrefs.length) {
+        content = Array.from(new Set(hrefs))
+          .join(',');
+      }
+
       return NH.base.strHash(content);
     }
 
@@ -3050,12 +3064,12 @@
         [
           // Invitations -> See all
           ':scope > header > a',
+          // Invitations -> cards
+          ':scope > ul > li',
           // Other sections -> See all
           ':scope > div > button',
           // Most cards
-          ':scope > ul > li',
-          // More suggestions for you cards
-          ':scope > section ul > li section',
+          ':scope > div > ul > li',
         ].join(','),
       ],
     };
@@ -3081,11 +3095,11 @@
           container: 'main',
           items: [
             // Invitations
-            ':scope > section',
-            // Most sections
-            ':scope > ul > li',
-            // More suggestions for you section
-            ':scope > div > section',
+            ':scope > section.mn-invitations-preview',
+            // Ads
+            ':scope > div.mn-sales-navigator-upsell',
+            // Most sections, including "More suggestions for you"
+            ':scope div.scaffold-finite-scroll__content > div',
           ].join(','),
         },
       ],
