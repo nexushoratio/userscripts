@@ -109,6 +109,11 @@
 
   const globalNewsContent = [
     {
+      date: '2023-12-20',
+      issues: ['#156'],
+      subject: 'Implement <kbd><kbd>E</kbd></kbd>dit for the current section',
+    },
+    {
       date: '2023-12-18',
       issues: ['#156'],
       subject: 'Implement <kbd><kbd>m</kbd></kbd> to view more ' +
@@ -228,17 +233,6 @@
       issues: ['#144'],
       subject: 'Move control of the tablist monitor into ' +
         '<code>Scroller</code> activation',
-    },
-    {
-      date: '2023-11-19',
-      issues: ['#144'],
-      subject: 'Add <code>Scroller</code> for <code>Messaging</code> view',
-    },
-    {
-      date: '2023-11-18',
-      issues: ['#144'],
-      subject: 'Implement moving to the <kbd><kbd>m</kbd></kbd>essage ' +
-        'tablist',
     },
   ];
 
