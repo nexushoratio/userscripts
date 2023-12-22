@@ -224,6 +224,22 @@ def should_skip(code):
     return False
 
 
+def process_results(filename, classes):
+    """Print out the results."""
+    clean = True
+    for item in classes:
+        srt = tsort(item)
+        if srt != item:
+            clean = False
+            print(f'bad: {filename}: {item[0]}')
+            item = [str(x) for x in item]
+            srt = [str(x) for x in srt]
+            print('\n'.join(difflib.unified_diff(item, srt)))
+            print('\n\n')
+
+    return clean
+
+
 def process(filename):
     """Lint the given filename."""
     classes = list()
@@ -269,19 +285,7 @@ def process(filename):
 
     # Catch the last class being worked on
     add_current_to_classes(current, classes)
-
-    clean = True
-    for item in classes:
-        srt = tsort(item)
-        if srt != item:
-            clean = False
-            print(f'bad: {filename}: {item[0]}')
-            item = [str(x) for x in item]
-            srt = [str(x) for x in srt]
-            print('\n'.join(difflib.unified_diff(item, srt)))
-            print('\n\n')
-
-    return clean
+    return process_results(filename, classes)
 
 
 def main():
