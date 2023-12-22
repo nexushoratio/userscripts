@@ -4862,6 +4862,7 @@
       this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(Profile.#sectionsHow);
+      spa.details.navBarScrollerFixup(Profile.#entriesHow);
 
       this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
         Profile.#sectionsHow);
