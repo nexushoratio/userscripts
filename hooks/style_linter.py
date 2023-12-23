@@ -249,6 +249,7 @@ def process(filename):
 
     with open(filename, encoding='utf-8') as handle:
         for num, line in enumerate(handle.readlines(), start=1):
+            snippet = None
             words = line.split()
             if line.startswith(' ') and words:
                 code = words.pop(0)
@@ -276,12 +277,12 @@ def process(filename):
 
                     if in_class and indent < 8 and not skip_re.search(code):
                         snippet = extract_snippet(code, num, parent, indent)
-                        if snippet:
-                            # New class
-                            if snippet.type == Type.NAME:
-                                add_current_to_classes(current, classes)
-                                current = []
-                            current.append(snippet)
+            if snippet:
+                # New class
+                if snippet.type == Type.NAME:
+                    add_current_to_classes(current, classes)
+                    current = []
+                current.append(snippet)
 
     # Catch the last class being worked on
     add_current_to_classes(current, classes)
