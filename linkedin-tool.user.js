@@ -4874,12 +4874,7 @@
       spa.details.navBarScrollerFixup(Profile.#sectionsHow);
       spa.details.navBarScrollerFixup(Profile.#entriesHow);
 
-      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
-        Profile.#sectionsHow);
-      this.addService(ScrollerService, this.#sectionScroller);
-      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
-
-      this.#lastScroller = this.#sectionScroller;
+      this.sections;
     }
 
     /**
@@ -4923,6 +4918,14 @@
 
     /** @type {Scroller} */
     get sections() {
+      if (!this.#sectionScroller) {
+        this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
+          Profile.#sectionsHow);
+        this.addService(ScrollerService, this.#sectionScroller);
+        this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+
+        this.#lastScroller = this.#sectionScroller;
+      }
       return this.#sectionScroller;
     }
 
