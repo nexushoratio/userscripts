@@ -2367,11 +2367,30 @@
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
      */
-    #gotoNavLink = (item) => {
+    #gotoNavLink = async (item) => {
       const me = 'gotoNavLink';
       this.logger.entered(me, item);
 
-      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
+      /** Trigger function for {@link NH.web.otrot2}. */
+      const trigger = () => {
+        NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
+      };
+
+      /** Action function for {@link NH.web.otrot2}. */
+      const action = () => {
+        this.logger.log('just monitoring');
+      };
+
+      const what = {
+        name: me,
+        base: document.body,
+      };
+      const how = {
+        trigger: trigger,
+        action: action,
+        duration: 1000,
+      };
+      await NH.web.otrot2(what, how);
 
       this.logger.leaving(me);
     }
