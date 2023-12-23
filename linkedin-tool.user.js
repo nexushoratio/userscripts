@@ -3820,7 +3820,7 @@
     );
 
     nextResultsPage = new Shortcut(
-      'n',
+      'N',
       'Next results page',
       () => {
         this.paginator.next();
@@ -3828,7 +3828,7 @@
     );
 
     prevResultsPage = new Shortcut(
-      'p',
+      'P',
       'Previous results page',
       () => {
         this.paginator.prev();
