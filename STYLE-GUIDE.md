@@ -216,12 +216,12 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
 
     static #Activator = class extends Service {
 
-      /** @returns {Messaging} - Associated instance. */
+      /** @returns {WatchPage} - Associated instance. */
       get page() {
         return this.#page;
       }
 
-      /** @param {Messaging} val - Associated instance. */
+      /** @param {WatchPage} val - Associated instance. */
       set page(val) {
         this.#page = val;
       }
