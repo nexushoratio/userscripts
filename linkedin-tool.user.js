@@ -91,6 +91,10 @@
     ],
     ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
+    [
+      '#169', '<code>JobCollections</code>: reading the details pane is ' +
+     'cumbersome',
+    ],
     ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
     ['#205', 'Generic way to capture bugs'],
     [
@@ -109,6 +113,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-24',
+      issues: ['#169'],
+      subject: 'Switch results page selection to ' +
+        '<kbd><kbd>N</kbd></kbd>/<kbd><kbd>P</kbd></kbd>',
+    },
     {
       date: '2023-12-21',
       issues: ['#219'],
