@@ -4900,10 +4900,9 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(Profile.#sectionsHow);
-      spa.details.navBarScrollerFixup(Profile.#entriesHow);
+      this.#activator = this.addService(Profile.#Activator);
+      this.#activator.page = this;
 
-      this.sections;
     }
 
     /**
@@ -5062,6 +5061,49 @@
       }
     );
 
+    static #Activator = class extends Service {
+
+      /** @returns {Profile} - Associated instance. */
+      get page() {
+        return this.#page;
+      }
+
+      /** @param {Profile} val - Associated instance. */
+      set page(val) {
+        this.#page = val;
+      }
+
+      /** Called each time service is activated. */
+      activate() {
+        const me = 'activate';
+        this.logger.entered(me);
+
+        if (!this.#activatedOnce) {
+          this.page.spa.details.navBarScrollerFixup(Profile.#sectionsHow);
+          this.page.spa.details.navBarScrollerFixup(Profile.#entriesHow);
+
+          // This initializes the primary scroller by calling the getter.
+          this.page.sections;
+        }
+
+        this.#activatedOnce = true;
+
+        this.logger.leaving(me);
+      }
+
+      /** Called each time service is deactivated. */
+      deactivate() {
+        const me = 'deactivate';
+        this.logger.entered(me);
+
+        this.logger.leaving(me);
+      }
+
+      #activatedOnce = false;
+      #page
+
+    }
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -5132,6 +5174,7 @@
       ],
     };
 
+    #activator
     #entryScroller
     #keyboardService
     #lastScroller
