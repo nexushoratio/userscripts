@@ -3893,7 +3893,7 @@
       'Jump to details pane',
       () => {
         NH.web.focusOnElement(document.querySelector(
-          'div.jobs-search__job-details--container'
+          'div.jobs-details__main-content'
         ));
       }
     );
