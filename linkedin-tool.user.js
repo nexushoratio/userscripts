@@ -5330,6 +5330,9 @@
     constructor(globals) {
       super();
       this.#globals = globals;
+      this.#primaryItemsObserver = new MutationObserver(
+        this.#primaryItemsHandler
+      );
       this.ready = this.#waitUntilPageLoadedEnough();
     }
 
@@ -5545,6 +5548,9 @@
     #licenseData
     #licenseLoaded
     #navbar
+    #ourMenuItem
+    #primaryItems
+    #primaryItemsObserver
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
@@ -5762,10 +5768,16 @@
       const me = 'addToolMenuItem';
       this.logger.entered(me);
 
-      const ul = document.querySelector('ul.global-nav__primary-items');
-      const li = document.createElement('li');
-      li.classList.add('global-nav__primary-item');
-      li.innerHTML =
+      this.#primaryItems = document.querySelector(
+        'ul.global-nav__primary-items'
+      );
+      this.#primaryItemsObserver.observe(
+        this.#primaryItems, {childList: true}
+      );
+
+      this.#ourMenuItem = document.createElement('li');
+      this.#ourMenuItem.classList.add('global-nav__primary-item');
+      this.#ourMenuItem.innerHTML =
         '<button id="lit-nav-button" class="global-nav__primary-link">' +
         '  <div class="global-nav__primary-link-notif ' +
         'artdeco-notification-badge">' +
@@ -5777,20 +5789,8 @@
         '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
         '  </div>' +
         '</button>';
-      const navMe = ul.querySelector('li .global-nav__me')
-        ?.closest('li');
-      if (navMe) {
-        navMe.after(li);
-      } else {
-        // If the site changed and we cannot insert ourself after the Me menu
-        // item, then go first.
-        ul.prepend(li);
-        NH.base.issues.post(
-          'Unable to find the Profile navbar item.',
-          'LIT menu installed in non-standard location.'
-        );
-      }
-      const button = li.querySelector('button');
+
+      const button = this.#ourMenuItem.querySelector('button');
       button.addEventListener('click', () => {
         if (this.#useOriginalInfoDialog) {
           const info = document.querySelector(`#${this.infoId}`);
@@ -5803,6 +5803,41 @@
           this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
         }
       });
+
+      this.#connectMenuItem();
+
+      this.logger.leaving(me);
+    }
+
+    #connectMenuItem = () => {
+      const navMe = this.#primaryItems.querySelector('li .global-nav__me')
+        ?.closest('li');
+      if (navMe) {
+        navMe.after(this.#ourMenuItem);
+      } else {
+        // If the site changed and we cannot insert ourself after the Me menu
+        // item, then go first.
+        this.#primaryItems.prepend(this.#ourMenuItem);
+        NH.base.issues.post(
+          'Unable to find the Profile navbar item.',
+          'LIT menu installed in non-standard location.'
+        );
+      }
+    }
+
+    #primaryItemsHandler = () => {
+      const me = 'primaryItemsHandler';
+      this.logger.entered(me);
+
+      if (!this.#ourMenuItem.isConnected) {
+        this.logger.log('reconnecting');
+        this.#connectMenuItem();
+        if (litOptions.enableDevMode) {
+          // Make this event pop by publishing a bug in dev mode.
+          NH.base.issues.post('Had to reconnect the menu item.');
+        }
+      }
+
       this.logger.leaving(me);
     }
 
