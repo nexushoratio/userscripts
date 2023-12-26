@@ -110,9 +110,20 @@
      'current item resets',
     ],
     ['#219', '<code>MyNetwork</code> navigation is broken'],
+    ['#220', 'Sometimes the LIT menu item does not stick'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-24',
+      issues: ['#220'],
+      subject: 'Re-add the LIT menu item if it disappears',
+    },
+    {
+      date: '2023-12-24',
+      issues: ['#169'],
+      subject: 'Fine-tune the CSS selector for the details pane',
+    },
     {
       date: '2023-12-24',
       issues: ['#169'],
@@ -205,50 +216,6 @@
       issues: ['#205'],
       subject: 'Retire <code>SPADetails</code> setup issues in favor of ' +
         '<em>NH.base.issues</em>',
-    },
-    {
-      date: '2023-11-24',
-      issues: ['#204'],
-      subject: 'Ignore non-viewable items when checking for duplicates',
-    },
-    {
-      date: '2023-11-24',
-      issues: ['#204'],
-      subject: 'Replace logging duplicates to posting to the new issues ' +
-        'listener',
-    },
-    {
-      date: '2023-11-24',
-      issues: ['#205'],
-      subject: 'Plug in using <em>NH.base.issues</em>',
-    },
-    {
-      date: '2023-11-24',
-      issues: ['#205'],
-      subject: 'Bump all libraries to the current version',
-    },
-    {
-      date: '2023-11-23',
-      issues: ['#204'],
-      subject: 'Log detection of duplicate items in a <code>Scroller</code>',
-    },
-    {
-      date: '2023-11-22',
-      issues: ['#206'],
-      subject: 'Update selectors for hide/show job card in ' +
-        '<code>JobCollections</code>',
-    },
-    {
-      date: '2023-11-22',
-      issues: ['#144'],
-      subject: 'Detect when focus shows up in message box and act ' +
-        'accordingly',
-    },
-    {
-      date: '2023-11-21',
-      issues: ['#144'],
-      subject: 'Move control of the tablist monitor into ' +
-        '<code>Scroller</code> activation',
     },
   ];
 
