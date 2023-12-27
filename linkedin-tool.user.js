@@ -95,12 +95,6 @@
       '#169', '<code>JobCollections</code>: reading the details pane is ' +
      'cumbersome',
     ],
-    ['#204', '<code>Scroller</code> gets stuck if duplicate items'],
-    ['#205', 'Generic way to capture bugs'],
-    [
-      '#206', '<b>JobCollections</b>: Dismissing/thumbs-downing a ' +
-     'job card is not working (neither does <em>Undo</em>)',
-    ],
     [
       '#208', '<code>Scroller</code>: If end-item is never viewable ' +
      '(e.g., empty), cannot wrap',
@@ -111,9 +105,37 @@
     ],
     ['#219', '<code>MyNetwork</code> navigation is broken'],
     ['#220', 'Sometimes the LIT menu item does not stick'],
+    [
+      '#222', '<code>Notifications</code>: Seeing dupes where there should ' +
+     'not be',
+    ],
+    ['#223', '<code>=</code> stopped working on <code>Feed</code>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-27',
+      issues: ['#223'],
+      subject: 'Update how the <kbd><kbd>⋯</kbd></kbd> menu is found in ' +
+        '<code>Feed</code>',
+    },
+    {
+      date: '2023-12-27',
+      issues: ['#222'],
+      subject: 'Mix in the notification URL to dedupe when text is identical',
+    },
+    {
+      date: '2023-12-27',
+      issues: ['#169'],
+      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
+        'for scrolling through job details',
+    },
+    {
+      date: '2023-12-27',
+      issues: ['#156'],
+      subject: 'Include the height of the toolbar in the ' +
+        '<code>Scroller</code> margins',
+    },
     {
       date: '2023-12-24',
       issues: ['#220'],
@@ -210,12 +232,6 @@
       date: '2023-11-27',
       issues: ['#144'],
       subject: 'Fine tune the conversation card selector',
-    },
-    {
-      date: '2023-11-25',
-      issues: ['#205'],
-      subject: 'Retire <code>SPADetails</code> setup issues in favor of ' +
-        '<em>NH.base.issues</em>',
     },
   ];
 
