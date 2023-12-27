@@ -123,7 +123,7 @@ def tsort(data):
     return results
 
 
-def extract_snippet(code, line_number, parent, indent):
+def extract_snippet(code, line_number, parent, indent):  # pylint: disable=too-many-branches
     """Returns a Snippet() that represents the current line of code.
 
   Args:
