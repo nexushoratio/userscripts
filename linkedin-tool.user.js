@@ -3756,7 +3756,46 @@
       this.#paginationScroller.dispatcher.on('change',
         this.#onPaginationChange);
 
+      spa.details.navBarScrollerFixup(JobCollections.#detailsHow);
+      this.#detailsScroller = new Scroller(
+        JobCollections.#detailsWhat, JobCollections.#detailsHow
+      );
+      this.addService(ScrollerService, this.#detailsScroller);
+      this.#detailsScroller.dispatcher.on('change', this.#onDetailsChange);
+
       this.#lastScroller = this.#jobCardScroller;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueDetailsIdentifier(element) {
+      let content = element.innerText;
+      if (element.id) {
+        content = element.id;
+      } else {
+        const hasId = element.querySelector('[id]:not([id^="ember"])');
+        if (hasId) {
+          content = hasId.id;
+        } else {
+          const h2 = Array.from(element.querySelectorAll('h2'))
+            .filter(x => x.innerText.trim());
+          if (h2.length) {
+            content = h2[0].innerText.trim();
+          } else {
+            const tags = new Set();
+            element.querySelectorAll('*')
+              .forEach((x) => {
+                tags.add(x.tagName);
+              });
+            log.log('uniqueDetailsIdentifier tags:', tags);
+          }
+        }
+      }
+      const hash = NH.base.strHash(content);
+      return hash;
     }
 
     /**
@@ -3790,6 +3829,11 @@
     }
 
     /** @type {Scroller} */
+    get details() {
+      return this.#detailsScroller;
+    }
+
+    /** @type {Scroller} */
     get jobCards() {
       return this.#jobCardScroller;
     }
@@ -3812,6 +3856,22 @@
       'Previous job card',
       () => {
         this.jobCards.prev();
+      }
+    );
+
+    nextDetail = new Shortcut(
+      'n',
+      'Next job detail',
+      () => {
+        this.details.next();
+      }
+    );
+
+    prevDetail = new Shortcut(
+      'p',
+      'Previous job detail',
+      () => {
+        this.details.prev();
       }
     );
 
@@ -3967,6 +4027,24 @@
     };
 
     /** @type {Scroller~How} */
+    static #detailsHow = {
+      uidCallback: JobCollections.uniqueDetailsIdentifier,
+      classes: ['dick'],
+      snapToTop: true,
+    };
+
+    /** @type {Scroller~What} */
+    static #detailsWhat = {
+      name: 'Job details',
+      containerItems: [
+        {
+          container: 'div.jobs-details__main-content',
+          items: ':scope > div, :scope > section',
+        },
+      ],
+    };
+
+    /** @type {Scroller~How} */
     static #jobCardsHow = {
       uidCallback: this.uniqueJobIdentifier,
       classes: ['tom'],
@@ -4007,6 +4085,7 @@
       ],
     };
 
+    #detailsScroller
     #jobCardScroller
     #keyboardService
     #lastScroller
@@ -4043,14 +4122,12 @@
       const me = 'onJobCardChange';
       this.logger.entered(me, this.jobCards.item);
       NH.web.clickElement(this.jobCards.item, ['div[data-job-id]']);
+      this.details.first();
       this.#lastScroller = this.jobCards;
       this.logger.leaving(me);
     }
 
     #onPaginationActivate = async () => {
-      const me = 'onPaginationActivate';
-      this.logger.entered(me);
-
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
@@ -4061,15 +4138,14 @@
       } catch (e) {
         this.logger.log('Results paginator not found, staying put');
       }
-
-      this.logger.leaving(me);
     }
 
     #onPaginationChange = () => {
-      const me = 'onResultsPageChange';
-      this.logger.entered(me, this.paginator.item);
       this.#lastScroller = this.paginator;
-      this.logger.leaving(me);
+    }
+
+    #onDetailsChange = () => {
+      this.#lastScroller = this.details;
     }
 
   }
