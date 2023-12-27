@@ -4726,6 +4726,7 @@
             }
           }
         }
+        content += element.children[CONTENT_INDEX].querySelector('a')?.href;
       }
       if (content.startsWith('Notification deleted.')) {
         // Mix in something unique from the parent.
