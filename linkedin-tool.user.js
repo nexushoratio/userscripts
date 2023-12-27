@@ -5046,8 +5046,19 @@
         this.logger.entered(me);
 
         if (!this.#activatedOnce) {
+          const toolbar = document.querySelector('.scaffold-layout-toolbar');
+
           this.page.spa.details.navBarScrollerFixup(Profile.#sectionsHow);
           this.page.spa.details.navBarScrollerFixup(Profile.#entriesHow);
+
+          const newHeight = Profile.#sectionsHow.topMarginPixels +
+                toolbar.clientHeight;
+          const newCSS = `${newHeight}px`;
+
+          Profile.#sectionsHow.topMarginPixels = newHeight;
+          Profile.#entriesHow.topMarginPixels = newHeight;
+          Profile.#sectionsHow.topMarginCSS = newCSS;
+          Profile.#entriesHow.topMarginCSS = newCSS;
 
           // This initializes the primary scroller by calling the getter.
           this.page.sections;
