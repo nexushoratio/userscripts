@@ -2630,12 +2630,11 @@
       '=',
       'Open closest <button class="spa-meatball">⋯</button> menu',
       () => {
-        // XXX: In this case, the identifier is on an svg element, not the
-        // button, so use the parentElement.  When Firefox [fully
-        // supports](https://bugzilla.mozilla.org/show_bug.cgi?id=418039) the
-        // `:has()` pseudo-selector, we can probably use that and use
-        // `NH.web.clickElement()`.
-        const el = this.#lastScroller.item;
+        const me = 'openMeatballMenu';
+        this.logger.entered(me, this.#lastScroller.item);
+
+        // XXX: Under going a redesign.  Sometimes the selector grabs the
+        // button proper, sometimes the internal svg.
         const selector = [
           // Comment variant
           '[aria-label^="Open options"]',
@@ -2644,8 +2643,11 @@
           // Maybe new post variant
           '[a11y-text^="Open control menu"]',
         ].join(',');
-        const button = el.querySelector(selector).parentElement;
+        const element = this.#lastScroller.item?.querySelector(selector);
+        const button = element?.closest('button');
         button?.click();
+
+        this.logger.leaving(me);
       }
     );
 
