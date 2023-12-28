@@ -204,9 +204,9 @@ One technique is to create *MutationObserver* that simply adds a counter to each
 The is an example of a new `Page` that does this.  Note that sometimes, nodes get removed from a page moments after they get added.  Shipping your org chart FTW!
 
 ```
-  class WatchPage extends Page {
+  class WatchPage extends Page {  // eslint-disable-line require-jsdoc
 
-    constructor(spa) {
+    constructor(spa) {  // eslint-disable-line require-jsdoc
       super({spa: spa});
 
       this.#MO = new MutationObserver(this.#mutationHandler);
@@ -259,7 +259,7 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
      * MutationObserver callback.
      * @param {MutationRecord[]} records - Standard mutation records.
      */
-    #mutationHandler = (records) => {
+    #mutationHandler = (records) => {  // eslint-disable-line max-statements
       const me = 'mutationHandler';
       this.logger.entered(me, `records: ${records.length}`);
 
@@ -275,7 +275,8 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
             }
           }
           for (const node of record.removedNodes) {
-            if (node.nodeType === Node.ELEMENT_NODE && node.matches('[data-counter]')) {
+            if (node.nodeType === Node.ELEMENT_NODE &&
+                node.matches('[data-counter]')) {
               dels.push(node);
             }
           }
