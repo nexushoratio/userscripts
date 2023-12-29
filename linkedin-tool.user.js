@@ -89,10 +89,11 @@
       '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
         'view upon refresh',
     ],
+    ['#160', 'Support direct <b>JobView</b>'],
     ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
     [
-      '#169', '<code>JobCollections</code>: reading the details pane is ' +
+      '#169', '<b>JobCollections</b>: reading the details pane is ' +
      'cumbersome',
     ],
     [
@@ -103,16 +104,21 @@
       '#212', '<code>Scroller</code>: Investigate if we still need the ' +
      'current item resets',
     ],
-    ['#219', '<code>MyNetwork</code> navigation is broken'],
+    ['#219', '<b>MyNetwork</b> navigation is broken'],
     ['#220', 'Sometimes the LIT menu item does not stick'],
     [
-      '#222', '<code>Notifications</code>: Seeing dupes where there should ' +
+      '#222', '<b>Notifications</b>: Seeing dupes where there should ' +
      'not be',
     ],
-    ['#223', '<code>=</code> stopped working on <code>Feed</code>'],
+    ['#223', '<code>=</code> stopped working on <b>Feed</b>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-29',
+      issues: ['#160'],
+      subject: 'Initial <code>JobView</code> support',
+    },
     {
       date: '2023-12-27',
       issues: ['#223'],
@@ -227,11 +233,6 @@
       date: '2023-11-30',
       issues: ['#144'],
       subject: 'Basic conversation card scrolling',
-    },
-    {
-      date: '2023-11-27',
-      issues: ['#144'],
-      subject: 'Fine tune the conversation card selector',
     },
   ];
 
