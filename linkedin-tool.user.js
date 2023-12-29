@@ -2031,6 +2031,94 @@
   NH.xunit.testing.testCases.push(ParseSeqTestCase);
 
   /**
+   * Helper for pages that have an extra drop-down toolbar.
+   *
+   * Some LinkedIn pages have an extra toolbar that will drop down and obscure
+   * content.  This makes it difficult for `LinkedIn.navBarScrollerFixup()` to
+   * properly adjust.
+   *
+   * For those pages, use this Service which will activate once to to do the
+   * initial fixups, then the additional ones necessary for that page.
+   */
+  class LinkedInToolbarService extends Service {
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Page} page - Page this service is tied to.
+     */
+    constructor(name, page) {
+      super(name);
+      this.#page = page;
+      this.#postHook = () => {};  // eslint-disable-line no-empty-function
+    }
+
+    /** Called each time service is activated. */
+    activate() {
+      const me = 'activate';
+      this.logger.entered(me, this.#page);
+
+      if (!this.#activatedOnce) {
+        const toolbar = document.querySelector('.scaffold-layout-toolbar');
+        this.logger.log('toolbar:', toolbar);
+
+        for (const how of this.#scrollerHows) {
+          this.logger.log('how:', how);
+          this.#page.spa.details.navBarScrollerFixup(how);
+
+          const newHeight = how.topMarginPixels + toolbar.clientHeight;
+          const newCSS = `${newHeight}px`;
+
+          how.topMarginPixels = newHeight;
+          how.topMarginCSS = newCSS;
+        }
+
+        this.#postHook();
+      }
+
+      this.#activatedOnce = true;
+
+      this.logger.leaving(me);
+    }
+
+    /** Called each time service is deactivated. */
+    deactivate() {
+      const me = 'deactivate';
+      this.logger.entered(me);
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * @param {...Scroller~How} hows - How types to update.
+     * @returns {LinkedInToolbarService} - This instance, for chaining.
+     */
+    addHows(...hows) {
+      for (const how of hows) {
+        this.#scrollerHows.add(how);
+      }
+      return this;
+    }
+
+    /**
+     * Often a {Page} would like to a bit more initialization after this
+     * fixups.  That is what this hook is for.
+     *
+     * @param {NH.web.SimpleFunction} hook - Function to call post activation.
+     * @returns {LinkedInToolbarService} - This instance, for chaining.
+     */
+    postActivateHook(hook) {
+      this.#postHook = hook;
+      return this;
+    }
+
+    #activatedOnce = false;
+    #page
+    #postHook
+    #scrollerHows = new Set();
+
+  }
+
+  /**
    * Base class for handling various views of a single-page application.
    *
    * Generally, new classes should subclass this, override a few properties
@@ -4185,49 +4273,7 @@
     constructor(spa) {
       super({spa: spa, ...JobView.#details});
 
-      this.#activator = this.addService(JobView.#Activator);
-      this.#activator.page = this;
-    }
-
-    static #Activator = class extends Service {
-
-      /** @returns {JobView} - Associated instance. */
-      get page() {
-        return this.#page;
-      }
-
-      /** @param {JobView} val - Associated instance. */
-      set page(val) {
-        this.#page = val;
-      }
-
-      /** Called each time service is activated. */
-      activate() {
-        const me = 'activate';
-        this.logger.entered(me);
-
-        if (!this.#activatedOnce) {
-          const toolbar = document.querySelector('.scaffold-layout-toolbar');
-
-          this.logger.log('toolbar:', toolbar);
-        }
-
-        this.#activatedOnce = true;
-
-        this.logger.leaving(me);
-      }
-
-      /** Called each time service is deactivated. */
-      deactivate() {
-        const me = 'deactivate';
-        this.logger.entered(me);
-
-        this.logger.leaving(me);
-      }
-
-      #activatedOnce = false;
-      #page
-
+      this.addService(LinkedInToolbarService, this);
     }
 
     /** @type {Page~PageDetails} */
@@ -4236,8 +4282,6 @@
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
       pageReadySelector: 'div.jobs-company__content',
     };
-
-    #activator
 
   }
 
@@ -5035,8 +5079,9 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      this.#activator = this.addService(Profile.#Activator);
-      this.#activator.page = this;
+      this.addService(LinkedInToolbarService, this)
+        .addHows(Profile.#sectionsHow, Profile.#entriesHow)
+        .postActivateHook(this.#toolbarHook);
     }
 
     /**
@@ -5195,60 +5240,6 @@
       }
     );
 
-    static #Activator = class extends Service {
-
-      /** @returns {Profile} - Associated instance. */
-      get page() {
-        return this.#page;
-      }
-
-      /** @param {Profile} val - Associated instance. */
-      set page(val) {
-        this.#page = val;
-      }
-
-      /** Called each time service is activated. */
-      activate() {
-        const me = 'activate';
-        this.logger.entered(me);
-
-        if (!this.#activatedOnce) {
-          const toolbar = document.querySelector('.scaffold-layout-toolbar');
-
-          this.page.spa.details.navBarScrollerFixup(Profile.#sectionsHow);
-          this.page.spa.details.navBarScrollerFixup(Profile.#entriesHow);
-
-          const newHeight = Profile.#sectionsHow.topMarginPixels +
-                toolbar.clientHeight;
-          const newCSS = `${newHeight}px`;
-
-          Profile.#sectionsHow.topMarginPixels = newHeight;
-          Profile.#entriesHow.topMarginPixels = newHeight;
-          Profile.#sectionsHow.topMarginCSS = newCSS;
-          Profile.#entriesHow.topMarginCSS = newCSS;
-
-          // This initializes the primary scroller by calling the getter.
-          this.page.sections;
-        }
-
-        this.#activatedOnce = true;
-
-        this.logger.leaving(me);
-      }
-
-      /** Called each time service is deactivated. */
-      deactivate() {
-        const me = 'deactivate';
-        this.logger.entered(me);
-
-        this.logger.leaving(me);
-      }
-
-      #activatedOnce = false;
-      #page
-
-    }
-
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -5319,11 +5310,19 @@
       ],
     };
 
-    #activator
     #entryScroller
     #keyboardService
     #lastScroller
     #sectionScroller
+
+    #toolbarHook = () => {
+      const me = 'toolbarHook';
+      this.logger.entered(me);
+
+      this.logger.log('Initializing scroller:', this.sections.item);
+
+      this.logger.leaving(me);
+    }
 
     #resetEntries = () => {
       if (this.#entryScroller) {
