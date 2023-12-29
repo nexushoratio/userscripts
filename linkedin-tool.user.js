@@ -2135,11 +2135,17 @@
      * the current view.
      */
     async activate() {
+      const me = 'activate';
+      this.logger.entered(me);
+
       this.#keyboard.enable();
       await this.#waitUntilReady();
       for (const service of this.#services) {
+        this.logger.log('activating service:', service);
         service.activate();
       }
+
+      this.logger.leaving(me);
     }
 
     /**
