@@ -4168,6 +4168,72 @@
 
   }
 
+  /** Class for handling the direct Job view. */
+  class JobView extends Page {
+
+    /**
+     * Create a JobView instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...JobView.#details});
+
+      this.#activator = this.addService(JobView.#Activator);
+      this.#activator.page = this;
+    }
+
+    static #Activator = class extends Service {
+
+      /** @returns {JobView} - Associated instance. */
+      get page() {
+        return this.#page;
+      }
+
+      /** @param {JobView} val - Associated instance. */
+      set page(val) {
+        this.#page = val;
+      }
+
+      /** Called each time service is activated. */
+      activate() {
+        const me = 'activate';
+        this.logger.entered(me);
+
+        if (!this.#activatedOnce) {
+          const toolbar = document.querySelector('.scaffold-layout-toolbar');
+
+          this.logger.log('toolbar:', toolbar);
+        }
+
+        this.#activatedOnce = true;
+
+        this.logger.leaving(me);
+      }
+
+      /** Called each time service is deactivated. */
+      deactivate() {
+        const me = 'deactivate';
+        this.logger.entered(me);
+
+        this.logger.leaving(me);
+      }
+
+      #activatedOnce = false;
+      #page
+
+    }
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
+      pageReadySelector: 'div.jobs-company__content',
+    };
+
+    #activator
+
+  }
+
   /** Class for handling the Messaging page. */
   class Messaging extends Page {
 
@@ -4964,7 +5030,6 @@
 
       this.#activator = this.addService(Profile.#Activator);
       this.#activator.page = this;
-
     }
 
     /**
@@ -6587,6 +6652,7 @@
   spa.register(InvitationManager);
   spa.register(Jobs);
   spa.register(JobCollections);
+  spa.register(JobView);
   spa.register(Notifications);
   spa.register(Profile);
   spa.activate(window.location.pathname);
