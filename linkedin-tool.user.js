@@ -4273,8 +4273,103 @@
     constructor(spa) {
       super({spa: spa, ...JobView.#details});
 
-      this.addService(LinkedInToolbarService, this);
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      this.addService(LinkedInToolbarService, this)
+        .addHows(JobView.#cardsHow)
+        .postActivateHook(this.#toolbarHook);
     }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueCardIdentifier(element) {
+      const div = element.querySelector('div');
+      let content = element.innerText;
+      if (div?.id) {
+        content = div.id;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get cards() {
+      if (!this.#cardScroller) {
+        this.#cardScroller = new Scroller(JobView.#cardsWhat,
+          JobView.#cardsHow);
+        this.addService(ScrollerService, this.#cardScroller);
+        this.#cardScroller.dispatcher.on('change', this.#onCardChange);
+
+        this.#lastScroller = this.#cardScroller;
+      }
+      return this.#cardScroller;
+    }
+
+    nextCard = new Shortcut(
+      'j',
+      'Next card',
+      () => {
+        this.cards.next();
+      }
+    );
+
+    prevCard = new Shortcut(
+      'k',
+      'Previous card',
+      () => {
+        this.cards.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first card',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last card',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        NH.web.focusOnElement(this.#lastScroller.item);
+      }
+    );
+
+    /** @type {Scroller~How} */
+    static #cardsHow = {
+      uidCallback: JobView.uniqueCardIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #cardsWhat = {
+      name: 'JobView cards',
+      containerItems: [
+        {
+          container: '[role="main"]',
+          items: [
+            // Many items
+            ':scope > .artdeco-card, :scope > * > .artdeco-card',
+            // More jobs - Yes, suspicious looking class
+            ':scope > .ml0',
+          ].join(','),
+        },
+      ],
+    };
 
     /** @type {Page~PageDetails} */
     static #details = {
@@ -4282,6 +4377,23 @@
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
       pageReadySelector: 'div.jobs-company__content',
     };
+
+    #cardScroller
+    #keyboardService
+    #lastScroller
+
+    #toolbarHook = () => {
+      const me = 'toolbarHook';
+      this.logger.entered(me);
+
+      this.logger.log('Initializing scroller:', this.cards.item);
+
+      this.logger.leaving(me);
+    }
+
+    #onCardChange = () => {
+      this.#lastScroller = this.cards;
+    }
 
   }
 
