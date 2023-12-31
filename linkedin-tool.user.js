@@ -13,7 +13,7 @@
 // @require     https://update.greasyfork.org/scripts/478188/1299734/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1298719/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1284417/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1303243/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1304193/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1297057/NH_widget.js
 // @grant       GM.getValue
 // @grant       GM.setValue
@@ -30,7 +30,7 @@
     {name: 'xunit', minVersion: 51},
     {name: 'base', minVersion: 45},
     {name: 'userscript', minVersion: 5},
-    {name: 'web', minVersion: 5},
+    {name: 'web', minVersion: 6},
     {name: 'widget', minVersion: 20},
   ]);
 
