@@ -110,10 +110,15 @@
       '#222', '<b>Notifications</b>: Seeing dupes where there should ' +
      'not be',
     ],
-    ['#223', '<code>=</code> stopped working on <b>Feed</b>'],
+    ['#223', '<kbd><kbd>=</kbd></kbd> stopped working on <b>Feed</b>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-30',
+      issues: ['#160'],
+      subject: 'Implement basic navigation',
+    },
     {
       date: '2023-12-29',
       issues: ['#160'],
@@ -122,8 +127,8 @@
     {
       date: '2023-12-27',
       issues: ['#223'],
-      subject: 'Update how the <kbd><kbd>⋯</kbd></kbd> menu is found in ' +
-        '<code>Feed</code>',
+      subject: 'Update how the <button class="spa-meatball">⋯</button> ' +
+        'menu is found in <code>Feed</code>',
     },
     {
       date: '2023-12-27',
