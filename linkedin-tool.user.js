@@ -6675,6 +6675,11 @@
      * @param {string} pathname - A {URL.pathname}.
      */
     activate(pathname) {
+      const me = 'activate';
+      let names = Array.from(this.#activePages)
+        .map(x => x.constructor.name);
+      this.logger.entered(me, pathname, names);
+
       const pages = this._findPages(pathname);
       const oldPages = new Set(this.#activePages);
       const newPages = new Set(pages);
@@ -6693,6 +6698,10 @@
         this._shine(page);
       }
       this.#activePages = pages;
+
+      names = Array.from(this.#activePages)
+        .map(x => x.constructor.name);
+      this.logger.leaving(me, names);
     }
 
     /** @type {Set<Page>} - Currently active {Page}s. */
