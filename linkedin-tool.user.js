@@ -1057,33 +1057,40 @@
       const me = 'scrollToCurrentItem';
       this.logger.entered(me, `snaptoTop: ${this.#snapToTop}`);
 
-      const {item} = this;
+      const item = this.item;
+
+      /** If necessary, scroll the bottom into view, then same for top. */
+      const gentlyScrollIntoView = () => {
+        this.logger.log('not snapping to top');
+        item.style.scrollMarginBottom = this.#bottomMarginCSS;
+        let rect = item.getBoundingClientRect();
+        // If both scrolling happens, it means the item is too tall to fit
+        // on the page, so the top is preferred.
+        const allowedBottom = document.documentElement.clientHeight -
+                this.#bottomMarginPixels;
+        if (rect.bottom > allowedBottom) {
+          this.logger.log('scrolling up onto page');
+          item.scrollIntoView(false);
+        }
+        rect = item.getBoundingClientRect();
+        if (rect.top < this.#topMarginPixels) {
+          this.logger.log('scrolling down onto page');
+          item.scrollIntoView(true);
+        }
+        // XXX: The following was added to support horizontal scrolling in
+        // carousels.  Nothing seemed to break.  TODO(#132): Did find a side
+        // effect though: it can cause an item being *left* to shift up if
+        // the scrollMarginBottom has been set.
+        item.scrollIntoView({block: 'nearest', inline: 'nearest'});
+      };
+
       if (item) {
         item.style.scrollMarginTop = this.#topMarginCSS;
         if (this.#snapToTop) {
           this.logger.log('snapping to top');
           item.scrollIntoView(true);
         } else {
-          this.logger.log('not snapping to top');
-          item.style.scrollMarginBottom = this.#bottomMarginCSS;
-          const rect = item.getBoundingClientRect();
-          // If both scrolling happens, it means the item is too tall to fit
-          // on the page, so the top is preferred.
-          const allowedBottom = document.documentElement.clientHeight -
-                this.#bottomMarginPixels;
-          if (rect.bottom > allowedBottom) {
-            this.logger.log('scrolling up onto page');
-            item.scrollIntoView(false);
-          }
-          if (rect.top < this.#topMarginPixels) {
-            this.logger.log('scrolling down onto page');
-            item.scrollIntoView(true);
-          }
-          // XXX: The following was added to support horizontal scrolling in
-          // carousels.  Nothing seemed to break.  TODO(#132): Did find a side
-          // effect though: it can cause an item being *left* to shift up if
-          // the scrollMarginBottom has been set.
-          item.scrollIntoView({block: 'nearest', inline: 'nearest'});
+          gentlyScrollIntoView();
         }
       }
 
