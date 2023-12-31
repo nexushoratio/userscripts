@@ -2471,14 +2471,28 @@
       const me = 'gotoNavLink';
       this.logger.entered(me, item);
 
-      /** Trigger function for {@link NH.web.otrot2}. */
+      const oldPathname = window.location.pathname;
+
+      /** Trigger function for {@link NH.web.otmot}. */
       const trigger = () => {
         NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
       };
 
-      /** Action function for {@link NH.web.otrot2}. */
-      const action = () => {
-        this.logger.log('just monitoring');
+      /**
+       * @implements {NH.web.Monitor}
+       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        const mon = 'monitor';
+        this.logger.entered(mon, window.location.pathname);
+
+        const result = {
+          done: oldPathname !== window.location.pathname,
+          results: window.location.pathname,
+        };
+
+        this.logger.leaving(mon, result);
+        return result;
       };
 
       const what = {
@@ -2486,11 +2500,18 @@
         base: document.body,
       };
       const how = {
+        observeOptions: {childList: true, subtree: true},
         trigger: trigger,
-        action: action,
-        duration: 1000,
+        monitor: monitor,
+        timeout: 1000,
       };
-      await NH.web.otrot2(what, how);
+
+      try {
+        const newPathname = await NH.web.otmot(what, how);
+        this.logger.log(`page moved on to ${newPathname}`);
+      } catch (e) {
+        this.logger.log(`page stayed at ${oldPathname}`);
+      }
 
       this.logger.leaving(me);
     }
