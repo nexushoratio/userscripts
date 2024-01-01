@@ -4315,7 +4315,7 @@
       this.#keyboardService.addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
-        .addHows(JobView.#cardsHow)
+        .addHows(JobView.#cardsHow, JobView.#entriesHow)
         .postActivateHook(this.#toolbarHook);
     }
 
@@ -4333,6 +4333,16 @@
       return NH.base.strHash(content);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueEntryIdentifier(element) {
+      const content = element.innerText;
+      return NH.base.strHash(content);
+    }
+
     /** @type {Scroller} */
     get cards() {
       if (!this.#cardScroller) {
@@ -4344,6 +4354,21 @@
         this.#lastScroller = this.#cardScroller;
       }
       return this.#cardScroller;
+    }
+
+    /** @type {Scroller} */
+    get entries() {
+      if (!this.#entryScroller && this.cards.item) {
+        this.#entryScroller = new Scroller(
+          {base: this.cards.item, ...JobView.#entriesWhat},
+          JobView.#entriesHow
+        );
+        this.#entryScroller.dispatcher.on('change', this.#onEntryChange);
+        this.#entryScroller.dispatcher.on(
+          'out-of-range', this.#returnToCard
+        );
+      }
+      return this.#entryScroller;
     }
 
     nextCard = new Shortcut(
@@ -4359,6 +4384,22 @@
       'Previous card',
       () => {
         this.cards.prev();
+      }
+    );
+
+    nextEntry = new Shortcut(
+      'n',
+      'Next entry in a section',
+      () => {
+        this.entries.next();
+      }
+    );
+
+    prevEntry = new Shortcut(
+      'p',
+      'Previous entry in a section',
+      () => {
+        this.entries.prev();
       }
     );
 
@@ -4416,7 +4457,25 @@
       pageReadySelector: 'div.jobs-company__content',
     };
 
+    /** @type {Scroller~How} */
+    static #entriesHow = {
+      uidCallback: JobView.uniqueEntryIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #entriesWhat = {
+      name: 'JobView entries',
+      selectors: [
+        // More jobs
+        ':scope > ul > section',
+      ],
+    };
+
     #cardScroller
+    #entryScroller
     #keyboardService
     #lastScroller
 
@@ -4430,7 +4489,24 @@
     }
 
     #onCardChange = () => {
+      this.#resetEntries();
       this.#lastScroller = this.cards;
+    }
+
+    #resetEntries = () => {
+      if (this.#entryScroller) {
+        this.#entryScroller.destroy();
+        this.#entryScroller = null;
+      }
+      this.entries;
+    }
+
+    #onEntryChange = () => {
+      this.#lastScroller = this.entries;
+    }
+
+    #returnToCard = () => {
+      this.cards.item = this.cards.item;
     }
 
   }
