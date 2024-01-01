@@ -111,9 +111,19 @@
      'not be',
     ],
     ['#223', '<kbd><kbd>=</kbd></kbd> stopped working on <b>Feed</b>'],
+    [
+      '#225', '<code>Scroller</code>: Tall items not going to top when ' +
+        '<code>snapToTop=false</code>',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2023-12-31',
+      issues: ['#225'],
+      subject: 'Call <em>getBoundingClientRect()</em> again after (maybe) ' +
+        'scrolling',
+    },
     {
       date: '2023-12-30',
       issues: ['#160'],
@@ -233,11 +243,6 @@
       issues: ['#144'],
       subject: 'Switch monitoring of the message box to a ' +
         '<code>focus</code> event',
-    },
-    {
-      date: '2023-11-30',
-      issues: ['#144'],
-      subject: 'Basic conversation card scrolling',
     },
   ];
 
