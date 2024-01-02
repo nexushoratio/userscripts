@@ -4427,6 +4427,26 @@
       }
     );
 
+    showMore = new Shortcut(
+      'm',
+      'Show more/less of current item (some may go to new page)',
+      () => {
+        const el = this.#lastScroller.item;
+        if (el) {
+          // TODO(#160): "About the job" will lose shine
+          NH.web.clickElement(el, [
+            // About the job
+            'button[aria-label^="Click to see more"]',
+            'button[aria-label^="Click to see less"]',
+            // About the company, overflow
+            'button.inline-show-more-text__button',
+            // About the company, visit company page
+            'a[aria-label="Show more about the company"]',
+          ]);
+        }
+      }
+    );
+
     /** @type {Scroller~How} */
     static #cardsHow = {
       uidCallback: JobView.uniqueCardIdentifier,
