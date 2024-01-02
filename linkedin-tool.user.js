@@ -4454,7 +4454,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-      pageReadySelector: 'div.jobs-company__content',
+      pageReadySelector: 'div.jobs-company__content,div.jobs-similar-jobs',
     };
 
     /** @type {Scroller~How} */
