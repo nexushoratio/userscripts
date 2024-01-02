@@ -2516,6 +2516,7 @@
         this.logger.log(`page moved on to ${newPathname}`);
       } catch (e) {
         this.logger.log(`page stayed at ${oldPathname}`);
+        this.spa.activate(oldPathname);
       }
 
       this.logger.leaving(me);
