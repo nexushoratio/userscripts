@@ -119,6 +119,12 @@
 
   const globalNewsContent = [
     {
+      date: '2024-01-01',
+      issues: ['#160'],
+      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
+        'for navigating inside some cards',
+    },
+    {
       date: '2023-12-31',
       issues: ['#225'],
       subject: 'Call <em>getBoundingClientRect()</em> again after (maybe) ' +
@@ -237,12 +243,6 @@
       date: '2023-12-02',
       issues: ['#144'],
       subject: 'Implement moving to the <kbd><kbd>M</kbd></kbd>essage box',
-    },
-    {
-      date: '2023-12-01',
-      issues: ['#144'],
-      subject: 'Switch monitoring of the message box to a ' +
-        '<code>focus</code> event',
     },
   ];
 
