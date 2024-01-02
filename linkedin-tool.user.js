@@ -4186,7 +4186,7 @@
 
     /** @type {Scroller~What} */
     static #detailsWhat = {
-      name: 'Job details',
+      name: 'JobCollections details',
       containerItems: [
         {
           container: 'div.jobs-details__main-content',
@@ -4205,7 +4205,7 @@
 
     /** @type {Scroller~What} */
     static #jobCardsWhat = {
-      name: 'Job cards',
+      name: 'JobCollections cards',
       containerItems: [
         {
           container: 'div.jobs-search-results-list > ul',
@@ -4226,7 +4226,7 @@
 
     /** @type {Scroller~What} */
     static #paginationWhat = {
-      name: 'Results pagination',
+      name: 'JobCollections pagination',
       containerItems: [
         {
           container: 'div.jobs-search-results-list__pagination > ul',
