@@ -4453,6 +4453,28 @@
       }
     );
 
+    applyToJob = new Shortcut(
+      'A',
+      'Apply to job',
+      () => {
+        NH.web.clickElement(document, ['button.jobs-apply-button']);
+      }
+    );
+
+    toggleFollowCompany = new Shortcut(
+      'F', 'Toggle following company', () => {
+        NH.web.clickElement(document, ['button.follow']);
+      }
+    );
+
+    toggleSaveJob = new Shortcut(
+      'S',
+      'Toggle saving job',
+      () => {
+        NH.web.clickElement(document, ['button.jobs-save-button']);
+      }
+    );
+
     /** @type {Scroller~How} */
     static #cardsHow = {
       uidCallback: JobView.uniqueCardIdentifier,
