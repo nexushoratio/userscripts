@@ -119,6 +119,16 @@
 
   const globalNewsContent = [
     {
+      date: '2024-01-02',
+      issues: ['#160'],
+      subject: 'Implement <kbd><kbd>m</kbd></kbd> to show more/less details',
+    },
+    {
+      date: '2024-01-02',
+      issues: ['#160'],
+      subject: 'Tune the <em>pageReadySelector</em>',
+    },
+    {
       date: '2024-01-01',
       issues: ['#160'],
       subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
@@ -238,11 +248,6 @@
       subject:
       'Implement <kbd><kbd>n</kbd></kbd>ext/<kbd><kbd>p</kbd></kbd>revious ' +
         'message for conversation pane',
-    },
-    {
-      date: '2023-12-02',
-      issues: ['#144'],
-      subject: 'Implement moving to the <kbd><kbd>M</kbd></kbd>essage box',
     },
   ];
 
