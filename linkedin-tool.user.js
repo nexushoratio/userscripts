@@ -4274,7 +4274,9 @@
           `li[data-occludable-job-id="${jobId}"]`,
           timeout
         );
+        this.logger.log('Found', item);
         this.jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
+        this.logger.log('and went to it');
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
       }
@@ -4285,13 +4287,21 @@
     #onJobCardChange = () => {
       const me = 'onJobCardChange';
       this.logger.entered(me, this.jobCards.item);
+
+      this.logger.log('click');
       NH.web.clickElement(this.jobCards.item, ['div[data-job-id]']);
+      this.logger.log('first');
       this.details.first();
+      this.logger.log('last');
       this.#lastScroller = this.jobCards;
+
       this.logger.leaving(me);
     }
 
     #onPaginationActivate = async () => {
+      const me = 'onPaginationActivate';
+      this.logger.entered(me);
+
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
@@ -4302,6 +4312,8 @@
       } catch (e) {
         this.logger.log('Results paginator not found, staying put');
       }
+
+      this.logger.leaving(me);
     }
 
     #onPaginationChange = () => {
