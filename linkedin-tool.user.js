@@ -119,6 +119,13 @@
 
   const globalNewsContent = [
     {
+      date: '2024-01-03',
+      issues: ['#160'],
+      subject: 'Implement <kbd><kbd>A</kbd></kbd>pply, ' +
+        '<kbd><kbd>F</kbd></kbd>ollow, and <kbd><kbd>S</kbd></kbd>ave ' +
+        'features',
+    },
+    {
       date: '2024-01-02',
       issues: ['#160'],
       subject: 'Implement <kbd><kbd>m</kbd></kbd> to show more/less details',
