@@ -5640,6 +5640,41 @@
 
   }
 
+  /** Class for handling the SearchResultsPeople page. */
+  class SearchResultsPeople extends Page {
+
+    /**
+     * Create a SearchResultsPeople instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...SearchResultsPeople.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      this.addService(LinkedInToolbarService, this)
+        .postActivateHook(this.#toolbarHook);
+    }
+
+    static #details = {
+      pathname: '/search/results/people/',
+      pageReadySelector: '#globalfooter-about',
+    };
+
+    #keyboardService
+
+    #toolbarHook = () => {
+      const me = 'toolbarHook';
+      this.logger.entered(me);
+
+      // X this.logger.log('Initializing scroller:', this.blah.item);
+
+      this.logger.leaving(me);
+    }
+
+  }
+
   /** Base class for {@link SPA} instance details. */
   class SPADetails {
 
@@ -6963,6 +6998,7 @@
   spa.register(JobView);
   spa.register(Notifications);
   spa.register(Profile);
+  spa.register(SearchResultsPeople);
   spa.activate(window.location.pathname);
 
   log.log('Initialization successful.');
