@@ -3954,7 +3954,10 @@
               .forEach((x) => {
                 tags.add(x.tagName);
               });
-            log.log('uniqueDetailsIdentifier tags:', tags);
+            log.log(
+              'uniqueDetailsIdentifier tags we might use for a better uid:',
+              tags
+            );
           }
         }
       }
