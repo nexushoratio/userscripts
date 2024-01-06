@@ -1756,14 +1756,30 @@
 
     /** @inheritdoc */
     activate() {
-      this.#scroller.activate();
+      if (!this.#activated || this.#allowReactivation) {
+        this.#scroller.activate();
+      }
+      this.#activated = true;
     }
 
     /** @inheritdoc */
     deactivate() {
       this.#scroller.deactivate();
+      this.#activated = false;
     }
 
+    /**
+     * @param {boolean} allow - Whether to allow this service to be activated
+     * when already active.
+     * @returns {ScrollerService} - This instance, for chaining.
+     */
+    allowReactivation(allow) {
+      this.#allowReactivation = allow;
+      return this;
+    }
+
+    #activated = false
+    #allowReactivation = true
     #scroller
 
   }
