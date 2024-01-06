@@ -3922,7 +3922,8 @@
 
       this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
         JobCollections.#jobCardsHow);
-      this.addService(ScrollerService, this.#jobCardScroller);
+      this.addService(ScrollerService, this.#jobCardScroller)
+        .allowReactivation(false);
       this.#jobCardScroller.dispatcher.on('activate',
         this.#onJobCardActivate);
       this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
@@ -3930,7 +3931,8 @@
       this.#paginationScroller = new Scroller(
         JobCollections.#paginationWhat, JobCollections.#paginationHow
       );
-      this.addService(ScrollerService, this.#paginationScroller);
+      this.addService(ScrollerService, this.#paginationScroller)
+        .allowReactivation(false);
       this.#paginationScroller.dispatcher.on('activate',
         this.#onPaginationActivate);
       this.#paginationScroller.dispatcher.on('change',
