@@ -5657,23 +5657,115 @@
       this.#keyboardService.addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
+        .addHows(SearchResultsPeople.#resultsHow)
         .postActivateHook(this.#toolbarHook);
     }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueResultIdentifier(element) {
+      const div = element.querySelector('div');
+      let content = element.innerText;
+      if (div?.dataset.chameleonResultUrn) {
+        content = div.dataset.chameleonResultUrn;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get results() {
+      if (!this.#resultScroller) {
+        this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
+          SearchResultsPeople.#resultsHow);
+        this.addService(ScrollerService, this.#resultScroller);
+        this.#resultScroller.dispatcher.on('change', this.#onResultChange);
+
+        this.#lastScroller = this.#resultScroller;
+      }
+      return this.#resultScroller;
+    }
+
+    nextResult = new Shortcut(
+      'j',
+      'Next result',
+      () => {
+        this.results.next();
+      }
+    );
+
+    prevReslt = new Shortcut(
+      'k',
+      'Previous result',
+      () => {
+        this.results.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first item',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last item',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        NH.web.focusOnElement(this.#lastScroller.item);
+      }
+    );
 
     static #details = {
       pathname: '/search/results/people/',
       pageReadySelector: '#globalfooter-about',
     };
 
+    /** @type {Scroller~How} */
+    static #resultsHow = {
+      uidCallback: SearchResultsPeople.uniqueResultIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #resultsWhat = {
+      name: 'SearchResultsPeople cards',
+      containerItems: [
+        {
+          container: 'ul.reusable-search__entity-result-list',
+          items: ':scope > li',
+        },
+      ],
+    };
+
     #keyboardService
+    #lastScroller
+    #resultScroller
 
     #toolbarHook = () => {
       const me = 'toolbarHook';
       this.logger.entered(me);
 
-      // X this.logger.log('Initializing scroller:', this.blah.item);
+      this.logger.log('Initializing scroller:', this.results.item);
 
       this.logger.leaving(me);
+    }
+
+    #onResultChange = () => {
+      this.#lastScroller = this.results;
     }
 
   }
