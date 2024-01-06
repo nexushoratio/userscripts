@@ -14,6 +14,9 @@
 # If you want to manually clean up, something like the following works
 # well:
 
+# git worktree prune -n  # To see what would be pruned
+# git worktree prune -v  # To see what was pruned
+# git worktree list  # To see what is left
 # git worktree list |
 #   awk '/tmp.tmp/ {print $1}' |
 #   while read wt; do
