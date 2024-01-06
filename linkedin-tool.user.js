@@ -2258,7 +2258,7 @@
       this.#keyboard.enable();
       await this.#waitUntilReady();
       for (const service of this.#services) {
-        this.logger.log('activating service:', service);
+        this.logger.log(`activating service: "${service.name}"`);
         service.activate();
       }
 
