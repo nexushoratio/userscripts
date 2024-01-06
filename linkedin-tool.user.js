@@ -100,6 +100,7 @@
       '#208', '<code>Scroller</code>: If end-item is never viewable ' +
      '(e.g., empty), cannot wrap',
     ],
+    ['#209', 'Support <b>SearchResultsPeople</b> view'],
     [
       '#212', '<code>Scroller</code>: Investigate if we still need the ' +
      'current item resets',
@@ -118,6 +119,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-05',
+      issues: ['#209'],
+      subject: 'Initial <code>SearchResultsPeople</code> support',
+    },
     {
       date: '2024-01-03',
       issues: ['#160'],
@@ -243,18 +249,6 @@
       date: '2023-12-10',
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the nearest menu',
-    },
-    {
-      date: '2023-12-03',
-      issues: ['#212'],
-      subject: 'Remove some resets in <code>Scroller</code>',
-    },
-    {
-      date: '2023-12-03',
-      issues: ['#144'],
-      subject:
-      'Implement <kbd><kbd>n</kbd></kbd>ext/<kbd><kbd>p</kbd></kbd>revious ' +
-        'message for conversation pane',
     },
   ];
 
