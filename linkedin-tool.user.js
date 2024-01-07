@@ -120,6 +120,11 @@
 
   const globalNewsContent = [
     {
+      date: '2024-01-06',
+      issues: ['#209'],
+      subject: 'Basic navigation',
+    },
+    {
       date: '2024-01-05',
       issues: ['#209'],
       subject: 'Initial <code>SearchResultsPeople</code> support',
