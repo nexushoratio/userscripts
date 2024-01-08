@@ -46,6 +46,7 @@
   async function loadOptions() {
     const defaultOptions = {
       enableDevMode: false,
+      enableIssue218Changes: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue('Options', {});
@@ -7101,8 +7102,12 @@
       const pages = this._findPages(pathname);
       const oldPages = new Set(this.#activePages);
       const newPages = new Set(pages);
-      for (const page of oldPages) {
-        newPages.delete(page);
+      if (litOptions.enableIssue218Changes) {
+        this.logger.log('Skipping pruning of currently active pages.');
+      } else {
+        for (const page of oldPages) {
+          newPages.delete(page);
+        }
       }
       for (const page of pages) {
         oldPages.delete(page);
