@@ -48,9 +48,10 @@
       enableDevMode: false,
       fakeErrorRate: 0.8,
     };
+    const savedOptions = await NH.userscript.getValue('Options', {});
     const options = {
       ...defaultOptions,
-      ...await NH.userscript.getValue('Options', {}),
+      ...savedOptions,
     };
     NH.userscript.setValue('Options', options);
     return options;
