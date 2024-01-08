@@ -7096,9 +7096,7 @@
      */
     activate(pathname) {
       const me = 'activate';
-      let names = Array.from(this.#activePages)
-        .map(x => x.constructor.name);
-      this.logger.entered(me, pathname, names);
+      this.logger.entered(me, pathname, this.#activePageNames());
 
       const pages = this._findPages(pathname);
       const oldPages = new Set(this.#activePages);
@@ -7119,9 +7117,7 @@
       }
       this.#activePages = pages;
 
-      names = Array.from(this.#activePages)
-        .map(x => x.constructor.name);
-      this.logger.leaving(me, names);
+      this.logger.leaving(me, this.#activePageNames());
     }
 
     /** @type {Set<Page>} - Currently active {Page}s. */
@@ -7135,6 +7131,13 @@
 
     /** @type {Set<Page>} - Registered {Page}s. */
     #pages = new Set();
+
+    /** @returns {string[]} - Names of active pages. */
+    #activePageNames = () => {
+      const names = Array.from(this.#activePages)
+        .map(x => x.constructor.name);
+      return names;
+    }
 
     #issueListener = (...issues) => {
       for (const issue of issues) {
