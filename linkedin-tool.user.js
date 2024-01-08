@@ -1707,6 +1707,7 @@
       }
       this.#name = `${this.constructor.name}: ${name}`;
       this.#shortName = name;
+      this.#dispatcher = new NH.base.Dispatcher(...Service.#knownEvents);
       this.#logger = new NH.base.Logger(this.#name);
     }
 
@@ -1725,29 +1726,168 @@
       return this.#shortName;
     }
 
-    /** Called each time service is activated. */
+    /**
+     * Called each time service is activated.
+     *
+     * @fires 'activate' 'activated'
+     */
     activate() {
-      this.#notImplemented('activate');
+      this.#dispatcher.fire('activate', this);
+      this.#dispatcher.fire('activated', this);
     }
 
-    /** Called each time service is deactivated. */
+    /**
+     * Called each time service is deactivated.
+     *
+     * @fires 'deactivate' 'deactivated'
+     */
     deactivate() {
-      this.#notImplemented('deactivate');
+      this.#dispatcher.fire('deactivate', this);
+      this.#dispatcher.fire('deactivated', this);
     }
 
+    /**
+     * Attach a function to an eventType.
+     * @param {string} eventType - Event type to connect with.
+     * @param {NH.base.Dispatcher~Handler} func - Single argument function to
+     * call.
+     * @returns {Service} - This instance, for chaining.
+     */
+    on(eventType, func) {
+      this.#dispatcher.on(eventType, func);
+      return this;
+    }
+
+    /**
+     * Remove all instances of a function registered to an eventType.
+     * @param {string} eventType - Event type to disconnect from.
+     * @param {NH.base.Dispatcher~Handler} func - Function to remove.
+     * @returns {Service} - This instance, for chaining.
+     */
+    off(eventType, func) {
+      this.#dispatcher.off(eventType, func);
+      return this;
+    }
+
+    static #knownEvents = [
+      'activate',
+      'activated',
+      'deactivate',
+      'deactivated',
+    ];
+
+    #dispatcher
     #logger
     #name
     #shortName
 
-    /** @param {string} name - Name of method that was not implemented. */
-    #notImplemented(name) {
-      const msg = `Class ${this.constructor.name} did not implement ` +
-            `method "${name}".`;
-      this.logger.log(msg);
-      throw new Error(msg);
+  }
+
+  /* eslint-disable max-lines-per-function */
+  /* eslint-disable no-new */
+  /* eslint-disable require-jsdoc */
+  class ServiceTestCase extends NH.xunit.TestCase {
+
+    static Test = class extends Service {
+
+      constructor(name) {
+        super(`The ${name}`);
+        this.on('activate', this.#onEvent)
+          .on('deactivated', this.#onEvent);
+      }
+
+      set mq(val) {
+        this.#mq = val;
+      }
+
+      #mq
+
+      #onEvent = (event, data) => {
+        this.#mq.post('via Service', event, data.shortName);
+      }
+
+    }
+
+    testAbstract() {
+      this.assertRaises(TypeError, () => {
+        new Service();
+      });
+    }
+
+    testProperties() {
+      // Assemble
+      const s = new ServiceTestCase.Test(this.id);
+
+      // Assert
+      this.assertEqual(
+        s.name, 'Test: The ServiceTestCase.testProperties', 'name'
+      );
+      this.assertEqual(
+        s.shortName, 'The ServiceTestCase.testProperties', 'short name'
+      );
+    }
+
+    testSimpleEvents() {
+      // Assemble
+      const s = new ServiceTestCase.Test(this.id);
+      const mq = new NH.base.MessageQueue();
+      s.mq = mq;
+
+      const messages = [];
+      const capture = (...message) => {
+        messages.push(message);
+      };
+      const cb = (event, service) => {
+        mq.post('via cb', event, service.name);
+      };
+
+      const shortName = 'The ServiceTestCase.testSimpleEvents';
+      const longName = 'Test: The ServiceTestCase.testSimpleEvents';
+
+      // Act
+      s.on('activated', cb)
+        .on('deactivate', cb);
+      s.activate();
+      s.deactivate();
+
+      mq.listen(capture);
+
+      // Assert
+      this.assertEqual(
+        messages,
+        [
+          ['via Service', 'activate', shortName],
+          ['via cb', 'activated', longName],
+          ['via cb', 'deactivate', longName],
+          ['via Service', 'deactivated', shortName],
+        ],
+        'first run through'
+      );
+
+      messages.length = 0;
+      // Act some more to make sure *off()* is wired in.
+      s.off('deactivate', cb);
+
+      s.activate();
+      s.deactivate();
+
+      // Assert
+      this.assertEqual(
+        messages,
+        [
+          ['via Service', 'activate', shortName],
+          ['via cb', 'activated', longName],
+          // No deactivate in this spot this time
+          ['via Service', 'deactivated', shortName],
+        ],
+        'second run through'
+      );
     }
 
   }
+  /* eslint-enable */
+
+  NH.xunit.testing.testCases.push(ServiceTestCase);
 
   /** Manage a {Scroller} via {Service}. */
   class ScrollerService extends Service {
