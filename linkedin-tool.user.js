@@ -5680,8 +5680,30 @@
       this.#keyboardService.addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
-        .addHows(SearchResultsPeople.#resultsHow)
+        .addHows(
+          SearchResultsPeople.#resultsHow,
+          SearchResultsPeople.#paginationHow
+        )
         .postActivateHook(this.#toolbarHook);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniquePaginationIdentifier(element) {
+      let content = '';
+      if (element) {
+        content = element.innerText;
+        const label = element.getAttribute('aria-label');
+        if (label) {
+          content = label;
+        }
+      }
+      log.log('SearchResultsPeople.uniquePaginationIdentifier content:',
+        content);
+      return NH.base.strHash(content);
     }
 
     /**
@@ -5696,6 +5718,22 @@
         content = div.dataset.chameleonResultUrn;
       }
       return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get paginator() {
+      if (!this.#paginationScroller) {
+        this.#paginationScroller = new Scroller(
+          SearchResultsPeople.#paginationWhat,
+          SearchResultsPeople.#paginationHow
+        );
+        this.addService(ScrollerService, this.#paginationScroller);
+        this.#paginationScroller.dispatcher.on('activate',
+          this.#onPaginationActivate);
+        this.#paginationScroller.dispatcher.on('change',
+          this.#onPaginationChange);
+      }
+      return this.#paginationScroller;
     }
 
     /** @type {Scroller} */
@@ -5724,6 +5762,30 @@
       'Previous result',
       () => {
         this.results.prev();
+      }
+    );
+
+    nextResultsPage = new Shortcut(
+      'N',
+      'Next results page',
+      () => {
+        this.paginator.next();
+      }
+    );
+
+    prevResultsPage = new Shortcut(
+      'P',
+      'Previous results page',
+      () => {
+        this.paginator.prev();
+      }
+    );
+
+    selectCurrentResultsPage = new Shortcut(
+      'c',
+      'Select current results page',
+      () => {
+        NH.web.clickElement(this.paginator.item, ['button']);
       }
     );
 
@@ -5757,6 +5819,27 @@
     };
 
     /** @type {Scroller~How} */
+    static #paginationHow = {
+      uidCallback: this.uniquePaginationIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+      bottomMarginCSS: '3em',
+      containerTimeout: 1000,
+    };
+
+    /** @type {Scroller~What} */
+    static #paginationWhat = {
+      name: 'SearchResultsPeople pagination',
+      containerItems: [
+        {
+          // This selector is also used in #onPaginationActivate.
+          container: 'div.artdeco-pagination > ul',
+          items: ':scope > li',
+        },
+      ],
+    };
+
+    /** @type {Scroller~How} */
     static #resultsHow = {
       uidCallback: SearchResultsPeople.uniqueResultIdentifier,
       classes: ['dick'],
@@ -5776,15 +5859,50 @@
 
     #keyboardService
     #lastScroller
+    #paginationScroller
     #resultScroller
 
     #toolbarHook = () => {
       const me = 'toolbarHook';
       this.logger.entered(me);
 
-      this.logger.log('Initializing scroller:', this.results.item);
+      this.logger.log('Initializing paginator:', this.paginator.item);
+      this.logger.log('Initializing results:', this.results.item);
 
       this.logger.leaving(me);
+    }
+
+    #onPaginationActivate = async () => {
+      const me = 'onPaginationActivate';
+      this.logger.entered(me);
+
+      try {
+        const timeout = 2000;
+        const item = await NH.web.waitForSelector(
+          'div.artdeco-pagination > ul > li.selected',
+          timeout
+        );
+        this.paginator.goto(item);
+
+        // The previous line popped the page to the bottom, so go to someplace
+        // reasonable.  On a similar page, JobCollections, the URL changes to
+        // match the current card, so it watches that to avoid this same
+        // problem.
+        const result = this.results.item;
+        if (result) {
+          this.results.goto(result);
+        } else {
+          this.results.first();
+        }
+      } catch (e) {
+        this.logger.log('Results paginator not found, staying put');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onPaginationChange = () => {
+      this.#lastScroller = this.paginator;
     }
 
     #onResultChange = () => {
