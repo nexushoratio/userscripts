@@ -122,6 +122,13 @@
 
   const globalNewsContent = [
     {
+      date: '2024-01-08',
+      issues: ['#209'],
+      subject: 'Implement <kbd><kbd>N</kbd></kbd>ext/' +
+        '<kbd><kbd>P</kbd></kbd>revious/<kbd><kbd>c</kbd></kbd>hange for ' +
+        'pagination navigation',
+    },
+    {
       date: '2024-01-06',
       issues: ['#209'],
       subject: 'Basic navigation',
