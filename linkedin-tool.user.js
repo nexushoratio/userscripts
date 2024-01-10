@@ -1097,8 +1097,12 @@
       }
       // XXX: The following was added to support horizontal scrolling in
       // carousels.  Nothing seemed to break.  TODO(#132): Did find a side
-      // effect though: it can cause an item being *left* to shift up if
-      // the scrollMarginBottom has been set.
+      // effect though: it can cause an item being *left* to shift up if the
+      // scrollMarginBottom has been set.  This also makes the current `Jobs`
+      // *Recent job searches* secondary scroller a little wonky.  There are
+      // invisible items that take up space at the bottom of the list, and
+      // this causes the last visible one to scroll into the middle, leaving
+      // blank space at the bottom of the view.
       item.scrollIntoView({block: 'nearest', inline: 'nearest'});
 
       this.logger.leaving(me);
@@ -3977,8 +3981,12 @@
       name: 'Job entries',
       selectors: [
         [
+          // Recent job searches
+          ':scope > ul > li.jobs-home-recent-searches__list-item',
+          // Recent job searches show more button
+          ':scope > div.jobs-home-recent-searches__list-toggle',
           // Most job entries
-          ':scope > ul > li',
+          ':scope > ul > li.discovery-templates-entity-item',
           // Show all button
           'div.discovery-templates-vertical-list__footer',
         ].join(','),
