@@ -1906,20 +1906,8 @@
     constructor(name, scroller) {
       super(name);
       this.#scroller = scroller;
-    }
-
-    /** @inheritdoc */
-    activate() {
-      if (!this.#activated || this.#allowReactivation) {
-        this.#scroller.activate();
-      }
-      this.#activated = true;
-    }
-
-    /** @inheritdoc */
-    deactivate() {
-      this.#scroller.deactivate();
-      this.#activated = false;
+      this.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate);
     }
 
     /**
@@ -1935,6 +1923,18 @@
     #activated = false
     #allowReactivation = true
     #scroller
+
+    #onActivate = () => {
+      if (!this.#activated || this.#allowReactivation) {
+        this.#scroller.activate();
+      }
+      this.#activated = true;
+    }
+
+    #onDeactivate = () => {
+      this.#scroller.deactivate();
+      this.#activated = false;
+    }
 
   }
 
