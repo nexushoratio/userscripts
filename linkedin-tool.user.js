@@ -118,9 +118,19 @@
       '#225', '<code>Scroller</code>: Tall items not going to top when ' +
         '<code>snapToTop=false</code>',
     ],
+    [
+      '#229', '<b>Jobs<b>: <em>Recent job searches</em> is ' +
+        'not scrolling properly',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-10',
+      issues: ['#229'],
+      subject: 'The HTML on the <code>Jobs</code> page changed, so tweaks ' +
+        'in response',
+    },
     {
       date: '2024-01-08',
       issues: ['#209'],
@@ -258,11 +268,6 @@
       issues: ['#144'],
       subject: 'Implement <kbd><kbd>S</kbd></kbd> to toggle the star on ' +
         'a conversation',
-    },
-    {
-      date: '2023-12-10',
-      issues: ['#144'],
-      subject: 'Implement <kbd><kbd>=</kbd></kbd> to open the nearest menu',
     },
   ];
 
