@@ -4121,7 +4121,8 @@
       this.#detailsScroller = new Scroller(
         JobCollections.#detailsWhat, JobCollections.#detailsHow
       );
-      this.addService(ScrollerService, this.#detailsScroller);
+      this.addService(ScrollerService, this.#detailsScroller)
+        .allowReactivation(false);
       this.#detailsScroller.dispatcher.on('change', this.#onDetailsChange);
 
       this.#lastScroller = this.#jobCardScroller;
