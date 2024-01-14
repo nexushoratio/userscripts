@@ -2559,6 +2559,15 @@
       if (litOptions.enableDevMode) {
         this.#keyboardService.addInstance(new DebugKeys());
       }
+
+      // Only care about the links that update the current page.
+      const anchors = Array.prototype.filter.call(
+        document.querySelectorAll('#global-nav a'),
+        x => x.target !== '_blank'
+      );
+      for (const anchor of anchors) {
+        anchor.addEventListener('click', this.#navLinkClickHandler);
+      }
     }
 
     info = new Shortcut(
@@ -2663,16 +2672,32 @@
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
      */
-    #gotoNavLink = async (item) => {
-      const me = 'gotoNavLink';
+    #gotoNavLink = (item) => {
+      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
+    }
+
+    /**
+     * Click on the requested button in the global nav bar.
+     * @param {string} item - Text on the button to look for.
+     */
+    #gotoNavButton = (item) => {
+      const me = 'gotoNavButton';
       this.logger.entered(me, item);
 
-      const oldPathname = window.location.pathname;
+      const buttons = Array.from(
+        document.querySelectorAll('#global-nav button')
+      );
+      const button = buttons.find(el => el.textContent.includes(item));
+      button?.click();
 
-      /** Trigger function for {@link NH.web.otmot}. */
-      const trigger = () => {
-        NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
-      };
+      this.logger.leaving(me);
+    }
+
+    #navLinkClickHandler = async () => {
+      const me = 'navLinkClickHandler';
+      this.logger.entered(me);
+
+      const oldPathname = window.location.pathname;
 
       /**
        * @implements {NH.web.Monitor}
@@ -2697,7 +2722,6 @@
       };
       const how = {
         observeOptions: {childList: true, subtree: true},
-        trigger: trigger,
         monitor: monitor,
         timeout: 1000,
       };
@@ -2709,23 +2733,6 @@
         this.logger.log(`page stayed at ${oldPathname}`);
         this.spa.activate(oldPathname);
       }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Click on the requested button in the global nav bar.
-     * @param {string} item - Text on the button to look for.
-     */
-    #gotoNavButton = (item) => {
-      const me = 'gotoNavButton';
-      this.logger.entered(me, item);
-
-      const buttons = Array.from(
-        document.querySelectorAll('#global-nav button')
-      );
-      const button = buttons.find(el => el.textContent.includes(item));
-      button?.click();
 
       this.logger.leaving(me);
     }
