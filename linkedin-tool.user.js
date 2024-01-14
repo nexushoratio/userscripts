@@ -756,6 +756,11 @@
       return this.#logger;
     }
 
+    /** @type {string} */
+    get name() {
+      return this.#name;
+    }
+
     /** Move to the next item in the collection. */
     next() {
       this.#scrollBy(1);
