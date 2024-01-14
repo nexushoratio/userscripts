@@ -1980,6 +1980,8 @@
     constructor(name) {
       super(name);
       VMKeyboardService.#services.add(this);
+      this.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate);
     }
 
     static keyMap = new Map([
@@ -2080,24 +2082,6 @@
       return this.#shortcuts;
     }
 
-    /** @inheritdoc */
-    activate() {
-      for (const keyboard of this.#keyboards.values()) {
-        this.logger.log('would enable keyboard', keyboard);
-        // TODO: keyboard.enable();
-      }
-      this.#active = true;
-    }
-
-    /** @inheritdoc */
-    deactivate() {
-      for (const keyboard of this.#keyboards.values()) {
-        this.logger.log('would disable keyboard', keyboard);
-        // TODO: keyboard.disable();
-      }
-      this.#active = false;
-    }
-
     /** @param {*} instance - Object with {Shortcut} properties. */
     addInstance(instance) {
       const me = 'addInstance';
@@ -2170,6 +2154,22 @@
     #active = false;
     #keyboards = new Map();
     #shortcuts = [];
+
+    #onActivate = () => {
+      for (const keyboard of this.#keyboards.values()) {
+        this.logger.log('would enable keyboard', keyboard);
+        // TODO: keyboard.enable();
+      }
+      this.#active = true;
+    }
+
+    #onDeactivate = () => {
+      for (const keyboard of this.#keyboards.values()) {
+        this.logger.log('would disable keyboard', keyboard);
+        // TODO: keyboard.disable();
+      }
+      this.#active = false;
+    }
 
     #rebuildShortcuts = () => {
       this.#shortcuts = [];
