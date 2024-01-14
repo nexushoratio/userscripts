@@ -122,9 +122,18 @@
       '#229', '<b>Jobs<b>: <em>Recent job searches</em> is ' +
         'not scrolling properly',
     ],
+    [
+      '#230', '<b>JobCollections</b>: first/last never gets a ' +
+        'chance to work on job cards',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-14',
+      issues: ['#230'],
+      subject: 'Disable reactivation on the details <code>Scroller</code>',
+    },
     {
       date: '2024-01-10',
       issues: ['#229'],
@@ -262,12 +271,6 @@
       date: '2023-12-14',
       issues: ['#156'],
       subject: 'Initial support for the <code>Profile</code> view',
-    },
-    {
-      date: '2023-12-11',
-      issues: ['#144'],
-      subject: 'Implement <kbd><kbd>S</kbd></kbd> to toggle the star on ' +
-        'a conversation',
     },
   ];
 
