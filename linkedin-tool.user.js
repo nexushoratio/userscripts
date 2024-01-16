@@ -47,6 +47,7 @@
     const defaultOptions = {
       enableDevMode: false,
       enableIssue218Changes: false,
+      enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue('Options', {});
