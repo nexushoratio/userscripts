@@ -2266,42 +2266,7 @@
       super(name);
       this.#page = page;
       this.#postHook = () => {};  // eslint-disable-line no-empty-function
-    }
-
-    /** Called each time service is activated. */
-    activate() {
-      const me = 'activate';
-      this.logger.entered(me, this.#page);
-
-      if (!this.#activatedOnce) {
-        const toolbar = document.querySelector('.scaffold-layout-toolbar');
-        this.logger.log('toolbar:', toolbar);
-
-        for (const how of this.#scrollerHows) {
-          this.logger.log('how:', how);
-          this.#page.spa.details.navBarScrollerFixup(how);
-
-          const newHeight = how.topMarginPixels + toolbar.clientHeight;
-          const newCSS = `${newHeight}px`;
-
-          how.topMarginPixels = newHeight;
-          how.topMarginCSS = newCSS;
-        }
-
-        this.#postHook();
-      }
-
-      this.#activatedOnce = true;
-
-      this.logger.leaving(me);
-    }
-
-    /** Called each time service is deactivated. */
-    deactivate() {
-      const me = 'deactivate';
-      this.logger.entered(me);
-
-      this.logger.leaving(me);
+      this.on('activate', this.#onActivate);
     }
 
     /**
@@ -2331,6 +2296,33 @@
     #page
     #postHook
     #scrollerHows = new Set();
+
+    #onActivate = () => {
+      const me = 'onActivate';
+      this.logger.entered(me, this.#page);
+
+      if (!this.#activatedOnce) {
+        const toolbar = document.querySelector('.scaffold-layout-toolbar');
+        this.logger.log('toolbar:', toolbar);
+
+        for (const how of this.#scrollerHows) {
+          this.logger.log('how:', how);
+          this.#page.spa.details.navBarScrollerFixup(how);
+
+          const newHeight = how.topMarginPixels + toolbar.clientHeight;
+          const newCSS = `${newHeight}px`;
+
+          how.topMarginPixels = newHeight;
+          how.topMarginCSS = newCSS;
+        }
+
+        this.#postHook();
+      }
+
+      this.#activatedOnce = true;
+
+      this.logger.leaving(me);
+    }
 
   }
 
