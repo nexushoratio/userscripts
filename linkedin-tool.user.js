@@ -86,7 +86,6 @@
     ['', 'Minor internal improvement'],
     ['#106', 'info view: more tabs: News, License'],
     ['#130', 'Factor hotkey handling out of SPA'],
-    ['#144', 'Support <b>Messaging</b> view'],
     ['#156', 'Support <b>Profile</b> view'],
     [
       '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
@@ -104,10 +103,6 @@
      '(e.g., empty), cannot wrap',
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
-    [
-      '#212', '<code>Scroller</code>: Investigate if we still need the ' +
-     'current item resets',
-    ],
     ['#219', '<b>MyNetwork</b> navigation is broken'],
     ['#220', 'Sometimes the LIT menu item does not stick'],
     [
@@ -127,9 +122,15 @@
       '#230', '<b>JobCollections</b>: first/last never gets a ' +
         'chance to work on job cards',
     ],
+    ['#232', '<code>Scroller</code>: Change the focus UX'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-16',
+      issues: ['#232'],
+      subject: 'Add feature flag <em>enableScrollerChangesFocus</em>',
+    },
     {
       date: '2024-01-14',
       issues: ['#230'],
@@ -256,22 +257,6 @@
       date: '2023-12-17',
       issues: ['#208'],
       subject: 'Filter out non-viewable items before scrolling by N',
-    },
-    {
-      date: '2023-12-16',
-      issues: ['#156', '#208'],
-      subject: 'Implement <kbd><kbd>n</kbd></kbd>ext/' +
-        '<kbd><kbd>p</kbd></kbd>revious for entries inside a section',
-    },
-    {
-      date: '2023-12-15',
-      issues: ['#156'],
-      subject: 'Basic navigation keys',
-    },
-    {
-      date: '2023-12-14',
-      issues: ['#156'],
-      subject: 'Initial support for the <code>Profile</code> view',
     },
   ];
 
