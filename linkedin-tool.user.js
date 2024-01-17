@@ -3594,6 +3594,21 @@
       }
     );
 
+    tabList = new Shortcut(
+      'l',
+      'Go to invitations tab list',
+      () => {
+        const me = 'tabList';
+        this.logger.entered(me);
+
+        NH.web.focusOnElement(document.querySelector(
+          InvitationManager.#invitationTabSelectorCurrent
+        ));
+
+        this.logger.leaving(me);
+      }
+    );
+
     openMeatballMenu = new Shortcut(
       '=',
       'Open <button class="spa-meatball">⋯</button> menu',
@@ -3637,6 +3652,10 @@
       pathname: '/mynetwork/invitation-manager/',
       pageReadySelector: 'main',
     };
+
+    static #invitationTabSelector = 'main div.artdeco-tablist';
+    static #invitationTabSelectorCurrent =
+      `${InvitationManager.#invitationTabSelector} [aria-selected="true"]`;
 
     static #invitesHow = {
       uidCallback: InvitationManager.uniqueIdentifier,
