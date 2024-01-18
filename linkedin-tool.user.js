@@ -1694,6 +1694,15 @@
    * Page} will instantiate, initialize, active and deactivate at appropriate
    * times.
    *
+   * Subclasses should NOT override methods here, except for constructor().
+   * Instead they should register listeners for appropriate events.
+   *
+   * Generally, methods will fire two event verbs.  The first, in present
+   * tense, will instruct what should happen (activate, deactivate).  The
+   * second, in past tense, will describe what should have happened
+   * (activated, deactivated).  Typically, subclasses will act upon the
+   * present tense, and users of the class may act upon the past tense.
+   *
    * It is expected that each {Page} subclass will have individual instances
    * of the services, though nothing will enforce that.
    *
