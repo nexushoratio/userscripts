@@ -3071,12 +3071,7 @@
         /** Trigger function for {@link NH.web.otrot}. */
         const trigger = () => {
           this.togglePost();
-          this.nextPost();
         };
-        // XXX: Need to remove the highlights before NH.web.otrot sees it
-        // because it affects the .clientHeight.
-        this.posts.dull();
-        this.comments?.dull();
         if (this.posts.item) {
           const what = {
             name: 'nextPostPlus',
@@ -3087,10 +3082,8 @@
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this.posts.show();
-        } else {
-          trigger();
         }
+        this.nextPost();
       }
     );
 
