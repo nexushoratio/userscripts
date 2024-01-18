@@ -4358,6 +4358,41 @@
       }
     );
 
+    nextJobPlus = new Shortcut(
+      'J',
+      'Toggle dismissing then next job card',
+      async () => {
+
+        /** Trigger function for {@link NH.web.otrot}. */
+        const trigger = () => {
+          this.toggleThumbsDown();
+        };
+
+        if (this.jobCards.item) {
+          const what = {
+            name: 'nextJobPlus',
+            base: this.jobCards.item,
+          };
+          const how = {
+            trigger: trigger,
+            timeout: 3000,
+          };
+          await NH.web.otrot(what, how);
+        }
+
+        this.nextJob();
+      }
+    );
+
+    prevJobPlus = new Shortcut(
+      'K',
+      'Toggle dismissing then previous job card',
+      () => {
+        this.toggleThumbsDown();
+        this.prevJob();
+      }
+    );
+
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
         // The button toggles between Follow and Following
