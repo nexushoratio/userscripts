@@ -6958,6 +6958,9 @@
      * @param {Event} evt - Standard 'focus' event.
      */
     _onFocus = (evt) => {
+      const me = 'onFocus';
+      this.logger.entered(me, evt);
+
       if (this._lastInputElement && evt.target !== this._lastInputElement) {
         this._lastInputElement = null;
         this._setKeyboardContext('inputFocus', false);
@@ -6966,6 +6969,8 @@
         this._setKeyboardContext('inputFocus', true);
         this._lastInputElement = evt.target;
       }
+
+      this.logger.leaving(me);
     }
 
     /** Configure handlers for the info view. */
