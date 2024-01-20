@@ -814,6 +814,22 @@
       this.#scrollToCurrentItem();
     }
 
+    /** Focus on current item. */
+    focus() {
+      const me = 'focus';
+      this.logger.entered(me, litOptions.enableScrollerChangesFocus);
+
+      this.shine();
+      this.show();
+
+      if (litOptions.enableScrollerChangesFocus) {
+        this.logger.log('focusing', this.item);
+        NH.web.focusOnElement(this.item);
+      }
+
+      this.logger.leaving(me, 'current focus:', document.activeElement);
+    }
+
     /**
      * Activate the scroller.
      * @fires 'out-of-range'
@@ -969,8 +985,7 @@
       const idx = this.#getItems()
         .indexOf(val);
       this.#historicalIdToIndex.set(this.#currentItemId, idx);
-      this.shine();
-      this.#scrollToCurrentItem();
+      this.focus();
       this.dispatcher.fire('change', {});
 
       this.logger.leaving(me);
