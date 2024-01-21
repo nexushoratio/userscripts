@@ -3632,17 +3632,6 @@
       }
     );
 
-    openMeatballMenu = new Shortcut(
-      '=',
-      'Open <button class="spa-meatball">⋯</button> menu',
-      () => {
-        this.invites?.item
-          .querySelector('svg[aria-label^="Report message"]')
-          ?.closest('button')
-          ?.click();
-      }
-    );
-
     acceptInvite = new Shortcut(
       'A',
       'Accept invite',
