@@ -3681,7 +3681,7 @@
       selectors: [
         [
           // Actual invites
-          'main > section section > ul > li',
+          'main > section ul.mn-invitation-list > li',
         ].join(','),
       ],
     };
