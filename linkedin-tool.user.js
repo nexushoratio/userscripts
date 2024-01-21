@@ -122,10 +122,32 @@
       '#230', '<b>JobCollections</b>: first/last never gets a ' +
         'chance to work on job cards',
     ],
+    ['#231', '<b>JobCollections</b>: Support delete/next type navigation'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-20',
+      issues: ['#232'],
+      subject: 'Create new <code>Scroller.focus()</code> method',
+    },
+    {
+      date: '2024-01-20',
+      issues: ['#232'],
+      subject: 'Additional logging about \'focus\' events',
+    },
+    {
+      date: '2024-01-18',
+      issues: ['#231'],
+      subject: 'Implement <kbd><kbd>J</kbd></kbd>/<kbd><kbd>K</kbd></kbd> ' +
+        'for toggle/navigate combo in <code>JobCollections</code>',
+    },
+    {
+      date: '2024-01-17',
+      issues: ['#157'],
+      subject: 'Implement <kbd><kbd>l</kbd></kbd> to focus on the tab list',
+    },
     {
       date: '2024-01-16',
       issues: ['#232'],
@@ -241,22 +263,6 @@
       date: '2023-12-21',
       issues: ['#219'],
       subject: 'Update <code>MyNetwork</code> to the new layout',
-    },
-    {
-      date: '2023-12-20',
-      issues: ['#156'],
-      subject: 'Implement <kbd><kbd>E</kbd></kbd>dit for the current section',
-    },
-    {
-      date: '2023-12-18',
-      issues: ['#156'],
-      subject: 'Implement <kbd><kbd>m</kbd></kbd> to view more ' +
-        '(or Show all...) for the current item',
-    },
-    {
-      date: '2023-12-17',
-      issues: ['#208'],
-      subject: 'Filter out non-viewable items before scrolling by N',
     },
   ];
 
