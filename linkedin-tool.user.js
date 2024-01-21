@@ -3505,22 +3505,25 @@
   }
 
   /** Class for handling the Invitation manager page. */
-  class InvitationManager extends Page {
+  class InvitationManagerReceivedInvites extends Page {
 
     /**
-     * Create a InvitationManager instance.
+     * Create a InvitationManagerReceivedInvites instance.
      * @param {SPA} spa - SPA instance that manages this Page.
      */
     constructor(spa) {
-      super({spa: spa, ...InvitationManager.#details});
+      super({spa: spa, ...InvitationManagerReceivedInvites.#details});
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(InvitationManager.#invitesHow);
+      spa.details.navBarScrollerFixup(
+        InvitationManagerReceivedInvites.#invitesHow
+      );
 
       this.#inviteScroller = new Scroller(
-        InvitationManager.#invitesWhat, InvitationManager.#invitesHow
+        InvitationManagerReceivedInvites.#invitesWhat,
+        InvitationManagerReceivedInvites.#invitesHow
       );
       this.addService(ScrollerService, this.#inviteScroller);
       this.#inviteScroller.dispatcher.on('activate', this.#onActivate);
@@ -3625,7 +3628,7 @@
         this.logger.entered(me);
 
         NH.web.focusOnElement(document.querySelector(
-          InvitationManager.#invitationTabSelectorCurrent
+          InvitationManagerReceivedInvites.#invitationTabSelectorCurrent
         ));
 
         this.logger.leaving(me);
@@ -3661,16 +3664,18 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
-      pathname: '/mynetwork/invitation-manager/',
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('/mynetwork/invitation-manager/', 'u'),
       pageReadySelector: 'main',
     };
 
     static #invitationTabSelector = 'main div.artdeco-tablist';
     static #invitationTabSelectorCurrent =
-      `${InvitationManager.#invitationTabSelector} [aria-selected="true"]`;
+      `${InvitationManagerReceivedInvites.#invitationTabSelector} ` +
+      '[aria-selected="true"]';
 
     static #invitesHow = {
-      uidCallback: InvitationManager.uniqueIdentifier,
+      uidCallback: InvitationManagerReceivedInvites.uniqueIdentifier,
       classes: ['tom'],
     };
 
@@ -7462,7 +7467,7 @@
   spa.register(Feed);
   spa.register(MyNetwork);
   spa.register(Messaging);
-  spa.register(InvitationManager);
+  spa.register(InvitationManagerReceivedInvites);
   spa.register(Jobs);
   spa.register(JobCollections);
   spa.register(JobView);
