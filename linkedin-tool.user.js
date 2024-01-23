@@ -1033,6 +1033,7 @@
     #postProcessItems = (items) => {
       const me = 'postProcessItems';
       this.logger.starting(me, `count: ${items.length}`);
+
       const uids = new NH.base.DefaultMap(Array);
       for (const item of items) {
         this.logger.log('item:', item, Scroller.#isItemViewable(item));
@@ -1052,6 +1053,7 @@
           }
         }
       }
+
       this.logger.finished(me, `uid count: ${uids.size}`);
     }
 
