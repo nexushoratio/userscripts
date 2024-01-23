@@ -3528,8 +3528,6 @@
         InvitationManagerReceivedInvites.#invitesHow
       );
       this.addService(ScrollerService, this.#inviteScroller);
-      this.#inviteScroller.dispatcher.on('activate', this.#onActivate);
-      this.#inviteScroller.dispatcher.on('change', this.#onChange);
     }
 
     /**
@@ -3684,68 +3682,16 @@
     /** @type {Scroller~What} */
     static #invitesWhat = {
       name: 'Invitation cards',
-      base: document.body,
-      selectors: [
-        [
-          // Actual invites
-          'main > section ul.mn-invitation-list > li',
-        ].join(','),
+      containerItems: [
+        {
+          container: 'main > section ul.mn-invitation-list',
+          items: ':scope > li',
+        },
       ],
     };
 
-    #currentInviteText
     #inviteScroller
     #keyboardService
-
-    #onActivate = async () => {
-      const me = 'onActivate';
-      this.logger.entered(me);
-
-      /**
-       * Wait for current invitation to show back up.
-       * @implements {NH.web.Monitor}
-       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        for (const el of document.body.querySelectorAll(
-          'main > section section > ul > li'
-        )) {
-          const text = el.innerText.trim()
-            .split('\n')[0];
-          if (text === this.#currentInviteText) {
-            return {done: true};
-          }
-        }
-        return {done: false};
-      };
-      const what = {
-        name: 'InviteManager onActivate',
-        base: document.body.querySelector('main'),
-      };
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 3000,
-      };
-
-      if (this.#currentInviteText) {
-        this.logger.log(`We will look for ${this.#currentInviteText}`);
-        await NH.web.otmot(what, how);
-        this.invites.shine();
-        this.invites.show();
-      }
-      this.logger.leaving(me);
-    }
-
-    #onChange = () => {
-      const me = 'onChange';
-      this.logger.entered(me);
-      this.#currentInviteText = this.invites.item?.innerText
-        .trim()
-        .split('\n')[0];
-      this.logger.log('current', this.#currentInviteText);
-      this.logger.leaving(me);
-    }
 
   }
 
