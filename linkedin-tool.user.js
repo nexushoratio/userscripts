@@ -3666,7 +3666,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('/mynetwork/invitation-manager/', 'u'),
-      pageReadySelector: 'main',
+      pageReadySelector: '#compactfooter-about',
     };
 
     static #invitationTabSelector = 'main div.artdeco-tablist';
