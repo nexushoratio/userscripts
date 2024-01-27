@@ -3693,6 +3693,158 @@
 
   }
 
+  /** Class for handling the Invitation manager for sent invites page. */
+  class InvitationManagerSentInvites extends Page {
+
+    /**
+     * Create a InvitationManagerSentInvites instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...InvitationManagerSentInvites.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(
+        InvitationManagerSentInvites.#invitesHow
+      );
+
+      this.#inviteScroller = new Scroller(
+        InvitationManagerSentInvites.#invitesWhat,
+        InvitationManagerSentInvites.#invitesHow
+      );
+      this.addService(ScrollerService, this.#inviteScroller);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueIdentifier(element) {
+      let content = element.innerText;
+      const anchor = element.querySelector('a');
+      if (anchor?.href) {
+        content = anchor.href;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get invites() {
+      return this.#inviteScroller;
+    }
+
+    nextInvite = new Shortcut(
+      'j',
+      'Next invitation',
+      () => {
+        this.invites.next();
+      }
+    );
+
+    prevInvite = new Shortcut(
+      'k',
+      'Previous invitation',
+      () => {
+        this.invites.prev();
+      }
+    );
+
+    firstInvite = new Shortcut(
+      '<',
+      'Go to the first invitation',
+      () => {
+        this.invites.first();
+      }
+    );
+
+    lastInvite = new Shortcut(
+      '>',
+      'Go to the last invitation',
+      () => {
+        this.invites.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        const item = this.invites.item;
+        NH.web.focusOnElement(item);
+      }
+    );
+
+    seeMore = new Shortcut(
+      'm',
+      'Toggle seeing more of current invite',
+      () => {
+        NH.web.clickElement(
+          this.invites?.item,
+          ['a.lt-line-clamp__more, a.lt-line-clamp__less']
+        );
+      }
+    );
+
+    viewTarget = new Shortcut(
+      't',
+      'View invitation target ' +
+        '(may not be the same as inviter, e.g., Newsletter)',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['a.invitation-card__picture']);
+      }
+    );
+
+    tabList = new Shortcut(
+      'l',
+      'Go to invitations tab list',
+      () => {
+        const me = 'tabList';
+        this.logger.entered(me);
+
+        NH.web.focusOnElement(document.querySelector(
+          InvitationManagerSentInvites.#invitationTabSelectorCurrent
+        ));
+
+        this.logger.leaving(me);
+      }
+    );
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      pathname: '/mynetwork/invitation-manager/sent/',
+      pageReadySelector: '#compactfooter-about',
+    };
+
+    static #invitationTabSelector = 'main div.artdeco-tablist';
+    static #invitationTabSelectorCurrent =
+      `${InvitationManagerSentInvites.#invitationTabSelector} ` +
+      '[aria-selected="true"]';
+
+    static #invitesHow = {
+      uidCallback: InvitationManagerSentInvites.uniqueIdentifier,
+      classes: ['tom'],
+    };
+
+    /** @type {Scroller~What} */
+    static #invitesWhat = {
+      name: 'Invitation cards',
+      containerItems: [
+        {
+          container: 'main > section ul.mn-invitation-list',
+          items: ':scope > li',
+        },
+      ],
+    };
+
+    #inviteScroller
+    #keyboardService
+
+  }
+
   /**
    * Class for handling the base Jobs page.
    *
@@ -7407,6 +7559,7 @@
   spa.register(MyNetwork);
   spa.register(Messaging);
   spa.register(InvitationManagerReceivedInvites);
+  spa.register(InvitationManagerSentInvites);
   spa.register(Jobs);
   spa.register(JobCollections);
   spa.register(JobView);
