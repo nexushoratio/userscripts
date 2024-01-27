@@ -3505,7 +3505,7 @@
 
   }
 
-  /** Class for handling the Invitation manager page. */
+  /** Class for handling the Invitation manager for received invites page. */
   class InvitationManagerReceivedInvites extends Page {
 
     /**
@@ -3663,8 +3663,7 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('/mynetwork/invitation-manager/', 'u'),
+      pathname: '/mynetwork/invitation-manager/',
       pageReadySelector: '#compactfooter-about',
     };
 
