@@ -91,7 +91,6 @@
         'view upon refresh',
     ],
     ['#160', 'Support direct <b>JobView</b>'],
-    ['#165', '<code>Scroller</code>: Wait until base shows up'],
     ['#167', 'Refactor into libraries'],
     [
       '#169', '<b>JobCollections</b>: reading the details pane is ' +
@@ -102,6 +101,10 @@
      '(e.g., empty), cannot wrap',
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
+    [
+      '#218', 'So some <code>Page</code> instances need to be reset on ' +
+        'revisit anyway?',
+    ],
     ['#219', '<b>MyNetwork</b> navigation is broken'],
     ['#220', 'Sometimes the LIT menu item does not stick'],
     [
@@ -123,9 +126,32 @@
     ],
     ['#231', '<b>JobCollections</b>: Support delete/next type navigation'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
+    ['#233', 'Support <b>Invitation Manager Sent Invites</b>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-27',
+      issues: ['#233'],
+      subject: 'Handle the <em>Sent Invites</em> page',
+    },
+    {
+      date: '2024-01-27',
+      issues: ['#233'],
+      subject: 'Additional tweaks after renaming ' +
+        '<code>InvitationManagerReceivedInvites</code>',
+    },
+    {
+      date: '2024-01-26',
+      issues: ['#218'],
+      subject: 'Enable reactivation of active pages when revisiting the ' +
+        'same page',
+    },
+    {
+      date: '2024-01-24',
+      issues: ['#157'],
+      subject: 'Fine tune the <em>pageReadySelector</em>',
+    },
     {
       date: '2024-01-20',
       issues: ['#232'],
@@ -158,6 +184,11 @@
       subject: 'Disable reactivation on the details <code>Scroller</code>',
     },
     {
+      date: '2024-01-14',
+      issues: ['#218'],
+      subject: 'Move the URL monitoring into a click handler',
+    },
+    {
       date: '2024-01-10',
       issues: ['#229'],
       subject: 'The HTML on the <code>Jobs</code> page changed, so tweaks ' +
@@ -171,9 +202,26 @@
         'pagination navigation',
     },
     {
+      date: '2024-01-08',
+      issues: ['#218'],
+      subject: 'Add temp option to control reactiving currently active pages',
+    },
+    {
       date: '2024-01-06',
       issues: ['#209'],
       subject: 'Basic navigation',
+    },
+    {
+      date: '2024-01-06',
+      issues: ['#218'],
+      subject: 'Tune some <code>ScrollerService</code>s to disable ' +
+        'reactivation (if active)',
+    },
+    {
+      date: '2024-01-06',
+      issues: ['#218'],
+      subject: 'Modify <code>ScrollerService</code> to make reactivation ' +
+        'optional',
     },
     {
       date: '2024-01-05',
@@ -196,6 +244,12 @@
       date: '2024-01-02',
       issues: ['#160'],
       subject: 'Tune the <em>pageReadySelector</em>',
+    },
+    {
+      date: '2024-01-02',
+      issues: ['#218'],
+      subject: 'Call <code>SPA.activate()</code> when the URL does not ' +
+        'change',
     },
     {
       date: '2024-01-01',
@@ -241,27 +295,6 @@
       issues: ['#156'],
       subject: 'Include the height of the toolbar in the ' +
         '<code>Scroller</code> margins',
-    },
-    {
-      date: '2023-12-24',
-      issues: ['#220'],
-      subject: 'Re-add the LIT menu item if it disappears',
-    },
-    {
-      date: '2023-12-24',
-      issues: ['#169'],
-      subject: 'Fine-tune the CSS selector for the details pane',
-    },
-    {
-      date: '2023-12-24',
-      issues: ['#169'],
-      subject: 'Switch results page selection to ' +
-        '<kbd><kbd>N</kbd></kbd>/<kbd><kbd>P</kbd></kbd>',
-    },
-    {
-      date: '2023-12-21',
-      issues: ['#219'],
-      subject: 'Update <code>MyNetwork</code> to the new layout',
     },
   ];
 
