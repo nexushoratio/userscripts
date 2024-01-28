@@ -14,6 +14,7 @@
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js
 // ==/UserScript==
 
+// eslint-disable-next-line max-lines-per-function
 (() => {
   'use strict';
 
@@ -21,6 +22,7 @@
     {name: 'xunit'},
     {name: 'base'},
     {name: 'userscript'},
+    {name: 'widget'},
   ]);
 
   const logger = new NH.base.Logger('Testing');
@@ -38,5 +40,43 @@
   NH.xunit.testing.run();
 
   logger.log('finished');
+
+  /* eslint-disable require-jsdoc */
+  function demoGrid() {
+    function renderInt(record, field) {
+      return `${record[field]}`;
+    }
+
+    function renderType(record) {
+      return `${record.stage}, ${record.species}`;
+    }
+
+    const w = new NH.widget.Grid('Characters');
+    const data = [
+      {id: 1, name: 'Sally', species: 'human', stage: 'juvenile'},
+      {name: 'Jane', id: 2, species: 'human', stage: 'juvenile'},
+      {name: 'Puff', id: 3, species: 'feline', stage: 'juvenile'},
+    ];
+    w.set(data);
+    w.columns.push(
+      new NH.widget.GridColumn({field: 'id', renderFunc: renderInt}),
+      new NH.widget.GridColumn({field: 'name'}),
+      new NH.widget.GridColumn({title: 'Type', renderFunc: renderType})
+    );
+
+    // Act
+    w.build();
+
+    document.body.append(w.container);
+  }
+  /* eslint-enable */
+
+  const demos = [{enabled: true, demo: demoGrid}];
+
+  for (const {enabled, demo} of demos) {
+    if (enabled) {
+      demo();
+    }
+  }
 
 })();
