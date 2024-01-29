@@ -105,13 +105,6 @@
       '#218', 'So some <code>Page</code> instances need to be reset on ' +
         'revisit anyway?',
     ],
-    ['#219', '<b>MyNetwork</b> navigation is broken'],
-    ['#220', 'Sometimes the LIT menu item does not stick'],
-    [
-      '#222', '<b>Notifications</b>: Seeing dupes where there should ' +
-     'not be',
-    ],
-    ['#223', '<kbd><kbd>=</kbd></kbd> stopped working on <b>Feed</b>'],
     [
       '#225', '<code>Scroller</code>: Tall items not going to top when ' +
         '<code>snapToTop=false</code>',
@@ -130,6 +123,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-01-29',
+      issues: ['#233'],
+      subject: 'Implement <kbd><kbd>W</kbd></kbd>ithdrawn invitiation',
+    },
     {
       date: '2024-01-27',
       issues: ['#233'],
@@ -272,29 +270,6 @@
       date: '2023-12-29',
       issues: ['#160'],
       subject: 'Initial <code>JobView</code> support',
-    },
-    {
-      date: '2023-12-27',
-      issues: ['#223'],
-      subject: 'Update how the <button class="spa-meatball">⋯</button> ' +
-        'menu is found in <code>Feed</code>',
-    },
-    {
-      date: '2023-12-27',
-      issues: ['#222'],
-      subject: 'Mix in the notification URL to dedupe when text is identical',
-    },
-    {
-      date: '2023-12-27',
-      issues: ['#169'],
-      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
-        'for scrolling through job details',
-    },
-    {
-      date: '2023-12-27',
-      issues: ['#156'],
-      subject: 'Include the height of the toolbar in the ' +
-        '<code>Scroller</code> margins',
     },
   ];
 
