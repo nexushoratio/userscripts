@@ -52,6 +52,10 @@
     }
 
     const w = new NH.widget.Grid('Characters');
+    w.installStyle(w.id, [
+      `#${w.container.id} {border-collapse: collapse;}`,
+      `#${w.container.id} td,th {border: 1px solid black;}`,
+    ]);
     const data = [
       {id: 1, name: 'Sally', species: 'human', stage: 'juvenile'},
       {name: 'Jane', id: 2, species: 'human', stage: 'juvenile'},
