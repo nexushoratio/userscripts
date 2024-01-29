@@ -3846,6 +3846,15 @@
       }
     );
 
+    withDraw = new Shortcut(
+      'W',
+      'Withdraw invitation',
+      () => {
+        NH.web.clickElement(this.invites?.item,
+          ['button[aria-label^="Withdraw invitation"]']);
+      }
+    );
+
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/mynetwork/invitation-manager/sent/',
