@@ -1781,8 +1781,11 @@
      * @fires 'activate' 'activated'
      */
     activate() {
-      this.#dispatcher.fire('activate', this);
-      this.#dispatcher.fire('activated', this);
+      if (!this.#activated || this.#allowReactivation) {
+        this.#dispatcher.fire('activate', this);
+        this.#dispatcher.fire('activated', this);
+      }
+      this.#activated = true;
     }
 
     /**
@@ -1793,6 +1796,7 @@
     deactivate() {
       this.#dispatcher.fire('deactivate', this);
       this.#dispatcher.fire('deactivated', this);
+      this.#activated = false;
     }
 
     /**
@@ -1818,6 +1822,16 @@
       return this;
     }
 
+    /**
+     * @param {boolean} allow - Whether to allow this service to be activated
+     * when already active.
+     * @returns {ScrollerService} - This instance, for chaining.
+     */
+    allowReactivation(allow) {
+      this.#allowReactivation = allow;
+      return this;
+    }
+
     static #knownEvents = [
       'activate',
       'activated',
@@ -1825,6 +1839,8 @@
       'deactivated',
     ];
 
+    #activated = false
+    #allowReactivation = true
     #dispatcher
     #logger
     #name
@@ -1833,6 +1849,7 @@
   }
 
   /* eslint-disable max-lines-per-function */
+  /* eslint-disable max-statements */
   /* eslint-disable no-new */
   /* eslint-disable require-jsdoc */
   class ServiceTestCase extends NH.xunit.TestCase {
@@ -1933,6 +1950,76 @@
       );
     }
 
+    testReactivation() {
+      // Assemble
+      const messages = [];
+      const capture = (...message) => {
+        messages.push(message);
+      };
+
+      const s = new ServiceTestCase.Test(this.id);
+      s.mq = new NH.base.MessageQueue()
+        .listen(capture);
+
+      const shortName = `The ${this.id}`;
+
+      // Act I - Allowed by default
+      s.activate();
+      s.activate();
+      s.deactivate();
+
+      // Assert
+      this.assertEqual(
+        messages,
+        [
+          ['via Service', 'activate', shortName],
+          // Activation while active worked
+          ['via Service', 'activate', shortName],
+          ['via Service', 'deactivated', shortName],
+        ],
+        'allowed by default'
+      );
+
+      // Act II - Turning off works
+      messages.length = 0;
+      s.allowReactivation(false);
+
+      s.activate();
+      s.activate();
+      s.deactivate();
+
+      // Assert
+      this.assertEqual(
+        messages,
+        [
+          ['via Service', 'activate', shortName],
+          // No reactivation here
+          ['via Service', 'deactivated', shortName],
+        ],
+        'turning off works'
+      );
+
+      // Act III - Turning back on works
+      messages.length = 0;
+      s.allowReactivation(true);
+
+      s.activate();
+      s.activate();
+      s.deactivate();
+
+      // Assert
+      this.assertEqual(
+        messages,
+        [
+          ['via Service', 'activate', shortName],
+          // Activation while active worked
+          ['via Service', 'activate', shortName],
+          ['via Service', 'deactivated', shortName],
+        ],
+        'turning back on works'
+      );
+    }
+
   }
   /* eslint-enable */
 
@@ -1952,30 +2039,14 @@
         .on('deactivate', this.#onDeactivate);
     }
 
-    /**
-     * @param {boolean} allow - Whether to allow this service to be activated
-     * when already active.
-     * @returns {ScrollerService} - This instance, for chaining.
-     */
-    allowReactivation(allow) {
-      this.#allowReactivation = allow;
-      return this;
-    }
-
-    #activated = false
-    #allowReactivation = true
     #scroller
 
     #onActivate = () => {
-      if (!this.#activated || this.#allowReactivation) {
-        this.#scroller.activate();
-      }
-      this.#activated = true;
+      this.#scroller.activate();
     }
 
     #onDeactivate = () => {
       this.#scroller.deactivate();
-      this.#activated = false;
     }
 
   }
