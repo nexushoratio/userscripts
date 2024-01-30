@@ -3584,29 +3584,8 @@
 
   }
 
-  /** Class for handling the Invitation manager for received invites page. */
-  class InvitationManagerReceivedInvites extends Page {
-
-    /**
-     * Create a InvitationManagerReceivedInvites instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
-    constructor(spa) {
-      super({spa: spa, ...InvitationManagerReceivedInvites.#details});
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(
-        InvitationManagerReceivedInvites.#invitesHow
-      );
-
-      this.#inviteScroller = new Scroller(
-        InvitationManagerReceivedInvites.#invitesWhat,
-        InvitationManagerReceivedInvites.#invitesHow
-      );
-      this.addService(ScrollerService, this.#inviteScroller);
-    }
+  /** Base class for handling the different Invitation manager pages. */
+  class InvitationManagerBase extends Page {
 
     /**
      * @implements {Scroller~uidCallback}
@@ -3620,11 +3599,6 @@
         content = anchor.href;
       }
       return NH.base.strHash(content);
-    }
-
-    /** @type {Scroller} */
-    get invites() {
-      return this.#inviteScroller;
     }
 
     nextInvite = new Shortcut(
@@ -3678,6 +3652,37 @@
         );
       }
     );
+
+  }
+
+  /** Class for handling the Invitation manager for received invites page. */
+  class InvitationManagerReceivedInvites extends InvitationManagerBase {
+
+    /**
+     * Create a InvitationManagerReceivedInvites instance.
+     * @param {SPA} spa - SPA instance that manages this Page.
+     */
+    constructor(spa) {
+      super({spa: spa, ...InvitationManagerReceivedInvites.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(
+        InvitationManagerReceivedInvites.#invitesHow
+      );
+
+      this.#inviteScroller = new Scroller(
+        InvitationManagerReceivedInvites.#invitesWhat,
+        InvitationManagerReceivedInvites.#invitesHow
+      );
+      this.addService(ScrollerService, this.#inviteScroller);
+    }
+
+    /** @type {Scroller} */
+    get invites() {
+      return this.#inviteScroller;
+    }
 
     viewInviter = new Shortcut(
       'i',
@@ -3752,7 +3757,7 @@
       '[aria-selected="true"]';
 
     static #invitesHow = {
-      uidCallback: InvitationManagerReceivedInvites.uniqueIdentifier,
+      uidCallback: InvitationManagerBase.uniqueIdentifier,
       classes: ['tom'],
     };
 
@@ -3773,7 +3778,7 @@
   }
 
   /** Class for handling the Invitation manager for sent invites page. */
-  class InvitationManagerSentInvites extends Page {
+  class InvitationManagerSentInvites extends InvitationManagerBase {
 
     /**
      * Create a InvitationManagerSentInvites instance.
@@ -3796,76 +3801,10 @@
       this.addService(ScrollerService, this.#inviteScroller);
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIdentifier(element) {
-      let content = element.innerText;
-      const anchor = element.querySelector('a');
-      if (anchor?.href) {
-        content = anchor.href;
-      }
-      return NH.base.strHash(content);
-    }
-
     /** @type {Scroller} */
     get invites() {
       return this.#inviteScroller;
     }
-
-    nextInvite = new Shortcut(
-      'j',
-      'Next invitation',
-      () => {
-        this.invites.next();
-      }
-    );
-
-    prevInvite = new Shortcut(
-      'k',
-      'Previous invitation',
-      () => {
-        this.invites.prev();
-      }
-    );
-
-    firstInvite = new Shortcut(
-      '<',
-      'Go to the first invitation',
-      () => {
-        this.invites.first();
-      }
-    );
-
-    lastInvite = new Shortcut(
-      '>',
-      'Go to the last invitation',
-      () => {
-        this.invites.last();
-      }
-    );
-
-    focusBrowser = new Shortcut(
-      'f',
-      'Change browser focus to current item',
-      () => {
-        const item = this.invites.item;
-        NH.web.focusOnElement(item);
-      }
-    );
-
-    seeMore = new Shortcut(
-      'm',
-      'Toggle seeing more of current invite',
-      () => {
-        NH.web.clickElement(
-          this.invites?.item,
-          ['a.lt-line-clamp__more, a.lt-line-clamp__less']
-        );
-      }
-    );
 
     viewTarget = new Shortcut(
       't',
@@ -3913,7 +3852,7 @@
       '[aria-selected="true"]';
 
     static #invitesHow = {
-      uidCallback: InvitationManagerSentInvites.uniqueIdentifier,
+      uidCallback: InvitationManagerBase.uniqueIdentifier,
       classes: ['tom'],
     };
 
