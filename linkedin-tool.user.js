@@ -1893,7 +1893,7 @@
       const shortName = 'The ServiceTestCase.testSimpleEvents';
       const longName = 'Test: The ServiceTestCase.testSimpleEvents';
 
-      // Act
+      // Act I - Basic captures
       s.on('activated', cb)
         .on('deactivate', cb);
       s.activate();
@@ -1914,7 +1914,7 @@
       );
 
       messages.length = 0;
-      // Act some more to make sure *off()* is wired in.
+      // Act II - Make sure *off()* is wired in.
       s.off('deactivate', cb);
 
       s.activate();
