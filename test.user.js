@@ -79,10 +79,11 @@
       `#${w.container.id} tr.adult {background-image: ` +
         'linear-gradient(to right, white, black, white);}',
     ]);
+    const typeColumn = {field: 'typ', title: 'Type', renderFunc: renderType};
     w.columns.push(
       new NH.widget.GridColumn({field: 'id', renderFunc: renderInt}),
       new NH.widget.GridColumn({field: 'name'}),
-      new NH.widget.GridColumn({title: 'Type', renderFunc: renderType})
+      new NH.widget.GridColumn(typeColumn),
     );
 
     // Act
