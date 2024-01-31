@@ -206,7 +206,8 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
 ```
   class WatchPage extends Page {  // eslint-disable-line require-jsdoc
 
-    constructor(spa) {  // eslint-disable-line require-jsdoc
+    /** @param {SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
       super({spa: spa});
 
       this.#MO = new MutationObserver(this.#mutationHandler);

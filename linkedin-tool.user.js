@@ -2643,10 +2643,7 @@
    */
   class Global extends Page {
 
-    /**
-     * Create a Global instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa});
 
@@ -2838,10 +2835,7 @@
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
-    /**
-     * Create a Feed instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
@@ -3319,10 +3313,7 @@
    */
   class MyNetwork extends Page {
 
-    /**
-     * Create a MyNetwork instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
@@ -3658,10 +3649,7 @@
   /** Class for handling the Invitation manager for received invites page. */
   class InvitationManagerReceivedInvites extends InvitationManagerBase {
 
-    /**
-     * Create a InvitationManagerReceivedInvites instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...InvitationManagerReceivedInvites.#details});
 
@@ -3780,10 +3768,7 @@
   /** Class for handling the Invitation manager for sent invites page. */
   class InvitationManagerSentInvites extends InvitationManagerBase {
 
-    /**
-     * Create a InvitationManagerSentInvites instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...InvitationManagerSentInvites.#details});
 
@@ -3882,10 +3867,7 @@
    */
   class Jobs extends Page {
 
-    /**
-     * Create a Jobs instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
 
@@ -4231,10 +4213,7 @@
   /** Class for handling Job collections. */
   class JobCollections extends Page {
 
-    /**
-     * Create a JobCollections instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...JobCollections.#details});
 
@@ -4707,10 +4686,7 @@
   /** Class for handling the direct Job view. */
   class JobView extends Page {
 
-    /**
-     * Create a JobView instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...JobView.#details});
 
@@ -4959,10 +4935,7 @@
   /** Class for handling the Messaging page. */
   class Messaging extends Page {
 
-    /**
-     * Create a Messaging instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Messaging.#details});
 
@@ -5487,10 +5460,7 @@
   /** Class for handling the Notifications page. */
   class Notifications extends Page {
 
-    /**
-     * Create a Notifications instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
@@ -5740,10 +5710,7 @@
   /** Class for handling the Profile page. */
   class Profile extends Page {
 
-    /**
-     * Create a Profile instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
 
@@ -6021,10 +5988,7 @@
   /** Class for handling the SearchResultsPeople page. */
   class SearchResultsPeople extends Page {
 
-    /**
-     * Create a SearchResultsPeople instance.
-     * @param {SPA} spa - SPA instance that manages this Page.
-     */
+    /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
 
