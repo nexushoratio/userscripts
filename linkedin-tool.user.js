@@ -3579,6 +3579,20 @@
   class InvitationManagerBase extends Page {
 
     /**
+     * @param {SPA} spa - SPA instance that manages this Page.
+     * @param {string|RegExp} pathname - Portion of the URL this page should
+     * handle.
+     */
+    constructor(spa, pathname) {
+      const pageDetails = {
+        spa: spa,
+        pathname: pathname,
+        pageReadySelector: InvitationManagerBase.#pageReadySelector,
+      };
+      super(pageDetails);
+    }
+
+    /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
@@ -3644,6 +3658,8 @@
       }
     );
 
+    static #pageReadySelector = '#compactfooter-about';
+
   }
 
   /** Class for handling the Invitation manager for received invites page. */
@@ -3651,7 +3667,7 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...InvitationManagerReceivedInvites.#details});
+      super(spa, InvitationManagerReceivedInvites.#pathname);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -3733,12 +3749,6 @@
       }
     );
 
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/mynetwork/invitation-manager/',
-      pageReadySelector: '#compactfooter-about',
-    };
-
     static #invitationTabSelector = 'main div.artdeco-tablist';
     static #invitationTabSelectorCurrent =
       `${InvitationManagerReceivedInvites.#invitationTabSelector} ` +
@@ -3760,6 +3770,8 @@
       ],
     };
 
+    static #pathname = '/mynetwork/invitation-manager/';
+
     #inviteScroller
     #keyboardService
 
@@ -3770,7 +3782,7 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...InvitationManagerSentInvites.#details});
+      super(spa, InvitationManagerSentInvites.#pathname);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -3825,12 +3837,6 @@
       }
     );
 
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/mynetwork/invitation-manager/sent/',
-      pageReadySelector: '#compactfooter-about',
-    };
-
     static #invitationTabSelector = 'main div.artdeco-tablist';
     static #invitationTabSelectorCurrent =
       `${InvitationManagerSentInvites.#invitationTabSelector} ` +
@@ -3851,6 +3857,8 @@
         },
       ],
     };
+
+    static #pathname = '/mynetwork/invitation-manager/sent/';
 
     #inviteScroller
     #keyboardService
