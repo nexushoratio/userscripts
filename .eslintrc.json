@@ -2,7 +2,7 @@
   "env": {
     "browser": true,
     "greasemonkey": true,
-    "es6": true
+    "es2020": true
   },
   "globals": {
     "WeakRef": "readonly"
