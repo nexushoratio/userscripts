@@ -2190,6 +2190,7 @@
     addInstance(instance) {
       const me = 'addInstance';
       this.logger.entered(me, instance);
+
       if (this.#keyboards.has(instance)) {
         this.logger.log('Already registered');
       } else {
@@ -2204,6 +2205,7 @@
         this.#keyboards.set(instance, keyboard);
         this.#rebuildShortcuts();
       }
+
       this.logger.leaving(me);
     }
 
@@ -2211,6 +2213,7 @@
     removeInstance(instance) {
       const me = 'removeInstance';
       this.logger.entered(me, instance);
+
       if (this.#keyboards.has(instance)) {
         const keyboard = this.#keyboards.get(instance);
         keyboard.disable();
@@ -2219,6 +2222,7 @@
       } else {
         this.logger.log('Was not registered');
       }
+
       this.logger.leaving(me);
     }
 
@@ -4164,11 +4168,13 @@
     #resetJobs = () => {
       const me = 'resetJobs';
       this.logger.entered(me, this.#jobScroller);
+
       if (this.#jobScroller) {
         this.#jobScroller.destroy();
         this.#jobScroller = null;
       }
       this.jobs;
+
       this.logger.leaving(me);
     }
 
