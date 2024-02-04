@@ -3466,12 +3466,10 @@
       }
     );
 
-    enagageCard = new Shortcut(
+    engageCard = new Shortcut(
       'E',
       'Engage the card (Connect, Follow, Join, etc)',
       () => {
-        const me = 'enagageCard';
-        this.logger.entered(me);
         const selector = [
           // Connect w/ Person, Join Group, View event
           'footer > button',
@@ -3480,9 +3478,8 @@
           // Subscribe to newsletter
           'div.p3 > button',
         ].join(',');
-        this.logger.log('button?', this.cards.item.querySelector(selector));
+
         NH.web.clickElement(this.cards?.item, [selector]);
-        this.logger.leaving(me);
       }
     );
 
