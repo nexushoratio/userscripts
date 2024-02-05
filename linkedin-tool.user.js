@@ -5996,6 +5996,26 @@
 
   }
 
+  /** Class for handling the Events page. */
+  class Events extends Page {
+
+    /** @param {SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      super({spa: spa, ...Events.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+    }
+
+    static #details = {
+      pathname: '/events/',
+      pageReadySelector: '#share-linkedin-small',
+    };
+
+    #keyboardService
+
+  }
+
   /** Class for handling the SearchResultsPeople page. */
   class SearchResultsPeople extends Page {
 
@@ -7567,6 +7587,7 @@
   spa.register(JobView);
   spa.register(Notifications);
   spa.register(Profile);
+  spa.register(Events);
   spa.register(SearchResultsPeople);
   spa.activate(window.location.pathname);
 
