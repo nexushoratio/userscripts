@@ -309,3 +309,26 @@ $('[data-counter="NUM"]')
 ```
 
 Without true details passed to *super()*, this will watch any page being loaded, so careful.
+
+Skeleton for a new `Page` class:
+```
+  /** Class for handling the Foo page. */
+  class Foo extends Page {
+
+    /** @param {SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      super({spa: spa, ...Foo.#details});
+
+      this.#keyboardService = this.addService(VMKeyboardService);
+      this.#keyboardService.addInstance(this);
+    }
+
+    static #details = {
+      pathname: '/foo/',
+      pageReadySelector: '#last-element-loaded',
+    };
+
+    #keyboardService
+
+  }
+```
