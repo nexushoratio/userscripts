@@ -34,7 +34,7 @@ Should go into the `NexusHoratio` namespace object with an object the same name 
 Each library should have a `version` number that is strictly increasing.  **NOT** SemVer!
 
 Skeleton for *lib/foo.js*:
-```
+```javascript
 // ==UserScript==
 // ==UserLibrary==
 // @name        NH_foo
@@ -75,12 +75,12 @@ window.NexusHoratio.foo = (function foo() {
 Some of the above is simply to keep eslint happy.
 
 Libraries and apps should use *base.ensure()* to restrict the namespace and verify minimal versions are present.
-```
+```javascript
 const NH = window.NexusHoratio.base.ensure([{name: 'xunit'}, {name: 'base'}]);
 ```
 
 Libraries and apps should use *base.issues* to post bugs.  Apps should set a listener on *base.issues* to process those bugs (e.g., put them somewhere a user can easily get to them that is not just the console logs).
-```
+```javascript
 NH.base.issues.post('Something bad', 'detail 1', 'detail 2');
 ```
 
@@ -91,7 +91,7 @@ Use the `https://github.com/nexushoratio/userscripts` userscript namespace.
 Use libraries as hosted on [Greasy Fork](https://greasyfork.org/en/users/1139937-mike-castle-nexus).  As of 2023-10-16, we now use the new format that embeds the Greasy Fork version (different from the library version), inside the URL.  See the strings `ABC` and `XYZ` in the skeleton.
 
 Skeleton for *bar.user.js*:
-```
+```javascript
 // ==UserScript==
 // @name        Bar
 // @namespace   https://github.com/nexushoratio/userscripts
@@ -130,7 +130,7 @@ Skeleton for *bar.user.js*:
 ## Developer environment
 
 In a POSIX environment, set up the hooks after cloning:
-```
+```shell
 git config core.hooksPath hooks
 ```
 
@@ -145,22 +145,22 @@ All tests should subclass `TestCase` and register itself with *testing.testCases
 Assertions are being added to `TestCase` as needed.  Use https://docs.python.org/3/library/unittest.html for naming guidance.
 
 All tests are ran in the browser, and applications should include the following line, which will run all tests registered in *testing.testCases*.
-```
-NH.xunit.testing.run();
+```javascript
+  NH.xunit.testing.run();
 ```
 
 Typically, a library or app will do something like the following to register tests:
-```
-/* eslint-disable no-empty-function */
-/* eslint-disable no-magic-numbers */
-/* eslint-disable no-new */
-/* eslint-disable require-jsdoc */
-class FooTestCase extends NH.xunit.TestCase {
-  ... do test stuff ...
-}
-/* eslint-enable */
+```javascript
+  /* eslint-disable no-empty-function */
+  /* eslint-disable no-magic-numbers */
+  /* eslint-disable no-new */
+  /* eslint-disable require-jsdoc */
+  class FooTestCase extends NH.xunit.TestCase {
+    ... do test stuff ...
+  }
+  /* eslint-enable */
 
-NH.xunit.testing.testCases.push(FooTestCase);
+  NH.xunit.testing.testCases.push(FooTestCase);
 ```
 
 > [!NOTE]
@@ -175,19 +175,19 @@ Experience has shown that test logs can become interleaved with other messages, 
 If using [Violentmonkey](https://violentmonkey.github.io/) to develop:
 
 Add the following the the userscript at the *end* of the UserScript directive:
-```
+```javascript
 // DO NOT SUBMIT
 // @require http://localhost:8000/lib/base.js?0
 // @require http://localhost:8000/lib/foo.js?0
 ```
 
 In one window:
-```
+```shell
 python -m http.server -d src/userscripts/
 ```
 
 In another:
-```
+```shell
 inotifywait --quiet --monitor --event CLOSE_WRITE --format '%w%f' lib | while read filename; do sum=$(cksum $filename | awk '{print $1}'); sed -i "s+\(${filename}\)?.*+\1?${sum}+" linkedin-tool.user.js; done
 ```
 
@@ -203,7 +203,7 @@ One technique is to create *MutationObserver* that simply adds a counter to each
 
 The is an example of a new `Page` that does this.  Note that sometimes, nodes get removed from a page moments after they get added.  Shipping your org chart FTW!
 
-```
+```javascript
   class WatchPage extends Page {  // eslint-disable-line require-jsdoc
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -304,14 +304,14 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
   }
 ```
 Then in the console, do a query for the largest *data-counter* to see what the last thing loaded was.  Having timestamps turned on in the console helps.
-```
+```javascript
 $('[data-counter="NUM"]')
 ```
 
 Without true details passed to *super()*, this will watch any page being loaded, so careful.
 
 Skeleton for a new `Page` class:
-```
+```javascript
   /** Class for handling the Foo page. */
   class Foo extends Page {
 
