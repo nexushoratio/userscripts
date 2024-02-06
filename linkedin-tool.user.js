@@ -974,13 +974,6 @@
       );
 
       this.#mutationDispatcher.fire('records', null);
-      for (const record of records) {
-        if (record.type === 'childList') {
-          this.logger.log('childList record');
-        } else if (record.type === 'attributes') {
-          this.logger.log('attribute records');
-        }
-      }
 
       this.logger.leaving(me);
     }
