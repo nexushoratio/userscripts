@@ -2195,7 +2195,7 @@
         this.logger.log('Already registered');
       } else {
         const keyboard = new VM.shortcut.KeyboardService();
-        for (const prop of Object.values(instance)) {
+        for (const [name, prop] of Object.entries(instance)) {
           if (prop instanceof Shortcut) {
             // While we are here, give the function a name.
             Object.defineProperty(prop, 'name', {value: name});
@@ -2461,7 +2461,7 @@
     /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
     get allShortcuts() {
       const shortcuts = [];
-      for (const prop of Object.values(this)) {
+      for (const [name, prop] of Object.entries(this)) {
         if (prop instanceof Shortcut) {
           shortcuts.push(prop);
           // While we are here, give the function a name.
