@@ -924,6 +924,7 @@
     #clickOptions = {capture: true};
     #containerItems
     #containerTimeout
+    #currentItem = null;
     #currentItemId = null;
     #destroyed = false;
 
@@ -987,6 +988,7 @@
       const me = 'bottomHalf';
       this.logger.entered(me, val);
 
+      this.#currentItem = val;
       this.#currentItemId = this.#uid(val);
       const idx = this.#getItems()
         .indexOf(val);
