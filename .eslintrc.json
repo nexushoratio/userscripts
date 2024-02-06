@@ -5,7 +5,12 @@
     "es2020": true
   },
   "globals": {
-    "WeakRef": "readonly"
+    "WeakRef": "readonly",
+    // TODO(#238): Prune this list
+    "name": "off",
+    "self": "off",
+    "event": "off",
+    "toolbar": "off"
   },
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -74,6 +79,12 @@
         "detectObjects": false,
         "enforceConst": false,
         "ignoreArrayIndexes": false
+      }
+    ],
+    "no-shadow": [
+      "error",
+      {
+        "builtinGlobals": true
       }
     ],
     "no-ternary": "off",
