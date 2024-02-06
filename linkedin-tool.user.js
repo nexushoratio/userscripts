@@ -873,6 +873,7 @@
       }
 
       this.logger.log('watcher:', await watcher);
+      this.#mutationDispatcher.on('records', this.#monitorConnectedness);
 
       this.dispatcher.fire('activate', null);
 
@@ -884,6 +885,7 @@
      * @fires 'out-of-range'
      */
     deactivate() {
+      this.#mutationDispatcher.off('records', this.#monitorConnectedness);
       this.#mutationObserver.disconnect();
       for (const container of this.#onClickElements) {
         container.removeEventListener('click',
@@ -1379,6 +1381,19 @@
 
       this.logger.leaving(me, prom);
       return prom;
+    }
+
+    #monitorConnectedness = () => {
+      if (this.#currentItem && !this.#currentItem.isConnected) {
+        this.logger.log('current item disconnected');
+        this.#currentItem = null;
+        if (litOptions.enableDevMode) {
+          NH.base.issues.post(
+            `Current Scroller, ${this.name}, item disconnected.`,
+            'Did an item lose shine?'
+          );
+        }
+      }
     }
 
   }
