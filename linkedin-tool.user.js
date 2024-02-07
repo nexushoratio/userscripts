@@ -352,6 +352,7 @@
     addTab(tab) {
       const me = 'addTab';
       this.#log.entered(me, tab);
+
       const {
         name,
         content,
@@ -384,7 +385,9 @@
     next() {
       const me = 'next';
       this.#log.entered(me);
+
       this.#switchTab(1);
+
       this.#log.leaving(me);
     }
 
@@ -392,7 +395,9 @@
     prev() {
       const me = 'prev';
       this.#log.entered(me);
+
       this.#switchTab(-1);
+
       this.#log.leaving(me);
     }
 
@@ -400,9 +405,11 @@
     goto(name) {
       const me = 'goto';
       this.#log.entered(me, name);
+
       const controls = this.#getTabControls();
       const control = controls.find(item => item.dataset.tabbedName === name);
       control.click();
+
       this.#log.leaving(me);
     }
 
@@ -470,6 +477,7 @@
     #switchTab = (direction) => {
       const me = 'switchTab';
       this.#log.entered(me, direction);
+
       const controls = this.#getTabControls();
       this.#log.log('controls:', controls);
       let idx = controls.findIndex(item => item.checked);
@@ -479,6 +487,7 @@
         idx = (idx + direction + controls.length) % controls.length;
       }
       controls[idx].click();
+
       this.#log.leaving(me);
     }
 
@@ -490,12 +499,14 @@
     #createInput = (name, idName) => {
       const me = 'createInput';
       this.#log.entered(me);
+
       const input = document.createElement('input');
       input.id = `${this.#idName}-input-${idName}`;
       input.name = `${this.#idName}`;
       input.dataset.tabbedId = `${this.#idName}-input-${idName}`;
       input.dataset.tabbedName = name;
       input.type = 'radio';
+
       this.#log.leaving(me, input);
       return input;
     }
@@ -509,11 +520,13 @@
     #createLabel = (name, input, idName) => {
       const me = 'createLabel';
       this.#log.entered(me);
+
       const label = document.createElement('label');
       label.dataset.tabbedId = `${this.#idName}-label-${idName}`;
       label.dataset.tabbedName = name;
       label.htmlFor = input.id;
       label.innerText = `[${name}]`;
+
       this.#log.leaving(me, label);
       return label;
     }
@@ -527,6 +540,7 @@
     #createPanel = (name, idName, content) => {
       const me = 'createPanel';
       this.#log.entered(me);
+
       const panel = document.createElement('div');
       panel.dataset.tabbedId = `${this.#idName}-panel-${idName}`;
       panel.dataset.tabbedName = name;
@@ -536,6 +550,7 @@
       } else {
         panel.innerHTML = content;
       }
+
       this.#log.leaving(me, panel);
       return panel;
     }
@@ -550,7 +565,9 @@
     #onChange = (panel, evt) => {
       const me = 'onChange';
       this.#log.entered(me, evt, panel);
+
       panel.dispatchEvent(new Event('expose'));
+
       this.#log.leaving(me);
     }
 
@@ -2520,8 +2537,9 @@
      */
     addService(Klass, ...rest) {
       const me = 'addService';
-      let instance = null;
       this.logger.entered(me, Klass, ...rest);
+
+      let instance = null;
       if (Klass.prototype instanceof Service) {
         instance = new Klass(this.constructor.name, ...rest);
         this.#services.add(instance);
@@ -2529,6 +2547,7 @@
         this.logger.log('Bad class was passed.');
         throw new Error(`${Klass.name} is not a Service`);
       }
+
       this.logger.leaving(me, instance);
       return instance;
     }
@@ -2604,12 +2623,14 @@
     #computePathname = (pathname) => {
       const me = 'computePath';
       this.logger.entered(me, pathname);
+
       let pathnameRE = /.*/u;
       if (pathname instanceof RegExp) {
         pathnameRE = pathname;
       } else if (pathname) {
         pathnameRE = RegExp(`^${pathname}$`, 'u');
       }
+
       this.logger.leaving(me, pathnameRE);
       return pathnameRE;
     }
@@ -2626,8 +2647,8 @@
       const element = await NH.web.waitForSelector(
         this.#pageReadySelector, 0
       );
-      this.logger.leaving(me, element);
 
+      this.logger.leaving(me, element);
       return element;
     }
 
@@ -3318,8 +3339,10 @@
     #onPostChange = () => {
       const me = 'onPostChange';
       this.logger.entered(me, this.posts.item);
+
       this.#resetComments();
       this.#lastScroller = this.posts;
+
       this.logger.leaving(me);
     }
 
@@ -4210,8 +4233,10 @@
     #onSectionChange = () => {
       const me = 'onSectionChange';
       this.logger.entered(me);
+
       this.#resetJobs();
       this.#lastScroller = this.sections;
+
       this.logger.leaving(me);
     }
 
@@ -4222,6 +4247,7 @@
     #resetScroll = (topScroll) => {
       const me = 'resetScroll';
       this.logger.entered(me, topScroll);
+
       // Explicitly setting jobs.item below will cause it to scroll to that
       // item.  We do not want to do that if the user is manually scrolling.
       const savedJob = this.jobs?.item;
@@ -4232,6 +4258,7 @@
         this.jobs.item = savedJob;
       }
       document.documentElement.scrollTop = topScroll;
+
       this.logger.leaving(me);
     }
 
@@ -5442,6 +5469,7 @@
 
       this.#resetMessages();
       this.#lastScroller = this.convoCards;
+
       this.logger.leaving(me);
     }
 
@@ -6332,6 +6360,7 @@
     done() {
       const me = 'done (SPADetails)';
       this.logger.entered(me);
+
       this.logger.leaving(me);
     }
 
@@ -6454,10 +6483,12 @@
       super.done();
       const me = 'done';
       this.logger.entered(me);
+
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
       VMKeyboardService.condition = '!inputFocus && !inDialog';
       VMKeyboardService.start();
+
       this.logger.leaving(me);
     }
 
@@ -6482,6 +6513,7 @@
     _errors = (eventType, count) => {
       const me = 'errors';
       this.logger.entered(me, eventType, count);
+
       const button = document.querySelector('#lit-nav-button');
       const toggle = button.querySelector('.notification-badge');
       const badge = button.querySelector('.notification-badge__count');
@@ -6491,6 +6523,7 @@
       } else {
         toggle.classList.remove('notification-badge--show');
       }
+
       this.logger.leaving(me);
     }
 
@@ -7385,6 +7418,7 @@
     _updateInfoErrorsLabel(count) {
       const me = 'updateInfoErrorsLabel';
       this.logger.entered(me, count);
+
       const label = this._info.tabs.get('Errors').label;
       if (count) {
         this._info.goto('Errors');
@@ -7392,6 +7426,7 @@
       } else {
         label.classList.remove('spa-danger');
       }
+
       this.logger.leaving(me);
     }
 
@@ -7403,12 +7438,14 @@
     _pageHeader(page) {
       const me = 'pageHeader';
       this.logger.entered(me, page);
+
       let element = null;
       if (page) {
         const pageId = this._pageInfoId(page);
         this.logger.log('pageId:', pageId);
         element = document.querySelector(`#${pageId}`);
       }
+
       this.logger.leaving(me, element);
       return element;
     }
@@ -7420,8 +7457,10 @@
     _shine(page) {
       const me = 'shine';
       this.logger.entered(me, page);
+
       const element = this._pageHeader(page);
       element?.classList.add('spa-current-page');
+
       this.logger.leaving(me);
     }
 
@@ -7432,8 +7471,10 @@
     _dull(page) {
       const me = 'dull';
       this.logger.entered(me, page);
+
       const element = this._pageHeader(page);
       element?.classList.remove('spa-current-page');
+
       this.logger.leaving(me);
     }
 
