@@ -6639,7 +6639,7 @@
       this.#addInfoTabs();
       this.#addLitStyle();
       this.#addToolMenuItem();
-      this.#setNavBarInfo();
+      this.#observeNavBar();
 
       this.logger.leaving(me);
     }
@@ -6906,9 +6906,19 @@
       this.logger.leaving(me);
     }
 
+    #observeNavBar = () => {
+      new ResizeObserver(this.#setNavBarInfo)
+        .observe(this.#navbar);
+
+      // An initial run.
+      this.#setNavBarInfo();
+    }
+
     /** Set some useful global variables. */
     #setNavBarInfo = () => {
       const margin = 4;
+
+      this.logger.log('Setting navbar height to', this.#navbar.clientHeight);
 
       this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
         margin;
