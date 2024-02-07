@@ -6908,10 +6908,10 @@
 
     /** Set some useful global variables. */
     #setNavBarInfo = () => {
-      const fudgeFactor = 4;
+      const margin = 4;
 
       this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
-        fudgeFactor;
+        margin;
     }
 
     /**
