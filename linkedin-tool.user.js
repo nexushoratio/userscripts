@@ -763,6 +763,12 @@
       return this.#name;
     }
 
+    /** Click either the current item OR document.activeElement. */
+    click() {
+      const item = this.item;
+      this.logger.log('Will try to click', item);
+    }
+
     /** Move to the next item in the collection. */
     next() {
       this.#scrollBy(1);
