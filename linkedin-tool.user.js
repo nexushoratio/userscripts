@@ -6630,7 +6630,26 @@
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
+      // TODO(#242): If the choice of the divider class does not cause any
+      // problems, we should make that the official item to wait for, and then
+      // populate this.#navbar with a simple call to document.querySelector().
       this.#navbar = await NH.web.waitForSelector('#global-nav', 0);
+      try {
+        const waitTime = 1000;
+        await NH.web.waitForSelector(
+          '.global-nav__primary-item--divider', waitTime
+        );
+        this.logger.log('Divider showed up');
+      } catch (e) {
+        this.logger.log(
+          'Divider did not show up, but that is all right...',
+          'just a way of wasting time',
+          e
+        );
+        if (litOptions.enableDevMode) {
+          NH.base.issues.post('TODO(#242): Wait for divider timed out');
+        }
+      }
       this.#finishConstruction();
 
       this.logger.leaving(me);
