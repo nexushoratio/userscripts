@@ -106,10 +106,6 @@
         'revisit anyway?',
     ],
     [
-      '#225', '<code>Scroller</code>: Tall items not going to top when ' +
-        '<code>snapToTop=false</code>',
-    ],
-    [
       '#229', '<b>Jobs<b>: <em>Recent job searches</em> is ' +
         'not scrolling properly',
     ],
@@ -120,9 +116,27 @@
     ['#231', '<b>JobCollections</b>: Support delete/next type navigation'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
     ['#233', 'Support <b>Invitation Manager Sent Invites</b>'],
+    ['#236', 'Support <b>Events</b> page'],
+    ['#240', '<code>Scroller</code>: navbar height can change'],
+    ['#242', 'Need to reconnect the LIT menu on certain pages'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-02-07',
+      issues: ['#242'],
+      subject: 'Wait for the <em>For Business</em> menu item to show up',
+    },
+    {
+      date: '2024-02-07',
+      issues: ['#240'],
+      subject: 'Attach a <code>ResizeObserver</code> to the global nav bar',
+    },
+    {
+      date: '2024-02-05',
+      issues: ['#236'],
+      subject: 'Initial <code>Events</code> support',
+    },
     {
       date: '2024-01-29',
       issues: ['#233'],
@@ -203,73 +217,6 @@
       date: '2024-01-08',
       issues: ['#218'],
       subject: 'Add temp option to control reactiving currently active pages',
-    },
-    {
-      date: '2024-01-06',
-      issues: ['#209'],
-      subject: 'Basic navigation',
-    },
-    {
-      date: '2024-01-06',
-      issues: ['#218'],
-      subject: 'Tune some <code>ScrollerService</code>s to disable ' +
-        'reactivation (if active)',
-    },
-    {
-      date: '2024-01-06',
-      issues: ['#218'],
-      subject: 'Modify <code>ScrollerService</code> to make reactivation ' +
-        'optional',
-    },
-    {
-      date: '2024-01-05',
-      issues: ['#209'],
-      subject: 'Initial <code>SearchResultsPeople</code> support',
-    },
-    {
-      date: '2024-01-03',
-      issues: ['#160'],
-      subject: 'Implement <kbd><kbd>A</kbd></kbd>pply, ' +
-        '<kbd><kbd>F</kbd></kbd>ollow, and <kbd><kbd>S</kbd></kbd>ave ' +
-        'features',
-    },
-    {
-      date: '2024-01-02',
-      issues: ['#160'],
-      subject: 'Implement <kbd><kbd>m</kbd></kbd> to show more/less details',
-    },
-    {
-      date: '2024-01-02',
-      issues: ['#160'],
-      subject: 'Tune the <em>pageReadySelector</em>',
-    },
-    {
-      date: '2024-01-02',
-      issues: ['#218'],
-      subject: 'Call <code>SPA.activate()</code> when the URL does not ' +
-        'change',
-    },
-    {
-      date: '2024-01-01',
-      issues: ['#160'],
-      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
-        'for navigating inside some cards',
-    },
-    {
-      date: '2023-12-31',
-      issues: ['#225'],
-      subject: 'Call <em>getBoundingClientRect()</em> again after (maybe) ' +
-        'scrolling',
-    },
-    {
-      date: '2023-12-30',
-      issues: ['#160'],
-      subject: 'Implement basic navigation',
-    },
-    {
-      date: '2023-12-29',
-      issues: ['#160'],
-      subject: 'Initial <code>JobView</code> support',
     },
   ];
 
