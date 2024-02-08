@@ -41,6 +41,7 @@
 
   logger.log('finished');
 
+  /* eslint-disable max-lines-per-function */
   /* eslint-disable require-jsdoc */
   function demoGrid() {
     function renderInt(record, field) {
@@ -80,10 +81,11 @@
         'linear-gradient(to right, white, black, white);}',
     ]);
     w.columns.push(
-      new NH.widget.GridColumn({field: 'id'})
+      new NH.widget.GridColumn('id')
         .renderFunc(renderInt),
-      new NH.widget.GridColumn({field: 'name'}),
-      new NH.widget.GridColumn({field: 'typ', title: 'Type'})
+      new NH.widget.GridColumn('name'),
+      new NH.widget.GridColumn('typ')
+        .setTitle('Type')
         .renderFunc(renderType),
     );
 
