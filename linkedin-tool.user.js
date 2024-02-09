@@ -3577,6 +3577,16 @@
         pageReadySelector: InvitationManagerBase.#pageReadySelector,
       };
       super(pageDetails);
+
+      spa.details.navBarScrollerFixup(
+        InvitationManagerBase.#invitesHow
+      );
+
+      this.#inviteScroller = new Scroller(
+        InvitationManagerBase.#invitesWhat,
+        InvitationManagerBase.#invitesHow
+      );
+      this.addService(ScrollerService, this.#inviteScroller);
     }
 
     /**
@@ -3591,6 +3601,11 @@
         content = anchor.href;
       }
       return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get invites() {
+      return this.#inviteScroller;
     }
 
     nextInvite = new Shortcut(
@@ -3645,7 +3660,25 @@
       }
     );
 
+    static #invitesHow = {
+      uidCallback: InvitationManagerBase.uniqueIdentifier,
+      classes: ['tom'],
+    };
+
+    /** @type {Scroller~What} */
+    static #invitesWhat = {
+      name: 'Invitation cards',
+      containerItems: [
+        {
+          container: 'main > section ul.mn-invitation-list',
+          items: ':scope > li',
+        },
+      ],
+    };
+
     static #pageReadySelector = '#compactfooter-about';
+
+    #inviteScroller
 
   }
 
@@ -3658,21 +3691,6 @@
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(
-        InvitationManagerReceivedInvites.#invitesHow
-      );
-
-      this.#inviteScroller = new Scroller(
-        InvitationManagerReceivedInvites.#invitesWhat,
-        InvitationManagerReceivedInvites.#invitesHow
-      );
-      this.addService(ScrollerService, this.#inviteScroller);
-    }
-
-    /** @type {Scroller} */
-    get invites() {
-      return this.#inviteScroller;
     }
 
     viewInviter = new Shortcut(
@@ -3741,25 +3759,8 @@
       `${InvitationManagerReceivedInvites.#invitationTabSelector} ` +
       '[aria-selected="true"]';
 
-    static #invitesHow = {
-      uidCallback: InvitationManagerBase.uniqueIdentifier,
-      classes: ['tom'],
-    };
-
-    /** @type {Scroller~What} */
-    static #invitesWhat = {
-      name: 'Invitation cards',
-      containerItems: [
-        {
-          container: 'main > section ul.mn-invitation-list',
-          items: ':scope > li',
-        },
-      ],
-    };
-
     static #pathname = '/mynetwork/invitation-manager/';
 
-    #inviteScroller
     #keyboardService
 
   }
@@ -3773,21 +3774,6 @@
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
-
-      spa.details.navBarScrollerFixup(
-        InvitationManagerSentInvites.#invitesHow
-      );
-
-      this.#inviteScroller = new Scroller(
-        InvitationManagerSentInvites.#invitesWhat,
-        InvitationManagerSentInvites.#invitesHow
-      );
-      this.addService(ScrollerService, this.#inviteScroller);
-    }
-
-    /** @type {Scroller} */
-    get invites() {
-      return this.#inviteScroller;
     }
 
     viewTarget = new Shortcut(
@@ -3829,25 +3815,8 @@
       `${InvitationManagerSentInvites.#invitationTabSelector} ` +
       '[aria-selected="true"]';
 
-    static #invitesHow = {
-      uidCallback: InvitationManagerBase.uniqueIdentifier,
-      classes: ['tom'],
-    };
-
-    /** @type {Scroller~What} */
-    static #invitesWhat = {
-      name: 'Invitation cards',
-      containerItems: [
-        {
-          container: 'main > section ul.mn-invitation-list',
-          items: ':scope > li',
-        },
-      ],
-    };
-
     static #pathname = '/mynetwork/invitation-manager/sent/';
 
-    #inviteScroller
     #keyboardService
 
   }
