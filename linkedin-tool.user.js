@@ -5965,14 +5965,116 @@
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
+
+      spa.details.navBarScrollerFixup(Events.#collectionsHow);
+
+      this.#collectionScroller = new Scroller(
+        Events.#collectionsWhat, Events.#collectionsHow
+      );
+      this.addService(ScrollerService, this.#collectionScroller);
+
+      this.#collectionScroller.dispatcher.on(
+        'change', this.#onCollectionChange
+      );
     }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueCollectionIdentifier(element) {
+      const h1 = element.querySelector('h1');
+      const h2 = element.querySelector('h2');
+      let content = element.innerText;
+      if (h2?.innerText) {
+        content = h2.innerText;
+      }
+      if (h1?.innerText) {
+        content = h1.innerText;
+      }
+      return NH.base.strHash(content);
+    }
+
+    /** @type {Scroller} */
+    get collections() {
+      return this.#collectionScroller;
+    }
+
+    nextEventsCollection = new Shortcut(
+      'j',
+      'Next event collection',
+      () => {
+        this.collections.next();
+      }
+    );
+
+    prevEventsCollection = new Shortcut(
+      'k',
+      'Previous event collection',
+      () => {
+        this.collections.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to first item',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to last item',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        const el = this.#lastScroller.item;
+        NH.web.focusOnElement(el);
+      }
+    );
+
+    /** @type {Scroller~How} */
+    static #collectionsHow = {
+      uidCallback: Events.uniqueCollectionIdentifier,
+      classes: ['tom'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #collectionsWhat = {
+      name: `${this.name} collections`,
+      containerItems: [
+        {
+          container: 'main',
+          items: [
+            // Major collections
+            ':scope > section',
+          ].join(','),
+        },
+      ],
+    };
 
     static #details = {
       pathname: '/events/',
       pageReadySelector: '#share-linkedin-small',
     };
 
+    #collectionScroller
     #keyboardService
+    #lastScroller
+
+    #onCollectionChange = () => {
+      this.#lastScroller = this.collections;
+    }
 
   }
 
