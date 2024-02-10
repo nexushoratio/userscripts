@@ -575,6 +575,26 @@
      */
 
     /**
+     * Function that finds an DOM element based upon another one.
+     *
+     * Useful for cases where CSS selectors are not sufficient.
+     * @callback ElementFinder
+     * @param {HTMLElement} element - Starting point.
+     * @returns {HTMLElement} - Found element.
+     */
+
+    /**
+     * Common config for finding a clickable element inside the current item.
+     *
+     * This essentially configures a call to {@link NH.web.clickElement}.
+     * @typedef {object} ClickConfig
+     * @property {string[]} selectorArray - CSS selectors to use to find an
+     * element.
+     * @property {boolean} [matchSelf=false] - If a CSS selector would match
+     * base, then use it.
+     */
+
+    /**
      * There are two ways to describe what elements go into a Scroller:
      * 1. An explicit container (base) element and selectors stemming from it.
      * 2. An array of ContainerItemsSelector that can allow for multiple
@@ -617,6 +637,8 @@
      * Some pages may not always provide all identified containers.  The
      * default of 0 disables timing out.  NB: Any containers that timeout will
      * not handle further activate() processing, such as handleClicks.
+     * @property {ElementFinder|ClickConfig} [clickConfig=null] - Configures
+     * how the click() method operates.
      */
 
     /**
@@ -645,6 +667,7 @@
         bottomMarginCSS: this.#bottomMarginCSS = '0',
         waitForItemTimeout: this.#waitForItemTimeout = WAIT_FOR_ITEM,
         containerTimeout: this.#containerTimeout = 0,
+        clickConfig: this.#clickConfig = null,
       } = how);
 
       this.#validateInstance();
@@ -729,8 +752,14 @@
 
     /** Click either the current item OR document.activeElement. */
     click() {
+      const me = 'click';
       const item = this.item;
+      this.logger.entered(me, item);
+
       this.logger.log('Will try to click', item);
+      this.logger.log('with config', this.#clickConfig);
+
+      this.logger.leaving(me);
     }
 
     /** Move to the next item in the collection. */
@@ -893,6 +922,7 @@
     #bottomMarginCSS
     #bottomMarginPixels
     #classes
+    #clickConfig
     #clickOptions = {capture: true};
     #containerItems
     #containerTimeout
