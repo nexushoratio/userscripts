@@ -9,8 +9,7 @@
     // TODO(#238): Prune this list
     "name": "off",
     "self": "off",
-    "event": "off",
-    "toolbar": "off"
+    "event": "off"
   },
   "parserOptions": {
     "ecmaVersion": "latest",

@@ -2382,14 +2382,16 @@
       this.logger.entered(me, this.#page);
 
       if (!this.#activatedOnce) {
-        const toolbar = document.querySelector('.scaffold-layout-toolbar');
-        this.logger.log('toolbar:', toolbar);
+        const toolbarElement = document.querySelector(
+          '.scaffold-layout-toolbar'
+        );
+        this.logger.log('toolbar:', toolbarElement);
 
         for (const how of this.#scrollerHows) {
           this.logger.log('how:', how);
           this.#page.spa.details.navBarScrollerFixup(how);
 
-          const newHeight = how.topMarginPixels + toolbar.clientHeight;
+          const newHeight = how.topMarginPixels + toolbarElement.clientHeight;
           const newCSS = `${newHeight}px`;
 
           how.topMarginPixels = newHeight;
