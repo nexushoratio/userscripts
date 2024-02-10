@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 
-## Exported properties (as of version 42)
+## Exported properties (as of version 50)
 * version - Bumped per release.
 * NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
 * ONE_ITEM - Constant useful for testing length of an array.
@@ -16,5 +16,6 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * safeId - Normalizes a string to be safe to use as an HTML element id.
 * strHash - Equivalent (for now) of Java's hashCode (do not store externally).
 * simpleParseWords - Separate a string of concatenated words along transitions.
+* Service - Base class for building services that can be turned on and off.
 
 More details are in [base.js](base.js) as JSDoc.

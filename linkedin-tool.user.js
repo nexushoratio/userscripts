@@ -1697,6 +1697,7 @@
 
   }
 
+  // TODO(#167): Migrating to lib/base.
   /**
    * Base class for building services to go with {@link SPA}.
    *
