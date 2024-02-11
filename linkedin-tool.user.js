@@ -47,6 +47,7 @@
     const defaultOptions = {
       enableDevMode: false,
       enableScrollerChangesFocus: false,
+      enableIssue244Changes: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue('Options', {});
@@ -2674,6 +2675,10 @@
         this.#keyboardService.addInstance(new DebugKeys());
       }
 
+      if (litOptions.enableIssue244Changes) {
+        this.addService(Global.#Activator, this);
+      }
+
       // Only care about the links that update the current page.
       const anchors = Array.prototype.filter.call(
         document.querySelectorAll('#global-nav a'),
@@ -2779,6 +2784,34 @@
         linkedInGlobals.focusOnAside();
       }
     );
+
+    static #Activator = class extends Service {
+
+      /**
+       * @param {string} name - Custom portion of this instance.
+       * @param {Page} page - Page this service is tied to.
+       */
+      constructor(name, page) {
+        super(name);
+        this.#page = page;
+        this.on('activate', this.#onActivate);
+      }
+
+      #page
+
+      /** Called each time service is activated. */
+      #onActivate = () => {
+        const me = 'onActivate';
+        this.logger.entered(me);
+
+        if (this.#page.spa.activePages.size === 1) {
+          NH.base.issues.post('Unsupported page:', window.location);
+        }
+
+        this.logger.leaving(me);
+      }
+
+    }
 
     #keyboardService
 
