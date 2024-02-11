@@ -7194,6 +7194,11 @@
     /** @type {KeyboardService} */
     _tabUiKeyboard = null;
 
+    /** @type {Set<Page>} - A copy of the current active pages. */
+    get activePages() {
+      return new Set(this.#activePages);
+    }
+
     /** @type {SPADetails} */
     get details() {
       return this.#details;
