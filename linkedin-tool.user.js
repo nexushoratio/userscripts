@@ -7619,8 +7619,7 @@
 
     /** @returns {string[]} - Names of active pages. */
     #activePageNames = () => {
-      const names = Array.from(this.#activePages)
-        .map(x => x.constructor.name);
+      const names = Array.from(this.#activePages, x => x.constructor.name);
       return names;
     }
 
