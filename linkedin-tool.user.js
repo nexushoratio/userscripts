@@ -3376,17 +3376,19 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(MyNetwork.#sectionsHow);
-      spa.details.navBarScrollerFixup(MyNetwork.#cardsHow);
+      spa.details.navBarScrollerFixup(MyNetwork.#collectionsHow);
+      spa.details.navBarScrollerFixup(MyNetwork.#individualsHow);
 
-      this.#sectionScroller = new Scroller(MyNetwork.#sectionsWhat,
-        MyNetwork.#sectionsHow);
-      this.addService(ScrollerService, this.#sectionScroller);
-      this.#sectionScroller.dispatcher.on('out-of-range',
+      this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
+        MyNetwork.#collectionsHow);
+      this.addService(ScrollerService, this.#collectionScroller);
+      this.#collectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+      this.#collectionScroller.dispatcher.on(
+        'change', this.#onCollectionChange
+      );
 
-      this.#lastScroller = this.#sectionScroller;
+      this.#lastScroller = this.#collectionScroller;
     }
 
     /**
@@ -3394,7 +3396,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueSectionIdentifier(element) {
+    static uniqueCollectionIdentifier(element) {
       const h2 = element.querySelector('h2');
       const h3 = element.querySelector('h3');
       let content = element.innerText;
@@ -3412,7 +3414,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueCardsIdentifier(element) {
+    static uniqueIndividualsIdentifier(element) {
       let content = element.innerText;
 
       const hrefs = Array.from(element.querySelectorAll('a'))
@@ -3428,60 +3430,62 @@
     }
 
     /** @type {Scroller} */
-    get cards() {
-      if (!this.#cardScroller && this.sections.item) {
-        this.#cardScroller = new Scroller(
-          {base: this.sections.item, ...MyNetwork.#cardsWhat},
-          MyNetwork.#cardsHow
-        );
-        this.#cardScroller.dispatcher.on('change', this.#onCardChange);
-        this.#cardScroller.dispatcher.on(
-          'out-of-range', this.#returnToSection
-        );
-      }
-      return this.#cardScroller;
+    get collections() {
+      return this.#collectionScroller;
     }
 
     /** @type {Scroller} */
-    get sections() {
-      return this.#sectionScroller;
+    get individuals() {
+      if (!this.#individualScroller && this.collections.item) {
+        this.#individualScroller = new Scroller(
+          {base: this.collections.item, ...MyNetwork.#individualsWhat},
+          MyNetwork.#individualsHow
+        );
+        this.#individualScroller.dispatcher.on(
+          'change', this.#onIndividualChange
+        );
+        this.#individualScroller.dispatcher.on(
+          'out-of-range', this.#returnToCollection
+        );
+      }
+      return this.#individualScroller;
     }
 
-    nextSection = new Shortcut(
+    nextCollection = new Shortcut(
       'j',
-      'Next section',
+      'Next collection',
       () => {
-        this.sections.next();
+        this.collections.next();
       }
     );
 
-    prevSection = new Shortcut(
+    prevCollection = new Shortcut(
       'k',
-      'Previous section',
+      'Previous collection',
       () => {
-        this.sections.prev();
+        this.collections.prev();
       }
     );
 
-    nextCard = new Shortcut(
+    nextIndividual = new Shortcut(
       'n',
-      'Next card in section',
+      'Next individual in collection',
       () => {
-        this.cards.next();
+        this.individuals.next();
       }
     );
 
-    prevCard = new Shortcut(
+    prevIndividual = new Shortcut(
       'p',
-      'Previous card in section',
+      'Previous individual in collection',
       () => {
-        this.cards.prev();
+        this.individuals.prev();
       }
     );
 
     firstItem = new Shortcut(
       '<',
-      'Go to the first section or card',
+      'Go to the first collection or individual',
       () => {
         this.#lastScroller.first();
       }
@@ -3489,7 +3493,7 @@
 
     lastItem = new Shortcut(
       '>',
-      'Go to the last section or card',
+      'Go to the last collection or individual',
       () => {
         this.#lastScroller.last();
       }
@@ -3507,10 +3511,10 @@
       'Enter',
       'View the current item',
       () => {
-        const card = this.cards?.item;
-        if (card) {
-          if (!NH.web.clickElement(card, ['a', 'button'], true)) {
-            NH.web.postInfoAboutElement(card, 'network card');
+        const individual = this.individuals?.item;
+        if (individual) {
+          if (!NH.web.clickElement(individual, ['a', 'button'], true)) {
+            NH.web.postInfoAboutElement(individual, 'network individual');
           }
         } else {
           document.activeElement.click();
@@ -3518,54 +3522,54 @@
       }
     );
 
-    engageCard = new Shortcut(
+    engageIndividual = new Shortcut(
       'E',
-      'Engage the card (Connect, Follow, Join, etc)',
+      'Engage the individual (Connect, Follow, Join, etc)',
       () => {
         const selector = [
           // Connect w/ Person, Join Group, View event
           'footer > button',
           // Follow person, Follow page
-          'div.discover-entity-type-card__container-bottom > button',
+          'div.discover-entity-type-individual__container-bottom > button',
           // Subscribe to newsletter
           'div.p3 > button',
         ].join(',');
 
-        NH.web.clickElement(this.cards?.item, [selector]);
+        NH.web.clickElement(this.individuals?.item, [selector]);
       }
     );
 
-    dismissCard = new Shortcut(
+    dismissIndividual = new Shortcut(
       'X',
-      'Dismiss current card',
+      'Dismiss current individual',
       () => {
-        NH.web.clickElement(this.cards?.item,
-          ['button.artdeco-card__dismiss']);
+        NH.web.clickElement(this.individuals?.item,
+          ['button.artdeco-individual__dismiss']);
       }
     );
 
     /** @type {Scroller~How} */
-    static #cardsHow = {
-      uidCallback: MyNetwork.uniqueCardsIdentifier,
-      classes: ['dick'],
-      autoActivate: true,
-      snapToTop: false,
+    static #collectionsHow = {
+      uidCallback: MyNetwork.uniqueCollectionIdentifier,
+      classes: ['tom'],
+      snapToTop: true,
     };
 
     /** @type {Scroller~What} */
-    static #cardsWhat = {
-      name: 'MyNetwork cards',
-      selectors: [
-        [
-          // Invitations -> See all
-          ':scope > header > a',
-          // Invitations -> cards
-          ':scope > ul > li',
-          // Other sections -> See all
-          ':scope > div > button',
-          // Most cards
-          ':scope > div > ul > li',
-        ].join(','),
+    static #collectionsWhat = {
+      name: 'MyNetwork collections',
+      containerItems: [
+        {
+          container: 'main',
+          items: [
+            // Invitations
+            ':scope > section.mn-invitations-preview',
+            // Ads
+            ':scope > div.mn-sales-navigator-upsell',
+            // Most collections, including "More suggestions for you"
+            ':scope div.scaffold-finite-scroll__content > div',
+          ].join(','),
+        },
       ],
     };
 
@@ -3576,54 +3580,54 @@
     };
 
     /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: MyNetwork.uniqueSectionIdentifier,
-      classes: ['tom'],
-      snapToTop: true,
+    static #individualsHow = {
+      uidCallback: MyNetwork.uniqueIndividualsIdentifier,
+      classes: ['dick'],
+      autoActivate: true,
+      snapToTop: false,
     };
 
     /** @type {Scroller~What} */
-    static #sectionsWhat = {
-      name: 'MyNetwork sections',
-      containerItems: [
-        {
-          container: 'main',
-          items: [
-            // Invitations
-            ':scope > section.mn-invitations-preview',
-            // Ads
-            ':scope > div.mn-sales-navigator-upsell',
-            // Most sections, including "More suggestions for you"
-            ':scope div.scaffold-finite-scroll__content > div',
-          ].join(','),
-        },
+    static #individualsWhat = {
+      name: 'MyNetwork individuals',
+      selectors: [
+        [
+          // Invitations -> See all
+          ':scope > header > a',
+          // Invitations -> individuals
+          ':scope > ul > li',
+          // Other collections -> See all
+          ':scope > div > button',
+          // Most individuals
+          ':scope > div > ul > li',
+        ].join(','),
       ],
     };
 
-    #cardScroller
+    #collectionScroller
+    #individualScroller
     #keyboardService
     #lastScroller
-    #sectionScroller
 
-    #resetCards = () => {
-      if (this.#cardScroller) {
-        this.#cardScroller.destroy();
-        this.#cardScroller = null;
+    #resetIndividuals = () => {
+      if (this.#individualScroller) {
+        this.#individualScroller.destroy();
+        this.#individualScroller = null;
       }
-      this.cards;
+      this.individuals;
     }
 
-    #onCardChange = () => {
-      this.#lastScroller = this.cards;
+    #onIndividualChange = () => {
+      this.#lastScroller = this.individuals;
     }
 
-    #onSectionChange = () => {
-      this.#resetCards();
-      this.#lastScroller = this.sections;
+    #onCollectionChange = () => {
+      this.#resetIndividuals();
+      this.#lastScroller = this.collections;
     }
 
-    #returnToSection = () => {
-      this.sections.item = this.sections.item;
+    #returnToCollection = () => {
+      this.collections.item = this.collections.item;
     }
 
   }
