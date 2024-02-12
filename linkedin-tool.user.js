@@ -120,9 +120,26 @@
     ['#236', 'Support <b>Events</b> page'],
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#242', 'Need to reconnect the LIT menu on certain pages'],
+    ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-02-11',
+      issues: ['#245'],
+      subject: 'Rework <em>My Network</em> to use the terms ' +
+        '<em>collection</em> and <em>individual</em>',
+    },
+    {
+      date: '2024-02-10',
+      issues: ['#167'],
+      subject: 'Migrate <code>Service</code> to lib/base',
+    },
+    {
+      date: '2024-02-09',
+      issues: ['#236'],
+      subject: 'Support primary navigation',
+    },
     {
       date: '2024-02-07',
       issues: ['#242'],
@@ -200,24 +217,6 @@
       date: '2024-01-14',
       issues: ['#218'],
       subject: 'Move the URL monitoring into a click handler',
-    },
-    {
-      date: '2024-01-10',
-      issues: ['#229'],
-      subject: 'The HTML on the <code>Jobs</code> page changed, so tweaks ' +
-        'in response',
-    },
-    {
-      date: '2024-01-08',
-      issues: ['#209'],
-      subject: 'Implement <kbd><kbd>N</kbd></kbd>ext/' +
-        '<kbd><kbd>P</kbd></kbd>revious/<kbd><kbd>c</kbd></kbd>hange for ' +
-        'pagination navigation',
-    },
-    {
-      date: '2024-01-08',
-      issues: ['#218'],
-      subject: 'Add temp option to control reactiving currently active pages',
     },
   ];
 
