@@ -6036,6 +6036,7 @@
       this.#keyboardService.addInstance(this);
 
       spa.details.navBarScrollerFixup(Events.#collectionsHow);
+      spa.details.navBarScrollerFixup(Events.#eventsHow);
 
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
@@ -6065,9 +6066,43 @@
       return NH.base.strHash(content);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueEventIdentifier(element) {
+      const me = 'uniqueEventIdentifier';
+      this.logger.entered(me, element);
+
+      let content = element.innerText;
+      const anchor = element.querySelector('a');
+      if (anchor?.href) {
+        content = anchor.href;
+      }
+
+      this.logger.leaving(me, content);
+      return NH.base.strHash(content);
+    }
+
     /** @type {Scroller} */
     get collections() {
       return this.#collectionScroller;
+    }
+
+    /** @type {Scroller} */
+    get events() {
+      if (!this.#eventScroller && this.collections.item) {
+        this.#eventScroller = new Scroller(
+          {base: this.collections.item, ...Events.#eventsWhat},
+          Events.#eventsHow
+        );
+        this.#eventScroller.dispatcher.on('change', this.#onEventChange);
+        this.#eventScroller.dispatcher.on(
+          'out-of-range', this.#returnToCollections
+        );
+      }
+      return this.#eventScroller;
     }
 
     nextEventsCollection = new Shortcut(
@@ -6083,6 +6118,22 @@
       'Previous event collection',
       () => {
         this.collections.prev();
+      }
+    );
+
+    nextEvent = new Shortcut(
+      'n',
+      'Next event in collection',
+      () => {
+        this.events.next();
+      }
+    );
+
+    prevEvent = new Shortcut(
+      'p',
+      'Previous event in collection',
+      () => {
+        this.events.prev();
       }
     );
 
@@ -6137,11 +6188,45 @@
       pageReadySelector: '#share-linkedin-small',
     };
 
+    /** @type {Scroller~How} */
+    static #eventsHow = {
+      uidCallback: Events.uniqueEventIdentifier,
+      classes: ['dick'],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #eventsWhat = {
+      name: `${this.name} events`,
+      selectors: [
+        // Events
+        ':scope > main > div > section',
+        // Show more
+        ':scope > footer',
+      ],
+    };
+
     #collectionScroller
+    #eventScroller
     #keyboardService
     #lastScroller
 
+    #resetEvents = () => {
+      this.#eventScroller?.destroy();
+      this.#eventScroller = null;
+      this.events;
+    }
+
+    #onEventChange = () => {
+      this.#lastScroller = this.events;
+    }
+
+    #returnToCollections = () => {
+      this.collections.goto(this.collections.item);
+    }
+
     #onCollectionChange = () => {
+      this.#resetEvents();
       this.#lastScroller = this.collections;
     }
 
