@@ -4312,7 +4312,7 @@
               .forEach((x) => {
                 tags.add(x.tagName);
               });
-            log.log(
+            this.logger.log(
               'uniqueDetailsIdentifier tags we might use for a better uid:',
               tags
             );
