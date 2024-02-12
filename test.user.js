@@ -52,7 +52,7 @@
       return `${record.stage}, ${record.species}`;
     }
 
-    function rowClasses(record) {
+    function rowClassesFunc(record) {
       return [record.species, record.stage];
     }
 
@@ -64,7 +64,7 @@
       {name: 'Mother', id: 5, species: 'human', stage: 'adult'},
     ];
     const w = new NH.widget.Grid('Characters')
-      .rowClasses(rowClasses)
+      .rowClassesFunc(rowClassesFunc)
       .set(data);
 
     w.installStyle(w.id, [
