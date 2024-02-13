@@ -2842,7 +2842,17 @@
         this.logger.entered(me);
 
         if (this.#page.spa.activePages.size === 1) {
-          NH.base.issues.post('Unsupported page:', window.location);
+          const pathname = window.location.pathname;
+          /* eslint-disable prefer-regex-literals */
+          const knownUrlsTodo = [
+            // TODO(#237): Support `SpecificEvent` pages
+            RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
+          ];
+          /* eslint-enable */
+
+          if (!knownUrlsTodo.some(x => pathname.match(x))) {
+            NH.base.issues.post('Unsupported page:', window.location);
+          }
         }
 
         this.logger.leaving(me);
