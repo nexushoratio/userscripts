@@ -1879,8 +1879,8 @@
 
       #mq
 
-      #onEvent = (event, data) => {
-        this.#mq.post('via Service', event, data.shortName);
+      #onEvent = (evt, data) => {
+        this.#mq.post('via Service', evt, data.shortName);
       }
 
     }
@@ -1914,8 +1914,8 @@
       const capture = (...message) => {
         messages.push(message);
       };
-      const cb = (event, service) => {
-        mq.post('via cb', event, service.name);
+      const cb = (evt, service) => {
+        mq.post('via cb', evt, service.name);
       };
 
       const shortName = 'The ServiceTestCase.testSimpleEvents';
@@ -7666,8 +7666,8 @@
       errors.value += `${content}\n`;
 
       if (content === SPA._errorMarker) {
-        const event = new Event('change');
-        errors.dispatchEvent(event);
+        const evt = new Event('change');
+        errors.dispatchEvent(evt);
       }
     }
 

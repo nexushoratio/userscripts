@@ -8,8 +8,7 @@
     "WeakRef": "readonly",
     // TODO(#238): Prune this list
     "name": "off",
-    "self": "off",
-    "event": "off"
+    "self": "off"
   },
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -37,6 +36,11 @@
       {
         "allowArrowFunctions": true
       }
+    ],
+    "id-blacklist": [
+      "error",
+      "event",
+      "toolbar"
     ],
     "id-length": "off",
     "max-classes-per-file": "off",
