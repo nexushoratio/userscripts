@@ -750,6 +750,44 @@
       return this.#name;
     }
 
+    /**
+     * @param {number} [pixels=0] - Used to determine if scrolling should
+     * happen when {snapToTop} is false.
+     * @returns {Scroller} - This instance, for chaining.
+     */
+    topMarginPixels(pixels = 0) {
+      this.#topMarginPixels = pixels;
+      return this;
+    }
+
+    /**
+     * @param {number} [pixels=0] - Used to determine if scrolling should
+     * happen when {snapToTop} is false.
+     * @returns {Scroller} - This instance, for chaining.
+     */
+    bottomMarginPixels(pixels = 0) {
+      this.#bottomMarginPixels = pixels;
+      return this;
+    }
+
+    /**
+     * @param {string} [css='0'] - CSS applied to `scrollMarginTop`.
+     * @returns {Scroller} - This instance, for chaining.
+     */
+    topMarginCSS(css = '0') {
+      this.#topMarginCSS = css;
+      return this;
+    }
+
+    /**
+     * @param {string} [css='0'] - CSS applied to `scrollMarginBottom`.
+     * @returns {Scroller} - This instance, for chaining.
+     */
+    bottomMarginCSS(css = '0') {
+      this.#bottomMarginCSS = css;
+      return this;
+    }
+
     /** Click either the current item OR document.activeElement. */
     click() {
       const me = 'click';
