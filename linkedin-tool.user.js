@@ -794,8 +794,14 @@
       const item = this.item;
       this.logger.entered(me, item);
 
-      this.logger.log('Will try to click', item);
-      this.logger.log('with config', this.#clickConfig);
+      if (this.#clickConfig instanceof Function) {
+        this.logger.log('Will call a function');
+      } else if (this.#clickConfig) {
+        this.logger.log('Will assume is a configuration object');
+      } else {
+        NH.base.issues.post(`Scroller.click() for ${this.name} was ` +
+                            'called without a configuration');
+      }
 
       this.logger.leaving(me);
     }
