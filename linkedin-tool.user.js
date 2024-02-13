@@ -624,7 +624,7 @@
      * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
      * should happen when {snapToTop} is false.
-     * @property {number} [bottomMarginPixels=0] - Used to determin if
+     * @property {number} [bottomMarginPixels=0] - Used to determine if
      * scrolling should happen when {snapToTop} is false.
      * @property {string} [topMarginCSS='0'] - CSS applied to
      * `scrollMarginTop`.
