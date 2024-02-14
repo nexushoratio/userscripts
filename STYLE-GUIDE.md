@@ -215,7 +215,14 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
       this.#activator.page = this;
     }
 
-    static #Activator = class extends Service {
+    static #Activator = class extends NH.base.Service {
+
+      /** @inheritdoc */
+      constructor(name) {
+        super(name);
+        this.on('activate', this.#onActivate)
+          .allowReactivation(false);
+      }
 
       /** @returns {WatchPage} - Associated instance. */
       get page() {
@@ -227,9 +234,10 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
         this.#page = val;
       }
 
-      /** Called each time service is activated. */
-      activate() {
-        const me = 'activate';
+      #page
+
+      #onActivate = () => {
+        const me = 'onActivate';
         this.logger.entered(me);
 
         this.page.counter = 1;
@@ -238,18 +246,6 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
 
         this.logger.leaving(me);
       }
-
-      /** Called each time service is deactivated. */
-      deactivate() {
-        const me = 'deactivate';
-        this.logger.entered(me);
-
-        this.page.#MO.disconnect();
-
-        this.logger.leaving(me);
-      }
-
-      #page
 
     }
 
