@@ -1787,317 +1787,8 @@
 
   }
 
-  // TODO(#167): Migrating to lib/base.
-  /**
-   * Base class for building services to go with {@link SPA}.
-   *
-   * This should be subclassed to implement services that instances of {@link
-   * Page} will instantiate, initialize, active and deactivate at appropriate
-   * times.
-   *
-   * Subclasses should NOT override methods here, except for constructor().
-   * Instead they should register listeners for appropriate events.
-   *
-   * Generally, methods will fire two event verbs.  The first, in present
-   * tense, will instruct what should happen (activate, deactivate).  The
-   * second, in past tense, will describe what should have happened
-   * (activated, deactivated).  Typically, subclasses will act upon the
-   * present tense, and users of the class may act upon the past tense.
-   *
-   * It is expected that each {Page} subclass will have individual instances
-   * of the services, though nothing will enforce that.
-   *
-   * @example
-   * class DummyService extends Service {
-   * ... implement methods ...
-   * }
-   *
-   * class CustomPage extends Page {
-   *   constructor() {
-   *     this.addService(DummyService);
-   *   }
-   * }
-   */
-  class Service {
-
-    /** @param {string} name - Custom portion of this instance. */
-    constructor(name) {
-      if (new.target === Service) {
-        throw new TypeError('Abstract class; do not instantiate directly.');
-      }
-      this.#name = `${this.constructor.name}: ${name}`;
-      this.#shortName = name;
-      this.#dispatcher = new NH.base.Dispatcher(...Service.#knownEvents);
-      this.#logger = new NH.base.Logger(this.#name);
-    }
-
-    /** @type {NH.base.Logger} - NH.base.Logger instance. */
-    get logger() {
-      return this.#logger;
-    }
-
-    /** @type {string} - Instance name. */
-    get name() {
-      return this.#name;
-    }
-
-    /** @type {string} - Shorter instance name. */
-    get shortName() {
-      return this.#shortName;
-    }
-
-    /**
-     * Called each time service is activated.
-     *
-     * @fires 'activate' 'activated'
-     */
-    activate() {
-      if (!this.#activated || this.#allowReactivation) {
-        this.#dispatcher.fire('activate', this);
-        this.#dispatcher.fire('activated', this);
-      }
-      this.#activated = true;
-    }
-
-    /**
-     * Called each time service is deactivated.
-     *
-     * @fires 'deactivate' 'deactivated'
-     */
-    deactivate() {
-      this.#dispatcher.fire('deactivate', this);
-      this.#dispatcher.fire('deactivated', this);
-      this.#activated = false;
-    }
-
-    /**
-     * Attach a function to an eventType.
-     * @param {string} eventType - Event type to connect with.
-     * @param {NH.base.Dispatcher~Handler} func - Single argument function to
-     * call.
-     * @returns {Service} - This instance, for chaining.
-     */
-    on(eventType, func) {
-      this.#dispatcher.on(eventType, func);
-      return this;
-    }
-
-    /**
-     * Remove all instances of a function registered to an eventType.
-     * @param {string} eventType - Event type to disconnect from.
-     * @param {NH.base.Dispatcher~Handler} func - Function to remove.
-     * @returns {Service} - This instance, for chaining.
-     */
-    off(eventType, func) {
-      this.#dispatcher.off(eventType, func);
-      return this;
-    }
-
-    /**
-     * @param {boolean} allow - Whether to allow this service to be activated
-     * when already active.
-     * @returns {ScrollerService} - This instance, for chaining.
-     */
-    allowReactivation(allow) {
-      this.#allowReactivation = allow;
-      return this;
-    }
-
-    static #knownEvents = [
-      'activate',
-      'activated',
-      'deactivate',
-      'deactivated',
-    ];
-
-    #activated = false
-    #allowReactivation = true
-    #dispatcher
-    #logger
-    #name
-    #shortName
-
-  }
-
-  /* eslint-disable max-lines-per-function */
-  /* eslint-disable max-statements */
-  /* eslint-disable no-new */
-  /* eslint-disable require-jsdoc */
-  class ServiceTestCase extends NH.xunit.TestCase {
-
-    static Test = class extends Service {
-
-      constructor(name) {
-        super(`The ${name}`);
-        this.on('activate', this.#onEvent)
-          .on('deactivated', this.#onEvent);
-      }
-
-      set mq(val) {
-        this.#mq = val;
-      }
-
-      #mq
-
-      #onEvent = (evt, data) => {
-        this.#mq.post('via Service', evt, data.shortName);
-      }
-
-    }
-
-    testAbstract() {
-      this.assertRaises(TypeError, () => {
-        new Service();
-      });
-    }
-
-    testProperties() {
-      // Assemble
-      const s = new ServiceTestCase.Test(this.id);
-
-      // Assert
-      this.assertEqual(
-        s.name, 'Test: The ServiceTestCase.testProperties', 'name'
-      );
-      this.assertEqual(
-        s.shortName, 'The ServiceTestCase.testProperties', 'short name'
-      );
-    }
-
-    testSimpleEvents() {
-      // Assemble
-      const s = new ServiceTestCase.Test(this.id);
-      const mq = new NH.base.MessageQueue();
-      s.mq = mq;
-
-      const messages = [];
-      const capture = (...message) => {
-        messages.push(message);
-      };
-      const cb = (evt, service) => {
-        mq.post('via cb', evt, service.name);
-      };
-
-      const shortName = 'The ServiceTestCase.testSimpleEvents';
-      const longName = 'Test: The ServiceTestCase.testSimpleEvents';
-
-      // Act I - Basic captures
-      s.on('activated', cb)
-        .on('deactivate', cb);
-      s.activate();
-      s.deactivate();
-
-      mq.listen(capture);
-
-      // Assert
-      this.assertEqual(
-        messages,
-        [
-          ['via Service', 'activate', shortName],
-          ['via cb', 'activated', longName],
-          ['via cb', 'deactivate', longName],
-          ['via Service', 'deactivated', shortName],
-        ],
-        'first run through'
-      );
-
-      messages.length = 0;
-      // Act II - Make sure *off()* is wired in.
-      s.off('deactivate', cb);
-
-      s.activate();
-      s.deactivate();
-
-      // Assert
-      this.assertEqual(
-        messages,
-        [
-          ['via Service', 'activate', shortName],
-          ['via cb', 'activated', longName],
-          // No deactivate in this spot this time
-          ['via Service', 'deactivated', shortName],
-        ],
-        'second run through'
-      );
-    }
-
-    testReactivation() {
-      // Assemble
-      const messages = [];
-      const capture = (...message) => {
-        messages.push(message);
-      };
-
-      const s = new ServiceTestCase.Test(this.id);
-      s.mq = new NH.base.MessageQueue()
-        .listen(capture);
-
-      const shortName = `The ${this.id}`;
-
-      // Act I - Allowed by default
-      s.activate();
-      s.activate();
-      s.deactivate();
-
-      // Assert
-      this.assertEqual(
-        messages,
-        [
-          ['via Service', 'activate', shortName],
-          // Activation while active worked
-          ['via Service', 'activate', shortName],
-          ['via Service', 'deactivated', shortName],
-        ],
-        'allowed by default'
-      );
-
-      // Act II - Turning off works
-      messages.length = 0;
-      s.allowReactivation(false);
-
-      s.activate();
-      s.activate();
-      s.deactivate();
-
-      // Assert
-      this.assertEqual(
-        messages,
-        [
-          ['via Service', 'activate', shortName],
-          // No reactivation here
-          ['via Service', 'deactivated', shortName],
-        ],
-        'turning off works'
-      );
-
-      // Act III - Turning back on works
-      messages.length = 0;
-      s.allowReactivation(true);
-
-      s.activate();
-      s.activate();
-      s.deactivate();
-
-      // Assert
-      this.assertEqual(
-        messages,
-        [
-          ['via Service', 'activate', shortName],
-          // Activation while active worked
-          ['via Service', 'activate', shortName],
-          ['via Service', 'deactivated', shortName],
-        ],
-        'turning back on works'
-      );
-    }
-
-  }
-  /* eslint-enable */
-
-  NH.xunit.testing.testCases.push(ServiceTestCase);
-
-  /** Manage a {Scroller} via {Service}. */
-  class ScrollerService extends Service {
+  /** Manage a {Scroller} via {NH.base.Service}. */
+  class ScrollerService extends NH.base.Service {
 
     /**
      * @param {string} name - Custom portion of this instance.
@@ -2149,7 +1840,7 @@
    * @example
    * VMKeyboardService.start();
    */
-  class VMKeyboardService extends Service {
+  class VMKeyboardService extends NH.base.Service {
 
     /** @inheritdoc */
     constructor(name) {
@@ -2427,7 +2118,7 @@
    * For those pages, use this Service which will activate once to to do the
    * initial fixups, then the additional ones necessary for that page.
    */
-  class LinkedInToolbarService extends Service {
+  class LinkedInToolbarService extends NH.base.Service {
 
     /**
      * @param {string} name - Custom portion of this instance.
@@ -2570,17 +2261,18 @@
     }
 
     /**
-     * Register a new {@link Service}.
-     * @param {function(): Service} Klass - A service class to instantiate.
+     * Register a new {@link NH.base.Service}.
+     * @param {function(): NH.base.Service} Klass - A service class to
+     * instantiate.
      * @param {...*} rest - Arbitrary objects to pass to constructor.
-     * @returns {Service} - Instance of Klass.
+     * @returns {NH.base.Service} - Instance of Klass.
      */
     addService(Klass, ...rest) {
       const me = 'addService';
       this.logger.entered(me, Klass, ...rest);
 
       let instance = null;
-      if (Klass.prototype instanceof Service) {
+      if (Klass.prototype instanceof NH.base.Service) {
         instance = new Klass(this.constructor.name, ...rest);
         this.#services.add(instance);
       } else {
@@ -2844,7 +2536,7 @@
       }
     );
 
-    static #Activator = class extends Service {
+    static #Activator = class extends NH.base.Service {
 
       /**
        * @param {string} name - Custom portion of this instance.
