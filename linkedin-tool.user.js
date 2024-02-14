@@ -125,6 +125,22 @@
 
   const globalNewsContent = [
     {
+      date: '2024-02-13',
+      issues: ['#240'],
+      subject: 'Allow changing top/bottom margins in <code>Scroller</code>',
+    },
+    {
+      date: '2024-02-12',
+      issues: ['#236'],
+      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
+        'secondary navigation within collections',
+    },
+    {
+      date: '2024-02-12',
+      issues: ['#167'],
+      subject: 'Bump version of lib/base.js being used',
+    },
+    {
       date: '2024-02-11',
       issues: ['#245'],
       subject: 'Rework <em>My Network</em> to use the terms ' +
