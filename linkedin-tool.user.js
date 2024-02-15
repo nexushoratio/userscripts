@@ -2143,7 +2143,7 @@
     }
 
     /**
-     * Often a {Page} would like to a bit more initialization after this
+     * Often a {Page} would like to do a bit more initialization after this
      * fixups.  That is what this hook is for.
      *
      * @param {NH.web.SimpleFunction} hook - Function to call post activation.
