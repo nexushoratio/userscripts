@@ -6931,7 +6931,7 @@
     #setNavBarInfo = () => {
       const margin = 4;
 
-      this.logger.log('Setting navbar height to', this.#navbar.clientHeight);
+      this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
 
       this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
         margin;
