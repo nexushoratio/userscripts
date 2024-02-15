@@ -2561,6 +2561,8 @@
           const knownUrlsTodo = [
             // TODO(#237): Support `SpecificEvent` pages
             RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
+            // TODO(#253): Support `My Network Events` page
+            '/mynetwork/network-manager/events/',
           ];
           /* eslint-enable */
 
