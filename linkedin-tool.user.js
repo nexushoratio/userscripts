@@ -815,7 +815,7 @@
       } else if (this.#clickConfig) {
         this.logger.log('Will assume is a configuration object');
       } else {
-        NH.base.issues.post(`Scroller.click() for ${this.name} was ` +
+        NH.base.issues.post(`Scroller.click() for "${this.name}" was ` +
                             'called without a configuration');
       }
 
