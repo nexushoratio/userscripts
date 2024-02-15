@@ -5924,6 +5924,23 @@
       }
     );
 
+    shareItem = new Shortcut(
+      'S',
+      'Share the current item, if available',
+      () => {
+        const me = 'shareItem';
+        const item = this.events.item;
+        this.logger.entered(me, item);
+
+        if (item) {
+          NH.web.clickElement(item,
+            ['button.events-components-shared-support-share__share-button']);
+        }
+
+        this.logger.leaving(me);
+      }
+    );
+
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: Events.uniqueCollectionIdentifier,
