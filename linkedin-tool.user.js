@@ -6433,6 +6433,11 @@
       return this.#licenseData;
     }
 
+    /** @type {NH.base.Dispatcher} */
+    get navbarDispatcher() {
+      return this.#navbarDispatcher;
+    }
+
     /** @inheritdoc */
     done() {
       super.done();
@@ -6607,6 +6612,7 @@
     #licenseData
     #licenseLoaded
     #navbar
+    #navbarDispatcher = new NH.base.Dispatcher('resize');
     #ourMenuItem
     #primaryItems
     #primaryItemsObserver
@@ -6935,6 +6941,8 @@
 
       this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
         margin;
+
+      this.#navbarDispatcher.fire('resize', this.#globals);
     }
 
     /**
