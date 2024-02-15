@@ -5961,7 +5961,9 @@
     static #eventsWhat = {
       name: `${this.name} events`,
       selectors: [
-        // Events
+        // Your events collection
+        ':scope > section > div',
+        // Most event collections
         ':scope > main > div > section',
         // Show more
         ':scope > footer',
