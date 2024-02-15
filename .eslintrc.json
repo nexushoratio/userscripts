@@ -6,7 +6,7 @@
   },
   "globals": {
     "WeakRef": "readonly",
-    // TODO(#238): Prune this list
+    // TODO(#238): Prune this list, move to "id-blacklist"
     "name": "off",
     "self": "off"
   },
@@ -37,7 +37,7 @@
         "allowArrowFunctions": true
       }
     ],
-    "id-blacklist": [
+    "id-blacklist": [  // New versions of eslint renamed this rule
       "error",
       "event",
       "toolbar"
