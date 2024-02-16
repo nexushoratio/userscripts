@@ -73,12 +73,14 @@
       `#${w.container.id} tr {background-blend-mode: screen;}`,
       `#${w.container.id} tr.feline {background-color: orange;}`,
       `#${w.container.id} tr.human {background-color: RebeccaPurple;}`,
-      `#${w.container.id} tr.alien {background-image: ` +
-        'linear-gradient(to right, white, green);}',
+      `#${w.container.id} tr.alien {background-color: green;}`,
       `#${w.container.id} tr.juvenile {background-image: ` +
-        'linear-gradient(to left, white, black);}',
+        'linear-gradient(to bottom, white, black);}',
+      `#${w.container.id} tr.adolescent {background-image: ` +
+        'linear-gradient(to bottom, white, black, white);}',
       `#${w.container.id} tr.adult {background-image: ` +
-        'linear-gradient(to right, white, black, white);}',
+        'linear-gradient(to bottom, white, black, white, black);}',
+      `#${w.container.id} td.typ {font-weight: bolder;}`,
     ]);
     w.columns.push(
       new NH.widget.GridColumn('id')
