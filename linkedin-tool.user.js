@@ -121,9 +121,36 @@
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#242', 'Need to reconnect the LIT menu on certain pages'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
+    ['#253', 'Support <b>My Network Events<b> page'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2024-02-15',
+      issues: ['#240'],
+      subject: 'Fire a <em>resize</em> event each time the navbar ' +
+        'changes size',
+    },
+    {
+      date: '2024-02-15',
+      issues: ['#253'],
+      subject: 'Acknowledge <em>My Network Events</em> page',
+    },
+    {
+      date: '2024-02-15',
+      issues: ['#236'],
+      subject: 'Implement <kbd><kbd>S</kbd></kbd>hare current event',
+    },
+    {
+      date: '2024-02-15',
+      issues: ['#236'],
+      subject: 'Support the <em>Your events</em> collection',
+    },
+    {
+      date: '2024-02-14',
+      issues: ['#167'],
+      subject: 'Migrate to using <code>Service()</code> from lib/base',
+    },
     {
       date: '2024-02-13',
       issues: ['#240'],
@@ -223,16 +250,6 @@
       date: '2024-01-16',
       issues: ['#232'],
       subject: 'Add feature flag <em>enableScrollerChangesFocus</em>',
-    },
-    {
-      date: '2024-01-14',
-      issues: ['#230'],
-      subject: 'Disable reactivation on the details <code>Scroller</code>',
-    },
-    {
-      date: '2024-01-14',
-      issues: ['#218'],
-      subject: 'Move the URL monitoring into a click handler',
     },
   ];
 
