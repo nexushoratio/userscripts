@@ -827,13 +827,17 @@
       const item = this.item;
       this.logger.entered(me, item);
 
-      if (this.#clickConfig instanceof Function) {
-        this.logger.log('Will call a function');
-      } else if (this.#clickConfig) {
-        this.logger.log('Will assume is a configuration object');
-      } else {
-        NH.base.issues.post(`Scroller.click() for "${this.name}" was ` +
+      if (item) {
+        if (this.#clickConfig instanceof Function) {
+          this.logger.log('Will call a function');
+        } else if (this.#clickConfig) {
+          this.logger.log('Will assume is a configuration object');
+        } else {
+          NH.base.issues.post(`Scroller.click() for "${this.name}" was ` +
                             'called without a configuration');
+        }
+      } else {
+        document.activeElement.click();
       }
 
       this.logger.leaving(me);
