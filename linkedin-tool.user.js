@@ -1795,11 +1795,11 @@
      */
     constructor(seq, desc, func) {
       super('return this.func();');
-      const self = this.bind(this);
-      self.seq = seq;
-      self.desc = desc;
+      const myself = this.bind(this);
+      myself.seq = seq;
+      myself.desc = desc;
       this.func = func;
-      return self;
+      return myself;
     }
 
   }

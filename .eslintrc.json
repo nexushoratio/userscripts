@@ -7,8 +7,7 @@
   "globals": {
     "WeakRef": "readonly",
     // TODO(#238): Prune this list, move to "id-blacklist"
-    "name": "off",
-    "self": "off"
+    "name": "off"
   },
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -40,6 +39,7 @@
     "id-blacklist": [  // New versions of eslint renamed this rule
       "error",
       "event",
+      "self",
       "toolbar"
     ],
     "id-length": "off",
