@@ -1804,8 +1804,14 @@
 
   }
 
-  /** Manage a {Scroller} via {NH.base.Service}. */
-  class ScrollerService extends NH.base.Service {
+  /**
+   * Manage a {Scroller} via {NH.base.Service} with LIT idiosyncrasies.
+   *
+   * It will turn the {Scroller} on/off.
+   * Apply any fixups for margin features.
+   * Monitor margin for changes.
+   */
+  class LinkedInScrollerService extends NH.base.Service {
 
     /**
      * @param {string} name - Custom portion of this instance.
@@ -2680,7 +2686,7 @@
       spa.details.navBarScrollerFixup(Feed.#commentsHow);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
-      this.addService(ScrollerService, this.#postScroller);
+      this.addService(LinkedInScrollerService, this.#postScroller);
       this.#postScroller.dispatcher.on(
         'out-of-range', linkedInGlobals.focusOnSidebar
       );
@@ -3161,7 +3167,7 @@
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
-      this.addService(ScrollerService, this.#collectionScroller);
+      this.addService(LinkedInScrollerService, this.#collectionScroller);
       this.#collectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#collectionScroller.dispatcher.on(
@@ -3436,7 +3442,7 @@
         InvitationManagerBase.#invitesWhat,
         InvitationManagerBase.#invitesHow
       );
-      this.addService(ScrollerService, this.#inviteScroller);
+      this.addService(LinkedInScrollerService, this.#inviteScroller);
     }
 
     /**
@@ -3693,7 +3699,7 @@
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
-      this.addService(ScrollerService, this.#sectionScroller);
+      this.addService(LinkedInScrollerService, this.#sectionScroller);
       this.#sectionScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
       this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
@@ -4042,7 +4048,7 @@
 
       this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
         JobCollections.#jobCardsHow);
-      this.addService(ScrollerService, this.#jobCardScroller)
+      this.addService(LinkedInScrollerService, this.#jobCardScroller)
         .allowReactivation(false);
       this.#jobCardScroller.dispatcher.on('activate',
         this.#onJobCardActivate);
@@ -4051,7 +4057,7 @@
       this.#paginationScroller = new Scroller(
         JobCollections.#paginationWhat, JobCollections.#paginationHow
       );
-      this.addService(ScrollerService, this.#paginationScroller)
+      this.addService(LinkedInScrollerService, this.#paginationScroller)
         .allowReactivation(false);
       this.#paginationScroller.dispatcher.on('activate',
         this.#onPaginationActivate);
@@ -4062,7 +4068,7 @@
       this.#detailsScroller = new Scroller(
         JobCollections.#detailsWhat, JobCollections.#detailsHow
       );
-      this.addService(ScrollerService, this.#detailsScroller)
+      this.addService(LinkedInScrollerService, this.#detailsScroller)
         .allowReactivation(false);
       this.#detailsScroller.dispatcher.on('change', this.#onDetailsChange);
 
@@ -4547,7 +4553,7 @@
       if (!this.#cardScroller) {
         this.#cardScroller = new Scroller(JobView.#cardsWhat,
           JobView.#cardsHow);
-        this.addService(ScrollerService, this.#cardScroller);
+        this.addService(LinkedInScrollerService, this.#cardScroller);
         this.#cardScroller.dispatcher.on('change', this.#onCardChange);
 
         this.#lastScroller = this.#cardScroller;
@@ -4768,7 +4774,7 @@
 
       this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
         Messaging.#convoCardsHow);
-      this.addService(ScrollerService, this.#convoCardScroller);
+      this.addService(LinkedInScrollerService, this.#convoCardScroller);
       this.#convoCardScroller.dispatcher.on('activate',
         this.#onConvoCardActivate);
       this.#convoCardScroller.dispatcher.on('deactivate',
@@ -5293,7 +5299,7 @@
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
-      this.addService(ScrollerService, this.#notificationScroller);
+      this.addService(LinkedInScrollerService, this.#notificationScroller);
       this.#notificationScroller.dispatcher.on('out-of-range',
         linkedInGlobals.focusOnSidebar);
     }
@@ -5587,7 +5593,7 @@
       if (!this.#sectionScroller) {
         this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
           Profile.#sectionsHow);
-        this.addService(ScrollerService, this.#sectionScroller);
+        this.addService(LinkedInScrollerService, this.#sectionScroller);
         this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
 
         this.#lastScroller = this.#sectionScroller;
@@ -5822,7 +5828,7 @@
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
       );
-      this.addService(ScrollerService, this.#collectionScroller);
+      this.addService(LinkedInScrollerService, this.#collectionScroller);
 
       this.#collectionScroller.dispatcher.on(
         'change', this.#onCollectionChange
@@ -6090,7 +6096,7 @@
           SearchResultsPeople.#paginationWhat,
           SearchResultsPeople.#paginationHow
         );
-        this.addService(ScrollerService, this.#paginationScroller);
+        this.addService(LinkedInScrollerService, this.#paginationScroller);
         this.#paginationScroller.dispatcher.on('activate',
           this.#onPaginationActivate);
         this.#paginationScroller.dispatcher.on('change',
@@ -6104,7 +6110,7 @@
       if (!this.#resultScroller) {
         this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
           SearchResultsPeople.#resultsHow);
-        this.addService(ScrollerService, this.#resultScroller);
+        this.addService(LinkedInScrollerService, this.#resultScroller);
         this.#resultScroller.dispatcher.on('change', this.#onResultChange);
 
         this.#lastScroller = this.#resultScroller;
