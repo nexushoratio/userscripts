@@ -7313,7 +7313,7 @@
     }
 
     /**
-     * Add basic dialog with an embedded tabbbed ui for the info view.
+     * Add basic dialog with an embedded tabbed ui for the info view.
      * @param {TabbedUI~TabDefinition[]} tabs - Array defining the info tabs.
      */
     _addInfoDialog(tabs) {
