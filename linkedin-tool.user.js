@@ -47,6 +47,7 @@
     const defaultOptions = {
       enableDevMode: false,
       enableScrollerChangesFocus: false,
+      enableIssue241ClickMethod: false,
       enableIssue244Changes: false,
       fakeErrorRate: 0.8,
     };
@@ -3301,13 +3302,17 @@
       'Enter',
       'View the current item',
       () => {
-        const individual = this.individuals?.item;
-        if (individual) {
-          if (!NH.web.clickElement(individual, ['a', 'button'], true)) {
-            NH.web.postInfoAboutElement(individual, 'network individual');
-          }
+        if (litOptions.enableIssue241ClickMethod) {
+          this.individuals.click();
         } else {
-          document.activeElement.click();
+          const individual = this.individuals?.item;
+          if (individual) {
+            if (!NH.web.clickElement(individual, ['a', 'button'], true)) {
+              NH.web.postInfoAboutElement(individual, 'network individual');
+            }
+          } else {
+            document.activeElement.click();
+          }
         }
       }
     );
@@ -3845,19 +3850,23 @@
       'Enter',
       'Activate the current job (click on it)',
       () => {
-        const job = this.jobs?.item;
-        if (job) {
-          if (!NH.web.clickElement(job,
-            [
-              'div[data-view-name]',
-              'a',
-              'button',
-            ])) {
-            NH.web.postInfoAboutElement(job, 'job');
-          }
+        if (litOptions.enableIssue241ClickMethod) {
+          this.jobs.click();
         } else {
+          const job = this.jobs?.item;
+          if (job) {
+            if (!NH.web.clickElement(job,
+              [
+                'div[data-view-name]',
+                'a',
+                'button',
+              ])) {
+              NH.web.postInfoAboutElement(job, 'job');
+            }
+          } else {
           // Again, because we use Enter as the hotkey for this action.
-          document.activeElement.click();
+            document.activeElement.click();
+          }
         }
       }
     );
@@ -5390,31 +5399,35 @@
       'Enter',
       'Activate the current notification (click on it)',
       () => {
-        const notification = this.notifications.item;
-        if (notification) {
+        if (litOptions.enableIssue241ClickMethod) {
+          this.notifications.click();
+        } else {
+          const notification = this.notifications.item;
+          if (notification) {
           // Because we are using Enter as the hotkey here, if the active
           // element is inside the current card, we want that to take
           // precedence.
-          if (document.activeElement.closest('article') === notification) {
-            return;
-          }
-
-          const elements = notification.querySelectorAll(
-            '.nt-card__headline'
-          );
-          if (elements.length === NH.base.ONE_ITEM) {
-            elements[0].click();
-          } else {
-            const ba = notification.querySelectorAll('button,a');
-            if (ba.length === NH.base.ONE_ITEM) {
-              ba[0].click();
-            } else {
-              NH.web.postInfoAboutElement(notification, 'notification');
+            if (document.activeElement.closest('article') === notification) {
+              return;
             }
-          }
-        } else {
+
+            const elements = notification.querySelectorAll(
+              '.nt-card__headline'
+            );
+            if (elements.length === NH.base.ONE_ITEM) {
+              elements[0].click();
+            } else {
+              const ba = notification.querySelectorAll('button,a');
+              if (ba.length === NH.base.ONE_ITEM) {
+                ba[0].click();
+              } else {
+                NH.web.postInfoAboutElement(notification, 'notification');
+              }
+            }
+          } else {
           // Again, because we use Enter as the hotkey for this action.
-          document.activeElement.click();
+            document.activeElement.click();
+          }
         }
       }
     );
