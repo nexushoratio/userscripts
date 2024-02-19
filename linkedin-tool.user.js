@@ -1643,25 +1643,25 @@
     }
 
     /** @type {string} - The height of the navbar as CSS string. */
-    get navBarHeightCSS() {
-      return `${this.#navBarHeightPixels}px`;
+    get navbarHeightCSS() {
+      return `${this.#navbarHeightPixels}px`;
     }
 
     /** @type {number} - The height of the navbar in pixels. */
-    get navBarHeightPixels() {
-      return this.#navBarHeightPixels;
+    get navbarHeightPixels() {
+      return this.#navbarHeightPixels;
     }
 
     /** @param {number} val - Set height of the navbar in pixels. */
-    set navBarHeightPixels(val) {
-      this.#navBarHeightPixels = val;
+    set navbarHeightPixels(val) {
+      this.#navbarHeightPixels = val;
     }
 
     /** Scroll common sidebar into view and move focus to it. */
     focusOnSidebar = () => {
       const sidebar = document.querySelector(LinkedInGlobals.sidebarSelector);
       if (sidebar) {
-        sidebar.style.scrollMarginTop = this.navBarHeightCSS;
+        sidebar.style.scrollMarginTop = this.navbarHeightCSS;
         sidebar.scrollIntoView();
         NH.web.focusOnElement(sidebar);
       }
@@ -1674,7 +1674,7 @@
     focusOnAside = () => {
       const aside = document.querySelector(LinkedInGlobals.asideSelector);
       if (aside) {
-        aside.style.scrollMarginTop = this.navBarHeightCSS;
+        aside.style.scrollMarginTop = this.navbarHeightCSS;
         aside.scrollIntoView();
         NH.web.focusOnElement(aside);
       }
@@ -1705,7 +1705,7 @@
     static #asideSelector = 'aside.scaffold-layout__aside';
     static #sidebarSelector = 'div.scaffold-layout__sidebar';
 
-    #navBarHeightPixels = 0;
+    #navbarHeightPixels = 0;
 
   }
 
@@ -2139,7 +2139,7 @@
    * Helper for pages that have an extra drop-down toolbar.
    *
    * Some LinkedIn pages have an extra toolbar that will drop down and obscure
-   * content.  This makes it difficult for `LinkedIn.navBarScrollerFixup()` to
+   * content.  This makes it difficult for `LinkedIn.navbarScrollerFixup()` to
    * properly adjust.
    *
    * For those pages, use this Service which will activate once to to do the
@@ -2198,7 +2198,7 @@
 
         for (const how of this.#scrollerHows) {
           this.logger.log('how:', how);
-          this.#page.spa.details.navBarScrollerFixup(how);
+          this.#page.spa.details.navbarScrollerFixup(how);
 
           const newHeight = how.topMarginPixels + toolbarElement.clientHeight;
           const newCSS = `${newHeight}px`;
@@ -2686,8 +2686,8 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(Feed.#postsHow);
-      spa.details.navBarScrollerFixup(Feed.#commentsHow);
+      spa.details.navbarScrollerFixup(Feed.#postsHow);
+      spa.details.navbarScrollerFixup(Feed.#commentsHow);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(LinkedInScrollerService, this.#postScroller);
@@ -2981,7 +2981,7 @@
         const share = document.querySelector(
           'div.share-box-feed-entry__top-bar'
         ).parentElement;
-        share.style.scrollMarginTop = linkedInGlobals.navBarHeightCSS;
+        share.style.scrollMarginTop = linkedInGlobals.navbarHeightCSS;
         share.scrollIntoView();
         share.querySelector('button')
           .focus();
@@ -3166,8 +3166,8 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(MyNetwork.#collectionsHow);
-      spa.details.navBarScrollerFixup(MyNetwork.#individualsHow);
+      spa.details.navbarScrollerFixup(MyNetwork.#collectionsHow);
+      spa.details.navbarScrollerFixup(MyNetwork.#individualsHow);
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
@@ -3438,7 +3438,7 @@
       };
       super(pageDetails);
 
-      spa.details.navBarScrollerFixup(
+      spa.details.navbarScrollerFixup(
         InvitationManagerBase.#invitesHow
       );
 
@@ -3698,8 +3698,8 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(Jobs.#sectionsHow);
-      spa.details.navBarScrollerFixup(Jobs.#jobsHow);
+      spa.details.navbarScrollerFixup(Jobs.#sectionsHow);
+      spa.details.navbarScrollerFixup(Jobs.#jobsHow);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
@@ -4068,7 +4068,7 @@
       this.#paginationScroller.dispatcher.on('change',
         this.#onPaginationChange);
 
-      spa.details.navBarScrollerFixup(JobCollections.#detailsHow);
+      spa.details.navbarScrollerFixup(JobCollections.#detailsHow);
       this.#detailsScroller = new Scroller(
         JobCollections.#detailsWhat, JobCollections.#detailsHow
       );
@@ -5298,7 +5298,7 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(Notifications.#notificationsHow);
+      spa.details.navbarScrollerFixup(Notifications.#notificationsHow);
 
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications.#notificationsHow
@@ -5826,8 +5826,8 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navBarScrollerFixup(Events.#collectionsHow);
-      spa.details.navBarScrollerFixup(Events.#eventsHow);
+      spa.details.navbarScrollerFixup(Events.#collectionsHow);
+      spa.details.navbarScrollerFixup(Events.#eventsHow);
 
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
@@ -6485,12 +6485,12 @@
      * They do that by calling this method.
      * @param {Scroller~How} how - Object to be fixed up.
      */
-    navBarScrollerFixup(how) {
-      const me = 'navBarScrollerFixup';
+    navbarScrollerFixup(how) {
+      const me = 'navbarScrollerFixup';
       this.logger.entered(me, how);
 
-      how.topMarginPixels = this.#globals.navBarHeightPixels;
-      how.topMarginCSS = this.#globals.navBarHeightCSS;
+      how.topMarginPixels = this.#globals.navbarHeightPixels;
+      how.topMarginCSS = this.#globals.navbarHeightCSS;
       how.bottomMarginCSS = '3em';
 
       this.logger.leaving(me, how);
@@ -6966,7 +6966,7 @@
 
       this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
 
-      this.#globals.navBarHeightPixels = this.#navbar.clientHeight +
+      this.#globals.navbarHeightPixels = this.#navbar.clientHeight +
         margin;
 
       this.#navbarDispatcher.fire('resize', this.#globals);
