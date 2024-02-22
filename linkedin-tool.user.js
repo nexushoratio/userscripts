@@ -2597,10 +2597,16 @@
           const pathname = window.location.pathname;
           /* eslint-disable prefer-regex-literals */
           const knownUrlsTodo = [
-            // TODO(#237): Support `SpecificEvent` pages
+            // TODO(#237): Support *SpecificEvent* pages
             RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
-            // TODO(#253): Support `My Network Events` page
+            // TODO(#253): Support *My Network Events* page
             '/mynetwork/network-manager/events/',
+            // TODO(#255): Support *Search appearances* page
+            '/analytics/search-appearances/',
+            // TODO(#256): Support *Verify* page
+            RegExp('/verify/?.*', 'u'),
+            // TODO(#257): Support *Analytics & tools* page
+            '/dashboard/',
           ];
           /* eslint-enable */
 
