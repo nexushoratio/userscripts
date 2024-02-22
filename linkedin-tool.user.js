@@ -5373,6 +5373,31 @@
       return NH.base.strHash(content);
     }
 
+    /**
+     * Given a notification card, find the correct item inside of it to click.
+     *
+     * @implements {Scroller~ElementFinder}
+     * @param {HTMLElement} element - Element to examine.
+     * @returns {HTMLElement} - Found element.
+     */
+    static cardItemToClick(element) {
+      let found = null;
+
+      const elements = element.querySelectorAll(
+        '.nt-card__headline'
+      );
+      if (elements.length === NH.base.ONE_ITEM) {
+        found = elements[0];
+      } else {
+        const ba = element.querySelectorAll('button,a');
+        if (ba.length === NH.base.ONE_ITEM) {
+          found = ba[0];
+        }
+      }
+
+      return found;
+    }
+
     /** @type {Scroller} */
     get notifications() {
       return this.#notificationScroller;
@@ -5555,6 +5580,7 @@
       uidCallback: Notifications.uniqueIdentifier,
       classes: ['tom'],
       snapToTop: false,
+      clickConfig: Notifications.cardItemToClick,
     };
 
     /** @type {Scroller~What} */
