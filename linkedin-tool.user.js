@@ -6742,10 +6742,10 @@
       document.body.prepend(widget);
       const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
 
-      const name = this.#infoName(dismissId);
+      const infoName = this.#infoName(dismissId);
       const instructions = this.#infoInstructions();
 
-      widget.append(name, instructions);
+      widget.append(infoName, instructions);
 
       document.getElementById(dismissId)
         .addEventListener('click', () => {
@@ -6762,14 +6762,14 @@
      * @returns {Element} - For the info widget name header.
      */
     #infoName = (dismissId) => {
-      const name = document.createElement('div');
-      name.classList.add('lit-justify');
+      const nameElement = document.createElement('div');
+      nameElement.classList.add('lit-justify');
       const title = `<b>${GM.info.script.name}</b> - ` +
             `v${GM.info.script.version}`;
       const dismiss = `<button id=${dismissId}>X</button>`;
-      name.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
+      nameElement.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
 
-      return name;
+      return nameElement;
     }
 
     /** @returns {Element} - Instructions for navigating the info widget. */
@@ -7007,10 +7007,10 @@
         this.logger.log('service:', service.shortName, service.active);
         // Works in progress may not have any shortcuts yet.
         if (service.shortcuts.length) {
-          const name = NH.base.simpleParseWords(service.shortName)
+          const parsedName = NH.base.simpleParseWords(service.shortName)
             .join(' ');
           this.#shortcutsWidget.addSection(service.shortName);
-          this.#shortcutsWidget.addHeader(service.active, name);
+          this.#shortcutsWidget.addHeader(service.active, parsedName);
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
             this.#shortcutsWidget.addData(
@@ -7309,8 +7309,8 @@
     _initializeInfoDialog() {
       const dialog = document.createElement('dialog');
       dialog.id = this._infoId;
-      const name = document.createElement('div');
-      name.innerHTML = `<b>${GM.info.script.name}</b> - ` +
+      const nameElement = document.createElement('div');
+      nameElement.innerHTML = `<b>${GM.info.script.name}</b> - ` +
         `v${GM.info.script.version}`;
       const instructions = document.createElement('div');
       instructions.classList.add('spa-instructions');
@@ -7321,7 +7321,7 @@
         `<span class="left">Use the ${left} and ${right} keys or ` +
         'click to select tab</span>' +
         `<span class="right">Hit ${esc} to close</span>`;
-      dialog.append(name, instructions);
+      dialog.append(nameElement, instructions);
       return dialog;
     }
 
