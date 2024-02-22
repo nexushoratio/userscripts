@@ -1829,6 +1829,16 @@
         .on('deactivate', this.#onDeactivate);
     }
 
+    /**
+     * @param {NH.base.Dispatcher} details - The {@link LinkedIn} instance.
+     * @returns {LinkedInScrollerService} - This instance, for chaining.
+     */
+    setDetails(details) {
+      this.#details = details;
+      return this;
+    }
+
+    #details
     #scroller
 
     #onActivate = () => {
