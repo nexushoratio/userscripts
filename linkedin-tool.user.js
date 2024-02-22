@@ -830,7 +830,13 @@
 
       if (item) {
         if (this.#clickConfig instanceof Function) {
-          this.logger.log('Will call a function');
+          const result = this.#clickConfig(item);
+          if (result) {
+            result.click();
+          } else {
+            NH.web.postInfoAboutElement(item,
+              `the clickConfig function for ${this.name}`);
+          }
         } else if (this.#clickConfig) {
           this.logger.log('Will assume is a configuration object');
         } else {
