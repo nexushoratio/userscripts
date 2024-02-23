@@ -122,15 +122,17 @@
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#242', 'Need to reconnect the LIT menu on certain pages'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
-    ['#253', 'Support <b>My Network Events<b> page'],
+    ['#253', 'Support <b>My Network Events</b> page'],
+    ['#255', 'Support <b>Search appearances</b> page'],
+    ['#256', 'Support <b>Verify</b> page'],
+    ['#257', 'Support <b>Analytics & tools</b> page'],
   ];
 
   const globalNewsContent = [
     {
-      date: '2024-02-15',
-      issues: ['#240'],
-      subject: 'Fire a <em>resize</em> event each time the navbar ' +
-        'changes size',
+      date: '2024-02-22',
+      issues: ['#255', '#256', '#257'],
+      subject: 'Acknowledge a number a newly discovered pages',
     },
     {
       date: '2024-02-15',
