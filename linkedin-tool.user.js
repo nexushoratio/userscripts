@@ -6483,6 +6483,11 @@
 
     urlChangeMonitorSelector = 'div.authentication-outlet';
 
+    /** @type {LinkedInGlobals} - Instance passed in during construction. */
+    get globals() {
+      return this.#globals;
+    }
+
     /** @type {string} - The element.id used to identify the info pop-up. */
     get infoId() {
       return this.#infoId;
