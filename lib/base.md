@@ -2,11 +2,12 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 
-## Exported properties (as of version 50)
+## Exported properties (as of version 52)
 * version - Bumped per release.
 * NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
 * ONE_ITEM - Constant useful for testing length of an array.
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
+* Exception - Base exception that uses the name of the class.
 * Dispatcher - Simple dispatcher (event bus).
 * MessageQueue - A simple message system that will queue messages to be delivered.
 * issues - NexusHoratio libraries and apps should log issues here.
