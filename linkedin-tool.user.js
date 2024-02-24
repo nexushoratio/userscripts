@@ -1327,7 +1327,7 @@
     }
 
     /** @throws {Scroller.Error} - On many validation issues. */
-    #validateInstance = () => {
+    #validateInstance = () => {  // eslint-disable-line max-lines-per-function
 
       if (this.#base && this.#containerItems.length) {
         throw new Scroller.Error(
@@ -1371,6 +1371,21 @@
         );
       }
 
+      if (this.#clickConfig) {
+        if (this.#clickConfig instanceof Function) {
+          if (this.#clickConfig.length !== 1) {
+            throw new Scroller.Error(
+              `Invalid clickConfig: ${this.#name} element finder should ` +
+                'take exactly one argument, currently takes ' +
+                `${this.#clickConfig.length}`
+            );
+          }
+        } else if (!(this.#clickConfig.selectorArray instanceof Array)) {
+          throw new Scroller.Error(
+            `Invalid clickConfig: ${this.#name} selectorArray is not an Array`
+          );
+        }
+      }
     }
 
     /**
@@ -1488,8 +1503,10 @@
 
   }
 
+  /* eslint-disable max-lines-per-function */
   /* eslint-disable no-empty-function */
   /* eslint-disable no-new */
+  /* eslint-disable no-unused-vars */
   /* eslint-disable require-jsdoc */
   class ScrollerTestCase extends NH.xunit.TestCase {
 
@@ -1628,6 +1645,77 @@
       this.assertNoRaises(() => {
         new Scroller(what, how);
       }, 'finally, good');
+    }
+
+    testValidClickConfig() {
+      const what = {
+        name: this.id,
+        containerItems: [{}],
+      };
+      const how = {
+        uidCallback: () => {},
+      };
+
+      this.assertNoRaises(() => {
+        new Scroller(what, how);
+      }, 'no clickConfig is fine');
+
+      how.clickConfig = (element) => {};
+
+      this.assertNoRaises(() => {
+        new Scroller(what, how);
+      }, 'single argument element finder is fine');
+
+      how.clickConfig = () => {};
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Invalid clickConfig: .* 0$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'zero argument element finder is not fine'
+      );
+
+      how.clickConfig = (a, b, c) => {};
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Invalid clickConfig: .* 3$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'many arguments element finder is not fine'
+      );
+
+      how.clickConfig = {};
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Invalid clickConfig: .* selectorArray is not an Array$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'missing selectorArray'
+      );
+
+      how.clickConfig = {selectorArray: 'string'};
+
+      this.assertRaisesRegExp(
+        Scroller.Error,
+        /Invalid clickConfig: .* selectorArray is not an Array$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'non-array'
+      );
+
+      how.clickConfig = {selectorArray: []};
+
+      this.assertNoRaises(() => {
+        new Scroller(what, how);
+      },
+      'array is fine');
     }
 
   }
