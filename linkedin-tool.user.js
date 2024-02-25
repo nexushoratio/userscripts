@@ -1938,11 +1938,11 @@
     #scroller
 
     #onActivate = () => {
-      this.#scroller.activate();
+      this.#scroller?.activate();
     }
 
     #onDeactivate = () => {
-      this.#scroller.deactivate();
+      this.#scroller?.deactivate();
     }
 
   }
