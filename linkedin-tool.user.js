@@ -840,7 +840,14 @@
               `the clickConfig function for ${this.name}`);
           }
         } else if (this.#clickConfig) {
-          this.logger.log('Will assume is a configuration object');
+          if (!NH.web.clickElement(
+            item,
+            this.#clickConfig.selectorArray,
+            this.#clickConfig.matchSelf
+          )) {
+            NH.web.postInfoAboutElement(item,
+              `the clickConfig selectorArray for ${this.name}`);
+          }
         } else {
           NH.base.issues.post(`Scroller.click() for "${this.name}" was ` +
                             'called without a configuration');
