@@ -1920,9 +1920,9 @@
      */
     constructor(name, scroller) {
       super(name);
-      this.#scroller = scroller;
       this.on('activate', this.#onActivate)
-        .on('deactivate', this.#onDeactivate);
+        .on('deactivate', this.#onDeactivate)
+        .setScroller(scroller);
     }
 
     /**
@@ -1931,6 +1931,19 @@
      */
     setDetails(details) {
       this.#details = details;
+      return this;
+    }
+
+    /**
+     * Sets the {@link Scroller} to manage with this service.
+     *
+     * If not value is passed, any existing instance will be removed.
+     *
+     * @param {Scroller} [scroller] - The instance to manage.
+     * @returns {LinkedInScrollerService} - This instance, for chaining.
+     */
+    setScroller(scroller = null) {
+      this.#scroller = scroller;
       return this;
     }
 
