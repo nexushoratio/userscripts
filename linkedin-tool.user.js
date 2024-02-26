@@ -130,6 +130,16 @@
 
   const globalNewsContent = [
     {
+      date: '2024-02-25',
+      issues: ['#240'],
+      subject: 'Use a setter to assign the managed <code>Scroller</code>',
+    },
+    {
+      date: '2024-02-25',
+      issues: ['#240'],
+      subject: 'Use optional chaining with <code>this.#scroller</code>',
+    },
+    {
       date: '2024-02-22',
       issues: ['#255', '#256', '#257'],
       subject: 'Acknowledge a number a newly discovered pages',
@@ -216,43 +226,6 @@
       issues: ['#233'],
       subject: 'Additional tweaks after renaming ' +
         '<code>InvitationManagerReceivedInvites</code>',
-    },
-    {
-      date: '2024-01-26',
-      issues: ['#218'],
-      subject: 'Enable reactivation of active pages when revisiting the ' +
-        'same page',
-    },
-    {
-      date: '2024-01-24',
-      issues: ['#157'],
-      subject: 'Fine tune the <em>pageReadySelector</em>',
-    },
-    {
-      date: '2024-01-20',
-      issues: ['#232'],
-      subject: 'Create new <code>Scroller.focus()</code> method',
-    },
-    {
-      date: '2024-01-20',
-      issues: ['#232'],
-      subject: 'Additional logging about \'focus\' events',
-    },
-    {
-      date: '2024-01-18',
-      issues: ['#231'],
-      subject: 'Implement <kbd><kbd>J</kbd></kbd>/<kbd><kbd>K</kbd></kbd> ' +
-        'for toggle/navigate combo in <code>JobCollections</code>',
-    },
-    {
-      date: '2024-01-17',
-      issues: ['#157'],
-      subject: 'Implement <kbd><kbd>l</kbd></kbd> to focus on the tab list',
-    },
-    {
-      date: '2024-01-16',
-      issues: ['#232'],
-      subject: 'Add feature flag <em>enableScrollerChangesFocus</em>',
     },
   ];
 
