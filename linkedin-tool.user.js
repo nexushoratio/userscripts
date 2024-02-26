@@ -1307,8 +1307,13 @@
     }
 
     /** @throws {Scroller.Error} - On many validation issues. */
-    #validateInstance = () => {  // eslint-disable-line max-lines-per-function
+    #validateInstance = () => {
+      this.#validateWhat();
+      this.#validateHow();
+    }
 
+    /** @throws {Scroller.Error} - On many validation issues. */
+    #validateWhat = () => {
       if (this.#base && this.#containerItems.length) {
         throw new Scroller.Error(
           `Cannot have both base AND containerItems: ${this.#name} has both`
@@ -1338,7 +1343,10 @@
           `No base: ${this.#name} is using selectors and so needs a base`
         );
       }
+    }
 
+    /** @throws {Scroller.Error} - On many validation issues. */
+    #validateHow = () => {
       if (!this.#uidCallback) {
         throw new Scroller.Error(
           `Missing uidCallback: ${this.#name} has no uidCallback defined`
