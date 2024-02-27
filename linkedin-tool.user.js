@@ -653,7 +653,7 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
-     * @throws {Scroller.Error} - On many construction problems.
+     * @throws {Scroller.Exception} - On many construction problems.
      */
     constructor(what, how) {
       const WAIT_FOR_ITEM = 3000;
@@ -691,15 +691,7 @@
       }
     }
 
-    static Error = class extends Error {
-
-      /** @inheritdoc */
-      constructor(...rest) {
-        super(...rest);
-        this.name = this.constructor.name;
-      }
-
-    };
+    static Exception = class extends NH.base.Exception {}
 
     /** @type {NH.base.Dispatcher} */
     get dispatcher() {
@@ -1306,55 +1298,55 @@
       this.logger.leaving(me);
     }
 
-    /** @throws {Scroller.Error} - On many validation issues. */
+    /** @throws {Scroller.Exception} - On many validation issues. */
     #validateInstance = () => {
       this.#validateWhat();
       this.#validateHow();
     }
 
-    /** @throws {Scroller.Error} - On many validation issues. */
+    /** @throws {Scroller.Exception} - On many validation issues. */
     #validateWhat = () => {
       if (this.#base && this.#containerItems.length) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `Cannot have both base AND containerItems: ${this.#name} has both`
         );
       }
 
       if (!this.#base && !this.#containerItems.length) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `Needs either base OR containerItems: ${this.#name} has neither`
         );
       }
 
       if (this.#base && !(this.#base instanceof Element)) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `Not an element: base ${this.#base} given for ${this.#name}`
         );
       }
 
       if (this.#base && !this.#selectors) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `No selectors: ${this.#name} is missing selectors`
         );
       }
 
       if (this.#selectors && !this.#base) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `No base: ${this.#name} is using selectors and so needs a base`
         );
       }
     }
 
-    /** @throws {Scroller.Error} - On many validation issues. */
+    /** @throws {Scroller.Exception} - On many validation issues. */
     #validateHow = () => {
       if (!this.#uidCallback) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `Missing uidCallback: ${this.#name} has no uidCallback defined`
         );
       }
 
       if (!(this.#uidCallback instanceof Function)) {
-        throw new Scroller.Error(
+        throw new Scroller.Exception(
           `Invalid uidCallback: ${this.#name} uidCallback is not a function`
         );
       }
@@ -1362,14 +1354,14 @@
       if (this.#clickConfig) {
         if (this.#clickConfig instanceof Function) {
           if (this.#clickConfig.length !== 1) {
-            throw new Scroller.Error(
+            throw new Scroller.Exception(
               `Invalid clickConfig: ${this.#name} element finder should ` +
                 'take exactly one argument, currently takes ' +
                 `${this.#clickConfig.length}`
             );
           }
         } else if (!(this.#clickConfig.selectorArray instanceof Array)) {
-          throw new Scroller.Error(
+          throw new Scroller.Exception(
             `Invalid clickConfig: ${this.#name} selectorArray is not an Array`
           );
         }
@@ -1506,7 +1498,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Needs either base OR containerItems:/u,
         () => {
           new Scroller(what, how);
@@ -1524,7 +1516,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Cannot have both base AND containerItems:/u,
         () => {
           new Scroller(what, how);
@@ -1541,7 +1533,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Not an element:/u,
         () => {
           new Scroller(what, how);
@@ -1558,7 +1550,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /No selectors:/u,
         () => {
           new Scroller(what, how);
@@ -1576,7 +1568,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /No base:/u,
         () => {
           new Scroller(what, how);
@@ -1609,7 +1601,7 @@
       };
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Missing uidCallback:/u,
         () => {
           new Scroller(what, how);
@@ -1620,7 +1612,7 @@
       how.uidCallback = {};
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Invalid uidCallback:/u,
         () => {
           new Scroller(what, how);
@@ -1657,7 +1649,7 @@
       how.clickConfig = () => {};
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Invalid clickConfig: .* 0$/u,
         () => {
           new Scroller(what, how);
@@ -1668,7 +1660,7 @@
       how.clickConfig = (a, b, c) => {};
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Invalid clickConfig: .* 3$/u,
         () => {
           new Scroller(what, how);
@@ -1679,7 +1671,7 @@
       how.clickConfig = {};
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Invalid clickConfig: .* selectorArray is not an Array$/u,
         () => {
           new Scroller(what, how);
@@ -1690,7 +1682,7 @@
       how.clickConfig = {selectorArray: 'string'};
 
       this.assertRaisesRegExp(
-        Scroller.Error,
+        Scroller.Exception,
         /Invalid clickConfig: .* selectorArray is not an Array$/u,
         () => {
           new Scroller(what, how);
