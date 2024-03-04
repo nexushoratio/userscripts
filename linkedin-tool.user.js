@@ -130,6 +130,11 @@
 
   const globalNewsContent = [
     {
+      date: '2024-02-26',
+      issues: ['#240'],
+      subject: 'Move <code>Scroller</code> assignment from ctor to setter',
+    },
+    {
       date: '2024-02-25',
       issues: ['#240'],
       subject: 'Use a setter to assign the managed <code>Scroller</code>',
@@ -210,22 +215,6 @@
       date: '2024-02-05',
       issues: ['#236'],
       subject: 'Initial <code>Events</code> support',
-    },
-    {
-      date: '2024-01-29',
-      issues: ['#233'],
-      subject: 'Implement <kbd><kbd>W</kbd></kbd>ithdrawn invitiation',
-    },
-    {
-      date: '2024-01-27',
-      issues: ['#233'],
-      subject: 'Handle the <em>Sent Invites</em> page',
-    },
-    {
-      date: '2024-01-27',
-      issues: ['#233'],
-      subject: 'Additional tweaks after renaming ' +
-        '<code>InvitationManagerReceivedInvites</code>',
     },
   ];
 
