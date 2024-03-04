@@ -1885,13 +1885,12 @@
 
     /**
      * @param {string} name - Custom portion of this instance.
-     * @param {Scroller} scroller - Scroller instance to manage.
      */
-    constructor(name, scroller) {
+    constructor(name) {
       super(name);
       this.on('activate', this.#onActivate)
         .on('deactivate', this.#onDeactivate)
-        .setScroller(scroller);
+        .setScroller();
     }
 
     /**
