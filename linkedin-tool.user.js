@@ -584,12 +584,15 @@
     /**
      * Common config for finding a clickable element inside the current item.
      *
-     * This essentially configures a call to {@link NH.web.clickElement}.
+     * Use only one of selectorArray or finder.
+     *
      * @typedef {object} ClickConfig
-     * @property {string[]} selectorArray - CSS selectors to use to find an
-     * element.
+     * @property {string[]} [selectorArray] - CSS selectors to use to find an
+     * element, passed to {@link NH.web.clickElement}.
      * @property {boolean} [matchSelf=false] - If a CSS selector would match
-     * base, then use it.
+     * base, then use it, {@link NH.web.clickElement}.
+     * @property {ElementFinder} [finder] - Function to find the appropriate
+     * clickable element, when a selectorArray is too simplistic.
      */
 
     /**
@@ -635,8 +638,8 @@
      * Some pages may not always provide all identified containers.  The
      * default of 0 disables timing out.  NB: Any containers that timeout will
      * not handle further activate() processing, such as handleClicks.
-     * @property {ElementFinder|ClickConfig} [clickConfig=null] - Configures
-     * how the click() method operates.
+     * @property {ClickConfig} [clickConfig={}] - Configures how the click()
+     * method operates.
      */
 
     /**
@@ -665,7 +668,7 @@
         bottomMarginCSS: this.#bottomMarginCSS = '0',
         waitForItemTimeout: this.#waitForItemTimeout = WAIT_FOR_ITEM,
         containerTimeout: this.#containerTimeout = 0,
-        clickConfig: this.#clickConfig = null,
+        clickConfig: this.#clickConfig = {},
       } = how);
 
       this.#validateInstance();
@@ -785,15 +788,15 @@
       this.logger.entered(me, item);
 
       if (item) {
-        if (this.#clickConfig instanceof Function) {
-          const result = this.#clickConfig(item);
+        if (this.#clickConfig.finder) {
+          const result = this.#clickConfig.finder(item);
           if (result) {
             result.click();
           } else {
             NH.web.postInfoAboutElement(item,
               `the clickConfig function for ${this.name}`);
           }
-        } else if (this.#clickConfig) {
+        } else if (this.#clickConfig.selectorArray) {
           if (!NH.web.clickElement(
             item,
             this.#clickConfig.selectorArray,
@@ -1340,18 +1343,34 @@
         );
       }
 
-      if (this.#clickConfig) {
-        if (this.#clickConfig instanceof Function) {
-          if (this.#clickConfig.length !== 1) {
-            throw new Scroller.Exception(
-              `Invalid clickConfig: ${this.#name} element finder should ` +
-                'take exactly one argument, currently takes ' +
-                `${this.#clickConfig.length}`
-            );
-          }
-        } else if (!(this.#clickConfig.selectorArray instanceof Array)) {
+      if (this.#clickConfig.selectorArray && this.#clickConfig.finder) {
+        throw new Scroller.Exception(
+          `Invalid clickConfig: ${this.name} cannot have both ` +
+            'selectorArray AND a finder function'
+        );
+      }
+
+      if (this.#clickConfig.selectorArray) {
+        if (!(this.#clickConfig.selectorArray instanceof Array)) {
           throw new Scroller.Exception(
             `Invalid clickConfig: ${this.#name} selectorArray is not an Array`
+          );
+        }
+      }
+
+      if (this.#clickConfig.finder) {
+        if (!(this.#clickConfig.finder instanceof Function)) {
+          throw new Scroller.Exception(
+            `Invalid clickConfig: ${this.#name} finder property should be ` +
+              'a function'
+          );
+        }
+
+        if (this.#clickConfig.finder.length !== 1) {
+          throw new Scroller.Exception(
+            `Invalid clickConfig: ${this.#name} finder function should ` +
+                'take exactly one argument, currently takes ' +
+                `${this.#clickConfig.finder.length}`
           );
         }
       }
@@ -1629,43 +1648,25 @@
         new Scroller(what, how);
       }, 'no clickConfig is fine');
 
-      how.clickConfig = (element) => {};
+      how.clickConfig = {};
 
       this.assertNoRaises(() => {
         new Scroller(what, how);
-      }, 'single argument element finder is fine');
+      }, 'empty clickConfig is fine');
 
-      how.clickConfig = () => {};
-
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .* 0$/u,
-        () => {
-          new Scroller(what, how);
-        },
-        'zero argument element finder is not fine'
-      );
-
-      how.clickConfig = (a, b, c) => {};
+      // Existence is what matters for this check, not correctness
+      how.clickConfig = {
+        selectorArray: {},
+        finder: {},
+      };
 
       this.assertRaisesRegExp(
         Scroller.Exception,
-        /Invalid clickConfig: .* 3$/u,
+        /Invalid clickConfig: .*both selectorArray AND a finder function$/u,
         () => {
           new Scroller(what, how);
         },
-        'many arguments element finder is not fine'
-      );
-
-      how.clickConfig = {};
-
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .* selectorArray is not an Array$/u,
-        () => {
-          new Scroller(what, how);
-        },
-        'missing selectorArray'
+        'both selectorArray and finder'
       );
 
       how.clickConfig = {selectorArray: 'string'};
@@ -1679,12 +1680,35 @@
         'non-array'
       );
 
-      how.clickConfig = {selectorArray: []};
+      how.clickConfig = {
+        finder: (element) => {},
+      };
 
       this.assertNoRaises(() => {
         new Scroller(what, how);
-      },
-      'array is fine');
+      }, 'single argument element finder is fine');
+
+      how.clickConfig.finder = () => {};
+
+      this.assertRaisesRegExp(
+        Scroller.Exception,
+        /Invalid clickConfig: .* 0$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'zero argument element finder is not fine'
+      );
+
+      how.clickConfig.finder = (a, b, c) => {};
+
+      this.assertRaisesRegExp(
+        Scroller.Exception,
+        /Invalid clickConfig: .* 3$/u,
+        () => {
+          new Scroller(what, how);
+        },
+        'too many arguments element finder is not fine'
+      );
     }
 
   }
@@ -5665,7 +5689,9 @@
       uidCallback: Notifications.uniqueIdentifier,
       classes: ['tom'],
       snapToTop: false,
-      clickConfig: Notifications.cardItemToClick,
+      clickConfig: {
+        finder: Notifications.cardItemToClick,
+      },
     };
 
     /** @type {Scroller~What} */
