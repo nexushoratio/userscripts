@@ -2708,6 +2708,8 @@
             RegExp('/verify/?.*', 'u'),
             // TODO(#257): Support *Analytics & tools* page
             '/dashboard/',
+            // TODO(#260): Support *My Jobs* page
+            RegExp('^/my-items/saved-jobs/.*', 'u'),
           ];
           /* eslint-enable */
 
