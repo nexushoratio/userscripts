@@ -2710,6 +2710,14 @@
             '/dashboard/',
             // TODO(#260): Support *My Jobs* page
             RegExp('^/my-items/saved-jobs/.*', 'u'),
+            // TODO(#261): Support *Follow Page* Page
+            '/suggested-for-you/follow-page/',
+            // TODO(#262): Support *Analytics Posts* Page
+            '/analytics/creator/content/',
+            // TODO(#263): Support *Feed update* Page
+            '/feed/update/',
+            // TODO(#264): Support *Saved Posts* Page
+            '/my-items/saved-posts/',
           ];
           /* eslint-enable */
 
