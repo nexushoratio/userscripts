@@ -2718,6 +2718,8 @@
             '/feed/update/',
             // TODO(#264): Support *Saved Posts* Page
             '/my-items/saved-posts/',
+            // TODO(#265): Support *Post analytics* Page
+            '/analytics/post-summary/',
           ];
           /* eslint-enable */
 
