@@ -2720,6 +2720,8 @@
             '/my-items/saved-posts/',
             // TODO(#265): Support *Post analytics* Page
             '/analytics/post-summary/',
+            // TODO(#266): Support *Company* Page
+            '/company/',
           ];
           /* eslint-enable */
 
