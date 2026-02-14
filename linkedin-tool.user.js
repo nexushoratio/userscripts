@@ -126,9 +126,15 @@
     ['#255', 'Support <b>Search appearances</b> page'],
     ['#256', 'Support <b>Verify</b> page'],
     ['#257', 'Support <b>Analytics & tools</b> page'],
+    ['#267', 'Bitrot: No longer functions'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-02-14',
+      issues: ['#267', '#242'],
+      subject: 'Detect new navigation bar HTML/CSS.',
+    },
     {
       date: '2024-02-26',
       issues: ['#240'],
@@ -6602,8 +6608,8 @@
     constructor(globals) {
       super();
       this.#globals = globals;
-      this.#primaryItemsObserver = new MutationObserver(
-        this.#primaryItemsHandler
+      this.#navContainerObserver = new MutationObserver(
+        this.#navContainerHandler
       );
       this.ready = this.#waitUntilPageLoadedEnough();
     }
@@ -6833,39 +6839,21 @@
     #infoWidget
     #licenseData
     #licenseLoaded
-    #navbar
+    #navContainerObserver
     #navbarDispatcher = new NH.base.Dispatcher('resize');
     #ourMenuItem
-    #primaryItems
-    #primaryItemsObserver
+    #primaryNavLinks
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
-    /** Hang out until enough HTML has been built to be useful. */
+    /** Hang out until the navigation bar has stabilized. */
     #waitUntilPageLoadedEnough = async () => {
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
-      // TODO(#242): If the choice of the divider class does not cause any
-      // problems, we should make that the official item to wait for, and then
-      // populate this.#navbar with a simple call to document.querySelector().
-      this.#navbar = await NH.web.waitForSelector('#global-nav', 0);
-      try {
-        const waitTime = 1000;
-        await NH.web.waitForSelector(
-          '.global-nav__primary-item--divider', waitTime
-        );
-        this.logger.log('Divider showed up');
-      } catch (e) {
-        this.logger.log(
-          'Divider did not show up, but that is all right...',
-          'just a way of wasting time',
-          e
-        );
-        if (litOptions.enableDevMode) {
-          NH.base.issues.post('TODO(#242): Wait for divider timed out');
-        }
-      }
+      // Waiting for buttons to get populated with drawings.
+      await NH.web.waitForSelector('#home-active-medium');
+
       this.#finishConstruction();
 
       this.logger.leaving(me);
@@ -6880,7 +6868,6 @@
       this.#addInfoTabs();
       this.#addLitStyle();
       this.#addToolMenuItem();
-      this.#observeNavBar();
 
       this.logger.leaving(me);
     }
@@ -7074,29 +7061,30 @@
       const me = 'addToolMenuItem';
       this.logger.entered(me);
 
-      this.#primaryItems = document.querySelector(
-        'ul.global-nav__primary-items'
-      );
-      this.#primaryItemsObserver.observe(
-        this.#primaryItems, {childList: true}
-      );
+      // It is annoying that we have to monitor this high in the DOM.
+      const root = document.querySelector('#root');
+      this.logger.log('root', root);
+      this.#navContainerObserver.observe(root, {childList: true});
 
-      this.#ourMenuItem = document.createElement('li');
-      this.#ourMenuItem.classList.add('global-nav__primary-item');
-      this.#ourMenuItem.innerHTML =
-        '<button id="lit-nav-button" class="global-nav__primary-link">' +
-        '  <div class="global-nav__primary-link-notif ' +
-        'artdeco-notification-badge">' +
-        '    <div class="notification-badge">' +
-        '      <span class="notification-badge__count"></span>' +
-        '    </div>' +
-        `    <div>${LinkedIn.#icon}</div>` +
-        '    <span class="lit-news-badge">TBD</span>' +
-        '    <span class="t-12 global-nav__primary-link-text">Tool</span>' +
-        '  </div>' +
-        '</button>';
+      this.#findPrimaryNavLinks();
+
+      this.#ourMenuItem = this.#primaryNavLinks
+        .querySelector('li')
+        .cloneNode(true);
 
       const button = this.#ourMenuItem.querySelector('button');
+      button.dataset.viewName = 'navigation-lit';
+      button.ariaLabel = 'Tool';
+      button.id = 'lit-nav-button';
+      button.querySelector('svg')
+        .parentElement.innerHTML = LinkedIn.#icon;
+      const textNodes = Array.prototype.filter.call(
+        button.querySelectorAll('*'),
+        el => el.childNodes[0]?.nodeType === Node.TEXT_NODE
+      );
+
+      textNodes[0].innerText = 'Tool';
+
       button.addEventListener('click', () => {
         if (this.#useOriginalInfoDialog) {
           const info = document.querySelector(`#${this.infoId}`);
@@ -7116,53 +7104,75 @@
     }
 
     #connectMenuItem = () => {
-      const navMe = this.#primaryItems.querySelector('li .global-nav__me')
+      const me = this.#connectMenuItem.name;
+      this.logger.entered(me);
+
+      const navMe = this.#primaryNavLinks.querySelector(
+        'button[data-view-name="navigation-settings"]'
+      )
         ?.closest('li');
+      this.logger.log('navMe', navMe);
+
       if (navMe) {
         navMe.after(this.#ourMenuItem);
       } else {
         // If the site changed and we cannot insert ourself after the Me menu
         // item, then go first.
-        this.#primaryItems.prepend(this.#ourMenuItem);
+        this.#primaryNavLinks.prepend(this.#ourMenuItem);
         NH.base.issues.post(
           'Unable to find the Profile navbar item.',
           'LIT menu installed in non-standard location.'
         );
       }
+
+      this.logger.leaving(me);
     }
 
-    #primaryItemsHandler = () => {
-      const me = 'primaryItemsHandler';
+    #navContainerHandler = () => {
+      const me = 'navContainerHandler';
       this.logger.entered(me);
 
+      this.logger.log('nav', this.#primaryNavLinks?.isConnected);
+      this.logger.log('menu', this.#ourMenuItem.isConnected);
+
+      if (!this.#primaryNavLinks?.isConnected) {
+        this.#findPrimaryNavLinks();
+      }
+
       if (!this.#ourMenuItem.isConnected) {
-        this.logger.log('reconnecting');
         this.#connectMenuItem();
-        if (litOptions.enableDevMode) {
-          // Make this event pop by publishing a bug in dev mode.
-          NH.base.issues.post('Had to reconnect the menu item.');
-        }
       }
 
       this.logger.leaving(me);
     }
 
-    #observeNavBar = () => {
+    /** Find the nav links. */
+    #findPrimaryNavLinks = () => {
+      const me = this.#findPrimaryNavLinks.name;
+      this.logger.entered(me);
+
+      this.#primaryNavLinks = document.querySelector(
+        'nav[componentkey="primaryNavLinksComponentRef"]'
+      );
+
       new ResizeObserver(this.#setNavBarInfo)
-        .observe(this.#navbar);
+        .observe(this.#primaryNavLinks);
 
       // An initial run.
       this.#setNavBarInfo();
+
+      this.logger.leaving(me, this.#primaryNavLinks);
     }
 
     /** Set some useful global variables. */
     #setNavBarInfo = () => {
       const margin = 4;
 
-      this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
+      const navbar = this.#primaryNavLinks;
 
-      this.#globals.navbarHeightPixels = this.#navbar.clientHeight +
-        margin;
+      this.logger.log('Raw navbar height is', navbar.clientHeight);
+
+      this.#globals.navbarHeightPixels = navbar.clientHeight + margin;
 
       this.#navbarDispatcher.fire('resize', this.#globals);
     }
