@@ -6859,7 +6859,8 @@
       this.logger.entered(me);
 
       // Waiting for buttons to get populated with drawings.
-      await NH.web.waitForSelector('#home-active-medium');
+      const selector = `${LinkedInGlobals.primaryNavSelector} svg`;
+      await NH.web.waitForSelector(selector);
 
       this.#finishConstruction();
 
