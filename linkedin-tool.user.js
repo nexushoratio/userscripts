@@ -1734,6 +1734,11 @@
       return this.#asideSelector;
     }
 
+    /** @type {string} - LinkedIn's common navigation bar. */
+    static get primaryNavSelector() {
+      return this.#navSelector;
+    }
+
     /** @type {string} - LinkedIn's common sidebar used in many layouts. */
     static get sidebarSelector() {
       return this.#sidebarSelector;
@@ -1800,6 +1805,7 @@
     }
 
     static #asideSelector = 'aside.scaffold-layout__aside';
+    static #navSelector = 'nav[componentkey="primaryNavLinksComponentRef"]';
     static #sidebarSelector = 'div.scaffold-layout__sidebar';
 
     #navbarHeightPixels = 0;
@@ -7153,7 +7159,7 @@
       this.logger.entered(me);
 
       this.#primaryNavLinks = document.querySelector(
-        'nav[componentkey="primaryNavLinksComponentRef"]'
+        LinkedInGlobals.primaryNavSelector
       );
 
       new ResizeObserver(this.#setNavBarInfo)
