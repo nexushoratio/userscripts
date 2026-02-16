@@ -2,6 +2,7 @@
 // @name        LinkedIn Tool
 // @namespace   dalgoda@gmail.com
 // @match       https://www.linkedin.com/*
+// @inject-into content
 // @noframes
 // @version     5.99
 // @author      Mike Castle
