@@ -7141,13 +7141,13 @@
       this.logger.entered(me);
 
       this.logger.log('nav', this.#primaryNavLinks?.isConnected);
-      this.logger.log('menu', this.#ourMenuItem.isConnected);
+      this.logger.log('menu', this.#ourMenuItem?.isConnected);
 
       if (!this.#primaryNavLinks?.isConnected) {
         this.#findPrimaryNavLinks();
       }
 
-      if (!this.#ourMenuItem.isConnected) {
+      if (!this.#ourMenuItem?.isConnected) {
         this.#connectMenuItem();
       }
 
