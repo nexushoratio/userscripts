@@ -27,6 +27,9 @@
 (async () => {
   'use strict';
 
+  const APP_LONG = 'LinkedIn Tool';
+  const APP_SHORT = 'Tool';
+
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 51},
     {name: 'base', minVersion: 52},
@@ -1805,7 +1808,14 @@
     }
 
     static #asideSelector = 'aside.scaffold-layout__aside';
-    static #navSelector = 'nav[componentkey="primaryNavLinksComponentRef"]';
+
+    static #navSelector = [
+      // Style 1
+      '#global-nav .global-nav__primary-items',
+      // Style 2
+      'nav[componentkey="primaryNavLinksComponentRef"] > ul',
+    ].join(', ');
+
     static #sidebarSelector = 'div.scaffold-layout__sidebar';
 
     #navbarHeightPixels = 0;
@@ -6615,8 +6625,11 @@
     constructor(globals) {
       super();
       this.#globals = globals;
-      this.#navContainerObserver = new MutationObserver(
-        this.#navContainerHandler
+      this.#navbarMutationObserver = new MutationObserver(
+        this.#navbarHandler
+      );
+      this.#navbarResizeObserver = new ResizeObserver(
+        this.#navbarHandler
       );
       this.ready = this.#waitUntilPageLoadedEnough();
     }
@@ -6820,6 +6833,16 @@
       return tab;
     }
 
+    static #Style = {
+      UNKNOWN: crypto.randomUUID(),
+      ONE: crypto.randomUUID(),
+      TWO: crypto.randomUUID(),
+    }
+
+    static {
+      Object.freeze(LinkedIn.#Style);
+    }
+
     static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
       '<defs>' +
@@ -6846,10 +6869,13 @@
     #infoWidget
     #licenseData
     #licenseLoaded
-    #navContainerObserver
+    #navbar
     #navbarDispatcher = new NH.base.Dispatcher('resize');
-    #ourMenuItem
-    #primaryNavLinks
+    #navbarMutationObserver
+    #navbarResizeObserver
+    #ourMenuItemStyle1
+    #ourMenuItemStyle2
+    #pageStyle
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
@@ -6858,9 +6884,31 @@
       const me = 'waitOnPageLoadedEnough';
       this.logger.entered(me);
 
-      // Waiting for buttons to get populated with drawings.
-      const selector = `${LinkedInGlobals.primaryNavSelector} svg`;
-      await NH.web.waitForSelector(selector);
+      // Wait for page to hopefully settle.
+      await NH.web.waitForSelector(
+        `${LinkedInGlobals.primaryNavSelector} svg`
+      );
+
+      // Figure out which style page that was loaded.
+      // We use another wait because that pages really like to reload.
+      const element = await NH.web.waitForSelector(
+        LinkedInGlobals.primaryNavSelector
+      );
+      const hint = element.closest('[id]').id;
+
+      switch (hint) {
+        case 'global-nav':
+          this.logger.log('Style 1 type page');
+          this.#pageStyle = LinkedIn.#Style.ONE;
+          break;
+        case 'root':
+          this.logger.log('Style 2 type page');
+          this.#pageStyle = LinkedIn.#Style.TWO;
+          break;
+        default:
+          this.logger.log('Unknown style page:', hint);
+          this.#pageStyle = LinkedIn.#Style.UNKNOWN;
+      }
 
       this.#finishConstruction();
 
@@ -6875,7 +6923,7 @@
       this.#createInfoWidget();
       this.#addInfoTabs();
       this.#addLitStyle();
-      this.#addToolMenuItem();
+      this.#findNavbar();
 
       this.logger.leaving(me);
     }
@@ -6913,7 +6961,7 @@
     }
 
     #createInfoWidget = () => {
-      this.#infoWidget = new NH.widget.Info('LinkedIn Tool');
+      this.#infoWidget = new NH.widget.Info(APP_LONG);
       const widget = this.#infoWidget.container;
       widget.classList.add('lit-info');
       document.body.prepend(widget);
@@ -7041,7 +7089,7 @@
         this.newsTab(),
       ];
 
-      this.#infoTabs = new TabbedUI('LinkedIn Tool');
+      this.#infoTabs = new TabbedUI(APP_LONG);
 
       for (const tab of tabs) {
         this.#infoTabs.addTab(tab);
@@ -7064,123 +7112,202 @@
       this.#infoTabs.prev();
     }
 
-    /** Add a menu item to the global nav bar. */
-    #addToolMenuItem = () => {
-      const me = 'addToolMenuItem';
-      this.logger.entered(me);
+    #toolButtonHandler = () => {
+      if (this.#useOriginalInfoDialog) {
+        const info = document.querySelector(`#${this.infoId}`);
+        info.showModal();
+        info.dispatchEvent(new Event('open'));
+      } else {
+        this.#infoWidget.open();
+      }
+      if (litOptions.enableDevMode) {
+        // Toggle which dialog is used.
+        this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
+      }
+    }
 
-      // It is annoying that we have to monitor this high in the DOM.
-      const root = document.querySelector('#root');
-      this.logger.log('root', root);
-      this.#navContainerObserver.observe(root, {childList: true});
+    #createMenuItemStyle1 = () => {
+      const me = this.#createMenuItemStyle1.name;
+      this.logger.entered(me, this.#navbar);
 
-      this.#findPrimaryNavLinks();
+      let item = this.#navbar
+        .querySelector('.global-nav__primary-item');
+      const subItem = item.querySelector('a');
+      item = item.cloneNode(false);
 
-      this.#ourMenuItem = this.#primaryNavLinks
+      const button = document.createElement('button');
+
+      button.append(...Array.from(subItem.childNodes)
+        .map(x => x.cloneNode(true))
+        .map((x) => {
+          x.removeAttribute?.('id');
+          return x;
+        }));
+      button.querySelector('svg')
+        .parentElement.innerHTML = LinkedIn.#icon;
+
+      const title = button.querySelector('.global-nav__primary-link-text');
+      title.innerText = APP_SHORT;
+      title.setAttribute('title', APP_SHORT);
+
+      button.addEventListener('click', this.#toolButtonHandler);
+      item.append(button);
+      this.#ourMenuItemStyle1 = item;
+
+      this.logger.leaving(me, this.#ourMenuItemStyle1);
+    }
+
+    #createMenuItemStyle2 = () => {
+      const me = this.#createMenuItemStyle2.name;
+      this.logger.entered(me, this.#navbar);
+
+      const item = this.#navbar
         .querySelector('li')
         .cloneNode(true);
 
-      const button = this.#ourMenuItem.querySelector('button');
-      button.dataset.viewName = 'navigation-lit';
-      button.ariaLabel = 'Tool';
-      button.id = 'lit-nav-button';
-      button.querySelector('svg')
-        .parentElement.innerHTML = LinkedIn.#icon;
-      const textNodes = Array.prototype.filter.call(
-        button.querySelectorAll('*'),
-        el => el.childNodes[0]?.nodeType === Node.TEXT_NODE
-      );
+      // The page may not have settled down yet, so check each bit carefully.
+      const button = item.querySelector('button');
+      if (button) {
+        const svg = button.querySelector('svg');
+        if (svg) {
+          svg.outerHTML = LinkedIn.#icon;
 
-      textNodes[0].innerText = 'Tool';
+          // Grab the common obfuscated class names
+          const buttons = this.#navbar.querySelectorAll('li > button');
+          const buttonClasses = new Set(buttons[0].classList)
+            .intersection(new Set(buttons[1].classList));
 
-      button.addEventListener('click', () => {
-        if (this.#useOriginalInfoDialog) {
-          const info = document.querySelector(`#${this.infoId}`);
-          info.showModal();
-          info.dispatchEvent(new Event('open'));
-        } else {
-          this.#infoWidget.open();
+          button.dataset.viewName = 'navigation-lit';
+          button.ariaLabel = APP_SHORT;
+          button.removeAttribute('aria-current');
+          button.className = [...buttonClasses].join(' ');
+
+          const textNodes = Array.from(button.querySelectorAll('*'))
+            .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
+
+          textNodes[0].innerText = APP_SHORT;
+
+          button.addEventListener('click', this.#toolButtonHandler);
+          this.#ourMenuItemStyle2 = item;
         }
-        if (litOptions.enableDevMode) {
-          this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
-        }
-      });
+      }
 
-      this.#connectMenuItem();
-
-      this.logger.leaving(me);
+      this.logger.leaving(me, this.#ourMenuItemStyle2);
     }
 
-    #connectMenuItem = () => {
+    /**
+     * Connect our menu item to the navbar if necessary.
+     *
+     * It will always go after "Me" menu item.
+     *
+     * This supports both styles 1 and 2.
+     *
+     * @param {HTMLElement} menuItem - The menu item to connect.
+     * @param {string} selector - The CSS selector for "Me".
+     */
+    #connectMenuItem = (menuItem, selector) => {
       const me = this.#connectMenuItem.name;
+      this.logger.entered(me, menuItem, selector);
+
+      if (!menuItem.isConnected) {
+        this.logger.log('Will connect menu item');
+
+        const navMe = this.#navbar.querySelector(selector)
+          ?.closest('li');
+        this.logger.log('navMe', navMe);
+
+        if (navMe) {
+          navMe.after(menuItem);
+        } else {
+          // If the site changed and we cannot insert ourself after the Me
+          // menu item, then go first.
+          this.#navbar.prepend(menuItem);
+          NH.base.issues.post(
+            'Unable to find the Profile navbar item.',
+            'LIT menu installed in non-standard location.'
+          );
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #ensureMenuStyle1 = () => {
+      const me = this.#ensureMenuStyle1.name;
       this.logger.entered(me);
 
-      const navMe = this.#primaryNavLinks.querySelector(
-        'button[data-view-name="navigation-settings"]'
-      )
-        ?.closest('li');
-      this.logger.log('navMe', navMe);
+      if (this.#pageStyle === LinkedIn.#Style.ONE) {
+        if (!this.#ourMenuItemStyle1) {
+          this.#createMenuItemStyle1();
+        }
+        if (this.#ourMenuItemStyle1) {
+          this.#connectMenuItem(this.#ourMenuItemStyle1, '.global-nav__me');
+        }
+      }
 
-      if (navMe) {
-        navMe.after(this.#ourMenuItem);
-      } else {
-        // If the site changed and we cannot insert ourself after the Me menu
-        // item, then go first.
-        this.#primaryNavLinks.prepend(this.#ourMenuItem);
-        NH.base.issues.post(
-          'Unable to find the Profile navbar item.',
-          'LIT menu installed in non-standard location.'
+      this.logger.leaving(me);
+    }
+
+    #ensureMenuStyle2 = () => {
+      const me = this.#ensureMenuStyle2.name;
+      this.logger.entered(me, this.#ourMenuItemStyle2);
+
+      if (this.#pageStyle === LinkedIn.#Style.TWO) {
+        if (!this.#ourMenuItemStyle2) {
+          this.#createMenuItemStyle2();
+        }
+        if (this.#ourMenuItemStyle2) {
+          this.#connectMenuItem(
+            this.#ourMenuItemStyle2,
+            'button[data-view-name="navigation-settings"]'
+          );
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /** Find the nav links and ensure observers. */
+    #findNavbar = () => {
+      const me = this.#findNavbar.name;
+      this.logger.entered(me, this.#navbar?.isConnected);
+
+      if (this.#navbar && !this.#navbar.isConnected) {
+        this.logger.log('Disconnecting observers');
+        this.#navbarMutationObserver.disconnect();
+        this.#navbarResizeObserver.disconnect();
+      }
+
+      if (!this.#navbar?.isConnected) {
+        this.#navbar = document.querySelector(
+          LinkedInGlobals.primaryNavSelector
         );
+
+        if (this.#navbar) {
+          this.#navbarMutationObserver.observe(
+            this.#navbar, {childList: true}
+          );
+          this.#navbarResizeObserver.observe(this.#navbar);
+        } else {
+          this.logger.log('Unable to find navbar');
+        }
       }
 
-      this.logger.leaving(me);
-    }
-
-    #navContainerHandler = () => {
-      const me = 'navContainerHandler';
-      this.logger.entered(me);
-
-      this.logger.log('nav', this.#primaryNavLinks?.isConnected);
-      this.logger.log('menu', this.#ourMenuItem?.isConnected);
-
-      if (!this.#primaryNavLinks?.isConnected) {
-        this.#findPrimaryNavLinks();
-      }
-
-      if (!this.#ourMenuItem?.isConnected) {
-        this.#connectMenuItem();
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /** Find the nav links. */
-    #findPrimaryNavLinks = () => {
-      const me = this.#findPrimaryNavLinks.name;
-      this.logger.entered(me);
-
-      this.#primaryNavLinks = document.querySelector(
-        LinkedInGlobals.primaryNavSelector
-      );
-
-      new ResizeObserver(this.#setNavBarInfo)
-        .observe(this.#primaryNavLinks);
-
-      // An initial run.
-      this.#setNavBarInfo();
-
-      this.logger.leaving(me, this.#primaryNavLinks);
+      this.logger.leaving(me, this.#navbar);
     }
 
     /** Set some useful global variables. */
-    #setNavBarInfo = () => {
+    #navbarHandler = () => {
       const margin = 4;
 
-      const navbar = this.#primaryNavLinks;
+      this.#findNavbar();
 
-      this.logger.log('Raw navbar height is', navbar.clientHeight);
+      this.#ensureMenuStyle1();
+      this.#ensureMenuStyle2();
 
-      this.#globals.navbarHeightPixels = navbar.clientHeight + margin;
+      this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
+
+      this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
 
       this.#navbarDispatcher.fire('resize', this.#globals);
     }
