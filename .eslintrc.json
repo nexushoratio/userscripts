@@ -195,7 +195,10 @@
     ],
     "indent": [
       "error",
-      2
+      2,
+      {
+        "SwitchCase": 1
+      }
     ],
     "lines-between-class-members": [
       "error",

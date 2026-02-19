@@ -213,7 +213,7 @@ def should_skip(code):
     """Returns whether this code should be skipped."""
     # Reserved words
     if code in ('const', 'if', 'await', 'return', 'for', 'while', 'function',
-                'let', 'throw', 'new', 'try'):
+                'let', 'throw', 'new', 'try', 'switch'):
         return True
     # Certain punctuation marks
     if '.' in code or '`' in code or "'" in code:
