@@ -6863,6 +6863,7 @@
       '</svg>';
 
     #globals
+    #iframeDoc
     #infoId
     #infoKeyboard
     #infoTabs
@@ -6879,6 +6880,34 @@
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
+    // @param {HTMLElement} element - Starting element to avoid another query.
+    // @returns {LinkedIn.#Style} - Guessed style.
+    #guessPageStyle = (element) => {
+      const me = this.#guessPageStyle.name;
+      this.logger.entered(me, element);
+
+      const hint = element.closest('[id]').id;
+      let msg = null;
+      let pageStyle = null;
+
+      switch (hint) {
+        case 'global-nav':
+          msg = 'Style 1 type page';
+          pageStyle = LinkedIn.#Style.ONE;
+          break;
+        case 'root':
+          msg = 'Style 2 type page';
+          pageStyle = LinkedIn.#Style.TWO;
+          break;
+        default:
+          msg = `Unknown style page: ${hint}`;
+          pageStyle = LinkedIn.#Style.UNKNOWN;
+      }
+
+      this.logger.leaving(me, msg);
+      return pageStyle;
+    }
+
     /** Hang out until the navigation bar has stabilized. */
     #waitUntilPageLoadedEnough = async () => {
       const me = 'waitOnPageLoadedEnough';
@@ -6888,27 +6917,6 @@
       await NH.web.waitForSelector(
         `${LinkedInGlobals.primaryNavSelector} svg`
       );
-
-      // Figure out which style page that was loaded.
-      // We use another wait because that pages really like to reload.
-      const element = await NH.web.waitForSelector(
-        LinkedInGlobals.primaryNavSelector
-      );
-      const hint = element.closest('[id]').id;
-
-      switch (hint) {
-        case 'global-nav':
-          this.logger.log('Style 1 type page');
-          this.#pageStyle = LinkedIn.#Style.ONE;
-          break;
-        case 'root':
-          this.logger.log('Style 2 type page');
-          this.#pageStyle = LinkedIn.#Style.TWO;
-          break;
-        default:
-          this.logger.log('Unknown style page:', hint);
-          this.#pageStyle = LinkedIn.#Style.UNKNOWN;
-      }
 
       this.#finishConstruction();
 
@@ -7234,7 +7242,7 @@
 
     #ensureMenuStyle1 = () => {
       const me = this.#ensureMenuStyle1.name;
-      this.logger.entered(me);
+      this.logger.entered(me, this.#ourMenuItemStyle1);
 
       if (this.#pageStyle === LinkedIn.#Style.ONE) {
         if (!this.#ourMenuItemStyle1) {
@@ -7272,32 +7280,68 @@
       const me = this.#findNavbar.name;
       this.logger.entered(me, this.#navbar?.isConnected);
 
-      if (this.#navbar && !this.#navbar.isConnected) {
-        this.logger.log('Disconnecting observers');
-        this.#navbarMutationObserver.disconnect();
-        this.#navbarResizeObserver.disconnect();
+      if (!this.#iframeDoc) {
+        this.#iframeDoc = document
+          .querySelector('iframe[data-testid]')
+          ?.contentDocument;
       }
 
-      if (!this.#navbar?.isConnected) {
-        this.#navbar = document.querySelector(
-          LinkedInGlobals.primaryNavSelector
-        );
+      let doConnect = false;
 
-        if (this.#navbar) {
-          this.#navbarMutationObserver.observe(
-            this.#navbar, {childList: true}
-          );
-          this.#navbarResizeObserver.observe(this.#navbar);
-        } else {
-          this.logger.log('Unable to find navbar');
-        }
+      doConnect ||= !this.#navbar?.isConnected;
+
+      const navbar = document.querySelector(
+        LinkedInGlobals.primaryNavSelector
+      ) || this.#iframeDoc
+        ?.querySelector(LinkedInGlobals.primaryNavSelector);
+
+      if (navbar) {
+        const pageStyle = this.#guessPageStyle(navbar);
+        doConnect ||= pageStyle !== this.#pageStyle;
+        this.#pageStyle = pageStyle;
+      }
+
+      if (this.#navbar && navbar) {
+        doConnect ||= !this.#navbar.isSameNode(navbar);
+      }
+
+      if (doConnect) {
+        this.#navbar = navbar;
+        this.#observeNavbar();
       }
 
       this.logger.leaving(me, this.#navbar);
     }
 
+    /** Reset observers for the navbar. */
+    #observeNavbar = () => {
+      const me = this.#observeNavbar.name;
+      this.logger.leaving(me, this.#navbar);
+
+      this.#navbarMutationObserver.disconnect();
+      this.#navbarResizeObserver.disconnect();
+
+      if (this.#iframeDoc?.head) {
+        this.#navbarMutationObserver.observe(
+          this.#iframeDoc.head, {childList: true, subtree: true}
+        );
+      }
+
+      if (this.#navbar) {
+        this.#navbarMutationObserver.observe(
+          this.#navbar, {childList: true}
+        );
+        this.#navbarResizeObserver.observe(this.#navbar);
+      }
+
+      this.logger.leaving(me);
+    }
+
     /** Set some useful global variables. */
     #navbarHandler = () => {
+      const me = this.#navbarHandler.name;
+      this.logger.entered(me);
+
       const margin = 4;
 
       this.#findNavbar();
@@ -7310,6 +7354,8 @@
       this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
 
       this.#navbarDispatcher.fire('resize', this.#globals);
+
+      this.logger.leaving(me);
     }
 
     /**
