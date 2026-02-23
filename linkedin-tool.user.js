@@ -7317,7 +7317,7 @@
     /** Reset observers for the navbar. */
     #observeNavbar = () => {
       const me = this.#observeNavbar.name;
-      this.logger.leaving(me, this.#navbar);
+      this.logger.entered(me, this.#navbar);
 
       this.#navbarMutationObserver.disconnect();
       this.#navbarResizeObserver.disconnect();
