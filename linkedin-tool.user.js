@@ -7144,6 +7144,7 @@
       item = item.cloneNode(false);
 
       const button = document.createElement('button');
+      button.classList.add('global-nav__primary-link');
 
       button.append(...Array.from(subItem.childNodes)
         .map(x => x.cloneNode(true))
