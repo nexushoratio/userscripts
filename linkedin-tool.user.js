@@ -7287,9 +7287,9 @@
           ?.contentDocument;
       }
 
-      let doConnect = false;
+      let doObserve = false;
 
-      doConnect ||= !this.#navbar?.isConnected;
+      doObserve ||= !this.#navbar?.isConnected;
 
       const navbar = document.querySelector(
         LinkedInGlobals.primaryNavSelector
@@ -7298,15 +7298,15 @@
 
       if (navbar) {
         const pageStyle = this.#guessPageStyle(navbar);
-        doConnect ||= pageStyle !== this.#pageStyle;
+        doObserve ||= pageStyle !== this.#pageStyle;
         this.#pageStyle = pageStyle;
       }
 
       if (this.#navbar && navbar) {
-        doConnect ||= !this.#navbar.isSameNode(navbar);
+        doObserve ||= !this.#navbar.isSameNode(navbar);
       }
 
-      if (doConnect) {
+      if (doObserve) {
         this.#navbar = navbar;
         this.#observeNavbar();
       }
