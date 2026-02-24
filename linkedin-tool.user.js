@@ -131,100 +131,27 @@
     ['#256', 'Support <b>Verify</b> page'],
     ['#257', 'Support <b>Analytics & tools</b> page'],
     ['#267', 'Bitrot: No longer functions'],
+    [
+      '#271', '<b>Global</b> page is particular tricky as it needs ' +
+     'to handle both Style 1 and Style 2 pages',
+    ],
   ];
 
   const globalNewsContent = [
     {
+      date: '2026-02-24',
+      issues: ['#271'],
+      subject: 'Handle both Style-1 and Style-2 layouts for Global hotkeys',
+    },
+    {
+      date: '2026-02-20',
+      issues: ['#267'],
+      subject: 'Start supporting multiple styles of pages',
+    },
+    {
       date: '2026-02-14',
       issues: ['#267', '#242'],
       subject: 'Detect new navigation bar HTML/CSS.',
-    },
-    {
-      date: '2024-02-26',
-      issues: ['#240'],
-      subject: 'Move <code>Scroller</code> assignment from ctor to setter',
-    },
-    {
-      date: '2024-02-25',
-      issues: ['#240'],
-      subject: 'Use a setter to assign the managed <code>Scroller</code>',
-    },
-    {
-      date: '2024-02-25',
-      issues: ['#240'],
-      subject: 'Use optional chaining with <code>this.#scroller</code>',
-    },
-    {
-      date: '2024-02-22',
-      issues: ['#255', '#256', '#257'],
-      subject: 'Acknowledge a number a newly discovered pages',
-    },
-    {
-      date: '2024-02-15',
-      issues: ['#253'],
-      subject: 'Acknowledge <em>My Network Events</em> page',
-    },
-    {
-      date: '2024-02-15',
-      issues: ['#236'],
-      subject: 'Implement <kbd><kbd>S</kbd></kbd>hare current event',
-    },
-    {
-      date: '2024-02-15',
-      issues: ['#236'],
-      subject: 'Support the <em>Your events</em> collection',
-    },
-    {
-      date: '2024-02-14',
-      issues: ['#167'],
-      subject: 'Migrate to using <code>Service()</code> from lib/base',
-    },
-    {
-      date: '2024-02-13',
-      issues: ['#240'],
-      subject: 'Allow changing top/bottom margins in <code>Scroller</code>',
-    },
-    {
-      date: '2024-02-12',
-      issues: ['#236'],
-      subject: 'Implement <kbd><kbd>n</kbd></kbd>/<kbd><kbd>p</kbd></kbd> ' +
-        'secondary navigation within collections',
-    },
-    {
-      date: '2024-02-12',
-      issues: ['#167'],
-      subject: 'Bump version of lib/base.js being used',
-    },
-    {
-      date: '2024-02-11',
-      issues: ['#245'],
-      subject: 'Rework <em>My Network</em> to use the terms ' +
-        '<em>collection</em> and <em>individual</em>',
-    },
-    {
-      date: '2024-02-10',
-      issues: ['#167'],
-      subject: 'Migrate <code>Service</code> to lib/base',
-    },
-    {
-      date: '2024-02-09',
-      issues: ['#236'],
-      subject: 'Support primary navigation',
-    },
-    {
-      date: '2024-02-07',
-      issues: ['#242'],
-      subject: 'Wait for the <em>For Business</em> menu item to show up',
-    },
-    {
-      date: '2024-02-07',
-      issues: ['#240'],
-      subject: 'Attach a <code>ResizeObserver</code> to the global nav bar',
-    },
-    {
-      date: '2024-02-05',
-      issues: ['#236'],
-      subject: 'Initial <code>Events</code> support',
     },
   ];
 
