@@ -1732,6 +1732,16 @@
    */
   class LinkedInGlobals {
 
+    static Style = {
+      UNKNOWN: Symbol.for('Style-0'),
+      ONE: Symbol.for('Style-1'),
+      TWO: Symbol.for('Style-2'),
+    }
+
+    static {
+      Object.freeze(LinkedInGlobals.Style);
+    }
+
     /** @type {string} - LinkedIn's common aside used in many layouts. */
     static get asideSelector() {
       return this.#asideSelector;
@@ -6686,6 +6696,11 @@
       return this.#navbarDispatcher;
     }
 
+    /** @type {LinkedInGlobals.Style} */
+    get pageStyle() {
+      return this.#pageStyle;
+    }
+
     /** @inheritdoc */
     done() {
       super.done();
@@ -6833,16 +6848,6 @@
       return tab;
     }
 
-    static #Style = {
-      UNKNOWN: crypto.randomUUID(),
-      ONE: crypto.randomUUID(),
-      TWO: crypto.randomUUID(),
-    }
-
-    static {
-      Object.freeze(LinkedIn.#Style);
-    }
-
     static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
       '<defs>' +
@@ -6881,30 +6886,26 @@
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
     // @param {HTMLElement} element - Starting element to avoid another query.
-    // @returns {LinkedIn.#Style} - Guessed style.
+    // @returns {LinkedInGlobals.Style} - Guessed style.
     #guessPageStyle = (element) => {
       const me = this.#guessPageStyle.name;
       this.logger.entered(me, element);
 
       const hint = element.closest('[id]').id;
-      let msg = null;
       let pageStyle = null;
 
       switch (hint) {
         case 'global-nav':
-          msg = 'Style 1 type page';
-          pageStyle = LinkedIn.#Style.ONE;
+          pageStyle = LinkedInGlobals.Style.ONE;
           break;
         case 'root':
-          msg = 'Style 2 type page';
-          pageStyle = LinkedIn.#Style.TWO;
+          pageStyle = LinkedInGlobals.Style.TWO;
           break;
         default:
-          msg = `Unknown style page: ${hint}`;
-          pageStyle = LinkedIn.#Style.UNKNOWN;
+          pageStyle = LinkedInGlobals.Style.UNKNOWN;
       }
 
-      this.logger.leaving(me, msg);
+      this.logger.leaving(me, pageStyle);
       return pageStyle;
     }
 
@@ -7245,7 +7246,7 @@
       const me = this.#ensureMenuStyle1.name;
       this.logger.entered(me, this.#ourMenuItemStyle1);
 
-      if (this.#pageStyle === LinkedIn.#Style.ONE) {
+      if (this.#pageStyle === LinkedInGlobals.Style.ONE) {
         if (!this.#ourMenuItemStyle1) {
           this.#createMenuItemStyle1();
         }
@@ -7261,7 +7262,7 @@
       const me = this.#ensureMenuStyle2.name;
       this.logger.entered(me, this.#ourMenuItemStyle2);
 
-      if (this.#pageStyle === LinkedIn.#Style.TWO) {
+      if (this.#pageStyle === LinkedInGlobals.Style.TWO) {
         if (!this.#ourMenuItemStyle2) {
           this.#createMenuItemStyle2();
         }
