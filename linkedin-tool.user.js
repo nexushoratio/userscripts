@@ -1748,8 +1748,8 @@
       // Style 1
       'aside.scaffold-layout__aside',
       // Style 2
-      'main > div > div > div:last-child',
-    ];
+      '#workspace > div > div > div:last-child',
+    ].join(', ');
 
     static #navSelector = [
       // Style 1
@@ -1762,7 +1762,7 @@
       // Style 1
       'aside.scaffold-layout__sidebar',
       // Style 2
-      'main > div > div > div:first-child',
+      '#workspace > div > div > div:first-child',
     ].join(', ');
 
     #navbarHeightPixels = 0;
