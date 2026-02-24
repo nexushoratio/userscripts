@@ -1817,7 +1817,12 @@
       return url;
     }
 
-    static #asideSelector = 'aside.scaffold-layout__aside';
+    static #asideSelector = [
+      // Style 1
+      'aside.scaffold-layout__aside',
+      // Style 2
+      'main > div > div > div:last-child',
+    ];
 
     static #navSelector = [
       // Style 1
@@ -1826,7 +1831,12 @@
       'nav[componentkey="primaryNavLinksComponentRef"] > ul',
     ].join(', ');
 
-    static #sidebarSelector = 'div.scaffold-layout__sidebar';
+    static #sidebarSelector = [
+      // Style 1
+      'aside.scaffold-layout__sidebar',
+      // Style 2
+      'main > div > div > div:first-child',
+    ].join(', ');
 
     #navbarHeightPixels = 0;
 
@@ -2616,7 +2626,11 @@
       '?',
       'Show this information view',
       () => {
-        this.#gotoNavButton('Tool');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavButton('Tool');
+        } else {
+          this.#gotoStyle2Element('lit');
+        }
       }
     );
 
@@ -2624,7 +2638,14 @@
       '/',
       'Go to Search box',
       () => {
-        NH.web.clickElement(document, ['#global-nav-search button']);
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          NH.web.clickElement(document, ['#global-nav-search button']);
+        } else {
+          const element = document.querySelector(
+            '[data-view-name="search-global-typeahead-input"]'
+          );
+          NH.web.focusOnElement(element);
+        }
       }
     );
 
@@ -2632,7 +2653,11 @@
       'g h',
       'Go Home (aka, Feed)',
       () => {
-        this.#gotoNavLink('feed');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('feed');
+        } else {
+          this.#gotoStyle2Element('homepage');
+        }
       }
     );
 
@@ -2640,7 +2665,11 @@
       'g m',
       'Go to My Network',
       () => {
-        this.#gotoNavLink('mynetwork');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('mynetwork');
+        } else {
+          this.#gotoStyle2Element('mynetwork');
+        }
       }
     );
 
@@ -2648,7 +2677,11 @@
       'g j',
       'Go to Jobs',
       () => {
-        this.#gotoNavLink('jobs');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('jobs');
+        } else {
+          this.#gotoStyle2Element('jobs');
+        }
       }
     );
 
@@ -2656,7 +2689,11 @@
       'g g',
       'Go to Messaging',
       () => {
-        this.#gotoNavLink('messaging');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('messaging');
+        } else {
+          this.#gotoStyle2Element('messaging');
+        }
       }
     );
 
@@ -2664,7 +2701,11 @@
       'g n',
       'Go to Notifications',
       () => {
-        this.#gotoNavLink('notifications');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('notifications');
+        } else {
+          this.#gotoStyle2Element('notifications');
+        }
       }
     );
 
@@ -2672,7 +2713,11 @@
       'g p',
       'Go to Profile (aka, Me)',
       () => {
-        this.#gotoNavButton('Me');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavButton('Me');
+        } else {
+          this.#gotoStyle2Element('settings');
+        }
       }
     );
 
@@ -2680,7 +2725,11 @@
       'g b',
       'Go to Business',
       () => {
-        this.#gotoNavButton('Business');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavButton('Business');
+        } else {
+          this.#gotoStyle2Element('launcher');
+        }
       }
     );
 
@@ -2688,7 +2737,11 @@
       'g l',
       'Go to Learning',
       () => {
-        this.#gotoNavLink('learning');
+        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+          this.#gotoNavLink('learning');
+        } else {
+          this.#gotoStyle2Element('nav-spotlight-learning');
+        }
       }
     );
 
@@ -2791,6 +2844,28 @@
       );
       const button = buttons.find(el => el.textContent.includes(item));
       button?.click();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Click on the requested button in the global nav bar.
+     * @param {string} item - Text on the button to look for.
+     */
+    #gotoStyle2Element = (item) => {
+      const me = this.#gotoStyle2Element.name;
+      this.logger.entered(me, item);
+
+      const element = document
+        .querySelector(
+          [
+            `[data-view-name="navigation-${item}"]`,
+            // Learning is an odd duck.
+            `[data-view-name="${item}"]`,
+          ].join(', ')
+        );
+      this.logger.log('element', element);
+      element?.click();
 
       this.logger.leaving(me);
     }
