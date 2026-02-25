@@ -135,9 +135,20 @@
       '#271', '<b>Global</b> page is particular tricky as it needs ' +
      'to handle both Style 1 and Style 2 pages',
     ],
+    ['#272', 'Styling issue on <code>Information view</code>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-02-25',
+      issues: ['#272'],
+      subject: 'Tweak the CSS for the <code>Information view</code>',
+    },
+    {
+      date: '2026-02-24',
+      issues: ['#271'],
+      subject: 'Improve the selector for the sidebars',
+    },
     {
       date: '2026-02-24',
       issues: ['#271'],
