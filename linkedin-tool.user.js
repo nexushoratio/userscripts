@@ -7155,16 +7155,19 @@
           x.removeAttribute?.('id');
           return x;
         }));
-      button.querySelector('svg')
-        .parentElement.innerHTML = LinkedIn.#icon;
 
-      const title = button.querySelector('.global-nav__primary-link-text');
-      title.innerText = APP_SHORT;
-      title.setAttribute('title', APP_SHORT);
+      const svg = button.querySelector('svg');
+      if (svg) {
+        svg.parentElement.innerHTML = LinkedIn.#icon;
 
-      button.addEventListener('click', this.#toolButtonHandler);
-      item.append(button);
-      this.#ourMenuItemStyle1 = item;
+        const title = button.querySelector('.global-nav__primary-link-text');
+        title.innerText = APP_SHORT;
+        title.setAttribute('title', APP_SHORT);
+
+        button.addEventListener('click', this.#toolButtonHandler);
+        item.append(button);
+        this.#ourMenuItemStyle1 = item;
+      }
 
       this.logger.leaving(me, this.#ourMenuItemStyle1);
     }
