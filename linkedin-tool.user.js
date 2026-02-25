@@ -7628,6 +7628,8 @@
         `#${this._infoId}:modal {` +
           ' height: 100%;' +
           ' width: 65rem;' +
+          ' font-size: 1.6rem;' +
+          ' line-height: 1.5em;' +
           ' display: flex;' +
           ' flex-direction: column;' +
           '}',
