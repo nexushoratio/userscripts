@@ -136,9 +136,21 @@
      'to handle both Style 1 and Style 2 pages',
     ],
     ['#272', 'Styling issue on <code>Information view</code>'],
+    ['#273', 'Focus being stolen from sidebars'],
+    ['#274', 'Hybrid detection does not reliably work'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-02-27',
+      issues: ['#274'],
+      subject: 'Expand the scope of observing mutations for the navbar',
+    },
+    {
+      date: '2026-02-27',
+      issues: ['#273'],
+      subject: 'Keep <code>tabindex=-1</code> on the <code>aside</code>s',
+    },
     {
       date: '2026-02-25',
       issues: ['#272'],
