@@ -7347,7 +7347,7 @@
 
       if (this.#navbar) {
         this.#navbarMutationObserver.observe(
-          this.#navbar, {childList: true}
+          this.#navbar, {childList: true, subtree: true}
         );
         this.#navbarResizeObserver.observe(this.#navbar);
       }
@@ -7355,7 +7355,7 @@
       this.logger.leaving(me);
     }
 
-    /** Set some useful global variables. */
+    /** Recheck various items after a change to the navbar. */
     #navbarHandler = () => {
       const me = this.#navbarHandler.name;
       this.logger.entered(me);
