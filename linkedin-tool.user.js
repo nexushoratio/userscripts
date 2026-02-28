@@ -7252,23 +7252,25 @@
       const me = this.#connectMenuItem.name;
       this.logger.entered(me, menuItem, selector);
 
-      if (!menuItem.isConnected) {
-        this.logger.log('Will connect menu item');
+      if (this.#navbar) {
+        if (!menuItem.isConnected) {
+          this.logger.log('Will connect menu item');
 
-        const navMe = this.#navbar.querySelector(selector)
-          ?.closest('li');
-        this.logger.log('navMe', navMe);
+          const navMe = this.#navbar.querySelector(selector)
+            ?.closest('li');
+          this.logger.log('navMe', navMe);
 
-        if (navMe) {
-          navMe.after(menuItem);
-        } else {
+          if (navMe) {
+            navMe.after(menuItem);
+          } else {
           // If the site changed and we cannot insert ourself after the Me
           // menu item, then go first.
-          this.#navbar.prepend(menuItem);
-          NH.base.issues.post(
-            'Unable to find the Profile navbar item.',
-            'LIT menu installed in non-standard location.'
-          );
+            this.#navbar.prepend(menuItem);
+            NH.base.issues.post(
+              'Unable to find the Profile navbar item.',
+              'LIT menu installed in non-standard location.'
+            );
+          }
         }
       }
 
@@ -7381,14 +7383,15 @@
 
       this.#findNavbar();
 
-      this.#ensureMenuStyle1();
-      this.#ensureMenuStyle2();
+      if (this.#navbar) {
+        this.#ensureMenuStyle1();
+        this.#ensureMenuStyle2();
 
-      this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
+        this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
+        this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
 
-      this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
-
-      this.#navbarDispatcher.fire('resize', this.#globals);
+        this.#navbarDispatcher.fire('resize', this.#globals);
+      }
 
       this.logger.leaving(me);
     }
