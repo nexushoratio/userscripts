@@ -6716,6 +6716,11 @@
       return this.#licenseData;
     }
 
+    /** @type {HTMLElement} */
+    get navbar() {
+      return this.#navbar;
+    }
+
     /** @type {NH.base.Dispatcher} */
     get navbarDispatcher() {
       return this.#navbarDispatcher;
