@@ -2778,7 +2778,7 @@
      * @param {string} item - Portion of the link to match.
      */
     #gotoNavLink = (item) => {
-      NH.web.clickElement(document, [`#global-nav a[href*="/${item}"`]);
+      NH.web.clickElement(this.spa.details.navbar, [`a[href*="/${item}"`]);
     }
 
     /**
@@ -2789,11 +2789,11 @@
       const me = 'gotoNavButton';
       this.logger.entered(me, item);
 
-      const buttons = Array.from(
-        document.querySelectorAll('#global-nav button')
-      );
-      const button = buttons.find(el => el.textContent.includes(item));
-      button?.click();
+      Array.from(
+        this.spa.details.navbar.querySelectorAll('button')
+      )
+        .find(el => el.textContent.includes(item))
+        ?.click();
 
       this.logger.leaving(me);
     }
