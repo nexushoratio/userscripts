@@ -2561,15 +2561,6 @@
       if (litOptions.enableIssue244Changes) {
         this.addService(Global.#Activator, this);
       }
-
-      // Only care about the links that update the current page.
-      const anchors = Array.prototype.filter.call(
-        document.querySelectorAll('#global-nav a'),
-        x => x.target !== '_blank'
-      );
-      for (const anchor of anchors) {
-        anchor.addEventListener('click', this.#navLinkClickHandler);
-      }
     }
 
     info = new Shortcut(
@@ -2711,6 +2702,12 @@
       }
     );
 
+    /** Call on every page activation to reset observers. */
+    async activate() {
+      await super.activate();
+      this.spa.details.pageChanged();
+    }
+
     static #Activator = class extends NH.base.Service {
 
       /**
@@ -2816,50 +2813,6 @@
         );
       this.logger.log('element', element);
       element?.click();
-
-      this.logger.leaving(me);
-    }
-
-    #navLinkClickHandler = async () => {
-      const me = 'navLinkClickHandler';
-      this.logger.entered(me);
-
-      const oldPathname = window.location.pathname;
-
-      /**
-       * @implements {NH.web.Monitor}
-       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        const mon = 'monitor';
-        this.logger.entered(mon, window.location.pathname);
-
-        const result = {
-          done: oldPathname !== window.location.pathname,
-          results: window.location.pathname,
-        };
-
-        this.logger.leaving(mon, result);
-        return result;
-      };
-
-      const what = {
-        name: me,
-        base: document.body,
-      };
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: 1000,
-      };
-
-      try {
-        const newPathname = await NH.web.otmot(what, how);
-        this.logger.log(`page moved on to ${newPathname}`);
-      } catch (e) {
-        this.logger.log(`page stayed at ${oldPathname}`);
-        this.spa.activate(oldPathname);
-      }
 
       this.logger.leaving(me);
     }
@@ -6669,7 +6622,7 @@
       this.ready = this.#waitUntilPageLoadedEnough();
     }
 
-    urlChangeMonitorSelector = 'div.authentication-outlet';
+    urlChangeMonitorSelector = 'html';
 
     /** @type {LinkedInGlobals} - Instance passed in during construction. */
     get globals() {
@@ -6760,6 +6713,16 @@
       how.bottomMarginCSS = '3em';
 
       this.logger.leaving(me, how);
+    }
+
+    /** Special processing to handle page transitions. */
+    pageChanged() {
+      const me = this.pageChanged.name;
+      this.logger.entered(me);
+
+      this.#navbarHandler();
+
+      this.logger.leaving(me);
     }
 
     /** @inheritdoc */
@@ -7318,14 +7281,16 @@
       this.logger.entered(me, this.#navbar?.isConnected);
 
       if (!this.#iframeDoc) {
-        this.#iframeDoc = document
+        const iframe = document
           .querySelector('iframe[data-testid]')
           ?.contentDocument;
+        // Do not track the iframe until it has settled a bit.
+        if (iframe && iframe.URL !== 'about:blank') {
+          this.#iframeDoc = iframe;
+        }
       }
 
-      let doObserve = false;
-
-      doObserve ||= !this.#navbar?.isConnected;
+      let doObserve = !this.#navbar?.isConnected;
 
       const navbar = document.querySelector(
         LinkedInGlobals.primaryNavSelector
