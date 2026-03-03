@@ -6740,24 +6740,6 @@
     }
 
     /** @inheritdoc */
-    _errors = (eventType, count) => {
-      const me = 'errors';
-      this.logger.entered(me, eventType, count);
-
-      const button = document.querySelector('#lit-nav-button');
-      const toggle = button.querySelector('.notification-badge');
-      const badge = button.querySelector('.notification-badge__count');
-      badge.innerText = `${count}`;
-      if (count) {
-        toggle.classList.add('notification-badge--show');
-      } else {
-        toggle.classList.remove('notification-badge--show');
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /** @inheritdoc */
     docTab() {
       const me = 'docTab';
       this.logger.entered(me);
@@ -6886,6 +6868,8 @@
     #navbarDispatcher = new NH.base.Dispatcher('resize');
     #navbarMutationObserver
     #navbarResizeObserver
+    #ourMenuBadgeStyle1
+    #ourMenuBadgeStyle2
     #ourMenuItemStyle1
     #ourMenuItemStyle2
     #pageStyle
@@ -7090,6 +7074,7 @@
           ' text-align: right;' +
           ' padding-right: 0.5em;' +
           '}',
+        '.lit-menu-hide-badge { opacity: 0; }',
       ];
       style.textContent = styles.join('\n');
       document.head.prepend(style);
@@ -7142,12 +7127,60 @@
       }
     }
 
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle1 = (button) => {
+      button.querySelector('.notification-badge')
+        ?.classList.remove('notification-badge--show');
+
+      const a11y = button.querySelector('.a11y-text');
+      if (a11y) {
+        a11y.innerText = `${APP_LONG} notifications`;
+      }
+
+      const count = button.querySelector('.notification-badge__no-count');
+      count?.classList.remove('notification-badge__no-count');
+      count?.classList.add('notification-badge__count');
+
+      const title = button.querySelector('.global-nav__primary-link-text');
+      title.innerText = APP_SHORT;
+      title.setAttribute('title', APP_SHORT);
+    }
+
+    /**
+     * Updates error badge as appropriate.
+     *
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {number} count - Number of errors currently logged.
+     */
+    #errorBadgeStyle1 = (eventType, count) => {
+      const me = this.#errorBadgeStyle1.name;
+      this.logger.entered(me, eventType, count);
+
+      const toggle = this.#ourMenuBadgeStyle1.parentElement;
+      this.#ourMenuBadgeStyle1.innerText = `${count}`;
+
+      if (count) {
+        toggle.classList.add('notification-badge--show');
+      } else {
+        toggle.classList.remove('notification-badge--show');
+      }
+
+      this.logger.leaving(me);
+    }
+
     #createMenuItemStyle1 = () => {
       const me = this.#createMenuItemStyle1.name;
       this.logger.entered(me, this.#navbar);
 
+      // Making the assumption that the there is at least one item with a
+      // badge and it is an anchor.
       let item = this.#navbar
-        .querySelector('.global-nav__primary-item');
+        .querySelector('.global-nav__primary-item:has(.notification-badge)');
       const subItem = item.querySelector('a');
       item = item.cloneNode(false);
 
@@ -7165,16 +7198,62 @@
       if (svg) {
         svg.parentElement.innerHTML = LinkedIn.#icon;
 
-        const title = button.querySelector('.global-nav__primary-link-text');
-        title.innerText = APP_SHORT;
-        title.setAttribute('title', APP_SHORT);
+        this.#finishButtonStyle1(button);
 
         button.addEventListener('click', this.#toolButtonHandler);
         item.append(button);
         this.#ourMenuItemStyle1 = item;
+        this.dispatcher.on('errors', this.#errorBadgeStyle1);
+        this.#ourMenuBadgeStyle1 = button.querySelector(
+          '.notification-badge__count'
+        );
       }
 
       this.logger.leaving(me, this.#ourMenuItemStyle1);
+    }
+
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle2 = (button) => {
+      // Grab the common obfuscated class names
+      const buttons = this.#navbar.querySelectorAll('li > button');
+      const buttonClasses = new Set(buttons[0].classList)
+        .intersection(new Set(buttons[1].classList));
+
+      button.dataset.viewName = 'navigation-lit';
+      button.ariaLabel = APP_SHORT;
+      button.removeAttribute('aria-current');
+      button.className = [...buttonClasses].join(' ');
+
+      const textNodes = Array.from(button.querySelectorAll('*'))
+        .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
+
+      textNodes[0].innerText = APP_SHORT;
+    }
+
+    /**
+     * Updates error badge as appropriate.
+     *
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {number} count - Number of errors currently logged.
+     */
+    #errorBadgeStyle2 = (eventType, count) => {
+      const me = this.#errorBadgeStyle2.name;
+      this.logger.entered(me, eventType, count);
+
+      this.#ourMenuBadgeStyle2.innerText = `${count}`;
+
+      if (count) {
+        this.#ourMenuBadgeStyle2.classList.remove('lit-menu-hide-badge');
+      } else {
+        this.#ourMenuBadgeStyle2.classList.add('lit-menu-hide-badge');
+      }
+
+      this.logger.leaving(me);
     }
 
     #createMenuItemStyle2 = () => {
@@ -7190,25 +7269,24 @@
       if (button) {
         const svg = button.querySelector('svg');
         if (svg) {
+          const svgParent = svg.parentElement;
           svg.outerHTML = LinkedIn.#icon;
 
-          // Grab the common obfuscated class names
-          const buttons = this.#navbar.querySelectorAll('li > button');
-          const buttonClasses = new Set(buttons[0].classList)
-            .intersection(new Set(buttons[1].classList));
+          const badge = this.#navbar
+            .querySelector('svg + span')
+            ?.cloneNode(true);
+          if (badge) {
+            badge.classList.add('lit-menu-hide-badge');
+            badge.innerText = null;
+            svgParent.append(badge);
+          }
 
-          button.dataset.viewName = 'navigation-lit';
-          button.ariaLabel = APP_SHORT;
-          button.removeAttribute('aria-current');
-          button.className = [...buttonClasses].join(' ');
-
-          const textNodes = Array.from(button.querySelectorAll('*'))
-            .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
-
-          textNodes[0].innerText = APP_SHORT;
+          this.#finishButtonStyle2(button);
 
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;
+          this.#ourMenuBadgeStyle2 = badge;
+          this.dispatcher.on('errors', this.#errorBadgeStyle2);
         }
       }
 
@@ -7248,7 +7326,14 @@
               'LIT menu installed in non-standard location.'
             );
           }
+          this.spa.refreshErrors();
         }
+        // Send this event to seed the newly created badge
+        // const errors = document.querySelector(
+        //   `#${this._infoId} [data-spa-id="errors"]`
+        // );
+        // const evt = new Event('change');
+        // errors.dispatchEvent(evt);
       }
 
       this.logger.leaving(me);
@@ -7586,10 +7671,10 @@
 
     /** Configure handlers for the info view. */
     _addInfoViewHandlers() {
-      const errors = document.querySelector(
+      this.#errorText = document.querySelector(
         `#${this._infoId} [data-spa-id="errors"]`
       );
-      errors.addEventListener('change', (evt) => {
+      this.#errorText.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n')
           .filter(x => x === SPA._errorMarker).length;
         this.#details.dispatcher.fire('errors', count);
@@ -7878,19 +7963,21 @@
       this.logger.leaving(me);
     }
 
+    /** Send `change` event to the errors text area. */
+    refreshErrors() {
+      const evt = new Event('change');
+      this.#errorText.dispatchEvent(evt);
+    }
+
     /**
      * Add content to the Errors tab so the user can use it to file feedback.
      * @param {string} content - Information to add.
      */
     addError(content) {
-      const errors = document.querySelector(
-        `#${this._infoId} [data-spa-id="errors"]`
-      );
-      errors.value += `${content}\n`;
+      this.#errorText.value += `${content}\n`;
 
       if (content === SPA._errorMarker) {
-        const evt = new Event('change');
-        errors.dispatchEvent(evt);
+        this.refreshErrors();
       }
     }
 
@@ -7958,6 +8045,7 @@
     #activePages = new Set();
 
     #details
+    #errorText
     #id
     #logger
     #name
