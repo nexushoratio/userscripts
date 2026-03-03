@@ -142,6 +142,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-03-02',
+      issues: ['#274'],
+      subject: 'Improve resilience of multiple styles of pages',
+    },
+    {
       date: '2026-02-27',
       issues: ['#274'],
       subject: 'Expand the scope of observing mutations for the navbar',
