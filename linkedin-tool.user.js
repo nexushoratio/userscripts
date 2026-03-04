@@ -6521,6 +6521,11 @@
       return this.#logger;
     }
 
+    /** @type {SPA} */
+    get spa() {
+      return this.#spa;
+    }
+
     /** @type {TabbedUI} */
     get ui() {
       return this.#ui;
@@ -6535,8 +6540,11 @@
      * Called by SPA instance during its construction to allow post
      * instantiation stuff to happen.  If overridden in a subclass, this
      * should definitely be called via super.
+     *
+     * @param {SPA} spa - The SPA instance.
      */
-    init() {
+    init(spa) {
+      this.#spa = spa;
       this.dispatcher.on('errors', this._errors);
       this.dispatcher.on('news', this._news);
     }
@@ -6602,6 +6610,7 @@
 
     #id
     #logger
+    #spa
 
     /** @type {TabbedUI} */
     #ui = null;
