@@ -138,9 +138,15 @@
     ['#272', 'Styling issue on <code>Information view</code>'],
     ['#273', 'Focus being stolen from sidebars'],
     ['#274', 'Hybrid detection does not reliably work'],
+    ['#275', 'Fix badges on LIT menu item'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-04',
+      issues: ['#275'],
+      subject: 'Update how error badges are handled',
+    },
     {
       date: '2026-03-02',
       issues: ['#274'],
