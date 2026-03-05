@@ -2258,7 +2258,7 @@
    * content.  This makes it difficult for `LinkedIn.navbarScrollerFixup()` to
    * properly adjust.
    *
-   * For those pages, use this Service which will activate once to to do the
+   * For those pages, use this Service which will activate once to do the
    * initial fixups, then the additional ones necessary for that page.
    */
   class LinkedInToolbarService extends NH.base.Service {
