@@ -8141,6 +8141,9 @@
 
   NH.xunit.testing.run();
 
+  // TODO(#240): Due to changes in start up, this value is no longer set
+  // before Pages are registered.
+  linkedInGlobals.navbarHeightPixels = 16;
   const linkedIn = new LinkedIn(linkedInGlobals);
 
   // Inject some test errors
