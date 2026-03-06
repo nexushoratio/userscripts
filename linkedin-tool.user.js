@@ -139,9 +139,15 @@
     ['#273', 'Focus being stolen from sidebars'],
     ['#274', 'Hybrid detection does not reliably work'],
     ['#275', 'Fix badges on LIT menu item'],
+    ['#276', 'Update <b>Feed</b>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-06',
+      issues: ['#276'],
+      subject: 'Update the implementation for the <code>Feed</code> view',
+    },
     {
       date: '2026-03-04',
       issues: ['#275'],
