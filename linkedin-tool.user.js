@@ -6776,7 +6776,7 @@
         '<li>Added new features like support for new pages or more ' +
           'hotkeys</li>',
         '<li>Explicitly fixed a bug</li>',
-        '<li>May cause a use noticeable change</li>',
+        '<li>May cause a user noticeable change</li>',
         '</ul>',
         '</p>',
         '<p>See the <b>About</b> tab for finding all changes by release.</p>',
