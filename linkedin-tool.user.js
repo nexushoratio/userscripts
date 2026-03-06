@@ -2860,11 +2860,24 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueIdentifier(element) {
-      if (element) {
-        return element.dataset.id;
+    static uniquePostIdentifier(element) {
+      let content = element
+        ?.getAttribute('componentkey');
+      const groups = Feed.#uidPostRE.exec(content)?.groups;
+      if (groups) {
+        content = groups.body;
       }
-      return null;
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueCommentIdentifier(element) {
+      return element
+        ?.getAttribute('componentkey');
     }
 
     /** @type {Scroller} */
@@ -2944,7 +2957,7 @@
         const el = this.#lastScroller.item;
         this.posts.show();
         this.comments?.show();
-        NH.web.focusOnElement(el);
+        NH.web.focusOnElement(el, false);
       }
     );
 
@@ -2952,11 +2965,11 @@
       'c',
       'Show comments',
       () => {
-        if (!NH.web.clickElement(this.comments.item,
-          ['button.show-prev-replies'])) {
-          NH.web.clickElement(this.posts.item,
-            ['button[aria-label*="comment"]']);
-        }
+        const el = this.posts.item;
+        NH.web.clickElement(el, [
+          '[data-view-name="more-comments"]',
+          '[data-view-name="feed-comment-count"]',
+        ]);
       }
     );
 
@@ -2965,7 +2978,7 @@
       'Show more of current post or comment',
       () => {
         const el = this.#lastScroller.item;
-        NH.web.clickElement(el, ['button[aria-label^="see more"]']);
+        NH.web.clickElement(el, ['[data-testid="expandable-text-button"]']);
       }
     );
 
@@ -2981,13 +2994,17 @@
         function trigger() {
           // The topButton only shows up when the app detects new posts.  In
           // that case, going back to the first post is appropriate.
-          const topButton = 'main div.feed-new-update-pill button';
-          // If there is not top button, there should always be a button at
-          // the bottom the click.
-          const botButton = 'main button.scaffold-finite-scroll__load-button';
-          if (NH.web.clickElement(document, [topButton])) {
+          const topButton = document.querySelector(
+            'main [data-view-name="feed-new-update-pill"] button'
+          );
+          if (topButton?.checkVisibility()) {
+            topButton.click();
             first = true;
           } else {
+            // If there is not top button, there should always be a button at
+            // the bottom to click.
+            const botButton =
+                  'main [data-testid="mainFeed"] > div:last-child button';
             NH.web.clickElement(document, [botButton]);
           }
         }
@@ -3005,7 +3022,7 @@
 
         const what = {
           name: 'loadMorePosts',
-          base: document.querySelector('div.scaffold-finite-scroll__content'),
+          base: document.querySelector('main [data-testid="mainFeed"]'),
         };
         const how = {
           trigger: trigger,
@@ -3016,41 +3033,15 @@
       }
     );
 
-    viewPost = new Shortcut(
-      'v p',
-      'View current post directly',
-      () => {
-        const post = this.posts.item;
-        if (post) {
-          const urn = post.dataset.id;
-          const id = `lt-${urn.replaceAll(':',
-            '-')}`;
-          let a = post.querySelector(`#${id}`);
-          if (!a) {
-            a = document.createElement('a');
-            a.href = `/feed/update/${urn}/`;
-            a.id = id;
-            post.append(a);
-          }
-          a.click();
-        }
-      }
-    );
-
     viewReactions = new Shortcut(
       'v r',
       'View reactions on current post or comment',
       () => {
         const el = this.#lastScroller.item;
-        const selector = [
-          // Button on a comment
-          'button.comments-comment-social-bar__reactions-count',
-          // Original button on a post
-          'button.feed-shared-social-action-bar-counts',
-          // Possibly new button on a post
-          'button.social-details-social-counts__count-value',
-        ].join(',');
-        NH.web.clickElement(el, [selector]);
+        NH.web.clickElement(el, [
+          '[data-view-name="feed-reaction-count"]',
+          '[data-view-name="comment-reaction-count"]',
+        ]);
       }
     );
 
@@ -3058,8 +3049,8 @@
       'v R',
       'View reposts of current post',
       () => {
-        NH.web.clickElement(this.posts.item,
-          ['button[aria-label*="repost"]']);
+        const el = this.posts.item;
+        NH.web.clickElement(el, ['[data-view-name="feed-repost-count"]']);
       }
     );
 
@@ -3067,24 +3058,11 @@
       '=',
       'Open closest <button class="spa-meatball">⋯</button> menu',
       () => {
-        const me = 'openMeatballMenu';
-        this.logger.entered(me, this.#lastScroller.item);
-
-        // XXX: Under going a redesign.  Sometimes the selector grabs the
-        // button proper, sometimes the internal svg.
-        const selector = [
-          // Comment variant
-          '[aria-label^="Open options"]',
-          // Original post variant
-          '[aria-label^="Open control menu"]',
-          // Maybe new post variant
-          '[a11y-text^="Open control menu"]',
-        ].join(',');
-        const element = this.#lastScroller.item?.querySelector(selector);
-        const button = element?.closest('button');
-        button?.click();
-
-        this.logger.leaving(me);
+        const el = this.#lastScroller.item;
+        NH.web.clickElement(el, [
+          '[data-view-name="feed-control-menu"]',
+          '[data-view-name="comment-control-menu"]',
+        ]);
       }
     );
 
@@ -3092,8 +3070,10 @@
       'L',
       'Like current post or comment',
       () => {
-        NH.web.clickElement(this.#lastScroller.item,
-          ['button[aria-label^="Open reactions menu"]']);
+        const el = this.#lastScroller.item;
+        NH.web.clickElement(
+          el, ['button[aria-label^="Open reactions menu"]']
+        );
       }
     );
 
@@ -3101,11 +3081,10 @@
       'C',
       'Comment on current post or comment',
       () => {
-        // Order of the queries matters here.  If a post has visible comments,
-        // the wrong button could be selected.
-        NH.web.clickElement(this.#lastScroller.item, [
-          'button[aria-label^="Comment"]',
-          'button[aria-label^="Reply"]',
+        const el = this.#lastScroller.item;
+        NH.web.clickElement(el, [
+          '[data-view-name="feed-comment-button"]',
+          '[data-view-name="comment-reply"]',
         ]);
       }
     );
@@ -3115,7 +3094,7 @@
       'Repost current post',
       () => {
         const el = this.posts.item;
-        NH.web.clickElement(el, ['button.social-reshare-button']);
+        NH.web.clickElement(el, ['[data-view-name="feed-share-button"]']);
       }
     );
 
@@ -3124,7 +3103,9 @@
       'Send current post privately',
       () => {
         const el = this.posts.item;
-        NH.web.clickElement(el, ['button.send-privately-button']);
+        NH.web.clickElement(
+          el, ['[data-view-name="feed-send-as-message-button"]']
+        );
       }
     );
 
@@ -3133,12 +3114,8 @@
       `Go to the share box to start a post or ${Feed.#tabSnippet} ` +
         'to the other creator options',
       () => {
-        const share = document.querySelector(
-          'div.share-box-feed-entry__top-bar'
-        ).parentElement;
-        share.style.scrollMarginTop = linkedInGlobals.navbarHeightCSS;
-        share.scrollIntoView();
-        share.querySelector('button')
+        document
+          .querySelector('[data-view-name="share-sharebox-focus"]')
           .focus();
       }
     );
@@ -3146,14 +3123,28 @@
     togglePost = new Shortcut(
       'X',
       'Toggle hiding current post',
-      () => {
-        NH.web.clickElement(
-          this.posts.item,
-          [
-            'button[aria-label^="Dismiss post"]',
-            'button[aria-label^="Undo and show"]',
-          ]
-        );
+      async () => {
+        const el = this.posts.item;
+
+        /** Trigger function for {@link NH.web.otrot}. */
+        function trigger() {
+          NH.web.clickElement(el, [
+            '[data-view-name="feed-hide-post-action"]',
+            '[data-view-name="feed-hide-post-undo"]',
+          ]);
+        }
+        if (el) {
+          const what = {
+            name: 'toggleDismissPost',
+            base: el,
+          };
+          const how = {
+            trigger: trigger,
+            timeout: 3000,
+          };
+          await NH.web.otrot(what, how);
+          this.posts.item = el;
+        }
       }
     );
 
@@ -3161,22 +3152,7 @@
       'J',
       'Toggle hiding then next post',
       async () => {
-
-        /** Trigger function for {@link NH.web.otrot}. */
-        const trigger = () => {
-          this.togglePost();
-        };
-        if (this.posts.item) {
-          const what = {
-            name: 'nextPostPlus',
-            base: this.posts.item,
-          };
-          const how = {
-            trigger: trigger,
-            timeout: 3000,
-          };
-          await NH.web.otrot(what, how);
-        }
+        await this.togglePost();
         this.nextPost();
       }
     );
@@ -3184,15 +3160,15 @@
     prevPostPlus = new Shortcut(
       'K',
       'Toggle hiding then previous post',
-      () => {
-        this.togglePost();
+      async () => {
+        await this.togglePost();
         this.prevPost();
       }
     );
 
     /** @type {Scroller~How} */
     static #commentsHow = {
-      uidCallback: Feed.uniqueIdentifier,
+      uidCallback: Feed.uniqueCommentIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -3201,7 +3177,7 @@
     /** @type {Scroller~What} */
     static #commentsWhat = {
       name: 'Feed comments',
-      selectors: ['article.comments-comment-item'],
+      selectors: ['[data-component-type] > div[componentkey*=":comment:"]'],
     };
 
     /** @type {Page~PageDetails} */
@@ -3212,7 +3188,7 @@
 
     /** @type {Scroller~How} */
     static #postsHow = {
-      uidCallback: Feed.uniqueIdentifier,
+      uidCallback: Feed.uniquePostIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -3222,13 +3198,17 @@
       name: 'Feed posts',
       containerItems: [
         {
-          container: 'main div.scaffold-finite-scroll__content',
-          items: 'div[data-id]',
+          container: 'main [data-testid="mainFeed"]',
+          items: [
+            '[role="listitem"]',
+            'div:has(> [data-view-name="feed-collapsed-update"])',
+          ].join(','),
         },
       ],
     };
 
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
+    static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
     #commentScroller
     #keyboardService
