@@ -5712,7 +5712,7 @@
       pageReadySelector: 'main section div.nt-card-list',
     };
 
-    /** @type {Scroller-How} */
+    /** @type {Scroller~How} */
     static #notificationsHow = {
       uidCallback: Notifications.uniqueIdentifier,
       classes: ['tom'],
