@@ -875,7 +875,7 @@
 
     /**
      * Activate the scroller.
-     * @fires 'out-of-range'
+     * @fires 'activate'
      */
     async activate() {
       const me = 'activate';
@@ -912,7 +912,7 @@
 
     /**
      * Deactivate the scroller (but do not destroy it).
-     * @fires 'out-of-range'
+     * @fires 'deactivate'
      */
     deactivate() {
       this.#mutationDispatcher.off('records', this.#monitorConnectedness);
@@ -1000,7 +1000,10 @@
       this.logger.leaving(me);
     }
 
-    /** @param {MutationRecord[]} records - Standard mutation records. */
+    /**
+     * @param {MutationRecord[]} records - Standard mutation records.
+     * @fires 'records'
+     */
     #mutationHandler = (records) => {
       const me = 'mutationHandler';
       this.logger.entered(
@@ -1016,6 +1019,7 @@
      * Since the getter will try to validate the current item (since it could
      * have changed out from under us), it too can update information.
      * @param {Element} val - Element to make current.
+     * @fires 'change'
      */
     #bottomHalf = (val) => {
       const me = 'bottomHalf';
@@ -1235,6 +1239,7 @@
        * The current item may not yet be viewable after a reload, but give it
        * a chance.
        * @param {HTMLElement} item - Item to check.
+       * @fires 'out-of-range'
        * @returns {boolean} - Whether to keep or not.
        */
       const filterItem = (item) => {
@@ -7430,7 +7435,10 @@
       this.logger.leaving(me);
     }
 
-    /** Recheck various items after a change to the navbar. */
+    /**
+     * Recheck various items after a change to the navbar.
+     * @fires 'resize'
+     */
     #navbarHandler = () => {
       const me = this.#navbarHandler.name;
       this.logger.entered(me);
@@ -7661,7 +7669,10 @@
       this.logger.leaving(me);
     }
 
-    /** Configure handlers for the info view. */
+    /**
+     * Configure handlers for the info view.
+     * @fires 'errors'
+     */
     _addInfoViewHandlers() {
       this.#errorText = document.querySelector(
         `#${this._infoId} [data-spa-id="errors"]`
