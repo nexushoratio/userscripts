@@ -29,6 +29,7 @@
 
   const APP_LONG = 'LinkedIn Tool';
   const APP_SHORT = 'Tool';
+  const CKEY = 'componentkey';
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 51},
@@ -1800,7 +1801,7 @@
       // Style 1
       '#global-nav .global-nav__primary-items',
       // Style 2
-      'nav[componentkey="primaryNavLinksComponentRef"] > ul',
+      `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
     ].join(', ');
 
     static #sidebarSelector = [
@@ -2873,7 +2874,7 @@
      */
     static uniquePostIdentifier(element) {
       let content = element
-        ?.getAttribute('componentkey');
+        ?.getAttribute(CKEY);
       const groups = Feed.#uidPostRE.exec(content)?.groups;
       if (groups) {
         content = groups.body;
@@ -2888,7 +2889,7 @@
      */
     static uniqueCommentIdentifier(element) {
       return element
-        ?.getAttribute('componentkey');
+        ?.getAttribute(CKEY);
     }
 
     /** @type {Scroller} */
@@ -3188,7 +3189,7 @@
     /** @type {Scroller~What} */
     static #commentsWhat = {
       name: 'Feed comments',
-      selectors: ['[data-component-type] > div[componentkey*=":comment:"]'],
+      selectors: [`[data-component-type] > div[${CKEY}*=":comment:"]`],
     };
 
     /** @type {Page~PageDetails} */
