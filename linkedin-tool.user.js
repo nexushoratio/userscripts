@@ -141,9 +141,16 @@
     ['#274', 'Hybrid detection does not reliably work'],
     ['#275', 'Fix badges on LIT menu item'],
     ['#276', 'Update <b>Feed</b>'],
+    ['#277', 'Update <b>My Network</b>'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-08',
+      issues: ['#277'],
+      subject:
+      'Update the implementation for the <code>My Network</code> view',
+    },
     {
       date: '2026-03-06',
       issues: ['#276'],
