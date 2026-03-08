@@ -3299,25 +3299,25 @@
   }
 
   /**
-   * Class for handling the base MyNetwork page.
+   * Class for handling the MyNetwork page (Grow tab).
    *
    * This page takes 3-4 seconds to load every time.  Revisits are
    * likely to take a while.
    */
-  class MyNetwork extends Page {
+  class MyNetworkGrow extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...MyNetwork.#details});
+      super({spa: spa, ...MyNetworkGrow.#details});
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      spa.details.navbarScrollerFixup(MyNetwork.#collectionsHow);
-      spa.details.navbarScrollerFixup(MyNetwork.#individualsHow);
+      spa.details.navbarScrollerFixup(MyNetworkGrow.#collectionsHow);
+      spa.details.navbarScrollerFixup(MyNetworkGrow.#individualsHow);
 
-      this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
-        MyNetwork.#collectionsHow);
+      this.#collectionScroller = new Scroller(MyNetworkGrow.#collectionsWhat,
+        MyNetworkGrow.#collectionsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher.on('out-of-range',
@@ -3335,16 +3335,19 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCollectionIdentifier(element) {
-      const h2 = element.querySelector('h2');
-      const h3 = element.querySelector('h3');
+      const key = element.getAttribute(CKEY);
+      const childKey = element
+        .querySelector(`[${CKEY}]`)
+        ?.getAttribute(CKEY);
       let content = element.innerText;
-      if (h3?.innerText) {
-        content = h3.innerText;
+      if (childKey) {
+        content = childKey;
       }
-      if (h2?.innerText) {
-        content = h2.innerText;
+      if (key) {
+        content = key;
       }
-      return NH.base.strHash(content);
+
+      return content;
     }
 
     /**
@@ -3353,18 +3356,31 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueIndividualsIdentifier(element) {
+      const key = element.getAttribute(CKEY);
+      const viewName = element.dataset.viewName;
+      const childKey = element
+        .querySelector(`[${CKEY}]`)
+        ?.getAttribute(CKEY);
+      const childViewName = element
+        .querySelector('[data-view-name]')
+        ?.dataset
+        .viewName;
       let content = element.innerText;
 
-      const hrefs = Array.from(element.querySelectorAll('a'))
-        .filter(x => x.innerText)
-        .map(x => x.href);
-
-      if (hrefs.length) {
-        content = Array.from(new Set(hrefs))
-          .join(',');
+      if (childViewName) {
+        content = childViewName;
+      }
+      if (childKey) {
+        content = childKey;
+      }
+      if (viewName) {
+        content = viewName;
+      }
+      if (key) {
+        content = key;
       }
 
-      return NH.base.strHash(content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -3376,8 +3392,8 @@
     get individuals() {
       if (!this.#individualScroller && this.collections.item) {
         this.#individualScroller = new Scroller(
-          {base: this.collections.item, ...MyNetwork.#individualsWhat},
-          MyNetwork.#individualsHow
+          {base: this.collections.item, ...MyNetworkGrow.#individualsWhat},
+          MyNetworkGrow.#individualsHow
         );
         this.#individualScroller.dispatcher.on(
           'change', this.#onIndividualChange
@@ -3391,7 +3407,7 @@
 
     nextCollection = new Shortcut(
       'j',
-      'Next collection',
+      'Next collection card',
       () => {
         this.collections.next();
       }
@@ -3399,7 +3415,7 @@
 
     prevCollection = new Shortcut(
       'k',
-      'Previous collection',
+      'Previous collection card',
       () => {
         this.collections.prev();
       }
@@ -3407,7 +3423,7 @@
 
     nextIndividual = new Shortcut(
       'n',
-      'Next individual in collection',
+      'Next individual item in collection',
       () => {
         this.individuals.next();
       }
@@ -3415,7 +3431,7 @@
 
     prevIndividual = new Shortcut(
       'p',
-      'Previous individual in collection',
+      'Previous individual item in collection',
       () => {
         this.individuals.prev();
       }
@@ -3423,7 +3439,7 @@
 
     firstItem = new Shortcut(
       '<',
-      'Go to the first collection or individual',
+      'Go to the first collection card or individual item',
       () => {
         this.#lastScroller.first();
       }
@@ -3431,7 +3447,7 @@
 
     lastItem = new Shortcut(
       '>',
-      'Go to the last collection or individual',
+      'Go to the last collection card or individual item',
       () => {
         this.#lastScroller.last();
       }
@@ -3439,7 +3455,7 @@
 
     focusBrowser = new Shortcut(
       'f',
-      'Change browser focus to current item',
+      'Change browser focus to current card/item',
       () => {
         NH.web.focusOnElement(this.#lastScroller.item);
       }
@@ -3469,12 +3485,10 @@
       'Engage the individual (Connect, Follow, Join, etc)',
       () => {
         const selector = [
-          // Connect w/ Person, Join Group, View event
-          'footer > button',
-          // Follow person, Follow page
-          'div.discover-entity-type-individual__container-bottom > button',
-          // Subscribe to newsletter
-          'div.p3 > button',
+          // Connect/withdraw
+          '[data-view-name="edge-creation-connect-action"] > :is(button, a)',
+          // Follow
+          '[data-view-name="edge-creation-follow-action"] > :is(button, a)',
         ].join(',');
 
         NH.web.clickElement(this.individuals?.item, [selector]);
@@ -3483,33 +3497,34 @@
 
     dismissIndividual = new Shortcut(
       'X',
-      'Dismiss current individual',
+      'Dismiss current item',
       () => {
-        NH.web.clickElement(this.individuals?.item,
-          ['button.artdeco-individual__dismiss']);
+        const selector = [
+          // Most items
+          '[data-view-name="cohort-card-dismiss"] > button',
+        ].join(',');
+
+        NH.web.clickElement(this.individuals?.item, [selector]);
       }
     );
 
     /** @type {Scroller~How} */
     static #collectionsHow = {
-      uidCallback: MyNetwork.uniqueCollectionIdentifier,
+      uidCallback: MyNetworkGrow.uniqueCollectionIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
 
     /** @type {Scroller~What} */
     static #collectionsWhat = {
-      name: 'MyNetwork collections',
+      name: 'MyNetwork Cards',
       containerItems: [
         {
-          container: 'main',
+          container: 'main div:has(> div[role="main"])',
           items: [
-            // Invitations
-            ':scope > section.mn-invitations-preview',
-            // Ads
-            ':scope > div.mn-sales-navigator-upsell',
-            // Most collections, including "More suggestions for you"
-            ':scope div.scaffold-finite-scroll__content > div',
+            ':scope > section',
+            '[data-view-name="cohorts-list"] > div > section',
+            '[data-view-name="cohorts-list"] > div > div > section',
           ].join(','),
         },
       ],
@@ -3517,13 +3532,13 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
-      pathname: '/mynetwork/',
-      pageReadySelector: 'main > ul',
+      pathname: '/mynetwork/grow/',
+      pageReadySelector: 'main > div',
     };
 
     /** @type {Scroller~How} */
     static #individualsHow = {
-      uidCallback: MyNetwork.uniqueIndividualsIdentifier,
+      uidCallback: MyNetworkGrow.uniqueIndividualsIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -3535,17 +3550,16 @@
 
     /** @type {Scroller~What} */
     static #individualsWhat = {
-      name: 'MyNetwork individuals',
+      name: 'MyNetwork Individual Items',
       selectors: [
         [
-          // Invitations -> See all
-          ':scope > header > a',
-          // Invitations -> individuals
-          ':scope > ul > li',
-          // Other collections -> See all
-          ':scope > div > button',
-          // Most individuals
-          ':scope > div > ul > li',
+          // Header card
+          '[data-view-name="my-network-notifications-badge-count"] li',
+          // Carousel cards (different variations)
+          '[data-testid="carousel-child-container"] > div > a',
+          '[data-testid="carousel-child-container"] > div:has(> div)',
+          // Most cards with followable entities in them
+          '[role="listitem"]',
         ].join(','),
       ],
     };
@@ -8158,7 +8172,7 @@
   const spa = new SPA(linkedIn);
   spa.register(Global);
   spa.register(Feed);
-  spa.register(MyNetwork);
+  spa.register(MyNetworkGrow);
   spa.register(Messaging);
   spa.register(InvitationManagerReceivedInvites);
   spa.register(InvitationManagerSentInvites);
