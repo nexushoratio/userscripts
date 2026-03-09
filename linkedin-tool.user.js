@@ -7396,12 +7396,6 @@
           }
           this.spa.refreshErrors();
         }
-        // Send this event to seed the newly created badge
-        // const errors = document.querySelector(
-        //   `#${this._infoId} [data-spa-id="errors"]`
-        // );
-        // const evt = new Event('change');
-        // errors.dispatchEvent(evt);
       }
 
       this.logger.leaving(me);
