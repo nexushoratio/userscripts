@@ -92,17 +92,7 @@
     ['', 'Minor internal improvement'],
     ['#106', 'info view: more tabs: News, License'],
     ['#130', 'Factor hotkey handling out of SPA'],
-    ['#156', 'Support <b>Profile</b> view'],
-    [
-      '#157', '<b>InvitationManager</b>: Invite not scrolling into ' +
-        'view upon refresh',
-    ],
-    ['#160', 'Support direct <b>JobView</b>'],
     ['#167', 'Refactor into libraries'],
-    [
-      '#169', '<b>JobCollections</b>: reading the details pane is ' +
-     'cumbersome',
-    ],
     [
       '#208', '<code>Scroller</code>: If end-item is never viewable ' +
      '(e.g., empty), cannot wrap',
@@ -145,6 +135,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-09',
+      issues: ['#277'],
+      subject: 'Finish updating the implementation for ' +
+        'the <code>My Network</code> view',
+    },
+    {
+      date: '2026-03-09',
+      issues: ['#271'],
+      subject: 'Make Style-2 sidebar selectors more precise',
+    },
     {
       date: '2026-03-08',
       issues: ['#277'],
