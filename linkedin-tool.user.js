@@ -1990,7 +1990,7 @@
    *
    * Instances of classes that have {@link Shortcut} properties on them can be
    * added and removed to each instance of this service.  The shortcuts will
-   * be enabled and disabled as the service is activated/deactived.  This can
+   * be enabled/disabled as the service is activated/deactivated.  This can
    * allow each service to have different groups of shortcuts present.
    *
    * All Shortcuts can react to VM.shortcut style conditions.  These
