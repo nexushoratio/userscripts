@@ -2568,6 +2568,14 @@
       }
     );
 
+    activeElement = new Shortcut(
+      'c-c c-a',
+      'Log the active element',
+      () => {
+        this.logger.log('activeElement', document.activeElement);
+      }
+    );
+
   }
 
   const linkedInGlobals = new LinkedInGlobals();
