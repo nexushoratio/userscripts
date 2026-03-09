@@ -7366,7 +7366,7 @@
      *
      * It will always go after "Me" menu item.
      *
-     * This supports both styles 1 and 2.
+     * This supports both Styles 1 and 2.
      *
      * @param {HTMLElement} menuItem - The menu item to connect.
      * @param {string} selector - The CSS selector for "Me".
@@ -7377,7 +7377,7 @@
 
       if (this.#navbar) {
         if (!menuItem.isConnected) {
-          this.logger.log('Will connect menu item');
+          this.logger.log('Will connect menu item to', this.navbar);
 
           const navMe = this.#navbar.querySelector(selector)
             ?.closest('li');
@@ -7432,10 +7432,7 @@
           this.#createMenuItemStyle2();
         }
         if (this.#ourMenuItemStyle2) {
-          this.#connectMenuItem(
-            this.#ourMenuItemStyle2,
-            'button[data-view-name="navigation-settings"]'
-          );
+          this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
         }
       }
 
