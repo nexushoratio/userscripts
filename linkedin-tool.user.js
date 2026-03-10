@@ -7352,12 +7352,10 @@
           const svgParent = svg.parentElement;
           svg.outerHTML = LinkedIn.#icon;
 
-          const badge = this.#navbar
-            .querySelector('svg + span')
-            ?.cloneNode(true);
-          if (badge) {
-            badge.classList.add('lit-menu-hide-badge');
-            badge.innerText = null;
+          let badge = button.querySelector('svg + span');
+          if (!badge) {
+            badge = this.#navbar.querySelector('svg + span')
+              ?.cloneNode(true);
             svgParent.append(badge);
           }
 
