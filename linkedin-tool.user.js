@@ -2607,9 +2607,9 @@
       'Show this information view',
       () => {
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
-          this.#gotoNavButton('Tool');
+          this.#gotoNavButton(APP_SHORT);
         } else {
-          this.#gotoStyle2Element('lit');
+          this.#gotoNavLabel(APP_SHORT);
         }
       }
     );
@@ -2636,7 +2636,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavLink('feed');
         } else {
-          this.#gotoStyle2Element('homepage');
+          this.#gotoNavLabel('Home');
         }
       }
     );
@@ -2648,7 +2648,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavLink('mynetwork');
         } else {
-          this.#gotoStyle2Element('mynetwork');
+          this.#gotoNavLabel('My Network');
         }
       }
     );
@@ -2660,7 +2660,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavLink('jobs');
         } else {
-          this.#gotoStyle2Element('jobs');
+          this.#gotoNavLabel('Jobs');
         }
       }
     );
@@ -2672,7 +2672,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavLink('messaging');
         } else {
-          this.#gotoStyle2Element('messaging');
+          this.#gotoNavLabel('Messaging');
         }
       }
     );
@@ -2684,7 +2684,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavLink('notifications');
         } else {
-          this.#gotoStyle2Element('notifications');
+          this.#gotoNavLabel('Notifications');
         }
       }
     );
@@ -2696,7 +2696,14 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavButton('Me');
         } else {
-          this.#gotoStyle2Element('settings');
+          // Nothing easy to identify, so assume always after Notification
+          this.spa.details
+            .navbar
+            .querySelector('[aria-label^="Notifications"]')
+            .closest('li')
+            .nextSibling
+            .querySelector('button')
+            .click();
         }
       }
     );
@@ -2708,7 +2715,7 @@
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
           this.#gotoNavButton('Business');
         } else {
-          this.#gotoStyle2Element('launcher');
+          this.#gotoNavLabel('For Business');
         }
       }
     );
@@ -2717,11 +2724,7 @@
       'g l',
       'Go to Learning',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
-          this.#gotoNavLink('learning');
-        } else {
-          this.#gotoStyle2Element('nav-spotlight-learning');
-        }
+        this.#gotoNavLink('learning');
       }
     );
 
@@ -2814,7 +2817,18 @@
      * @param {string} item - Portion of the link to match.
      */
     #gotoNavLink = (item) => {
-      NH.web.clickElement(this.spa.details.navbar, [`a[href*="/${item}"`]);
+      const me = this.#gotoNavLink.name;
+      this.logger.entered(me, item);
+
+      // The navbar elements may be split across two containers.  So we start
+      // at the navbar, move up to find a container that has the link.
+      const target = `a[href*="/${item}"]`;
+      this.spa.details.navbar
+        .closest(`:has(${target})`)
+        .querySelector(target)
+        .click();
+
+      this.logger.leaving(me);
     }
 
     /**
@@ -2835,23 +2849,23 @@
     }
 
     /**
-     * Click on the requested button in the global nav bar.
-     * @param {string} item - Text on the button to look for.
+     * Click on the requested element in the Style-2 global nav bar.
+     *
+     * This uses the `aria-label`, which has the potential to be translated.
+     * @param {string} item - The prefix for the target `aria-label`.
      */
-    #gotoStyle2Element = (item) => {
-      const me = this.#gotoStyle2Element.name;
+    #gotoNavLabel = (item) => {
+      const me = this.#gotoNavLabel.name;
       this.logger.entered(me, item);
 
-      const element = document
-        .querySelector(
-          [
-            `[data-view-name="navigation-${item}"]`,
-            // Learning is an odd duck.
-            `[data-view-name="${item}"]`,
-          ].join(', ')
-        );
-      this.logger.log('element', element);
-      element?.click();
+      // The navbar elements may be split across two containers.  So we start
+      // at the navbar, move up to find a container that has the label, then
+      // back down.
+      const target = `[aria-label^="${item}"]`;
+      this.spa.details.navbar
+        .closest(`:has(${target})`)
+        .querySelector(target)
+        .click();
 
       this.logger.leaving(me);
     }
@@ -7291,7 +7305,6 @@
       const buttonClasses = new Set(buttons[0].classList)
         .intersection(new Set(buttons[1].classList));
 
-      button.dataset.viewName = 'navigation-lit';
       button.ariaLabel = APP_SHORT;
       button.removeAttribute('aria-current');
       button.className = [...buttonClasses].join(' ');
