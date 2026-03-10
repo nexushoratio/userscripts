@@ -2986,7 +2986,9 @@
     );
 
     lastItem = new Shortcut(
-      '>', 'Go to last post or comment currently loaded', () => {
+      '>',
+      'Go to last post or comment currently loaded',
+      () => {
         this.#lastScroller.last();
       }
     );
