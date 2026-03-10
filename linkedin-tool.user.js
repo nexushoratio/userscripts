@@ -98,18 +98,6 @@
      '(e.g., empty), cannot wrap',
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
-    [
-      '#218', 'So some <code>Page</code> instances need to be reset on ' +
-        'revisit anyway?',
-    ],
-    [
-      '#229', '<b>Jobs<b>: <em>Recent job searches</em> is ' +
-        'not scrolling properly',
-    ],
-    [
-      '#230', '<b>JobCollections</b>: first/last never gets a ' +
-        'chance to work on job cards',
-    ],
     ['#231', '<b>JobCollections</b>: Support delete/next type navigation'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
     ['#233', 'Support <b>Invitation Manager Sent Invites</b>'],
@@ -132,9 +120,20 @@
     ['#275', 'Fix badges on LIT menu item'],
     ['#276', 'Update <b>Feed</b>'],
     ['#277', 'Update <b>My Network</b>'],
+    ['#281', 'Internal page structure changed mid-migration'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-09',
+      issues: ['#281'],
+      subject: 'Update <code>Global</code> to the latest layout change',
+    },
+    {
+      date: '2026-03-09',
+      issues: ['#281'],
+      subject: 'Update selector for adding the <em>Tool</em> menu item',
+    },
     {
       date: '2026-03-09',
       issues: ['#277'],
