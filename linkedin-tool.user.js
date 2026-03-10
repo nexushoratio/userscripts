@@ -7209,29 +7209,6 @@
     }
 
     /**
-     * Tweak the internals of whatever random element we cloned.
-     *
-     * @param {HTMLElement} button - The newly created button.
-     */
-    #finishButtonStyle1 = (button) => {
-      button.querySelector('.notification-badge')
-        ?.classList.remove('notification-badge--show');
-
-      const a11y = button.querySelector('.a11y-text');
-      if (a11y) {
-        a11y.innerText = `${APP_LONG} notifications`;
-      }
-
-      const count = button.querySelector('.notification-badge__no-count');
-      count?.classList.remove('notification-badge__no-count');
-      count?.classList.add('notification-badge__count');
-
-      const title = button.querySelector('.global-nav__primary-link-text');
-      title.innerText = APP_SHORT;
-      title.setAttribute('title', APP_SHORT);
-    }
-
-    /**
      * Updates error badge as appropriate.
      *
      * @implements {NH.base.Dispatcher~Handler}
@@ -7252,6 +7229,29 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle1 = (button) => {
+      button.querySelector('.notification-badge')
+        ?.classList.remove('notification-badge--show');
+
+      const a11y = button.querySelector('.a11y-text');
+      if (a11y) {
+        a11y.innerText = `${APP_LONG} notifications`;
+      }
+
+      const count = button.querySelector('.notification-badge__no-count');
+      count?.classList.remove('notification-badge__no-count');
+      count?.classList.add('notification-badge__count');
+
+      const title = button.querySelector('.global-nav__primary-link-text');
+      title.innerText = APP_SHORT;
+      title.setAttribute('title', APP_SHORT);
     }
 
     #createMenuItemStyle1 = () => {
@@ -7294,27 +7294,6 @@
     }
 
     /**
-     * Tweak the internals of whatever random element we cloned.
-     *
-     * @param {HTMLElement} button - The newly created button.
-     */
-    #finishButtonStyle2 = (button) => {
-      // Grab the common obfuscated class names
-      const buttons = this.#navbar.querySelectorAll('li > button');
-      const buttonClasses = new Set(buttons[0].classList)
-        .intersection(new Set(buttons[1].classList));
-
-      button.ariaLabel = APP_SHORT;
-      button.removeAttribute('aria-current');
-      button.className = [...buttonClasses].join(' ');
-
-      const textNodes = Array.from(button.querySelectorAll('*'))
-        .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
-
-      textNodes[0].innerText = APP_SHORT;
-    }
-
-    /**
      * Updates error badge as appropriate.
      *
      * @implements {NH.base.Dispatcher~Handler}
@@ -7334,6 +7313,27 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle2 = (button) => {
+      // Grab the common obfuscated class names
+      const buttons = this.#navbar.querySelectorAll('li > button');
+      const buttonClasses = new Set(buttons[0].classList)
+        .intersection(new Set(buttons[1].classList));
+
+      button.ariaLabel = APP_SHORT;
+      button.removeAttribute('aria-current');
+      button.className = [...buttonClasses].join(' ');
+
+      const textNodes = Array.from(button.querySelectorAll('*'))
+        .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
+
+      textNodes[0].innerText = APP_SHORT;
     }
 
     #createMenuItemStyle2 = () => {
