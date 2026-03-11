@@ -3117,7 +3117,7 @@
       'Open closest <button class="spa-meatball">⋯</button> menu',
       () => {
         const el = this.#getItemHeader();
-        NH.web.clickElement(el, ['button:has(svg[id^="overflow"])']);
+        NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
       }
     );
 
@@ -3126,7 +3126,7 @@
       'Like current post or comment',
       () => {
         const el = this.#getItemFooter();
-        NH.web.clickElement(el, ['button:has(svg[id^="chevron-up"])']);
+        NH.web.clickElement(el, [':has(> * > svg[id^="chevron-up"])']);
       }
     );
 
@@ -3137,7 +3137,7 @@
         const el = this.#getItemFooter();
         NH.web.clickElement(el, [
           // For post
-          'button:has(svg[id^="comment"])',
+          ':has(> * > svg[id^="comment"])',
           // For comment
           ':scope > div > button',
         ]);
@@ -3149,7 +3149,7 @@
       'Repost current post',
       () => {
         const el = this.#getPostFooter();
-        NH.web.clickElement(el, ['button:has(svg[id^="repost"])']);
+        NH.web.clickElement(el, [':has(> * > svg[id^="repost"])']);
       }
     );
 
@@ -3158,7 +3158,7 @@
       'Send current post privately',
       () => {
         const el = this.#getPostFooter();
-        NH.web.clickElement(el, ['a:has(svg[id^="send"])']);
+        NH.web.clickElement(el, [':has(> * > svg[id^="send"])']);
       }
     );
 
@@ -3178,7 +3178,7 @@
       'Toggle hiding current post',
       async () => {
         const el = this.posts.item;
-        let selector = 'button:has(svg[id^="close"])';
+        let selector = ':has(> * > svg[id^="close"])';
         let header = this.#getPostHeader();
         if (!header) {
           // Maybe a dismissed post, where there is a different header and
@@ -3241,7 +3241,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/feed/',
-      pageReadySelector: 'main',
+      pageReadySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
