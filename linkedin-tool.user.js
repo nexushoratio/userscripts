@@ -3800,29 +3800,27 @@
 
   }
 
-  /** Base class for handling the different Invitation manager pages. */
-  class InvitationManagerBase extends Page {
+  /**
+   * Class for handling Invitation Manager.
+   *
+   * While this page does have multiple sections (Manage Invitations and
+   * Suggestions for you), the latter is enclosed by the former.  There is no
+   * way to highlight the former without including the latter.  So just treat
+   * the page as one big long list.
+   */
+  class InvitationManager extends Page {
 
-    /**
-     * @param {SPA} spa - SPA instance that manages this Page.
-     * @param {string|RegExp} pathname - Portion of the URL this page should
-     * handle.
-     */
-    constructor(spa, pathname) {
-      const pageDetails = {
-        spa: spa,
-        pathname: pathname,
-        pageReadySelector: InvitationManagerBase.#pageReadySelector,
-      };
-      super(pageDetails);
+    /** @param {SPA} spa - SPA instance that manages this Page.     */
+    constructor(spa) {
+      super({spa: spa, ...InvitationManager.#details});
 
       spa.details.navbarScrollerFixup(
-        InvitationManagerBase.#invitesHow
+        InvitationManager.#invitesHow
       );
 
       this.#inviteScroller = new Scroller(
-        InvitationManagerBase.#invitesWhat,
-        InvitationManagerBase.#invitesHow
+        InvitationManager.#invitesWhat,
+        InvitationManager.#invitesHow
       );
       this.addService(LinkedInScrollerService)
         .setScroller(this.#inviteScroller);
@@ -3834,12 +3832,14 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueIdentifier(element) {
-      let content = element.innerText;
-      const anchor = element.querySelector('a');
-      if (anchor?.href) {
-        content = anchor.href;
-      }
-      return NH.base.strHash(content);
+      const me = InvitationManager.uniqueIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = element
+        ?.getAttribute(CKEY);
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -3883,8 +3883,8 @@
       'f',
       'Change browser focus to current item',
       () => {
-        const item = this.invites.item;
-        NH.web.focusOnElement(item);
+        const el = this.invites.item;
+        NH.web.focusOnElement(el);
       }
     );
 
@@ -3892,15 +3892,124 @@
       'm',
       'Toggle seeing more of current invite',
       () => {
-        NH.web.clickElement(
-          this.invites?.item,
-          ['a.lt-line-clamp__more, a.lt-line-clamp__less']
-        );
+        const el = this.invites.item;
+        NH.web.clickElement(el, ['button[data-testid]']);
       }
     );
 
+    viewInviter = new Shortcut(
+      'i',
+      'View invite principal',
+      () => {
+        const el = this.invites.item;
+        NH.web.clickElement(el, [
+          // Most invites
+          ':scope [role="listitem"] a:has(+ span)',
+          // Suggestions for you
+          'a',
+        ]);
+      }
+    );
+
+    viewTarget = new Shortcut(
+      't',
+      'View invitation target ' +
+        '(may not be the same as inviter, e.g., Newsletter)',
+      () => {
+        const el = this.invites.item;
+        if (el.tagName === 'A') {
+          el.click();
+        } else {
+          NH.web.clickElement(el, [':scope [role="listitem"] > * > a']);
+        }
+      }
+    );
+
+    tabList = new Shortcut(
+      'l',
+      'Focus on Manage invitations tab list',
+      () => {
+        const el = document.querySelector('main nav [aria-current]');
+        el.scrollIntoView(false);
+        NH.web.focusOnElement(el);
+      }
+    );
+
+    acceptInvite = new Shortcut(
+      'A',
+      'Accept invite',
+      () => {
+        const el = this.invites.item;
+        NH.web.clickElement(el, ['[aria-label^="Accept"]']);
+      }
+    );
+
+    ignoreInvite = new Shortcut(
+      'I',
+      'Ignore invite',
+      () => {
+        const el = this.invites.item;
+        NH.web.clickElement(el, ['[aria-label^="Ignore"]']);
+      }
+    );
+
+    connectSuggestion = new Shortcut(
+      'C',
+      'Connect with suggestion',
+      () => {
+        const el = this.invites.item;
+        this.logger.log('el', el);
+        NH.web.clickElement(el, ['[aria-label^="Invite"]']);
+      }
+    );
+
+    messageInviter = new Shortcut(
+      'M',
+      'Message inviter',
+      () => {
+        const el = this.invites.item;
+        NH.web.clickElement(el, ['a[href*="/compose/"]']);
+      }
+    );
+
+    withDraw = new Shortcut(
+      'W',
+      'Withdraw invitation',
+      () => {
+        const el = this.invites.item;
+        const rc = NH.web.clickElement(el, [
+          // Suggestions for you
+          '[aria-label^="Pending"]',
+        ]);
+        if (!rc) {
+          // Sent tab
+          const elements = Array.from(el?.querySelectorAll('a') || [])
+            .filter(x => x.innerText === 'Withdraw');
+          if (elements.length === NH.base.ONE_ITEM) {
+            elements[0].click();
+          }
+        }
+      }
+    );
+
+    dismissInvite = new Shortcut(
+      'X',
+      'Dismiss invitation (after accepting or ignoring)',
+      () => {
+        const el = this.invites.item;
+        NH.web.clickElement(el, ['[aria-label="Dismiss"]']);
+      }
+    );
+
+    /** @type {Page~PageDetails} */
+    static #details = {
+      // eslint-disable-next-line prefer-regex-literals
+      pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
+      pageReadySelector: 'main > div > div > div',
+    };
+
     static #invitesHow = {
-      uidCallback: InvitationManagerBase.uniqueIdentifier,
+      uidCallback: InvitationManager.uniqueIdentifier,
       classes: ['tom'],
     };
 
@@ -3909,154 +4018,18 @@
       name: 'Invitation cards',
       containerItems: [
         {
-          container: 'main > section ul.mn-invitation-list',
-          items: ':scope > li',
+          container: 'main [role="main"] [data-testid="lazy-column"]',
+          items: [
+            // Standard invites
+            `:scope > div[${CKEY}]`,
+            // Suggestions for you
+            'h3 ~ div > a',
+          ].join(','),
         },
       ],
     };
 
-    static #pageReadySelector = '#compactfooter-about';
-
     #inviteScroller
-
-  }
-
-  /** Class for handling the Invitation manager for received invites page. */
-  class InvitationManagerReceivedInvites extends InvitationManagerBase {
-
-    /** @param {SPA} spa - SPA instance that manages this Page. */
-    constructor(spa) {
-      super(spa, InvitationManagerReceivedInvites.#pathname);
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-    }
-
-    viewInviter = new Shortcut(
-      'i',
-      'View inviter',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['a.app-aware-link:not(.invitation-card__picture)']);
-      }
-    );
-
-    viewTarget = new Shortcut(
-      't',
-      'View invitation target ' +
-        '(may not be the same as inviter, e.g., Newsletter)',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['a.invitation-card__picture']);
-      }
-    );
-
-    tabList = new Shortcut(
-      'l',
-      'Go to invitations tab list',
-      () => {
-        const me = 'tabList';
-        this.logger.entered(me);
-
-        NH.web.focusOnElement(document.querySelector(
-          InvitationManagerReceivedInvites.#invitationTabSelectorCurrent
-        ));
-
-        this.logger.leaving(me);
-      }
-    );
-
-    acceptInvite = new Shortcut(
-      'A',
-      'Accept invite',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['button[aria-label^="Accept"]']);
-      }
-    );
-
-    ignoreInvite = new Shortcut(
-      'I',
-      'Ignore invite',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['button[aria-label^="Ignore"]']);
-      }
-    );
-
-    messageInviter = new Shortcut(
-      'M',
-      'Message inviter',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['button[aria-label*=" message"]']);
-      }
-    );
-
-    static #invitationTabSelector = 'main div.artdeco-tablist';
-    static #invitationTabSelectorCurrent =
-      `${InvitationManagerReceivedInvites.#invitationTabSelector} ` +
-      '[aria-selected="true"]';
-
-    static #pathname = '/mynetwork/invitation-manager/';
-
-    #keyboardService
-
-  }
-
-  /** Class for handling the Invitation manager for sent invites page. */
-  class InvitationManagerSentInvites extends InvitationManagerBase {
-
-    /** @param {SPA} spa - SPA instance that manages this Page. */
-    constructor(spa) {
-      super(spa, InvitationManagerSentInvites.#pathname);
-
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
-    }
-
-    viewTarget = new Shortcut(
-      't',
-      'View invitation target ' +
-        '(may not be the same as inviter, e.g., Newsletter)',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['a.invitation-card__picture']);
-      }
-    );
-
-    tabList = new Shortcut(
-      'l',
-      'Go to invitations tab list',
-      () => {
-        const me = 'tabList';
-        this.logger.entered(me);
-
-        NH.web.focusOnElement(document.querySelector(
-          InvitationManagerSentInvites.#invitationTabSelectorCurrent
-        ));
-
-        this.logger.leaving(me);
-      }
-    );
-
-    withDraw = new Shortcut(
-      'W',
-      'Withdraw invitation',
-      () => {
-        NH.web.clickElement(this.invites?.item,
-          ['button[aria-label^="Withdraw invitation"]']);
-      }
-    );
-
-    static #invitationTabSelector = 'main div.artdeco-tablist';
-    static #invitationTabSelectorCurrent =
-      `${InvitationManagerSentInvites.#invitationTabSelector} ` +
-      '[aria-selected="true"]';
-
-    static #pathname = '/mynetwork/invitation-manager/sent/';
-
-    #keyboardService
 
   }
 
@@ -8369,9 +8342,8 @@
   spa.register(Global);
   spa.register(Feed);
   spa.register(MyNetwork);
+  spa.register(InvitationManager);
   spa.register(Messaging);
-  spa.register(InvitationManagerReceivedInvites);
-  spa.register(InvitationManagerSentInvites);
   spa.register(Jobs);
   spa.register(JobCollections);
   spa.register(JobView);
