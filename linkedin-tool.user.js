@@ -98,9 +98,7 @@
      '(e.g., empty), cannot wrap',
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
-    ['#231', '<b>JobCollections</b>: Support delete/next type navigation'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
-    ['#233', 'Support <b>Invitation Manager Sent Invites</b>'],
     ['#236', 'Support <b>Events</b> page'],
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#242', 'Need to reconnect the LIT menu on certain pages'],
@@ -124,6 +122,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-10',
+      issues: ['#281'],
+      subject: 'Update <code>Feed</code> to the latest layout change',
+    },
+    {
+      date: '2026-03-10',
+      issues: ['#275'],
+      subject: 'Only add a badge if the cloned menu item does not have one',
+    },
     {
       date: '2026-03-09',
       issues: ['#281'],
