@@ -2917,8 +2917,13 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCommentIdentifier(element) {
-      return element
+      let content = element
         ?.getAttribute(CKEY);
+      const groups = Feed.#uidCommentRE.exec(content)?.groups;
+      if (groups) {
+        content = groups.body;
+      }
+      return content;
     }
 
     /** @type {Scroller} */
@@ -3009,9 +3014,14 @@
       'Show comments',
       () => {
         const el = this.posts.item;
+        // Check for the "Load more" button first, otherwise we just keep
+        // clicking on the first comment button which rarely does nothing
+        // useful after the first comments are loaded.
         NH.web.clickElement(el, [
-          '[data-view-name="more-comments"]',
-          '[data-view-name="feed-comment-count"]',
+          // Load more comments
+          `[${CKEY}*="LoadMoreComments"] > button`,
+          // Inside post body
+          '[role="button"]',
         ]);
       }
     );
@@ -3038,7 +3048,7 @@
           // The topButton only shows up when the app detects new posts.  In
           // that case, going back to the first post is appropriate.
           const topButton = document.querySelector(
-            'main [data-view-name="feed-new-update-pill"] button'
+            'main [data-testid="mainFeed"] > div:nth-of-type(3) button'
           );
           if (topButton?.checkVisibility()) {
             topButton.click();
@@ -3080,11 +3090,8 @@
       'v r',
       'View reactions on current post or comment',
       () => {
-        const el = this.#lastScroller.item;
-        NH.web.clickElement(el, [
-          '[data-view-name="feed-reaction-count"]',
-          '[data-view-name="comment-reaction-count"]',
-        ]);
+        const el = this.#getItemStatusBar();
+        NH.web.clickElement(el, ['a:has([role])']);
       }
     );
 
@@ -3092,8 +3099,8 @@
       'v R',
       'View reposts of current post',
       () => {
-        const el = this.posts.item;
-        NH.web.clickElement(el, ['[data-view-name="feed-repost-count"]']);
+        const el = this.#getPostStatusBar();
+        NH.web.clickElement(el, ['a:not(:has([role]))']);
       }
     );
 
@@ -3101,11 +3108,8 @@
       '=',
       'Open closest <button class="spa-meatball">⋯</button> menu',
       () => {
-        const el = this.#lastScroller.item;
-        NH.web.clickElement(el, [
-          '[data-view-name="feed-control-menu"]',
-          '[data-view-name="comment-control-menu"]',
-        ]);
+        const el = this.#getItemHeader();
+        NH.web.clickElement(el, ['button:has(svg[id^="overflow"])']);
       }
     );
 
@@ -3113,10 +3117,8 @@
       'L',
       'Like current post or comment',
       () => {
-        const el = this.#lastScroller.item;
-        NH.web.clickElement(
-          el, ['button[aria-label^="Open reactions menu"]']
-        );
+        const el = this.#getItemFooter();
+        NH.web.clickElement(el, ['button:has(svg[id^="chevron-up"])']);
       }
     );
 
@@ -3124,10 +3126,12 @@
       'C',
       'Comment on current post or comment',
       () => {
-        const el = this.#lastScroller.item;
+        const el = this.#getItemFooter();
         NH.web.clickElement(el, [
-          '[data-view-name="feed-comment-button"]',
-          '[data-view-name="comment-reply"]',
+          // For post
+          'button:has(svg[id^="comment"])',
+          // For comment
+          ':scope > div > button',
         ]);
       }
     );
@@ -3136,8 +3140,8 @@
       'R',
       'Repost current post',
       () => {
-        const el = this.posts.item;
-        NH.web.clickElement(el, ['[data-view-name="feed-share-button"]']);
+        const el = this.#getPostFooter();
+        NH.web.clickElement(el, ['button:has(svg[id^="repost"])']);
       }
     );
 
@@ -3145,10 +3149,8 @@
       'S',
       'Send current post privately',
       () => {
-        const el = this.posts.item;
-        NH.web.clickElement(
-          el, ['[data-view-name="feed-send-as-message-button"]']
-        );
+        const el = this.#getPostFooter();
+        NH.web.clickElement(el, ['a:has(svg[id^="send"])']);
       }
     );
 
@@ -3158,7 +3160,7 @@
         'to the other creator options',
       () => {
         document
-          .querySelector('[data-view-name="share-sharebox-focus"]')
+          .querySelector(`main [data-testid="mainFeed"] a[${CKEY}]`)
           .focus();
       }
     );
@@ -3168,18 +3170,23 @@
       'Toggle hiding current post',
       async () => {
         const el = this.posts.item;
+        let selector = 'button:has(svg[id^="close"])';
+        let header = this.#getPostHeader();
+        if (!header) {
+          // Maybe a dismissed post, where there is a different header and
+          // button.
+          header = el?.querySelector(':scope > div > div > div');
+          selector = 'button';
+        }
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
-          NH.web.clickElement(el, [
-            '[data-view-name="feed-hide-post-action"]',
-            '[data-view-name="feed-hide-post-undo"]',
-          ]);
+          NH.web.clickElement(header, [selector]);
         }
-        if (el) {
+        if (header) {
           const what = {
             name: 'toggleDismissPost',
-            base: el,
+            base: header,
           };
           const how = {
             trigger: trigger,
@@ -3220,7 +3227,7 @@
     /** @type {Scroller~What} */
     static #commentsWhat = {
       name: 'Feed comments',
-      selectors: [`[data-component-type] > div[${CKEY}*=":comment:"]`],
+      selectors: [`[data-testid*="commentList"] > div[${CKEY}*=":comment:"]`],
     };
 
     /** @type {Page~PageDetails} */
@@ -3243,20 +3250,131 @@
         {
           container: 'main [data-testid="mainFeed"]',
           items: [
+            // Regular items
             '[role="listitem"]',
-            'div:has(> [data-view-name="feed-collapsed-update"])',
+            // Dismissed item placeholders
+            `div[${CKEY}^="collapsed"]`,
           ].join(','),
         },
       ],
     };
 
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
+
+    static #uidCommentRE =
+    /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
+
     static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
     #commentScroller
     #keyboardService
     #lastScroller
     #postScroller
+
+    /** @returns {HTMLElement} - Header container for current post. */
+    #getPostHeader = () => {
+      const me = this.#getPostHeader.name;
+      this.logger.entered(me);
+
+      const el = this.posts.item?.querySelector('h2 + div');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - Header container for current comment. */
+    #getCommentHeader = () => {
+      const me = this.#getCommentHeader.name;
+      this.logger.entered(me);
+
+      const el = this.comments?.item?.querySelector('div:has(> a ~ button)');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - Header container for current item. */
+    #getItemHeader = () => {
+      const me = this.#getItemHeader.name;
+      this.logger.entered(me);
+
+      const el = this.#getCommentHeader() || this.#getPostHeader();
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - Footer container for current post. */
+    #getPostFooter = () => {
+      const me = this.#getPostFooter.name;
+      this.logger.entered(me);
+
+      const el = this.posts.item
+        ?.querySelector('div:has(> h2) > div:last-of-type');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - Footer container for current comment. */
+    #getCommentFooter = () => {
+      const me = this.#getCommentFooter.name;
+      this.logger.entered(me);
+
+      // Comment Footer and StatusBar use the same query.
+      const el = this.comments?.item
+        ?.querySelector('div:has(> hr)');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - Footer container for current item. */
+    #getItemFooter = () => {
+      const me = this.#getItemFooter.name;
+      this.logger.entered(me);
+
+      const el = this.#getCommentFooter() || this.#getPostFooter();
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - StatusBar container for current post. */
+    #getPostStatusBar = () => {
+      const me = this.#getPostStatusBar.name;
+      this.logger.entered(me);
+
+      const el = this.posts.item
+        ?.querySelector('div:has(> a [role="presentation"])');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - StatusBar container for current comment. */
+    #getCommentStatusBar = () => {
+      const me = this.#getCommentStatusBar.name;
+      this.logger.entered(me);
+
+      // Comment Footer and StatusBar use the same query.
+      const el = this.comments?.item
+        ?.querySelector('div:has(> hr)');
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /** @returns {HTMLElement} - StatusBar container for current item. */
+    #getItemStatusBar = () => {
+      const me = this.#getItemStatusBar.name;
+      this.logger.entered(me);
+
+      const el = this.#getCommentStatusBar() || this.#getPostStatusBar();
+
+      this.logger.leaving(me, el);
+      return el;
+    }
 
     #onPostActivate = () => {
       const me = 'onPostActivate';
