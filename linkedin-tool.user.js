@@ -3456,7 +3456,7 @@
   }
 
   /**
-   * Class for handling the MyNetwork page (Grow tab).
+   * Class for handling the MyNetwork page.
    *
    * This page takes 3-4 seconds to load every time.  Revisits are
    * likely to take a while.
@@ -3644,8 +3644,18 @@
         const el = this.#lastScroller?.item;
         NH.web.clickElement(el, [
           // Catch up items
-          '[data-view-name="nurture-card-three-dots-menu"]',
+          ':has(> * > svg[id^="overflow"])',
         ]);
+      }
+    );
+
+    tabList = new Shortcut(
+      'l',
+      'Focus on Manage invitations tab list',
+      () => {
+        const el = document.querySelector('main nav [aria-current]');
+        el.scrollIntoView(false);
+        NH.web.focusOnElement(el);
       }
     );
 
@@ -3655,12 +3665,16 @@
       () => {
         const el = this.individuals?.item;
         NH.web.clickElement(el, [
-          // Connect/withdraw
-          '[data-view-name="edge-creation-connect-action"] > :is(button, a)',
+          // Connect
+          ':has(> * > svg[id^="connect"])',
+          // Withdraw pending
+          ':has(> * > svg[id^="clock"])',
           // Follow
-          '[data-view-name="edge-creation-follow-action"] > :is(button, a)',
+          ':has(> * > svg[id^="add-"])',
+          // Unfollow
+          ':has(> * > svg[id^="check"])',
           // Catch up Message
-          '[data-view-name="nurture-card-primary-button"]',
+          ':has(> * > svg[id^="send"])',
         ]);
       }
     );
@@ -3670,9 +3684,7 @@
       'Like current item',
       () => {
         const el = this.#lastScroller.item;
-        NH.web.clickElement(
-          el, ['button:has([data-view-name="reaction-button"]) + button']
-        );
+        NH.web.clickElement(el, [':has(> * > svg[id^="chevron-up"])']);
       }
     );
 
@@ -3681,9 +3693,7 @@
       'Comment on current item',
       () => {
         const el = this.#lastScroller.item;
-        NH.web.clickElement(
-          el, ['[data-view-name="nurture-card-comment-button"]']
-        );
+        NH.web.clickElement(el, [':has(> * > svg[id^="comment"])']);
       }
     );
 
@@ -3694,7 +3704,7 @@
         const el = this.individuals?.item;
         NH.web.clickElement(el, [
           // Most items
-          '[data-view-name="cohort-card-dismiss"] > button',
+          ':has(> * > svg[id^="close"]',
         ]);
       }
     );
@@ -3713,12 +3723,10 @@
         {
           container: 'main > div > div > div:nth-of-type(2) > div',
           items: [
-            // In page navigation
-            ':scope > section',
             // Most "Grow" cards
-            '[data-view-name="cohorts-list"] > div > div > section',
+            '[role="main"] > div > div > div > section',
             // Other "Grow" cards
-            '[data-view-name="cohorts-list"] > div > section',
+            '[role="main"] > div > div > section',
             // "Catch up" card
             ':scope > div > section',
           ].join(','),
@@ -3730,7 +3738,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
-      pageReadySelector: 'main > div',
+      pageReadySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -3750,8 +3758,6 @@
       name: 'MyNetwork Individual Items',
       selectors: [
         [
-          // Header card
-          '[data-view-name="my-network-notifications-badge-count"] li',
           // Carousel cards (different variations)
           '[data-testid="carousel-child-container"] > div > a',
           '[data-testid="carousel-child-container"] > div:has(> div)',
@@ -3779,8 +3785,13 @@
     }
 
     #onCollectionChange = () => {
+      const me = this.#onCollectionChange.name;
+      this.logger.entered(me);
+
       this.#resetIndividuals();
       this.#lastScroller = this.collections;
+
+      this.logger.leaving(me, this.collections.item);
     }
 
     #returnToCollection = () => {
