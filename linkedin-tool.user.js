@@ -2372,6 +2372,8 @@
     /**
      * @typedef {object} PageDetails
      * @property {SPA} spa - SPA instance that manages this Page.
+     * @property {string} [pageName=this.constructor.name] - A human readable
+     * name for this page (normally parsed from the subclass name).
      * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
      * the URL this page should handle.
      * @property {string} [pageReadySelector='body'] - CSS selector that is
@@ -2383,11 +2385,14 @@
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
+      this.#pageId = this.constructor.name;
       this.#spa = details.spa;
-      this.#logger = new NH.base.Logger(this.constructor.name);
+      this.#logger = new NH.base.Logger(this.pageId);
       this.#pathnameRE = this.#computePathname(details.pathname);
       ({
         pageReadySelector: this.#pageReadySelector = 'body',
+        pageName: this.#pageName = NH.base.simpleParseWords(this.#pageId)
+          .join(' '),
       } = details);
       this.#logger.log('Base page constructed', this);
     }
@@ -2405,11 +2410,6 @@
       return shortcuts;
     }
 
-    /** @type {string} - Describes what the header should be. */
-    get infoHeader() {
-      return this.constructor.name;
-    }
-
     /** @type {KeyboardService} */
     get keyboard() {
       return this.#keyboard;
@@ -2418,6 +2418,16 @@
     /** @type {NH.base.Logger} */
     get logger() {
       return this.#logger;
+    }
+
+    /** @type {string} - Machine readable name for the page. */
+    get pageId() {
+      return this.#pageId;
+    }
+
+    /** @type {string} - Human readable name for the page. */
+    get pageName() {
+      return this.#pageName;
     }
 
     /** @type {RegExp} */
@@ -2507,6 +2517,8 @@
     /** @type {NH.base.Logger} - NH.base.Logger instance. */
     #logger
 
+    #pageId
+    #pageName
     #pageReadySelector
 
     /** @type {RegExp} - Computed RegExp version of details.pathname. */
@@ -3736,6 +3748,7 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
+      pageName: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
       pageReadySelector: 'main > div > div > div',
@@ -8057,7 +8070,7 @@
      * @returns {string} - Unique identifier.
      */
     _pageInfoId(page) {
-      return `${this._infoId}-${page.infoHeader}`;
+      return `${this._infoId}-${page.pageId}`;
     }
 
     /**
@@ -8066,8 +8079,7 @@
      */
     _addInfo(page) {
       const shortcuts = document.querySelector(`#${this._infoId} tbody`);
-      const section = NH.base.simpleParseWords(page.infoHeader)
-        .join(' ');
+      const section = page.pageName;
       const pageId = this._pageInfoId(page);
       let s = `<tr id="${pageId}"><th></th><th>${section}</th></tr>`;
       for (const {seq, desc} of page.allShortcuts) {
@@ -8243,7 +8255,7 @@
 
     /** @returns {string[]} - Names of active pages. */
     #activePageNames = () => {
-      const names = Array.from(this.#activePages, x => x.constructor.name);
+      const names = Array.from(this.#activePages, x => x.pageName);
       return names;
     }
 
