@@ -1095,7 +1095,7 @@
       }
       this.#postProcessItems(items);
 
-      this.logger.leaving(me);
+      this.logger.leaving(me, items.length);
       return items;
     }
 
@@ -1419,6 +1419,7 @@
       };
 
       for (const {container} of this.#containerItems) {
+        this.logger.log('container', container);
         results.push(wrapper(NH.web.waitForSelector(container,
           this.#containerTimeout), container));
       }
