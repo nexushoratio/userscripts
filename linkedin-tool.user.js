@@ -118,10 +118,28 @@
     ['#275', 'Fix badges on LIT menu item'],
     ['#276', 'Update <b>Feed</b>'],
     ['#277', 'Update <b>My Network</b>'],
+    ['#280', 'Update <b>Invitation Manager<b> views'],
     ['#281', 'Internal page structure changed mid-migration'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-11',
+      issues: [''],
+      subject: 'Change hotkeys to match LinkedIn\'s official ' +
+        'keyboard shortcuts',
+    },
+    {
+      date: '2026-03-11',
+      issues: ['#280'],
+      subject: 'Update the implementation of the ' +
+        '<code>Invitation Manager</code> view',
+    },
+    {
+      date: '2026-03-11',
+      issues: ['#281'],
+      subject: 'Update <code>My Network</code> to the latest layout change',
+    },
     {
       date: '2026-03-10',
       issues: ['#281'],
