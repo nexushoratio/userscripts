@@ -2661,7 +2661,7 @@
     );
 
     gotoMyNetwork = new Shortcut(
-      'g m',
+      'g w',
       'Go to My Network',
       () => {
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
@@ -2685,7 +2685,7 @@
     );
 
     gotoMessaging = new Shortcut(
-      'g g',
+      'g m',
       'Go to Messaging',
       () => {
         if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
