@@ -1763,6 +1763,21 @@
       return this.#sidebarSelector;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static ckeyIdentifier(element) {
+      const me = LinkedInGlobals.ckeyIdentifier.name;
+      this.logger?.entered(me, element);
+
+      const content = element?.getAttribute(CKEY);
+
+      this.logger?.leaving(me, content);
+      return content;
+    }
+
     /** @type {string} - The height of the navbar as CSS string. */
     get navbarHeightCSS() {
       return `${this.#navbarHeightPixels}px`;
@@ -2940,8 +2955,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniquePostIdentifier(element) {
-      let content = element
-        ?.getAttribute(CKEY);
+      let content = LinkedInGlobals.ckeyIdentifier(element);
       const groups = Feed.#uidPostRE.exec(content)?.groups;
       if (groups) {
         content = groups.body;
@@ -2955,8 +2969,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCommentIdentifier(element) {
-      let content = element
-        ?.getAttribute(CKEY);
+      let content = LinkedInGlobals.ckeyIdentifier(element);
       const groups = Feed.#uidCommentRE.exec(content)?.groups;
       if (groups) {
         content = groups.body;
@@ -3522,11 +3535,12 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCollectionIdentifier(element) {
-      const key = element.getAttribute(CKEY);
-      const childKey = element
-        .querySelector(`[${CKEY}]`)
-        ?.getAttribute(CKEY);
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const childKey = LinkedInGlobals.ckeyIdentifier(
+        element.querySelector(`[${CKEY}]`)
+      );
       let content = element.innerText;
+
       if (childKey) {
         content = childKey;
       }
@@ -3543,25 +3557,14 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueIndividualsIdentifier(element) {
-      const key = element.getAttribute(CKEY);
-      const viewName = element.dataset.viewName;
-      const childKey = element
-        .querySelector(`[${CKEY}]`)
-        ?.getAttribute(CKEY);
-      const childViewName = element
-        .querySelector('[data-view-name]')
-        ?.dataset
-        .viewName;
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const childKey = LinkedInGlobals.ckeyIdentifier(
+        element.querySelector(`[${CKEY}]`)
+      );
       let content = element.innerText;
 
-      if (childViewName) {
-        content = childViewName;
-      }
       if (childKey) {
         content = childKey;
-      }
-      if (viewName) {
-        content = viewName;
       }
       if (key) {
         content = key;
@@ -3857,22 +3860,6 @@
         .setScroller(this.#inviteScroller);
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIdentifier(element) {
-      const me = InvitationManager.uniqueIdentifier.name;
-      this.logger.entered(me, element);
-
-      const content = element
-        ?.getAttribute(CKEY);
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get invites() {
       return this.#inviteScroller;
@@ -4040,7 +4027,7 @@
     };
 
     static #invitesHow = {
-      uidCallback: InvitationManager.uniqueIdentifier,
+      uidCallback: LinkedInGlobals.ckeyIdentifier,
       classes: ['tom'],
     };
 
