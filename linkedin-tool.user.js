@@ -116,13 +116,19 @@
     ['#273', 'Focus being stolen from sidebars'],
     ['#274', 'Hybrid detection does not reliably work'],
     ['#275', 'Fix badges on LIT menu item'],
-    ['#276', 'Update <b>Feed</b>'],
-    ['#277', 'Update <b>My Network</b>'],
-    ['#280', 'Update <b>Invitation Manager<b> views'],
+    ['#276', 'Update <b>Feed</b> page'],
+    ['#277', 'Update <b>My Network</b> page'],
+    ['#278', 'Update <b>Jobs</b> pages'],
+    ['#280', 'Update <b>Invitation Manager</b> pages'],
     ['#281', 'Internal page structure changed mid-migration'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-13',
+      issues: ['#278'],
+      subject: 'Update the implementation of the <code>Jobs</code> view',
+    },
     {
       date: '2026-03-11',
       issues: [''],
@@ -7679,8 +7685,8 @@
         }
       }
 
-      this.logger.log('unknown', unknownIssues);
-      this.logger.log('unused', unusedIssues);
+      this.logger.log('unknown issues', unknownIssues);
+      this.logger.log('unused issues', unusedIssues);
 
       if (unknownIssues.size) {
         const issues = Array.from(unknownIssues)
