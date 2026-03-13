@@ -6502,7 +6502,7 @@
       }
     );
 
-    prevReslt = new Shortcut(
+    prevResult = new Shortcut(
       'k',
       'Previous result',
       () => {
