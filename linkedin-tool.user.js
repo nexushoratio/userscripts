@@ -4015,7 +4015,7 @@
       'Dismiss invitation (after accepting or ignoring)',
       () => {
         const el = this.invites.item;
-        NH.web.clickElement(el, ['[aria-label="Dismiss"]']);
+        NH.web.clickElement(el, [':has(> * > svg[id^="close"]']);
       }
     );
 
