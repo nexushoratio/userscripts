@@ -4083,51 +4083,27 @@
     }
 
     /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueSectionIdentifier(element) {
-      const h2 = element.querySelector('h2');
-      let content = element.innerText;
-      if (h2?.innerText) {
-        content = h2.innerText;
-      }
-      return NH.base.strHash(content);
-    }
-
-    /**
      * Complicated because there are so many variations.
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
     static uniqueJobIdentifier(element) {
+      const me = Jobs.uniqueJobIdentifier.name;
+      this.logger.entered(me, element);
+
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+
       let content = element.innerText;
-      let options = element.querySelectorAll('a[data-control-id]');
-      if (options.length === NH.base.ONE_ITEM) {
-        content = options[0].dataset.controlId;
+
+      if (key) {
+        content = key;
       } else {
-        options = element.querySelectorAll('a[id]');
-        if (options.length === NH.base.ONE_ITEM) {
-          content = options[0].id;
-        } else {
-          let s = '';
-          for (const img of element.querySelectorAll('img[alt]')) {
-            s += img.alt;
-          }
-          if (s) {
-            content = s;
-          } else {
-            options = element
-              .querySelectorAll('.jobs-home-upsell-card__container');
-            if (options.length === NH.base.ONE_ITEM) {
-              content = options[0].className;
-            }
-          }
-        }
+        content = NH.base.strHash(content);
       }
-      return NH.base.strHash(content);
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -4212,100 +4188,68 @@
       }
     );
 
-    activateJob = new Shortcut(
+    activateItem = new Shortcut(
       'Enter',
-      'Activate the current job (click on it)',
+      'Activate the current item (click on it)',
       () => {
         if (litOptions.enableIssue241ClickMethod) {
           this.jobs.click();
         } else {
-          const job = this.jobs?.item;
-          if (job) {
-            if (!NH.web.clickElement(job,
+          const el = this.jobs?.item;
+          if (el) {
+            if (!NH.web.clickElement(el,
               [
-                'div[data-view-name]',
+                '[role="button"]',
                 'a',
                 'button',
-              ])) {
-              NH.web.postInfoAboutElement(job, 'job');
+              ], true)) {
+              NH.web.postInfoAboutElement(el, 'el');
             }
           } else {
-          // Again, because we use Enter as the hotkey for this action.
+            // Again, because we use Enter as the hotkey for this action.
             document.activeElement.click();
           }
         }
       }
     );
 
-    loadMoreSections = new Shortcut(
-      'l',
-      'Load more sections (or <i>More jobs for you</i> items)',
-      async () => {
-        const savedScrollTop = document.documentElement.scrollTop;
-
-        /** Trigger function for {@link NH.web.otrot}. */
-        function trigger() {
-          NH.web.clickElement(document,
-            ['main button.scaffold-finite-scroll__load-button']);
-        }
-        const what = {
-          name: 'loadMoreSections',
-          base: document.querySelector('div.scaffold-finite-scroll__content'),
-        };
-        const how = {
-          trigger: trigger,
-          timeout: 3000,
-        };
-        await NH.web.otrot(what, how);
-        this.#resetScroll(savedScrollTop);
+    openMeatballMenu = new Shortcut(
+      '=',
+      'Open closest <button class="spa-meatball">⋯</button> menu',
+      () => {
+        const el = this.jobs?.item;
+        NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
       }
     );
 
-    toggleSaveJob = new Shortcut(
-      'S',
-      'Toggle saving job',
+    loadMoreSections = new Shortcut(
+      'l',
+      'Load more sections',
       () => {
-        const selector = [
-          'button[aria-label^="Save job"]',
-          'button[aria-label^="Unsave job"]',
-        ].join(',');
-        NH.web.clickElement(this.jobs?.item, [selector]);
+        const base = document.querySelector(
+          Jobs.#sectionsWhat.containerItems[0].container
+        );
+        NH.web.clickElement(base,
+          [':scope > div:last-of-type > button']);
       }
     );
 
     toggleDismissJob = new Shortcut(
       'X',
       'Toggle dismissing job',
-      async () => {
-        const savedJob = this.jobs.item;
-
-        /** Trigger function for {@link NH.web.otrot}. */
-        function trigger() {
-          const selector = [
-            'button[aria-label^="Dismiss job"]:not([disabled])',
-            'button[aria-label$=" Undo"]',
-          ].join(',');
-          NH.web.clickElement(savedJob, [selector]);
-        }
-        if (savedJob) {
-          const what = {
-            name: 'toggleDismissJob',
-            base: savedJob,
-          };
-          const how = {
-            trigger: trigger,
-            timeout: 3000,
-          };
-          await NH.web.otrot(what, how);
-          this.jobs.item = savedJob;
-        }
+      () => {
+        const el = this.jobs?.item;
+        NH.web.clickElement(el, [
+          ':has(> * > svg[id^="close"]',
+          ':has(> * > svg[id^="undo-"]',
+        ]);
       }
     );
 
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/jobs/',
-      pageReadySelector: LinkedInGlobals.asideSelector,
+      pageReadySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -4321,21 +4265,24 @@
       name: 'Job entries',
       selectors: [
         [
-          // Recent job searches
-          ':scope > ul > li.jobs-home-recent-searches__list-item',
-          // Recent job searches show more button
-          ':scope > div.jobs-home-recent-searches__list-toggle',
+          // Match your profile - Show all button
+          ':scope > * > a',
           // Most job entries
-          ':scope > ul > li.discovery-templates-entity-item',
-          // Show all button
-          'div.discovery-templates-vertical-list__footer',
+          ':scope > * > * > a',
+          // Carousels
+          '[data-testid="carousel-child-container"] a',
+          // Job collections tabs
+          '[role="button"]',
+          // Job collections entries
+          `[${CKEY}^="JobsHomeModuleTabbed"] > * > a`,
+          `[${CKEY}^="JobsHomeModuleTabbed"] > * > * > a`,
         ].join(','),
       ],
     };
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
-      uidCallback: Jobs.uniqueSectionIdentifier,
+      uidCallback: LinkedInGlobals.ckeyIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -4343,7 +4290,15 @@
     /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: 'Jobs sections',
-      containerItems: [{container: 'main', items: 'section'}],
+      containerItems: [
+        {
+          container: 'main [data-testid="JobsHomeFeedModuleListCollection"]',
+          items: [
+            `:scope > [${CKEY}^="Jobs"] [${CKEY}^="Jobs"]`,
+            `:scope > div > div[${CKEY}]`,
+          ].join(','),
+        },
+      ],
     };
 
     #jobScroller
@@ -8360,10 +8315,10 @@
   spa.register(Feed);
   spa.register(MyNetwork);
   spa.register(InvitationManager);
-  spa.register(Messaging);
   spa.register(Jobs);
   spa.register(JobCollections);
   spa.register(JobView);
+  spa.register(Messaging);
   spa.register(Notifications);
   spa.register(Profile);
   spa.register(Events);
