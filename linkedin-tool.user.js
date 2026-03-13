@@ -7937,6 +7937,7 @@
           ' padding: 3px;' +
           '}',
         `#${this._infoId} ul {` +
+          ' list-style: unset;' +
           ' padding-inline: revert !important;' +
           '}',
         `#${this._infoId} button.spa-meatball { border-radius: 50%; }`,
