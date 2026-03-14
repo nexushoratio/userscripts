@@ -2379,18 +2379,21 @@
         );
         this.logger.log('toolbar:', toolbarElement);
 
-        for (const how of this.#scrollerHows) {
-          this.logger.log('how:', how);
-          this.#page.spa.details.navbarScrollerFixup(how);
+        if (toolbarElement) {
+          for (const how of this.#scrollerHows) {
+            this.logger.log('how:', how);
+            this.#page.spa.details.navbarScrollerFixup(how);
 
-          const newHeight = how.topMarginPixels + toolbarElement.clientHeight;
-          const newCSS = `${newHeight}px`;
+            const newHeight = how.topMarginPixels +
+                  toolbarElement.clientHeight;
+            const newCSS = `${newHeight}px`;
 
-          how.topMarginPixels = newHeight;
-          how.topMarginCSS = newCSS;
+            how.topMarginPixels = newHeight;
+            how.topMarginCSS = newCSS;
+          }
+
+          this.#postHook();
         }
-
-        this.#postHook();
       }
 
       this.#activatedOnce = true;
