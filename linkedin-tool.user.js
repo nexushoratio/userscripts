@@ -4377,18 +4377,18 @@
 
   }
 
-  /** Class for handling Job collections. */
-  class JobCollections extends Page {
+  /** Class for handling Jobs collections. */
+  class JobsCollections extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...JobCollections.#details});
+      super({spa: spa, ...JobsCollections.#details});
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      this.#jobCardScroller = new Scroller(JobCollections.#jobCardsWhat,
-        JobCollections.#jobCardsHow);
+      this.#jobCardScroller = new Scroller(JobsCollections.#jobCardsWhat,
+        JobsCollections.#jobCardsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#jobCardScroller)
         .allowReactivation(false);
@@ -4397,7 +4397,7 @@
       this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
 
       this.#paginationScroller = new Scroller(
-        JobCollections.#paginationWhat, JobCollections.#paginationHow
+        JobsCollections.#paginationWhat, JobsCollections.#paginationHow
       );
       this.addService(LinkedInScrollerService)
         .setScroller(this.#paginationScroller)
@@ -4407,9 +4407,9 @@
       this.#paginationScroller.dispatcher.on('change',
         this.#onPaginationChange);
 
-      spa.details.navbarScrollerFixup(JobCollections.#detailsHow);
+      spa.details.navbarScrollerFixup(JobsCollections.#detailsHow);
       this.#detailsScroller = new Scroller(
-        JobCollections.#detailsWhat, JobCollections.#detailsHow
+        JobsCollections.#detailsWhat, JobsCollections.#detailsHow
       );
       this.addService(LinkedInScrollerService)
         .setScroller(this.#detailsScroller)
@@ -4425,7 +4425,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueDetailsIdentifier(element) {
-      const me = JobCollections.uniqueDetailsIdentifier.me;
+      const me = JobsCollections.uniqueDetailsIdentifier.me;
       this.logger.entered(me, element);
 
       let content = element.innerText;
@@ -4464,7 +4464,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueJobIdentifier(element) {
-      const me = JobCollections.uniqueJobIdentifier.name;
+      const me = JobsCollections.uniqueJobIdentifier.name;
       this.logger.entered(me, element);
 
       const content = element.dataset.occludableJobId;
@@ -4479,7 +4479,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniquePaginationIdentifier(element) {
-      const me = JobCollections.uniquePaginationIdentifier.name;
+      const me = JobsCollections.uniquePaginationIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
@@ -4702,14 +4702,14 @@
 
     /** @type {Scroller~How} */
     static #detailsHow = {
-      uidCallback: JobCollections.uniqueDetailsIdentifier,
+      uidCallback: JobsCollections.uniqueDetailsIdentifier,
       classes: ['dick'],
       snapToTop: true,
     };
 
     /** @type {Scroller~What} */
     static #detailsWhat = {
-      name: 'JobCollections details',
+      name: 'JobsCollections details',
       containerItems: [
         {
           container: 'div.jobs-details__main-content',
@@ -4728,7 +4728,7 @@
 
     /** @type {Scroller~What} */
     static #jobCardsWhat = {
-      name: 'JobCollections cards',
+      name: 'JobsCollections cards',
       containerItems: [
         {
           container: 'div.scaffold-layout__list > div > ul',
@@ -4749,7 +4749,7 @@
 
     /** @type {Scroller~What} */
     static #paginationWhat = {
-      name: 'JobCollections pagination',
+      name: 'JobsCollections pagination',
       containerItems: [
         {
           container: 'div.jobs-search-results-list__pagination > ul',
@@ -4785,7 +4785,7 @@
           timeout
         );
         this.logger.log('Found', item);
-        this.jobCards.gotoUid(JobCollections.uniqueJobIdentifier(item));
+        this.jobCards.gotoUid(JobsCollections.uniqueJobIdentifier(item));
         this.logger.log('and went to it');
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
@@ -6617,7 +6617,7 @@
         this.paginator.goto(item);
 
         // The previous line popped the page to the bottom, so go to someplace
-        // reasonable.  On a similar page, JobCollections, the URL changes to
+        // reasonable.  On a similar page, JobsCollections, the URL changes to
         // match the current card, so it watches that to avoid this same
         // problem.
         const result = this.results.item;
@@ -8304,7 +8304,7 @@
   spa.register(MyNetwork);
   spa.register(InvitationManager);
   spa.register(Jobs);
-  spa.register(JobCollections);
+  spa.register(JobsCollections);
   spa.register(JobView);
   spa.register(Messaging);
   spa.register(Notifications);
