@@ -4425,6 +4425,9 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueDetailsIdentifier(element) {
+      const me = JobCollections.uniqueDetailsIdentifier.me;
+      this.logger.entered(me, element);
+
       let content = element.innerText;
       if (element.id) {
         content = element.id;
@@ -4450,20 +4453,8 @@
           }
         }
       }
-      const hash = NH.base.strHash(content);
-      return hash;
-    }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueJobIdentifier(element) {
-      let content = '';
-      if (element) {
-        content = element.dataset.occludableJobId;
-      }
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
@@ -4472,7 +4463,25 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
+    static uniqueJobIdentifier(element) {
+      const me = JobCollections.uniqueJobIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = element.dataset.occludableJobId;
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static uniquePaginationIdentifier(element) {
+      const me = JobCollections.uniquePaginationIdentifier.name;
+      this.logger.entered(me, element);
+
       let content = '';
       if (element) {
         content = element.innerText;
@@ -4481,6 +4490,8 @@
           content = label;
         }
       }
+
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
@@ -4573,11 +4584,11 @@
 
     detailsPane = new Shortcut(
       'd',
-      'Jump to details pane',
+      'Move browser focus to the details pane',
       () => {
         NH.web.focusOnElement(document.querySelector(
           'div.jobs-details__main-content'
-        ));
+        ), false);
       }
     );
 
@@ -4585,7 +4596,19 @@
       'c',
       'Select current results page',
       () => {
-        NH.web.clickElement(this.paginator.item, ['button']);
+        this.paginator.dull();
+        NH.web.clickElement(this.paginator.item, ['button'], true);
+      }
+    );
+
+    tabList = new Shortcut(
+      'l',
+      'Focus on discovery tab list (has native scrolling using arrows)',
+      () => {
+        const el = document.querySelector(
+          '.jobs-search-discovery-tabs nav [aria-current="true"]'
+        );
+        el.focus();
       }
     );
 
@@ -4593,7 +4616,7 @@
       's',
       'Open share menu',
       () => {
-        NH.web.clickElement(document, ['button[aria-label="Share"]']);
+        NH.web.clickElement(document, ['.social-share button']);
       }
     );
 
@@ -4601,7 +4624,7 @@
       '=',
       'Open the <button class="spa-meatball">⋯</button> menu',
       () => {
-        // XXX: There are TWO buttons.  The *first* one is hidden until the
+        // XXX: There are TWO buttons.  The *second* one is hidden until the
         // user scrolls down.  This always triggers the first one.
         NH.web.clickElement(document, ['.jobs-options button']);
       }
@@ -4611,15 +4634,12 @@
       'A',
       'Apply to job (or previous application)',
       () => {
-        // XXX: There are TWO apply buttons.  The *second* one is hidden until
-        // the user scrolls down.  This always triggers the first one.
-        const selectors = [
+        NH.web.clickElement(document, [
           // Apply and Easy Apply buttons
-          'button[aria-label*="Apply to"]',
+          '#jobs-apply-button-id',
           // See application link
           'a[href^="/jobs/tracker"]',
-        ];
-        NH.web.clickElement(document, selectors);
+        ]);
       }
     );
 
@@ -4634,34 +4654,18 @@
     );
 
     toggleDismissJob = new Shortcut(
-      'X', 'Toggle dismissing job, if available', () => {
-        // Currently these two are the same, but one never knows.
-        this.toggleThumbsDown();
+      'X',
+      'Toggle dismissing job, if available',
+      () => {
+        NH.web.clickElement(this.jobCards.item, ['button']);
       }
     );
 
     nextJobPlus = new Shortcut(
       'J',
       'Toggle dismissing then next job card',
-      async () => {
-
-        /** Trigger function for {@link NH.web.otrot}. */
-        const trigger = () => {
-          this.toggleThumbsDown();
-        };
-
-        if (this.jobCards.item) {
-          const what = {
-            name: 'nextJobPlus',
-            base: this.jobCards.item,
-          };
-          const how = {
-            trigger: trigger,
-            timeout: 3000,
-          };
-          await NH.web.otrot(what, how);
-        }
-
+      () => {
+        this.toggleDismissJob();
         this.nextJob();
       }
     );
@@ -4670,15 +4674,14 @@
       'K',
       'Toggle dismissing then previous job card',
       () => {
-        this.toggleThumbsDown();
+        this.toggleDismissJob();
         this.prevJob();
       }
     );
 
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
-        // The button toggles between Follow and Following
-        NH.web.clickElement(document, ['button[aria-label^="Follow"]']);
+        NH.web.clickElement(document, ['button.follow']);
       }
     );
 
@@ -4689,29 +4692,9 @@
       }
     );
 
-    toggleThumbsUp = new Shortcut(
-      '+', 'Toggle thumbs up, if available', () => {
-        const selector = [
-          'button[aria-label="Like job"]',
-          'button[aria-label="Job is liked, undo"]',
-        ].join(',');
-        NH.web.clickElement(this.jobCards.item, [selector]);
-      }
-    );
-
-    toggleThumbsDown = new Shortcut(
-      '-', 'Toggle thumbs down, if available', () => {
-        const selector = [
-          'button[aria-label^="Dismiss job"]:not([disabled])',
-          'button[aria-label="Job is dismissed, undo"]',
-          'button[aria-label$=" Undo"]',
-        ].join(',');
-        NH.web.clickElement(this.jobCards.item, [selector]);
-      }
-    );
-
     /** @type {Page~PageDetails} */
     static #details = {
+      pageName: 'Jobs Collections (various listings)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
       pageReadySelector: 'footer.global-footer-compact',
@@ -4748,7 +4731,7 @@
       name: 'JobCollections cards',
       containerItems: [
         {
-          container: 'div.jobs-search-results-list > ul',
+          container: 'div.scaffold-layout__list > div > ul',
           // This selector is also used in #onJobCardActivate.
           items: ':scope > li',
         },
@@ -4770,8 +4753,8 @@
       containerItems: [
         {
           container: 'div.jobs-search-results-list__pagination > ul',
-          // This selector is also used in #onJobCardActivate.
-          items: ':scope > li',
+          // This selector is also used in #onPaginationActivate.
+          items: ':scope > li > button',
         },
       ],
     };
@@ -4815,11 +4798,8 @@
       const me = 'onJobCardChange';
       this.logger.entered(me, this.jobCards.item);
 
-      this.logger.log('click');
       NH.web.clickElement(this.jobCards.item, ['div[data-job-id]']);
-      this.logger.log('first');
       this.details.first();
-      this.logger.log('last');
       this.#lastScroller = this.jobCards;
 
       this.logger.leaving(me);
@@ -4832,7 +4812,7 @@
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
-          'div.jobs-search-results-list__pagination > ul > li.selected',
+          'div.jobs-search-results-list__pagination > ul [aria-current]',
           timeout
         );
         this.paginator.goto(item);
