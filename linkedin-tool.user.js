@@ -4857,11 +4857,27 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCardIdentifier(element) {
-      const div = element.querySelector('div');
+      const me = JobView.uniqueCardIdentifier.name;
+      this.logger.entered(me, element);
+
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const label = element
+        .querySelector('[aria-label]')
+        ?.getAttribute('aria-label');
+      const h2 = element.querySelector('h2');
       let content = element.innerText;
-      if (div?.id) {
-        content = div.id;
+
+      if (h2) {
+        content = h2.innerText;
       }
+      if (label) {
+        content = label;
+      }
+      if (key) {
+        content = key;
+      }
+
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
@@ -4938,7 +4954,7 @@
 
     firstItem = new Shortcut(
       '<',
-      'Go to the first card',
+      'Go to the first item',
       () => {
         this.#lastScroller.first();
       }
@@ -4946,7 +4962,7 @@
 
     lastItem = new Shortcut(
       '>',
-      'Go to the last card',
+      'Go to the last item',
       () => {
         this.#lastScroller.last();
       }
@@ -4962,20 +4978,11 @@
 
     showMore = new Shortcut(
       'm',
-      'Show more/less of current item (some may go to new page)',
+      'Show more of current item',
       () => {
         const el = this.#lastScroller.item;
         if (el) {
-          // TODO(#160): "About the job" will lose shine
-          NH.web.clickElement(el, [
-            // About the job
-            'button[aria-label^="Click to see more"]',
-            'button[aria-label^="Click to see less"]',
-            // About the company, overflow
-            'button.inline-show-more-text__button',
-            // About the company, visit company page
-            'a[aria-label="Show more about the company"]',
-          ]);
+          NH.web.clickElement(el, ['[data-testid="expandable-text-button"]']);
         }
       }
     );
@@ -4984,13 +4991,31 @@
       'A',
       'Apply to job',
       () => {
-        NH.web.clickElement(document, ['button.jobs-apply-button']);
+        const el = document.querySelector(JobView.#jobCard);
+        NH.web.clickElement(el, [
+          // Matches both "link-external" and "linkedin-bug" icons
+          '[aria-label]:has(> * > svg[id^="link"])',
+        ]);
       }
     );
 
     toggleFollowCompany = new Shortcut(
       'F', 'Toggle following company', () => {
-        NH.web.clickElement(document, ['button.follow']);
+        // The anchor below is the link to the company in "About the company"
+        NH.web.clickElement(document, [
+          // Follow
+          'a + :has(> * > svg[id^="add-"])',
+          // Unfollow
+          'a + :has(> * > svg[id^="check-"])',
+        ]);
+      }
+    );
+
+    toggleAlert = new Shortcut(
+      'L',
+      'Toggle the similiar job search aLert',
+      () => {
+        NH.web.clickElement(document, ['[role="switch"]']);
       }
     );
 
@@ -4998,7 +5023,11 @@
       'S',
       'Toggle saving job',
       () => {
-        NH.web.clickElement(document, ['button.jobs-save-button']);
+        const el = document.querySelector(JobView.#jobCard);
+        NH.web.clickElement(el, [
+          // Fragile, as currently only button in the card without an icon.
+          'button:not(:has(svg))',
+        ]);
       }
     );
 
@@ -5014,12 +5043,12 @@
       name: 'JobView cards',
       containerItems: [
         {
-          container: '[role="main"]',
+          container: '[data-testid="lazy-column"]',
           items: [
-            // Many items
-            ':scope > .artdeco-card, :scope > * > .artdeco-card',
-            // More jobs - Yes, suspicious looking class
-            ':scope > .ml0',
+            // Main content
+            ':scope > :first-child',
+            // Rest
+            ':scope > :not(:first-child) > *',
           ].join(','),
         },
       ],
@@ -5029,7 +5058,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-      pageReadySelector: 'div.jobs-company__content,div.jobs-similar-jobs',
+      pageReadySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -5045,9 +5074,12 @@
       name: 'JobView entries',
       selectors: [
         // More jobs
-        ':scope > ul > section',
+        ':scope a',
       ],
     };
+
+    static #jobCard = `${JobView.#cardsWhat.containerItems[0].container}` +
+      ' > div:first-child';
 
     #cardScroller
     #entryScroller
