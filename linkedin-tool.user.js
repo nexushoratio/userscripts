@@ -121,9 +121,42 @@
     ['#278', 'Update <b>Jobs</b> pages'],
     ['#280', 'Update <b>Invitation Manager</b> pages'],
     ['#281', 'Internal page structure changed mid-migration'],
+    ['#282', '<b>LinkedInToolbarService</b> needs a refresh'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-15',
+      issues: ['#278'],
+      subject: 'Rename <code>JobView</code> to <code>JobsView</code>',
+    },
+    {
+      date: '2026-03-15',
+      issues: ['#278'],
+      subject: 'Update the implementation of the <code>JobView</code> page',
+    },
+    {
+      date: '2026-03-14',
+      issues: ['#282'],
+      subject: 'Verify that a toolbar exists before getting values from it',
+    },
+    {
+      date: '2026-03-14',
+      issues: ['#278'],
+      subject: 'Rename <code>JobCollections</code> to ' +
+        '<code>JobsCollections</code>',
+    },
+    {
+      date: '2026-03-14',
+      issues: ['#278'],
+      subject: 'Update the <code>JobCollections</code> pages',
+    },
+    {
+      date: '2026-03-13',
+      issues: ['#272'],
+      subject: 'Tweak styling of list items in the ' +
+        '<code>Information view</code>',
+    },
     {
       date: '2026-03-13',
       issues: ['#278'],
