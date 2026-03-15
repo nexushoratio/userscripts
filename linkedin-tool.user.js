@@ -2003,6 +2003,51 @@
   }
 
   /**
+   * Verify a {Page} implementation and current site style match.
+   *
+   * It will post a bug on mismatches.
+   */
+  class LinkedInStyleService extends NH.base.Service {
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Page} page - Page this service is tied to.
+     */
+    constructor(name, page) {
+      super(name);
+      this.#page = page;
+      this.on('activate', this.#onActivate);
+    }
+
+    /**
+     * @param {...LinkedInGlobals.Style} styles - Styles allowed for the page.
+     * @returns {LinkedInStyleService} - This instance, for chaining.
+     */
+    addStyles(...styles) {
+      for (const style of styles) {
+        this.#allowedStyles.add(style);
+      }
+      return this;
+    }
+
+    #allowedStyles = new Set();
+    #page
+
+    #onActivate = () => {
+      if (!this.#allowedStyles.has(this.#page.spa.details.pageStyle)) {
+        const style = this.#page.spa.details.pageStyle.toString()
+          .replace('Symbol(', '')
+          .replace(')', '');
+        NH.base.issues.post([
+          `The page "${this.shortName}" was activated`,
+          `with unsupported style: ${style}`,
+        ].join(' '));
+      }
+    }
+
+  }
+
+  /**
    * Manage a {Scroller} via {NH.base.Service} with LIT idiosyncrasies.
    *
    * It will turn the {Scroller} on/off.
@@ -2686,6 +2731,9 @@
     constructor(spa) {
       super({spa: spa});
 
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE, LinkedInGlobals.Style.TWO);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
       if (litOptions.enableDevMode) {
@@ -2973,6 +3021,9 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
+
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -3553,6 +3604,9 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
@@ -3891,6 +3945,9 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
+
       spa.details.navbarScrollerFixup(
         InvitationManager.#invitesHow
       );
@@ -4107,6 +4164,9 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
+
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -4419,6 +4479,9 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...JobsCollections.#details});
+
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -4876,6 +4939,9 @@
     constructor(spa) {
       super({spa: spa, ...JobsView.#details});
 
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
@@ -5157,6 +5223,9 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Messaging.#details});
+
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -5685,6 +5754,9 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
@@ -5968,6 +6040,8 @@
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
 
+      this.addService(LinkedInStyleService, this);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
@@ -6247,6 +6321,8 @@
     constructor(spa) {
       super({spa: spa, ...Events.#details});
 
+      this.addService(LinkedInStyleService, this);
+
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
@@ -6473,6 +6549,8 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
+
+      this.addService(LinkedInStyleService, this);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
