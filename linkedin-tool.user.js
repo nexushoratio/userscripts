@@ -4836,18 +4836,18 @@
 
   }
 
-  /** Class for handling the direct Job view. */
-  class JobView extends Page {
+  /** Class for handling the direct Jobs view. */
+  class JobsView extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...JobView.#details});
+      super({spa: spa, ...JobsView.#details});
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
-        .addHows(JobView.#cardsHow, JobView.#entriesHow)
+        .addHows(JobsView.#cardsHow, JobsView.#entriesHow)
         .postActivateHook(this.#toolbarHook);
     }
 
@@ -4857,7 +4857,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCardIdentifier(element) {
-      const me = JobView.uniqueCardIdentifier.name;
+      const me = JobsView.uniqueCardIdentifier.name;
       this.logger.entered(me, element);
 
       const key = LinkedInGlobals.ckeyIdentifier(element);
@@ -4894,8 +4894,8 @@
     /** @type {Scroller} */
     get cards() {
       if (!this.#cardScroller) {
-        this.#cardScroller = new Scroller(JobView.#cardsWhat,
-          JobView.#cardsHow);
+        this.#cardScroller = new Scroller(JobsView.#cardsWhat,
+          JobsView.#cardsHow);
         this.addService(LinkedInScrollerService)
           .setScroller(this.#cardScroller);
         this.#cardScroller.dispatcher.on('change', this.#onCardChange);
@@ -4909,8 +4909,8 @@
     get entries() {
       if (!this.#entryScroller && this.cards.item) {
         this.#entryScroller = new Scroller(
-          {base: this.cards.item, ...JobView.#entriesWhat},
-          JobView.#entriesHow
+          {base: this.cards.item, ...JobsView.#entriesWhat},
+          JobsView.#entriesHow
         );
         this.#entryScroller.dispatcher.on('change', this.#onEntryChange);
         this.#entryScroller.dispatcher.on(
@@ -4991,7 +4991,7 @@
       'A',
       'Apply to job',
       () => {
-        const el = document.querySelector(JobView.#jobCard);
+        const el = document.querySelector(JobsView.#jobCard);
         NH.web.clickElement(el, [
           // Matches both "link-external" and "linkedin-bug" icons
           '[aria-label]:has(> * > svg[id^="link"])',
@@ -5023,7 +5023,7 @@
       'S',
       'Toggle saving job',
       () => {
-        const el = document.querySelector(JobView.#jobCard);
+        const el = document.querySelector(JobsView.#jobCard);
         NH.web.clickElement(el, [
           // Fragile, as currently only button in the card without an icon.
           'button:not(:has(svg))',
@@ -5033,14 +5033,14 @@
 
     /** @type {Scroller~How} */
     static #cardsHow = {
-      uidCallback: JobView.uniqueCardIdentifier,
+      uidCallback: JobsView.uniqueCardIdentifier,
       classes: ['tom'],
       snapToTop: false,
     };
 
     /** @type {Scroller~What} */
     static #cardsWhat = {
-      name: 'JobView cards',
+      name: 'JobsView cards',
       containerItems: [
         {
           container: '[data-testid="lazy-column"]',
@@ -5063,7 +5063,7 @@
 
     /** @type {Scroller~How} */
     static #entriesHow = {
-      uidCallback: JobView.uniqueEntryIdentifier,
+      uidCallback: JobsView.uniqueEntryIdentifier,
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
@@ -5071,14 +5071,14 @@
 
     /** @type {Scroller~What} */
     static #entriesWhat = {
-      name: 'JobView entries',
+      name: 'JobsView entries',
       selectors: [
         // More jobs
         ':scope a',
       ],
     };
 
-    static #jobCard = `${JobView.#cardsWhat.containerItems[0].container}` +
+    static #jobCard = `${JobsView.#cardsWhat.containerItems[0].container}` +
       ' > div:first-child';
 
     #cardScroller
@@ -8340,7 +8340,7 @@
   spa.register(InvitationManager);
   spa.register(Jobs);
   spa.register(JobsCollections);
-  spa.register(JobView);
+  spa.register(JobsView);
   spa.register(Messaging);
   spa.register(Notifications);
   spa.register(Profile);
