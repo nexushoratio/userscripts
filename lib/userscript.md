@@ -2,7 +2,7 @@
 
 Wrappers for dealing with variations in userscript managers.
 
-## Exported properties (as of version 6)
+## Exported properties (as of version 7)
 * version - Bumped per release.
 * UserscriptError - Library specific exception (deprecated).
 * Exception - Library specific exception.
@@ -10,5 +10,6 @@ Wrappers for dealing with variations in userscript managers.
 * environmentData - Raw text about the current environment.
 * getValue - Fetches value from userscript storage if granted.
 * setValue - Sets a value in userscript storage if granted.
+* setAutoManageLoggerConfigs - Control persistent saving of Logger configuration in userscript storage.
 
 More details are in [userscript.js](userscript.js) as JSDoc.
