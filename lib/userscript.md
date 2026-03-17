@@ -8,5 +8,7 @@ Wrappers for dealing with variations in userscript managers.
 * Exception - Library specific exception.
 * licenseData - License data extracted from the userscript header.
 * environmentData - Raw text about the current environment.
+* getValue - Fetches value from userscript storage if granted.
+* setValue - Sets a value in userscript storage if granted.
 
 More details are in [userscript.js](userscript.js) as JSDoc.
