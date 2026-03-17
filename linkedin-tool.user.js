@@ -122,9 +122,16 @@
     ['#280', 'Update <b>Invitation Manager</b> pages'],
     ['#281', 'Internal page structure changed mid-migration'],
     ['#282', '<b>LinkedInToolbarService</b> needs a refresh'],
+    ['#284', 'Create a style monitoring feature'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-15',
+      issues: ['#284'],
+      subject: 'Implement a <code>LinkedInStyleService</code> to verify ' +
+        'site styles',
+    },
     {
       date: '2026-03-15',
       issues: ['#278'],
