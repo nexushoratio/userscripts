@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Test
 // @namespace   https://github.com/nexushoratio/userscripts
-// @match       http://localhost:8000/
+// @match       http://localhost:8000/*
 // @noframes
 // @version     10
 // @author      Mike Castle
@@ -12,6 +12,7 @@
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js
+// @require     https://raw.githubusercontent.com/nexushoratio/userscripts/main/lib/spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -26,6 +27,7 @@
     {name: 'base'},
     {name: 'userscript'},
     {name: 'widget'},
+    {name: 'spa'},
   ]);
 
   NH.xunit.testing.enabled = true;
@@ -96,9 +98,79 @@
 
     document.body.append(w.container);
   }
+
+  class DemoDetails extends NH.spa.Details {}
+
+  class Global extends NH.spa.Page {
+
+    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      super({spa: spa});
+      this.dispatcher.on('activate', this.#onActivate);
+    }
+
+    #onActivate = () => {
+      this.logger.log('hello');
+    }
+
+  }
+
+  class Slash extends NH.spa.Page {
+
+    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      super({spa: spa, ...Slash.#details});
+      this.dispatcher.on('activate', this.#onActivate);
+    }
+
+    /** @type {NH.spa.Page~PageDetails} */
+    static #details = {
+      pathname: '/',
+    };
+
+    #onActivate = () => {
+      this.logger.log('world');
+    }
+
+  }
+
+  // Localhost:8000 happens to point to my local copy of this git workspace.
+  class Libby extends NH.spa.Page {
+
+    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      super({spa: spa, ...Libby.#details});
+      this.dispatcher.on('activate', this.#onActivate);
+    }
+
+    /** @type {NH.spa.Page~PageDetails} */
+    static #details = {
+      pathname: '/lib/',
+    };
+
+    #onActivate = () => {
+      this.logger.log('libby');
+    }
+
+  }
+
+  function demoSpa() {
+    const deets = new DemoDetails();
+    const spa = new NH.spa.SPA(deets);
+    spa
+      .register(Global)
+      .register(Libby)
+      .register(Slash);
+
+    logger.log('deets', deets);
+    logger.log('spa', spa);
+  }
   /* eslint-enable */
 
-  const demos = [{enabled: false, demo: demoGrid}];
+  const demos = [
+    {enabled: false, demo: demoGrid},
+    {enabled: false, demo: demoSpa},
+  ];
 
   for (const {enabled, demo} of demos) {
     if (enabled) {
