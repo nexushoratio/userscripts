@@ -68,17 +68,7 @@
   const litOptions = await loadOptions();
   NH.xunit.testing.enabled = litOptions.enableDevMode;
 
-  /* eslint-disable require-atomic-updates */
-  NH.base.Logger.configs = await NH.userscript.getValue('Logger');
-  document.addEventListener('visibilitychange', async () => {
-    if (document.visibilityState === 'hidden') {
-      await NH.userscript.setValue('Logger', NH.base.Logger.configs);
-    }
-    if (document.visibilityState === 'visible') {
-      NH.base.Logger.configs = await NH.userscript.getValue('Logger');
-    }
-  });
-  /* eslint-enable */
+  await NH.userscript.setAutoManageLoggerConfigs(true);
 
   // TODO(#145): The if test is just here while developing.
   if (!litOptions.enableDevMode) {
