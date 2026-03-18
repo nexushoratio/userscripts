@@ -11,11 +11,11 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1299734/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/478188/1776312/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1333365/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1284417/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478349/1777122/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1763084/NH_web.js
-// @require     https://update.greasyfork.org/scripts/478676/1310174/NH_widget.js
+// @require     https://update.greasyfork.org/scripts/478676/1337642/NH_widget.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -32,11 +32,11 @@
   const CKEY = 'componentkey';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 51},
+    {name: 'xunit', minVersion: 54},
     {name: 'base', minVersion: 52},
-    {name: 'userscript', minVersion: 5},
+    {name: 'userscript', minVersion: 7},
     {name: 'web', minVersion: 8},
-    {name: 'widget', minVersion: 27},
+    {name: 'widget', minVersion: 45},
   ]);
 
   /**
