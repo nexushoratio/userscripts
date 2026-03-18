@@ -16,6 +16,7 @@
 // @require     https://update.greasyfork.org/scripts/478349/1777122/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1763084/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1337642/NH_widget.js
+// @require     https://raw.githubusercontent.com/nexushoratio/userscripts/main/lib/spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -37,6 +38,7 @@
     {name: 'userscript', minVersion: 7},
     {name: 'web', minVersion: 8},
     {name: 'widget', minVersion: 45},
+    {name: 'spa', minVersion: 1},
   ]);
 
   /**
