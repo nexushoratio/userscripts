@@ -12,10 +12,13 @@
 // @require     https://greasyfork.org/scripts/478349-nh-userscript/code/NH_userscript.js
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js
+// @grant       GM.getValue
+// @grant       GM.setValue
+// @grant       window.onurlchange
 // ==/UserScript==
 
 // eslint-disable-next-line max-lines-per-function
-(() => {
+(async () => {
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
@@ -25,18 +28,16 @@
     {name: 'widget'},
   ]);
 
+  NH.xunit.testing.enabled = true;
+
+  await NH.userscript.setAutoManageLoggerConfigs(true);
   const logger = new NH.base.Logger('Testing');
-  NH.base.Logger.config('Testing').enabled = true;
-  NH.base.Logger.config('Testing')
-    .group('Failures').mode = 'opened';
-  NH.base.Logger.config('Testing')
-    .group('Errors').mode = 'opened';
+  logger.log('starting');
 
   for (const entry of NH.userscript.environmentData()) {
     logger.log(entry);
   }
 
-  NH.xunit.testing.enabled = true;
   NH.xunit.testing.run();
 
   logger.log('finished');
@@ -91,7 +92,6 @@
         .renderFunc(renderType),
     );
 
-    // Act
     w.build();
 
     document.body.append(w.container);
