@@ -93,7 +93,6 @@
     ['#232', '<code>Scroller</code>: Change the focus UX'],
     ['#236', 'Support <b>Events</b> page'],
     ['#240', '<code>Scroller</code>: navbar height can change'],
-    ['#242', 'Need to reconnect the LIT menu on certain pages'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
     ['#253', 'Support <b>My Network Events</b> page'],
     ['#255', 'Support <b>Search appearances</b> page'],
@@ -113,11 +112,32 @@
     ['#278', 'Update <b>Jobs</b> pages'],
     ['#280', 'Update <b>Invitation Manager</b> pages'],
     ['#281', 'Internal page structure changed mid-migration'],
-    ['#282', '<b>LinkedInToolbarService</b> needs a refresh'],
+    ['#282', '<code>LinkedInToolbarService</code> needs a refresh'],
     ['#284', 'Create a style monitoring feature'],
+    ['#286', 'Factor out <code>SPA</code> related code into a library'],
+    [
+      '#288',
+      'Add <code>Logger</code> startup ability to <code>userscript</code>',
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-18',
+      issues: ['#286'],
+      subject: 'Depend on the new <code>spa</code> library',
+    },
+    {
+      date: '2026-03-18',
+      issues: ['#288'],
+      subject: 'Make use of the new ' +
+        '<code>setAutoManageLoggerConfigs()</code> function',
+    },
+    {
+      date: '2026-03-18',
+      issues: ['#286', '#288'],
+      subject: 'Update to most recent version of all libraries',
+    },
     {
       date: '2026-03-15',
       issues: ['#284'],
@@ -259,11 +279,6 @@
       date: '2026-02-20',
       issues: ['#267'],
       subject: 'Start supporting multiple styles of pages',
-    },
-    {
-      date: '2026-02-14',
-      issues: ['#267', '#242'],
-      subject: 'Detect new navigation bar HTML/CSS.',
     },
   ];
 
