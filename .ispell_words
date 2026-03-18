@@ -27,6 +27,7 @@ addService
 addSkip
 addStyles
 addSuccess
+ADefaultPage
 aLert
 allowedBottom
 allowedStyles
@@ -34,12 +35,16 @@ allowReactivation
 allShortcuts
 AnOverridePage
 applyToJob
+args
 ariaLabel
 asideSelector
+assertEqual
 assertFalse
 assertNoRaises
 assertNotEqual
+assertRaises
 assertRaisesRegExp
+assertRegExp
 assertsWithNoMsg
 assertTrue
 attributeFilter
@@ -304,7 +309,6 @@ installStyle
 InvitationManager
 InvitationManagerBase
 InvitationManagerSentInvites
-invitationTabSelectorCurrent
 inviteScroller
 invitesHow
 invitesWhat
@@ -385,10 +389,12 @@ messageBox
 messageBoxSelector
 MessageChannel
 messageInviter
+MessageQueue
 MessageQueueTestCase
 messageScroller
 messagesWhat
 messageTab
+messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
 messagingTablistHandler
@@ -400,6 +406,7 @@ missingDescriptionsAreErrors
 moCallback
 modifierState
 monitorConnectedness
+mq
 msgBox
 msgs
 mutationDispatcher
@@ -426,6 +433,7 @@ newIssueLink
 newMessage
 newPages
 newsTab
+newUrl
 nextButton
 nextCard
 nextCollection
@@ -449,6 +457,8 @@ nextResultsPage
 nextSection
 nextSibling
 nextTab
+NexusHoratio
+nexushoratio
 NexusHoratioVersion
 nodeType
 noframes
@@ -464,6 +474,7 @@ observeOptions
 occludable
 occludableJobId
 oldPages
+oldUrl
 onActivate
 onCardChange
 onChange
@@ -478,9 +489,11 @@ onConvoCardDeactivate
 onDeactivate
 onDetailsChange
 onEntryChange
+onEvent
 onEventChange
 onFocus
 onIndividualChange
+onInit
 onJobCardActivate
 onJobCardChange
 onJobChange
@@ -503,6 +516,7 @@ otrotRoCallback
 ourMenuBadgeStyle
 ourMenuItemStyle
 outerHTML
+OverrideDeets
 padStart
 pageChanged
 pageDetails
@@ -512,6 +526,7 @@ pageId
 pageName
 pageReadySelector
 pageStyle
+PageTestCase
 paginationHow
 paginationScroller
 paginationWhat
@@ -556,6 +571,7 @@ pv
 px
 querySelector
 querySelectorAll
+readySelector
 rebuildShortcuts
 refreshErrors
 RegExp
@@ -642,6 +658,7 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
+SPATestCase
 SpecificEvent
 stackTrace
 startMutationObserverUrlMonitor
@@ -673,8 +690,10 @@ tabList
 tabSnippet
 tabUiKeyboard
 tagName
+Tampermonkey
 tbody
 td
+testAbstract
 testAccumulatesResults
 testAddEqualFunc
 testAddFailure
@@ -723,6 +742,7 @@ testConstruction
 testConstructor
 testCountsCollected
 testDataIsLive
+TestDeets
 testDefaultBuilds
 testDefaultClassesFunc
 testDefaultProperties
@@ -776,18 +796,20 @@ testNormalInputs
 testNotBaseAndContainerItems
 testOrTheOther
 testOverrideProperties
+testOverrides
 testPanelsStartSimple
 testPrimitives
 testPrimitiveString
 testProperties
 testReactivation
 testRebuildDestroys
+testRegister
 testRegularClasses
 testRenderAlwaysReturnsWidget
 testReprObject
 testReprPrimitives
 testReprString
-testResetingPanelDestroysPrevious
+testResettingPanelDestroysPrevious
 TestResult
 TestResultTestCase
 TestRunnerTestCase
@@ -796,6 +818,7 @@ testSaveRestoreConfigsGroups
 testSaveRestoreConfigsTopLevel
 testSelectorNeedsBase
 testSeparatorsOnly
+testServices
 testSetDestroysPrevious
 testSetRequiresPanel
 testSetUpdatesData
@@ -841,6 +864,7 @@ topMarginPixels
 topScroll
 toString
 toUpperCase
+TypeError
 uid
 uidCommentRE
 uidPostRE
@@ -870,6 +894,7 @@ useOriginalInfoDialog
 userAgentData
 UserLibrary
 UserScript
+userscript
 UserscriptError
 uuId
 validateHow
@@ -897,3 +922,6 @@ wikipedia
 withDraw
 xmlns
 xunit
+xUnit
+XUnit
+XyZzy
