@@ -5244,18 +5244,12 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
 
-      // Focused/Other tab
-      this.#messagingTablistObserver =
-        new MutationObserver(this.#messagingTablistHandler);
-
       this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
         Messaging.#convoCardsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#convoCardScroller);
       this.#convoCardScroller.dispatcher.on('activate',
         this.#onConvoCardActivate);
-      this.#convoCardScroller.dispatcher.on('deactivate',
-        this.#onConvoCardDeactivate);
       this.#convoCardScroller.dispatcher.on('change',
         this.#onConvoCardChange);
     }
@@ -5266,12 +5260,13 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueConvoCardsIdentifier(element) {
-      let content = element.innerText;
-      const anchor = element.querySelector('a');
-      if (anchor?.href) {
-        content = anchor.href;
-      }
-      return NH.base.strHash(content);
+      const me = Messaging.uniqueConvoCardsIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = element.innerText;
+
+      this.logger.leaving(me);
+      return content ? NH.base.strHash(content) : content;
     }
 
     /**
@@ -5280,7 +5275,13 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueMessageIdentifier(element) {
-      return NH.base.strHash(element.dataset.eventUrn);
+      const me = Messaging.uniqueMessageIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = element.dataset.eventUrn;
+
+      this.logger.leaving(me, content);
+      return NH.base.strHash(content);
     }
 
     /** @type {Scroller} */
@@ -5356,7 +5357,7 @@
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        NH.web.focusOnElement(this.#lastScroller.item, false);
       }
     );
 
@@ -5367,26 +5368,25 @@
         const me = 'loadMoreConversations';
         this.logger.entered(me);
 
-        // This button has no distinguishing features, so look for the text
-        // the nested span, then click the button.
-        const span = Array.from(document.querySelectorAll('button > span'))
-          .find(el => el.innerText === 'Load more conversations');
-        span?.parentElement?.click();
+        // This button has no distinguishing features, but seems to be the
+        // last item in this list, and only one immediately a list item.
+        NH.web.clickElement(document,
+          [`${Messaging.#convoCardsList} > li > button`]);
 
         this.logger.leaving(me);
       }
     );
 
-    messageTab = new Shortcut(
+    messageFilters = new Shortcut(
       'm',
-      'Go to messaging tablist',
+      'Go to messaging filters',
       () => {
-        const me = 'messageTab';
+        const me = this.messageFilters.name;
         this.logger.entered(me);
 
-        NH.web.focusOnElement(
-          document.querySelector(Messaging.#messagingTabSelectorCurrent)
-        );
+        NH.web.focusOnElement(document.querySelector(
+          `${Messaging.#messagingFilterSelector} button`
+        ));
 
         this.logger.leaving(me);
       }
@@ -5410,8 +5410,11 @@
     openMeatballMenu = new Shortcut(
       '=',
       'Open closest <button class="spa-meatball">⋯</button> menu (tricky, ' +
-        'as there are currently four buttons to choose from)',
+        'as there are many buttons to choose from)',
       () => {
+        const me = this.openMeatballMenu.name;
+        this.logger.entered(me, this.#lastScroller);
+
         if (this.convoCards.item.contains(document.activeElement) ||
             this.messages.item?.contains(document.activeElement)) {
           let buttons = null;
@@ -5445,6 +5448,7 @@
         } else {
           this.#clickClosestMenuButton();
         }
+        this.logger.leaving(me);
       }
     );
 
@@ -5463,8 +5467,13 @@
         const me = 'newMessage';
         this.logger.entered(me);
 
+        // Composing a new message changes the URL, triggering page
+        // activation, which immediately refocuses on the current
+        // conversation.  Setting it to `null` does lose are spot in the
+        // Scroller, but then at least the feature works.
+        this.convoCards.item = null;
         NH.web.clickElement(document,
-          ['a[aria-label="Compose a new message"]']);
+          ['#messaging :has(> svg[data-test-icon^="compose"])']);
 
         this.logger.leaving(me);
       }
@@ -5474,11 +5483,7 @@
       'S',
       'Toggle star on the current conversation',
       () => {
-        const selector = [
-          'button[aria-label^="Star conversation"]',
-          'button[aria-label^="Remove star"]',
-        ].join(',');
-        NH.web.clickElement(document, [selector]);
+        NH.web.clickElement(document, ['button.msg-thread__star-icon']);
       }
     );
 
@@ -5489,13 +5494,15 @@
       snapToTop: false,
     };
 
+    static #convoCardsList =
+      'main ul.msg-conversations-container__conversations-list';
+
     /** @type {Scroller~What} */
     static #convoCardsWhat = {
       name: 'Messaging conversations',
       containerItems: [
         {
-          container:
-          'main ul.msg-conversations-container__conversations-list',
+          container: Messaging.#convoCardsList,
           items: ':scope > li.msg-conversations-container__pillar',
         },
       ],
@@ -5530,22 +5537,19 @@
       ],
     };
 
+    static #messagingFilterSelector =
+      '.msg-cross-pillar-inbox-filters-v3__container';
+
     static #messagingOptionsSelector =
       'button[aria-label="See more messaging options"]';
-
-    static #messagingTabSelector = 'main div.msg-focused-inbox-tabs';
-    static #messagingTabSelectorCurrent =
-      `${Messaging.#messagingTabSelector} [aria-selected="true"]`;
 
     static #sendToggleSelector = 'button.msg-form__send-toggle';
 
     #activator
     #convoCardScroller
     #keyboardService
-    #lastConvoCard
     #lastScroller
     #messageScroller
-    #messagingTablistObserver
 
     /**
      * @typedef {object} Point
@@ -5636,85 +5640,17 @@
       const me = 'onConvoCardActivate';
       this.logger.entered(me);
 
-      this.#lastConvoCard = null;
       await this.#findActiveConvo();
 
-      const tab = document.querySelector(Messaging.#messagingTabSelector);
-      this.#messagingTablistObserver.observe(tab,
-        {attributes: true, subtree: true});
-
       this.logger.leaving(me);
     }
 
-    #onConvoCardDeactivate = () => {
-      const me = 'onConvoCardDeactivate';
+    #onConvoCardChange = () => {
+      const me = this.#onConvoCardChange.name;
       this.logger.entered(me);
 
-      this.#messagingTablistObserver.disconnect();
-
-      this.logger.leaving(me);
-    }
-
-    #onConvoCardChange = async () => {  // eslint-disable-line max-lines-per-function
-      const me = 'onConvoCardChange';
-      this.logger.entered(me);
-
-      const msgBox = document.querySelector(Messaging.#messageBoxSelector);
-      let gotFocus = false;
-      const currentCard = this.convoCards.item;
-
-      /** Basic event handler. */
-      const onFocus = () => {
-        gotFocus = true;
-      };
-
-      /** Trigger function for {@link NH.web.otrot}. */
-      const trigger = () => {
-        msgBox.addEventListener('focus', onFocus);
-        NH.web.clickElement(currentCard, ['a']);
-      };
-
-      /**
-       * Wait for focus in the message box.
-       * @implements {NH.web.Monitor}
-       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
-       */
-      const monitor = () => {
-        this.logger.log('monitor:', gotFocus, msgBox);
-        return {
-          done: gotFocus,
-        };
-      };
-
-      const what = {
-        name: `${this.constructor.name} ${me}`,
-        base: msgBox,
-      };
-      const how = {
-        observeOptions: {
-          attributes: true,
-        },
-        monitor: monitor,
-        trigger: trigger,
-        timeout: 500,
-      };
-
-      // Some methods in `Scroller` will reset the current item to itself,
-      // resulting in a 'change' event (necessary for containers that redraw
-      // themselves).  In this case, we want to ignore that particular reset.
-      if (currentCard && currentCard !== this.#lastConvoCard) {
-        try {
-          await NH.web.otmot(what, how);
-        } catch (e) {
-          this.logger.log(
-            'Focus moving to message box not detected, staying put'
-          );
-        } finally {
-          msgBox.removeEventListener('focus', onFocus);
-          NH.web.focusOnElement(currentCard);
-        }
-        this.#lastConvoCard = currentCard;
-      }
+      const el = this.convoCards?.item;
+      NH.web.clickElement(el, ['.msg-conversation-listitem__link']);
 
       this.#resetMessages();
       this.#lastScroller = this.convoCards;
@@ -5735,26 +5671,18 @@
     }
 
     #findActiveConvo = async () => {
-      const me = 'findActiveConvo';
+      const me = this.#findActiveConvo.name;
       this.logger.entered(me);
 
-      // Look for 'a.active'
       try {
         const timeout = 2000;
-        const item = await NH.web.waitForSelector('li a.active', timeout);
+        const item = await NH.web.waitForSelector(
+          '.msg-conversations-container__convo-item-link--active', timeout
+        );
         this.convoCards.goto(item.closest('li'));
       } catch (e) {
         this.logger.log('Active conversation card not found, staying put');
       }
-
-      this.logger.leaving(me);
-    }
-
-    #messagingTablistHandler = async () => {
-      const me = 'messagingTablistHandler';
-      this.logger.entered(me);
-
-      await this.#findActiveConvo();
 
       this.logger.leaving(me);
     }
