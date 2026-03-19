@@ -4343,9 +4343,7 @@
       'l',
       'Load more sections',
       () => {
-        const base = document.querySelector(
-          Jobs.#sectionsWhat.containerItems[0].container
-        );
+        const base = document.querySelector(Jobs.#sectionsContainer);
         NH.web.clickElement(base,
           [':scope > div:last-of-type > button']);
       }
@@ -4397,6 +4395,9 @@
       ],
     };
 
+    static #sectionsContainer =
+      '[data-testid="JobsHomeFeedModuleListCollection"]';
+
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: LinkedInGlobals.ckeyIdentifier,
@@ -4409,7 +4410,7 @@
       name: 'Jobs sections',
       containerItems: [
         {
-          container: 'main [data-testid="JobsHomeFeedModuleListCollection"]',
+          container: Jobs.#sectionsContainer,
           items: [
             `:scope > [${CKEY}^="Jobs"] [${CKEY}^="Jobs"]`,
             `:scope > div > div[${CKEY}]`,
@@ -5104,7 +5105,7 @@
       'A',
       'Apply to job',
       () => {
-        const el = document.querySelector(JobsView.#jobCard);
+        const el = document.querySelector(JobsView.#jobCardSelector);
         NH.web.clickElement(el, [
           // Matches both "link-external" and "linkedin-bug" icons
           '[aria-label]:has(> * > svg[id^="link"])',
@@ -5136,13 +5137,15 @@
       'S',
       'Toggle saving job',
       () => {
-        const el = document.querySelector(JobsView.#jobCard);
+        const el = document.querySelector(JobsView.#jobCardSelector);
         NH.web.clickElement(el, [
           // Fragile, as currently only button in the card without an icon.
           'button:not(:has(svg))',
         ]);
       }
     );
+
+    static #cardsContainer = '[data-testid="lazy-column"]';
 
     /** @type {Scroller~How} */
     static #cardsHow = {
@@ -5156,7 +5159,7 @@
       name: 'JobsView cards',
       containerItems: [
         {
-          container: '[data-testid="lazy-column"]',
+          container: JobsView.#cardsContainer,
           items: [
             // Main content
             ':scope > :first-child',
@@ -5191,8 +5194,7 @@
       ],
     };
 
-    static #jobCard = `${JobsView.#cardsWhat.containerItems[0].container}` +
-      ' > div:first-child';
+    static #jobCardSelector = `${JobsView.#cardsContainer} > div:first-child`;
 
     #cardScroller
     #entryScroller
