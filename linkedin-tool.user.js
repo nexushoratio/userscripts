@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     5.117
+// @version     5.118
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -16,7 +16,7 @@
 // @require     https://update.greasyfork.org/scripts/478349/1777122/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1763084/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1337642/NH_widget.js
-// @require     https://raw.githubusercontent.com/nexushoratio/userscripts/main/lib/spa.js
+// @require     https://update.greasyfork.org/scripts/570146/1778268/NH_spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
