@@ -307,7 +307,6 @@ installControls
 installNavStyle
 installStyle
 InvitationManager
-InvitationManagerBase
 InvitationManagerSentInvites
 inviteScroller
 invitesHow
@@ -397,8 +396,6 @@ messageTab
 messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
-messagingTablistHandler
-messagingTablistObserver
 messagingTabSelector
 messagingTabSelectorCurrent
 minVersion
@@ -543,7 +540,6 @@ postInfoAboutElement
 postProcessItems
 postScroller
 postsHow
-postStatusSelector
 preprocessKnownIssues
 prevButton
 prevCollection
@@ -859,6 +855,7 @@ toolbarElement
 toolbarHook
 toolButtonHandler
 topButton
+topleftmainrightbottom
 topMarginCSS
 topMarginPixels
 topScroll
