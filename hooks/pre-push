@@ -19,7 +19,7 @@ while read local_ref local_oid remote_ref remote_oid; do
 
     case $filename in
       *.user.js)
-        echo "skipping"
+        echo "skipping version consistency check"
         ;;
       *.js)
         at_ver=$(git diff "${range}" $filename |
