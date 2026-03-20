@@ -85,7 +85,6 @@ centerOfElement
 chameleonResultUrn
 checkAssertionCounts
 checkVisibility
-childElementCount
 childKey
 childList
 childNodes
@@ -257,7 +256,6 @@ finiteScrollHotkeyItem
 firstInvite
 firstItem
 firstNotification
-firstSectionOrJob
 flexGrow
 focusOnAside
 focusOnElement
@@ -358,7 +356,6 @@ installStyle
 instanceCalls
 instanceof
 InvitationManager
-InvitationManagerSentInvites
 inviteScroller
 invitesHow
 invitesWhat
@@ -405,7 +402,6 @@ lastItem
 lastKlass
 lastNotification
 lastScroller
-lastSectionOrJob
 LayoutTestCase
 len
 licenseData
@@ -676,7 +672,6 @@ resultsHow
 resultsWhat
 returnToCard
 returnToCollection
-returnToCollections
 returnToPost
 returnToSection
 rowClassesFunc
@@ -702,6 +697,7 @@ scrollTop
 searchMessages
 searchParams
 SearchResultsPeople
+sectionsContainer
 sectionScroller
 sectionsWhat
 seeMore
@@ -956,7 +952,6 @@ toggleDismissPost
 toggleFollowCompany
 togglePost
 toggleStar
-toggleThumbsDown
 toggleThumbsUp
 toLowerCase
 ToMyLou
@@ -1019,6 +1014,7 @@ viewName
 viewReactions
 viewReposts
 viewTarget
+visibilitychange
 visibilityState
 VMKeyboardService
 waitForContainers
