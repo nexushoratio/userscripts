@@ -114,6 +114,7 @@
     ['#280', 'Update <b>Invitation Manager</b> pages'],
     ['#281', 'Internal page structure changed mid-migration'],
     ['#282', '<code>LinkedInToolbarService</code> needs a refresh'],
+    ['#283', 'Update <b>Notifications</b> page'],
     ['#284', 'Create a style monitoring feature'],
     ['#286', 'Factor out <code>SPA</code> related code into a library'],
     [
@@ -123,6 +124,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-20',
+      issues: ['#283'],
+      subject: 'Update the <code>Notifications</code> page',
+    },
     {
       date: '2026-03-19',
       issues: ['#279'],
