@@ -5722,36 +5722,23 @@
     }
 
     /**
-     * Complicated because there are so many variations in notification cards.
-     * We do not want to use reaction counts because they can change too
-     * quickly.
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
     static uniqueIdentifier(element) {
-      // All known <articles> have three children: icon/presence indicator,
-      // content, and menu/timestamp.
-      const MAGIC_COUNT = 3;
-      const CONTENT_INDEX = 1;
+      const me = Notifications.uniqueIdentifier.name;
+      this.logger.entered(me, element);
+
       let content = element.innerText;
-      if (element.childElementCount === MAGIC_COUNT) {
-        content = element.children[CONTENT_INDEX].innerText;
-        if (content.includes('Reactions')) {
-          for (const el of element.children[CONTENT_INDEX]
-            .querySelectorAll('*')) {
-            if (el.innerText) {
-              content = el.innerText;
-              break;
-            }
-          }
-        }
-        content += element.children[CONTENT_INDEX].querySelector('a')?.href;
+      if (element.parentElement.dataset.finiteScrollHotkeyItem) {
+        content = element.parentElement.dataset.finiteScrollHotkeyItem;
       }
-      if (content.startsWith('Notification deleted.')) {
-        // Mix in something unique from the parent.
-        content += element.parentElement.dataset.finiteScrollHotkeyItem;
+      if (element.dataset.ntCardIndex) {
+        content = element.dataset.ntCardIndex;
       }
+
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
@@ -5765,15 +5752,17 @@
     static cardItemToClick(element) {
       let found = null;
 
-      const elements = element.querySelectorAll(
-        '.nt-card__headline'
-      );
-      if (elements.length === NH.base.ONE_ITEM) {
-        found = elements[0];
-      } else {
-        const ba = element.querySelectorAll('button,a');
-        if (ba.length === NH.base.ONE_ITEM) {
-          found = ba[0];
+      if (element) {
+        const elements = element.querySelectorAll(
+          '.nt-card__headline'
+        );
+        if (elements.length === NH.base.ONE_ITEM) {
+          found = elements[0];
+        } else {
+          const ba = element.querySelectorAll('button,a');
+          if (ba.length === NH.base.ONE_ITEM) {
+            found = ba[0];
+          }
         }
       }
 
@@ -5831,30 +5820,13 @@
         if (litOptions.enableIssue241ClickMethod) {
           this.notifications.click();
         } else {
-          const notification = this.notifications.item;
-          if (notification) {
-          // Because we are using Enter as the hotkey here, if the active
-          // element is inside the current card, we want that to take
-          // precedence.
-            if (document.activeElement.closest('article') === notification) {
-              return;
-            }
-
-            const elements = notification.querySelectorAll(
-              '.nt-card__headline'
-            );
-            if (elements.length === NH.base.ONE_ITEM) {
-              elements[0].click();
-            } else {
-              const ba = notification.querySelectorAll('button,a');
-              if (ba.length === NH.base.ONE_ITEM) {
-                ba[0].click();
-              } else {
-                NH.web.postInfoAboutElement(notification, 'notification');
-              }
-            }
+          const element = Notifications.cardItemToClick(
+            this.notifications.item
+          );
+          if (element) {
+            element.click();
           } else {
-          // Again, because we use Enter as the hotkey for this action.
+            // Again, because we use Enter as the hotkey for this action.
             document.activeElement.click();
           }
         }
@@ -5872,7 +5844,7 @@
         /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
           if (NH.web.clickElement(document,
-            ['button[aria-label^="Load new notifications"]'])) {
+            ['main button:has(> svg[data-test-icon^="arrow-up"]'])) {
             first = true;
           } else {
             NH.web.clickElement(document,
@@ -5910,7 +5882,18 @@
       'Open the <button class="spa-meatball">⋯</button> menu',
       () => {
         NH.web.clickElement(this.notifications.item,
-          ['button[aria-label^="Settings menu"]']);
+          ['button:has(> svg[data-test-icon^="overflow"]']);
+      }
+    );
+
+    gotoFilter = new Shortcut(
+      'F',
+      'Move focus to the notification filters',
+      () => {
+        this.notifications.item = null;
+        NH.web.focusOnElement(
+          document.querySelector('#notification-nt-pill .nt-pill--selected')
+        );
       }
     );
 
@@ -5918,28 +5901,19 @@
       'X',
       'Toggle current notification deletion',
       async () => {
-        const notification = this.notifications.item;
+        const el = this.notifications.item;
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
-          // Hah.  Unlike in other places, these buttons already exist, just
-          // hidden under the menu.
-          const buttons = Array.from(notification.querySelectorAll('button'));
-          const button = buttons
-            .find(el => (/Delete .*notification/u).test(el.textContent));
-          if (button) {
-            button.click();
-          } else {
-            NH.web.clickElement(notification,
-              ['button[aria-label^="Undo notification deletion"]']);
-          }
+          NH.web.clickElement(el, [
+            'button:has(svg[data-test-icon^="trash"])',
+            'button:has(svg[data-test-icon^="undo"])',
+          ]);
         }
-        if (notification) {
+        if (el) {
           const what = {
             name: 'deleteNotification',
-            base: document.querySelector(
-              'div.scaffold-finite-scroll__content'
-            ),
+            base: el,
           };
           const how = {
             trigger: trigger,
