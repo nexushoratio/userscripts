@@ -4291,7 +4291,7 @@
       }
     );
 
-    firstSectionOrJob = new Shortcut(
+    firstItem = new Shortcut(
       '<',
       'Go to to first section or job',
       () => {
@@ -4299,7 +4299,7 @@
       }
     );
 
-    lastSectionOrJob = new Shortcut(
+    lastItem = new Shortcut(
       '>',
       'Go to last section or job currently loaded',
       () => {
@@ -6321,7 +6321,7 @@
         );
         this.#eventScroller.dispatcher.on('change', this.#onEventChange);
         this.#eventScroller.dispatcher.on(
-          'out-of-range', this.#returnToCollections
+          'out-of-range', this.#returnToCollection
         );
       }
       return this.#eventScroller;
@@ -6462,8 +6462,8 @@
       this.#lastScroller = this.events;
     }
 
-    #returnToCollections = () => {
-      this.collections.goto(this.collections.item);
+    #returnToCollection = () => {
+      this.collections.item = this.collections.item;
     }
 
     #onCollectionChange = () => {
