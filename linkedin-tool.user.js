@@ -691,6 +691,7 @@
     /**
      * @typedef {object} How
      * @property {uidCallback} uidCallback - Callback to generate a uid.
+     * @property {number} [maxUidLength=20] - Max length for default uid text.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
      * from an element as it becomes current.
      * @property {boolean} [handleClicks=true] - Whether the scroller should
@@ -724,6 +725,7 @@
      * @throws {Scroller.Exception} - On many construction problems.
      */
     constructor(what, how) {
+      const MAX_UID_LENGTH = 20;
       const WAIT_FOR_ITEM = 3000;
 
       ({
@@ -734,6 +736,7 @@
       } = what);
       ({
         uidCallback: this.#uidCallback,
+        maxUidLength: this.#maxUidLength = MAX_UID_LENGTH,
         classes: this.#classes = [],
         handleClicks: this.#handleClicks = true,
         autoActivate: this.#autoActivate = false,
@@ -817,6 +820,51 @@
     /** @type {string} */
     get name() {
       return this.#name;
+    }
+
+    /**
+     * Return normalized text for an element.
+     *
+     * Like HTMLElement.innerText, but cleaner and mostly deduped.
+     *
+     * @param {HTMLElement} element - Element to examine.
+     * @returns {string} - The normalized text.
+     */
+    defaultUid(element) {
+      const me = this.defaultUid.name;
+      this.logger.entered(me, element);
+
+      const texts = new Set();
+
+      /**
+       * @param {Node} node - Node to process.
+       * @param {number} height - Height of last node that was an Element.
+       */
+      const recurse = (node, height) => {
+        const currHeight = this.#realHeight(node) || height;
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.nodeValue.trim();
+          if (text && currHeight > 1) {
+            texts.add(text);
+          }
+        }
+        for (const nextNode of node.childNodes) {
+          recurse(nextNode, currHeight);
+        }
+      };
+      recurse(element, this.#realHeight(element));
+
+      let content = [...texts].join(' ');
+
+      if (content.length > this.#maxUidLength) {
+        this.logger.log(
+          'exceeded maxUidLength', content.length, this.#maxUidLength
+        );
+        content = NH.base.strHash(content);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /**
@@ -1067,6 +1115,7 @@
     #handleClicks
     #historicalIdToIndex = new Map();
     #logger
+    #maxUidLength
     #mutationDispatcher = new NH.base.Dispatcher('records');
     #mutationObserver
     #name
@@ -1097,6 +1146,24 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    /**
+     * Return the computed height of an element.
+     *
+     * The usual element.clientHeight is too unpredictable.
+     *
+     * @param {Element} element - Element to examine.
+     * @returns {number} - The height of the element.
+     */
+    #realHeight = (element) => {
+      const me = this.#realHeight.name;
+      this.logger.entered(me, element);
+
+      const height = element.getBoundingClientRect?.().height;
+
+      this.logger.leaving(me, height);
+      return height;
     }
 
     /**
