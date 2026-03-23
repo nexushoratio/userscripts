@@ -2080,7 +2080,8 @@
     /**
      * Wrap a function.
      * @param {string} seq - Key sequence to activate this function.
-     * @param {string} desc - Human readable documenation about this function.
+     * @param {string} desc - Human readable documentation about this
+     * function.
      * @param {NH.web.SimpleFunction} func - Function to wrap, usually in the
      * form of an arrow function.  Keep JS `this` magic in mind!
      */
@@ -5206,7 +5207,7 @@
 
     toggleAlert = new Shortcut(
       'L',
-      'Toggle the similiar job search aLert',
+      'Toggle the similar job search aLert',
       () => {
         NH.web.clickElement(document, ['[role="switch"]']);
       }
