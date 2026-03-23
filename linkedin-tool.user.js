@@ -6037,7 +6037,8 @@
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
 
-      this.addService(LinkedInStyleService, this);
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6053,22 +6054,91 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueSectionIdentifier(element) {
-      const div = element.querySelector('div');
-      let content = element.innerText;
-      if (div?.id) {
+      const me = Profile.uniqueSectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const memberId = element.dataset.memberId;
+      const div = element.querySelector(':scope > div[id]:first-of-type');
+
+      if (memberId) {
+        content = memberId;
+      }
+      if (div) {
         content = div.id;
       }
-      return NH.base.strHash(content);
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /**
+     * With so much variation in items, this is overly long.
+     *
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueEntryIdentifier(element) {
-      const content = element.innerText;
-      return NH.base.strHash(content);
+    static uniqueEntryIdentifier(element) {  // eslint-disable-line max-lines-per-function, max-statements
+      const me = Profile.uniqueEntryIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const id = element.id?.replace(/^ember\d+-?/u, '');
+      // Company links (and searches) are too generic and could get reused in
+      // a section.
+      const firstAnchor = element instanceof HTMLAnchorElement
+        ? element
+        : element.querySelector([
+          'a',
+          ':not([href*="/company/"])',
+          ':not([data-field="experience_company_logo"])',
+        ].join(''));
+      const positionAnchor = element
+        .querySelector('a[data-field^="position_contextual_skills"]');
+      const isTab = element.matches('[role="tab"]');
+      const hasPvs = element.matches('[class*="pvs-profile"]');
+
+      if (hasPvs) {
+        const extra = element
+          .classList
+          .values()
+          .filter(x => x.startsWith('pvs'))
+          .map(x => x.trim())
+          .toArray()
+          .sort()
+          .join(' ');
+        content = `${element.innerText.trim()} ${extra}`;
+      }
+      if (isTab) {
+        content = element.firstElementChild?.innerText?.trim();
+      }
+      if (firstAnchor) {
+        const href = firstAnchor.href;
+        const url = new URL(href);
+        const pathname = url.pathname;
+        // eslint-disable-next-line prefer-regex-literals
+        if (pathname.match(RegExp('^/(?:feed|search|.*/add-edit)/', 'u'))) {
+          content = NH.base.strHash(url.search);
+        } else {
+          content = pathname;
+        }
+      }
+      if (positionAnchor) {
+        content = new URL(positionAnchor.href).pathname;
+      }
+      if (id) {
+        content = id;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -6134,7 +6204,7 @@
 
     firstItem = new Shortcut(
       '<',
-      'Go to the first section',
+      'Go to the first section or entry',
       () => {
         this.#lastScroller.first();
       }
@@ -6142,7 +6212,7 @@
 
     lastItem = new Shortcut(
       '>',
-      'Go to the last section',
+      'Go to the last section or entry',
       () => {
         this.#lastScroller.last();
       }
@@ -6158,49 +6228,41 @@
 
     seeMore = new Shortcut(
       'm',
-      'Show more/all of current item (context sensitive, may go to new page)',
+      'Show more of the current item',
       () => {
-        // Slightly more complicated than something like `Feed`.  Some items
-        // (e.g., Experiences), will expand and stay that way, making it easy
-        // to find the next one.  Others (e.g., Activity), will navigate away,
-        // and then come back, staying collapsed.  Then there are the
-        // tabpanels which have multiple links at the section level.  So, we
-        // will look for the 'Show all' links in the current item first, then
-        // look for buttons with 'more' in them.
         const el = this.#lastScroller.item;
-        if (el) {
-          const links = Array.from(el.querySelectorAll('a'))
-            .filter(x => x.innerText.includes('Show all'))
-            .filter(x => x.clientHeight);
-          if (links.length === NH.base.ONE_ITEM) {
-            links[0].click();
-          } else {
-            NH.web.clickElement(el, [
-              'button.inline-show-more-text__button',
-              'button[aria-label="More actions"]',
-            ]);
-          }
-        }
+        NH.web.clickElement(el, [
+          // ...see more
+          '.inline-show-more-text__button',
+        ]);
       }
     );
 
     editItem = new Shortcut(
       'E',
-      'Edit the current section (if possible)',
+      'Edit the current item (if possible)',
       () => {
-        const current = this.sections.item;
-        // And, of course, the sections are inconsistent
-        if (current) {
-          let item = current.querySelector(
-            '[aria-label^="Edit "],[aria-label^="View "]'
-          );
-          if (item) {
-            if (!['A', 'BUTTON'].includes(item.tagName)) {
-              item = item.closest('a,button');
-            }
-            item.click();
-          }
+        // Some sections have multiple edit buttons, so walk amongst them.
+        const el = this.#lastScroller.item;
+        // Also, we have all of a > svg, button > svg, a > button > svg
+        const selector = [
+          ':is(a, button)',
+          ':has(svg[data-test-icon^="edit"])',
+          ':not(a:has(button))',
+        ].join('');
+        const elements = el
+          .querySelectorAll(selector)
+          .values()
+          .toArray();
+        let idx = elements.indexOf(document.activeElement);
+        if (idx >= 0) {
+          idx = (idx + 1) % elements.length;
+        } else {
+          idx = 0;
         }
+        this.logger.log('idx', idx, elements[idx]);
+        elements[idx]?.focus();
+        elements[idx]?.click();
       }
     );
 
@@ -6225,31 +6287,28 @@
       // There are a couple of selector variants that work with most sections,
       // then a few specific ones.
       selectors: [
-        // Common selectors (the pvs-list stuff can also be nested deep into
-        // an entry, so we have to be explicit with the divs near the top.
-        ':scope > div.pvs-list__outer-container > ul.pvs-list > li',
-        ':scope > div > div.pvs-list__outer-container > ul.pvs-list > li',
+        [
+        // Most common lists
+          '.artdeco-list__item',
 
-        // Member school/work
-        ':scope ul.pv-text-details__right-panel > li',
-        // Member edit carousel
-        ':scope ul.artdeco-carousel__slider > li',
+          // Member button list
+          '[class*="pv-top-card-v2"] button',
+          // Member carousel
+          'ul.artdeco-carousel__slider > li',
 
-        // Activity
-        ':scope div.scaffold-finite-scroll__content > ul > li',
+          // Analytics (aka insights) lists
+          ':scope > div > ul > li[class*="pvs-list__item"]',
 
-        // Interests/Recommendations - Have tabs inside of them to make things
-        // interesting
-        ':scope div[role="tablist"]',
-        ':scope div[role="tabpanel"] > div.pvs-list__outer-container ' +
-          '> ul.pvs-list > li',
+          // Activity (aka content_collections)
+          'div.scaffold-finite-scroll__content > ul > li',
+          'footer > a',
 
-        // Footer - catches most
-        ':scope div.pvs-list__outer-container > div.pvs-list__footer-wrapper',
-        ':scope > footer',
+          // Interests
+          '[role="tablist"] [aria-selected="true"]',
 
-        // Catch all for debugging
-        // ':scope ul > li',
+          // // Footer
+          '.pvs-list__footer-wrapper a',
+        ].join(','),
       ],
     };
 
