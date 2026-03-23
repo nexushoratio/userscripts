@@ -121,9 +121,20 @@
       '#288',
       'Add <code>Logger</code> startup ability to <code>userscript</code>',
     ],
+    ['#290', 'Update <b>Profile</b> page'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-23',
+      issues: [''],
+      subject: 'Run through <code>ispell</code>',
+    },
+    {
+      date: '2026-03-23',
+      issues: ['#290'],
+      subject: 'Update the <code>Profile</code> page',
+    },
     {
       date: '2026-03-20',
       issues: ['#283'],
