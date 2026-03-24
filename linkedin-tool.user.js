@@ -6900,135 +6900,8 @@
 
   }
 
-  /** Base class for {@link SPA} instance details. */
-  class SPADetails {
-
-    /** Create a SPADetails instance. */
-    constructor() {
-      if (new.target === SPADetails) {
-        throw new TypeError('Abstract class; do not instantiate directly.');
-      }
-
-      this.#logger = new NH.base.Logger(this.constructor.name);
-      this.#id = NH.base.safeId(NH.base.uuId(this.constructor.name));
-      this.dispatcher = new NH.base.Dispatcher('errors', 'news');
-    }
-
-    /**
-     * @type {string} - CSS selector to monitor if self-managing URL changes.
-     * The selector must resolve to an element that, once it exists, will
-     * continue to exist for the lifetime of the SPA.
-     */
-    urlChangeMonitorSelector = 'body';
-
-    /** @type {string} - Unique ID for this instance . */
-    get id() {
-      return this.#id;
-    }
-
-    /** @type {NH.base.Logger} - NH.base.Logger instance. */
-    get logger() {
-      return this.#logger;
-    }
-
-    /** @type {SPA} */
-    get spa() {
-      return this.#spa;
-    }
-
-    /** @type {TabbedUI} */
-    get ui() {
-      return this.#ui;
-    }
-
-    /** @param {TabbedUI} val - UI instance. */
-    set ui(val) {
-      this.#ui = val;
-    }
-
-    /**
-     * Called by SPA instance during its construction to allow post
-     * instantiation stuff to happen.  If overridden in a subclass, this
-     * should definitely be called via super.
-     *
-     * @param {SPA} spa - The SPA instance.
-     */
-    init(spa) {
-      this.#spa = spa;
-      this.dispatcher.on('errors', this._errors);
-      this.dispatcher.on('news', this._news);
-    }
-
-    /**
-     * Called by SPA instance when initialization is done.  Subclasses should
-     * call via super.
-     */
-    done() {
-      const me = 'done (SPADetails)';
-      this.logger.entered(me);
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Handles notifications about changes to the {@link SPA} Errors tab
-     * content.
-     * @implements {NH.base.Dispatcher~Handler}
-     * @param {string} eventType - Event type.
-     * @param {number} count - Number of errors currently logged.
-     */
-    _errors = (eventType, count) => {
-      this.logger.log('errors:', eventType, count);
-    }
-
-    /**
-     * Handles notifications about activity on the {@link SPA} News tab.
-     * @implements {NH.base.Dispatcher~Handler}
-     * @param {string} eventType - Event type.
-     * @param {object} data - Undefined at this time.
-     */
-    _news = (eventType, data) => {
-      this.logger.log('news', eventType, data);
-    }
-
-    /**
-     * @implements {SPA~TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - Where to find documentation
-     * and file bugs.
-     */
-    docTab() {
-      this.logger.log('docTab is not implemented');
-      throw new Error('Not implemented.');
-      return {  // eslint-disable-line no-unreachable
-        name: 'Not implemented.',
-        content: 'Not implemented.',
-      };
-    }
-
-    /**
-     * @implements {SPA~TabGenerator}
-     * @returns {TabbedUI~TabDefinition} - License information.
-     */
-    licenseTab() {
-      this.logger.log('licenseTab is not implemented');
-      throw new Error('Not implemented.');
-      return {  // eslint-disable-line no-unreachable
-        name: 'Not implemented.',
-        content: 'Not implemented.',
-      };
-    }
-
-    #id
-    #logger
-    #spa
-
-    /** @type {TabbedUI} */
-    #ui = null;
-
-  }
-
   /** LinkedIn specific information. */
-  class LinkedIn extends SPADetails {
+  class LinkedIn extends NH.spa.Details {
 
     /**
      * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
@@ -7047,6 +6920,11 @@
     }
 
     urlChangeMonitorSelector = 'html';
+
+    /** @type {NH.base.Dispatcher} */
+    get dispatcher2() {
+      return this.#dispatcher;
+    }
 
     /** @type {LinkedInGlobals} - Instance passed in during construction. */
     get globals() {
@@ -7108,9 +6986,14 @@
       return this.#pageStyle;
     }
 
-    /** @inheritdoc */
+    /** @param {SPA} spa - The SPA instance. */
+    init(spa) {
+      this.dispatcher.fire('initialize', spa);
+      this.dispatcher.fire('initialized', null);
+    }
+
+    /** Called by SPA. */
     done() {
-      super.done();
       const me = 'done';
       this.logger.entered(me);
 
@@ -7266,6 +7149,7 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #globals
     #iframeDoc
     #infoId
@@ -7613,7 +7497,7 @@
         button.addEventListener('click', this.#toolButtonHandler);
         item.append(button);
         this.#ourMenuItemStyle1 = item;
-        this.dispatcher.on('errors', this.#errorBadgeStyle1);
+        this.dispatcher2.on('errors', this.#errorBadgeStyle1);
         this.#ourMenuBadgeStyle1 = button.querySelector(
           '.notification-badge__count'
         );
@@ -7693,7 +7577,7 @@
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;
           this.#ourMenuBadgeStyle2 = badge;
-          this.dispatcher.on('errors', this.#errorBadgeStyle2);
+          this.dispatcher2.on('errors', this.#errorBadgeStyle2);
         }
       }
 
@@ -7980,7 +7864,7 @@
    */
   class SPA {
 
-    /** @param {SPADetails} details - Implementation specific details. */
+    /** @param {LinkedIn} details - Implementation specific details. */
     constructor(details) {
       this.#name = `${this.constructor.name}: ${details.constructor.name}`;
       this.#id = NH.base.safeId(NH.base.uuId(this.#name));
@@ -8058,7 +7942,7 @@
       return new Set(this.#activePages);
     }
 
-    /** @type {SPADetails} */
+    /** @type {LinkedIn} */
     get details() {
       return this.#details;
     }
@@ -8112,7 +7996,7 @@
       this.#errorText.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n')
           .filter(x => x === SPA._errorMarker).length;
-        this.#details.dispatcher.fire('errors', count);
+        this.#details.dispatcher2.fire('errors', count);
         this._updateInfoErrorsLabel(count);
       });
     }
@@ -8522,7 +8406,7 @@
 
     /**
      * Install a long lived MutationObserver that watches
-     * {SPADetails.urlChangeMonitorSelector}.  Whenever it is triggered, it
+     * {LinkedIn.urlChangeMonitorSelector}.  Whenever it is triggered, it
      * will check to see if the current URL has changed, and if so, send an
      * appropriate event.
      * @fires Event#urlchange
