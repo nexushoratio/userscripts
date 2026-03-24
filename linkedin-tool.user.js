@@ -56,6 +56,7 @@
       enableScrollerChangesFocus: false,
       enableIssue241ClickMethod: false,
       enableIssue244Changes: false,
+      enableMigrateKIFailures: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue('Options', {});
@@ -79,11 +80,28 @@
 
   const log = new NH.base.Logger('Default');
 
+  /**
+   * @typedef {object} KnownIssueDetails
+   * @property {string} title - The GitHub issue title.
+   * @property {string} date - A Date parsable string of the last time the
+   * issue was verified opened.
+   */
+
+  /** @typedef {string} IssueId */
+
+  /** @typedef {[IssueId, string|KnownIssueDetails} KnownIssue */
+
   const globalKnownIssues = [
-    ['Bob', 'Bob has no issues'],
-    ['', 'Minor internal improvement'],
-    ['#106', 'info view: more tabs: News, License'],
-    ['#130', 'Factor hotkey handling out of SPA'],
+    ['Bob', {title: 'Bob has no issues', date: '9999'}],
+    ['', {title: 'Minor internal improvement', date: '9999'}],
+    [
+      '#106',
+      {title: 'info view: more tabs: News, License', date: '2026-03-24'},
+    ],
+    [
+      '#130',
+      {title: 'Factor hotkey handling out of SPA', date: '2026-03-24'},
+    ],
     ['#167', 'Refactor into libraries'],
     [
       '#208', '<code>Scroller</code>: If end-item is never viewable ' +
@@ -7882,10 +7900,42 @@
     }
 
     /** @returns {obj} - dates and known issues. */
-    #preprocessKnownIssues = () => {
-      const knownIssues = new Map(globalKnownIssues);
+    #preprocessKnownIssues = () => {  // eslint-disable-line max-lines-per-function
+      const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
+      const oldestAllowedUnusedIssue = litOptions.enableMigrateKIFailures
+        ? Date.now() - thirtyDays
+        : 0;
+      const defaultDate = litOptions.enableMigrateKIFailures
+        ? '1999'
+        : '9999';
+
+      /**
+       * Migrate to new format.
+       * @param {KnownIssue} issue - Mix of old and new formats.
+       * @returns {KnownIssue} - But updated to the new format.
+       */
+      const migrateKnownIssues = (issue) => {
+        const key = issue[0];
+        let details = issue[1];
+        if (typeof details === 'string') {
+          details = {
+            title: details,
+            date: defaultDate,
+          };
+        }
+        return [key, details];
+      };
+
+      const knownIssues = new Map(globalKnownIssues.map(migrateKnownIssues));
       const unknownIssues = new Set();
-      const unusedIssues = new Set(knownIssues.keys());
+      const unusedIssues = new Set(
+        knownIssues
+          .entries()
+          .filter(x => new Date(x[1].date) < oldestAllowedUnusedIssue)
+          .map(x => x[0])
+      );
+
+      this.logger.log('knownIssues', knownIssues);
 
       const dates = new NH.base.DefaultMap(
         () => new NH.base.DefaultMap(Array)
@@ -7904,13 +7954,12 @@
         }
       }
 
-      if (unknownIssues.size) {
-        NH.base.issues.post('Unknown issues were detected',
-          [...unknownIssues]);
+      for (const issue of unknownIssues) {
+        NH.base.issues.post('Unknown issue detected:', issue);
       }
 
-      if (unusedIssues.size) {
-        NH.base.issues.post('Unused issues were detected', [...unusedIssues]);
+      for (const issue of unusedIssues) {
+        NH.base.issues.post('Unused issue detected:', issue);
       }
 
       return {
