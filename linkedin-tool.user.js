@@ -122,9 +122,15 @@
       'Add <code>Logger</code> startup ability to <code>userscript</code>',
     ],
     ['#290', 'Update <b>Profile</b> page'],
+    ['#291', 'Update <b>Events</b> page'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-24',
+      issues: ['#236', '#291'],
+      subject: 'Update the <code>Events</code> page',
+    },
     {
       date: '2026-03-23',
       issues: [''],
