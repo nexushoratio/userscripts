@@ -7904,13 +7904,13 @@
         }
       }
 
-      this.logger.log('unknown issues', unknownIssues);
-      this.logger.log('unused issues', unusedIssues);
-
       if (unknownIssues.size) {
-        const issues = Array.from(unknownIssues)
-          .join(', ');
-        throw new Error(`Unknown issues were detected: ${issues}`);
+        NH.base.issues.post('Unknown issues were detected',
+          [...unknownIssues]);
+      }
+
+      if (unusedIssues.size) {
+        NH.base.issues.post('Unused issues were detected', [...unusedIssues]);
       }
 
       return {
