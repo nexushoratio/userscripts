@@ -25,7 +25,7 @@
 #   done
 
 # Yes, the following causes worktrees to leak
-set -e
+set -u
 
 export PAGER=cat
 
@@ -43,8 +43,8 @@ git apply --allow-empty $patchfile
 git diff --stat
 
 # This is the test we want to run.
-eslint .
-hooks/style_linter.py
+eslint . || exit
+hooks/style_linter.py || exit
 
 # Clean up.
 popd > /dev/null

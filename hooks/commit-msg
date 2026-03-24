@@ -5,7 +5,7 @@
 # Verifies the commit message is acceptable and appends a separator at
 # the end to make the Greasy Fork history tab look nicer.
 
-set -e
+set -u
 
 echo 'Starting commit-msg hook.'
 
