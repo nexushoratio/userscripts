@@ -6382,14 +6382,18 @@
 
   }
 
-  /** Class for handling the Events page. */
+  /**
+   * Class for handling the Events page.
+   * TODO(#236): WIP.
+   */
   class Events extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Events.#details});
 
-      this.addService(LinkedInStyleService, this);
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6414,16 +6418,25 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCollectionIdentifier(element) {
+      const me = Events.uniqueCollectionIdentifier.name;
+      this.logger.entered(me, element);
+
       const h1 = element.querySelector('h1');
       const h2 = element.querySelector('h2');
-      let content = element.innerText;
+      let content = '';
+
       if (h2?.innerText) {
-        content = h2.innerText;
+        content = this.defaultUid(h2);
       }
       if (h1?.innerText) {
-        content = h1.innerText;
+        content = this.defaultUid(h1);
       }
-      return NH.base.strHash(content);
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /**
@@ -6432,17 +6445,21 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueEventIdentifier(element) {
-      const me = 'uniqueEventIdentifier';
+      const me = Events.uniqueEventIdentifier.name;
       this.logger.entered(me, element);
 
-      let content = element.innerText;
+      let content = '';
       const anchor = element.querySelector('a');
+
       if (anchor?.href) {
-        content = anchor.href;
+        content = new URL(anchor.href).pathname;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -6551,7 +6568,7 @@
       name: `${this.name} collections`,
       containerItems: [
         {
-          container: 'main',
+          container: 'main:has(> section)',
           items: [
             // Major collections
             ':scope > section',
@@ -6580,6 +6597,8 @@
         ':scope > section > div',
         // Most event collections
         ':scope > main > div > section',
+        // Exclusive for Premium
+        ':scope > main > div > div > section',
         // Show more
         ':scope > footer',
       ],
