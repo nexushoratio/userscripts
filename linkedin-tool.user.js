@@ -102,7 +102,7 @@
       '#130',
       {title: 'Factor hotkey handling out of SPA', date: '2026-03-24'},
     ],
-    ['#167', 'Refactor into libraries'],
+    ['#167', {title: 'Refactor into libraries', date: '2026-03-25'}],
     [
       '#208', '<code>Scroller</code>: If end-item is never viewable ' +
      '(e.g., empty), cannot wrap',
@@ -141,9 +141,38 @@
     ],
     ['#290', 'Update <b>Profile</b> page'],
     ['#291', 'Update <b>Events</b> page'],
+    ['#292', 'Update <b>SearchResultsPeople</b> page'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-25',
+      issues: ['#209', '#292'],
+      subject: 'Update the <code>SearchResultsPeople</code> page',
+    },
+    {
+      date: '2026-03-25',
+      issues: [''],
+      subject: 'Update the selector for the global search input',
+    },
+    {
+      date: '2026-03-25',
+      issues: ['#286'],
+      subject: 'Replace <code>SPADetails</code> with ' +
+        '<code>NH.spa.Details</code>',
+    },
+    {
+      date: '2026-03-25',
+      issues: [''],
+      subject: 'Track when <code>globalKnownIssues</code> were last ' +
+        'reviewed for clean up',
+    },
+    {
+      date: '2026-03-24',
+      issues: [''],
+      subject: 'Update how issue processing is handled for the ' +
+        '<code>News</code> tab',
+    },
     {
       date: '2026-03-24',
       issues: ['#236', '#291'],
@@ -321,11 +350,6 @@
       date: '2026-02-24',
       issues: ['#271'],
       subject: 'Handle both Style-1 and Style-2 layouts for Global hotkeys',
-    },
-    {
-      date: '2026-02-20',
-      issues: ['#267'],
-      subject: 'Start supporting multiple styles of pages',
     },
   ];
 
