@@ -1,4 +1,5 @@
 abcd
+ABCd
 abxd
 acceptInvite
 AccordionTableWidget
@@ -29,6 +30,7 @@ addInfoViewHandlers
 addInstance
 addKey
 addLitStyle
+addon
 addReprFunc
 addRow
 addSection
@@ -43,9 +45,11 @@ allowedBottom
 allowedStyles
 allowReactivation
 allShortcuts
+alnum
 alsoNotATest
 AnOverridePage
 AnUPPERWord
+apg
 applyToJob
 args
 ariaLabel
@@ -64,6 +68,7 @@ assertsCalled
 assertsWithNoMsg
 assertTrue
 assertX
+attr
 attrElements
 attributeFilter
 attrText
@@ -73,8 +78,9 @@ badKlasses
 BaseClassCleanupTestCase
 BasicFeaturesTestCase
 baz
-BigInt
+bbox
 bigint
+BigInt
 bitness
 Bitrot
 bobInfo
@@ -109,6 +115,7 @@ childNodes
 childViewName
 CKEY
 ckeyIdentifier
+cksum
 classCalls
 classCleanups
 ClassFunc
@@ -206,6 +213,7 @@ deleteNotification
 DemoDetails
 demoGrid
 demoSpa
+deref
 describedby
 detailsHow
 detailsPane
@@ -243,13 +251,16 @@ ElementAdapterTestCase
 ElementFinder
 enableDevMode
 enableIssue
+enableMigrateKIFailures
 enableScrollerChangesFocus
 engageIndividual
 ensureMenuStyle
 EnsureTestCase
+ent
 entriesHow
 entriesWhat
 entryScroller
+enum
 environmentData
 equalArray
 equalC
@@ -288,6 +299,7 @@ failedMethod
 failMsg
 failMsgs
 fakeErrorRate
+falsy
 FeedType
 fff
 fieldName
@@ -341,11 +353,14 @@ getType
 GetTypeTestCase
 getValue
 gfUrl
+gh
+ghIj
 ghUrl
 github
 globalfooter
 globalKnownIssues
 globalNewsContent
+gmail
 goHome
 gotFocus
 gotoBusiness
@@ -375,6 +390,7 @@ groupEnd
 GroupMode
 GroupModeTestCase
 groupStack
+grp
 guessPageStyle
 handleClicks
 handleEvent
@@ -443,9 +459,12 @@ isInput
 isItemViewable
 isSameNode
 issueHeader
+IssueId
 issueListener
 issuesLink
+isTab
 itemUid
+iu
 javascript
 jobCard
 jobCards
@@ -466,6 +485,7 @@ JobView
 jsdelivr
 jsdoc
 JSDoc
+json
 jumpToEndItem
 kbd
 keyboardService
@@ -473,6 +493,8 @@ KeyboardService
 keyMap
 klass
 knownEvents
+KnownIssue
+KnownIssueDetails
 knownIssues
 knownUrlsTodo
 LabelClassesFunc
@@ -490,6 +512,7 @@ lastNotification
 lastScroller
 LayoutTestCase
 len
+libby
 LicenseData
 licenseData
 licenseEntry
@@ -554,6 +577,7 @@ messagingOptionsSelector
 messagingTabSelector
 messagingTabSelectorCurrent
 methodName
+migrateKnownIssues
 minVersion
 missingDescriptionsAreErrors
 missingFirst
@@ -584,6 +608,7 @@ navbarHeightPixels
 navbarMutationObserver
 navbarResizeObserver
 navbarScrollerFixup
+navMe
 navOption
 navSelector
 navSpacer
@@ -632,6 +657,7 @@ nextTab
 NexusHoratio
 nexushoratio
 NexusHoratioVersion
+nh
 nodeType
 nodeValue
 noframes
@@ -643,6 +669,7 @@ notificationScroller
 notificationsHow
 notificationsWhat
 nowrap
+npm
 ntCardIndex
 NumberOp
 NumberOpTestCase
@@ -651,6 +678,7 @@ observeNavbar
 observeOptions
 occludable
 occludableJobId
+oldestAllowedUnusedIssue
 oldPages
 oldUrl
 onActivate
@@ -700,6 +728,7 @@ otmot
 OtmotHow
 otmotMoCallback
 OtmotWhat
+otrot
 OtrotHow
 otrotRoCallback
 OtrotWhat
@@ -730,6 +759,7 @@ parsedName
 parseSeq
 ParseSeqTestCase
 pathnameRE
+pojo
 populateBuilt
 positionAnchor
 postActivateHook
@@ -742,6 +772,7 @@ postScroller
 postsHow
 postsWhat
 preprocessKnownIssues
+prev
 prevButton
 prevCard
 prevCollection
@@ -767,6 +798,7 @@ prevTab
 primaryNavLinksComponentRef
 primaryNavSelector
 pv
+pvs
 px
 qqq
 querySelector
@@ -852,7 +884,10 @@ scrollToCurrentItem
 scrollTop
 searchMessages
 searchParams
+SearchResults
+SearchResultsFilterBar
 SearchResultsPeople
+SearchTyahInputRef
 sectionsContainer
 sectionScroller
 sectionsHow
@@ -897,6 +932,7 @@ sourceforge
 SPADetails
 SPATestCase
 SpecificEvent
+src
 srcdoc
 stackTrace
 startMutationObserverUrlMonitor
@@ -912,6 +948,7 @@ StringAdapter
 StringAdapterTestCase
 stringify
 strKey
+strs
 strValue
 subItem
 supportedEvents
@@ -1150,6 +1187,8 @@ testWithSpaces
 textarea
 textContent
 textNodes
+thead
+thirtyDays
 timeoutID
 toArray
 toCallback
@@ -1177,6 +1216,7 @@ toPojo
 topScroll
 toString
 toUpperCase
+tpe
 TypeError
 typeof
 uid
@@ -1207,6 +1247,7 @@ unknownIssues
 unusedIssues
 updateGroupByString
 updateInfoErrorsLabel
+url
 urlchange
 urlChangeMonitorSelector
 useOriginalInfoDialog
@@ -1234,6 +1275,7 @@ visibilitychange
 visibilityState
 VMKeyboardService
 VMShortcuts
+wai
 waitForContainers
 waitForItemTimeout
 waitForSelector
