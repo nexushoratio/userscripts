@@ -7286,6 +7286,7 @@
 
       this.#createInfoWidget();
       this.#addInfoTabs();
+      this.#addScrollerStyle();
       this.#addLitStyle();
       this.#findNavbar();
 
@@ -7388,6 +7389,27 @@
       this.#infoKeyboard.disable();
       VMKeyboardService.setKeyboardContext('inDialog', false);
       this.logger.log('info closed');
+    }
+
+    /** Create the CSS styles used for indicating the current items. */
+    #addScrollerStyle() {
+      const style = document.createElement('style');
+      style.id = NH.base.safeId(`${this.id}-scroller-style`);
+      const styles = [
+        '.tom {' +
+          ' border-color: orange !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: medium !important;' +
+          '}',
+        '.dick {' +
+          ' border-color: red !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: thin !important;' +
+          '}',
+        '',
+      ];
+      style.textContent = styles.join('\n');
+      document.head.append(style);
     }
 
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
@@ -7941,7 +7963,6 @@
       this.#logger = new NH.base.Logger(this.#name);
       this.#details = details;
       this.#details.init(this);
-      this._installNavStyle();
       this._initializeInfoView();
       NH.base.issues.listen(this.#issueListener);
       document.addEventListener('focus', this._onFocus, true);
@@ -8069,27 +8090,6 @@
         this.#details.dispatcher2.fire('errors', count);
         this._updateInfoErrorsLabel(count);
       });
-    }
-
-    /** Create the CSS styles used for indicating the current items. */
-    _installNavStyle() {
-      const style = document.createElement('style');
-      style.id = NH.base.safeId(`${this.#id}-nav-style`);
-      const styles = [
-        '.tom {' +
-          ' border-color: orange !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: medium !important;' +
-          '}',
-        '.dick {' +
-          ' border-color: red !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: thin !important;' +
-          '}',
-        '',
-      ];
-      style.textContent = styles.join('\n');
-      document.head.append(style);
     }
 
     /**

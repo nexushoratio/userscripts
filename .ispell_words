@@ -33,6 +33,7 @@ addLitStyle
 addon
 addReprFunc
 addRow
+addScrollerStyle
 addSection
 addService
 addSkip
