@@ -6654,14 +6654,18 @@
 
   }
 
-  /** Class for handling the SearchResultsPeople page. */
+  /**
+   * Class for handling the SearchResultsPeople page.
+   * TODO(#209): WIP.
+   */
   class SearchResultsPeople extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
 
-      this.addService(LinkedInStyleService, this);
+      this.addService(LinkedInStyleService, this)
+        .addStyles(LinkedInGlobals.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6680,16 +6684,16 @@
      * @returns {string} - A value unique to this element.
      */
     static uniquePaginationIdentifier(element) {
+      const me = SearchResultsPeople.uniquePaginationIdentifier.name;
+      this.logger.entered(me, element);
+
       let content = '';
-      if (element) {
-        content = element.innerText;
-        const label = element.getAttribute('aria-label');
-        if (label) {
-          content = label;
-        }
+
+      if (!content) {
+        content = this.defaultUid(element);
       }
-      log.log('SearchResultsPeople.uniquePaginationIdentifier content:',
-        content);
+
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
@@ -6699,12 +6703,21 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueResultIdentifier(element) {
-      const div = element.querySelector('div');
-      let content = element.innerText;
-      if (div?.dataset.chameleonResultUrn) {
-        content = div.dataset.chameleonResultUrn;
+      const me = SearchResultsPeople.uniqueResultIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const href = element.href;
+
+      if (href) {
+        content = new URL(href).pathname;
       }
-      return NH.base.strHash(content);
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -6802,9 +6815,20 @@
       }
     );
 
+    gotoFilter = new Shortcut(
+      'F',
+      'Move focus to the search filters',
+      () => {
+        const element = document.querySelector(
+          `[${CKEY}="SearchResults_SearchResultsFilterBar"] [role="button"]`
+        );
+        NH.web.focusOnElement(element);
+      }
+    );
+
     static #details = {
       pathname: '/search/results/people/',
-      pageReadySelector: '#globalfooter-about',
+      pageReadySelector: 'div > footer',
     };
 
     /** @type {Scroller~How} */
@@ -6822,7 +6846,7 @@
       containerItems: [
         {
           // This selector is also used in #onPaginationActivate.
-          container: 'div.artdeco-pagination > ul',
+          container: 'main ul[data-testid="pagination-controls-list"]',
           items: ':scope > li',
         },
       ],
@@ -6840,8 +6864,8 @@
       name: 'SearchResultsPeople cards',
       containerItems: [
         {
-          container: 'ul.reusable-search__entity-result-list',
-          items: ':scope > li',
+          container: '[data-testid="lazy-column"]',
+          items: `a[${CKEY}]:not([aria-label])`,
         },
       ],
     };
