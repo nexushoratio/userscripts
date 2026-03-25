@@ -2894,7 +2894,7 @@
           NH.web.clickElement(document, ['#global-nav-search button']);
         } else {
           const element = document.querySelector(
-            '[data-view-name="search-global-typeahead-input"]'
+            `[${CKEY}="SearchResults_SearchTyahInputRef"]`
           );
           NH.web.focusOnElement(element);
         }
