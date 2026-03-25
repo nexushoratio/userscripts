@@ -3202,11 +3202,16 @@
      * @returns {string} - A value unique to this element.
      */
     static uniquePostIdentifier(element) {
+      const me = Feed.uniquePostIdentifier.name;
+      this.logger.entered(me, element);
+
       let content = LinkedInGlobals.ckeyIdentifier(element);
       const groups = Feed.#uidPostRE.exec(content)?.groups;
       if (groups) {
         content = groups.body;
       }
+
+      this.logger.leaving(me, content);
       return content;
     }
 
@@ -3216,11 +3221,25 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCommentIdentifier(element) {
-      let content = LinkedInGlobals.ckeyIdentifier(element);
-      const groups = Feed.#uidCommentRE.exec(content)?.groups;
+      const me = Feed.uniqueCommentIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const ckey = LinkedInGlobals.ckeyIdentifier(element);
+      const groups = Feed.#uidCommentRE.exec(ckey)?.groups;
+
+      if (ckey) {
+        content = ckey;
+      }
       if (groups) {
         content = groups.body;
       }
+
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
       return content;
     }
 
@@ -3525,7 +3544,10 @@
     /** @type {Scroller~What} */
     static #commentsWhat = {
       name: 'Feed comments',
-      selectors: [`[data-testid*="commentList"] > div[${CKEY}*=":comment:"]`],
+      selectors: [
+        // Long selector
+        `[data-testid*="commentList"] > div > div > [${CKEY}*=":comment:"]`,
+      ],
     };
 
     /** @type {Page~PageDetails} */

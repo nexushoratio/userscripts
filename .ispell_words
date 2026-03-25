@@ -113,7 +113,7 @@ childKey
 childList
 childNodes
 childViewName
-CKEY
+ckey
 ckeyIdentifier
 cksum
 classCalls
@@ -198,6 +198,7 @@ debounce
 DebugKeys
 deduped
 defaultClassesFunc
+defaultDate
 defaultdict
 defaultEqual
 DefaultMap
