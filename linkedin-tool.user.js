@@ -104,14 +104,18 @@
     ],
     ['#167', {title: 'Refactor into libraries', date: '2026-03-25'}],
     [
-      '#208', '<code>Scroller</code>: If end-item is never viewable ' +
-     '(e.g., empty), cannot wrap',
+      '#208', {
+        title: '<code>Scroller</code>: If end-item is never viewable' +
+          ' (e.g., empty), cannot wrap',
+        date: '2026-03-27',
+      },
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
     ['#232', '<code>Scroller</code>: Change the focus UX'],
     ['#236', 'Support <b>Events</b> page'],
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
+    ['#251', 'Normalize the `uniqueFooIdentifier()` functions'],
     ['#253', 'Support <b>My Network Events</b> page'],
     ['#255', 'Support <b>Search appearances</b> page'],
     ['#256', 'Support <b>Verify</b> page'],
@@ -142,9 +146,31 @@
     ['#290', 'Update <b>Profile</b> page'],
     ['#291', 'Update <b>Events</b> page'],
     ['#292', 'Update <b>SearchResultsPeople</b> page'],
+    ['#296', 'Ugly and missing badges'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-27',
+      issues: [''],
+      subject: 'Fix issue caused by the recent <code>News</code> tab update',
+    },
+    {
+      date: '2026-03-27',
+      issues: ['#296'],
+      subject: 'Change how the Style-2 error badge is created',
+    },
+    {
+      date: '2026-03-25',
+      issues: ['#286'],
+      subject: 'Move style installation out of <code>SPA</code> and' +
+        ' into <code>LinkedIn</code>',
+    },
+    {
+      date: '2026-03-25',
+      issues: ['#251'],
+      subject: 'Update the selector for <code>Feed</code> comments',
+    },
     {
       date: '2026-03-25',
       issues: ['#209', '#292'],
@@ -340,16 +366,6 @@
       date: '2026-02-25',
       issues: ['#272'],
       subject: 'Tweak the CSS for the <code>Information view</code>',
-    },
-    {
-      date: '2026-02-24',
-      issues: ['#271'],
-      subject: 'Improve the selector for the sidebars',
-    },
-    {
-      date: '2026-02-24',
-      issues: ['#271'],
-      subject: 'Handle both Style-1 and Style-2 layouts for Global hotkeys',
     },
   ];
 
