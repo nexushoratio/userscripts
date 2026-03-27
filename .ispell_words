@@ -75,6 +75,7 @@ attributeFilter
 attrText
 autoActivate
 badCmp
+badgeResultsStyle
 badKlasses
 BaseClassCleanupTestCase
 BasicFeaturesTestCase
@@ -152,6 +153,7 @@ commentOnItem
 commentScroller
 commentsHow
 commentsWhat
+compareBadgeStyles
 componentkey
 computePath
 computePathname
@@ -337,6 +339,7 @@ getBoundingClientRect
 getCommentFooter
 getCommentHeader
 getCommentStatusBar
+getComputedStyle
 getElementById
 getEqualFunc
 getHandlers
@@ -348,6 +351,7 @@ getOwnPropertyNames
 getPostFooter
 getPostHeader
 getPostStatusBar
+getPropertyValue
 getPrototypeOf
 getReprFunc
 getTabControls
@@ -736,6 +740,8 @@ otrotRoCallback
 OtrotWhat
 ourMenuBadgeStyle
 ourMenuItemStyle
+ourSet
+ourValue
 outerHTML
 Outros
 OverrideDeets
@@ -859,6 +865,7 @@ returnToCard
 returnToCollection
 returnToPost
 returnToSection
+rgb
 RoCallback
 rowClassesFunc
 RowClassesFunc
@@ -1190,6 +1197,8 @@ textarea
 textContent
 textNodes
 thead
+theirSet
+theirValue
 thirtyDays
 timeoutID
 toArray

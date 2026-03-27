@@ -7219,6 +7219,7 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    #badgeResultsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #globals
     #iframeDoc
@@ -7429,15 +7430,6 @@
           ' border-radius: 1em;' +
           ' padding: 3px;' +
           '}',
-        '.lit-news {' +
-          ' position: absolute;' +
-          ' bottom: 14px;' +
-          ' right: -5px;' +
-          ' width: 16px;' +
-          ' height: 16px;' +
-          ' border-radius: 50%;' +
-          ' border: 5px solid green;' +
-          '}',
         '.lit-justify {' +
           ' display: flex;' +
           ' flex-direction: row;' +
@@ -7460,7 +7452,54 @@
           ' text-align: right;' +
           ' padding-right: 0.5em;' +
           '}',
-        '.lit-menu-hide-badge { opacity: 0; }',
+        '.lit-menu-news-badge {' +
+          ' position: absolute;' +
+          ' bottom: 14px;' +
+          ' right: -5px;' +
+          ' width: 16px;' +
+          ' height: 16px;' +
+          ' border-radius: 50%;' +
+          ' border: 5px solid green;' +
+          '}',
+        '.lit-menu-error-badge {' +
+          ' align-items: center;' +
+          ' background-color: rgb(203, 17, 45);' +
+          ' block-size: 12px;' +
+          ' border-radius: 9px;' +
+          ' bottom: 13.5px;' +
+          ' color-scheme: light;' +
+          ' color: white;' +
+          ' display: flex;' +
+          ' font-size: 9px;' +
+          ' font-weight: 600;' +
+          ' height: 12px;' +
+          ' inline-size: 12.8667px;' +
+          ' inset-block-start: -1.5px;' +
+          ' inset-inline-end: -6.86667px;' +
+          ' inset-inline-start: 24px;' +
+          ' justify-content: center;' +
+          ' left: 24px;' +
+          ' margin-inline-start: -6px;' +
+          ' margin-left: -6px;' +
+          ' min-inline-size: 12px;' +
+          ' min-width: 12px;' +
+          ' padding-inline-end: 3px;' +
+          ' padding-inline-start: 3px;' +
+          ' padding-left: 3px;' +
+          ' padding-right: 3px;' +
+          ' perspective-origin: 6.43333px 6px;' +
+          ' position: absolute;' +
+          ' right: -6.86667px;' +
+          ' top: -1.5px;' +
+          ' transform-origin: 6.43333px 6px;' +
+          ' width: 12.8667px;' +
+          ' z-index: 100;' +
+          '}',
+        // Get rid of the donut
+        '.lit-menu-error-badge::after {' +
+          ' content: none !important;' +
+          '}',
+        '.lit-menu-error-badge-hide { opacity: 0; }',
       ];
       style.textContent = styles.join('\n');
       document.head.prepend(style);
@@ -7612,9 +7651,10 @@
       this.#ourMenuBadgeStyle2.innerText = `${count}`;
 
       if (count) {
-        this.#ourMenuBadgeStyle2.classList.remove('lit-menu-hide-badge');
+        this.#ourMenuBadgeStyle2
+          .classList.remove('lit-menu-error-badge-hide');
       } else {
-        this.#ourMenuBadgeStyle2.classList.add('lit-menu-hide-badge');
+        this.#ourMenuBadgeStyle2.classList.add('lit-menu-error-badge-hide');
       }
 
       this.logger.leaving(me);
@@ -7657,18 +7697,17 @@
           const svgParent = svg.parentElement;
           svg.outerHTML = LinkedIn.#icon;
 
-          let badge = button.querySelector('svg + span');
-          if (!badge) {
-            badge = this.#navbar.querySelector('svg + span')
-              ?.cloneNode(true);
-            svgParent.append(badge);
-          }
+          button.querySelector('svg + span')
+            ?.remove();
+
+          this.#ourMenuBadgeStyle2 = document.createElement('span');
+          this.#ourMenuBadgeStyle2.classList.add('lit-menu-error-badge');
+          svgParent.append(this.#ourMenuBadgeStyle2);
 
           this.#finishButtonStyle2(button);
 
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;
-          this.#ourMenuBadgeStyle2 = badge;
           this.dispatcher2.on('errors', this.#errorBadgeStyle2);
         }
       }
@@ -7701,8 +7740,8 @@
           if (navMe) {
             navMe.after(menuItem);
           } else {
-          // If the site changed and we cannot insert ourself after the Me
-          // menu item, then go first.
+            // If the site changed and we cannot insert ourself after the Me
+            // menu item, then go first.
             this.#navbar.prepend(menuItem);
             NH.base.issues.post(
               'Unable to find the Profile navbar item.',
@@ -7732,6 +7771,40 @@
       this.logger.leaving(me);
     }
 
+    #compareBadgeStyles2 = () => {
+      const me = this.#compareBadgeStyles2.name;
+      this.logger.entered(me, this.#badgeResultsStyle2);
+
+      // Only do this once.
+      if (!this.#badgeResultsStyle2) {
+        // Some badges are bad examples, so skip them using :not().
+        const badges = this.navbar
+          .querySelectorAll('svg:not([id^="home"]) + span');
+        if (badges.length > 1) {
+          const results = [];
+          const ours = getComputedStyle(this.#ourMenuBadgeStyle2);
+          const theirs = getComputedStyle(badges[0]);
+          const ourSet = new Set([...ours]);
+          const theirSet = new Set([...theirs]);
+          for (const prop of ourSet.union(theirSet)) {
+            const ourValue = ours.getPropertyValue(prop);
+            const theirValue = theirs.getPropertyValue(prop);
+            if (ourValue !== theirValue) {
+              results.push(`' ${prop}: ${theirValue};' +`);
+            }
+          }
+          if (results.length) {
+            NH.base.issues.post(
+              'Style-2 error badge needs updating:', results.join('\n')
+            );
+          }
+          this.#badgeResultsStyle2 = results;
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
     #ensureMenuStyle2 = () => {
       const me = this.#ensureMenuStyle2.name;
       this.logger.entered(me, this.#ourMenuItemStyle2);
@@ -7742,6 +7815,9 @@
         }
         if (this.#ourMenuItemStyle2) {
           this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
+        }
+        if (this.#ourMenuItemStyle2?.isConnected) {
+          this.#compareBadgeStyles2();
         }
       }
 
