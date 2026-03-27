@@ -7165,8 +7165,9 @@
       for (const [date, items] of dates) {
         content.push(`<${dateHeader}>${date}</${dateHeader}>`);
         for (const [issue, subjects] of items) {
+          const ki = knownIssues.get(issue);
           content.push(
-            `<${issueHeader}>${knownIssues.get(issue)}</${issueHeader}>`
+            `<${issueHeader}>${ki.title}</${issueHeader}>`
           );
           content.push('<ul>');
           for (const subject of subjects) {
