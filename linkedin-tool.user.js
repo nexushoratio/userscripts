@@ -3371,7 +3371,10 @@
     loadMorePosts = new Shortcut(
       'l',
       'Load more posts (if the <button>New Posts</button> button ' +
-        'is available, load those)', () => {
+        'is available, load those)', () => {  // eslint-disable-line max-lines-per-function
+        const me = this.loadMorePosts.name;
+        this.logger.entered(me);
+
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
         const posts = this.posts;
@@ -3407,7 +3410,7 @@
         }
 
         const what = {
-          name: 'loadMorePosts',
+          name: `${this.pageId} ${me}`,
           base: document.querySelector('main [data-testid="mainFeed"]'),
         };
         const how = {
@@ -3416,6 +3419,8 @@
           duration: 2000,
         };
         NH.web.otrot2(what, how);
+
+        this.logger.leaving(me);
       }
     );
 
@@ -3502,6 +3507,9 @@
       'X',
       'Toggle hiding current post',
       async () => {
+        const me = this.togglePost.name;
+        this.logger.entered(me);
+
         const el = this.posts.item;
         let selector = ':has(> * > svg[id^="close"])';
         let header = this.#getPostHeader();
@@ -3518,7 +3526,7 @@
         }
         if (header) {
           const what = {
-            name: 'toggleDismissPost',
+            name: `${this.pageId} ${me}`,
             base: header,
           };
           const how = {
@@ -3528,6 +3536,8 @@
           await NH.web.otrot(what, how);
           this.posts.item = el;
         }
+
+        this.logger.leaving(me);
       }
     );
 
@@ -3729,7 +3739,7 @@
       };
       if (this.posts.item) {
         const what = {
-          name: 'Feed onPostActivate',
+          name: `${this.pageId} ${me}`,
           base: this.posts.item,
         };
         const how = {
@@ -6008,6 +6018,9 @@
       'l',
       'Load more notifications',
       () => {
+        const me = this.loadMoreNotifications.name;
+        this.logger.entered(me);
+
         const savedScrollTop = document.documentElement.scrollTop;
         let first = false;
         const notifications = this.notifications;
@@ -6036,7 +6049,7 @@
         };
 
         const what = {
-          name: 'loadMoreNotifications',
+          name: `${this.pageId} ${me}`,
           base: document.querySelector('div.scaffold-finite-scroll__content'),
         };
         const how = {
@@ -6044,7 +6057,10 @@
           action: action,
           duration: 2000,
         };
+
         NH.web.otrot2(what, how);
+
+        this.logger.leaving(me);
       }
     );
 
@@ -6072,6 +6088,9 @@
       'X',
       'Toggle current notification deletion',
       async () => {
+        const me = this.deleteNotification.name;
+        this.logger.entered(me);
+
         const el = this.notifications.item;
 
         /** Trigger function for {@link NH.web.otrot}. */
@@ -6083,7 +6102,7 @@
         }
         if (el) {
           const what = {
-            name: 'deleteNotification',
+            name: `${this.pageId} ${me}`,
             base: el,
           };
           const how = {
@@ -6093,6 +6112,8 @@
           await NH.web.otrot(what, how);
           this.notifications.shine();
         }
+
+        this.logger.leaving(me);
       }
     );
 
