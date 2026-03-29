@@ -3559,7 +3559,7 @@
 
     /** @type {Scroller~What} */
     static #commentsWhat = {
-      name: 'Feed comments',
+      name: `${this.name} comments`,
       selectors: [
         // Long selector
         `[data-testid*="commentList"] > div > div > [${CKEY}*=":comment:"]`,
@@ -3581,7 +3581,7 @@
 
     /** @type {Scroller~What} */
     static #postsWhat = {
-      name: 'Feed posts',
+      name: `${this.name} posts`,
       containerItems: [
         {
           container: 'main [data-testid="mainFeed"]',
@@ -4039,7 +4039,7 @@
 
     /** @type {Scroller~What} */
     static #collectionsWhat = {
-      name: 'MyNetwork Cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: 'main > div > div > div:nth-of-type(2) > div',
@@ -4077,7 +4077,7 @@
 
     /** @type {Scroller~What} */
     static #individualsWhat = {
-      name: 'MyNetwork Individual Items',
+      name: `${this.name} individual`,
       selectors: [
         [
           // Carousel cards (different variations)
@@ -4324,7 +4324,7 @@
 
     /** @type {Scroller~What} */
     static #invitesWhat = {
-      name: 'Invitation cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: 'main [role="main"] [data-testid="lazy-column"]',
@@ -4554,7 +4554,7 @@
 
     /** @type {Scroller~What} */
     static #jobsWhat = {
-      name: 'Job entries',
+      name: `${this.name} entries`,
       selectors: [
         [
           // Match your profile - Show all button
@@ -4584,7 +4584,7 @@
 
     /** @type {Scroller~What} */
     static #sectionsWhat = {
-      name: 'Jobs sections',
+      name: `${this.name} sections`,
       containerItems: [
         {
           container: Jobs.#sectionsContainer,
@@ -5000,7 +5000,7 @@
 
     /** @type {Scroller~What} */
     static #detailsWhat = {
-      name: 'JobsCollections details',
+      name: `${this.name} details`,
       containerItems: [
         {
           container: 'div.jobs-details__main-content',
@@ -5019,7 +5019,7 @@
 
     /** @type {Scroller~What} */
     static #jobCardsWhat = {
-      name: 'JobsCollections cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: 'div.scaffold-layout__list > div > ul',
@@ -5040,7 +5040,7 @@
 
     /** @type {Scroller~What} */
     static #paginationWhat = {
-      name: 'JobsCollections pagination',
+      name: `${this.name} pagination`,
       containerItems: [
         {
           container: 'div.jobs-search-results-list__pagination > ul',
@@ -5333,7 +5333,7 @@
 
     /** @type {Scroller~What} */
     static #cardsWhat = {
-      name: 'JobsView cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: JobsView.#cardsContainer,
@@ -5364,7 +5364,7 @@
 
     /** @type {Scroller~What} */
     static #entriesWhat = {
-      name: 'JobsView entries',
+      name: `${this.name} entries`,
       selectors: [
         // More jobs
         ':scope a',
@@ -5678,7 +5678,7 @@
 
     /** @type {Scroller~What} */
     static #convoCardsWhat = {
-      name: 'Messaging conversations',
+      name: `${this.name} conversations`,
       containerItems: [
         {
           container: Messaging.#convoCardsList,
@@ -5706,7 +5706,7 @@
 
     /** @type {Scroller~What} */
     static #messagesWhat = {
-      name: 'Messaging messages',
+      name: `${this.name} messages`,
       containerItems: [
         {
           container: 'ul.msg-s-message-list-content',
@@ -6114,7 +6114,7 @@
 
     /** @type {Scroller~What} */
     static #notificationsWhat = {
-      name: 'Notification cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: 'main section div.nt-card-list',
@@ -6381,7 +6381,7 @@
 
     /** @type {Scroller~What} */
     static #entriesWhat = {
-      name: 'Profile entries',
+      name: `${this.name} entries`,
       // There are a couple of selector variants that work with most sections,
       // then a few specific ones.
       selectors: [
@@ -6419,7 +6419,7 @@
 
     /** @type {Scroller~What} */
     static #sectionsWhat = {
-      name: 'Profile sections',
+      name: `${this.name} sections`,
       containerItems: [
         {
           container: 'main',
@@ -6904,7 +6904,7 @@
 
     /** @type {Scroller~What} */
     static #paginationWhat = {
-      name: 'SearchResultsPeople pagination',
+      name: `${this.name} pagination`,
       containerItems: [
         {
           // This selector is also used in #onPaginationActivate.
@@ -6923,7 +6923,7 @@
 
     /** @type {Scroller~What} */
     static #resultsWhat = {
-      name: 'SearchResultsPeople cards',
+      name: `${this.name} cards`,
       containerItems: [
         {
           container: '[data-testid="lazy-column"]',
