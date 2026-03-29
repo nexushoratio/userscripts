@@ -7515,6 +7515,10 @@
           ' border-style: solid;' +
           '}',
         '.lit-info p {margin-bottom: 1em; }',
+        '.lit-info ul {' +
+          ' list-style: unset;' +
+          ' padding-inline: revert;' +
+          '}',
         '.lit-info th { padding-top: 1em; text-align: left; }',
         '.lit-info td:first-child {' +
           ' white-space: nowrap;' +
