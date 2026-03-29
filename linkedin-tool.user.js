@@ -7493,6 +7493,7 @@
           ' text-align: right;' +
           ' padding-right: 0.5em;' +
           '}',
+        '.lit-kbd-service-active th { background-color: lightgray; }',
         '.lit-menu-news-badge {' +
           ' position: absolute;' +
           ' bottom: 14px;' +
@@ -7978,8 +7979,11 @@
         if (service.shortcuts.length) {
           const parsedName = NH.base.simpleParseWords(service.shortName)
             .join(' ');
-          this.#shortcutsWidget.addSection(service.shortName);
-          this.#shortcutsWidget.addHeader(service.active, parsedName);
+          const section = this.#shortcutsWidget.addSection(service.shortName);
+          if (service.active) {
+            section.classList.add('lit-kbd-service-active');
+          }
+          this.#shortcutsWidget.addHeader('', parsedName);
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
             this.#shortcutsWidget.addData(
