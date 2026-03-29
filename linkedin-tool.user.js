@@ -7300,6 +7300,13 @@
           pageStyle = LinkedInGlobals.Style.UNKNOWN;
       }
 
+      const main = document.querySelector('main')?.id;
+      if (pageStyle === LinkedInGlobals.Style.ONE && main !== 'main') {
+        // TODO(#295): This is a hack.  Find a more principled solution.
+        this.logger.log('hybrid mode, reloading');
+        document.location.reload();
+      }
+
       this.logger.leaving(me, pageStyle);
       return pageStyle;
     }
