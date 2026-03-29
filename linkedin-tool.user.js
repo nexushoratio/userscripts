@@ -2122,7 +2122,7 @@
         cell.innerHTML = item;
         tr.append(cell);
       }
-      this.container.append(tr);
+      this.#currentSection.append(tr);
     }
 
   }
