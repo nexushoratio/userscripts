@@ -7459,6 +7459,8 @@
         '.lit-info:modal {' +
           ' height: 100%;' +
           ' width: 65rem;' +
+          ' font-size: 1.6rem;' +
+          ' line-height: 1.5em;' +
           ' display: flex;' +
           ' flex-direction: column;' +
           '}',
@@ -7484,7 +7486,8 @@
           ' border-width: 1px;' +
           ' border-style: solid;' +
           '}',
-        '.lit-info th { text-align: left; }',
+        '.lit-info p {margin-bottom: 1em; }',
+        '.lit-info th { padding-top: 1em; text-align: left; }',
         '.lit-info td:first-child {' +
           ' white-space: nowrap;' +
           ' text-align: right;' +
