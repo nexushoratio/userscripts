@@ -521,8 +521,8 @@ lastScroller
 LayoutTestCase
 len
 libby
-LicenseData
 licenseData
+LicenseData
 licenseEntry
 licenseHandler
 licenseLoaded
@@ -938,7 +938,6 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
-snaptoTop
 sourceforge
 SPADetails
 SPATestCase

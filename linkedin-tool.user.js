@@ -1437,7 +1437,7 @@
      */
     #scrollToCurrentItem = () => {
       const me = 'scrollToCurrentItem';
-      this.logger.entered(me, `snaptoTop: ${this.#snapToTop}`);
+      this.logger.entered(me, `snapToTop: ${this.#snapToTop}`);
 
       const item = this.item;
 
