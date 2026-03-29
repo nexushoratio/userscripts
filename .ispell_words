@@ -269,8 +269,8 @@ environmentData
 equalArray
 equalC
 equalEqEqEq
-EqualFunc
 equalFunc
+EqualFunc
 equalFuncs
 equalMap
 equalObject
@@ -880,7 +880,7 @@ savedScrollTop
 scriptHandler
 scriptMetaStr
 scrollBy
-Scroller
+scroller
 scrollerHows
 scrollerId
 ScrollerService
@@ -1245,6 +1245,7 @@ uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
 uniqueEntryIdentifier
 uniqueEventIdentifier
+uniqueFooIdentifier
 uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueJobIdentifier

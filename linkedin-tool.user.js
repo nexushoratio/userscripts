@@ -754,7 +754,7 @@
      *   automatically wait for all container elements to exist during
      *   activation.
      * @typedef {object} What
-     * @property {string} name - Name for this scroller, used for logging.
+     * @property {string} name - Name for this Scroller, used for logging.
      * @property {Element} base - The container to use as a base for selecting
      * elements.
      * @property {string[]} selectors - Array of CSS selectors to find
@@ -769,7 +769,7 @@
      * @property {number} [maxUidLength=20] - Max length for default uid text.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
      * from an element as it becomes current.
-     * @property {boolean} [handleClicks=true] - Whether the scroller should
+     * @property {boolean} [handleClicks=true] - Whether the Scroller should
      * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [autoActivate=false] - Whether to call the activate
      * method at the end of construction.
@@ -3056,7 +3056,7 @@
       }
     );
 
-    /** Call on every page activation to reset observers. */
+    /** Called on every page activation to reset observers. */
     async activate() {
       await super.activate();
       this.spa.details.pageChanged();
