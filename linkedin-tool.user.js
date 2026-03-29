@@ -111,7 +111,13 @@
       },
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
-    ['#232', '<code>Scroller</code>: Change the focus UX'],
+    [
+      '#232',
+      {
+        title: '<code>Scroller</code>: Change the focus UX',
+        date: '2026-03-29',
+      },
+    ],
     ['#236', 'Support <b>Events</b> page'],
     ['#240', '<code>Scroller</code>: navbar height can change'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
@@ -146,10 +152,24 @@
     ['#290', 'Update <b>Profile</b> page'],
     ['#291', 'Update <b>Events</b> page'],
     ['#292', 'Update <b>SearchResultsPeople</b> page'],
+    [
+      '#295',
+      'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
+    ],
     ['#296', 'Ugly and missing badges'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-29',
+      issues: ['#295'],
+      subject: 'Implement a temporary workaround for hybrid pages',
+    },
+    {
+      date: '2026-03-29',
+      issues: ['#295'],
+      subject: 'Update the <code>pathname:</code> for <code>Feed</code>',
+    },
     {
       date: '2026-03-27',
       issues: [''],
