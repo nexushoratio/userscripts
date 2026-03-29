@@ -7206,14 +7206,14 @@
 
       const content = [
         '<p>The contains a manually curated list of changes over the last ' +
-          'month or so that:',
+          'month or so that:</p>',
         '<ul>',
         '<li>Added new features like support for new pages or more ' +
           'hotkeys</li>',
         '<li>Explicitly fixed a bug</li>',
         '<li>May cause a user noticeable change</li>',
         '</ul>',
-        '</p>',
+        '<p></p>',
         '<p>See the <b>About</b> tab for finding all changes by release.</p>',
       ];
 
