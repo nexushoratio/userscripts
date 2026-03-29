@@ -253,6 +253,7 @@ editItem
 ElementAdapter
 ElementAdapterTestCase
 ElementFinder
+enableAlertUnsupportedPages
 enableDevMode
 enableIssue
 enableMigrateKIFailures
@@ -504,8 +505,8 @@ KnownIssue
 KnownIssueDetails
 knownIssues
 knownUrlsTodo
-LabelClassesFunc
 labelClassesFunc
+LabelClassesFunc
 labelledby
 labelledBy
 lastConvoCard

@@ -53,10 +53,10 @@
   async function loadOptions() {
     const defaultOptions = {
       enableDevMode: false,
-      enableScrollerChangesFocus: false,
       enableIssue241ClickMethod: false,
-      enableIssue244Changes: false,
+      enableAlertUnsupportedPages: false,
       enableMigrateKIFailures: false,
+      enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue('Options', {});
@@ -2929,7 +2929,7 @@
         this.#keyboardService.addInstance(new DebugKeys());
       }
 
-      if (litOptions.enableIssue244Changes) {
+      if (litOptions.enableAlertUnsupportedPages) {
         this.addService(Global.#Activator, this);
       }
     }
