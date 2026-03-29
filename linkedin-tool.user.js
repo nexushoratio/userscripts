@@ -7851,12 +7851,13 @@
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > 1) {
+          const ignoreSet = new Set(['opacity']);
           const results = [];
           const ours = getComputedStyle(this.#ourMenuBadgeStyle2);
           const theirs = getComputedStyle(badges[0]);
           const ourSet = new Set([...ours]);
           const theirSet = new Set([...theirs]);
-          for (const prop of ourSet.union(theirSet)) {
+          for (const prop of ourSet + theirSet - ignoreSet) {
             const ourValue = ours.getPropertyValue(prop);
             const theirValue = theirs.getPropertyValue(prop);
             if (ourValue !== theirValue) {
