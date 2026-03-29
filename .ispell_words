@@ -256,6 +256,7 @@ ElementFinder
 enableAlertUnsupportedPages
 enableDevMode
 enableIssue
+enableKeyboardService
 enableMigrateKIFailures
 enableScrollerChangesFocus
 engageIndividual

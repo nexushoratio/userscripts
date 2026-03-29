@@ -55,6 +55,7 @@
       enableDevMode: false,
       enableIssue241ClickMethod: false,
       enableAlertUnsupportedPages: false,
+      enableKeyboardService: false,
       enableMigrateKIFailures: false,
       enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
@@ -2504,16 +2505,18 @@
 
     #onActivate = () => {
       for (const keyboard of this.#keyboards.values()) {
-        this.logger.log('would enable keyboard', keyboard);
-        // TODO: keyboard.enable();
+        if (litOptions.enableKeyboardService) {
+          keyboard.enable();
+        } else {
+          this.logger.log('skipping enabling of', keyboard);
+        }
       }
       this.#active = true;
     }
 
     #onDeactivate = () => {
       for (const keyboard of this.#keyboards.values()) {
-        this.logger.log('would disable keyboard', keyboard);
-        // TODO: keyboard.disable();
+        keyboard.disable();
       }
       this.#active = false;
     }
@@ -2791,7 +2794,10 @@
       const me = 'activate';
       this.logger.entered(me);
 
-      this.#keyboard.enable();
+      if (!litOptions.enableKeyboardService) {
+        this.logger.log('enabling SPA-based keyboard handling');
+        this.#keyboard.enable();
+      }
       await this.#waitUntilReady();
       for (const service of this.#services) {
         this.logger.log(`activating service: "${service.name}"`);
@@ -2889,6 +2895,11 @@
   /** Class for holding keystrokes that simplify debugging. */
   class DebugKeys {
 
+    /** @param {NH.base.Logger} logger - Logger to use. */
+    constructor(logger) {
+      this.#logger = logger;
+    }
+
     clearConsole = new Shortcut(
       'c-c c-c',
       'Clear the debug console',
@@ -2901,9 +2912,11 @@
       'c-c c-a',
       'Log the active element',
       () => {
-        this.logger.log('activeElement', document.activeElement);
+        this.#logger.log('activeElement', document.activeElement);
       }
     );
+
+    #logger
 
   }
 
@@ -2926,7 +2939,8 @@
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
       if (litOptions.enableDevMode) {
-        this.#keyboardService.addInstance(new DebugKeys());
+        const dk = new DebugKeys(this.logger);
+        this.#keyboardService.addInstance(dk);
       }
 
       if (litOptions.enableAlertUnsupportedPages) {
