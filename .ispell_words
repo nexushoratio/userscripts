@@ -426,7 +426,6 @@ iframe
 iframeDoc
 ignoreInvite
 ignoreSet
-img
 inCleanup
 includeStackTrace
 indexOf
@@ -606,8 +605,8 @@ mutationHandler
 mutationObserver
 MutationObserver
 MutationRecord
-MyNetwork
 mynetwork
+MyNetwork
 nameElement
 NaN
 navbar
@@ -636,6 +635,7 @@ newMessage
 newMessages
 newPages
 newProp
+newsHandler
 newsTab
 newUrl
 newV

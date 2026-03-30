@@ -7189,6 +7189,12 @@
 
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
+
+      this.ui.tabs
+        .get('News').panel.addEventListener('expose', this.#newsHandler);
+      this.#infoTabs.tabs
+        .get('News').panel.addEventListener('expose', this.#newsHandler);
+
       VMKeyboardService.condition = '!inputFocus && !inDialog';
       VMKeyboardService.start();
 
@@ -7411,6 +7417,16 @@
       this.#addScrollerStyle();
       this.#addLitStyle();
       this.#findNavbar();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * @param {Event} evt - The 'expose' event.
+     */
+    #newsHandler = (evt) => {
+      const me = this.#newsHandler.name;
+      this.logger.entered(me, evt.target);
 
       this.logger.leaving(me);
     }
