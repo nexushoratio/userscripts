@@ -419,6 +419,7 @@ HTMLElements
 htmlFor
 HTMLStyleElement
 HTMLUnknownElement
+HybridFixerService
 idName
 idx
 iframe
@@ -602,8 +603,8 @@ msgBox
 msgs
 mutationDispatcher
 mutationHandler
-MutationObserver
 mutationObserver
+MutationObserver
 MutationRecord
 MyNetwork
 mynetwork
@@ -1288,7 +1289,6 @@ viewReposts
 viewTarget
 violentmonkey
 visibilitychange
-visibilityState
 VMKeyboardService
 VMShortcuts
 wai

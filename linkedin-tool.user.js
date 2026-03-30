@@ -2214,6 +2214,32 @@
 
   }
 
+  /** TODO(#295): This is a hack.  Find a more principled solution. */
+  class HybridFixerService extends NH.base.Service {
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Page} page - Page this service is tied to.
+     */
+    constructor(name, page) {
+      super(name);
+      this.#page = page;
+      this.on('activate', this.#onActivate);
+    }
+
+    #page
+
+    #onActivate = () => {
+      const pageStyle = this.#page.spa.details.pageStyle;
+      const main = document.querySelector('main')?.id;
+      if (pageStyle === LinkedInGlobals.Style.ONE && main !== 'main') {
+        this.logger.log('hybrid mode, reloading');
+        document.location.reload();
+      }
+    }
+
+  }
+
   /**
    * Verify a {Page} implementation and current site style match.
    *
@@ -2954,6 +2980,8 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa});
+
+      this.addService(HybridFixerService, this);
 
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedInGlobals.Style.ONE, LinkedInGlobals.Style.TWO);
@@ -7352,13 +7380,6 @@
           break;
         default:
           pageStyle = LinkedInGlobals.Style.UNKNOWN;
-      }
-
-      const main = document.querySelector('main')?.id;
-      if (pageStyle === LinkedInGlobals.Style.ONE && main !== 'main') {
-        // TODO(#295): This is a hack.  Find a more principled solution.
-        this.logger.log('hybrid mode, reloading');
-        document.location.reload();
       }
 
       this.logger.leaving(me, pageStyle);
