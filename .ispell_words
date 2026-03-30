@@ -664,8 +664,8 @@ nextResultsPage
 nextSection
 nextSibling
 nextTab
-NexusHoratio
 nexushoratio
+NexusHoratio
 NexusHoratioVersion
 nh
 nodeType
@@ -883,6 +883,7 @@ savedConfigs
 savedJob
 savedOptions
 savedScrollTop
+saveOptions
 scriptHandler
 scriptMetaStr
 scrollBy

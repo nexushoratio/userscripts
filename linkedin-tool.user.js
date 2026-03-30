@@ -31,6 +31,7 @@
   const APP_LONG = 'LinkedIn Tool';
   const APP_SHORT = 'Tool';
   const CKEY = 'componentkey';
+  const OPTIONS = 'Options';
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 54},
@@ -40,6 +41,15 @@
     {name: 'widget', minVersion: 45},
     {name: 'spa', minVersion: 1},
   ]);
+
+  /**
+   * Save options to storage.
+   *
+   * @param {object} options - Options key/value pairs.
+   */
+  function saveOptions(options) {
+    NH.userscript.setValue(OPTIONS, options);
+  }
 
   /**
    * Load options from storage.
@@ -60,12 +70,12 @@
       enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
     };
-    const savedOptions = await NH.userscript.getValue('Options', {});
+    const savedOptions = await NH.userscript.getValue(OPTIONS, {});
     const options = {
       ...defaultOptions,
       ...savedOptions,
     };
-    NH.userscript.setValue('Options', options);
+    saveOptions(options);
     return options;
   }
 
