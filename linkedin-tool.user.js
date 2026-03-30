@@ -7916,7 +7916,8 @@
           const theirs = getComputedStyle(badges[0]);
           const ourSet = new Set([...ours]);
           const theirSet = new Set([...theirs]);
-          for (const prop of ourSet + theirSet - ignoreSet) {
+          for (const prop of ourSet.union(theirSet)
+            .difference(ignoreSet)) {
             const ourValue = ours.getPropertyValue(prop);
             const theirValue = theirs.getPropertyValue(prop);
             if (ourValue !== theirValue) {
