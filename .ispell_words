@@ -284,6 +284,7 @@ equalValueOf
 equalX
 errMsgListener
 errorBadgeStyle
+errorHandlerBadgeStyle
 erroring
 errorMarker
 errorPlatformInfo

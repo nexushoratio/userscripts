@@ -7667,8 +7667,8 @@
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
-    #errorBadgeStyle1 = (eventType, count) => {
-      const me = this.#errorBadgeStyle1.name;
+    #errorHandlerBadgeStyle1 = (eventType, count) => {
+      const me = this.#errorHandlerBadgeStyle1.name;
       this.logger.entered(me, eventType, count);
 
       const toggle = this.#ourMenuBadgeStyle1.parentElement;
@@ -7736,7 +7736,7 @@
         button.addEventListener('click', this.#toolButtonHandler);
         item.append(button);
         this.#ourMenuItemStyle1 = item;
-        this.dispatcher2.on('errors', this.#errorBadgeStyle1);
+        this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
         this.#ourMenuBadgeStyle1 = button.querySelector(
           '.notification-badge__count'
         );
@@ -7752,8 +7752,8 @@
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
-    #errorBadgeStyle2 = (eventType, count) => {
-      const me = this.#errorBadgeStyle2.name;
+    #errorHandlerBadgeStyle2 = (eventType, count) => {
+      const me = this.#errorHandlerBadgeStyle2.name;
       this.logger.entered(me, eventType, count);
 
       this.#ourMenuBadgeStyle2.innerText = `${count}`;
@@ -7816,7 +7816,7 @@
 
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;
-          this.dispatcher2.on('errors', this.#errorBadgeStyle2);
+          this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle2);
         }
       }
 
