@@ -8043,10 +8043,32 @@
       this.logger.leaving(me);
     }
 
+    /**
+     * Post problems about stale issues.
+     *
+     * @param {Set<string>} unknown - Issue ids referenced in news items but
+     * not in {@link globalKnownIssues}.
+     * @param {Set<string>} unused - Stale {@link globalKnownIssues} ids.
+     * @param {Set<string>} old - Stale {@link globalNewsContent} entries.
+     */
+    #reportIssueProblems = (unknown, unused, old) => {
+      for (const item of unknown) {
+        NH.base.issues.post('Unknown issue detected:', item);
+      }
+
+      for (const item of unused) {
+        NH.base.issues.post('Unused issue detected:', item);
+      }
+
+      for (const item of old) {
+        NH.base.issues.post('Old news item:', item);
+      }
+    }
+
     /** @returns {obj} - dates and known issues. */
     #preprocessKnownIssues = () => {  // eslint-disable-line max-lines-per-function
       const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
-      const oldestAllowedUnusedIssue = litOptions.enableMigrateKIFailures
+      const oldestAllowedDate = litOptions.enableMigrateKIFailures
         ? Date.now() - thirtyDays
         : 0;
       const defaultDate = litOptions.enableMigrateKIFailures
@@ -8075,17 +8097,19 @@
       const unusedIssues = new Set(
         knownIssues
           .entries()
-          .filter(x => new Date(x[1].date) < oldestAllowedUnusedIssue)
+          .filter(x => new Date(x[1].date) < oldestAllowedDate)
           .map(x => x[0])
       );
-
-      this.logger.log('knownIssues', knownIssues);
+      const oldItems = new Set();
 
       const dates = new NH.base.DefaultMap(
         () => new NH.base.DefaultMap(Array)
       );
 
       for (const item of globalNewsContent) {
+        if (new Date(item.date) < oldestAllowedDate) {
+          oldItems.add(item.subject);
+        }
         for (const issue of item.issues) {
           if (knownIssues.has(issue)) {
             unusedIssues.delete(issue);
@@ -8098,13 +8122,7 @@
         }
       }
 
-      for (const issue of unknownIssues) {
-        NH.base.issues.post('Unknown issue detected:', issue);
-      }
-
-      for (const issue of unusedIssues) {
-        NH.base.issues.post('Unused issue detected:', issue);
-      }
+      this.#reportIssueProblems(unknownIssues, unusedIssues, oldItems);
 
       return {
         dates: dates,

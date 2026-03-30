@@ -533,8 +533,8 @@ linkedin
 linkedIn
 LinkedIn
 LinkedIn's
-LinkedInGlobals
 linkedInGlobals
+LinkedInGlobals
 LinkedInScrollerService
 LinkedInStyleService
 LinkedInToolbarService
@@ -686,7 +686,8 @@ observeNavbar
 observeOptions
 occludable
 occludableJobId
-oldestAllowedUnusedIssue
+oldestAllowedDate
+oldItems
 oldPages
 oldUrl
 onActivate
@@ -834,6 +835,7 @@ replaceableComment
 replaceAll
 replaceChildren
 replaceWith
+reportIssueProblems
 reprArray
 reprC
 reprFunc
