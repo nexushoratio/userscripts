@@ -96,14 +96,19 @@
     ['Bob', {title: 'Bob has no issues', date: '9999'}],
     ['', {title: 'Minor internal improvement', date: '9999'}],
     [
-      '#106',
-      {title: 'info view: more tabs: News, License', date: '2026-03-24'},
+      '#106', {
+        title: 'info view: more tabs: News, License',
+        date: '2026-03-24',
+      },
     ],
     [
-      '#130',
-      {title: 'Factor hotkey handling out of SPA', date: '2026-03-24'},
+      '#130', {
+        title: 'Factor hotkey handling out of SPA',
+        date: '2026-03-24',
+      },
     ],
     ['#167', {title: 'Refactor into libraries', date: '2026-03-25'}],
+    ['#184', {title: 'Fix <b>News</b> tab rendering', date: '2026-03-30'}],
     [
       '#208', {
         title: '<code>Scroller</code>: If end-item is never viewable' +
@@ -113,14 +118,19 @@
     ],
     ['#209', 'Support <b>SearchResultsPeople</b> view'],
     [
-      '#232',
-      {
+      '#232', {
         title: '<code>Scroller</code>: Change the focus UX',
         date: '2026-03-29',
       },
     ],
     ['#236', 'Support <b>Events</b> page'],
-    ['#240', '<code>Scroller</code>: navbar height can change'],
+    [
+      '#240', {
+        title: '<code>Scroller</code>: navbar height can change',
+        date: '2026-03-30',
+      },
+    ],
+    ['#244', 'Capture info about all unsupported pages'],
     ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
     ['#251', 'Normalize the `uniqueFooIdentifier()` functions'],
     ['#253', 'Support <b>My Network Events</b> page'],
@@ -161,6 +171,33 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-29',
+      issues: ['#130'],
+      subject: 'Provide an option for using the WIP keyboard service',
+    },
+    {
+      date: '2026-03-29',
+      issues: ['#244'],
+      subject: 'Rename <code>enableIssue244Changes</code> to' +
+        ' <code>enableAlertUnsupportedPages</code>',
+    },
+    {
+      date: '2026-03-29',
+      issues: ['#184'],
+      subject: 'Update <code>ul</code> style to return bullet points and' +
+        ' indentation',
+    },
+    {
+      date: '2026-03-29',
+      issues: ['#184'],
+      subject: 'Apply a minor HTML fixup',
+    },
+    {
+      date: '2026-03-29',
+      issues: ['#296'],
+      subject: 'Ignore specific properties when comparing badges',
+    },
     {
       date: '2026-03-29',
       issues: ['#295'],
@@ -372,21 +409,6 @@
       date: '2026-03-02',
       issues: ['#274'],
       subject: 'Improve resilience of multiple styles of pages',
-    },
-    {
-      date: '2026-02-27',
-      issues: ['#274'],
-      subject: 'Expand the scope of observing mutations for the navbar',
-    },
-    {
-      date: '2026-02-27',
-      issues: ['#273'],
-      subject: 'Keep <code>tabindex=-1</code> on the <code>aside</code>s',
-    },
-    {
-      date: '2026-02-25',
-      issues: ['#272'],
-      subject: 'Tweak the CSS for the <code>Information view</code>',
     },
   ];
 
