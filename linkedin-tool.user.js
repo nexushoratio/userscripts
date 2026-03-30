@@ -4841,12 +4841,10 @@
       this.logger.entered(me, element);
 
       let content = '';
-      if (element) {
-        content = element.innerText;
-        const label = element.getAttribute('aria-label');
-        if (label) {
-          content = label;
-        }
+      content = element.innerText;
+      const label = element.getAttribute('aria-label');
+      if (label) {
+        content = label;
       }
 
       this.logger.leaving(me, content);
