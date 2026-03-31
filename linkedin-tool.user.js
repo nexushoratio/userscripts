@@ -141,7 +141,12 @@
       },
     ],
     ['#244', 'Capture info about all unsupported pages'],
-    ['#245', 'Revisit pages that use the terms "section{,s}" or "card{,s}"'],
+    [
+      '#245', {
+        title: 'Revisit pages that use the terms "section{,s}" or "card{,s}"',
+        date: '2026-03-31',
+      },
+    ],
     ['#251', 'Normalize the `uniqueFooIdentifier()` functions'],
     ['#253', 'Support <b>My Network Events</b> page'],
     ['#255', 'Support <b>Search appearances</b> page'],
@@ -181,6 +186,38 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-03-31',
+      issues: ['#296'],
+      subject: 'Badge whac-a-mole',
+    },
+    {
+      date: '2026-03-31',
+      issues: [''],
+      subject: 'Support dismissing <code>Feed</code> items that use a popup' +
+        ' menu',
+    },
+    {
+      date: '2026-03-30',
+      issues: ['#106'],
+      subject: 'Factor out saving options for future use',
+    },
+    {
+      date: '2026-03-30',
+      issues: ['#106'],
+      subject: 'Add a handler for the <code>expose</code> event on the' +
+        ' <em>News</em> tabs',
+    },
+    {
+      date: '2026-03-30',
+      issues: ['#296'],
+      subject: 'Fix how sets are manipulated',
+    },
+    {
+      date: '2026-03-30',
+      issues: ['#295'],
+      subject: 'Move reloading of hybrid pages into a <code>Service</code>',
+    },
     {
       date: '2026-03-29',
       issues: ['#130'],

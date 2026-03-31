@@ -915,8 +915,8 @@ sectionsWhat
 seeMore
 selectCurrentResultsPage
 selectorArray
-SemVer
 semver
+SemVer
 sendPost
 sendToggle
 sendToggleSelector
@@ -1307,6 +1307,7 @@ waitUntilReady
 wasSuccessful
 WatchPage
 WeakRef
+whac
 WidgetTestCase
 wikipedia
 willError
