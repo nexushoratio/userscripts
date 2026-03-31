@@ -581,7 +581,7 @@
       const me = 'next';
       this.#log.entered(me);
 
-      this.#switchTab(1);
+      this.#switchTab(NH.base.ONE_ITEM);
 
       this.#log.leaving(me);
     }
@@ -591,7 +591,7 @@
       const me = 'prev';
       this.#log.entered(me);
 
-      this.#switchTab(-1);
+      this.#switchTab(-NH.base.ONE_ITEM);
 
       this.#log.leaving(me);
     }
@@ -1116,12 +1116,12 @@
 
     /** Move to the next item in the collection. */
     next() {
-      this.#scrollBy(1);
+      this.#scrollBy(NH.base.ONE_ITEM);
     }
 
     /** Move to the previous item in the collection. */
     prev() {
-      this.#scrollBy(-1);
+      this.#scrollBy(-NH.base.ONE_ITEM);
     }
 
     /** Jump to the first item in the collection. */
@@ -1421,7 +1421,7 @@
           .push(item);
       }
       for (const [uid, list] of uids.entries()) {
-        if (list.length > 1) {
+        if (list.length > NH.base.ONE_ITEM) {
           this.logger.log(`${list.length} duplicates with "${uid}"`);
           for (const item of list) {
             // Try again, maybe they can be de-duped this time.  The overall
@@ -1545,7 +1545,7 @@
       const items = this.#getItems();
       if (items.length) {
         // eslint-disable-next-line no-extra-parens
-        let idx = first ? 0 : (items.length - 1);
+        let idx = first ? 0 : (items.length - NH.base.ONE_ITEM);
         let item = items[idx];
 
         // Content of items is sometimes loaded lazily and can be detected by
@@ -1554,7 +1554,7 @@
         if (!first) {
           while (!Scroller.#isItemViewable(item)) {
             this.logger.log('skipping item', item);
-            idx -= 1;
+            idx -= NH.base.ONE_ITEM;
             item = items[idx];
           }
         }
@@ -1599,7 +1599,7 @@
         this.logger.log('initial idx', idx);
         idx += n;
         if (idx < NH.base.NOT_FOUND) {
-          idx = items.length - 1;
+          idx = items.length - NH.base.ONE_ITEM;
         }
         if (idx === NH.base.NOT_FOUND || idx >= items.length) {
           this.item = null;
@@ -1688,7 +1688,7 @@
           );
         }
 
-        if (this.#clickConfig.finder.length !== 1) {
+        if (this.#clickConfig.finder.length !== NH.base.ONE_ITEM) {
           throw new Scroller.Exception(
             `Invalid clickConfig: ${this.#name} finder function should ` +
                 'take exactly one argument, currently takes ' +
@@ -2488,7 +2488,7 @@
        * @returns {string} - HTML snippet.
        */
       function reprKey(key) {
-        if (key.base.length === 1) {
+        if (key.base.length === NH.base.ONE_ITEM) {
           if ((/\p{Uppercase_Letter}/u).test(key.base)) {
             key.base = key.base.toLowerCase();
             key.modifierState.s = true;
@@ -3522,7 +3522,7 @@
         // Some badges are bad examples, so skip them using :not().
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
-        if (badges.length > 1) {
+        if (badges.length > NH.base.ONE_ITEM) {
           const ignoreSet = new Set(['opacity']);
           const results = [];
           const ours = getComputedStyle(this.#errorBadgeStyle2);
@@ -4316,7 +4316,7 @@
         const me = 'onActivate';
         this.logger.entered(me);
 
-        if (this.#page.spa.activePages.size === 1) {
+        if (this.#page.spa.activePages.size === NH.base.ONE_ITEM) {
           const pathname = window.location.pathname;
           /* eslint-disable prefer-regex-literals */
           const knownUrlsTodo = [
@@ -7714,7 +7714,7 @@
           .toArray();
         let idx = elements.indexOf(document.activeElement);
         if (idx >= 0) {
-          idx = (idx + 1) % elements.length;
+          idx = (idx + NH.base.ONE_ITEM) % elements.length;
         } else {
           idx = 0;
         }
