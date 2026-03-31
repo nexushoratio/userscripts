@@ -7733,9 +7733,7 @@
           ' font-size: 9px;' +
           ' font-weight: 600;' +
           ' height: 12px;' +
-          ' inline-size: 12.8667px;' +
           ' inset-block-start: -1.5px;' +
-          ' inset-inline-end: -6.86667px;' +
           ' inset-inline-start: 24px;' +
           ' justify-content: center;' +
           ' left: 24px;' +
@@ -7747,12 +7745,8 @@
           ' padding-inline-start: 3px;' +
           ' padding-left: 3px;' +
           ' padding-right: 3px;' +
-          ' perspective-origin: 6.43333px 6px;' +
           ' position: absolute;' +
-          ' right: -6.86667px;' +
           ' top: -1.5px;' +
-          ' transform-origin: 6.43333px 6px;' +
-          ' width: 12.8667px;' +
           ' z-index: 100;' +
           '}',
         // Get rid of the donut
