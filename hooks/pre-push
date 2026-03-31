@@ -3,50 +3,51 @@
 
 set -u
 
-missing=()
-
-while read local_ref local_oid remote_ref remote_oid; do
+messages=()
+while read -r _ local_oid _ remote_oid; do
   range="${remote_oid}..${local_oid}"
-  while read filename; do
-    echo -n "filename: $filename "
+  while read -r filename; do
+    echo "examining: ${filename}"
+    at_ver=''
+    lib_ver=''
 
-    if git diff "${range}" $filename | grep -q '^+// @version'; then
-      echo '[good]'
-    else
-      echo '[missing]'
-      missing+=("${filename}")
-    fi
-
-    case $filename in
-      *.user.js)
-        echo "skipping version consistency check"
-        ;;
+    case ${filename} in
       *.js)
-        at_ver=$(git diff "${range}" $filename |
-                   awk '/^\+\/\/ @version/ {print $NF}')
-        lib_ver=$(git diff "${range}" $filename |
-                    awk '/^\+  const version = / {
+        at_ver=$(git diff "${range}" "${filename}" |
+          awk '/^\+\/\/ @version/ {print $NF}')
+
+        [[ -z ${at_ver} ]] && messages+=("${filename} needs a @version bump.")
+        ;;
+      *) ;;
+    esac
+
+    case ${filename} in
+      *.user.js) ;;
+      *.js)
+        lib_ver=$(git diff "${range}" "${filename}" |
+          awk '/^\+  const version = / {
                       sub(/;/, "")
                       print $NF
                     }')
-        if [ -z "$at_ver" ]; then
-          echo 'error: The library @version was not parsed.'
-          exit 1
+        if [[ -z ${lib_ver} ]]; then
+          messages+=("${filename} needs an internal version update.")
         fi
-        if [ -z "$lib_ver" ]; then
-          echo 'error: The library internal version was not updated.'
-        fi
-        if [ "$at_ver" != "$lib_ver" ]; then
-          echo "error: Library versions do not match: ${at_ver} ${lib_ver}"
-          exit 1
+        if [[ "${at_ver}" != "${lib_ver}" ]]; then
+          messages+=("${filename} versions do not match: ${at_ver} ${lib_ver}")
         fi
         ;;
+      *) ;;
     esac
 
-  done < <(git diff --name-only "${range}" | grep '\.js$')
+  done < <(git diff --name-only "${range}")
 
-  if [ -n "${missing[*]}" ]; then
-    echo "Some files are missing version updates: ${missing[*]}"
+  cnt=${#messages[*]}
+
+  if ((cnt)); then
+    echo "Issues found (${cnt}):"
+    for msg in "${messages[@]}"; do
+      echo "${msg}"
+    done
     exit 1
   fi
 done
