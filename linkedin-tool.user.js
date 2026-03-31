@@ -28,8 +28,9 @@
 (async () => {
   'use strict';
 
-  const APP_LONG = 'LinkedIn Tool';
-  const APP_SHORT = 'Tool';
+  const APP_LONG = GM.info.script.name;
+  const APP_SHORT = APP_LONG.split(' ')
+    .at(-1);
   const CKEY = 'componentkey';
   const OPTIONS = 'Options';
 
@@ -2840,7 +2841,7 @@
       const releaseNotesLink = this.#globals.gfUrl('versions');
 
       const content = [
-        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
+        `<p>This is information about the <b>${APP_LONG}</b> ` +
           'userscript, a type of add-on.  It is not associated with ' +
           'LinkedIn Corporation in any way.</p>',
         '<p>Documentation can be found on ' +
@@ -3095,8 +3096,7 @@
     #infoName = (dismissId) => {
       const nameElement = document.createElement('div');
       nameElement.classList.add('lit-justify');
-      const title = `<b>${GM.info.script.name}</b> - ` +
-            `v${GM.info.script.version}`;
+      const title = `<b>${APP_LONG}</b> - v${GM.info.script.version}`;
       const dismiss = `<button id=${dismissId}>X</button>`;
       nameElement.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
 
@@ -8577,8 +8577,8 @@
       const dialog = document.createElement('dialog');
       dialog.id = this._infoId;
       const nameElement = document.createElement('div');
-      nameElement.innerHTML = `<b>${GM.info.script.name}</b> - ` +
-        `v${GM.info.script.version}`;
+      nameElement.innerHTML =
+        `<b>${APP_LONG}</b> - v${GM.info.script.version}`;
       const instructions = document.createElement('div');
       instructions.classList.add('spa-instructions');
       const left = VMKeyboardService.parseSeq('c-left');
