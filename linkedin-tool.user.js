@@ -1523,7 +1523,7 @@
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
      */
-    #scrollBy = (n) => {  // eslint-disable-line max-statements
+    #scrollBy = (n) => {
       const me = 'scrollBy';
       this.logger.entered(me, n);
 
