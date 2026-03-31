@@ -82,6 +82,14 @@
   const litOptions = await loadOptions();
   NH.xunit.testing.enabled = litOptions.enableDevMode;
 
+  // Inject some test errors
+  if (litOptions.enableDevMode && Math.random() < litOptions.fakeErrorRate) {
+    NH.base.issues.post('This is a dummy test issue.',
+      'It was added because enableDevMode is true.');
+    NH.base.issues.post('This is a second issue.',
+      'We just want to make sure things count properly.');
+  }
+
   await NH.userscript.setAutoManageLoggerConfigs(true);
 
   // TODO(#145): The if test is just here while developing.
@@ -8918,14 +8926,6 @@
   // before Pages are registered.
   linkedInGlobals.navbarHeightPixels = 16;
   const linkedIn = new LinkedIn(linkedInGlobals);
-
-  // Inject some test errors
-  if (litOptions.enableDevMode && Math.random() < litOptions.fakeErrorRate) {
-    NH.base.issues.post('This is a dummy test issue.',
-      'It was added because enableDevMode is true.');
-    NH.base.issues.post('This is a second issue.',
-      'We just want to make sure things count properly.');
-  }
 
   await linkedIn.ready;
   log.log('proceeding...');
