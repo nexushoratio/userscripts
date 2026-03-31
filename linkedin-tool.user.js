@@ -7528,8 +7528,10 @@
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
-    // @param {HTMLElement} element - Starting element to avoid another query.
-    // @returns {LinkedInGlobals.Style} - Guessed style.
+    /**
+     * @param {HTMLElement} element - Starting element to avoid another query.
+     * @returns {LinkedInGlobals.Style} - Guessed style.
+     */
     #guessPageStyle = (element) => {
       const me = this.#guessPageStyle.name;
       this.logger.entered(me, element);
@@ -7852,7 +7854,7 @@
     }
 
     /**
-     * Updates error badge as appropriate.
+     * Update error badge as appropriate.
      *
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
