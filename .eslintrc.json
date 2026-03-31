@@ -6,7 +6,7 @@
   },
   "globals": {
     "WeakRef": "readonly",
-    // TODO(#238): Prune this list, move to "id-blacklist"
+    // TODO(#238): Stop using "name".
     "name": "off"
   },
   "parserOptions": {
@@ -35,12 +35,6 @@
       {
         "allowArrowFunctions": true
       }
-    ],
-    "id-blacklist": [  // New versions of eslint renamed this rule
-      "error",
-      "event",
-      "self",
-      "toolbar"
     ],
     "id-length": "off",
     "max-classes-per-file": "off",
