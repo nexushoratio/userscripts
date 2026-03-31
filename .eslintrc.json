@@ -78,6 +78,12 @@
         "ignoreArrayIndexes": false
       }
     ],
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
     "no-shadow": [
       "error",
       {
