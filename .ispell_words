@@ -343,6 +343,7 @@ getCommentFooter
 getCommentHeader
 getCommentStatusBar
 getComputedStyle
+getDismissElement
 getElementById
 getEqualFunc
 getHandlers
@@ -497,8 +498,10 @@ JSDoc
 json
 jumpToEndItem
 kbd
+KeyboardEvent
 keyboardService
 KeyboardService
+keydown
 keyMap
 klass
 knownEvents
@@ -725,8 +728,8 @@ onPostChange
 onResultChange
 onSectionChange
 onShow
-onUrlChange
 onurlchange
+onUrlChange
 onVerify
 oopsie
 openMeatballMenu
@@ -774,6 +777,7 @@ ParseSeqTestCase
 pathnameRE
 pojo
 populateBuilt
+portalSelector
 positionAnchor
 postActivateHook
 postFooterSelector
@@ -1215,7 +1219,7 @@ toggleCenter
 toggleDismissJob
 toggleDismissPost
 toggleFollowCompany
-togglePost
+toggleItem
 toggleSaveJob
 toggleStar
 toggleThumbsUp
@@ -1296,6 +1300,7 @@ wai
 waitForContainers
 waitForItemTimeout
 waitForSelector
+waitForSelectorToBeGone
 waitOnPageLoadedEnough
 waitUntilPageLoadedEnough
 waitUntilReady

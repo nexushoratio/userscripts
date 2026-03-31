@@ -3597,38 +3597,32 @@
       }
     );
 
-    togglePost = new Shortcut(
+    toggleItem = new Shortcut(
       'X',
-      'Toggle hiding current post',
+      'Toggle hiding current item',
       async () => {
-        const me = this.togglePost.name;
+        const me = this.toggleItem.name;
         this.logger.entered(me);
 
-        const el = this.posts.item;
-        let selector = ':has(> * > svg[id^="close"])';
-        let header = this.#getPostHeader();
-        if (!header) {
-          // Maybe a dismissed post, where there is a different header and
-          // button.
-          header = el?.querySelector(':scope > div > div > div');
-          selector = 'button';
-        }
+        const el = this.#lastScroller.item;
+
+        const target = await this.#getDismissElement();
 
         /** Trigger function for {@link NH.web.otrot}. */
         function trigger() {
-          NH.web.clickElement(header, [selector]);
+          target.click();
         }
-        if (header) {
+        if (target) {
           const what = {
             name: `${this.pageId} ${me}`,
-            base: header,
+            base: el,
           };
           const how = {
             trigger: trigger,
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this.posts.item = el;
+          this.#lastScroller.item = el;
         }
 
         this.logger.leaving(me);
@@ -3637,18 +3631,20 @@
 
     nextPostPlus = new Shortcut(
       'J',
-      'Toggle hiding then next post',
+      'Toggle hiding current post, then next post',
       async () => {
-        await this.togglePost();
+        this.#returnToPost();
+        await this.toggleItem();
         this.nextPost();
       }
     );
 
     prevPostPlus = new Shortcut(
       'K',
-      'Toggle hiding then previous post',
+      'Toggle hiding current post, then previous post',
       async () => {
-        await this.togglePost();
+        this.#returnToPost();
+        await this.toggleItem();
         this.prevPost();
       }
     );
@@ -3717,7 +3713,12 @@
       const me = this.#getPostHeader.name;
       this.logger.entered(me);
 
-      const el = this.posts.item?.querySelector('h2 + div');
+      const el = this.posts.item?.querySelector([
+        // Regular
+        'h2 + div',
+        // Dismissed
+        'div:has(+ hr)',
+      ].join(','));
 
       this.logger.leaving(me, el);
       return el;
@@ -3728,7 +3729,8 @@
       const me = this.#getCommentHeader.name;
       this.logger.entered(me);
 
-      const el = this.comments?.item?.querySelector('div:has(> a ~ button)');
+      const el = this.comments
+        ?.item?.querySelector('div:has(> div ~ button)');
 
       this.logger.leaving(me, el);
       return el;
@@ -3815,6 +3817,109 @@
 
       this.logger.leaving(me, el);
       return el;
+    }
+
+    /**
+     * Find the correct element to dismiss the current item.
+     *
+     * Comments and ads require invoking a popup menu (portal).
+     *
+     * @returns {HTMLElement} - The element to click.
+     */
+    #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function, max-statements
+      const me = this.#getDismissElement.name;
+      this.logger.entered(me, this.#lastScroller.item);
+
+      let el = null;
+
+      if (this.#lastScroller.item) {
+        const portalSelector = '[data-floating-ui-portal]';
+        const timeout = 2000;
+        if (document.querySelector(portalSelector)) {
+          document.dispatchEvent(
+            new KeyboardEvent('keydown', {key: 'Escape'})
+          );
+          await this.#waitForSelectorToBeGone(portalSelector, timeout);
+        }
+
+        // If the current item is a regular post, this will match.
+        let selector = [
+          // Visible
+          ':has(> * > svg[id^="close"])',
+          // Dismissed
+          'button:has(> span > span)',
+        ].join(',');
+        let header = this.#getItemHeader();
+        el = header?.querySelector(selector);
+        if (!el) {
+          // Some items need to trigger a popup menu.
+          this.openMeatballMenu();
+          try {
+            // The menus take a while to populate.  Even though known types of
+            // menus look to have the same "cancelled eye" icon, they are
+            // currently brought in differently.  One menu type uses one named
+            // "visibility-off-*" while another menu has no id.  Interestingly
+            // enough, the one without an id is the only svg icon without a
+            // name so, :not([id]) is used for finding it proper, while a
+            // sibling named "signal" is used waiting for the menu to settle.
+            header = await NH.web.waitForSelector([
+              portalSelector,
+              ':has(svg[id^="visibility-off"], svg[id^="signal"])',
+            ].join(''), timeout);
+            selector = [
+              ':has(> * > svg[id^="visibility-off"])',
+              ':has(> * > svg:not([id])',
+            ].join(',');
+          } catch (e) {
+            // If the menu was slow, use a simpler selector.
+            selector = 'svg:not([id])';
+          }
+          el = header?.querySelector(selector);
+        }
+      }
+
+      this.logger.leaving(me, el);
+      return el;
+    }
+
+    /**
+     * Wait for matching selector to disappear.
+     *
+     * This could probably be rolled into {@link NH.web.waitForSelector}.
+     *
+     * @param {string} selector - CSS selector.
+     * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
+     * @returns {Promise<NH.web.Continuation.results>} - Basically, something
+     * to await on.
+     */
+    #waitForSelectorToBeGone = (selector, timeout = 0) => {
+
+      /**
+       * @implements {Monitor}
+       * @returns {Continuation} - Indicate whether done monitoring.
+       */
+      const monitor = () => {
+        const element = document.querySelector(selector);
+        if (element) {
+          this.logger.log(`match for ${selector}`, element);
+          return {done: false};
+        }
+        this.logger.log('And gone');
+        return {done: true};
+      };
+
+      const what = {
+        name: this.#waitForSelectorToBeGone.name,
+        base: document,
+      };
+
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: timeout,
+      };
+
+      return NH.web.otmot(what, how);
     }
 
     #onPostActivate = () => {
