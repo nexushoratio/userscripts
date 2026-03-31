@@ -2691,6 +2691,1102 @@
 
   NH.xunit.testing.testCases.push(ParseSeqTestCase);
 
+  /** LinkedIn specific information. */
+  class LinkedIn extends NH.spa.Details {
+
+    /**
+     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
+     * circular dependencies.
+     */
+    constructor(globals) {
+      super();
+      this.#globals = globals;
+      this.#navbarMutationObserver = new MutationObserver(
+        this.#navbarHandler
+      );
+      this.#navbarResizeObserver = new ResizeObserver(
+        this.#navbarHandler
+      );
+      this.ready = this.#waitUntilPageLoadedEnough();
+    }
+
+    urlChangeMonitorSelector = 'html';
+
+    /** @type {NH.base.Dispatcher} */
+    get dispatcher2() {
+      return this.#dispatcher;
+    }
+
+    /** @type {LinkedInGlobals} - Instance passed in during construction. */
+    get globals() {
+      return this.#globals;
+    }
+
+    /** @type {string} - The element.id used to identify the info pop-up. */
+    get infoId() {
+      return this.#infoId;
+    }
+
+    /** @param {string} val - Set the value of the info element.id. */
+    set infoId(val) {
+      this.#infoId = val;
+    }
+
+    /**
+     * @typedef {object} LicenseData
+     * @property {string} name - Name of the license.
+     * @property {string} url - License URL.
+     */
+
+    /** @type {LicenseData} */
+    get licenseData() {
+      const me = 'licenseData';
+      this.logger.entered(me);
+
+      if (!this.#licenseData) {
+        try {
+          this.#licenseData = NH.userscript.licenseData();
+        } catch (e) {
+          if (e instanceof NH.userscript.UserscriptError) {
+            this.logger.log('e:', e);
+            NH.base.issues.post(e.message);
+            this.#licenseData = {
+              name: 'Unable to extract: Please file a bug',
+              url: '',
+            };
+          }
+        }
+      }
+
+      this.logger.leaving(me, this.#licenseData);
+      return this.#licenseData;
+    }
+
+    /** @type {HTMLElement} */
+    get navbar() {
+      return this.#navbar;
+    }
+
+    /** @type {NH.base.Dispatcher} */
+    get navbarDispatcher() {
+      return this.#navbarDispatcher;
+    }
+
+    /** @type {LinkedInGlobals.Style} */
+    get pageStyle() {
+      return this.#pageStyle;
+    }
+
+    /** @param {SPA} spa - The SPA instance. */
+    init(spa) {
+      this.dispatcher.fire('initialize', spa);
+      this.dispatcher.fire('initialized', null);
+    }
+
+    /** Called by SPA. */
+    done() {
+      const me = 'done';
+      this.logger.entered(me);
+
+      const licenseEntry = this.ui.tabs.get('License');
+      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
+
+      this.ui.tabs
+        .get('News').panel.addEventListener('expose', this.#newsHandler);
+      this.#infoTabs.tabs
+        .get('News').panel.addEventListener('expose', this.#newsHandler);
+
+      VMKeyboardService.condition = '!inputFocus && !inDialog';
+      VMKeyboardService.start();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Many classes have some static {Scroller~How} items that need to be
+     * fixed up after the page loads enough that the values are available.
+     * They do that by calling this method.
+     * @param {Scroller~How} how - Object to be fixed up.
+     */
+    navbarScrollerFixup(how) {
+      const me = 'navbarScrollerFixup';
+      this.logger.entered(me, how);
+
+      how.topMarginPixels = this.#globals.navbarHeightPixels;
+      how.topMarginCSS = this.#globals.navbarHeightCSS;
+      how.bottomMarginCSS = '3em';
+
+      this.logger.leaving(me, how);
+    }
+
+    /** Special processing to handle page transitions. */
+    pageChanged() {
+      const me = this.pageChanged.name;
+      this.logger.entered(me);
+
+      this.#navbarHandler();
+
+      this.logger.leaving(me);
+    }
+
+    /** @inheritdoc */
+    docTab() {
+      const me = 'docTab';
+      this.logger.entered(me);
+
+      const issuesLink = this.#globals.ghUrl('labels/linkedin-tool');
+      const newIssueLink = this.#globals.ghUrl('issues/new/choose');
+      const newGfIssueLink = this.#globals.gfUrl('feedback');
+      const releaseNotesLink = this.#globals.gfUrl('versions');
+
+      const content = [
+        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
+          'userscript, a type of add-on.  It is not associated with ' +
+          'LinkedIn Corporation in any way.</p>',
+        '<p>Documentation can be found on ' +
+          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
+          'notes are automatically generated on ' +
+          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
+        '<p>Existing issues are also on GitHub ' +
+          `<a href="${issuesLink}">here</a>.</p>`,
+        '<p>New issues or feature requests can be filed on GitHub (account ' +
+          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
+          'appropriate issue template to get started.  Or, on Greasy Fork ' +
+          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
+          'Review the <b>Errors</b> tab for any useful information.</p>',
+        '',
+      ];
+
+      const tab = {
+        name: 'About',
+        content: content.join('\n'),
+      };
+
+      this.logger.leaving(me, tab);
+      return tab;
+    }
+
+    /** @inheritdoc */
+    newsTab() {
+      const me = 'newsTab';
+      this.logger.entered(me);
+
+      const {dates, knownIssues} = this.#preprocessKnownIssues();
+
+      const content = [
+        '<p>The contains a manually curated list of changes over the last ' +
+          'month or so that:</p>',
+        '<ul>',
+        '<li>Added new features like support for new pages or more ' +
+          'hotkeys</li>',
+        '<li>Explicitly fixed a bug</li>',
+        '<li>May cause a user noticeable change</li>',
+        '</ul>',
+        '<p></p>',
+        '<p>See the <b>About</b> tab for finding all changes by release.</p>',
+      ];
+
+      const dateHeader = 'h3';
+      const issueHeader = 'h4';
+
+      for (const [date, items] of dates) {
+        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
+        for (const [issue, subjects] of items) {
+          const ki = knownIssues.get(issue);
+          content.push(
+            `<${issueHeader}>${ki.title}</${issueHeader}>`
+          );
+          content.push('<ul>');
+          for (const subject of subjects) {
+            content.push(`<li>${subject}</li>`);
+          }
+          content.push('</ul>');
+        }
+      }
+
+      const tab = {
+        name: 'News',
+        content: content.join('\n'),
+      };
+
+      this.logger.leaving(me);
+      return tab;
+    }
+
+    /** @inheritdoc */
+    licenseTab() {
+      const me = 'licenseTab';
+      this.logger.entered(me);
+
+      const {name, url} = this.licenseData;
+      const tab = {
+        name: 'License',
+        content: `<p><a href="${url}">${name}</a></p>`,
+      };
+
+      this.logger.leaving(me, tab);
+      return tab;
+    }
+
+    static #icon =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
+      '<defs>' +
+      '<mask id="a" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" d="M0 0h1v1H0z"/>' +
+      '<circle cx=".5" cy=".5" r=".25"/>' +
+      '</mask>' +
+      '<mask id="b" maskContentUnits="objectBoundingBox">' +
+      '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
+      '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
+      ' transform="rotate(30 0.5 0.5)"/>' +
+      '</mask>' +
+      '</defs>' +
+      '<rect x="9.5" y="7" width="5" height="10"' +
+      ' transform="rotate(45 12 12)"/>' +
+      '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
+      '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
+      '</svg>';
+
+    #badgeResultsStyle2
+    #dispatcher = new NH.base.Dispatcher('errors', 'news');
+    #errorBadgeStyle1
+    #errorBadgeStyle2
+    #globals
+    #iframeDoc
+    #infoId
+    #infoKeyboard
+    #infoTabs
+    #infoWidget
+    #licenseData
+    #licenseLoaded
+    #navbar
+    #navbarDispatcher = new NH.base.Dispatcher('resize');
+    #navbarMutationObserver
+    #navbarResizeObserver
+    #ourMenuItemStyle1
+    #ourMenuItemStyle2
+    #pageStyle
+    #shortcutsWidget
+    #useOriginalInfoDialog = !litOptions.enableDevMode;
+
+    /**
+     * @param {HTMLElement} element - Starting element to avoid another query.
+     * @returns {LinkedInGlobals.Style} - Guessed style.
+     */
+    #guessPageStyle = (element) => {
+      const me = this.#guessPageStyle.name;
+      this.logger.entered(me, element);
+
+      const hint = element.closest('[id]').id;
+      let pageStyle = null;
+
+      switch (hint) {
+        case 'global-nav':
+          pageStyle = LinkedInGlobals.Style.ONE;
+          break;
+        case 'root':
+          pageStyle = LinkedInGlobals.Style.TWO;
+          break;
+        default:
+          pageStyle = LinkedInGlobals.Style.UNKNOWN;
+      }
+
+      this.logger.leaving(me, pageStyle);
+      return pageStyle;
+    }
+
+    /** Hang out until the navigation bar has stabilized. */
+    #waitUntilPageLoadedEnough = async () => {
+      const me = 'waitOnPageLoadedEnough';
+      this.logger.entered(me);
+
+      // Wait for page to hopefully settle.
+      await NH.web.waitForSelector(
+        `${LinkedInGlobals.primaryNavSelector} svg`
+      );
+
+      this.#finishConstruction();
+
+      this.logger.leaving(me);
+    }
+
+    /** Do the bits that were waiting on the page. */
+    #finishConstruction = () => {
+      const me = 'finishConstruction';
+      this.logger.entered(me);
+
+      this.#createInfoWidget();
+      this.#addInfoTabs();
+      this.#addScrollerStyle();
+      this.#addLitStyle();
+      this.#findNavbar();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * @param {Event} evt - The 'expose' event.
+     */
+    #newsHandler = (evt) => {
+      const me = this.#newsHandler.name;
+      this.logger.entered(me, evt.target);
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Lazily load license text when exposed.
+     * @param {Event} evt - The 'expose' event.
+     */
+    #licenseHandler = async (evt) => {
+      const me = 'licenseHandler';
+      this.logger.entered(me, evt.target);
+
+      // Probably should debounce this.  If the user visits this tab twice
+      // fast enough, they end up with two copies loaded.  Amusing, but
+      // probably should be resilient.
+      if (!this.#licenseLoaded) {
+        const info = document.createElement('p');
+        info.innerHTML = '<i>Loading license...</i>';
+        evt.target.append(info);
+        const {name, url} = this.licenseData;
+
+        const response = await fetch(url);
+        if (response.ok) {
+          const license = document.createElement('iframe');
+          license.style.flexGrow = 1;
+          license.title = name;
+          license.sandbox = '';
+          license.srcdoc = await response.text();
+          info.replaceWith(license);
+          this.#licenseLoaded = true;
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #createInfoWidget = () => {
+      this.#infoWidget = new NH.widget.Info(APP_LONG);
+      const widget = this.#infoWidget.container;
+      widget.classList.add('lit-info');
+      document.body.prepend(widget);
+      const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
+
+      const infoName = this.#infoName(dismissId);
+      const instructions = this.#infoInstructions();
+
+      widget.append(infoName, instructions);
+
+      document.getElementById(dismissId)
+        .addEventListener('click', () => {
+          this.#infoWidget.close();
+        });
+
+      this.#infoKeyboard = new VM.shortcut.KeyboardService();
+      widget.addEventListener('open', this.#onOpenInfo);
+      widget.addEventListener('close', this.#onCloseInfo);
+    }
+
+    /**
+     * @param {string} dismissId - Element #id to give dismiss button.
+     * @returns {Element} - For the info widget name header.
+     */
+    #infoName = (dismissId) => {
+      const nameElement = document.createElement('div');
+      nameElement.classList.add('lit-justify');
+      const title = `<b>${GM.info.script.name}</b> - ` +
+            `v${GM.info.script.version}`;
+      const dismiss = `<button id=${dismissId}>X</button>`;
+      nameElement.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
+
+      return nameElement;
+    }
+
+    /** @returns {Element} - Instructions for navigating the info widget. */
+    #infoInstructions = () => {
+      const instructions = document.createElement('div');
+      instructions.classList.add('lit-justify');
+      instructions.classList.add('lit-instructions');
+      const left = VMKeyboardService.parseSeq('c-left');
+      const right = VMKeyboardService.parseSeq('c-right');
+      const esc = VMKeyboardService.parseSeq('esc');
+      instructions.innerHTML =
+        `<span>Use the ${left} and ${right} keys or click to select ` +
+        'tab</span>' +
+        `<span>Hit ${esc} to close</span>`;
+
+      return instructions;
+    }
+
+    #onOpenInfo = () => {
+      VMKeyboardService.setKeyboardContext('inDialog', true);
+      this.#infoKeyboard.enable();
+      this.#buildShortcutsInfo();
+      this.logger.log('info opened');
+    }
+
+    #onCloseInfo = () => {
+      this.#infoKeyboard.disable();
+      VMKeyboardService.setKeyboardContext('inDialog', false);
+      this.logger.log('info closed');
+    }
+
+    /** Create the CSS styles used for indicating the current items. */
+    #addScrollerStyle() {
+      const style = document.createElement('style');
+      style.id = NH.base.safeId(`${this.id}-scroller-style`);
+      const styles = [
+        '.tom {' +
+          ' border-color: orange !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: medium !important;' +
+          '}',
+        '.dick {' +
+          ' border-color: red !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: thin !important;' +
+          '}',
+        '',
+      ];
+      style.textContent = styles.join('\n');
+      document.head.append(style);
+    }
+
+    /** Create CSS styles for stuff specific to LinkedIn Tool. */
+    #addLitStyle = () => {  // eslint-disable-line max-lines-per-function
+      const style = document.createElement('style');
+      style.id = `${this.id}-style`;
+      const styles = [
+        '.lit-info:modal {' +
+          ' height: 100%;' +
+          ' width: 65rem;' +
+          ' font-size: 1.6rem;' +
+          ' line-height: 1.5em;' +
+          ' display: flex;' +
+          ' flex-direction: column;' +
+          '}',
+        '.lit-info button {' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          ' border-radius: 1em;' +
+          ' padding: 3px;' +
+          '}',
+        '.lit-justify {' +
+          ' display: flex;' +
+          ' flex-direction: row;' +
+          ' justify-content: space-between;' +
+          '}',
+        '.lit-instructions {' +
+          ' padding-bottom: 1ex;' +
+          ' border-bottom: 1px solid black;' +
+          ' margin-bottom: 5px;' +
+          '}',
+        '.lit-info kbd > kbd {' +
+          ' font-size: 0.85em;' +
+          ' padding: 0.07em;' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          '}',
+        '.lit-info p {margin-bottom: 1em; }',
+        '.lit-info ul {' +
+          ' list-style: unset;' +
+          ' padding-inline: revert;' +
+          '}',
+        '.lit-info th { padding-top: 1em; text-align: left; }',
+        '.lit-info td:first-child {' +
+          ' white-space: nowrap;' +
+          ' text-align: right;' +
+          ' padding-right: 0.5em;' +
+          '}',
+        '.lit-kbd-service-active th { background-color: lightgray; }',
+        '.lit-menu-news-badge {' +
+          ' position: absolute;' +
+          ' bottom: 14px;' +
+          ' right: -5px;' +
+          ' width: 16px;' +
+          ' height: 16px;' +
+          ' border-radius: 50%;' +
+          ' border: 5px solid green;' +
+          '}',
+        '.lit-menu-error-badge {' +
+          ' align-items: center;' +
+          ' background-color: rgb(203, 17, 45);' +
+          ' block-size: 12px;' +
+          ' border-radius: 9px;' +
+          ' bottom: 13.5px;' +
+          ' color-scheme: light;' +
+          ' color: white;' +
+          ' display: flex;' +
+          ' font-size: 9px;' +
+          ' font-weight: 600;' +
+          ' height: 12px;' +
+          ' inset-block-start: -1.5px;' +
+          ' inset-inline-start: 24px;' +
+          ' justify-content: center;' +
+          ' left: 24px;' +
+          ' margin-inline-start: -6px;' +
+          ' margin-left: -6px;' +
+          ' min-inline-size: 12px;' +
+          ' min-width: 12px;' +
+          ' padding-inline-end: 3px;' +
+          ' padding-inline-start: 3px;' +
+          ' padding-left: 3px;' +
+          ' padding-right: 3px;' +
+          ' position: absolute;' +
+          ' top: -1.5px;' +
+          ' z-index: 100;' +
+          '}',
+        // Get rid of the donut
+        '.lit-menu-error-badge::after {' +
+          ' content: none !important;' +
+          '}',
+        '.lit-menu-error-badge-hide { opacity: 0; }',
+      ];
+      style.textContent = styles.join('\n');
+      document.head.prepend(style);
+    }
+
+    #addInfoTabs = () => {
+      const me = 'addInfoTabs';
+      this.logger.entered(me);
+
+      const tabs = [
+        this.#shortcutsTab(),
+        this.docTab(),
+        this.newsTab(),
+      ];
+
+      this.#infoTabs = new TabbedUI(APP_LONG);
+
+      for (const tab of tabs) {
+        this.#infoTabs.addTab(tab);
+      }
+      this.#infoTabs.goto(tabs[0].name);
+
+      this.#infoWidget.container.append(this.#infoTabs.container);
+
+      this.#infoKeyboard.register('c-right', this.#nextTab);
+      this.#infoKeyboard.register('c-left', this.#prevTab);
+
+      this.logger.leaving(me);
+    }
+
+    #nextTab = () => {
+      this.#infoTabs.next();
+    }
+
+    #prevTab = () => {
+      this.#infoTabs.prev();
+    }
+
+    #toolButtonHandler = () => {
+      if (this.#useOriginalInfoDialog) {
+        const info = document.querySelector(`#${this.infoId}`);
+        info.showModal();
+        info.dispatchEvent(new Event('open'));
+      } else {
+        this.#infoWidget.open();
+      }
+      if (litOptions.enableDevMode) {
+        // Toggle which dialog is used.
+        this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
+      }
+    }
+
+    /**
+     * Update error badge as appropriate.
+     *
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {number} count - Number of errors currently logged.
+     */
+    #errorHandlerBadgeStyle1 = (eventType, count) => {
+      const me = this.#errorHandlerBadgeStyle1.name;
+      this.logger.entered(me, eventType, count);
+
+      const toggle = this.#errorBadgeStyle1.parentElement;
+      this.#errorBadgeStyle1.innerText = `${count}`;
+
+      if (count) {
+        toggle.classList.add('notification-badge--show');
+      } else {
+        toggle.classList.remove('notification-badge--show');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle1 = (button) => {
+      button.querySelector('.notification-badge')
+        ?.classList.remove('notification-badge--show');
+
+      const a11y = button.querySelector('.a11y-text');
+      if (a11y) {
+        a11y.innerText = `${APP_LONG} notifications`;
+      }
+
+      const count = button.querySelector('.notification-badge__no-count');
+      count?.classList.remove('notification-badge__no-count');
+      count?.classList.add('notification-badge__count');
+
+      const title = button.querySelector('.global-nav__primary-link-text');
+      title.innerText = APP_SHORT;
+      title.setAttribute('title', APP_SHORT);
+    }
+
+    #createMenuItemStyle1 = () => {
+      const me = this.#createMenuItemStyle1.name;
+      this.logger.entered(me, this.#navbar);
+
+      // Making the assumption that the there is at least one item with a
+      // badge and it is an anchor.
+      let item = this.#navbar
+        .querySelector('.global-nav__primary-item:has(.notification-badge)');
+      const subItem = item.querySelector('a');
+      item = item.cloneNode(false);
+
+      const button = document.createElement('button');
+      button.classList.add('global-nav__primary-link');
+
+      button.append(...Array.from(subItem.childNodes)
+        .map(x => x.cloneNode(true))
+        .map((x) => {
+          x.removeAttribute?.('id');
+          return x;
+        }));
+
+      const svg = button.querySelector('svg');
+      if (svg) {
+        svg.parentElement.innerHTML = LinkedIn.#icon;
+
+        this.#finishButtonStyle1(button);
+
+        button.addEventListener('click', this.#toolButtonHandler);
+        item.append(button);
+        this.#ourMenuItemStyle1 = item;
+        this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
+        this.#errorBadgeStyle1 = button.querySelector(
+          '.notification-badge__count'
+        );
+      }
+
+      this.logger.leaving(me, this.#ourMenuItemStyle1);
+    }
+
+    /**
+     * Updates error badge as appropriate.
+     *
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {number} count - Number of errors currently logged.
+     */
+    #errorHandlerBadgeStyle2 = (eventType, count) => {
+      const me = this.#errorHandlerBadgeStyle2.name;
+      this.logger.entered(me, eventType, count);
+
+      this.#errorBadgeStyle2.innerText = `${count}`;
+
+      if (count) {
+        this.#errorBadgeStyle2
+          .classList.remove('lit-menu-error-badge-hide');
+      } else {
+        this.#errorBadgeStyle2.classList.add('lit-menu-error-badge-hide');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Tweak the internals of whatever random element we cloned.
+     *
+     * @param {HTMLElement} button - The newly created button.
+     */
+    #finishButtonStyle2 = (button) => {
+      // Grab the common obfuscated class names
+      const buttons = this.#navbar.querySelectorAll('li > button');
+      const buttonClasses = new Set(buttons[0].classList)
+        .intersection(new Set(buttons[1].classList));
+
+      button.ariaLabel = APP_SHORT;
+      button.removeAttribute('aria-current');
+      button.className = [...buttonClasses].join(' ');
+
+      const textNodes = Array.from(button.querySelectorAll('*'))
+        .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
+
+      textNodes[0].innerText = APP_SHORT;
+    }
+
+    #createMenuItemStyle2 = () => {
+      const me = this.#createMenuItemStyle2.name;
+      this.logger.entered(me, this.#navbar);
+
+      const item = this.#navbar
+        .querySelector('li')
+        .cloneNode(true);
+
+      // The page may not have settled down yet, so check each bit carefully.
+      const button = item.querySelector('button');
+      if (button) {
+        const svg = button.querySelector('svg');
+        if (svg) {
+          const svgParent = svg.parentElement;
+          svg.outerHTML = LinkedIn.#icon;
+
+          button.querySelector('svg + span')
+            ?.remove();
+
+          this.#errorBadgeStyle2 = document.createElement('span');
+          this.#errorBadgeStyle2.classList.add('lit-menu-error-badge');
+          svgParent.append(this.#errorBadgeStyle2);
+
+          this.#finishButtonStyle2(button);
+
+          button.addEventListener('click', this.#toolButtonHandler);
+          this.#ourMenuItemStyle2 = item;
+          this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle2);
+        }
+      }
+
+      this.logger.leaving(me, this.#ourMenuItemStyle2);
+    }
+
+    /**
+     * Connect our menu item to the navbar if necessary.
+     *
+     * It will always go after "Me" menu item.
+     *
+     * This supports both Styles 1 and 2.
+     *
+     * @param {HTMLElement} menuItem - The menu item to connect.
+     * @param {string} selector - The CSS selector for "Me".
+     */
+    #connectMenuItem = (menuItem, selector) => {
+      const me = this.#connectMenuItem.name;
+      this.logger.entered(me, menuItem, selector);
+
+      if (this.#navbar) {
+        if (!menuItem.isConnected) {
+          this.logger.log('Will connect menu item to', this.navbar);
+
+          const navMe = this.#navbar.querySelector(selector)
+            ?.closest('li');
+          this.logger.log('navMe', navMe);
+
+          if (navMe) {
+            navMe.after(menuItem);
+          } else {
+            // If the site changed and we cannot insert ourself after the Me
+            // menu item, then go first.
+            this.#navbar.prepend(menuItem);
+            NH.base.issues.post(
+              'Unable to find the Profile navbar item.',
+              'LIT menu installed in non-standard location.'
+            );
+          }
+          this.spa.refreshErrors();
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #ensureMenuStyle1 = () => {
+      const me = this.#ensureMenuStyle1.name;
+      this.logger.entered(me, this.#ourMenuItemStyle1);
+
+      if (this.#pageStyle === LinkedInGlobals.Style.ONE) {
+        if (!this.#ourMenuItemStyle1) {
+          this.#createMenuItemStyle1();
+        }
+        if (this.#ourMenuItemStyle1) {
+          this.#connectMenuItem(this.#ourMenuItemStyle1, '.global-nav__me');
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #compareBadgeStyles2 = () => {
+      const me = this.#compareBadgeStyles2.name;
+      this.logger.entered(me, this.#badgeResultsStyle2);
+
+      // Only do this once.
+      if (!this.#badgeResultsStyle2) {
+        // Some badges are bad examples, so skip them using :not().
+        const badges = this.navbar
+          .querySelectorAll('svg:not([id^="home"]) + span');
+        if (badges.length > 1) {
+          const ignoreSet = new Set(['opacity']);
+          const results = [];
+          const ours = getComputedStyle(this.#errorBadgeStyle2);
+          const theirs = getComputedStyle(badges[0]);
+          const ourSet = new Set([...ours]);
+          const theirSet = new Set([...theirs]);
+          for (const prop of ourSet.union(theirSet)
+            .difference(ignoreSet)) {
+            const ourValue = ours.getPropertyValue(prop);
+            const theirValue = theirs.getPropertyValue(prop);
+            if (ourValue !== theirValue) {
+              results.push(`' ${prop}: ${theirValue};' +`);
+            }
+          }
+          if (results.length) {
+            NH.base.issues.post(
+              'Style-2 error badge needs updating:', results.join('\n')
+            );
+          }
+          this.#badgeResultsStyle2 = results;
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #ensureMenuStyle2 = () => {
+      const me = this.#ensureMenuStyle2.name;
+      this.logger.entered(me, this.#ourMenuItemStyle2);
+
+      if (this.#pageStyle === LinkedInGlobals.Style.TWO) {
+        if (!this.#ourMenuItemStyle2) {
+          this.#createMenuItemStyle2();
+        }
+        if (this.#ourMenuItemStyle2) {
+          this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
+        }
+        if (this.#ourMenuItemStyle2?.isConnected) {
+          this.#compareBadgeStyles2();
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /** Find the nav links and ensure observers. */
+    #findNavbar = () => {
+      const me = this.#findNavbar.name;
+      this.logger.entered(me, this.#navbar?.isConnected);
+
+      if (!this.#iframeDoc) {
+        const iframe = document
+          .querySelector('iframe[data-testid]')
+          ?.contentDocument;
+        // Do not track the iframe until it has settled a bit.
+        if (iframe && iframe.URL !== 'about:blank') {
+          this.#iframeDoc = iframe;
+        }
+      }
+
+      let doObserve = !this.#navbar?.isConnected;
+
+      const navbar = document.querySelector(
+        LinkedInGlobals.primaryNavSelector
+      ) || this.#iframeDoc
+        ?.querySelector(LinkedInGlobals.primaryNavSelector);
+
+      if (navbar) {
+        const pageStyle = this.#guessPageStyle(navbar);
+        doObserve ||= pageStyle !== this.#pageStyle;
+        this.#pageStyle = pageStyle;
+      }
+
+      if (this.#navbar && navbar) {
+        doObserve ||= !this.#navbar.isSameNode(navbar);
+      }
+
+      if (doObserve) {
+        this.#navbar = navbar;
+        this.#observeNavbar();
+      }
+
+      this.logger.leaving(me, this.#navbar);
+    }
+
+    /** Reset observers for the navbar. */
+    #observeNavbar = () => {
+      const me = this.#observeNavbar.name;
+      this.logger.entered(me, this.#navbar);
+
+      this.#navbarMutationObserver.disconnect();
+      this.#navbarResizeObserver.disconnect();
+
+      if (this.#iframeDoc?.head) {
+        this.#navbarMutationObserver.observe(
+          this.#iframeDoc.head, {childList: true, subtree: true}
+        );
+      }
+
+      if (this.#navbar) {
+        this.#navbarMutationObserver.observe(
+          this.#navbar, {childList: true, subtree: true}
+        );
+        this.#navbarResizeObserver.observe(this.#navbar);
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Recheck various items after a change to the navbar.
+     * @fires 'resize'
+     */
+    #navbarHandler = () => {
+      const me = this.#navbarHandler.name;
+      this.logger.entered(me);
+
+      const margin = 4;
+
+      this.#findNavbar();
+
+      if (this.#navbar) {
+        this.#ensureMenuStyle1();
+        this.#ensureMenuStyle2();
+
+        this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
+        this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
+
+        this.#navbarDispatcher.fire('resize', this.#globals);
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
+     */
+    #shortcutsTab = () => {
+      this.#shortcutsWidget = new AccordionTableWidget('Shortcuts');
+
+      const tab = {
+        name: 'Keyboard Shortcuts',
+        content: this.#shortcutsWidget.container,
+      };
+      return tab;
+    }
+
+    #buildShortcutsInfo = () => {
+      const me = 'buildShortcutsInfo';
+      this.logger.entered(me);
+
+      this.#shortcutsWidget.clear();
+      for (const service of VMKeyboardService.services) {
+        this.logger.log('service:', service.shortName, service.active);
+        // Works in progress may not have any shortcuts yet.
+        if (service.shortcuts.length) {
+          const parsedName = NH.base.simpleParseWords(service.shortName)
+            .join(' ');
+          const section = this.#shortcutsWidget.addSection(service.shortName);
+          if (service.active) {
+            section.classList.add('lit-kbd-service-active');
+          }
+          this.#shortcutsWidget.addHeader('', parsedName);
+          for (const shortcut of service.shortcuts) {
+            this.logger.log('shortcut:', shortcut);
+            this.#shortcutsWidget.addData(
+              `${VMKeyboardService.parseSeq(shortcut.seq)}:`, shortcut.desc
+            );
+          }
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Post problems about stale issues.
+     *
+     * @param {Set<string>} unknown - Issue ids referenced in news items but
+     * not in {@link globalKnownIssues}.
+     * @param {Set<string>} unused - Stale {@link globalKnownIssues} ids.
+     * @param {Set<string>} old - Stale {@link globalNewsContent} entries.
+     */
+    #reportIssueProblems = (unknown, unused, old) => {
+      for (const item of unknown) {
+        NH.base.issues.post('Unknown issue detected:', item);
+      }
+
+      for (const item of unused) {
+        NH.base.issues.post('Unused issue detected:', item);
+      }
+
+      for (const item of old) {
+        NH.base.issues.post('Old news item:', item);
+      }
+    }
+
+    /** @returns {obj} - dates and known issues. */
+    #preprocessKnownIssues = () => {  // eslint-disable-line max-lines-per-function
+      const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
+      const oldestAllowedDate = litOptions.enableMigrateKIFailures
+        ? Date.now() - thirtyDays
+        : 0;
+      const defaultDate = litOptions.enableMigrateKIFailures
+        ? '1999'
+        : '9999';
+
+      /**
+       * Migrate to new format.
+       * @param {KnownIssue} issue - Mix of old and new formats.
+       * @returns {KnownIssue} - But updated to the new format.
+       */
+      const migrateKnownIssues = (issue) => {
+        const key = issue[0];
+        let details = issue[1];
+        if (typeof details === 'string') {
+          details = {
+            title: details,
+            date: defaultDate,
+          };
+        }
+        return [key, details];
+      };
+
+      const knownIssues = new Map(globalKnownIssues.map(migrateKnownIssues));
+      const unknownIssues = new Set();
+      const unusedIssues = new Set(
+        knownIssues
+          .entries()
+          .filter(x => new Date(x[1].date) < oldestAllowedDate)
+          .map(x => x[0])
+      );
+      const oldItems = new Set();
+
+      const dates = new NH.base.DefaultMap(
+        () => new NH.base.DefaultMap(Array)
+      );
+
+      for (const item of globalNewsContent) {
+        if (new Date(item.date) < oldestAllowedDate) {
+          oldItems.add(item.subject);
+        }
+        for (const issue of item.issues) {
+          if (knownIssues.has(issue)) {
+            unusedIssues.delete(issue);
+            dates.get(item.date)
+              .get(issue)
+              .push(item.subject);
+          } else {
+            unknownIssues.add(issue);
+          }
+        }
+      }
+
+      this.#reportIssueProblems(unknownIssues, unusedIssues, oldItems);
+
+      return {
+        dates: dates,
+        knownIssues: knownIssues,
+      };
+    }
+
+  }
+
   /**
    * Helper for pages that have an extra drop-down toolbar.
    *
@@ -7246,1102 +8342,6 @@
 
     #onResultChange = () => {
       this.#lastScroller = this.results;
-    }
-
-  }
-
-  /** LinkedIn specific information. */
-  class LinkedIn extends NH.spa.Details {
-
-    /**
-     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
-     * circular dependencies.
-     */
-    constructor(globals) {
-      super();
-      this.#globals = globals;
-      this.#navbarMutationObserver = new MutationObserver(
-        this.#navbarHandler
-      );
-      this.#navbarResizeObserver = new ResizeObserver(
-        this.#navbarHandler
-      );
-      this.ready = this.#waitUntilPageLoadedEnough();
-    }
-
-    urlChangeMonitorSelector = 'html';
-
-    /** @type {NH.base.Dispatcher} */
-    get dispatcher2() {
-      return this.#dispatcher;
-    }
-
-    /** @type {LinkedInGlobals} - Instance passed in during construction. */
-    get globals() {
-      return this.#globals;
-    }
-
-    /** @type {string} - The element.id used to identify the info pop-up. */
-    get infoId() {
-      return this.#infoId;
-    }
-
-    /** @param {string} val - Set the value of the info element.id. */
-    set infoId(val) {
-      this.#infoId = val;
-    }
-
-    /**
-     * @typedef {object} LicenseData
-     * @property {string} name - Name of the license.
-     * @property {string} url - License URL.
-     */
-
-    /** @type {LicenseData} */
-    get licenseData() {
-      const me = 'licenseData';
-      this.logger.entered(me);
-
-      if (!this.#licenseData) {
-        try {
-          this.#licenseData = NH.userscript.licenseData();
-        } catch (e) {
-          if (e instanceof NH.userscript.UserscriptError) {
-            this.logger.log('e:', e);
-            NH.base.issues.post(e.message);
-            this.#licenseData = {
-              name: 'Unable to extract: Please file a bug',
-              url: '',
-            };
-          }
-        }
-      }
-
-      this.logger.leaving(me, this.#licenseData);
-      return this.#licenseData;
-    }
-
-    /** @type {HTMLElement} */
-    get navbar() {
-      return this.#navbar;
-    }
-
-    /** @type {NH.base.Dispatcher} */
-    get navbarDispatcher() {
-      return this.#navbarDispatcher;
-    }
-
-    /** @type {LinkedInGlobals.Style} */
-    get pageStyle() {
-      return this.#pageStyle;
-    }
-
-    /** @param {SPA} spa - The SPA instance. */
-    init(spa) {
-      this.dispatcher.fire('initialize', spa);
-      this.dispatcher.fire('initialized', null);
-    }
-
-    /** Called by SPA. */
-    done() {
-      const me = 'done';
-      this.logger.entered(me);
-
-      const licenseEntry = this.ui.tabs.get('License');
-      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
-
-      this.ui.tabs
-        .get('News').panel.addEventListener('expose', this.#newsHandler);
-      this.#infoTabs.tabs
-        .get('News').panel.addEventListener('expose', this.#newsHandler);
-
-      VMKeyboardService.condition = '!inputFocus && !inDialog';
-      VMKeyboardService.start();
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Many classes have some static {Scroller~How} items that need to be
-     * fixed up after the page loads enough that the values are available.
-     * They do that by calling this method.
-     * @param {Scroller~How} how - Object to be fixed up.
-     */
-    navbarScrollerFixup(how) {
-      const me = 'navbarScrollerFixup';
-      this.logger.entered(me, how);
-
-      how.topMarginPixels = this.#globals.navbarHeightPixels;
-      how.topMarginCSS = this.#globals.navbarHeightCSS;
-      how.bottomMarginCSS = '3em';
-
-      this.logger.leaving(me, how);
-    }
-
-    /** Special processing to handle page transitions. */
-    pageChanged() {
-      const me = this.pageChanged.name;
-      this.logger.entered(me);
-
-      this.#navbarHandler();
-
-      this.logger.leaving(me);
-    }
-
-    /** @inheritdoc */
-    docTab() {
-      const me = 'docTab';
-      this.logger.entered(me);
-
-      const issuesLink = this.#globals.ghUrl('labels/linkedin-tool');
-      const newIssueLink = this.#globals.ghUrl('issues/new/choose');
-      const newGfIssueLink = this.#globals.gfUrl('feedback');
-      const releaseNotesLink = this.#globals.gfUrl('versions');
-
-      const content = [
-        `<p>This is information about the <b>${GM.info.script.name}</b> ` +
-          'userscript, a type of add-on.  It is not associated with ' +
-          'LinkedIn Corporation in any way.</p>',
-        '<p>Documentation can be found on ' +
-          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
-          'notes are automatically generated on ' +
-          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
-        '<p>Existing issues are also on GitHub ' +
-          `<a href="${issuesLink}">here</a>.</p>`,
-        '<p>New issues or feature requests can be filed on GitHub (account ' +
-          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
-          'appropriate issue template to get started.  Or, on Greasy Fork ' +
-          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
-          'Review the <b>Errors</b> tab for any useful information.</p>',
-        '',
-      ];
-
-      const tab = {
-        name: 'About',
-        content: content.join('\n'),
-      };
-
-      this.logger.leaving(me, tab);
-      return tab;
-    }
-
-    /** @inheritdoc */
-    newsTab() {
-      const me = 'newsTab';
-      this.logger.entered(me);
-
-      const {dates, knownIssues} = this.#preprocessKnownIssues();
-
-      const content = [
-        '<p>The contains a manually curated list of changes over the last ' +
-          'month or so that:</p>',
-        '<ul>',
-        '<li>Added new features like support for new pages or more ' +
-          'hotkeys</li>',
-        '<li>Explicitly fixed a bug</li>',
-        '<li>May cause a user noticeable change</li>',
-        '</ul>',
-        '<p></p>',
-        '<p>See the <b>About</b> tab for finding all changes by release.</p>',
-      ];
-
-      const dateHeader = 'h3';
-      const issueHeader = 'h4';
-
-      for (const [date, items] of dates) {
-        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
-        for (const [issue, subjects] of items) {
-          const ki = knownIssues.get(issue);
-          content.push(
-            `<${issueHeader}>${ki.title}</${issueHeader}>`
-          );
-          content.push('<ul>');
-          for (const subject of subjects) {
-            content.push(`<li>${subject}</li>`);
-          }
-          content.push('</ul>');
-        }
-      }
-
-      const tab = {
-        name: 'News',
-        content: content.join('\n'),
-      };
-
-      this.logger.leaving(me);
-      return tab;
-    }
-
-    /** @inheritdoc */
-    licenseTab() {
-      const me = 'licenseTab';
-      this.logger.entered(me);
-
-      const {name, url} = this.licenseData;
-      const tab = {
-        name: 'License',
-        content: `<p><a href="${url}">${name}</a></p>`,
-      };
-
-      this.logger.leaving(me, tab);
-      return tab;
-    }
-
-    static #icon =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
-      '<defs>' +
-      '<mask id="a" maskContentUnits="objectBoundingBox">' +
-      '<path fill="#fff" d="M0 0h1v1H0z"/>' +
-      '<circle cx=".5" cy=".5" r=".25"/>' +
-      '</mask>' +
-      '<mask id="b" maskContentUnits="objectBoundingBox">' +
-      '<path fill="#fff" mask="url(#a)" d="M0 0h1v1H0z"/>' +
-      '<rect x="0.375" y="-0.05" height="0.35" width="0.25"' +
-      ' transform="rotate(30 0.5 0.5)"/>' +
-      '</mask>' +
-      '</defs>' +
-      '<rect x="9.5" y="7" width="5" height="10"' +
-      ' transform="rotate(45 12 12)"/>' +
-      '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
-      '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
-      '</svg>';
-
-    #badgeResultsStyle2
-    #dispatcher = new NH.base.Dispatcher('errors', 'news');
-    #errorBadgeStyle1
-    #errorBadgeStyle2
-    #globals
-    #iframeDoc
-    #infoId
-    #infoKeyboard
-    #infoTabs
-    #infoWidget
-    #licenseData
-    #licenseLoaded
-    #navbar
-    #navbarDispatcher = new NH.base.Dispatcher('resize');
-    #navbarMutationObserver
-    #navbarResizeObserver
-    #ourMenuItemStyle1
-    #ourMenuItemStyle2
-    #pageStyle
-    #shortcutsWidget
-    #useOriginalInfoDialog = !litOptions.enableDevMode;
-
-    /**
-     * @param {HTMLElement} element - Starting element to avoid another query.
-     * @returns {LinkedInGlobals.Style} - Guessed style.
-     */
-    #guessPageStyle = (element) => {
-      const me = this.#guessPageStyle.name;
-      this.logger.entered(me, element);
-
-      const hint = element.closest('[id]').id;
-      let pageStyle = null;
-
-      switch (hint) {
-        case 'global-nav':
-          pageStyle = LinkedInGlobals.Style.ONE;
-          break;
-        case 'root':
-          pageStyle = LinkedInGlobals.Style.TWO;
-          break;
-        default:
-          pageStyle = LinkedInGlobals.Style.UNKNOWN;
-      }
-
-      this.logger.leaving(me, pageStyle);
-      return pageStyle;
-    }
-
-    /** Hang out until the navigation bar has stabilized. */
-    #waitUntilPageLoadedEnough = async () => {
-      const me = 'waitOnPageLoadedEnough';
-      this.logger.entered(me);
-
-      // Wait for page to hopefully settle.
-      await NH.web.waitForSelector(
-        `${LinkedInGlobals.primaryNavSelector} svg`
-      );
-
-      this.#finishConstruction();
-
-      this.logger.leaving(me);
-    }
-
-    /** Do the bits that were waiting on the page. */
-    #finishConstruction = () => {
-      const me = 'finishConstruction';
-      this.logger.entered(me);
-
-      this.#createInfoWidget();
-      this.#addInfoTabs();
-      this.#addScrollerStyle();
-      this.#addLitStyle();
-      this.#findNavbar();
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * @param {Event} evt - The 'expose' event.
-     */
-    #newsHandler = (evt) => {
-      const me = this.#newsHandler.name;
-      this.logger.entered(me, evt.target);
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Lazily load license text when exposed.
-     * @param {Event} evt - The 'expose' event.
-     */
-    #licenseHandler = async (evt) => {
-      const me = 'licenseHandler';
-      this.logger.entered(me, evt.target);
-
-      // Probably should debounce this.  If the user visits this tab twice
-      // fast enough, they end up with two copies loaded.  Amusing, but
-      // probably should be resilient.
-      if (!this.#licenseLoaded) {
-        const info = document.createElement('p');
-        info.innerHTML = '<i>Loading license...</i>';
-        evt.target.append(info);
-        const {name, url} = this.licenseData;
-
-        const response = await fetch(url);
-        if (response.ok) {
-          const license = document.createElement('iframe');
-          license.style.flexGrow = 1;
-          license.title = name;
-          license.sandbox = '';
-          license.srcdoc = await response.text();
-          info.replaceWith(license);
-          this.#licenseLoaded = true;
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #createInfoWidget = () => {
-      this.#infoWidget = new NH.widget.Info(APP_LONG);
-      const widget = this.#infoWidget.container;
-      widget.classList.add('lit-info');
-      document.body.prepend(widget);
-      const dismissId = NH.base.safeId(`${widget.id}-dismiss`);
-
-      const infoName = this.#infoName(dismissId);
-      const instructions = this.#infoInstructions();
-
-      widget.append(infoName, instructions);
-
-      document.getElementById(dismissId)
-        .addEventListener('click', () => {
-          this.#infoWidget.close();
-        });
-
-      this.#infoKeyboard = new VM.shortcut.KeyboardService();
-      widget.addEventListener('open', this.#onOpenInfo);
-      widget.addEventListener('close', this.#onCloseInfo);
-    }
-
-    /**
-     * @param {string} dismissId - Element #id to give dismiss button.
-     * @returns {Element} - For the info widget name header.
-     */
-    #infoName = (dismissId) => {
-      const nameElement = document.createElement('div');
-      nameElement.classList.add('lit-justify');
-      const title = `<b>${GM.info.script.name}</b> - ` +
-            `v${GM.info.script.version}`;
-      const dismiss = `<button id=${dismissId}>X</button>`;
-      nameElement.innerHTML = `<span>${title}</span><span>${dismiss}</span>`;
-
-      return nameElement;
-    }
-
-    /** @returns {Element} - Instructions for navigating the info widget. */
-    #infoInstructions = () => {
-      const instructions = document.createElement('div');
-      instructions.classList.add('lit-justify');
-      instructions.classList.add('lit-instructions');
-      const left = VMKeyboardService.parseSeq('c-left');
-      const right = VMKeyboardService.parseSeq('c-right');
-      const esc = VMKeyboardService.parseSeq('esc');
-      instructions.innerHTML =
-        `<span>Use the ${left} and ${right} keys or click to select ` +
-        'tab</span>' +
-        `<span>Hit ${esc} to close</span>`;
-
-      return instructions;
-    }
-
-    #onOpenInfo = () => {
-      VMKeyboardService.setKeyboardContext('inDialog', true);
-      this.#infoKeyboard.enable();
-      this.#buildShortcutsInfo();
-      this.logger.log('info opened');
-    }
-
-    #onCloseInfo = () => {
-      this.#infoKeyboard.disable();
-      VMKeyboardService.setKeyboardContext('inDialog', false);
-      this.logger.log('info closed');
-    }
-
-    /** Create the CSS styles used for indicating the current items. */
-    #addScrollerStyle() {
-      const style = document.createElement('style');
-      style.id = NH.base.safeId(`${this.id}-scroller-style`);
-      const styles = [
-        '.tom {' +
-          ' border-color: orange !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: medium !important;' +
-          '}',
-        '.dick {' +
-          ' border-color: red !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: thin !important;' +
-          '}',
-        '',
-      ];
-      style.textContent = styles.join('\n');
-      document.head.append(style);
-    }
-
-    /** Create CSS styles for stuff specific to LinkedIn Tool. */
-    #addLitStyle = () => {  // eslint-disable-line max-lines-per-function
-      const style = document.createElement('style');
-      style.id = `${this.id}-style`;
-      const styles = [
-        '.lit-info:modal {' +
-          ' height: 100%;' +
-          ' width: 65rem;' +
-          ' font-size: 1.6rem;' +
-          ' line-height: 1.5em;' +
-          ' display: flex;' +
-          ' flex-direction: column;' +
-          '}',
-        '.lit-info button {' +
-          ' border-width: 1px;' +
-          ' border-style: solid;' +
-          ' border-radius: 1em;' +
-          ' padding: 3px;' +
-          '}',
-        '.lit-justify {' +
-          ' display: flex;' +
-          ' flex-direction: row;' +
-          ' justify-content: space-between;' +
-          '}',
-        '.lit-instructions {' +
-          ' padding-bottom: 1ex;' +
-          ' border-bottom: 1px solid black;' +
-          ' margin-bottom: 5px;' +
-          '}',
-        '.lit-info kbd > kbd {' +
-          ' font-size: 0.85em;' +
-          ' padding: 0.07em;' +
-          ' border-width: 1px;' +
-          ' border-style: solid;' +
-          '}',
-        '.lit-info p {margin-bottom: 1em; }',
-        '.lit-info ul {' +
-          ' list-style: unset;' +
-          ' padding-inline: revert;' +
-          '}',
-        '.lit-info th { padding-top: 1em; text-align: left; }',
-        '.lit-info td:first-child {' +
-          ' white-space: nowrap;' +
-          ' text-align: right;' +
-          ' padding-right: 0.5em;' +
-          '}',
-        '.lit-kbd-service-active th { background-color: lightgray; }',
-        '.lit-menu-news-badge {' +
-          ' position: absolute;' +
-          ' bottom: 14px;' +
-          ' right: -5px;' +
-          ' width: 16px;' +
-          ' height: 16px;' +
-          ' border-radius: 50%;' +
-          ' border: 5px solid green;' +
-          '}',
-        '.lit-menu-error-badge {' +
-          ' align-items: center;' +
-          ' background-color: rgb(203, 17, 45);' +
-          ' block-size: 12px;' +
-          ' border-radius: 9px;' +
-          ' bottom: 13.5px;' +
-          ' color-scheme: light;' +
-          ' color: white;' +
-          ' display: flex;' +
-          ' font-size: 9px;' +
-          ' font-weight: 600;' +
-          ' height: 12px;' +
-          ' inset-block-start: -1.5px;' +
-          ' inset-inline-start: 24px;' +
-          ' justify-content: center;' +
-          ' left: 24px;' +
-          ' margin-inline-start: -6px;' +
-          ' margin-left: -6px;' +
-          ' min-inline-size: 12px;' +
-          ' min-width: 12px;' +
-          ' padding-inline-end: 3px;' +
-          ' padding-inline-start: 3px;' +
-          ' padding-left: 3px;' +
-          ' padding-right: 3px;' +
-          ' position: absolute;' +
-          ' top: -1.5px;' +
-          ' z-index: 100;' +
-          '}',
-        // Get rid of the donut
-        '.lit-menu-error-badge::after {' +
-          ' content: none !important;' +
-          '}',
-        '.lit-menu-error-badge-hide { opacity: 0; }',
-      ];
-      style.textContent = styles.join('\n');
-      document.head.prepend(style);
-    }
-
-    #addInfoTabs = () => {
-      const me = 'addInfoTabs';
-      this.logger.entered(me);
-
-      const tabs = [
-        this.#shortcutsTab(),
-        this.docTab(),
-        this.newsTab(),
-      ];
-
-      this.#infoTabs = new TabbedUI(APP_LONG);
-
-      for (const tab of tabs) {
-        this.#infoTabs.addTab(tab);
-      }
-      this.#infoTabs.goto(tabs[0].name);
-
-      this.#infoWidget.container.append(this.#infoTabs.container);
-
-      this.#infoKeyboard.register('c-right', this.#nextTab);
-      this.#infoKeyboard.register('c-left', this.#prevTab);
-
-      this.logger.leaving(me);
-    }
-
-    #nextTab = () => {
-      this.#infoTabs.next();
-    }
-
-    #prevTab = () => {
-      this.#infoTabs.prev();
-    }
-
-    #toolButtonHandler = () => {
-      if (this.#useOriginalInfoDialog) {
-        const info = document.querySelector(`#${this.infoId}`);
-        info.showModal();
-        info.dispatchEvent(new Event('open'));
-      } else {
-        this.#infoWidget.open();
-      }
-      if (litOptions.enableDevMode) {
-        // Toggle which dialog is used.
-        this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
-      }
-    }
-
-    /**
-     * Update error badge as appropriate.
-     *
-     * @implements {NH.base.Dispatcher~Handler}
-     * @param {string} eventType - Event type.
-     * @param {number} count - Number of errors currently logged.
-     */
-    #errorHandlerBadgeStyle1 = (eventType, count) => {
-      const me = this.#errorHandlerBadgeStyle1.name;
-      this.logger.entered(me, eventType, count);
-
-      const toggle = this.#errorBadgeStyle1.parentElement;
-      this.#errorBadgeStyle1.innerText = `${count}`;
-
-      if (count) {
-        toggle.classList.add('notification-badge--show');
-      } else {
-        toggle.classList.remove('notification-badge--show');
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Tweak the internals of whatever random element we cloned.
-     *
-     * @param {HTMLElement} button - The newly created button.
-     */
-    #finishButtonStyle1 = (button) => {
-      button.querySelector('.notification-badge')
-        ?.classList.remove('notification-badge--show');
-
-      const a11y = button.querySelector('.a11y-text');
-      if (a11y) {
-        a11y.innerText = `${APP_LONG} notifications`;
-      }
-
-      const count = button.querySelector('.notification-badge__no-count');
-      count?.classList.remove('notification-badge__no-count');
-      count?.classList.add('notification-badge__count');
-
-      const title = button.querySelector('.global-nav__primary-link-text');
-      title.innerText = APP_SHORT;
-      title.setAttribute('title', APP_SHORT);
-    }
-
-    #createMenuItemStyle1 = () => {
-      const me = this.#createMenuItemStyle1.name;
-      this.logger.entered(me, this.#navbar);
-
-      // Making the assumption that the there is at least one item with a
-      // badge and it is an anchor.
-      let item = this.#navbar
-        .querySelector('.global-nav__primary-item:has(.notification-badge)');
-      const subItem = item.querySelector('a');
-      item = item.cloneNode(false);
-
-      const button = document.createElement('button');
-      button.classList.add('global-nav__primary-link');
-
-      button.append(...Array.from(subItem.childNodes)
-        .map(x => x.cloneNode(true))
-        .map((x) => {
-          x.removeAttribute?.('id');
-          return x;
-        }));
-
-      const svg = button.querySelector('svg');
-      if (svg) {
-        svg.parentElement.innerHTML = LinkedIn.#icon;
-
-        this.#finishButtonStyle1(button);
-
-        button.addEventListener('click', this.#toolButtonHandler);
-        item.append(button);
-        this.#ourMenuItemStyle1 = item;
-        this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
-        this.#errorBadgeStyle1 = button.querySelector(
-          '.notification-badge__count'
-        );
-      }
-
-      this.logger.leaving(me, this.#ourMenuItemStyle1);
-    }
-
-    /**
-     * Updates error badge as appropriate.
-     *
-     * @implements {NH.base.Dispatcher~Handler}
-     * @param {string} eventType - Event type.
-     * @param {number} count - Number of errors currently logged.
-     */
-    #errorHandlerBadgeStyle2 = (eventType, count) => {
-      const me = this.#errorHandlerBadgeStyle2.name;
-      this.logger.entered(me, eventType, count);
-
-      this.#errorBadgeStyle2.innerText = `${count}`;
-
-      if (count) {
-        this.#errorBadgeStyle2
-          .classList.remove('lit-menu-error-badge-hide');
-      } else {
-        this.#errorBadgeStyle2.classList.add('lit-menu-error-badge-hide');
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Tweak the internals of whatever random element we cloned.
-     *
-     * @param {HTMLElement} button - The newly created button.
-     */
-    #finishButtonStyle2 = (button) => {
-      // Grab the common obfuscated class names
-      const buttons = this.#navbar.querySelectorAll('li > button');
-      const buttonClasses = new Set(buttons[0].classList)
-        .intersection(new Set(buttons[1].classList));
-
-      button.ariaLabel = APP_SHORT;
-      button.removeAttribute('aria-current');
-      button.className = [...buttonClasses].join(' ');
-
-      const textNodes = Array.from(button.querySelectorAll('*'))
-        .filter(el => el.childNodes[0]?.nodeType === Node.TEXT_NODE);
-
-      textNodes[0].innerText = APP_SHORT;
-    }
-
-    #createMenuItemStyle2 = () => {
-      const me = this.#createMenuItemStyle2.name;
-      this.logger.entered(me, this.#navbar);
-
-      const item = this.#navbar
-        .querySelector('li')
-        .cloneNode(true);
-
-      // The page may not have settled down yet, so check each bit carefully.
-      const button = item.querySelector('button');
-      if (button) {
-        const svg = button.querySelector('svg');
-        if (svg) {
-          const svgParent = svg.parentElement;
-          svg.outerHTML = LinkedIn.#icon;
-
-          button.querySelector('svg + span')
-            ?.remove();
-
-          this.#errorBadgeStyle2 = document.createElement('span');
-          this.#errorBadgeStyle2.classList.add('lit-menu-error-badge');
-          svgParent.append(this.#errorBadgeStyle2);
-
-          this.#finishButtonStyle2(button);
-
-          button.addEventListener('click', this.#toolButtonHandler);
-          this.#ourMenuItemStyle2 = item;
-          this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle2);
-        }
-      }
-
-      this.logger.leaving(me, this.#ourMenuItemStyle2);
-    }
-
-    /**
-     * Connect our menu item to the navbar if necessary.
-     *
-     * It will always go after "Me" menu item.
-     *
-     * This supports both Styles 1 and 2.
-     *
-     * @param {HTMLElement} menuItem - The menu item to connect.
-     * @param {string} selector - The CSS selector for "Me".
-     */
-    #connectMenuItem = (menuItem, selector) => {
-      const me = this.#connectMenuItem.name;
-      this.logger.entered(me, menuItem, selector);
-
-      if (this.#navbar) {
-        if (!menuItem.isConnected) {
-          this.logger.log('Will connect menu item to', this.navbar);
-
-          const navMe = this.#navbar.querySelector(selector)
-            ?.closest('li');
-          this.logger.log('navMe', navMe);
-
-          if (navMe) {
-            navMe.after(menuItem);
-          } else {
-            // If the site changed and we cannot insert ourself after the Me
-            // menu item, then go first.
-            this.#navbar.prepend(menuItem);
-            NH.base.issues.post(
-              'Unable to find the Profile navbar item.',
-              'LIT menu installed in non-standard location.'
-            );
-          }
-          this.spa.refreshErrors();
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #ensureMenuStyle1 = () => {
-      const me = this.#ensureMenuStyle1.name;
-      this.logger.entered(me, this.#ourMenuItemStyle1);
-
-      if (this.#pageStyle === LinkedInGlobals.Style.ONE) {
-        if (!this.#ourMenuItemStyle1) {
-          this.#createMenuItemStyle1();
-        }
-        if (this.#ourMenuItemStyle1) {
-          this.#connectMenuItem(this.#ourMenuItemStyle1, '.global-nav__me');
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #compareBadgeStyles2 = () => {
-      const me = this.#compareBadgeStyles2.name;
-      this.logger.entered(me, this.#badgeResultsStyle2);
-
-      // Only do this once.
-      if (!this.#badgeResultsStyle2) {
-        // Some badges are bad examples, so skip them using :not().
-        const badges = this.navbar
-          .querySelectorAll('svg:not([id^="home"]) + span');
-        if (badges.length > 1) {
-          const ignoreSet = new Set(['opacity']);
-          const results = [];
-          const ours = getComputedStyle(this.#errorBadgeStyle2);
-          const theirs = getComputedStyle(badges[0]);
-          const ourSet = new Set([...ours]);
-          const theirSet = new Set([...theirs]);
-          for (const prop of ourSet.union(theirSet)
-            .difference(ignoreSet)) {
-            const ourValue = ours.getPropertyValue(prop);
-            const theirValue = theirs.getPropertyValue(prop);
-            if (ourValue !== theirValue) {
-              results.push(`' ${prop}: ${theirValue};' +`);
-            }
-          }
-          if (results.length) {
-            NH.base.issues.post(
-              'Style-2 error badge needs updating:', results.join('\n')
-            );
-          }
-          this.#badgeResultsStyle2 = results;
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #ensureMenuStyle2 = () => {
-      const me = this.#ensureMenuStyle2.name;
-      this.logger.entered(me, this.#ourMenuItemStyle2);
-
-      if (this.#pageStyle === LinkedInGlobals.Style.TWO) {
-        if (!this.#ourMenuItemStyle2) {
-          this.#createMenuItemStyle2();
-        }
-        if (this.#ourMenuItemStyle2) {
-          this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
-        }
-        if (this.#ourMenuItemStyle2?.isConnected) {
-          this.#compareBadgeStyles2();
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /** Find the nav links and ensure observers. */
-    #findNavbar = () => {
-      const me = this.#findNavbar.name;
-      this.logger.entered(me, this.#navbar?.isConnected);
-
-      if (!this.#iframeDoc) {
-        const iframe = document
-          .querySelector('iframe[data-testid]')
-          ?.contentDocument;
-        // Do not track the iframe until it has settled a bit.
-        if (iframe && iframe.URL !== 'about:blank') {
-          this.#iframeDoc = iframe;
-        }
-      }
-
-      let doObserve = !this.#navbar?.isConnected;
-
-      const navbar = document.querySelector(
-        LinkedInGlobals.primaryNavSelector
-      ) || this.#iframeDoc
-        ?.querySelector(LinkedInGlobals.primaryNavSelector);
-
-      if (navbar) {
-        const pageStyle = this.#guessPageStyle(navbar);
-        doObserve ||= pageStyle !== this.#pageStyle;
-        this.#pageStyle = pageStyle;
-      }
-
-      if (this.#navbar && navbar) {
-        doObserve ||= !this.#navbar.isSameNode(navbar);
-      }
-
-      if (doObserve) {
-        this.#navbar = navbar;
-        this.#observeNavbar();
-      }
-
-      this.logger.leaving(me, this.#navbar);
-    }
-
-    /** Reset observers for the navbar. */
-    #observeNavbar = () => {
-      const me = this.#observeNavbar.name;
-      this.logger.entered(me, this.#navbar);
-
-      this.#navbarMutationObserver.disconnect();
-      this.#navbarResizeObserver.disconnect();
-
-      if (this.#iframeDoc?.head) {
-        this.#navbarMutationObserver.observe(
-          this.#iframeDoc.head, {childList: true, subtree: true}
-        );
-      }
-
-      if (this.#navbar) {
-        this.#navbarMutationObserver.observe(
-          this.#navbar, {childList: true, subtree: true}
-        );
-        this.#navbarResizeObserver.observe(this.#navbar);
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Recheck various items after a change to the navbar.
-     * @fires 'resize'
-     */
-    #navbarHandler = () => {
-      const me = this.#navbarHandler.name;
-      this.logger.entered(me);
-
-      const margin = 4;
-
-      this.#findNavbar();
-
-      if (this.#navbar) {
-        this.#ensureMenuStyle1();
-        this.#ensureMenuStyle2();
-
-        this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
-        this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
-
-        this.#navbarDispatcher.fire('resize', this.#globals);
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
-     */
-    #shortcutsTab = () => {
-      this.#shortcutsWidget = new AccordionTableWidget('Shortcuts');
-
-      const tab = {
-        name: 'Keyboard Shortcuts',
-        content: this.#shortcutsWidget.container,
-      };
-      return tab;
-    }
-
-    #buildShortcutsInfo = () => {
-      const me = 'buildShortcutsInfo';
-      this.logger.entered(me);
-
-      this.#shortcutsWidget.clear();
-      for (const service of VMKeyboardService.services) {
-        this.logger.log('service:', service.shortName, service.active);
-        // Works in progress may not have any shortcuts yet.
-        if (service.shortcuts.length) {
-          const parsedName = NH.base.simpleParseWords(service.shortName)
-            .join(' ');
-          const section = this.#shortcutsWidget.addSection(service.shortName);
-          if (service.active) {
-            section.classList.add('lit-kbd-service-active');
-          }
-          this.#shortcutsWidget.addHeader('', parsedName);
-          for (const shortcut of service.shortcuts) {
-            this.logger.log('shortcut:', shortcut);
-            this.#shortcutsWidget.addData(
-              `${VMKeyboardService.parseSeq(shortcut.seq)}:`, shortcut.desc
-            );
-          }
-        }
-      }
-
-      this.logger.leaving(me);
-    }
-
-    /**
-     * Post problems about stale issues.
-     *
-     * @param {Set<string>} unknown - Issue ids referenced in news items but
-     * not in {@link globalKnownIssues}.
-     * @param {Set<string>} unused - Stale {@link globalKnownIssues} ids.
-     * @param {Set<string>} old - Stale {@link globalNewsContent} entries.
-     */
-    #reportIssueProblems = (unknown, unused, old) => {
-      for (const item of unknown) {
-        NH.base.issues.post('Unknown issue detected:', item);
-      }
-
-      for (const item of unused) {
-        NH.base.issues.post('Unused issue detected:', item);
-      }
-
-      for (const item of old) {
-        NH.base.issues.post('Old news item:', item);
-      }
-    }
-
-    /** @returns {obj} - dates and known issues. */
-    #preprocessKnownIssues = () => {  // eslint-disable-line max-lines-per-function
-      const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
-      const oldestAllowedDate = litOptions.enableMigrateKIFailures
-        ? Date.now() - thirtyDays
-        : 0;
-      const defaultDate = litOptions.enableMigrateKIFailures
-        ? '1999'
-        : '9999';
-
-      /**
-       * Migrate to new format.
-       * @param {KnownIssue} issue - Mix of old and new formats.
-       * @returns {KnownIssue} - But updated to the new format.
-       */
-      const migrateKnownIssues = (issue) => {
-        const key = issue[0];
-        let details = issue[1];
-        if (typeof details === 'string') {
-          details = {
-            title: details,
-            date: defaultDate,
-          };
-        }
-        return [key, details];
-      };
-
-      const knownIssues = new Map(globalKnownIssues.map(migrateKnownIssues));
-      const unknownIssues = new Set();
-      const unusedIssues = new Set(
-        knownIssues
-          .entries()
-          .filter(x => new Date(x[1].date) < oldestAllowedDate)
-          .map(x => x[0])
-      );
-      const oldItems = new Set();
-
-      const dates = new NH.base.DefaultMap(
-        () => new NH.base.DefaultMap(Array)
-      );
-
-      for (const item of globalNewsContent) {
-        if (new Date(item.date) < oldestAllowedDate) {
-          oldItems.add(item.subject);
-        }
-        for (const issue of item.issues) {
-          if (knownIssues.has(issue)) {
-            unusedIssues.delete(issue);
-            dates.get(item.date)
-              .get(issue)
-              .push(item.subject);
-          } else {
-            unknownIssues.add(issue);
-          }
-        }
-      }
-
-      this.#reportIssueProblems(unknownIssues, unusedIssues, oldItems);
-
-      return {
-        dates: dates,
-        knownIssues: knownIssues,
-      };
     }
 
   }
