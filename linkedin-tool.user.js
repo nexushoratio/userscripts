@@ -7508,6 +7508,8 @@
 
     #badgeResultsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
+    #errorBadgeStyle1
+    #errorBadgeStyle2
     #globals
     #iframeDoc
     #infoId
@@ -7520,8 +7522,6 @@
     #navbarDispatcher = new NH.base.Dispatcher('resize');
     #navbarMutationObserver
     #navbarResizeObserver
-    #ourMenuBadgeStyle1
-    #ourMenuBadgeStyle2
     #ourMenuItemStyle1
     #ourMenuItemStyle2
     #pageStyle
@@ -7864,8 +7864,8 @@
       const me = this.#errorHandlerBadgeStyle1.name;
       this.logger.entered(me, eventType, count);
 
-      const toggle = this.#ourMenuBadgeStyle1.parentElement;
-      this.#ourMenuBadgeStyle1.innerText = `${count}`;
+      const toggle = this.#errorBadgeStyle1.parentElement;
+      this.#errorBadgeStyle1.innerText = `${count}`;
 
       if (count) {
         toggle.classList.add('notification-badge--show');
@@ -7930,7 +7930,7 @@
         item.append(button);
         this.#ourMenuItemStyle1 = item;
         this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
-        this.#ourMenuBadgeStyle1 = button.querySelector(
+        this.#errorBadgeStyle1 = button.querySelector(
           '.notification-badge__count'
         );
       }
@@ -7949,13 +7949,13 @@
       const me = this.#errorHandlerBadgeStyle2.name;
       this.logger.entered(me, eventType, count);
 
-      this.#ourMenuBadgeStyle2.innerText = `${count}`;
+      this.#errorBadgeStyle2.innerText = `${count}`;
 
       if (count) {
-        this.#ourMenuBadgeStyle2
+        this.#errorBadgeStyle2
           .classList.remove('lit-menu-error-badge-hide');
       } else {
-        this.#ourMenuBadgeStyle2.classList.add('lit-menu-error-badge-hide');
+        this.#errorBadgeStyle2.classList.add('lit-menu-error-badge-hide');
       }
 
       this.logger.leaving(me);
@@ -8001,9 +8001,9 @@
           button.querySelector('svg + span')
             ?.remove();
 
-          this.#ourMenuBadgeStyle2 = document.createElement('span');
-          this.#ourMenuBadgeStyle2.classList.add('lit-menu-error-badge');
-          svgParent.append(this.#ourMenuBadgeStyle2);
+          this.#errorBadgeStyle2 = document.createElement('span');
+          this.#errorBadgeStyle2.classList.add('lit-menu-error-badge');
+          svgParent.append(this.#errorBadgeStyle2);
 
           this.#finishButtonStyle2(button);
 
@@ -8084,7 +8084,7 @@
         if (badges.length > 1) {
           const ignoreSet = new Set(['opacity']);
           const results = [];
-          const ours = getComputedStyle(this.#ourMenuBadgeStyle2);
+          const ours = getComputedStyle(this.#errorBadgeStyle2);
           const theirs = getComputedStyle(badges[0]);
           const ourSet = new Set([...ours]);
           const theirSet = new Set([...theirs]);
