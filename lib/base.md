@@ -4,8 +4,9 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 
 ## Exported properties (as of version 52)
 * version - Bumped per release.
-* NOT_FOUND - Constant (to make eslint's `no-magic-numbers` setting happy).
-* ONE_ITEM - Constant useful for testing length of an array.
+* NOT_FOUND - Returned by some APIs like `findIndex()`.
+* ONE_ITEM - Useful for testing length of an array.
+* LAST_ITEM - Identify the last item in a collection like `at(-1)`.
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
 * Exception - Base exception that uses the name of the class.
 * Dispatcher - Simple dispatcher (event bus).
