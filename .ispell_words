@@ -669,7 +669,6 @@ nextSibling
 nextTab
 nexushoratio
 NexusHoratio
-NexusHoratioVersion
 nh
 nodeType
 nodeValue
@@ -986,8 +985,8 @@ TabGenerator
 tabGenerators
 tabindex
 tabIndex
-tabList
 tablist
+tabList
 tabSnippet
 TabsTestCase
 tabUiKeyboard
