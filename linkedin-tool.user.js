@@ -5174,6 +5174,9 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueCollectionIdentifier(element) {
+      const me = MyNetwork.uniqueCollectionIdentifier.name;
+      this.logger.entered(me, element);
+
       const key = LinkedInGlobals.ckeyIdentifier(element);
       const childKey = LinkedInGlobals.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
@@ -5187,6 +5190,7 @@
         content = key;
       }
 
+      this.logger.leaving(me, content);
       return content;
     }
 
@@ -5196,6 +5200,9 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueIndividualsIdentifier(element) {
+      const me = MyNetwork.uniqueIndividualsIdentifier.name;
+      this.logger.entered(me, element);
+
       const key = LinkedInGlobals.ckeyIdentifier(element);
       const childKey = LinkedInGlobals.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
@@ -5209,6 +5216,7 @@
         content = key;
       }
 
+      this.logger.leaving(me, content);
       return content;
     }
 
@@ -6067,7 +6075,7 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueDetailsIdentifier(element) {
-      const me = JobsCollections.uniqueDetailsIdentifier.me;
+      const me = JobsCollections.uniqueDetailsIdentifier.name;
       this.logger.entered(me, element);
 
       let content = element.innerText;
@@ -6527,7 +6535,12 @@
      * @returns {string} - A value unique to this element.
      */
     static uniqueEntryIdentifier(element) {
+      const me = JobsView.uniqueEntryIdentifier.name;
+      this.logger.entered(me, element);
+
       const content = element.innerText;
+
+      this.logger.leaving(me, content);
       return NH.base.strHash(content);
     }
 
