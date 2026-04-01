@@ -899,9 +899,6 @@
      * @throws {Scroller.Exception} - On many construction problems.
      */
     constructor(what, how) {
-      const MAX_UID_LENGTH = 20;
-      const WAIT_FOR_ITEM = 3000;
-
       ({
         name: this.#name = 'Unnamed scroller',
         base: this.#base,
@@ -910,7 +907,7 @@
       } = what);
       ({
         uidCallback: this.#uidCallback,
-        maxUidLength: this.#maxUidLength = MAX_UID_LENGTH,
+        maxUidLength: this.#maxUidLength = Scroller.#defaults.MAX_UID_LENGTH,
         classes: this.#classes = [],
         handleClicks: this.#handleClicks = true,
         autoActivate: this.#autoActivate = false,
@@ -919,7 +916,8 @@
         bottomMarginPixels: this.#bottomMarginPixels = 0,
         topMarginCSS: this.#topMarginCSS = '0',
         bottomMarginCSS: this.#bottomMarginCSS = '0',
-        waitForItemTimeout: this.#waitForItemTimeout = WAIT_FOR_ITEM,
+        waitForItemTimeout: this.#waitForItemTimeout =
+        Scroller.#defaults.WAIT_FOR_ITEM,
         containerTimeout: this.#containerTimeout = 0,
         clickConfig: this.#clickConfig = {},
       } = how);
@@ -1257,6 +1255,15 @@
       this.#destroyed = true;
 
       this.logger.leaving(me);
+    }
+
+    static #defaults = {};
+
+    static {
+      Scroller.#defaults.WAIT_FOR_ITEM = 3000;
+      Scroller.#defaults.MAX_UID_LENGTH = 20;
+
+      Object.freeze(Scroller.#defaults);
     }
 
     /**
@@ -1812,7 +1819,21 @@
       }
     }
 
+    /* eslint-disable require-jsdoc */
+    static ScrollerTestCase = class extends NH.xunit.TestCase {
+
+      testClassIsFrozen() {
+        this.assertRaisesRegExp(TypeError, /is not extensible/u, () => {
+          Scroller.#defaults.FIELD = 'field';
+        });
+      }
+
+    }
+    /* eslint-enable */
+
   }
+
+  NH.xunit.testing.testCases.push(Scroller.ScrollerTestCase);
 
   /* eslint-disable max-lines-per-function */
   /* eslint-disable no-empty-function */
