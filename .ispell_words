@@ -399,6 +399,7 @@ groupCollapsed
 groupEnd
 GroupMode
 GroupModeTestCase
+groupName
 groupStack
 grp
 guessPageStyle
@@ -456,6 +457,7 @@ inputFocus
 installControls
 installStyle
 instanceCalls
+instanceName
 instanceof
 InvitationManager
 inviteScroller
@@ -525,6 +527,7 @@ lastScroller
 LayoutTestCase
 len
 libby
+libraryName
 licenseData
 LicenseData
 licenseEntry
@@ -556,6 +559,7 @@ localResult
 loggerArrays
 LoggerConfigs
 LoggerConfigSaver
+loggerName
 loggerRef
 LoggerTestCase
 longName
@@ -596,6 +600,7 @@ missingFirst
 missingSecond
 moCallback
 ModalTestCase
+modeName
 modifierState
 monitorConnectedness
 moreWork
@@ -608,6 +613,7 @@ mutationHandler
 mutationObserver
 MutationObserver
 MutationRecord
+myName
 mynetwork
 MyNetwork
 nameElement
@@ -1042,9 +1048,9 @@ testCannotInstantiateDirectly
 testCanSetClassesFunc
 testCanSetRenderFunc
 TestCase
+testcases
 testCases
 TestCases
-testcases
 TestCaseTestCase
 testChaining
 testChangingDefaultEqual
