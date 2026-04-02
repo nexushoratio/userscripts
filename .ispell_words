@@ -114,7 +114,6 @@ checkVisibility
 childKey
 childList
 childNodes
-childViewName
 ckey
 ckeyIdentifier
 cksum
@@ -632,6 +631,7 @@ navSelector
 navSpacer
 ndid
 ndiff
+nestedId
 newCallback
 NewClass
 newCSS
@@ -1248,6 +1248,7 @@ typeof
 uid
 uidCallback
 uidCommentRE
+uidDetailsClassRE
 uidPostRE
 uids
 ul

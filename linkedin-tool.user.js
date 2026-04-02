@@ -2732,6 +2732,20 @@
       this.ready = this.#waitUntilPageLoadedEnough();
     }
 
+    /**
+     * Combine text from child headers.
+     *
+     * @param {Element} element - Element to examine.
+     * @returns {string} - Combined header text.
+     */
+    static h2(element) {
+      return element.querySelectorAll('h2')
+        .values()
+        .map(x => x.innerText.trim())
+        .toArray()
+        .join('; ');
+    }
+
     urlChangeMonitorSelector = 'html';
 
     /** @type {NH.base.Dispatcher} */
@@ -6099,30 +6113,43 @@
       const me = JobsCollections.uniqueDetailsIdentifier.name;
       this.logger.entered(me, element);
 
-      let content = element.innerText;
-      if (element.id) {
-        content = element.id;
-      } else {
-        const hasId = element.querySelector('[id]:not([id^="ember"])');
-        if (hasId) {
-          content = hasId.id;
-        } else {
-          const h2 = Array.from(element.querySelectorAll('h2'))
-            .filter(x => x.innerText.trim());
-          if (h2.length) {
-            content = h2[0].innerText.trim();
-          } else {
-            const tags = new Set();
-            element.querySelectorAll('*')
-              .forEach((x) => {
-                tags.add(x.tagName);
-              });
-            this.logger.log(
-              'uniqueDetailsIdentifier tags we might use for a better uid:',
-              tags
-            );
-          }
-        }
+      let content = '';
+      const id = element.id;
+      const nestedId = element.querySelector(
+        '[id]:not([id^="ember"]):not([id^="artdeco"])'
+      )?.id;
+
+      const h2 = LinkedIn.h2(element);
+      const classes = new Set(
+        element.querySelectorAll('*:not(h2,svg)')
+          .values()
+          .map(x => [...x.classList])
+          .toArray()
+          .flat()
+          .sort()
+      );
+      const klass = new Set(
+        classes
+          .values()
+          .map(x => JobsCollections.#uidDetailsClassRE.exec(x)?.groups.class)
+          .filter(x => x)
+      )
+        .values()
+        .toArray()
+        .sort()
+        .join('-_-');
+
+      if (h2.length) {
+        content = NH.base.strHash(h2);
+      }
+      if (klass) {
+        content = klass;
+      }
+      if (nestedId) {
+        content = nestedId;
+      }
+      if (id) {
+        content = id;
       }
 
       this.logger.leaving(me, content);
@@ -6427,6 +6454,8 @@
         },
       ],
     };
+
+    static #uidDetailsClassRE = /^(?:job-details|jobs)-(?<class>[^_]*)__/u;
 
     #detailsScroller
     #jobCardScroller
