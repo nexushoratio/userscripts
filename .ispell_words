@@ -402,7 +402,6 @@ groupName
 groupStack
 grp
 guessPageStyle
-handleClicks
 handleEvent
 hashCode
 hasId
@@ -1311,6 +1310,7 @@ waitOnPageLoadedEnough
 waitUntilPageLoadedEnough
 waitUntilReady
 wasSuccessful
+watchForClicks
 WatchPage
 WeakRef
 whac

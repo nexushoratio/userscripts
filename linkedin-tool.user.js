@@ -868,7 +868,7 @@
      * @property {number} [maxUidLength=20] - Max length for default uid text.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
      * from an element as it becomes current.
-     * @property {boolean} [handleClicks=true] - Whether the Scroller should
+     * @property {boolean} [watchForClicks=true] - Whether the Scroller should
      * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [autoActivate=false] - Whether to call the activate
      * method at the end of construction.
@@ -888,7 +888,7 @@
      * milliseconds, for a {ContainerItemsSelector.container} to show up.
      * Some pages may not always provide all identified containers.  The
      * default of 0 disables timing out.  NB: Any containers that timeout will
-     * not handle further activate() processing, such as handleClicks.
+     * not handle further activate() processing, such as watchForClicks.
      * @property {ClickConfig} [clickConfig={}] - Configures how the click()
      * method operates.
      */
@@ -909,7 +909,8 @@
         uidCallback: this.#uidCallback,
         maxUidLength: this.#maxUidLength = Scroller.#defaults.MAX_UID_LENGTH,
         classes: this.#classes = [],
-        handleClicks: this.#handleClicks = true,
+        watchForClicks: this.#watchForClicks =
+        Scroller.#defaults.WATCH_FOR_CLICKS,
         autoActivate: this.#autoActivate = false,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
@@ -1211,7 +1212,7 @@
       const watcher = this.#currentItemWatcher();
 
       for (const container of containers) {
-        if (this.#handleClicks) {
+        if (this.#watchForClicks) {
           this.#onClickElements.add(container);
           container.addEventListener('click',
             this.#onClick,
@@ -1260,8 +1261,9 @@
     static #defaults = {};
 
     static {
-      Scroller.#defaults.WAIT_FOR_ITEM = 3000;
       Scroller.#defaults.MAX_UID_LENGTH = 20;
+      Scroller.#defaults.WAIT_FOR_ITEM = 3000;
+      Scroller.#defaults.WATCH_FOR_CLICKS = true;
 
       Object.freeze(Scroller.#defaults);
     }
@@ -1293,7 +1295,6 @@
       'change', 'out-of-range', 'activate', 'deactivate'
     );
 
-    #handleClicks
     #historicalIdToIndex = new Map();
     #logger
     #maxUidLength
@@ -1308,6 +1309,7 @@
     #topMarginPixels
     #uidCallback
     #waitForItemTimeout
+    #watchForClicks
 
     /**
      * If an item is clicked, switch to it.
