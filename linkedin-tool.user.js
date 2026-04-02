@@ -3276,7 +3276,7 @@
         '.lit-menu-error-badge::after {' +
           ' content: none !important;' +
           '}',
-        '.lit-menu-error-badge-hide { opacity: 0; }',
+        '.lit-menu-badge-hide { opacity: 0; }',
       ];
       style.textContent = styles.join('\n');
       document.head.prepend(style);
@@ -3429,9 +3429,9 @@
 
       if (count) {
         this.#errorBadgeStyle2
-          .classList.remove('lit-menu-error-badge-hide');
+          .classList.remove('lit-menu-badge-hide');
       } else {
-        this.#errorBadgeStyle2.classList.add('lit-menu-error-badge-hide');
+        this.#errorBadgeStyle2.classList.add('lit-menu-badge-hide');
       }
 
       this.logger.leaving(me);
