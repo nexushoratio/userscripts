@@ -12,7 +12,7 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://update.greasyfork.org/scripts/478188/1776312/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1333365/NH_base.js
+// @require     https://update.greasyfork.org/scripts/477290/1788132/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1777122/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1763084/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1337642/NH_widget.js
@@ -28,20 +28,20 @@
 (async () => {
   'use strict';
 
-  const APP_LONG = GM.info.script.name;
-  const APP_SHORT = APP_LONG.split(' ')
-    .at(-1);
-  const CKEY = 'componentkey';
-  const OPTIONS = 'Options';
-
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 54},
-    {name: 'base', minVersion: 52},
+    {name: 'base', minVersion: 54},
     {name: 'userscript', minVersion: 7},
     {name: 'web', minVersion: 8},
     {name: 'widget', minVersion: 45},
     {name: 'spa', minVersion: 1},
   ]);
+
+  const APP_LONG = GM.info.script.name;
+  const CKEY = 'componentkey';
+  const OPTIONS = 'Options';
+  const APP_SHORT = APP_LONG.split(' ')
+    .at(NH.base.LAST_ITEM);
 
   /**
    * Save options to storage.
@@ -81,6 +81,8 @@
   }
 
   const litOptions = await loadOptions();
+
+  // eslint-disable-next-line require-atomic-updates
   NH.xunit.testing.enabled = litOptions.enableDevMode;
 
   // Inject some test errors
