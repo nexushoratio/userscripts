@@ -366,7 +366,6 @@ gh
 ghIj
 ghUrl
 github
-globalfooter
 globalKnownIssues
 globalNewsContent
 gmail
@@ -964,7 +963,10 @@ startTest
 startUrlMonitor
 startUserscriptManagerUrlMonitor
 StatusBar
+stopMutationObserverUrlMonitor
 stopTest
+stopUrlMonitor
+stopUserscriptManagerUrlMonitor
 strBase
 strHash
 StringAdapter
@@ -1276,7 +1278,10 @@ updateGroupByString
 updateInfoErrorsLabel
 url
 urlchange
+urlChangeAdapter
 urlChangeMonitorSelector
+urlMonitorHandler
+urlMonitorObserver
 useOriginalInfoDialog
 userAgentData
 UserLibrary
