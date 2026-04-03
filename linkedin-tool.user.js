@@ -1181,15 +1181,23 @@
 
     /** Focus on current item. */
     focus() {
-      const me = 'focus';
+      const me = this.focus.name;
       this.logger.entered(me, litOptions.enableScrollerChangesFocus);
 
       this.shine();
       this.show();
 
       if (litOptions.enableScrollerChangesFocus) {
-        this.logger.log('focusing', this.item);
-        NH.web.focusOnElement(this.item);
+        let item = this.item;
+        if (item) {
+          this.logger.log('initial', item);
+          const selector = ':enabled, a, [tabindex]';
+          if (!item.matches(selector)) {
+            item = item.querySelector(selector) || item;
+          }
+          this.logger.log('final', item);
+          NH.web.focusOnElement(item, false);
+        }
       }
 
       this.logger.leaving(me, 'current focus:', document.activeElement);
