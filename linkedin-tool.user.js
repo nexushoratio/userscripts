@@ -11,12 +11,12 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1776312/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/478188/1787507/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1788132/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1777122/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1763084/NH_web.js
-// @require     https://update.greasyfork.org/scripts/478676/1337642/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1778268/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/478349/1787506/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478440/1787504/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
+// @require     https://update.greasyfork.org/scripts/570146/1789609/NH_spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -29,12 +29,12 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 54},
+    {name: 'xunit', minVersion: 56},
     {name: 'base', minVersion: 54},
-    {name: 'userscript', minVersion: 7},
-    {name: 'web', minVersion: 8},
-    {name: 'widget', minVersion: 45},
-    {name: 'spa', minVersion: 1},
+    {name: 'userscript', minVersion: 8},
+    {name: 'web', minVersion: 9},
+    {name: 'widget', minVersion: 46},
+    {name: 'spa', minVersion: 3},
   ]);
 
   const APP_LONG = GM.info.script.name;
