@@ -5948,6 +5948,10 @@
       classes: ['dick'],
       autoActivate: true,
       snapToTop: false,
+      clickConfig: {
+        selectorArray: ['[role="button"]', 'a', 'button'],
+        matchSelf: true,
+      },
     };
 
     /** @type {Scroller~What} */
