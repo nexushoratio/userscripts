@@ -4841,8 +4841,8 @@
     static #commentsWhat = {
       name: `${this.name} comments`,
       selectors: [
-        // Long selector
-        `[data-testid*="commentList"] > div > div > [${CKEY}*=":comment:"]`,
+        // Comment exists to defeat eslint.
+        `[data-testid*="commentList"] [${CKEY}*=":comment:"]:has(> * > a)`,
       ],
     };
 
