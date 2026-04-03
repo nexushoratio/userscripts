@@ -4626,10 +4626,14 @@
       'f',
       'Change browser focus to current item',
       () => {
-        const el = this.#lastScroller.item;
-        this.posts.show();
-        this.comments?.show();
-        NH.web.focusOnElement(el, false);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          const el = this.#lastScroller.item;
+          this.posts.show();
+          this.comments?.show();
+          NH.web.focusOnElement(el, false);
+        }
       }
     );
 
