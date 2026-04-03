@@ -4108,13 +4108,22 @@
      * @returns {Element} - The element matched by #pageReadySelector.
      */
     #waitUntilReady = async () => {
-      const me = 'waitUntilReady';
-      this.logger.entered(me);
+      const me = this.#waitUntilReady.name;
+      this.logger.entered(me, this.#pageReadySelector);
 
-      this.logger.log('pageReadySelector:', this.#pageReadySelector);
-      const element = await NH.web.waitForSelector(
-        this.#pageReadySelector, 0
-      );
+      const timeout = 3000;
+      let element = null;
+      try {
+        element = await NH.web.waitForSelector(
+          this.#pageReadySelector, timeout
+        );
+      } catch (e) {
+        NH.base.issues.post(
+          `${this.pageId} failed to load`,
+          e.message,
+          this.#pageReadySelector
+        );
+      }
 
       this.logger.leaving(me, element);
       return element;
