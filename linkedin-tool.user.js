@@ -159,7 +159,12 @@
       },
     ],
     ['#251', 'Normalize the `uniqueFooIdentifier()` functions'],
-    ['#253', 'Support <b>My Network Events</b> page'],
+    [
+      '#253', {
+        title: 'Support <b>My Network Events</b> page',
+        date: '2026-04-03',
+      },
+    ],
     ['#255', 'Support <b>Search appearances</b> page'],
     ['#256', 'Support <b>Verify</b> page'],
     ['#257', 'Support <b>Analytics & tools</b> page'],
@@ -170,7 +175,6 @@
     ],
     ['#272', 'Styling issue on <code>Information view</code>'],
     ['#273', 'Focus being stolen from sidebars'],
-    ['#274', 'Hybrid detection does not reliably work'],
     ['#275', 'Fix badges on LIT menu item'],
     ['#276', 'Update <b>Feed</b> page'],
     ['#277', 'Update <b>My Network</b> page'],
@@ -197,6 +201,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-02',
+      issues: ['#251'],
+      subject: 'Update <code>JobsCollections.uniqueDetailsIdentifier</code>' +
+        ' for consistency',
+    },
     {
       date: '2026-03-31',
       issues: ['#296'],
@@ -457,16 +467,6 @@
       date: '2026-03-06',
       issues: ['#276'],
       subject: 'Update the implementation for the <code>Feed</code> view',
-    },
-    {
-      date: '2026-03-04',
-      issues: ['#275'],
-      subject: 'Update how error badges are handled',
-    },
-    {
-      date: '2026-03-02',
-      issues: ['#274'],
-      subject: 'Improve resilience of multiple styles of pages',
     },
   ];
 
