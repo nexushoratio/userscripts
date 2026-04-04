@@ -2321,7 +2321,7 @@
     #onActivate = () => {
       const pageStyle = this.#page.spa.details.pageStyle;
       const main = document.querySelector('main')?.id;
-      if (pageStyle === LinkedInGlobals.Style.ONE && main !== 'main') {
+      if (pageStyle === LinkedInGlobals.Style.ONE && main === 'workspace') {
         this.logger.log('hybrid mode, reloading');
         document.location.reload();
       }
