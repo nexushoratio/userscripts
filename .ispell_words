@@ -99,6 +99,7 @@ builtInClasses
 buttonClasses
 byName
 callCount
+cardIndex
 cardItemToClick
 cardsContainer
 cardScroller
@@ -410,6 +411,7 @@ helpTabDefinition
 historicalIdToIndex
 homepageURL
 hooksPath
+hotKey
 href
 HTMLAnchorElement
 HTMLDialogElement
@@ -1109,8 +1111,8 @@ testGetReprFunc
 testGoodRenderFunc
 testGroupDefaults
 testHideShow
-testId
 testid
+testId
 testInheritance
 testInitialValues
 testInstanceCleanups

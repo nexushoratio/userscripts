@@ -4512,10 +4512,18 @@
       const me = Feed.uniquePostIdentifier.name;
       this.logger.entered(me, element);
 
-      let content = LinkedInGlobals.ckeyIdentifier(element);
-      const groups = Feed.#uidPostRE.exec(content)?.groups;
+      let content = '';
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const groups = Feed.#uidPostRE.exec(key)?.groups;
+
+      if (key) {
+        content = key;
+      }
       if (groups) {
         content = groups.body;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -4532,16 +4540,15 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const ckey = LinkedInGlobals.ckeyIdentifier(element);
-      const groups = Feed.#uidCommentRE.exec(ckey)?.groups;
+      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const groups = Feed.#uidCommentRE.exec(key)?.groups;
 
-      if (ckey) {
-        content = ckey;
+      if (key) {
+        content = key;
       }
       if (groups) {
         content = groups.body;
       }
-
       if (!content) {
         content = this.defaultUid(element);
       }
@@ -5237,17 +5244,20 @@
       const me = MyNetwork.uniqueCollectionIdentifier.name;
       this.logger.entered(me, element);
 
+      let content = '';
       const key = LinkedInGlobals.ckeyIdentifier(element);
       const childKey = LinkedInGlobals.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
       );
-      let content = element.innerText;
 
       if (childKey) {
         content = childKey;
       }
       if (key) {
         content = key;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -5263,17 +5273,20 @@
       const me = MyNetwork.uniqueIndividualsIdentifier.name;
       this.logger.entered(me, element);
 
+      let content = '';
       const key = LinkedInGlobals.ckeyIdentifier(element);
       const childKey = LinkedInGlobals.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
       );
-      let content = element.innerText;
 
       if (childKey) {
         content = childKey;
       }
       if (key) {
         content = key;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -5805,14 +5818,14 @@
       const me = Jobs.uniqueJobIdentifier.name;
       this.logger.entered(me, element);
 
+      let content = '';
       const key = LinkedInGlobals.ckeyIdentifier(element);
-
-      let content = element.innerText;
 
       if (key) {
         content = key;
-      } else {
-        content = NH.base.strHash(content);
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6147,7 +6160,6 @@
       const nestedId = element.querySelector(
         '[id]:not([id^="ember"]):not([id^="artdeco"])'
       )?.id;
-
       const h2 = LinkedIn.h2(element);
       const classes = new Set(
         element.querySelectorAll('*:not(h2,svg)')
@@ -6168,8 +6180,8 @@
         .sort()
         .join('-_-');
 
-      if (h2.length) {
-        content = NH.base.strHash(h2);
+      if (h2) {
+        content = h2;
       }
       if (klass) {
         content = klass;
@@ -6180,9 +6192,12 @@
       if (id) {
         content = id;
       }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /**
@@ -6194,7 +6209,15 @@
       const me = JobsCollections.uniqueJobIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = element.dataset.occludableJobId;
+      let content = '';
+      const jobId = element.dataset.occludableJobId;
+
+      if (jobId) {
+        content = jobId;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
       return content;
@@ -6210,14 +6233,17 @@
       this.logger.entered(me, element);
 
       let content = '';
-      content = element.innerText;
       const label = element.getAttribute('aria-label');
+
       if (label) {
         content = label;
       }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -6587,15 +6613,15 @@
       const me = JobsView.uniqueCardIdentifier.name;
       this.logger.entered(me, element);
 
+      let content = '';
       const key = LinkedInGlobals.ckeyIdentifier(element);
       const label = element
         .querySelector('[aria-label]')
         ?.getAttribute('aria-label');
-      const h2 = element.querySelector('h2');
-      let content = element.innerText;
+      const h2 = LinkedIn.h2(element);
 
       if (h2) {
-        content = h2.innerText;
+        content = h2;
       }
       if (label) {
         content = label;
@@ -6603,9 +6629,12 @@
       if (key) {
         content = key;
       }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /**
@@ -6617,10 +6646,10 @@
       const me = JobsView.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = element.innerText;
+      const content = this.defaultUid(element);
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -6883,10 +6912,10 @@
       const me = Messaging.uniqueConvoCardsIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = element.innerText;
+      const content = this.defaultUid(element);
 
       this.logger.leaving(me);
-      return content ? NH.base.strHash(content) : content;
+      return content;
     }
 
     /**
@@ -6898,10 +6927,18 @@
       const me = Messaging.uniqueMessageIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = element.dataset.eventUrn;
+      let content = '';
+      const urn = element.dataset.eventUrn;
+
+      if (urn) {
+        content = urn;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /** @type {Scroller} */
@@ -7342,16 +7379,22 @@
       const me = Notifications.uniqueIdentifier.name;
       this.logger.entered(me, element);
 
-      let content = element.innerText;
-      if (element.parentElement.dataset.finiteScrollHotkeyItem) {
-        content = element.parentElement.dataset.finiteScrollHotkeyItem;
+      let content = '';
+      const hotKey = element.parentElement.dataset.finiteScrollHotkeyItem;
+      const cardIndex = element.dataset.ntCardIndex;
+
+      if (hotKey) {
+        content = hotKey;
       }
-      if (element.dataset.ntCardIndex) {
-        content = element.dataset.ntCardIndex;
+      if (cardIndex) {
+        content = cardIndex;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /**
@@ -7959,15 +8002,15 @@
       const me = Events.uniqueCollectionIdentifier.name;
       this.logger.entered(me, element);
 
-      const h1 = element.querySelector('h1');
-      const h2 = element.querySelector('h2');
       let content = '';
+      const h1 = element.querySelector('h1')?.innerText.trim();
+      const h2 = LinkedIn.h2(element);
 
-      if (h2?.innerText) {
-        content = this.defaultUid(h2);
+      if (h2) {
+        content = h2;
       }
-      if (h1?.innerText) {
-        content = this.defaultUid(h1);
+      if (h1) {
+        content = h1;
       }
       if (!content) {
         content = this.defaultUid(element);
@@ -8201,14 +8244,10 @@
       const me = SearchResultsPeople.uniquePaginationIdentifier.name;
       this.logger.entered(me, element);
 
-      let content = '';
-
-      if (!content) {
-        content = this.defaultUid(element);
-      }
+      const content = this.defaultUid(element);
 
       this.logger.leaving(me, content);
-      return NH.base.strHash(content);
+      return content;
     }
 
     /**
