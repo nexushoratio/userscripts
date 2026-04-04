@@ -2303,77 +2303,6 @@
 
   }
 
-  /** TODO(#295): This is a hack.  Find a more principled solution. */
-  class HybridFixerService extends NH.base.Service {
-
-    /**
-     * @param {string} name - Custom portion of this instance.
-     * @param {Page} page - Page this service is tied to.
-     */
-    constructor(name, page) {
-      super(name);
-      this.#page = page;
-      this.on('activate', this.#onActivate);
-    }
-
-    #page
-
-    #onActivate = () => {
-      const pageStyle = this.#page.spa.details.pageStyle;
-      const main = document.querySelector('main')?.id;
-      if (pageStyle === LinkedInGlobals.Style.ONE && main === 'workspace') {
-        this.logger.log('hybrid mode, reloading');
-        document.location.reload();
-      }
-    }
-
-  }
-
-  /**
-   * Verify a {Page} implementation and current site style match.
-   *
-   * It will post a bug on mismatches.
-   */
-  class LinkedInStyleService extends NH.base.Service {
-
-    /**
-     * @param {string} name - Custom portion of this instance.
-     * @param {Page} page - Page this service is tied to.
-     */
-    constructor(name, page) {
-      super(name);
-      this.#page = page;
-      this.on('activate', this.#onActivate);
-    }
-
-    /**
-     * @param {...LinkedInGlobals.Style} styles - Styles allowed for the page.
-     * @returns {LinkedInStyleService} - This instance, for chaining.
-     */
-    addStyles(...styles) {
-      for (const style of styles) {
-        this.#allowedStyles.add(style);
-      }
-      return this;
-    }
-
-    #allowedStyles = new Set();
-    #page
-
-    #onActivate = () => {
-      if (!this.#allowedStyles.has(this.#page.spa.details.pageStyle)) {
-        const style = this.#page.spa.details.pageStyle.toString()
-          .replace('Symbol(', '')
-          .replace(')', '');
-        NH.base.issues.post([
-          `The page "${this.shortName}" was activated`,
-          `with unsupported style: ${style}`,
-        ].join(' '));
-      }
-    }
-
-  }
-
   /**
    * Manage a {Scroller} via {NH.base.Service} with LIT idiosyncrasies.
    *
@@ -3830,6 +3759,77 @@
         dates: dates,
         knownIssues: knownIssues,
       };
+    }
+
+  }
+
+  /** TODO(#295): This is a hack.  Find a more principled solution. */
+  class HybridFixerService extends NH.base.Service {
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Page} page - Page this service is tied to.
+     */
+    constructor(name, page) {
+      super(name);
+      this.#page = page;
+      this.on('activate', this.#onActivate);
+    }
+
+    #page
+
+    #onActivate = () => {
+      const pageStyle = this.#page.spa.details.pageStyle;
+      const main = document.querySelector('main')?.id;
+      if (pageStyle === LinkedInGlobals.Style.ONE && main === 'workspace') {
+        this.logger.log('hybrid mode, reloading');
+        document.location.reload();
+      }
+    }
+
+  }
+
+  /**
+   * Verify a {Page} implementation and current site style match.
+   *
+   * It will post a bug on mismatches.
+   */
+  class LinkedInStyleService extends NH.base.Service {
+
+    /**
+     * @param {string} name - Custom portion of this instance.
+     * @param {Page} page - Page this service is tied to.
+     */
+    constructor(name, page) {
+      super(name);
+      this.#page = page;
+      this.on('activate', this.#onActivate);
+    }
+
+    /**
+     * @param {...LinkedInGlobals.Style} styles - Styles allowed for the page.
+     * @returns {LinkedInStyleService} - This instance, for chaining.
+     */
+    addStyles(...styles) {
+      for (const style of styles) {
+        this.#allowedStyles.add(style);
+      }
+      return this;
+    }
+
+    #allowedStyles = new Set();
+    #page
+
+    #onActivate = () => {
+      if (!this.#allowedStyles.has(this.#page.spa.details.pageStyle)) {
+        const style = this.#page.spa.details.pageStyle.toString()
+          .replace('Symbol(', '')
+          .replace(')', '');
+        NH.base.issues.post([
+          `The page "${this.shortName}" was activated`,
+          `with unsupported style: ${style}`,
+        ].join(' '));
+      }
     }
 
   }
