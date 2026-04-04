@@ -301,7 +301,7 @@ The is an example of a new `Page` that does this.  Note that sometimes, nodes ge
 ```
 Then in the console, do a query for the largest *data-counter* to see what the last thing loaded was.  Having timestamps turned on in the console helps.
 ```javascript
-$('[data-counter="NUM"]')
+$$('[data-counter]:not(svg,image,figure)').map(x => [x.dataset.counter, x]).sort((a,b) => (b[0] - a[0]))
 ```
 
 Without true details passed to *super()*, this will watch any page being loaded, so careful.
