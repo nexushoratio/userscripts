@@ -603,6 +603,8 @@ ModalTestCase
 modeName
 modifierState
 monitorConnectedness
+monitorImpl
+monMe
 moreWork
 mozilla
 mq
@@ -677,6 +679,7 @@ nextTab
 nexushoratio
 NexusHoratio
 nh
+NHWeb
 nodeType
 nodeValue
 noframes
@@ -1288,8 +1291,8 @@ urlMonitorObserver
 useOriginalInfoDialog
 userAgentData
 UserLibrary
-UserScript
 userscript
+UserScript
 UserscriptError
 userscripts
 uuId

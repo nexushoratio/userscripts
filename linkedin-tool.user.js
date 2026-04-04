@@ -7631,7 +7631,7 @@
       super({spa: spa, ...Profile.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE);
+        .addStyles(LinkedInGlobals.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -7863,7 +7863,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/in/.*', 'u'),
-      pageReadySelector: 'aside > section[data-view-name]',
+      pageReadySelector: '[data-sdui-component$="profileCardsAboveActivity"]',
     };
 
     /** @type {Scroller~How} */
