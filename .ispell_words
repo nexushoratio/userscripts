@@ -1142,7 +1142,6 @@ testMissing
 testMixed
 testNameOnly
 testNeedsBaseOrContainerItems
-testNoArgment
 testNoArgument
 testNoClasses
 testNoFactory
@@ -1316,7 +1315,7 @@ violentmonkey
 visibilitychange
 VMKeyboardService
 VMShortcuts
-wai
+WAI
 waitForContainers
 waitForItemTimeout
 waitForSelector
