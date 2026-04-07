@@ -50,6 +50,7 @@ alnum
 alsoNotATest
 AnOverridePage
 AnUPPERWord
+aow
 apg
 applyToJob
 args
@@ -823,6 +824,7 @@ prevSection
 prevTab
 primaryNavLinksComponentRef
 primaryNavSelector
+profileCardsAboveActivity
 pv
 pvs
 px
@@ -886,6 +888,7 @@ returnToPost
 returnToSection
 rgb
 RoCallback
+roledescription
 rowClassesFunc
 RowClassesFunc
 runTests
@@ -911,6 +914,7 @@ scrollMarginTop
 scrollTo
 scrollToCurrentItem
 scrollTop
+sdui
 searchMessages
 searchParams
 SearchResults
@@ -1258,6 +1262,7 @@ uidCommentRE
 uidDetailsClassRE
 uidPostRE
 uids
+uidSectionRE
 ul
 undef
 unicode
@@ -1336,5 +1341,5 @@ xmlns
 xunit
 xUnit
 XUnit
-XyZzy
 xyzzy
+XyZzy

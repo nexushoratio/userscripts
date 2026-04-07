@@ -7651,14 +7651,10 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const memberId = element.dataset.memberId;
-      const div = element.querySelector(':scope > div[id]:first-of-type');
+      const key = LinkedInGlobals.ckeyIdentifier(element);
 
-      if (memberId) {
-        content = memberId;
-      }
-      if (div) {
-        content = div.id;
+      if (key) {
+        content = Profile.#uidSectionRE.exec(key)?.groups.id;
       }
       if (!content) {
         content = this.defaultUid(element);
@@ -7675,56 +7671,15 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueEntryIdentifier(element) {  // eslint-disable-line max-lines-per-function, max-statements
+    static uniqueEntryIdentifier(element) {
       const me = Profile.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
-      const id = element.id?.replace(/^ember\d+-?/u, '');
-      // Company links (and searches) are too generic and could get reused in
-      // a section.
-      const firstAnchor = element instanceof HTMLAnchorElement
-        ? element
-        : element.querySelector([
-          'a',
-          ':not([href*="/company/"])',
-          ':not([data-field="experience_company_logo"])',
-        ].join(''));
-      const positionAnchor = element
-        .querySelector('a[data-field^="position_contextual_skills"]');
-      const isTab = element.matches('[role="tab"]');
-      const hasPvs = element.matches('[class*="pvs-profile"]');
+      const key = LinkedInGlobals.ckeyIdentifier(element);
 
-      if (hasPvs) {
-        const extra = element
-          .classList
-          .values()
-          .filter(x => x.startsWith('pvs'))
-          .map(x => x.trim())
-          .toArray()
-          .sort()
-          .join(' ');
-        content = `${element.innerText.trim()} ${extra}`;
-      }
-      if (isTab) {
-        content = element.firstElementChild?.innerText?.trim();
-      }
-      if (firstAnchor) {
-        const href = firstAnchor.href;
-        const url = new URL(href);
-        const pathname = url.pathname;
-        // eslint-disable-next-line prefer-regex-literals
-        if (pathname.match(RegExp('^/(?:feed|search|.*/add-edit)/', 'u'))) {
-          content = NH.base.strHash(url.search);
-        } else {
-          content = pathname;
-        }
-      }
-      if (positionAnchor) {
-        content = new URL(positionAnchor.href).pathname;
-      }
-      if (id) {
-        content = id;
+      if (key) {
+        content = key;
       }
       if (!content) {
         content = this.defaultUid(element);
@@ -7824,10 +7779,7 @@
       'Show more of the current item',
       () => {
         const el = this.#lastScroller.item;
-        NH.web.clickElement(el, [
-          // ...see more
-          '.inline-show-more-text__button',
-        ]);
+        NH.web.clickElement(el, ['[data-testid="expandable-text-button"]']);
       }
     );
 
@@ -7837,25 +7789,7 @@
       () => {
         // Some sections have multiple edit buttons, so walk amongst them.
         const el = this.#lastScroller.item;
-        // Also, we have all of a > svg, button > svg, a > button > svg
-        const selector = [
-          ':is(a, button)',
-          ':has(svg[data-test-icon^="edit"])',
-          ':not(a:has(button))',
-        ].join('');
-        const elements = el
-          .querySelectorAll(selector)
-          .values()
-          .toArray();
-        let idx = elements.indexOf(document.activeElement);
-        if (idx >= 0) {
-          idx = (idx + NH.base.ONE_ITEM) % elements.length;
-        } else {
-          idx = 0;
-        }
-        this.logger.log('idx', idx, elements[idx]);
-        elements[idx]?.focus();
-        elements[idx]?.click();
+        this.logger.log('el', el);
       }
     );
 
@@ -7877,30 +7811,11 @@
     /** @type {Scroller~What} */
     static #entriesWhat = {
       name: `${this.name} entries`,
-      // There are a couple of selector variants that work with most sections,
-      // then a few specific ones.
+      // TODO(#297): Need to start from scratch.
       selectors: [
         [
-        // Most common lists
-          '.artdeco-list__item',
-
-          // Member button list
-          '[class*="pv-top-card-v2"] button',
-          // Member carousel
-          'ul.artdeco-carousel__slider > li',
-
-          // Analytics (aka insights) lists
-          ':scope > div > ul > li[class*="pvs-list__item"]',
-
-          // Activity (aka content_collections)
-          'div.scaffold-finite-scroll__content > ul > li',
-          'footer > a',
-
-          // Interests
-          '[role="tablist"] [aria-selected="true"]',
-
-          // // Footer
-          '.pvs-list__footer-wrapper a',
+          // Nada
+          'nope',
         ].join(','),
       ],
     };
@@ -7917,14 +7832,17 @@
       name: `${this.name} sections`,
       containerItems: [
         {
-          container: 'main',
+          container: '[data-testid="lazy-column"]',
           items: [
-            // Major sections
-            ':scope > section',
+            // Sections of interest.
+            'section:not([aria-roledescription="carousel"])',
           ].join(','),
         },
       ],
     };
+
+    static #uidSectionRE =
+    /^(?:com.linkedin.sdui.profile.card.*-aow)?(?<id>.*)/u;
 
     #entryScroller
     #keyboardService
