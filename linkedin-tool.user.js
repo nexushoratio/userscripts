@@ -5411,7 +5411,11 @@
       'f',
       'Change browser focus to current card/item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
@@ -5668,8 +5672,12 @@
       'f',
       'Change browser focus to current item',
       () => {
-        const el = this.invites.item;
-        NH.web.focusOnElement(el);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.invites.focus();
+        } else {
+          const el = this.invites.item;
+          NH.web.focusOnElement(el);
+        }
       }
     );
 
@@ -5952,9 +5960,13 @@
       'f',
       'Change browser focus to current section or job',
       () => {
-        this.sections.show();
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          this.sections.show();
         this.jobs?.show();
         NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
@@ -6373,7 +6385,11 @@
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
@@ -6777,7 +6793,11 @@
       'f',
       'Change browser focus to current item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
@@ -7058,7 +7078,11 @@
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item, false);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item, false);
+        }
       }
     );
 
@@ -7507,8 +7531,12 @@
       'f',
       'Change browser focus to current notification',
       () => {
-        this.notifications.show();
-        NH.web.focusOnElement(this.notifications.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.notifications.focus();
+        } else {
+          this.notifications.show();
+          NH.web.focusOnElement(this.notifications.item);
+        }
       }
     );
 
@@ -7814,7 +7842,11 @@
       'f',
       'Change browser focus to current item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
@@ -8077,8 +8109,12 @@
       'f',
       'Change browser focus to current item',
       () => {
-        const el = this.#lastScroller.item;
-        NH.web.focusOnElement(el);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          const el = this.#lastScroller.item;
+          NH.web.focusOnElement(el);
+        }
       }
     );
 
@@ -8326,7 +8362,11 @@
       'f',
       'Change browser focus to current item',
       () => {
-        NH.web.focusOnElement(this.#lastScroller.item);
+        if (litOptions.enableScrollerChangesFocus) {
+          this.#lastScroller.focus();
+        } else {
+          NH.web.focusOnElement(this.#lastScroller.item);
+        }
       }
     );
 
