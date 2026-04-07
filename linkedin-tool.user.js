@@ -7419,8 +7419,8 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueIdentifier(element) {
-      const me = Notifications.uniqueIdentifier.name;
+    static uniqueNotificationIdentifier(element) {
+      const me = Notifications.uniqueNotificationIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
@@ -7643,7 +7643,7 @@
 
     /** @type {Scroller~How} */
     static #notificationsHow = {
-      uidCallback: Notifications.uniqueIdentifier,
+      uidCallback: Notifications.uniqueNotificationIdentifier,
       classes: ['tom'],
       snapToTop: false,
       clickConfig: {

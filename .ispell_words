@@ -1272,10 +1272,10 @@ uniqueDetailsIdentifier
 uniqueEntryIdentifier
 uniqueEventIdentifier
 uniqueFooIdentifier
-uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueJobIdentifier
 uniqueMessageIdentifier
+uniqueNotificationIdentifier
 uniquePaginationIdentifier
 uniquePostIdentifier
 uniqueResultIdentifier
