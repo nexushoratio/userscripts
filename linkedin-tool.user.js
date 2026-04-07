@@ -165,7 +165,12 @@
         date: '2026-04-03',
       },
     ],
-    ['#255', 'Support <b>Search appearances</b> page'],
+    [
+      '#255', {
+        title: 'Support <b>Search appearances</b> page',
+        date: '2026-04-07',
+      },
+    ],
     ['#256', 'Support <b>Verify</b> page'],
     ['#257', 'Support <b>Analytics & tools</b> page'],
     ['#267', 'Bitrot: No longer functions'],
@@ -198,9 +203,59 @@
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
     ],
     ['#296', 'Ugly and missing badges'],
+    ['#297', 'Update <b>Profile</b> page (Style-2)'],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-07',
+      issues: [''],
+      subject: 'Report old news before unused issues',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#297'],
+      subject: 'Partial update of <code>Profile</code> with Style-2 support',
+    },
+    {
+      date: '2026-04-04',
+      issues: ['#232'],
+      subject: 'Create a library wide <code>Logger</code> instance',
+    },
+    {
+      date: '2026-04-04',
+      issues: ['#295'],
+      subject: 'Modify how <code>HybridFixerService</code> detects a hybrid' +
+        ' page',
+    },
+    {
+      date: '2026-04-04',
+      issues: ['#251'],
+      subject: 'Make all <code>Scroller~uidCallback</code> implementations' +
+        ' consistent',
+    },
+    {
+      date: '2026-04-04',
+      issues: ['#232'],
+      subject: 'Allow <code>Jobs.focus()</code> to use the WIP' +
+        ' <code>Scroller.focus()</code> work',
+    },
+    {
+      date: '2026-04-04',
+      issues: ['#232'],
+      subject: 'Update how the flagged version of' +
+        ' <code>Scroller.focus()</code> is implemented',
+    },
+    {
+      date: '2026-04-03',
+      issues: ['#297'],
+      subject: 'Add a timeout to <code>Page.#waitUntilReady</code>',
+    },
+    {
+      date: '2026-04-03',
+      issues: [''],
+      subject: 'Update <code>Feed</code> comment selectors',
+    },
     {
       date: '2026-04-02',
       issues: ['#251'],
@@ -456,17 +511,6 @@
       date: '2026-03-09',
       issues: ['#271'],
       subject: 'Make Style-2 sidebar selectors more precise',
-    },
-    {
-      date: '2026-03-08',
-      issues: ['#277'],
-      subject:
-      'Update the implementation for the <code>My Network</code> view',
-    },
-    {
-      date: '2026-03-06',
-      issues: ['#276'],
-      subject: 'Update the implementation for the <code>Feed</code> view',
     },
   ];
 
