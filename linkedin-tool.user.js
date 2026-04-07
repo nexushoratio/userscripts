@@ -2122,16 +2122,6 @@
    */
   class LinkedInGlobals {
 
-    static Style = {
-      UNKNOWN: Symbol.for('Style-0'),
-      ONE: Symbol.for('Style-1'),
-      TWO: Symbol.for('Style-2'),
-    }
-
-    static {
-      Object.freeze(LinkedInGlobals.Style);
-    }
-
     /** @type {string} - LinkedIn's common aside used in many layouts. */
     static get asideSelector() {
       return this.#asideSelector;
@@ -2717,6 +2707,16 @@
       this.ready = this.#waitUntilPageLoadedEnough();
     }
 
+    static Style = {
+      UNKNOWN: Symbol.for('Style-0'),
+      ONE: Symbol.for('Style-1'),
+      TWO: Symbol.for('Style-2'),
+    }
+
+    static {
+      Object.freeze(LinkedIn.Style);
+    }
+
     /**
      * Combine text from child headers.
      *
@@ -2793,7 +2793,7 @@
       return this.#navbarDispatcher;
     }
 
-    /** @type {LinkedInGlobals.Style} */
+    /** @type {LinkedIn.Style} */
     get pageStyle() {
       return this.#pageStyle;
     }
@@ -2992,7 +2992,7 @@
 
     /**
      * @param {HTMLElement} element - Starting element to avoid another query.
-     * @returns {LinkedInGlobals.Style} - Guessed style.
+     * @returns {LinkedIn.Style} - Guessed style.
      */
     #guessPageStyle = (element) => {
       const me = this.#guessPageStyle.name;
@@ -3003,13 +3003,13 @@
 
       switch (hint) {
         case 'global-nav':
-          pageStyle = LinkedInGlobals.Style.ONE;
+          pageStyle = LinkedIn.Style.ONE;
           break;
         case 'root':
-          pageStyle = LinkedInGlobals.Style.TWO;
+          pageStyle = LinkedIn.Style.TWO;
           break;
         default:
-          pageStyle = LinkedInGlobals.Style.UNKNOWN;
+          pageStyle = LinkedIn.Style.UNKNOWN;
       }
 
       this.logger.leaving(me, pageStyle);
@@ -3521,7 +3521,7 @@
       const me = this.#ensureMenuStyle1.name;
       this.logger.entered(me, this.#ourMenuItemStyle1);
 
-      if (this.#pageStyle === LinkedInGlobals.Style.ONE) {
+      if (this.#pageStyle === LinkedIn.Style.ONE) {
         if (!this.#ourMenuItemStyle1) {
           this.#createMenuItemStyle1();
         }
@@ -3573,7 +3573,7 @@
       const me = this.#ensureMenuStyle2.name;
       this.logger.entered(me, this.#ourMenuItemStyle2);
 
-      if (this.#pageStyle === LinkedInGlobals.Style.TWO) {
+      if (this.#pageStyle === LinkedIn.Style.TWO) {
         if (!this.#ourMenuItemStyle2) {
           this.#createMenuItemStyle2();
         }
@@ -3825,7 +3825,7 @@
     #onActivate = () => {
       const pageStyle = this.#page.spa.details.pageStyle;
       const main = document.querySelector('main')?.id;
-      if (pageStyle === LinkedInGlobals.Style.ONE && main === 'workspace') {
+      if (pageStyle === LinkedIn.Style.ONE && main === 'workspace') {
         this.logger.log('hybrid mode, reloading');
         document.location.reload();
       }
@@ -3851,7 +3851,7 @@
     }
 
     /**
-     * @param {...LinkedInGlobals.Style} styles - Styles allowed for the page.
+     * @param {...LinkedIn.Style} styles - Styles allowed for the page.
      * @returns {LinkedInStyleService} - This instance, for chaining.
      */
     addStyles(...styles) {
@@ -4235,7 +4235,7 @@
       this.addService(HybridFixerService, this);
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE, LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.ONE, LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -4253,7 +4253,7 @@
       '?',
       'Show this information view',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton(APP_SHORT);
         } else {
           this.#gotoNavLabel(APP_SHORT);
@@ -4265,7 +4265,7 @@
       '/',
       'Go to Search box',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           NH.web.clickElement(document, ['#global-nav-search button']);
         } else {
           const element = document.querySelector(
@@ -4280,7 +4280,7 @@
       'g h',
       'Go Home (aka, Feed)',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('feed');
         } else {
           this.#gotoNavLabel('Home');
@@ -4292,7 +4292,7 @@
       'g w',
       'Go to My Network',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('mynetwork');
         } else {
           this.#gotoNavLabel('My Network');
@@ -4304,7 +4304,7 @@
       'g j',
       'Go to Jobs',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('jobs');
         } else {
           this.#gotoNavLabel('Jobs');
@@ -4316,7 +4316,7 @@
       'g m',
       'Go to Messaging',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('messaging');
         } else {
           this.#gotoNavLabel('Messaging');
@@ -4328,7 +4328,7 @@
       'g n',
       'Go to Notifications',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('notifications');
         } else {
           this.#gotoNavLabel('Notifications');
@@ -4340,7 +4340,7 @@
       'g p',
       'Go to Profile (aka, Me)',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('Me');
         } else {
           // Nothing easy to identify, so assume always after Notification
@@ -4359,7 +4359,7 @@
       'g b',
       'Go to Business',
       () => {
-        if (this.spa.details.pageStyle === LinkedInGlobals.Style.ONE) {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('Business');
         } else {
           this.#gotoNavLabel('For Business');
@@ -4527,7 +4527,7 @@
       super({spa: spa, ...Feed.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -5258,7 +5258,7 @@
       super({spa: spa, ...MyNetwork.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -5613,7 +5613,7 @@
       super({spa: spa, ...InvitationManager.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       spa.details.navbarScrollerFixup(
         InvitationManager.#invitesHow
@@ -5833,7 +5833,7 @@
       super({spa: spa, ...Jobs.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6153,7 +6153,7 @@
       super({spa: spa, ...JobsCollections.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE);
+        .addStyles(LinkedIn.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6638,7 +6638,7 @@
       super({spa: spa, ...JobsView.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -6932,7 +6932,7 @@
       super({spa: spa, ...Messaging.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE);
+        .addStyles(LinkedIn.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -7398,7 +7398,7 @@
       super({spa: spa, ...Notifications.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE);
+        .addStyles(LinkedIn.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -7675,7 +7675,7 @@
       super({spa: spa, ...Profile.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -7936,7 +7936,7 @@
       super({spa: spa, ...Events.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.ONE);
+        .addStyles(LinkedIn.Style.ONE);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
@@ -8184,7 +8184,7 @@
       super({spa: spa, ...SearchResultsPeople.#details});
 
       this.addService(LinkedInStyleService, this)
-        .addStyles(LinkedInGlobals.Style.TWO);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.#keyboardService = this.addService(VMKeyboardService);
       this.#keyboardService.addInstance(this);
