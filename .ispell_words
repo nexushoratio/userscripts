@@ -76,6 +76,7 @@ attributeFilter
 attrText
 autoActivate
 badCmp
+badgeErrorStyle
 badgeResultsStyle
 badKlasses
 BaseClassCleanupTestCase
@@ -284,7 +285,6 @@ equalString
 equalValueOf
 equalX
 errMsgListener
-errorBadgeStyle
 errorHandlerBadgeStyle
 erroring
 errorMarker
@@ -567,7 +567,6 @@ longName
 lou
 lowerCamelCase
 lowerUpper
-magicTabIndex
 mainFeed
 maskContentUnits
 matchItem
@@ -756,7 +755,6 @@ otrot
 OtrotHow
 otrotRoCallback
 OtrotWhat
-ourMenuBadgeStyle
 ourMenuItemStyle
 ourSet
 ourValue

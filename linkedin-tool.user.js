@@ -2968,10 +2968,10 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    #badgeErrorStyle1
+    #badgeErrorStyle2
     #badgeResultsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
-    #errorBadgeStyle1
-    #errorBadgeStyle2
     #globals
     #iframeDoc
     #infoId
@@ -3220,7 +3220,7 @@
           ' padding-right: 0.5em;' +
           '}',
         '.lit-kbd-service-active th { background-color: lightgray; }',
-        '.lit-menu-news-badge {' +
+        '.lit-menu-badge-news {' +
           ' position: absolute;' +
           ' bottom: 14px;' +
           ' right: -5px;' +
@@ -3229,7 +3229,7 @@
           ' border-radius: 50%;' +
           ' border: 5px solid green;' +
           '}',
-        '.lit-menu-error-badge {' +
+        '.lit-menu-badge-error {' +
           ' align-items: center;' +
           ' background-color: rgb(203, 17, 45);' +
           ' block-size: 12px;' +
@@ -3258,7 +3258,7 @@
           ' z-index: 100;' +
           '}',
         // Get rid of the donut
-        '.lit-menu-error-badge::after {' +
+        '.lit-menu-badge-error::after {' +
           ' content: none !important;' +
           '}',
         '.lit-menu-badge-hide { opacity: 0; }',
@@ -3325,8 +3325,8 @@
       const me = this.#errorHandlerBadgeStyle1.name;
       this.logger.entered(me, eventType, count);
 
-      const toggle = this.#errorBadgeStyle1.parentElement;
-      this.#errorBadgeStyle1.innerText = `${count}`;
+      const toggle = this.#badgeErrorStyle1.parentElement;
+      this.#badgeErrorStyle1.innerText = `${count}`;
 
       if (count) {
         toggle.classList.add('notification-badge--show');
@@ -3391,7 +3391,7 @@
         item.append(button);
         this.#ourMenuItemStyle1 = item;
         this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
-        this.#errorBadgeStyle1 = button.querySelector(
+        this.#badgeErrorStyle1 = button.querySelector(
           '.notification-badge__count'
         );
       }
@@ -3410,13 +3410,13 @@
       const me = this.#errorHandlerBadgeStyle2.name;
       this.logger.entered(me, eventType, count);
 
-      this.#errorBadgeStyle2.innerText = `${count}`;
+      this.#badgeErrorStyle2.innerText = `${count}`;
 
       if (count) {
-        this.#errorBadgeStyle2
+        this.#badgeErrorStyle2
           .classList.remove('lit-menu-badge-hide');
       } else {
-        this.#errorBadgeStyle2.classList.add('lit-menu-badge-hide');
+        this.#badgeErrorStyle2.classList.add('lit-menu-badge-hide');
       }
 
       this.logger.leaving(me);
@@ -3462,9 +3462,9 @@
           button.querySelector('svg + span')
             ?.remove();
 
-          this.#errorBadgeStyle2 = document.createElement('span');
-          this.#errorBadgeStyle2.classList.add('lit-menu-error-badge');
-          svgParent.append(this.#errorBadgeStyle2);
+          this.#badgeErrorStyle2 = document.createElement('span');
+          this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
+          svgParent.append(this.#badgeErrorStyle2);
 
           this.#finishButtonStyle2(button);
 
@@ -3545,7 +3545,7 @@
         if (badges.length > NH.base.ONE_ITEM) {
           const ignoreSet = new Set(['opacity']);
           const results = [];
-          const ours = getComputedStyle(this.#errorBadgeStyle2);
+          const ours = getComputedStyle(this.#badgeErrorStyle2);
           const theirs = getComputedStyle(badges[0]);
           const ourSet = new Set([...ours]);
           const theirSet = new Set([...theirs]);
