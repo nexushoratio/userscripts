@@ -3687,12 +3687,12 @@
         NH.base.issues.post('Unknown issue detected:', item);
       }
 
-      for (const item of unused) {
-        NH.base.issues.post('Unused issue detected:', item);
-      }
-
       for (const item of old) {
         NH.base.issues.post('Old news item:', item);
+      }
+
+      for (const item of unused) {
+        NH.base.issues.post('Unused issue detected:', item);
       }
     }
 
