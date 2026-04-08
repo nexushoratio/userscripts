@@ -171,18 +171,15 @@
         date: '2026-04-07',
       },
     ],
-    ['#256', 'Support <b>Verify</b> page'],
-    ['#257', 'Support <b>Analytics & tools</b> page'],
-    ['#267', 'Bitrot: No longer functions'],
+    ['#256', {title: 'Support <b>Verify</b> page', date: '2026-04-08'}],
     [
-      '#271', '<b>Global</b> page is particular tricky as it needs ' +
-     'to handle both Style 1 and Style 2 pages',
+      '#257', {
+        title: 'Support <b>Analytics & tools</b> page',
+        date: '2026-04-08',
+      },
     ],
     ['#272', 'Styling issue on <code>Information view</code>'],
-    ['#273', 'Focus being stolen from sidebars'],
     ['#275', 'Fix badges on LIT menu item'],
-    ['#276', 'Update <b>Feed</b> page'],
-    ['#277', 'Update <b>My Network</b> page'],
     ['#278', 'Update <b>Jobs</b> pages'],
     ['#279', 'Update <b>Messaging</b> page'],
     ['#280', 'Update <b>Invitation Manager</b> pages'],
@@ -204,9 +201,72 @@
     ],
     ['#296', 'Ugly and missing badges'],
     ['#297', 'Update <b>Profile</b> page (Style-2)'],
+    [
+      '#298', {
+        title: '<code>Scroller</code>: <code>#isItemViewable()</code> is' +
+          ' broken when item is an image',
+        date: '2026-04-08',
+      },
+    ],
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-07',
+      issues: [''],
+      subject: 'Update <code>Feed</code> comments selector',
+    },
+    {
+      date: '2026-04-07',
+      issues: [''],
+      subject: 'Update selector to load more <code>Feed</code> comments',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#286'],
+      subject: 'Move <code>ckeyIdentifier()</code> from' +
+        ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#298'],
+      subject: 'Enhance a logging statement for easier filtering',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#297'],
+      subject: 'Add a list of known sections on the <code>Profile</code>' +
+        ' page',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#130'],
+      subject: 'Put active keyboard services first in the new shortcuts tab',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#232'],
+      subject: 'Use <code>Scroller.focus()</code> for all focus attempts' +
+        ' (behind option)',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#251'],
+      subject: 'Rename <code>uniqueIdentifier</code> to' +
+        ' <code>uniqueNotificationIdentifier</code>',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#106'],
+      subject: 'Rename badges from <em>type</em>-badge to' +
+        ' badge-<em>type</em>',
+    },
+    {
+      date: '2026-04-07',
+      issues: ['#286'],
+      subject: 'Move <code>LinkedInGlobals.Style</code> to' +
+        ' <code>LinkedIn.Style</code>',
+    },
     {
       date: '2026-04-07',
       issues: [''],
@@ -490,27 +550,6 @@
       date: '2026-03-10',
       issues: ['#275'],
       subject: 'Only add a badge if the cloned menu item does not have one',
-    },
-    {
-      date: '2026-03-09',
-      issues: ['#281'],
-      subject: 'Update <code>Global</code> to the latest layout change',
-    },
-    {
-      date: '2026-03-09',
-      issues: ['#281'],
-      subject: 'Update selector for adding the <em>Tool</em> menu item',
-    },
-    {
-      date: '2026-03-09',
-      issues: ['#277'],
-      subject: 'Finish updating the implementation for ' +
-        'the <code>My Network</code> view',
-    },
-    {
-      date: '2026-03-09',
-      issues: ['#271'],
-      subject: 'Make Style-2 sidebar selectors more precise',
     },
   ];
 

@@ -540,9 +540,9 @@ likeItem
 linkedin
 linkedIn
 LinkedIn
-LinkedIn's
 linkedInGlobals
 LinkedInGlobals
+LinkedIn's
 LinkedInScrollerService
 LinkedInStyleService
 LinkedInToolbarService
@@ -1272,6 +1272,7 @@ uniqueDetailsIdentifier
 uniqueEntryIdentifier
 uniqueEventIdentifier
 uniqueFooIdentifier
+uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueJobIdentifier
 uniqueMessageIdentifier
