@@ -408,7 +408,6 @@ handleEvent
 hashCode
 hasId
 hasOwn
-hasPvs
 helpTabDefinition
 hiddenComment
 historicalIdToIndex
@@ -750,9 +749,11 @@ origMessages
 otmot
 OtmotHow
 otmotMoCallback
+otmotName
 OtmotWhat
 otrot
 OtrotHow
+otrotName
 otrotRoCallback
 OtrotWhat
 ourMenuItemStyle
