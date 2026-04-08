@@ -7993,8 +7993,8 @@
         // Languages Interests
         // Interests Causes
         [
-          // Nada
-          'nope',
+          // "Show all" buttons
+          'hr ~ div > a:has(svg[id^="arrow-right"])',
         ].join(','),
       ],
     };
