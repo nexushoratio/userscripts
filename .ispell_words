@@ -9,6 +9,7 @@ activateJob
 activateNotification
 activeCenter
 activeElement
+activeFirst
 activePageNames
 activePages
 addClassCleanup

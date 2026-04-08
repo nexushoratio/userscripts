@@ -3691,11 +3691,18 @@
     }
 
     #buildShortcutsInfo = () => {
-      const me = 'buildShortcutsInfo';
+      const me = this.#buildShortcutsInfo.name;
       this.logger.entered(me);
 
       this.#shortcutsWidget.clear();
-      for (const service of VMKeyboardService.services) {
+
+      const activeFirst = [
+        ...VMKeyboardService.services.values()
+          .filter(x => x.active),
+        ...VMKeyboardService.services.values()
+          .filter(x => !x.active),
+      ];
+      for (const service of activeFirst) {
         this.logger.log('service:', service.shortName, service.active);
         // Works in progress may not have any shortcuts yet.
         if (service.shortcuts.length) {
