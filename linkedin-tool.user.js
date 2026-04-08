@@ -7727,7 +7727,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/notifications/',
-      pageReadySelector: 'main section div.nt-card-list',
+      pageReadySelector: 'footer.global-footer-compact',
     };
 
     /** @type {Scroller~How} */
