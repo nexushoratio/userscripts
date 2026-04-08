@@ -4703,11 +4703,11 @@
       () => {
         const el = this.posts.item;
         // Check for the "Load more" button first, otherwise we just keep
-        // clicking on the first comment button which rarely does nothing
-        // useful after the first comments are loaded.
+        // clicking on the first comment button which does nothing useful
+        // after the first batch of comments is loaded.
         NH.web.clickElement(el, [
           // Load more comments
-          `[${CKEY}*="LoadMoreComments"] > button`,
+          `[${CKEY}*="LoadMoreComments"] button`,
           // Inside post body
           '[role="button"]',
         ]);
