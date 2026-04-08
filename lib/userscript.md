@@ -2,9 +2,8 @@
 
 Wrappers for dealing with variations in userscript managers.
 
-## Exported properties (as of version 7)
+## Exported properties (as of version 9)
 * version - Bumped per release.
-* UserscriptError - Library specific exception (deprecated).
 * Exception - Library specific exception.
 * licenseData - License data extracted from the userscript header.
 * environmentData - Raw text about the current environment.
