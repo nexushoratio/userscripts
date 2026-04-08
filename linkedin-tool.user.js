@@ -2216,28 +2216,6 @@
       }
     }
 
-    /**
-     * Create a Greasy Fork project URL.
-     * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
-     */
-    gfUrl = (path) => {
-      const base = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
-      const url = `${base}/${path}`;
-      return url;
-    }
-
-    /**
-     * Create a GitHub project URL.
-     * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
-     */
-    ghUrl = (path) => {
-      const base = 'https://github.com/nexushoratio/userscripts';
-      const url = `${base}/${path}`;
-      return url;
-    }
-
     static #asideSelector = [
       // Style 1
       'aside.scaffold-layout__aside',
@@ -2896,10 +2874,10 @@
       const me = 'docTab';
       this.logger.entered(me);
 
-      const issuesLink = this.#globals.ghUrl('labels/linkedin-tool');
-      const newIssueLink = this.#globals.ghUrl('issues/new/choose');
-      const newGfIssueLink = this.#globals.gfUrl('feedback');
-      const releaseNotesLink = this.#globals.gfUrl('versions');
+      const issuesLink = this.#ghUrl('labels/linkedin-tool');
+      const newIssueLink = this.#ghUrl('issues/new/choose');
+      const newGfIssueLink = this.#gfUrl('feedback');
+      const releaseNotesLink = this.#gfUrl('versions');
 
       const content = [
         `<p>This is information about the <b>${APP_LONG}</b> ` +
@@ -3030,6 +3008,28 @@
     #pageStyle
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
+
+    /**
+     * Create a Greasy Fork project URL.
+     * @param {string} path - Portion of the URL.
+     * @returns {string} - Full URL.
+     */
+    #gfUrl = (path) => {
+      const base = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
+      const url = `${base}/${path}`;
+      return url;
+    }
+
+    /**
+     * Create a GitHub project URL.
+     * @param {string} path - Portion of the URL.
+     * @returns {string} - Full URL.
+     */
+    #ghUrl = (path) => {
+      const base = 'https://github.com/nexushoratio/userscripts';
+      const url = `${base}/${path}`;
+      return url;
+    }
 
     /**
      * @param {HTMLElement} element - Starting element to avoid another query.
