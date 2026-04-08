@@ -1478,7 +1478,9 @@
 
       const uids = new NH.base.DefaultMap(Array);
       for (const item of items) {
-        this.logger.log('item:', item, Scroller.#isItemViewable(item));
+        this.logger.log(
+          'item:', item, `isItemViewable: ${Scroller.#isItemViewable(item)}`
+        );
         const uid = this.#uid(item);
         uids.get(uid)
           .push(item);
