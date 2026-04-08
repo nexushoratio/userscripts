@@ -4922,8 +4922,12 @@
     static #commentsWhat = {
       name: `${this.name} comments`,
       selectors: [
-        // Comment exists to defeat eslint.
-        `[data-testid*="commentList"] [${CKEY}*=":comment:"]:has(> * > a)`,
+        [
+          // Regular
+          `[${CKEY}*=":comment:"]:has(> * > [${CKEY}*=":comment:"])`,
+          // Dismissed
+          `[${CKEY}*=":comment:"]:has(> * > * > [${CKEY}^="hiddenComment"])`,
+        ].join(','),
       ],
     };
 

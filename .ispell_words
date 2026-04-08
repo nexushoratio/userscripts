@@ -410,12 +410,12 @@ hasId
 hasOwn
 hasPvs
 helpTabDefinition
+hiddenComment
 historicalIdToIndex
 homepageURL
 hooksPath
 hotKey
 href
-HTMLAnchorElement
 HTMLDialogElement
 HTMLElement
 HTMLElements
@@ -516,7 +516,6 @@ labelClassesFunc
 LabelClassesFunc
 labelledby
 labelledBy
-lastConvoCard
 lastFocusedElement
 lastGroup
 lastInputElement
@@ -765,7 +764,6 @@ OverrideDeets
 padEnd
 padStart
 pageChanged
-pageDetails
 PageDetails
 pageHeader
 pageId
