@@ -3401,6 +3401,13 @@
       title.setAttribute('title', APP_SHORT);
     }
 
+    /** @param {Element} element - Element that will hold the badges. */
+    #assembleBadgesStyle1 = (element) => {
+      this.#badgeErrorStyle1 = element.querySelector(
+        '.notification-badge__count'
+      );
+    }
+
     #createMenuItemStyle1 = () => {
       const me = this.#createMenuItemStyle1.name;
       this.logger.entered(me, this.#navbar);
@@ -3425,16 +3432,14 @@
       const svg = button.querySelector('svg');
       if (svg) {
         svg.parentElement.innerHTML = LinkedIn.#icon;
+        item.append(button);
 
         this.#finishButtonStyle1(button);
+        this.#assembleBadgesStyle1(button);
 
         button.addEventListener('click', this.#toolButtonHandler);
-        item.append(button);
         this.#ourMenuItemStyle1 = item;
         this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
-        this.#badgeErrorStyle1 = button.querySelector(
-          '.notification-badge__count'
-        );
       }
 
       this.logger.leaving(me, this.#ourMenuItemStyle1);
@@ -3484,6 +3489,13 @@
       textNodes[0].innerText = APP_SHORT;
     }
 
+    /** @param {Element} element - Element that will hold the badges. */
+    #assembleBadgesStyle2 = (element) => {
+      this.#badgeErrorStyle2 = document.createElement('span');
+      this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
+      element.append(this.#badgeErrorStyle2);
+    }
+
     #createMenuItemStyle2 = () => {
       const me = this.#createMenuItemStyle2.name;
       this.logger.entered(me, this.#navbar);
@@ -3503,11 +3515,8 @@
           button.querySelector('svg + span')
             ?.remove();
 
-          this.#badgeErrorStyle2 = document.createElement('span');
-          this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
-          svgParent.append(this.#badgeErrorStyle2);
-
           this.#finishButtonStyle2(button);
+          this.#assembleBadgesStyle2(svgParent);
 
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;

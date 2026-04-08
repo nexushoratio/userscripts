@@ -59,6 +59,7 @@ ariaLabel
 artdeco
 asdf
 asideSelector
+assembleBadgesStyle
 assertBase
 assertEqual
 assertFalse
@@ -323,7 +324,6 @@ finiteScrollHotkeyItem
 firefox
 firstAnchor
 firstChild
-firstElementChild
 firstInvite
 firstItem
 firstNotification
