@@ -788,7 +788,6 @@ pathnameRE
 pojo
 populateBuilt
 portalSelector
-positionAnchor
 postActivateHook
 postFooterSelector
 postHeaderSelector
@@ -1245,6 +1244,7 @@ toolbarElement
 toolbarHook
 toolButtonHandler
 topButton
+Topcard
 topleftmainrightbottom
 topMarginCSS
 topMarginPixels
@@ -1253,6 +1253,7 @@ topScroll
 toString
 toUpperCase
 tpe
+tsort
 TypeError
 typeof
 uid

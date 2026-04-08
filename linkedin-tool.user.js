@@ -7896,6 +7896,40 @@
       name: `${this.name} entries`,
       // TODO(#297): Need to start from scratch.
       selectors: [
+        // Known sections in "curr next" pairs, suitable for tsort.
+        // This is just to help stay organized.
+        // Topcard About
+        // Topcard Analytics
+        // Topcard Highlights
+        // Highlights About
+        // Analytics About
+        // About Activity
+        // About Featured
+        // About Services
+        // Services Featured
+        // Featured Activity
+        // Activity Experience
+        // Experience Education
+        // Education License
+        // Education Skills
+        // License Projects
+        // License Skills
+        // License Volunteering
+        // Volunteering Skills
+        // Projects Skills
+        // Skills Honors
+        // Skills Interests
+        // Skills Recommendations
+        // Recommendations Courses
+        // Recommendations Interests
+        // Recommendations Publications
+        // Publications Patents
+        // Courses Languages
+        // Patents Honors
+        // Honors Interests
+        // Honors Languages
+        // Languages Interests
+        // Interests Causes
         [
           // Nada
           'nope',
