@@ -2139,21 +2139,6 @@
       return this.#sidebarSelector;
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static ckeyIdentifier(element) {
-      const me = LinkedInGlobals.ckeyIdentifier.name;
-      this.logger?.entered(me, element);
-
-      const content = element?.getAttribute(CKEY);
-
-      this.logger?.leaving(me, content);
-      return content;
-    }
-
     /** @type {string} - The height of the navbar as CSS string. */
     get navbarHeightCSS() {
       return `${this.#navbarHeightPixels}px`;
@@ -2717,6 +2702,21 @@
 
     static {
       Object.freeze(LinkedIn.Style);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static ckeyIdentifier(element) {
+      const me = LinkedIn.ckeyIdentifier.name;
+      this.logger?.entered(me, element);
+
+      const content = element?.getAttribute(CKEY);
+
+      this.logger?.leaving(me, content);
+      return content;
     }
 
     /**
@@ -4566,7 +4566,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
       const groups = Feed.#uidPostRE.exec(key)?.groups;
 
       if (key) {
@@ -4593,7 +4593,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
       const groups = Feed.#uidCommentRE.exec(key)?.groups;
 
       if (key) {
@@ -5298,8 +5298,8 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
-      const childKey = LinkedInGlobals.ckeyIdentifier(
+      const key = LinkedIn.ckeyIdentifier(element);
+      const childKey = LinkedIn.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
       );
 
@@ -5327,8 +5327,8 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
-      const childKey = LinkedInGlobals.ckeyIdentifier(
+      const key = LinkedIn.ckeyIdentifier(element);
+      const childKey = LinkedIn.ckeyIdentifier(
         element.querySelector(`[${CKEY}]`)
       );
 
@@ -5811,7 +5811,7 @@
     };
 
     static #invitesHow = {
-      uidCallback: LinkedInGlobals.ckeyIdentifier,
+      uidCallback: LinkedIn.ckeyIdentifier,
       classes: ['tom'],
     };
 
@@ -5880,7 +5880,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
 
       if (key) {
         content = key;
@@ -6078,7 +6078,7 @@
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
-      uidCallback: LinkedInGlobals.ckeyIdentifier,
+      uidCallback: LinkedIn.ckeyIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
@@ -6683,7 +6683,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
       const label = element
         .querySelector('[aria-label]')
         ?.getAttribute('aria-label');
@@ -7732,7 +7732,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
 
       if (key) {
         content = Profile.#uidSectionRE.exec(key)?.groups.id;
@@ -7757,7 +7757,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const key = LinkedInGlobals.ckeyIdentifier(element);
+      const key = LinkedIn.ckeyIdentifier(element);
 
       if (key) {
         content = key;
