@@ -2770,7 +2770,7 @@
         try {
           this.#licenseData = NH.userscript.licenseData();
         } catch (e) {
-          if (e instanceof NH.userscript.UserscriptError) {
+          if (e instanceof NH.userscript.Exception) {
             this.logger.log('e:', e);
             NH.base.issues.post(e.message);
             this.#licenseData = {
