@@ -6600,7 +6600,7 @@
 
     /** @type {Scroller~How} */
     static #jobCardsHow = {
-      uidCallback: this.uniqueJobIdentifier,
+      uidCallback: JobsCollections.uniqueJobIdentifier,
       classes: ['tom'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -6620,7 +6620,7 @@
 
     /** @type {Scroller~How} */
     static #paginationHow = {
-      uidCallback: this.uniquePaginationIdentifier,
+      uidCallback: JobsCollections.uniquePaginationIdentifier,
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
@@ -8491,7 +8491,7 @@
 
     /** @type {Scroller~How} */
     static #paginationHow = {
-      uidCallback: this.uniquePaginationIdentifier,
+      uidCallback: SearchResultsPeople.uniquePaginationIdentifier,
       classes: ['dick'],
       snapToTop: false,
       bottomMarginCSS: '3em',
