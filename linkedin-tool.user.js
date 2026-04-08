@@ -886,6 +886,8 @@
    * - 'change' - The value of item has changed.
    * - 'activate' - The Scroller was activated.
    * - 'deactivate' - The Scroller was deactivated.
+   * - 'focus' - Before the focus is set.
+   * - 'focused' - After the focus is set.
    */
   class Scroller {
 
@@ -1262,10 +1264,15 @@
       this.#scrollToCurrentItem();
     }
 
-    /** Focus on current item. */
+    /**
+     * Focus on current item.
+     * @fires 'focus' 'focused'
+     */
     focus() {
       const me = this.focus.name;
       this.logger.entered(me, litOptions.enableScrollerChangesFocus);
+
+      this.dispatcher.fire('focus', null);
 
       this.shine();
       this.show();
@@ -1284,6 +1291,7 @@
       }
 
       this.logger.leaving(me, 'current focus:', document.activeElement);
+      this.dispatcher.fire('focused', null);
     }
 
     /**
@@ -1385,7 +1393,7 @@
     #destroyed = false;
 
     #dispatcher = new NH.base.Dispatcher(
-      'change', 'out-of-range', 'activate', 'deactivate'
+      'change', 'out-of-range', 'activate', 'deactivate', 'focus', 'focused'
     );
 
     #historicalIdToIndex = new Map();
