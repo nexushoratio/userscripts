@@ -88,7 +88,8 @@
   // Inject some test errors
   if (litOptions.enableDevMode && Math.random() < litOptions.fakeErrorRate) {
     NH.base.issues.post('This is a dummy test issue.',
-      'It was added because enableDevMode is true.');
+      'It was added because enableDevMode is true and' +
+                        ` the fakeErrorRate is ${litOptions.fakeErrorRate}.`);
     NH.base.issues.post('This is a second issue.',
       'We just want to make sure things count properly.');
   }
