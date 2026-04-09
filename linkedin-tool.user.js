@@ -4623,11 +4623,10 @@
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#postScroller);
-      this.#postScroller.dispatcher.on(
-        'out-of-range', linkedInGlobals.focusOnSidebar
-      );
-      this.#postScroller.dispatcher.on('activate', this.#onPostActivate);
-      this.#postScroller.dispatcher.on('change', this.#onPostChange);
+      this.#postScroller.dispatcher
+        .on('activate', this.#onPostActivate)
+        .on('change', this.#onPostChange)
+        .on('out-of-range', linkedInGlobals.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
     }
@@ -4695,10 +4694,9 @@
         this.#commentScroller = new Scroller(
           {base: this.posts.item, ...Feed.#commentsWhat}, Feed.#commentsHow
         );
-        this.#commentScroller.dispatcher.on(
-          'out-of-range', this.#returnToPost
-        );
-        this.#commentScroller.dispatcher.on('change', this.#onCommentChange);
+        this.#commentScroller.dispatcher
+          .on('change', this.#onCommentChange)
+          .on('out-of-range', this.#returnToPost);
       }
 
       this.logger.leaving(me, this.#commentScroller);
@@ -5359,11 +5357,9 @@
         MyNetwork.#collectionsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#collectionScroller);
-      this.#collectionScroller.dispatcher.on('out-of-range',
-        linkedInGlobals.focusOnSidebar);
-      this.#collectionScroller.dispatcher.on(
-        'change', this.#onCollectionChange
-      );
+      this.#collectionScroller.dispatcher
+        .on('change', this.#onCollectionChange)
+        .on('out-of-range', linkedInGlobals.focusOnSidebar);
 
       this.#lastScroller = this.#collectionScroller;
     }
@@ -5438,12 +5434,9 @@
           {base: this.collections.item, ...MyNetwork.#individualsWhat},
           MyNetwork.#individualsHow
         );
-        this.#individualScroller.dispatcher.on(
-          'change', this.#onIndividualChange
-        );
-        this.#individualScroller.dispatcher.on(
-          'out-of-range', this.#returnToCollection
-        );
+        this.#individualScroller.dispatcher
+          .on('change', this.#onIndividualChange)
+          .on('out-of-range', this.#returnToCollection);
       }
       return this.#individualScroller;
     }
@@ -5942,9 +5935,9 @@
         Jobs.#sectionsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#sectionScroller);
-      this.#sectionScroller.dispatcher.on('out-of-range',
-        linkedInGlobals.focusOnSidebar);
-      this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+      this.#sectionScroller.dispatcher
+        .on('change', this.#onSectionChange)
+        .on('out-of-range', linkedInGlobals.focusOnSidebar);
 
       this.#lastScroller = this.#sectionScroller;
     }
@@ -5983,9 +5976,9 @@
           {base: this.sections.item, ...Jobs.#jobsWhat},
           Jobs.#jobsHow
         );
-        this.#jobScroller.dispatcher.on('change', this.#onJobChange);
-        this.#jobScroller.dispatcher.on('out-of-range',
-          this.#returnToSection);
+        this.#jobScroller.dispatcher
+          .on('change', this.#onJobChange)
+          .on('out-of-range', this.#returnToSection);
       }
 
       this.logger.leaving(me, this.#jobScroller);
@@ -6264,9 +6257,9 @@
       this.addService(LinkedInScrollerService)
         .setScroller(this.#jobCardScroller)
         .allowReactivation(false);
-      this.#jobCardScroller.dispatcher.on('activate',
-        this.#onJobCardActivate);
-      this.#jobCardScroller.dispatcher.on('change', this.#onJobCardChange);
+      this.#jobCardScroller.dispatcher
+        .on('activate', this.#onJobCardActivate)
+        .on('change', this.#onJobCardChange);
 
       this.#paginationScroller = new Scroller(
         JobsCollections.#paginationWhat, JobsCollections.#paginationHow
@@ -6274,10 +6267,9 @@
       this.addService(LinkedInScrollerService)
         .setScroller(this.#paginationScroller)
         .allowReactivation(false);
-      this.#paginationScroller.dispatcher.on('activate',
-        this.#onPaginationActivate);
-      this.#paginationScroller.dispatcher.on('change',
-        this.#onPaginationChange);
+      this.#paginationScroller.dispatcher
+        .on('activate', this.#onPaginationActivate)
+        .on('change', this.#onPaginationChange);
 
       spa.details.navbarScrollerFixup(JobsCollections.#detailsHow);
       this.#detailsScroller = new Scroller(
@@ -6286,7 +6278,8 @@
       this.addService(LinkedInScrollerService)
         .setScroller(this.#detailsScroller)
         .allowReactivation(false);
-      this.#detailsScroller.dispatcher.on('change', this.#onDetailsChange);
+      this.#detailsScroller.dispatcher
+        .on('change', this.#onDetailsChange);
 
       this.#lastScroller = this.#jobCardScroller;
     }
@@ -6808,7 +6801,8 @@
           JobsView.#cardsHow);
         this.addService(LinkedInScrollerService)
           .setScroller(this.#cardScroller);
-        this.#cardScroller.dispatcher.on('change', this.#onCardChange);
+        this.#cardScroller.dispatcher
+          .on('change', this.#onCardChange);
 
         this.#lastScroller = this.#cardScroller;
       }
@@ -6822,10 +6816,9 @@
           {base: this.cards.item, ...JobsView.#entriesWhat},
           JobsView.#entriesHow
         );
-        this.#entryScroller.dispatcher.on('change', this.#onEntryChange);
-        this.#entryScroller.dispatcher.on(
-          'out-of-range', this.#returnToCard
-        );
+        this.#entryScroller.dispatcher
+          .on('change', this.#onEntryChange)
+          .on('out-of-range', this.#returnToCard);
       }
       return this.#entryScroller;
     }
@@ -7050,10 +7043,9 @@
         Messaging.#convoCardsHow);
       this.addService(LinkedInScrollerService)
         .setScroller(this.#convoCardScroller);
-      this.#convoCardScroller.dispatcher.on('activate',
-        this.#onConvoCardActivate);
-      this.#convoCardScroller.dispatcher.on('change',
-        this.#onConvoCardChange);
+      this.#convoCardScroller.dispatcher
+        .on('activate', this.#onConvoCardActivate)
+        .on('change', this.#onConvoCardChange);
     }
 
     /**
@@ -7108,7 +7100,8 @@
         this.#messageScroller = new Scroller(
           Messaging.#messagesWhat, Messaging.#messagesHow
         );
-        this.#messageScroller.dispatcher.on('change', this.#onMessageChange);
+        this.#messageScroller.dispatcher
+          .on('change', this.#onMessageChange);
       }
 
       this.logger.leaving(me, this.#messageScroller);
@@ -7523,8 +7516,8 @@
       );
       this.addService(LinkedInScrollerService)
         .setScroller(this.#notificationScroller);
-      this.#notificationScroller.dispatcher.on('out-of-range',
-        linkedInGlobals.focusOnSidebar);
+      this.#notificationScroller.dispatcher
+        .on('out-of-range', linkedInGlobals.focusOnSidebar);
     }
 
     /**
@@ -7857,10 +7850,9 @@
           {base: this.sections.item, ...Profile.#entriesWhat},
           Profile.#entriesHow
         );
-        this.#entryScroller.dispatcher.on('change', this.#onEntryChange);
-        this.#entryScroller.dispatcher.on(
-          'out-of-range', this.#returnToSection
-        );
+        this.#entryScroller.dispatcher
+          .on('change', this.#onEntryChange)
+          .on('out-of-range', this.#returnToSection);
       }
       return this.#entryScroller;
     }
@@ -7872,7 +7864,8 @@
           Profile.#sectionsHow);
         this.addService(LinkedInScrollerService)
           .setScroller(this.#sectionScroller);
-        this.#sectionScroller.dispatcher.on('change', this.#onSectionChange);
+        this.#sectionScroller.dispatcher
+          .on('change', this.#onSectionChange);
 
         this.#lastScroller = this.#sectionScroller;
       }
@@ -8105,9 +8098,8 @@
       this.addService(LinkedInScrollerService)
         .setScroller(this.#collectionScroller);
 
-      this.#collectionScroller.dispatcher.on(
-        'change', this.#onCollectionChange
-      );
+      this.#collectionScroller.dispatcher
+        .on('change', this.#onCollectionChange);
     }
 
     /**
@@ -8172,10 +8164,9 @@
           {base: this.collections.item, ...Events.#eventsWhat},
           Events.#eventsHow
         );
-        this.#eventScroller.dispatcher.on('change', this.#onEventChange);
-        this.#eventScroller.dispatcher.on(
-          'out-of-range', this.#returnToCollection
-        );
+        this.#eventScroller.dispatcher
+          .on('change', this.#onEventChange)
+          .on('out-of-range', this.#returnToCollection);
       }
       return this.#eventScroller;
     }
@@ -8403,10 +8394,9 @@
         );
         this.addService(LinkedInScrollerService)
           .setScroller(this.#paginationScroller);
-        this.#paginationScroller.dispatcher.on('activate',
-          this.#onPaginationActivate);
-        this.#paginationScroller.dispatcher.on('change',
-          this.#onPaginationChange);
+        this.#paginationScroller.dispatcher
+          .on('activate', this.#onPaginationActivate)
+          .on('change', this.#onPaginationChange);
       }
       return this.#paginationScroller;
     }
@@ -8418,7 +8408,8 @@
           SearchResultsPeople.#resultsHow);
         this.addService(LinkedInScrollerService)
           .setScroller(this.#resultScroller);
-        this.#resultScroller.dispatcher.on('change', this.#onResultChange);
+        this.#resultScroller.dispatcher
+          .on('change', this.#onResultChange);
 
         this.#lastScroller = this.#resultScroller;
       }
