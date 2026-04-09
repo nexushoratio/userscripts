@@ -257,11 +257,11 @@ editItem
 ElementAdapter
 ElementAdapterTestCase
 ElementFinder
+enableAlertOldNews
 enableAlertUnsupportedPages
 enableDevMode
 enableIssue
 enableKeyboardService
-enableMigrateKIFailures
 enableScrollerChangesFocus
 engageIndividual
 ensureMenuStyle
@@ -369,6 +369,8 @@ gh
 ghIj
 ghUrl
 github
+GitHubIssue
+globalIssues
 globalKnownIssues
 globalNewsContent
 gmail
@@ -471,6 +473,7 @@ isInput
 isItemViewable
 isSameNode
 issueHeader
+issueId
 IssueId
 issueListener
 issuesLink
@@ -999,7 +1002,6 @@ TabEntryTestCase
 TabGenerator
 tabGenerators
 tabindex
-tabIndex
 tablist
 tabList
 tabSnippet

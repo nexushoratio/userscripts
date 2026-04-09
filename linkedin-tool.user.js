@@ -64,10 +64,10 @@
   async function loadOptions() {
     const defaultOptions = {
       enableDevMode: false,
-      enableIssue241ClickMethod: false,
+      enableAlertOldNews: false,
       enableAlertUnsupportedPages: false,
+      enableIssue241ClickMethod: false,
       enableKeyboardService: false,
-      enableMigrateKIFailures: false,
       enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
     };
@@ -103,121 +103,127 @@
 
   const log = new NH.base.Logger('Default');
 
+  /** Encapsulate a GitHub (or similar) issue. */
+  class GitHubIssue {
+
+    /**
+     * @param {string} issueId - Issue identifier, usually a GitHub number.
+     * @param {string} title - The GitHub issue title.
+     * @param {string} date - A Date parsable string of the last time the
+     * issue was verified opened
+     */
+    constructor(issueId, title, date) {
+      this.#issueId = issueId;
+      this.#title = title;
+      this.#date = new Date(date);
+    }
+
+    /** @type {Date} */
+    get date() {
+      return this.#date;
+    }
+
+    /** @type {string} */
+    get issueId() {
+      return this.#issueId;
+    }
+
+    /** @type {string} */
+    get title() {
+      return this.#title;
+    }
+
+    /** @returns {string} - Human readable information. */
+    toString() {
+      return `${this.issueId}: ${this.title}`;
+    }
+
+    #date
+    #issueId
+    #title
+
+  }
+
   /**
-   * @typedef {object} KnownIssueDetails
-   * @property {string} title - The GitHub issue title.
-   * @property {string} date - A Date parsable string of the last time the
-   * issue was verified opened.
+   * @param {string} issueId - Issue identifier, usually a GitHub number.
+   * @param {string} title - The GitHub issue title.
+   * @param {string} date - A Date parsable string of the last time the
+   * issue was verified opened
+   * @returns {GitHubIssue} - New object.
    */
+  function ish(issueId, title, date) {
+    return new GitHubIssue(issueId, title, date);
+  }
 
-  /** @typedef {string} IssueId */
-
-  /** @typedef {[IssueId, string|KnownIssueDetails} KnownIssue */
-
-  const globalKnownIssues = [
-    ['Bob', {title: 'Bob has no issues', date: '9999'}],
-    ['', {title: 'Minor internal improvement', date: '9999'}],
-    [
-      '#106', {
-        title: 'info view: more tabs: News, License',
-        date: '2026-03-24',
-      },
-    ],
-    [
-      '#130', {
-        title: 'Factor hotkey handling out of SPA',
-        date: '2026-03-24',
-      },
-    ],
-    ['#167', {title: 'Refactor into libraries', date: '2026-03-25'}],
-    ['#184', {title: 'Fix <b>News</b> tab rendering', date: '2026-03-30'}],
-    [
-      '#208', {
-        title: '<code>Scroller</code>: If end-item is never viewable' +
-          ' (e.g., empty), cannot wrap',
-        date: '2026-03-27',
-      },
-    ],
-    [
-      '#209', {
-        title: 'Support <b>SearchResultsPeople</b> view',
-        date: '2026-04-09',
-      },
-    ],
-    [
-      '#232', {
-        title: '<code>Scroller</code>: Change the focus UX',
-        date: '2026-03-29',
-      },
-    ],
-    ['#236', {title: 'Support <b>Events</b> page', date: '2026-04-10'}],
-    [
-      '#240', {
-        title: '<code>Scroller</code>: navbar height can change',
-        date: '2026-03-30',
-      },
-    ],
-    [
-      '#244', {
-        title: 'Capture info about all unsupported pages',
-        date: '2026-04-11',
-      },
-    ],
-    [
-      '#245', {
-        title: 'Revisit pages that use the terms "section{,s}" or "card{,s}"',
-        date: '2026-03-31',
-      },
-    ],
-    ['#251', 'Normalize the `uniqueFooIdentifier()` functions'],
-    [
-      '#253', {
-        title: 'Support <b>My Network Events</b> page',
-        date: '2026-04-03',
-      },
-    ],
-    [
-      '#255', {
-        title: 'Support <b>Search appearances</b> page',
-        date: '2026-04-07',
-      },
-    ],
-    ['#256', {title: 'Support <b>Verify</b> page', date: '2026-04-08'}],
-    [
-      '#257', {
-        title: 'Support <b>Analytics & tools</b> page',
-        date: '2026-04-08',
-      },
-    ],
-    ['#272', 'Styling issue on <code>Information view</code>'],
-    ['#278', 'Update <b>Jobs</b> pages'],
-    ['#279', 'Update <b>Messaging</b> page'],
-    ['#280', 'Update <b>Invitation Manager</b> pages'],
-    ['#281', 'Internal page structure changed mid-migration'],
-    ['#282', '<code>LinkedInToolbarService</code> needs a refresh'],
-    ['#283', 'Update <b>Notifications</b> page'],
-    ['#284', 'Create a style monitoring feature'],
-    ['#286', 'Factor out <code>SPA</code> related code into a library'],
-    [
-      '#288',
+  const globalIssues = [
+    ish('', 'Minor internal improvement', '9999'),
+    ish('106', 'info view: more tabs: News, License', '2026-03-24'),
+    ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
+    ish('167', 'Refactor into libraries', '2026-03-25'),
+    ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
+    ish(
+      '208',
+      '<code>Scroller</code>: If end-item is never viewable (e.g., empty),' +
+        ' cannot wrap',
+      '2026-03-27'
+    ),
+    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-04-09'),
+    ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
+    ish('236', 'Support <b>Events</b> page', '2026-04-10'),
+    ish(
+      '240', '<code>Scroller</code>: navbar height can change', '2026-03-30'
+    ),
+    ish('244', 'Capture info about all unsupported pages', '2026-04-11'),
+    ish(
+      '245',
+      'Revisit pages that use the terms "section{,s}" or "card{,s}"',
+      '2026-03-31'
+    ),
+    ish(
+      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-04-22'
+    ),
+    ish('253', 'Support <b>My Network Events</b> page', '2026-04-03'),
+    ish('255', 'Support <b>Search appearances</b> page', '2026-04-07'),
+    ish('256', 'Support <b>Verify</b> page', '2026-04-08'),
+    ish('257', 'Support <b>Analytics & tools</b> page', '2026-04-08'),
+    ish(
+      '272', 'Styling issue on <code>Information view</code>', '2026-04-23'
+    ),
+    ish('278', 'Update <b>Jobs</b> pages', '2026-04-24'),
+    ish('279', 'Update <b>Messaging</b> page', '2026-04-25'),
+    ish('280', 'Update <b>Invitation Manager</b> pages', '2026-04-26'),
+    ish('281', 'Internal page structure changed mid-migration', '2026-04-27'),
+    ish(
+      '282',
+      '<code>LinkedInToolbarService</code> needs a refresh',
+      '2026-04-28'
+    ),
+    ish('283', 'Update <b>Notifications</b> page', '2026-04-29'),
+    ish('284', 'Create a style monitoring feature', '2026-04-30'),
+    ish('286',
+      'Factor out <code>SPA</code> related code into a library',
+      '2026-05-01'),
+    ish(
+      '288',
       'Add <code>Logger</code> startup ability to <code>userscript</code>',
-    ],
-    ['#290', 'Update <b>Profile</b> page'],
-    ['#291', 'Update <b>Events</b> page'],
-    ['#292', 'Update <b>SearchResultsPeople</b> page'],
-    [
-      '#295',
+      '2026-05-02'
+    ),
+    ish('290', 'Update <b>Profile</b> page', '2026-05-03'),
+    ish('291', 'Update <b>Events</b> page', '2026-05-04'),
+    ish('292', 'Update <b>SearchResultsPeople</b> page', '2026-05-05'),
+    ish(
+      '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
-    ],
-    ['#296', 'Ugly and missing badges'],
-    ['#297', 'Update <b>Profile</b> page (Style-2)'],
-    [
-      '#298', {
-        title: '<code>Scroller</code>: <code>#isItemViewable()</code> is' +
-          ' broken when item is an image',
-        date: '2026-04-08',
-      },
-    ],
+      '2026-05-06'
+    ),
+    ish('296', 'Ugly and missing badges', '2026-05-07'),
+    ish('297', 'Update <b>Profile</b> page (Style-2)', '2026-05-08'),
+    ish(
+      '298',
+      '<code>Scroller</code>: <code>#isItemViewable()</code> is broken when' +
+        ' item is an image',
+      '2026-04-08'
+    ),
   ];
 
   const globalNewsContent = [
@@ -229,14 +235,14 @@
     },
     {
       date: '2026-04-08',
-      issues: ['#297'],
+      issues: ['297'],
       subject: 'Match the <code>Show all</code> button on the' +
         ' <code>Profile</code> page',
     },
     {
       date: '2026-04-08',
-      issues: ['#232'],
-      subject: 'Fire <code>focus<kbd><kbd>/</kbd></kbd>focused</code>' +
+      issues: ['232'],
+      subject: 'Fire <code>focus</code>/<code>focused</code>' +
         ' events inside <code>Scroller</code>',
     },
     {
@@ -247,12 +253,12 @@
     },
     {
       date: '2026-04-08',
-      issues: ['#106'],
+      issues: ['106'],
       subject: 'Factor out assembling of the badges',
     },
     {
       date: '2026-04-08',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Move a couple of functions from' +
         ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
     },
@@ -268,47 +274,47 @@
     },
     {
       date: '2026-04-07',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Move <code>ckeyIdentifier()</code> from' +
         ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
     },
     {
       date: '2026-04-07',
-      issues: ['#298'],
+      issues: ['298'],
       subject: 'Enhance a logging statement for easier filtering',
     },
     {
       date: '2026-04-07',
-      issues: ['#297'],
+      issues: ['297'],
       subject: 'Add a list of known sections on the <code>Profile</code>' +
         ' page',
     },
     {
       date: '2026-04-07',
-      issues: ['#130'],
+      issues: ['130'],
       subject: 'Put active keyboard services first in the new shortcuts tab',
     },
     {
       date: '2026-04-07',
-      issues: ['#232'],
+      issues: ['232'],
       subject: 'Use <code>Scroller.focus()</code> for all focus attempts' +
         ' (behind option)',
     },
     {
       date: '2026-04-07',
-      issues: ['#251'],
+      issues: ['251'],
       subject: 'Rename <code>uniqueIdentifier</code> to' +
         ' <code>uniqueNotificationIdentifier</code>',
     },
     {
       date: '2026-04-07',
-      issues: ['#106'],
+      issues: ['106'],
       subject: 'Rename badges from <em>type</em>-badge to' +
         ' badge-<em>type</em>',
     },
     {
       date: '2026-04-07',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Move <code>LinkedInGlobals.Style</code> to' +
         ' <code>LinkedIn.Style</code>',
     },
@@ -319,42 +325,42 @@
     },
     {
       date: '2026-04-07',
-      issues: ['#297'],
+      issues: ['297'],
       subject: 'Partial update of <code>Profile</code> with Style-2 support',
     },
     {
       date: '2026-04-04',
-      issues: ['#232'],
+      issues: ['232'],
       subject: 'Create a library wide <code>Logger</code> instance',
     },
     {
       date: '2026-04-04',
-      issues: ['#295'],
+      issues: ['295'],
       subject: 'Modify how <code>HybridFixerService</code> detects a hybrid' +
         ' page',
     },
     {
       date: '2026-04-04',
-      issues: ['#251'],
+      issues: ['251'],
       subject: 'Make all <code>Scroller~uidCallback</code> implementations' +
         ' consistent',
     },
     {
       date: '2026-04-04',
-      issues: ['#232'],
+      issues: ['232'],
       subject: 'Allow <code>Jobs.focus()</code> to use the WIP' +
         ' <code>Scroller.focus()</code> work',
     },
     {
       date: '2026-04-04',
-      issues: ['#232'],
+      issues: ['232'],
       subject: 'Update how the flagged version of' +
         ' <code>Scroller.focus()</code> is implemented',
     },
     {
       date: '2026-04-03',
-      issues: ['#297'],
-      subject: 'Add a timeout to <code>Page.#waitUntilReady</code>',
+      issues: ['297'],
+      subject: 'Add a timeout to <code>Page.waitUntilReady</code>',
     },
     {
       date: '2026-04-03',
@@ -363,13 +369,13 @@
     },
     {
       date: '2026-04-02',
-      issues: ['#251'],
+      issues: ['251'],
       subject: 'Update <code>JobsCollections.uniqueDetailsIdentifier</code>' +
         ' for consistency',
     },
     {
       date: '2026-03-31',
-      issues: ['#296'],
+      issues: ['296'],
       subject: 'Badge whac-a-mole',
     },
     {
@@ -380,60 +386,60 @@
     },
     {
       date: '2026-03-30',
-      issues: ['#106'],
+      issues: ['106'],
       subject: 'Factor out saving options for future use',
     },
     {
       date: '2026-03-30',
-      issues: ['#106'],
+      issues: ['106'],
       subject: 'Add a handler for the <code>expose</code> event on the' +
         ' <em>News</em> tabs',
     },
     {
       date: '2026-03-30',
-      issues: ['#296'],
+      issues: ['296'],
       subject: 'Fix how sets are manipulated',
     },
     {
       date: '2026-03-30',
-      issues: ['#295'],
+      issues: ['295'],
       subject: 'Move reloading of hybrid pages into a <code>Service</code>',
     },
     {
       date: '2026-03-29',
-      issues: ['#130'],
+      issues: ['130'],
       subject: 'Provide an option for using the WIP keyboard service',
     },
     {
       date: '2026-03-29',
-      issues: ['#244'],
+      issues: ['244'],
       subject: 'Rename <code>enableIssue244Changes</code> to' +
         ' <code>enableAlertUnsupportedPages</code>',
     },
     {
       date: '2026-03-29',
-      issues: ['#184'],
+      issues: ['184'],
       subject: 'Update <code>ul</code> style to return bullet points and' +
         ' indentation',
     },
     {
       date: '2026-03-29',
-      issues: ['#184'],
+      issues: ['184'],
       subject: 'Apply a minor HTML fixup',
     },
     {
       date: '2026-03-29',
-      issues: ['#296'],
+      issues: ['296'],
       subject: 'Ignore specific properties when comparing badges',
     },
     {
       date: '2026-03-29',
-      issues: ['#295'],
+      issues: ['295'],
       subject: 'Implement a temporary workaround for hybrid pages',
     },
     {
       date: '2026-03-29',
-      issues: ['#295'],
+      issues: ['295'],
       subject: 'Update the <code>pathname:</code> for <code>Feed</code>',
     },
     {
@@ -443,23 +449,23 @@
     },
     {
       date: '2026-03-27',
-      issues: ['#296'],
+      issues: ['296'],
       subject: 'Change how the Style-2 error badge is created',
     },
     {
       date: '2026-03-25',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Move style installation out of <code>SPA</code> and' +
         ' into <code>LinkedIn</code>',
     },
     {
       date: '2026-03-25',
-      issues: ['#251'],
+      issues: ['251'],
       subject: 'Update the selector for <code>Feed</code> comments',
     },
     {
       date: '2026-03-25',
-      issues: ['#209', '#292'],
+      issues: ['209', '292'],
       subject: 'Update the <code>SearchResultsPeople</code> page',
     },
     {
@@ -469,7 +475,7 @@
     },
     {
       date: '2026-03-25',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Replace <code>SPADetails</code> with ' +
         '<code>NH.spa.Details</code>',
     },
@@ -487,7 +493,7 @@
     },
     {
       date: '2026-03-24',
-      issues: ['#236', '#291'],
+      issues: ['236', '291'],
       subject: 'Update the <code>Events</code> page',
     },
     {
@@ -497,76 +503,76 @@
     },
     {
       date: '2026-03-23',
-      issues: ['#290'],
+      issues: ['290'],
       subject: 'Update the <code>Profile</code> page',
     },
     {
       date: '2026-03-20',
-      issues: ['#283'],
+      issues: ['283'],
       subject: 'Update the <code>Notifications</code> page',
     },
     {
       date: '2026-03-19',
-      issues: ['#279'],
+      issues: ['279'],
       subject: 'Update the <code>Messages</code> page',
     },
     {
       date: '2026-03-18',
-      issues: ['#286'],
+      issues: ['286'],
       subject: 'Depend on the new <code>spa</code> library',
     },
     {
       date: '2026-03-18',
-      issues: ['#288'],
+      issues: ['288'],
       subject: 'Make use of the new ' +
         '<code>setAutoManageLoggerConfigs()</code> function',
     },
     {
       date: '2026-03-18',
-      issues: ['#286', '#288'],
+      issues: ['286', '288'],
       subject: 'Update to most recent version of all libraries',
     },
     {
       date: '2026-03-15',
-      issues: ['#284'],
+      issues: ['284'],
       subject: 'Implement a <code>LinkedInStyleService</code> to verify ' +
         'site styles',
     },
     {
       date: '2026-03-15',
-      issues: ['#278'],
+      issues: ['278'],
       subject: 'Rename <code>JobView</code> to <code>JobsView</code>',
     },
     {
       date: '2026-03-15',
-      issues: ['#278'],
+      issues: ['278'],
       subject: 'Update the implementation of the <code>JobView</code> page',
     },
     {
       date: '2026-03-14',
-      issues: ['#282'],
+      issues: ['282'],
       subject: 'Verify that a toolbar exists before getting values from it',
     },
     {
       date: '2026-03-14',
-      issues: ['#278'],
+      issues: ['278'],
       subject: 'Rename <code>JobCollections</code> to ' +
         '<code>JobsCollections</code>',
     },
     {
       date: '2026-03-14',
-      issues: ['#278'],
+      issues: ['278'],
       subject: 'Update the <code>JobCollections</code> pages',
     },
     {
       date: '2026-03-13',
-      issues: ['#272'],
+      issues: ['272'],
       subject: 'Tweak styling of list items in the ' +
         '<code>Information view</code>',
     },
     {
       date: '2026-03-13',
-      issues: ['#278'],
+      issues: ['278'],
       subject: 'Update the implementation of the <code>Jobs</code> view',
     },
     {
@@ -577,13 +583,13 @@
     },
     {
       date: '2026-03-11',
-      issues: ['#280'],
+      issues: ['280'],
       subject: 'Update the implementation of the ' +
         '<code>Invitation Manager</code> view',
     },
     {
       date: '2026-03-11',
-      issues: ['#281'],
+      issues: ['281'],
       subject: 'Update <code>My Network</code> to the latest layout change',
     },
   ];
@@ -3835,45 +3841,24 @@
         NH.base.issues.post('Old news item:', item);
       }
 
-      for (const item of unused) {
+      for (const item of unused.values()) {
         NH.base.issues.post('Unused issue detected:', item);
       }
     }
 
     /** @returns {obj} - dates and known issues. */
-    #preprocessKnownIssues = () => {  // eslint-disable-line max-lines-per-function
+    #preprocessKnownIssues = () => {
       const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
-      const oldestAllowedDate = litOptions.enableMigrateKIFailures
+      const oldestAllowedDate = litOptions.enableAlertOldNews
         ? Date.now() - thirtyDays
         : 0;
-      const defaultDate = litOptions.enableMigrateKIFailures
-        ? '1999'
-        : '9999';
 
-      /**
-       * Migrate to new format.
-       * @param {KnownIssue} issue - Mix of old and new formats.
-       * @returns {KnownIssue} - But updated to the new format.
-       */
-      const migrateKnownIssues = (issue) => {
-        const key = issue[0];
-        let details = issue[1];
-        if (typeof details === 'string') {
-          details = {
-            title: details,
-            date: defaultDate,
-          };
-        }
-        return [key, details];
-      };
-
-      const knownIssues = new Map(globalKnownIssues.map(migrateKnownIssues));
+      const knownIssues = new Map(globalIssues.map(x => [x.issueId, x]));
       const unknownIssues = new Set();
-      const unusedIssues = new Set(
+      const unusedIssues = new Map(
         knownIssues
           .entries()
-          .filter(x => new Date(x[1].date) < oldestAllowedDate)
-          .map(x => x[0])
+          .filter(x => x[1].date < oldestAllowedDate)
       );
       const oldItems = new Set();
 
@@ -3886,8 +3871,8 @@
           oldItems.add(item.subject);
         }
         for (const issue of item.issues) {
+          unusedIssues.delete(issue);
           if (knownIssues.has(issue)) {
-            unusedIssues.delete(issue);
             dates.get(item.date)
               .get(issue)
               .push(item.subject);
