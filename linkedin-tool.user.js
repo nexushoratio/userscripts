@@ -138,21 +138,31 @@
         date: '2026-03-27',
       },
     ],
-    ['#209', 'Support <b>SearchResultsPeople</b> view'],
+    [
+      '#209', {
+        title: 'Support <b>SearchResultsPeople</b> view',
+        date: '2026-04-09',
+      },
+    ],
     [
       '#232', {
         title: '<code>Scroller</code>: Change the focus UX',
         date: '2026-03-29',
       },
     ],
-    ['#236', 'Support <b>Events</b> page'],
+    ['#236', {title: 'Support <b>Events</b> page', date: '2026-04-10'}],
     [
       '#240', {
         title: '<code>Scroller</code>: navbar height can change',
         date: '2026-03-30',
       },
     ],
-    ['#244', 'Capture info about all unsupported pages'],
+    [
+      '#244', {
+        title: 'Capture info about all unsupported pages',
+        date: '2026-04-11',
+      },
+    ],
     [
       '#245', {
         title: 'Revisit pages that use the terms "section{,s}" or "card{,s}"',
@@ -180,7 +190,6 @@
       },
     ],
     ['#272', 'Styling issue on <code>Information view</code>'],
-    ['#275', 'Fix badges on LIT menu item'],
     ['#278', 'Update <b>Jobs</b> pages'],
     ['#279', 'Update <b>Messaging</b> page'],
     ['#280', 'Update <b>Invitation Manager</b> pages'],
@@ -212,6 +221,41 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-09',
+      issues: [''],
+      subject: 'Include the <code>fakeErrorRate</code> in the dummy/test' +
+        ' error messages',
+    },
+    {
+      date: '2026-04-08',
+      issues: ['#297'],
+      subject: 'Match the <code>Show all</code> button on the' +
+        ' <code>Profile</code> page',
+    },
+    {
+      date: '2026-04-08',
+      issues: ['#232'],
+      subject: 'Fire <code>focus<kbd><kbd>/</kbd></kbd>focused</code>' +
+        ' events inside <code>Scroller</code>',
+    },
+    {
+      date: '2026-04-08',
+      issues: [''],
+      subject: 'Update <code>pageReadySelector</code> for' +
+        ' <code>Notifications</code>',
+    },
+    {
+      date: '2026-04-08',
+      issues: ['#106'],
+      subject: 'Factor out assembling of the badges',
+    },
+    {
+      date: '2026-04-08',
+      issues: ['#286'],
+      subject: 'Move a couple of functions from' +
+        ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
+    },
     {
       date: '2026-04-07',
       issues: [''],
@@ -541,16 +585,6 @@
       date: '2026-03-11',
       issues: ['#281'],
       subject: 'Update <code>My Network</code> to the latest layout change',
-    },
-    {
-      date: '2026-03-10',
-      issues: ['#281'],
-      subject: 'Update <code>Feed</code> to the latest layout change',
-    },
-    {
-      date: '2026-03-10',
-      issues: ['#275'],
-      subject: 'Only add a badge if the cloned menu item does not have one',
     },
   ];
 
