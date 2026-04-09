@@ -3415,13 +3415,13 @@
       const me = this.#errorHandlerBadgeStyle1.name;
       this.logger.entered(me, eventType, count);
 
-      const toggle = this.#badgeErrorStyle1.parentElement;
-      this.#badgeErrorStyle1.innerText = `${count}`;
+      this.#badgeErrorStyle1
+        .querySelector('.notification-badge__count').innerText = `${count}`;
 
       if (count) {
-        toggle.classList.add('notification-badge--show');
+        this.#badgeErrorStyle1.classList.add('notification-badge--show');
       } else {
-        toggle.classList.remove('notification-badge--show');
+        this.#badgeErrorStyle1.classList.remove('notification-badge--show');
       }
 
       this.logger.leaving(me);
@@ -3453,7 +3453,7 @@
     /** @param {Element} element - Element that will hold the badges. */
     #assembleBadgesStyle1 = (element) => {
       this.#badgeErrorStyle1 = element.querySelector(
-        '.notification-badge__count'
+        '.notification-badge'
       );
     }
 
