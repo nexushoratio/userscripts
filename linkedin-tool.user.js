@@ -170,6 +170,7 @@
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-04-09'),
     ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
     ish('236', 'Support <b>Events</b> page', '2026-04-10'),
+    ish('238', 'eslint: Bad use of globals', '2026-04-10'),
     ish(
       '240', '<code>Scroller</code>: navbar height can change', '2026-03-30'
     ),
@@ -181,6 +182,11 @@
     ),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-04-22'
+    ),
+    ish(
+      '252',
+      'Move <code>LinkedInGlobals</code> into <code>LinkedIn</code>',
+      '2026-04-10'
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-04-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-04-07'),
@@ -227,6 +233,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-09',
+      issues: ['297'],
+      subject: 'Handle the <em>Analytics</em> section on the' +
+        ' <code>Profile</code> page',
+    },
     {
       date: '2026-04-09',
       issues: [''],
@@ -574,23 +586,6 @@
       date: '2026-03-13',
       issues: ['278'],
       subject: 'Update the implementation of the <code>Jobs</code> view',
-    },
-    {
-      date: '2026-03-11',
-      issues: [''],
-      subject: 'Change hotkeys to match LinkedIn\'s official ' +
-        'keyboard shortcuts',
-    },
-    {
-      date: '2026-03-11',
-      issues: ['280'],
-      subject: 'Update the implementation of the ' +
-        '<code>Invitation Manager</code> view',
-    },
-    {
-      date: '2026-03-11',
-      issues: ['281'],
-      subject: 'Update <code>My Network</code> to the latest layout change',
     },
   ];
 
