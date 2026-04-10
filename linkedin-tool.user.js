@@ -2238,7 +2238,7 @@
       if (sidebar) {
         sidebar.style.scrollMarginTop = this.navbarHeightCSS;
         sidebar.scrollIntoView();
-        NH.web.focusOnElement(sidebar, false);
+        NH.web.focusOnTree(sidebar);
       }
     }
 
@@ -2251,7 +2251,7 @@
       if (aside) {
         aside.style.scrollMarginTop = this.navbarHeightCSS;
         aside.scrollIntoView();
-        NH.web.focusOnElement(aside, false);
+        NH.web.focusOnTree(aside);
       }
     }
 
@@ -6470,9 +6470,9 @@
       'd',
       'Move browser focus to the details pane',
       () => {
-        NH.web.focusOnElement(document.querySelector(
+        NH.web.focusOnTree(document.querySelector(
           'div.jobs-details__main-content'
-        ), false);
+        ));
       }
     );
 
