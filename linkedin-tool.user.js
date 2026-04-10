@@ -6154,7 +6154,9 @@
         {
           container: Jobs.#sectionsContainer,
           items: [
-            `:scope > [${CKEY}^="Jobs"] [${CKEY}^="Jobs"]`,
+            // Premium "top applicant"
+            `:scope > [${CKEY}^="Jobs"] > * > [${CKEY}^="Jobs"]`,
+            // Everything else
             `:scope > div > div[${CKEY}]`,
           ].join(','),
         },
