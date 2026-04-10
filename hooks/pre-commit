@@ -33,7 +33,9 @@ git diff --patch --cached > "${patchfile}"
 
 # In this particular script, we no longer want these environment variables
 # set.
-unset $(git rev-parse --local-env-vars)
+readarray -t env_vars < <(git rev-parse --local-env-vars)
+unset "${env_vars[@]}"
+
 dir=$(mktemp -d)
 git worktree add --force "${dir}" "${branch}"
 pushd "${dir}" > /dev/null || exit
