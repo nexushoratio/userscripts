@@ -1320,6 +1320,8 @@
 
       if (litOptions.enableScrollerChangesFocus) {
         let item = this.item;
+
+        // TODO(#232): Use the new web.focusOnTree() function.
         if (item) {
           this.logger.log('initial', item);
           const selector = ':enabled, a, [tabindex]';

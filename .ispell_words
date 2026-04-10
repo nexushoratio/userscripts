@@ -332,6 +332,7 @@ focusBrowser
 focusOnAside
 focusOnElement
 focusOnSidebar
+focusOnTree
 focusOption
 FooTestCase
 forEach
@@ -408,7 +409,6 @@ grp
 guessPageStyle
 handleEvent
 hashCode
-hasId
 hasOwn
 helpTabDefinition
 hiddenComment

@@ -5,7 +5,8 @@ Common patterns for working with the [WEB API](https://developer.mozilla.org/en-
 ## Exported properties (as of version 3)
 * version - Bumped per release.
 * clickElement - Run querySelector to get an element, then click it.
-* focusOnElement - Bring the Browser's focus onto element.
+* focusOnElement - Move the browser's focus onto element.
+* focusOnTree - Move the browser's focus somewhere into the requested tree.
 * postInfoAboutElement - Post a bunch of information about an HTML element to issues.
 * isInput - Determines if the element accepts keyboard input.
 * otmot - One time mutation observer with timeout.
