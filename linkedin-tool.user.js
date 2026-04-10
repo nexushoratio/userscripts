@@ -5692,6 +5692,9 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
+      this.addService(VMKeyboardService)
+        .addInstance(this);
+
       spa.details.navbarScrollerFixup(
         InvitationManager.#invitesHow
       );
