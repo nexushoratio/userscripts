@@ -3430,18 +3430,6 @@
      * @param {HTMLElement} button - The newly created button.
      */
     #finishButtonStyle1 = (button) => {
-      button.querySelector('.notification-badge')
-        ?.classList.remove('notification-badge--show');
-
-      const a11y = button.querySelector('.a11y-text');
-      if (a11y) {
-        a11y.innerText = `${APP_LONG} notifications`;
-      }
-
-      const count = button.querySelector('.notification-badge__no-count');
-      count?.classList.remove('notification-badge__no-count');
-      count?.classList.add('notification-badge__count');
-
       const title = button.querySelector('.global-nav__primary-link-text');
       title.innerText = APP_SHORT;
       title.setAttribute('title', APP_SHORT);
@@ -3452,6 +3440,19 @@
       this.#badgeErrorStyle1 = element.querySelector(
         '.notification-badge'
       );
+
+      // Style-1 badges are easy to switch between counting or not.  This
+      // makes sure we are in counting mode.
+      const count = this.#badgeErrorStyle1
+        .querySelector('.notification-badge__no-count');
+      count?.classList.remove('notification-badge__no-count');
+      count?.classList.add('notification-badge__count');
+
+      const a11y = this.#badgeErrorStyle1.querySelector('.a11y-text');
+      if (a11y) {
+        a11y.innerText = `${APP_LONG} error count`;
+      }
+
     }
 
     #createMenuItemStyle1 = () => {
