@@ -7833,10 +7833,23 @@
 
       let content = '';
       const key = LinkedIn.ckeyIdentifier(element);
+      const href = element.href;
 
       if (key) {
         content = key;
       }
+      if (href) {
+        // Some sections have a responsive mode where the same information is
+        // listed twice, in two different layouts.  And the active layout is
+        // determined by page size.  So far, they seem to follow this similar
+        // pattern.
+        const extra = element.parentElement.matches(':has(hr)')
+          ? '-hr'
+          : '';
+
+        content = new URL(href).pathname + extra;
+      }
+
       if (!content) {
         content = this.defaultUid(element);
       }
@@ -8008,6 +8021,10 @@
         // Languages Interests
         // Interests Causes
         [
+          // Analytics (svg == Private to you)
+          ':scope:has(svg[id^="visibility"])' +
+            ' a:not(:has(svg[id^="arrow-right"]))',
+
           // "Show all" buttons
           'hr ~ div > a:has(svg[id^="arrow-right"])',
         ].join(','),
