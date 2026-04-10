@@ -2,7 +2,7 @@
 
 Common patterns for working with the [WEB API](https://developer.mozilla.org/en-US/docs/Web/API).
 
-## Exported properties (as of version 3)
+## Exported properties (as of version 12)
 * version - Bumped per release.
 * clickElement - Run querySelector to get an element, then click it.
 * focusOnElement - Move the browser's focus onto element.
