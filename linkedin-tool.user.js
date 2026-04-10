@@ -8019,6 +8019,20 @@
           ':scope:has(svg[id^="visibility"])' +
             ' a:not(:has(svg[id^="arrow-right"]))',
 
+          // Activity has different layouts by tab
+          // Posts use a carousel (also works for Featured)
+          // TODO(#298): Images have a problem at the moment
+          // '[data-testid="carousel-child-container"] [role="listitem"]',
+          '[data-testid="carousel-child-container"] > * > *',
+          // Comments use `div` wrapped `a` like a list
+          `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
+          // Videos
+          `div[${CKEY}*="videos"] div > a:not(:has(svg[id^="arrow-right"]))`,
+          // Images are a straight forward series of `a`
+          `div[${CKEY}*="images"] div > a:not(:has(svg))`,
+          // Documents
+          `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+
           // "Show all" buttons
           'hr ~ div > a:has(svg[id^="arrow-right"])',
         ].join(','),
