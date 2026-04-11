@@ -5,7 +5,6 @@ acceptInvite
 AccordionTableWidget
 activatedOnce
 activateItem
-activateJob
 activateNotification
 activeCenter
 activeElement
@@ -316,6 +315,7 @@ fieldName
 filterItem
 findActiveConvo
 findIndex
+findMissingStyleProperties
 findNavbar
 findPages
 finishButtonStyle

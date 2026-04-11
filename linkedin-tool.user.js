@@ -3402,6 +3402,43 @@
     }
 
     /**
+     * Determine the style property differences between two elements.
+     *
+     * @param {Element} el1 - The first element.
+     * @param {Element} el2 - The second element.
+     * @param {Set<string>} ignore - A collection of style properties to
+     * ignore.
+     * @returns {[string]} - Style properties present in the first, but not
+     * the second element, formatted to add to this source file.
+     */
+    #findMissingStyleProperties = (el1, el2, ignore) => {
+      const me = this.#findMissingStyleProperties.name;
+      this.logger.entered(me, el1, el2, ignore);
+
+      const missing = new Map();
+      const styles1 = getComputedStyle(el1);
+      const styles2 = getComputedStyle(el2);
+      const set1 = new Set([...styles1]);
+      const set2 = new Set([...styles2]);
+      for (const prop of set1.union(set2)
+        .difference(ignore)) {
+        const val1 = styles1.getPropertyValue(prop);
+        const val2 = styles2.getPropertyValue(prop);
+        if (val1 !== val2) {
+          missing.set(prop, val1);
+        }
+      }
+
+      const results = [];
+      for (const [key, value] of missing.entries()) {
+        results.push(`' ${key}: ${value};' +`);
+      }
+
+      this.logger.leaving(me, results);
+      return results.sort();
+    }
+
+    /**
      * Update error badge as appropriate.
      *
      * @implements {NH.base.Dispatcher~Handler}
@@ -3641,19 +3678,9 @@
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > NH.base.ONE_ITEM) {
           const ignoreSet = new Set(['opacity']);
-          const results = [];
-          const ours = getComputedStyle(this.#badgeErrorStyle2);
-          const theirs = getComputedStyle(badges[0]);
-          const ourSet = new Set([...ours]);
-          const theirSet = new Set([...theirs]);
-          for (const prop of ourSet.union(theirSet)
-            .difference(ignoreSet)) {
-            const ourValue = ours.getPropertyValue(prop);
-            const theirValue = theirs.getPropertyValue(prop);
-            if (ourValue !== theirValue) {
-              results.push(`' ${prop}: ${theirValue};' +`);
-            }
-          }
+          const results = this.#findMissingStyleProperties(
+            badges[0], this.#badgeErrorStyle2, ignoreSet
+          );
           if (results.length) {
             NH.base.issues.post(
               'Style-2 error badge needs updating:', results.join('\n')
