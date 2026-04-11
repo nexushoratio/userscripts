@@ -2578,11 +2578,11 @@
         this.logger.log('Already registered');
       } else {
         const keyboard = new VM.shortcut.KeyboardService();
-        for (const [name, prop] of Object.entries(instance)) {
-          if (prop instanceof Shortcut) {
+        for (const [key, value] of Object.entries(instance)) {
+          if (value instanceof Shortcut) {
             // While we are here, give the function a name.
-            Object.defineProperty(prop, 'name', {value: name});
-            keyboard.register(prop.seq, prop, VMKeyboardService.#navOption);
+            Object.defineProperty(value, 'name', {value: key});
+            keyboard.register(value.seq, value, VMKeyboardService.#navOption);
           }
         }
         this.#keyboards.set(instance, keyboard);
@@ -4079,11 +4079,11 @@
     /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
     get allShortcuts() {
       const shortcuts = [];
-      for (const [name, prop] of Object.entries(this)) {
-        if (prop instanceof Shortcut) {
-          shortcuts.push(prop);
+      for (const [key, value] of Object.entries(this)) {
+        if (value instanceof Shortcut) {
+          shortcuts.push(value);
           // While we are here, give the function a name.
-          Object.defineProperty(prop, 'name', {value: name});
+          Object.defineProperty(value, 'name', {value: key});
         }
       }
       return shortcuts;
