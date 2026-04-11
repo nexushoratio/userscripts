@@ -234,6 +234,35 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-10',
+      issues: ['297'],
+      subject: 'Handle <em>Featured</em> and <em>Activity</em> sections on' +
+        ' the <code>Profile</code> page',
+    },
+    {
+      date: '2026-04-10',
+      issues: ['130'],
+      subject: 'Add <code>VMKeyboardService</code> to the' +
+        ' <code>InvitationManager</code> page',
+    },
+    {
+      date: '2026-04-10',
+      issues: [''],
+      subject: 'Update section selector for the <code>Jobs</code> page',
+    },
+    {
+      date: '2026-04-10',
+      issues: ['252'],
+      subject: 'Migrated a few users of <code>focusOnElement()</code>' +
+        ' to <code>focusOnTree()</code>',
+    },
+    {
+      date: '2026-04-10',
+      issues: ['232'],
+      subject: 'Migrate to using the refactored version of' +
+        ' <code>focusOnTree()</code>',
+    },
+    {
       date: '2026-04-09',
       issues: ['297'],
       subject: 'Handle the <em>Analytics</em> section on the' +
@@ -262,11 +291,6 @@
       issues: [''],
       subject: 'Update <code>pageReadySelector</code> for' +
         ' <code>Notifications</code>',
-    },
-    {
-      date: '2026-04-08',
-      issues: ['106'],
-      subject: 'Factor out assembling of the badges',
     },
     {
       date: '2026-04-08',
@@ -317,12 +341,6 @@
       issues: ['251'],
       subject: 'Rename <code>uniqueIdentifier</code> to' +
         ' <code>uniqueNotificationIdentifier</code>',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['106'],
-      subject: 'Rename badges from <em>type</em>-badge to' +
-        ' badge-<em>type</em>',
     },
     {
       date: '2026-04-07',
@@ -395,17 +413,6 @@
       issues: [''],
       subject: 'Support dismissing <code>Feed</code> items that use a popup' +
         ' menu',
-    },
-    {
-      date: '2026-03-30',
-      issues: ['106'],
-      subject: 'Factor out saving options for future use',
-    },
-    {
-      date: '2026-03-30',
-      issues: ['106'],
-      subject: 'Add a handler for the <code>expose</code> event on the' +
-        ' <em>News</em> tabs',
     },
     {
       date: '2026-03-30',
