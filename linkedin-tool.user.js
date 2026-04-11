@@ -5461,6 +5461,7 @@
         );
         this.#individualScroller.dispatcher
           .on('change', this.#onIndividualChange)
+          .on('focus', this.#onIndividualFocus)
           .on('out-of-range', this.#returnToCollection);
       }
       return this.#individualScroller;
@@ -5691,6 +5692,10 @@
 
     #onIndividualChange = () => {
       this.#lastScroller = this.individuals;
+    }
+
+    #onIndividualFocus = () => {
+      this.collections.show();
     }
 
     #onCollectionChange = () => {

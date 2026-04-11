@@ -87,7 +87,6 @@ bbox
 bigint
 BigInt
 bitness
-Bitrot
 bobInfo
 botButton
 bottomHalf
@@ -726,6 +725,7 @@ onEventChange
 onFocus
 onHide
 onIndividualChange
+onIndividualFocus
 onInit
 onJobCardActivate
 onJobCardChange
