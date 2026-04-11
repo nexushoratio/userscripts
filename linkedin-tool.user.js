@@ -2397,10 +2397,10 @@
   class LinkedInScrollerService extends NH.base.Service {
 
     /**
-     * @param {string} name - Custom portion of this instance.
+     * @param {string} instanceName - Custom portion of this instance.
      */
-    constructor(name) {
-      super(name);
+    constructor(instanceName) {
+      super(instanceName);
       this.on('activate', this.#onActivate)
         .on('deactivate', this.#onDeactivate)
         .setScroller();
@@ -2471,8 +2471,8 @@
   class VMKeyboardService extends NH.base.Service {
 
     /** @inheritdoc */
-    constructor(name) {
-      super(name);
+    constructor(instanceName) {
+      super(instanceName);
       VMKeyboardService.#services.add(this);
       this.on('activate', this.#onActivate)
         .on('deactivate', this.#onDeactivate);
@@ -3921,11 +3921,11 @@
   class HybridFixerService extends NH.base.Service {
 
     /**
-     * @param {string} name - Custom portion of this instance.
+     * @param {string} instanceName - Custom portion of this instance.
      * @param {Page} page - Page this service is tied to.
      */
-    constructor(name, page) {
-      super(name);
+    constructor(instanceName, page) {
+      super(instanceName);
       this.#page = page;
       this.on('activate', this.#onActivate);
     }
@@ -3951,11 +3951,11 @@
   class LinkedInStyleService extends NH.base.Service {
 
     /**
-     * @param {string} name - Custom portion of this instance.
+     * @param {string} instanceName - Custom portion of this instance.
      * @param {Page} page - Page this service is tied to.
      */
-    constructor(name, page) {
-      super(name);
+    constructor(instanceName, page) {
+      super(instanceName);
       this.#page = page;
       this.on('activate', this.#onActivate);
     }
@@ -4001,11 +4001,11 @@
   class LinkedInToolbarService extends NH.base.Service {
 
     /**
-     * @param {string} name - Custom portion of this instance.
+     * @param {string} instanceName - Custom portion of this instance.
      * @param {Page} page - Page this service is tied to.
      */
-    constructor(name, page) {
-      super(name);
+    constructor(instanceName, page) {
+      super(instanceName);
       this.#page = page;
       this.#postHook = () => {};  // eslint-disable-line no-empty-function
       this.on('activate', this.#onActivate);
@@ -4510,11 +4510,11 @@
     static #Activator = class extends NH.base.Service {
 
       /**
-       * @param {string} name - Custom portion of this instance.
+       * @param {string} instanceName - Custom portion of this instance.
        * @param {Page} page - Page this service is tied to.
        */
-      constructor(name, page) {
-        super(name);
+      constructor(instanceName, page) {
+        super(instanceName);
         this.#page = page;
         this.on('activate', this.#onActivate);
       }
