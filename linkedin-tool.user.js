@@ -2214,11 +2214,6 @@
       return this.#asideSelector;
     }
 
-    /** @type {string} - LinkedIn's common navigation bar. */
-    static get primaryNavSelector() {
-      return this.#navSelector;
-    }
-
     /** @type {string} - LinkedIn's common sidebar used in many layouts. */
     static get sidebarSelector() {
       return this.#sidebarSelector;
@@ -2267,13 +2262,6 @@
       'aside.scaffold-layout__aside',
       // Style 2
       '#workspace > div > div > div:nth-of-type(3)',
-    ].join(', ');
-
-    static #navSelector = [
-      // Style 1
-      '#global-nav .global-nav__primary-items',
-      // Style 2
-      `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
     ].join(', ');
 
     static #sidebarSelector = [
@@ -2767,6 +2755,11 @@
       Object.freeze(LinkedIn.Style);
     }
 
+    /** @type {string} - LinkedIn's common navigation bar. */
+    static get primaryNavSelector() {
+      return this.#primaryNavSelector;
+    }
+
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
@@ -3033,6 +3026,13 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
+    static #primaryNavSelector = [
+      // Style 1
+      '#global-nav .global-nav__primary-items',
+      // Style 2
+      `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
+    ].join(', ');
+
     #badgeErrorStyle1
     #badgeErrorStyle2
     #badgeResultsStyle2
@@ -3110,7 +3110,7 @@
 
       // Wait for page to hopefully settle.
       await NH.web.waitForSelector(
-        `${LinkedInGlobals.primaryNavSelector} svg`
+        `${LinkedIn.primaryNavSelector} svg`
       );
 
       this.#finishConstruction();
@@ -3730,9 +3730,9 @@
       let doObserve = !this.#navbar?.isConnected;
 
       const navbar = document.querySelector(
-        LinkedInGlobals.primaryNavSelector
+        LinkedIn.primaryNavSelector
       ) || this.#iframeDoc
-        ?.querySelector(LinkedInGlobals.primaryNavSelector);
+        ?.querySelector(LinkedIn.primaryNavSelector);
 
       if (navbar) {
         const pageStyle = this.#guessPageStyle(navbar);
