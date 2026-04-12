@@ -2564,9 +2564,12 @@
       return this.#shortcuts;
     }
 
-    /** @param {*} instance - Object with {Shortcut} properties. */
+    /**
+     * @param {*} instance - Object with {Shortcut} properties.
+     * @returns {VMKeyboardService} - This instance, for chaining.
+     */
     addInstance(instance) {
-      const me = 'addInstance';
+      const me = this.addInstance.name;
       this.logger.entered(me, instance);
 
       if (this.#keyboards.has(instance)) {
@@ -2585,11 +2588,15 @@
       }
 
       this.logger.leaving(me);
+      return this;
     }
 
-    /** @param {*} instance - Object with {Shortcut} properties. */
+    /**
+     * @param {*} instance - Object with {Shortcut} properties.
+     * @returns {VMKeyboardService} - This instance, for chaining.
+     */
     removeInstance(instance) {
-      const me = 'removeInstance';
+      const me = this.removeInstance.name;
       this.logger.entered(me, instance);
 
       if (this.#keyboards.has(instance)) {
@@ -2602,6 +2609,7 @@
       }
 
       this.logger.leaving(me);
+      return this;
     }
 
     static #focusOption = {
