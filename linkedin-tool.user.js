@@ -234,6 +234,18 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-12',
+      issues: ['297'],
+      subject: 'Partially handle the <code>About</code> section on the' +
+        ' <code>Profile</code> page',
+    },
+    {
+      date: '2026-04-11',
+      issues: ['232'],
+      subject: 'Ensure the primary item is visible during secondary' +
+        ' scrolling',
+    },
+    {
       date: '2026-04-10',
       issues: ['297'],
       subject: 'Handle <em>Featured</em> and <em>Activity</em> sections on' +
@@ -582,17 +594,6 @@
       date: '2026-03-14',
       issues: ['278'],
       subject: 'Update the <code>JobCollections</code> pages',
-    },
-    {
-      date: '2026-03-13',
-      issues: ['272'],
-      subject: 'Tweak styling of list items in the ' +
-        '<code>Information view</code>',
-    },
-    {
-      date: '2026-03-13',
-      issues: ['278'],
-      subject: 'Update the implementation of the <code>Jobs</code> view',
     },
   ];
 
