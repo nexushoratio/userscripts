@@ -44,6 +44,16 @@ git diff --stat
 
 messages=()
 # These are the tests we want to run.
+spelling_errors=$(mktemp)
+find . -type f \( -name '*.js' -o -name '*.md' \) -exec cat {} + |
+  ispell -o -l > "${spelling_errors}"
+
+if [[ -s ${spelling_errors} ]]; then
+  echo spelling errors:
+  cat "${spelling_errors}"
+  messages+=('spell checking failed')
+fi
+
 eslint . || messages+=('eslint failed')
 hooks/style_linter.py || messages+=('style linter failed')
 
