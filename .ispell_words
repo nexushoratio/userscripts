@@ -77,8 +77,8 @@ attributeFilter
 attrText
 autoActivate
 badCmp
+badgeErrorResultsStyle
 badgeErrorStyle
-badgeResultsStyle
 badKlasses
 BaseClassCleanupTestCase
 BasicFeaturesTestCase

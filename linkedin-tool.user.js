@@ -3042,9 +3042,9 @@
       `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
     ].join(', ');
 
+    #badgeErrorResultsStyle2
     #badgeErrorStyle1
     #badgeErrorStyle2
-    #badgeResultsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #globals
     #iframeDoc
@@ -3678,24 +3678,24 @@
 
     #compareBadgeStyles2 = () => {
       const me = this.#compareBadgeStyles2.name;
-      this.logger.entered(me, this.#badgeResultsStyle2);
+      this.logger.entered(me, this.#badgeErrorResultsStyle2);
 
       // Only do this once.
-      if (!this.#badgeResultsStyle2) {
+      if (!this.#badgeErrorResultsStyle2) {
         // Some badges are bad examples, so skip them using :not().
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > NH.base.ONE_ITEM) {
-          const ignoreSet = new Set(['opacity']);
+          const ignore = new Set(['opacity']);
           const results = this.#findMissingStyleProperties(
-            badges[0], this.#badgeErrorStyle2, ignoreSet
+            badges[0], this.#badgeErrorStyle2, ignore
           );
           if (results.length) {
             NH.base.issues.post(
               'Style-2 error badge needs updating:', results.join('\n')
             );
           }
-          this.#badgeResultsStyle2 = results;
+          this.#badgeErrorResultsStyle2 = results;
         }
       }
 
