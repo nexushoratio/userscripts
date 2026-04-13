@@ -1,0 +1,38 @@
+#!/bin/bash
+# Checks to run.
+# Usuable from both `pre-commit` and the commandline.
+
+set -u
+
+eslint_flags=()
+if [[ -v GIT_AUTHOR_DATE ]]; then
+  echo 'inside pre-commit'
+else
+  echo 'outside pre-commit'
+  eslint_flags+=('--fix')
+fi
+
+messages=()
+# These are the tests we want to run.
+spelling_errors=$(mktemp)
+find . -type f \( -name '*.js' -o -name '*.md' \) -exec cat {} + |
+  ispell -o -l > "${spelling_errors}"
+
+if [[ -s ${spelling_errors} ]]; then
+  echo spelling errors:
+  sort -u "${spelling_errors}"
+  messages+=('spell checking failed')
+fi
+
+eslint "${eslint_flags[@]}" . || messages+=('eslint failed')
+hooks/style_linter.py || messages+=('style linter failed')
+
+cnt=${#messages[*]}
+
+if ((cnt)); then
+  echo "Issues found (${cnt}):"
+  for msg in "${messages[@]}"; do
+    echo "${msg}"
+  done
+  exit 1
+fi

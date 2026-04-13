@@ -42,32 +42,12 @@ pushd "${dir}" > /dev/null || exit
 git apply --allow-empty "${patchfile}"
 git diff --stat
 
-messages=()
-# These are the tests we want to run.
-spelling_errors=$(mktemp)
-find . -type f \( -name '*.js' -o -name '*.md' \) -exec cat {} + |
-  ispell -o -l > "${spelling_errors}"
-
-if [[ -s ${spelling_errors} ]]; then
-  echo spelling errors:
-  cat "${spelling_errors}"
-  messages+=('spell checking failed')
-fi
-
-eslint . || messages+=('eslint failed')
-hooks/style_linter.py || messages+=('style linter failed')
+hooks/checks
+rc=$?
 
 # Clean up.
 popd > /dev/null || exit
 git worktree remove --force "${dir}"
 rm "${patchfile}"
 
-cnt=${#messages[*]}
-
-if ((cnt)); then
-  echo "Issues found (${cnt}):"
-  for msg in "${messages[@]}"; do
-    echo "${msg}"
-  done
-  exit 1
-fi
+exit "${rc}"
