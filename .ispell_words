@@ -116,7 +116,7 @@ checkVisibility
 childKey
 childList
 childNodes
-ckey
+CKEY
 ckeyIdentifier
 cksum
 classCalls
@@ -487,6 +487,7 @@ jobCardSelector
 jobCardsHow
 jobCardsWhat
 JobCollections
+JobDetailsSimilarJobsSlot
 jobId
 JobsCollections
 jobScroller

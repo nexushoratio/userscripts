@@ -7026,8 +7026,8 @@
     static #entriesWhat = {
       name: `${this.name} entries`,
       selectors: [
-        // More jobs
-        ':scope a',
+        // More jobs - Matches grid and footer
+        `:scope[${CKEY}^="JobDetailsSimilarJobsSlot"] a`,
       ],
     };
 
