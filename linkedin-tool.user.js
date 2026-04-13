@@ -230,9 +230,22 @@
         ' item is an image',
       '2026-04-08'
     ),
+    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-13',
+      issues: ['252'],
+      subject: 'Move the remaining items from <code>LinkedInGlobals</code>' +
+        ' to <code>LinkedIn</code>',
+    },
+    {
+      date: '2026-04-13',
+      issues: ['301'],
+      subject: 'Restrict secondary scrolling to <em>More jobs</em> in' +
+        ' <code>JobsView</code>',
+    },
     {
       date: '2026-04-12',
       issues: ['297'],
@@ -578,22 +591,6 @@
       date: '2026-03-15',
       issues: ['278'],
       subject: 'Update the implementation of the <code>JobView</code> page',
-    },
-    {
-      date: '2026-03-14',
-      issues: ['282'],
-      subject: 'Verify that a toolbar exists before getting values from it',
-    },
-    {
-      date: '2026-03-14',
-      issues: ['278'],
-      subject: 'Rename <code>JobCollections</code> to ' +
-        '<code>JobsCollections</code>',
-    },
-    {
-      date: '2026-03-14',
-      issues: ['278'],
-      subject: 'Update the <code>JobCollections</code> pages',
     },
   ];
 
