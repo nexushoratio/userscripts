@@ -9,7 +9,7 @@ if [[ -v GIT_AUTHOR_DATE ]]; then
   echo 'inside pre-commit'
 else
   echo 'outside pre-commit'
-  eslint_flags+=('--fix')
+  eslint_flags+=('--report-unused-disable-directives' '--fix')
 fi
 
 messages=()
