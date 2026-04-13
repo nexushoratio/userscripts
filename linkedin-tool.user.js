@@ -2204,78 +2204,6 @@
 
   NH.xunit.testing.testCases.push(ScrollerTestCase);
 
-  /**
-   * This class exists solely to avoid some `no-use-before-define` linter
-   * issues.
-   */
-  class LinkedInGlobals {
-
-    /** @type {string} - LinkedIn's common aside used in many layouts. */
-    static get asideSelector() {
-      return this.#asideSelector;
-    }
-
-    /** @type {string} - LinkedIn's common sidebar used in many layouts. */
-    static get sidebarSelector() {
-      return this.#sidebarSelector;
-    }
-
-    /** @type {string} - The height of the navbar as CSS string. */
-    get navbarHeightCSS() {
-      return `${this.#navbarHeightPixels}px`;
-    }
-
-    /** @type {number} - The height of the navbar in pixels. */
-    get navbarHeightPixels() {
-      return this.#navbarHeightPixels;
-    }
-
-    /** @param {number} val - Set height of the navbar in pixels. */
-    set navbarHeightPixels(val) {
-      this.#navbarHeightPixels = val;
-    }
-
-    /** Scroll common sidebar into view and move focus to it. */
-    focusOnSidebar = () => {
-      const sidebar = document.querySelector(LinkedInGlobals.sidebarSelector);
-      if (sidebar) {
-        sidebar.style.scrollMarginTop = this.navbarHeightCSS;
-        sidebar.scrollIntoView();
-        NH.web.focusOnTree(sidebar);
-      }
-    }
-
-    /**
-     * Scroll common aside (right-hand sidebar) into view and move focus to
-     * it.
-     */
-    focusOnAside = () => {
-      const aside = document.querySelector(LinkedInGlobals.asideSelector);
-      if (aside) {
-        aside.style.scrollMarginTop = this.navbarHeightCSS;
-        aside.scrollIntoView();
-        NH.web.focusOnTree(aside);
-      }
-    }
-
-    static #asideSelector = [
-      // Style 1
-      'aside.scaffold-layout__aside',
-      // Style 2
-      '#workspace > div > div > div:nth-of-type(3)',
-    ].join(', ');
-
-    static #sidebarSelector = [
-      // Style 1
-      'aside.scaffold-layout__sidebar',
-      // Style 2
-      '#workspace > div > div > div:nth-of-type(1)',
-    ].join(', ');
-
-    #navbarHeightPixels = 0;
-
-  }
-
   /** A table with collapsible sections. */
   class AccordionTableWidget extends NH.widget.Widget {
 
@@ -2738,13 +2666,9 @@
   /** LinkedIn specific information. */
   class LinkedIn extends NH.spa.Details {
 
-    /**
-     * @param {LinkedInGlobals} globals - Instance of a helper class to avoid
-     * circular dependencies.
-     */
-    constructor(globals) {
+    /** @inheritdoc */
+    constructor() {
       super();
-      this.#globals = globals;
       this.#navbarMutationObserver = new MutationObserver(
         this.#navbarHandler
       );
@@ -2764,9 +2688,19 @@
       Object.freeze(LinkedIn.Style);
     }
 
+    /** @type {string} - LinkedIn's common aside used in many layouts. */
+    static get asideSelector() {
+      return this.#asideSelector;
+    }
+
     /** @type {string} - LinkedIn's common navigation bar. */
     static get primaryNavSelector() {
       return this.#primaryNavSelector;
+    }
+
+    /** @type {string} - LinkedIn's common sidebar used in many layouts. */
+    static get sidebarSelector() {
+      return this.#sidebarSelector;
     }
 
     /**
@@ -2803,11 +2737,6 @@
     /** @type {NH.base.Dispatcher} */
     get dispatcher2() {
       return this.#dispatcher;
-    }
-
-    /** @type {LinkedInGlobals} - Instance passed in during construction. */
-    get globals() {
-      return this.#globals;
     }
 
     /** @type {string} - The element.id used to identify the info pop-up. */
@@ -2860,6 +2789,21 @@
       return this.#navbarDispatcher;
     }
 
+    /** @type {string} - The height of the navbar as CSS string. */
+    get navbarHeightCSS() {
+      return `${this.#navbarHeightPixels}px`;
+    }
+
+    /** @type {number} - The height of the navbar in pixels. */
+    get navbarHeightPixels() {
+      return this.#navbarHeightPixels;
+    }
+
+    /** @param {number} val - Set height of the navbar in pixels. */
+    set navbarHeightPixels(val) {
+      this.#navbarHeightPixels = val;
+    }
+
     /** @type {LinkedIn.Style} */
     get pageStyle() {
       return this.#pageStyle;
@@ -2890,6 +2834,29 @@
       this.logger.leaving(me);
     }
 
+    /** Scroll common sidebar into view and move focus to it. */
+    focusOnSidebar = () => {
+      const sidebar = document.querySelector(LinkedIn.sidebarSelector);
+      if (sidebar) {
+        sidebar.style.scrollMarginTop = this.navbarHeightCSS;
+        sidebar.scrollIntoView();
+        NH.web.focusOnTree(sidebar);
+      }
+    }
+
+    /**
+     * Scroll common aside (right-hand sidebar) into view and move focus to
+     * it.
+     */
+    focusOnAside = () => {
+      const aside = document.querySelector(LinkedIn.asideSelector);
+      if (aside) {
+        aside.style.scrollMarginTop = this.navbarHeightCSS;
+        aside.scrollIntoView();
+        NH.web.focusOnTree(aside);
+      }
+    }
+
     /**
      * Many classes have some static {Scroller~How} items that need to be
      * fixed up after the page loads enough that the values are available.
@@ -2900,8 +2867,8 @@
       const me = 'navbarScrollerFixup';
       this.logger.entered(me, how);
 
-      how.topMarginPixels = this.#globals.navbarHeightPixels;
-      how.topMarginCSS = this.#globals.navbarHeightCSS;
+      how.topMarginPixels = this.navbarHeightPixels;
+      how.topMarginCSS = this.navbarHeightCSS;
       how.bottomMarginCSS = '3em';
 
       this.logger.leaving(me, how);
@@ -3016,6 +2983,13 @@
       return tab;
     }
 
+    static #asideSelector = [
+      // Style 1
+      'aside.scaffold-layout__aside',
+      // Style 2
+      '#workspace > div > div > div:nth-of-type(3)',
+    ].join(', ');
+
     static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
       '<defs>' +
@@ -3042,6 +3016,13 @@
       `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
     ].join(', ');
 
+    static #sidebarSelector = [
+      // Style 1
+      'aside.scaffold-layout__sidebar',
+      // Style 2
+      '#workspace > div > div > div:nth-of-type(1)',
+    ].join(', ');
+
     #badgeErrorResultsStyle2
     #badgeErrorStyle1
     #badgeErrorStyle2
@@ -3056,6 +3037,7 @@
     #licenseLoaded
     #navbar
     #navbarDispatcher = new NH.base.Dispatcher('resize');
+    #navbarHeightPixels = 0;
     #navbarMutationObserver
     #navbarResizeObserver
     #ourMenuItemStyle1
@@ -3802,9 +3784,9 @@
         this.#ensureMenuStyle2();
 
         this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
-        this.#globals.navbarHeightPixels = this.#navbar.clientHeight + margin;
+        this.navbarHeightPixels = this.#navbar.clientHeight + margin;
 
-        this.#navbarDispatcher.fire('resize', this.#globals);
+        this.#navbarDispatcher.fire('resize', this);
       }
 
       this.logger.leaving(me);
@@ -4338,8 +4320,6 @@
 
   }
 
-  const linkedInGlobals = new LinkedInGlobals();
-
   /**
    * Class for handling aspects common across LinkedIn.
    *
@@ -4498,7 +4478,9 @@
       ',',
       'Focus on the left/top sidebar (not always present)',
       () => {
-        linkedInGlobals.focusOnSidebar();
+        this.logger.log('sidebar');
+        this.spa.details.focusOnSidebar();
+        this.logger.log('done');
       }
     );
 
@@ -4506,7 +4488,7 @@
       '.',
       'Focus on the right/bottom sidebar (not always present)',
       () => {
-        linkedInGlobals.focusOnAside();
+        this.spa.details.focusOnAside();
       }
     );
 
@@ -4660,7 +4642,7 @@
       this.#postScroller.dispatcher
         .on('activate', this.#onPostActivate)
         .on('change', this.#onPostChange)
-        .on('out-of-range', linkedInGlobals.focusOnSidebar);
+        .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
     }
@@ -5393,7 +5375,7 @@
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher
         .on('change', this.#onCollectionChange)
-        .on('out-of-range', linkedInGlobals.focusOnSidebar);
+        .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#collectionScroller;
     }
@@ -5979,7 +5961,7 @@
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
         .on('change', this.#onSectionChange)
-        .on('out-of-range', linkedInGlobals.focusOnSidebar);
+        .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#sectionScroller;
     }
@@ -7363,7 +7345,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/messaging/.*', 'u'),
-      pageReadySelector: LinkedInGlobals.asideSelector,
+      pageReadySelector: LinkedIn.asideSelector,
     };
 
     static #messageBoxSelector = 'main div.msg-form__contenteditable';
@@ -7561,7 +7543,7 @@
       this.addService(LinkedInScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
-        .on('out-of-range', linkedInGlobals.focusOnSidebar);
+        .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
     /**
@@ -9249,10 +9231,11 @@
 
   NH.xunit.testing.run();
 
+  const linkedIn = new LinkedIn();
+
   // TODO(#240): Due to changes in start up, this value is no longer set
   // before Pages are registered.
-  linkedInGlobals.navbarHeightPixels = 16;
-  const linkedIn = new LinkedIn(linkedInGlobals);
+  linkedIn.navbarHeightPixels = 16;
 
   await linkedIn.ready;
   log.log('proceeding...');
