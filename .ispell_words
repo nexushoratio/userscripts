@@ -110,7 +110,6 @@ cardsWhat
 caseSensitive
 cdn
 centerOfElement
-chameleonResultUrn
 charCodeAt
 checkAssertionCounts
 checkVisibility
@@ -326,6 +325,7 @@ firstChild
 firstInvite
 firstItem
 firstNotification
+fka
 flexGrow
 focusBrowser
 focusOnAside
@@ -964,6 +964,7 @@ snapToTop
 sourceforge
 SPADetails
 SPATestCase
+SPDX
 SpecificEvent
 src
 srcdoc
