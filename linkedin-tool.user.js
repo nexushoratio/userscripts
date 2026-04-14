@@ -14,7 +14,7 @@
 // @require     https://update.greasyfork.org/scripts/478188/1787507/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1788132/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1787506/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1795565/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1798298/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1789609/NH_spa.js
 // @grant       GM.getValue
@@ -32,7 +32,7 @@
     {name: 'xunit', minVersion: 56},
     {name: 'base', minVersion: 54},
     {name: 'userscript', minVersion: 8},
-    {name: 'web', minVersion: 12},
+    {name: 'web', minVersion: 13},
     {name: 'widget', minVersion: 46},
     {name: 'spa', minVersion: 3},
   ]);
@@ -1319,11 +1319,7 @@
       this.show();
 
       if (litOptions.enableScrollerChangesFocus) {
-        const item = this.item;
-
-        if (item) {
-          NH.web.focusOnTree(item);
-        }
+        NH.web.focusOnTree(this.item);
       }
 
       this.logger.leaving(me);
