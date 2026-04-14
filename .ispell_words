@@ -79,6 +79,7 @@ autoActivate
 badCmp
 badgeErrorResultsStyle
 badgeErrorStyle
+badgeNewsStyle
 badKlasses
 BaseClassCleanupTestCase
 BasicFeaturesTestCase
@@ -149,7 +150,6 @@ collectionScroller
 collectionsHow
 collectionsWhat
 ColumnClassesFunc
-commentList
 commentOnItem
 commentScroller
 commentsHow

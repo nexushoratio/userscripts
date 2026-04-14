@@ -3023,6 +3023,8 @@
     #badgeErrorResultsStyle2
     #badgeErrorStyle1
     #badgeErrorStyle2
+    #badgeNewsStyle1
+    #badgeNewsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #globals
     #iframeDoc
@@ -3295,7 +3297,11 @@
           ' padding-right: 0.5em;' +
           '}',
         '.lit-kbd-service-active th { background-color: lightgray; }',
-        '.lit-menu-badge-news {' +
+        '.lit-menu-badge-news-style1 {' +
+          ' top: 1.5rem !important;' +
+          ' --color-alert: var(--color-new) !important;' +
+          '}',
+        '.lit-menu-badge-news-style2 {' +
           ' position: absolute;' +
           ' bottom: 14px;' +
           ' right: -5px;' +
@@ -3465,17 +3471,33 @@
       this.#badgeErrorStyle1 = element.querySelector(
         '.notification-badge'
       );
+      this.#badgeNewsStyle1 = this.#badgeErrorStyle1.cloneNode(true);
+      this.#badgeNewsStyle1
+        .classList.add('lit-menu-badge-news-style1');
+
+      // TODO(#106): Enable once notifications are in place.
+      if (window.false) {
+        this.#badgeErrorStyle1.after(this.#badgeNewsStyle1);
+      }
 
       // Style-1 badges are easy to switch between counting or not.  This
-      // makes sure we are in counting mode.
-      const count = this.#badgeErrorStyle1
+      // makes sure we are in the correct mode for each badge.
+      let count = this.#badgeErrorStyle1
         .querySelector('.notification-badge__no-count');
       count?.classList.remove('notification-badge__no-count');
       count?.classList.add('notification-badge__count');
+      count = this.#badgeNewsStyle1
+        .querySelector('.notification-badge__count');
+      count?.classList.remove('notification-badge__count');
+      count?.classList.add('notification-badge__no-count');
 
-      const a11y = this.#badgeErrorStyle1.querySelector('.a11y-text');
+      let a11y = this.#badgeErrorStyle1.querySelector('.a11y-text');
       if (a11y) {
         a11y.innerText = `${APP_LONG} error count`;
+      }
+      a11y = this.#badgeNewsStyle1.querySelector('.a11y-text');
+      if (a11y) {
+        a11y.innerText = `${APP_LONG} news notifications`;
       }
 
     }
