@@ -13,7 +13,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://update.greasyfork.org/scripts/478188/1787507/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1788132/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1787506/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478349/1798299/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1798298/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1789609/NH_spa.js
@@ -31,7 +31,7 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 56},
     {name: 'base', minVersion: 54},
-    {name: 'userscript', minVersion: 8},
+    {name: 'userscript', minVersion: 11},
     {name: 'web', minVersion: 13},
     {name: 'widget', minVersion: 46},
     {name: 'spa', minVersion: 3},
@@ -2761,7 +2761,7 @@
             this.logger.log('e:', e);
             NH.base.issues.post(e.message);
             this.#licenseData = {
-              name: 'Unable to extract: Please file a bug',
+              id: 'Unable to extract: Please file a bug',
               url: '',
             };
           }
@@ -2966,10 +2966,10 @@
       const me = 'licenseTab';
       this.logger.entered(me);
 
-      const {name, url} = this.licenseData;
+      const {id, url} = this.licenseData;
       const tab = {
         name: 'License',
-        content: `<p><a href="${url}">${name}</a></p>`,
+        content: `<p><a href="${url}">${id}</a></p>`,
       };
 
       this.logger.leaving(me, tab);
@@ -3143,13 +3143,13 @@
         const info = document.createElement('p');
         info.innerHTML = '<i>Loading license...</i>';
         evt.target.append(info);
-        const {name, url} = this.licenseData;
+        const {id, url} = this.licenseData;
 
         const response = await fetch(url);
         if (response.ok) {
           const license = document.createElement('iframe');
           license.style.flexGrow = 1;
-          license.title = name;
+          license.title = id;
           license.sandbox = '';
           license.srcdoc = await response.text();
           info.replaceWith(license);
