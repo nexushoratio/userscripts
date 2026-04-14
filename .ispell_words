@@ -202,7 +202,6 @@ debounce
 DebugKeys
 deduped
 defaultClassesFunc
-defaultDate
 defaultdict
 defaultEqual
 DefaultMap
@@ -429,6 +428,7 @@ iframe
 iframeDoc
 ignoreInvite
 ignoreSet
+img
 inCleanup
 includeStackTrace
 indexOf

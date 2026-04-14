@@ -7098,6 +7098,12 @@
       const me = Messaging.uniqueConvoCardsIdentifier.name;
       this.logger.entered(me, element);
 
+      // XXX: As of 2026-04-14, there are no distinguishing features in the
+      // cards.  Unlike the similar UI for JobsCollections, there is no easy
+      // mapping between the URL and the card.  The img.src looks interesting,
+      // but not really.  It is possible to have multiple cards for the
+      // person, making using the URL unsuitable.  And some folks do not have
+      // photos, so get the same placeholder data: scheme.
       const content = this.defaultUid(element);
 
       this.logger.leaving(me);
