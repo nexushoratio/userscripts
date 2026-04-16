@@ -2186,20 +2186,20 @@
   /** A table with collapsible sections. */
   class AccordionTableWidget extends NH.widget.Widget {
 
-    /** @param {string} name - Name for this instance. */
-    constructor(name) {
-      super(name, 'table');
+    /** @param {string} instanceName - Name for this instance. */
+    constructor(instanceName) {
+      super(instanceName, 'table');
       this.logger.log(`${this.name} constructed`);
     }
 
     /**
      * This becomes the current section.
-     * @param {string} name - Name of the new section.
+     * @param {string} section - Name of the new section.
      * @returns {Element} - The new section.
      */
-    addSection(name) {
+    addSection(section) {
       this.#currentSection = document.createElement('tbody');
-      this.#currentSection.id = NH.base.safeId(`${this.id}-${name}`);
+      this.#currentSection.id = NH.base.safeId(`${this.id}-${section}`);
       this.container.append(this.#currentSection);
       return this.#currentSection;
     }
