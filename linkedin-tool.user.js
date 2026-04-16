@@ -6785,7 +6785,16 @@
       const me = JobsView.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = this.defaultUid(element);
+      let content = '';
+      const href = element.href;
+
+      if (href) {
+        content = new URL(href).searchParams.get('currentJobId');
+      }
+
+      if (!content) {
+        content = this.defaultUid(element);
+      }
 
       this.logger.leaving(me, content);
       return content;
