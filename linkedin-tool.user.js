@@ -3669,7 +3669,9 @@
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > NH.base.ONE_ITEM) {
-          ignore.add('opacity');
+          ignore.add('opacity')
+            .add('inline-size')
+            .add('width');
           const errorResults = this.#findMissingStyleProperties(
             badges[0], this.#badgeErrorStyle2, ignore
           );
