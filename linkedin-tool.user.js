@@ -68,7 +68,6 @@
       enableAlertUnsupportedPages: false,
       enableIssue241ClickMethod: false,
       enableKeyboardService: false,
-      enableScrollerChangesFocus: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue(OPTIONS, {});
@@ -1301,16 +1300,13 @@
      */
     focus() {
       const me = this.focus.name;
-      this.logger.entered(me, litOptions.enableScrollerChangesFocus);
+      this.logger.entered(me);
 
       this.dispatcher.fire('focus', null);
 
       this.shine();
       this.show();
-
-      if (litOptions.enableScrollerChangesFocus) {
-        NH.web.focusOnTree(this.item);
-      }
+      NH.web.focusOnTree(this.item);
 
       this.logger.leaving(me);
       this.dispatcher.fire('focused', null);
@@ -4777,14 +4773,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          const el = this.#lastScroller.item;
-          this.posts.show();
-          this.comments?.show();
-          NH.web.focusOnElement(el, false);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -5511,11 +5500,7 @@
       'f',
       'Change browser focus to current card/item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -5779,12 +5764,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.invites.focus();
-        } else {
-          const el = this.invites.item;
-          NH.web.focusOnElement(el);
-        }
+        this.invites.focus();
       }
     );
 
@@ -6067,13 +6047,7 @@
       'f',
       'Change browser focus to current section or job',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          this.sections.show();
-        this.jobs?.show();
-        NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -6494,11 +6468,7 @@
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -6902,11 +6872,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -7193,11 +7159,7 @@
       'f',
       'Move browser focus to most recently selected item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item, false);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -7646,12 +7608,7 @@
       'f',
       'Change browser focus to current notification',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.notifications.focus();
-        } else {
-          this.notifications.show();
-          NH.web.focusOnElement(this.notifications.item);
-        }
+        this.notifications.focus();
       }
     );
 
@@ -7970,11 +7927,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -8290,12 +8243,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          const el = this.#lastScroller.item;
-          NH.web.focusOnElement(el);
-        }
+        this.#lastScroller.focus();
       }
     );
 
@@ -8543,11 +8491,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        if (litOptions.enableScrollerChangesFocus) {
-          this.#lastScroller.focus();
-        } else {
-          NH.web.focusOnElement(this.#lastScroller.item);
-        }
+        this.#lastScroller.focus();
       }
     );
 
