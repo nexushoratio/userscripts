@@ -3308,30 +3308,23 @@
           '}',
         '.lit-menu-badge-error {' +
           ' align-items: center;' +
-          ' background-color: rgb(203, 17, 45);' +
-          ' block-size: 12px;' +
-          ' border-radius: 9px;' +
-          ' bottom: 13.5px;' +
+          ' background-color: #cb112d;' +
+          ' border-radius: 1.2rem;' +
           ' color-scheme: light;' +
           ' color: white;' +
           ' display: flex;' +
-          ' font-size: 9px;' +
+          ' font-size: 1.2rem;' +
           ' font-weight: 600;' +
-          ' height: 12px;' +
-          ' inset-block-start: -1.5px;' +
-          ' inset-inline-start: 24px;' +
+          ' height: 1.6rem;' +
+          ' inset-block-start: -0.2rem;' +
+          ' inset-inline-start: 100%;' +
           ' justify-content: center;' +
-          ' left: 24px;' +
-          ' margin-inline-start: -6px;' +
-          ' margin-left: -6px;' +
-          ' min-inline-size: 12px;' +
-          ' min-width: 12px;' +
-          ' padding-inline-end: 3px;' +
-          ' padding-inline-start: 3px;' +
-          ' padding-left: 3px;' +
-          ' padding-right: 3px;' +
+          ' margin-inline-start: -0.8rem;' +
+          ' min-width: 1.6rem;' +
+          ' padding-inline-end: 0.4rem;' +
+          ' padding-inline-start: 0.4rem;' +
           ' position: absolute;' +
-          ' top: -1.5px;' +
+          ' width: fit-content;' +
           ' z-index: 100;' +
           '}',
         // Get rid of the donut
