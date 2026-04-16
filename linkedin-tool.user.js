@@ -235,6 +235,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-14',
+      issues: ['232'],
+      subject: 'Update to latest version of <code>focusOnTree()</code> to' +
+        ' simplify code',
+    },
+    {
       date: '2026-04-13',
       issues: ['252'],
       subject: 'Move the remaining items from <code>LinkedInGlobals</code>' +
@@ -575,22 +581,6 @@
       date: '2026-03-18',
       issues: ['286', '288'],
       subject: 'Update to most recent version of all libraries',
-    },
-    {
-      date: '2026-03-15',
-      issues: ['284'],
-      subject: 'Implement a <code>LinkedInStyleService</code> to verify ' +
-        'site styles',
-    },
-    {
-      date: '2026-03-15',
-      issues: ['278'],
-      subject: 'Rename <code>JobView</code> to <code>JobsView</code>',
-    },
-    {
-      date: '2026-03-15',
-      issues: ['278'],
-      subject: 'Update the implementation of the <code>JobView</code> page',
     },
   ];
 
