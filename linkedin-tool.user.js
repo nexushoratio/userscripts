@@ -3656,8 +3656,8 @@
       this.logger.leaving(me);
     }
 
-    #compareBadgeStyles2 = () => {
-      const me = this.#compareBadgeStyles2.name;
+    #compareBadgesStyle2 = () => {
+      const me = this.#compareBadgesStyle2.name;
       this.logger.entered(me);
 
       const ignore = new Set();
@@ -3698,7 +3698,7 @@
         if (this.#ourMenuItemStyle2) {
           this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
         }
-        this.#compareBadgeStyles2();
+        this.#compareBadgesStyle2();
       }
 
       this.logger.leaving(me);
