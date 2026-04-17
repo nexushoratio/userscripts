@@ -4334,11 +4334,11 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE, LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      const keyboardService = this.addService(VMKeyboardService)
+        .addInstance(this);
       if (litOptions.enableDevMode) {
         const dk = new DebugKeys(this.logger);
-        this.#keyboardService.addInstance(dk);
+        keyboardService.addInstance(dk);
       }
 
       if (litOptions.enableAlertUnsupportedPages) {
@@ -4556,8 +4556,6 @@
 
     }
 
-    #keyboardService
-
     /**
      * Click on the requested link in the global nav bar.
      * @param {string} item - Portion of the link to match.
@@ -4628,8 +4626,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       spa.details.navbarScrollerFixup(Feed.#postsHow);
       spa.details.navbarScrollerFixup(Feed.#commentsHow);
@@ -5050,7 +5048,6 @@
     static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
     #commentScroller
-    #keyboardService
     #lastScroller
     #postScroller
 
@@ -5354,8 +5351,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       spa.details.navbarScrollerFixup(MyNetwork.#collectionsHow);
       spa.details.navbarScrollerFixup(MyNetwork.#individualsHow);
@@ -5657,7 +5654,6 @@
 
     #collectionScroller
     #individualScroller
-    #keyboardService
     #lastScroller
 
     #resetIndividuals = () => {
@@ -5931,8 +5927,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       spa.details.navbarScrollerFixup(Jobs.#sectionsHow);
       spa.details.navbarScrollerFixup(Jobs.#jobsHow);
@@ -6173,7 +6169,6 @@
     };
 
     #jobScroller
-    #keyboardService
     #lastScroller
     #sectionScroller
 
@@ -6251,8 +6246,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       this.#jobCardScroller = new Scroller(JobsCollections.#jobCardsWhat,
         JobsCollections.#jobCardsHow);
@@ -6654,7 +6649,6 @@
 
     #detailsScroller
     #jobCardScroller
-    #keyboardService
     #lastScroller
     #paginationScroller
 
@@ -6736,8 +6730,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
         .addHows(JobsView.#cardsHow, JobsView.#entriesHow)
@@ -6994,7 +6988,6 @@
 
     #cardScroller
     #entryScroller
-    #keyboardService
     #lastScroller
 
     #toolbarHook = () => {
@@ -7039,8 +7032,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
         Messaging.#convoCardsHow);
@@ -7359,7 +7352,6 @@
 
     #activator
     #convoCardScroller
-    #keyboardService
     #lastScroller
     #messageScroller
 
@@ -7511,8 +7503,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       spa.details.navbarScrollerFixup(Notifications.#notificationsHow);
 
@@ -7772,7 +7764,6 @@
       ],
     };
 
-    #keyboardService
     #notificationScroller
 
   }
@@ -7787,8 +7778,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
         .addHows(Profile.#sectionsHow, Profile.#entriesHow)
@@ -8067,7 +8058,6 @@
     /^(?:com.linkedin.sdui.profile.card.*-aow)?(?<id>.*)/u;
 
     #entryScroller
-    #keyboardService
     #lastScroller
     #sectionScroller
 
@@ -8116,8 +8106,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       spa.details.navbarScrollerFixup(Events.#collectionsHow);
       spa.details.navbarScrollerFixup(Events.#eventsHow);
@@ -8324,7 +8314,6 @@
 
     #collectionScroller
     #eventScroller
-    #keyboardService
     #lastScroller
 
     #resetEvents = () => {
@@ -8361,8 +8350,8 @@
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      this.addService(VMKeyboardService)
+        .addInstance(this);
 
       this.addService(LinkedInToolbarService, this)
         .addHows(
@@ -8560,7 +8549,6 @@
       ],
     };
 
-    #keyboardService
     #lastScroller
     #paginationScroller
     #resultScroller
