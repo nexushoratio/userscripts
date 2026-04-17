@@ -2853,9 +2853,12 @@
       this.logger.leaving(me);
     }
 
-    /** @inheritdoc */
+    /**
+     * @returns {TabbedUI~TabDefinition} - Where to find documentation and
+     * file bugs.
+     */
     docTab() {
-      const me = 'docTab';
+      const me = this.docTab.name;
       this.logger.entered(me);
 
       const issuesLink = this.#ghUrl('labels/linkedin-tool');
@@ -2890,9 +2893,11 @@
       return tab;
     }
 
-    /** @inheritdoc */
+    /**
+     * @returns {TabbedUI~TabDefinition} - News information.
+     */
     newsTab() {
-      const me = 'newsTab';
+      const me = this.newsTab.name;
       this.logger.entered(me);
 
       const {dates, knownIssues} = this.#preprocessKnownIssues();
@@ -2937,9 +2942,11 @@
       return tab;
     }
 
-    /** @inheritdoc */
+    /**
+     * @returns {TabbedUI~TabDefinition} - License information.
+     */
     licenseTab() {
-      const me = 'licenseTab';
+      const me = this.licenseTab.name;
       this.logger.entered(me);
 
       const {id, url} = this.licenseData;
@@ -8630,7 +8637,6 @@
     static _errorMarker = '---';
 
     /**
-     * @implements {TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Initial table for the keyboard
      * shortcuts.
      */
@@ -8656,7 +8662,6 @@
     }
 
     /**
-     * @implements {TabGenerator}
      * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
      * logging.
      */
@@ -8757,11 +8762,6 @@
       this._tabUiKeyboard.register('c-right', this._nextTab);
       this._tabUiKeyboard.register('c-left', this._prevTab);
     }
-
-    /**
-     * @callback TabGenerator
-     * @returns {TabbedUI~TabDefinition}
-     */
 
     /** Add CSS styling for use with the info view. */
     _addInfoStyle() {  // eslint-disable-line max-lines-per-function
