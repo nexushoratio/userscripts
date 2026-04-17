@@ -234,6 +234,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-16',
+      issues: ['232'],
+      subject: 'Make <code>enableScrollerChangesFocus</code> the only' +
+        ' implementation',
+    },
+    {
       date: '2026-04-14',
       issues: ['232'],
       subject: 'Update to latest version of <code>focusOnTree()</code> to' +
@@ -564,22 +570,6 @@
       date: '2026-03-19',
       issues: ['279'],
       subject: 'Update the <code>Messages</code> page',
-    },
-    {
-      date: '2026-03-18',
-      issues: ['286'],
-      subject: 'Depend on the new <code>spa</code> library',
-    },
-    {
-      date: '2026-03-18',
-      issues: ['288'],
-      subject: 'Make use of the new ' +
-        '<code>setAutoManageLoggerConfigs()</code> function',
-    },
-    {
-      date: '2026-03-18',
-      issues: ['286', '288'],
-      subject: 'Update to most recent version of all libraries',
     },
   ];
 
