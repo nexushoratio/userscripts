@@ -3642,15 +3642,15 @@
       this.logger.leaving(me);
     }
 
-    #compareBadgesStyle2 = () => {
-      const me = this.#compareBadgesStyle2.name;
+    #compareBadgeErrorStyle2 = () => {
+      const me = this.#compareBadgeErrorStyle2.name;
       this.logger.entered(me);
 
-      const ignore = new Set();
       // Only do this once.
       if (!this.#badgeErrorResultsStyle2 &&
           this.#badgeErrorStyle2?.isConnected) {
         this.logger.log('checking error badge', this.#badgeErrorStyle2);
+        const ignore = new Set();
         // Some badges are bad examples, so skip them using :not().
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
@@ -3660,17 +3660,26 @@
             .add('inset-inline-end')
             .add('right')
             .add('width');
-          const errorResults = this.#findMissingStyleProperties(
+          const results = this.#findMissingStyleProperties(
             badges[0], this.#badgeErrorStyle2, ignore
           );
-          if (errorResults.length) {
+          if (results.length) {
             NH.base.issues.post(
-              'Style-2 error badge needs updating:', errorResults.join('\n')
+              'Style-2 error badge needs updating:', results.join('\n')
             );
           }
-          this.#badgeErrorResultsStyle2 = errorResults;
+          this.#badgeErrorResultsStyle2 = results;
         }
       }
+
+      this.logger.leaving(me);
+    }
+
+    #compareBadgesStyle2 = () => {
+      const me = this.#compareBadgesStyle2.name;
+      this.logger.entered(me);
+
+      this.#compareBadgeErrorStyle2();
 
       this.logger.leaving(me);
     }

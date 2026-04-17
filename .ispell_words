@@ -154,6 +154,7 @@ commentOnItem
 commentScroller
 commentsHow
 commentsWhat
+compareBadgeErrorStyle
 compareBadgesStyle
 componentkey
 computePath
@@ -287,7 +288,6 @@ errorHandlerBadgeStyle
 erroring
 errorMarker
 errorPlatformInfo
-errorResults
 errorTab
 errorText
 eslint
