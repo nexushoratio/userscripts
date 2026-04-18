@@ -2660,6 +2660,8 @@
       Object.freeze(LinkedIn.Style);
     }
 
+    static errorMarker = '---';
+
     /** @type {string} - LinkedIn's common aside used in many layouts. */
     static get asideSelector() {
       return this.#asideSelector;
@@ -8637,8 +8639,6 @@
       this.#details.done();
     }
 
-    static _errorMarker = '---';
-
     /**
      * @returns {TabbedUI~TabDefinition} - Initial table for the keyboard
      * shortcuts.
@@ -8676,7 +8676,7 @@
             'fixing a bug.</p>',
           '<p>The content can be edited and then included in a bug ' +
             'report.  Different errors should be separated by ' +
-            `"${SPA._errorMarker}".</p>`,
+            `"${LinkedIn.errorMarker}".</p>`,
           '<p><b>Please remove any identifying information before ' +
             'including it in a bug report!</b></p>',
           SPA._errorPlatformInfo(),
@@ -8750,7 +8750,7 @@
       );
       this.#errorText.addEventListener('change', (evt) => {
         const count = evt.target.value.split('\n')
-          .filter(x => x === SPA._errorMarker).length;
+          .filter(x => x === LinkedIn.errorMarker).length;
         this.#details.dispatcher2.fire('errors', count);
         this._updateInfoErrorsLabel(count);
       });
@@ -9024,7 +9024,7 @@
     addError(content) {
       this.#errorText.value += `${content}\n`;
 
-      if (content === SPA._errorMarker) {
+      if (content === LinkedIn.errorMarker) {
         this.refreshErrors();
       }
     }
@@ -9034,7 +9034,7 @@
      * issues happened.
      */
     addErrorMarker() {
-      this.addError(SPA._errorMarker);
+      this.addError(LinkedIn.errorMarker);
     }
 
     /**
