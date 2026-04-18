@@ -592,6 +592,9 @@
    */
   class TabbedUI {
 
+    /* XXX: This class is going away, so not bothering with fixing. */
+    /* eslint-disable no-shadow */
+
     /**
      * @param {string} name - Used to distinguish HTML elements and CSS
      * classes.

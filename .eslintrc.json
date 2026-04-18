@@ -5,9 +5,7 @@
     "es2020": true
   },
   "globals": {
-    "WeakRef": "readonly",
-    // TODO(#238): Stop using "name".
-    "name": "off"
+    "WeakRef": "readonly"
   },
   "parserOptions": {
     "ecmaVersion": "latest",
