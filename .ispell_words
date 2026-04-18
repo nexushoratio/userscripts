@@ -188,6 +188,7 @@ createMenuItemStyle
 createPanel
 css
 ctor
+currentColor
 currentItem
 currentItemId
 currentItemWatcher
@@ -246,6 +247,7 @@ doRunTests
 doSetUpClass
 doTestCases
 downloadURL
+dps
 dummyArgs
 dummyEventCallback
 DummyMethodTestCase
@@ -292,7 +294,6 @@ errorTab
 errorText
 eslint
 eslintrc
-eslint's
 eventScroller
 eventsHow
 eventsWhat
@@ -1309,6 +1310,7 @@ validateWhat
 valueOf
 VerificationError
 VERYComplicated
+viewBox
 viewInviter
 viewItem
 viewName

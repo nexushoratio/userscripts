@@ -2972,7 +2972,9 @@
     ].join(', ');
 
     static #icon =
-      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"' +
+      ' fill="currentColor"' +
+      ' viewBox="0 0 24 24" data-supported-dps="24x24">' +
       '<defs>' +
       '<mask id="a" maskContentUnits="objectBoundingBox">' +
       '<path fill="#fff" d="M0 0h1v1H0z"/>' +
@@ -3441,6 +3443,9 @@
       const title = button.querySelector('.global-nav__primary-link-text');
       title.innerText = APP_SHORT;
       title.setAttribute('title', APP_SHORT);
+
+      button.querySelector('li-icon')
+        .setAttribute('type', APP_SHORT.toLowerCase());
     }
 
     /** @param {Element} element - Element that will hold the badges. */
