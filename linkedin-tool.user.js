@@ -234,6 +234,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-18',
+      issues: ['106'],
+      subject: 'Update the icon to better handle resizing/placement in' +
+        ' the navbar',
+    },
+    {
       date: '2026-04-16',
       issues: ['232'],
       subject: 'Make <code>enableScrollerChangesFocus</code> the only' +
@@ -565,11 +571,6 @@
       date: '2026-03-20',
       issues: ['283'],
       subject: 'Update the <code>Notifications</code> page',
-    },
-    {
-      date: '2026-03-19',
-      issues: ['279'],
-      subject: 'Update the <code>Messages</code> page',
     },
   ];
 
