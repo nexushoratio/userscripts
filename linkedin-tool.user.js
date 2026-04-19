@@ -7879,20 +7879,32 @@
       let content = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const href = element.href;
+      const img = element.querySelector(':scope:is(a) img');
 
       if (key) {
         content = key;
       }
       if (href) {
-        // Some sections have a responsive mode where the same information is
-        // listed twice, in two different layouts.  And the active layout is
-        // determined by page size.  So far, they seem to follow this similar
-        // pattern.
-        const extra = element.parentElement.matches(':has(hr)')
-          ? '-hr'
-          : '';
+        const page = new URL(document.location);
+        // The Activity > Images grid all link to the Profile.
+        if (img && new URL(href).pathname === page.pathname) {
+          // There are lots of options to choose from here.  With minimal
+          // testing, so far this seems to be both unique and stable.
+          content = new URL(img.src)
+            .pathname
+            .split('/')
+            .at(NH.base.LAST_ITEM);
+        } else {
+          // Some sections have a responsive mode where the same information
+          // is listed twice, in two different layouts.  And the active layout
+          // is determined by page size.  So far, they seem to follow this
+          // similar pattern.
+          const extra = element.parentElement.matches(':has(hr)')
+            ? '-hr'
+            : '';
 
-        content = new URL(href).pathname + extra;
+          content = new URL(href).pathname + extra;
+        }
       }
 
       if (!content) {
