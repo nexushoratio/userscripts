@@ -234,6 +234,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-19',
+      issues: ['106'],
+      subject: 'Another tweak for icon for navbar placement',
+    },
+    {
       date: '2026-04-18',
       issues: ['106'],
       subject: 'Update the icon to better handle resizing/placement in' +
@@ -566,11 +571,6 @@
       date: '2026-03-23',
       issues: ['290'],
       subject: 'Update the <code>Profile</code> page',
-    },
-    {
-      date: '2026-03-20',
-      issues: ['283'],
-      subject: 'Update the <code>Notifications</code> page',
     },
   ];
 
