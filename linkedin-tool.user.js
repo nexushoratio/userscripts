@@ -3669,16 +3669,17 @@
       if (!this.#badgeErrorResultsStyle2 &&
           this.#badgeErrorStyle2?.isConnected) {
         this.logger.log('checking error badge', this.#badgeErrorStyle2);
-        const ignore = new Set();
         // Some badges are bad examples, so skip them using :not().
         const badges = this.navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > NH.base.ONE_ITEM) {
-          ignore.add('opacity')
-            .add('inline-size')
-            .add('inset-inline-end')
-            .add('right')
-            .add('width');
+          const ignore = new Set([
+            'inline-size',
+            'inset-inline-end',
+            'opacity',
+            'right',
+            'width',
+          ]);
           const results = this.#findMissingStyleProperties(
             badges[0], this.#badgeErrorStyle2, ignore
           );
