@@ -2679,6 +2679,28 @@
     }
 
     /**
+     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
+     * logging.
+     */
+    static errorTab() {
+      return {
+        name: 'Errors',
+        content: [
+          '<p>Any information in the text box below could be helpful in ' +
+            'fixing a bug.</p>',
+          '<p>The content can be edited and then included in a bug ' +
+            'report.  Different errors should be separated by ' +
+            `"${this.errorMarker}".</p>`,
+          '<p><b>Please remove any identifying information before ' +
+            'including it in a bug report!</b></p>',
+          this.errorPlatformInfo(),
+          '<textarea data-spa-id="errors" spellcheck="false" ' +
+            'placeholder="No errors logged yet."></textarea>',
+        ].join(''),
+      };
+    }
+
+    /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
@@ -2691,6 +2713,20 @@
 
       this.logger?.leaving(me, content);
       return content;
+    }
+
+    /**
+     * Generate information about the current environment useful in bug
+     * reports.
+     * @returns {string} - Text with some wrapped in a `pre` element.
+     */
+    static errorPlatformInfo() {
+      const header = 'Please consider including some of the following ' +
+            'information in any bug report:';
+
+      const msgs = NH.userscript.environmentData();
+
+      return `${header}<pre>${msgs.join('\n')}</pre>`;
     }
 
     /**
@@ -8658,42 +8694,6 @@
       };
     }
 
-    /**
-     * Generate information about the current environment useful in bug
-     * reports.
-     * @returns {string} - Text with some wrapped in a `pre` element.
-     */
-    static _errorPlatformInfo() {
-      const header = 'Please consider including some of the following ' +
-            'information in any bug report:';
-
-      const msgs = NH.userscript.environmentData();
-
-      return `${header}<pre>${msgs.join('\n')}</pre>`;
-    }
-
-    /**
-     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
-     * logging.
-     */
-    static _errorTab() {
-      return {
-        name: 'Errors',
-        content: [
-          '<p>Any information in the text box below could be helpful in ' +
-            'fixing a bug.</p>',
-          '<p>The content can be edited and then included in a bug ' +
-            'report.  Different errors should be separated by ' +
-            `"${LinkedIn.errorMarker}".</p>`,
-          '<p><b>Please remove any identifying information before ' +
-            'including it in a bug report!</b></p>',
-          SPA._errorPlatformInfo(),
-          '<textarea data-spa-id="errors" spellcheck="false" ' +
-            'placeholder="No errors logged yet."></textarea>',
-        ].join(''),
-      };
-    }
-
     /** @type {Element} - The most recent element to receive focus. */
     _lastInputElement = null;
 
@@ -8903,7 +8903,7 @@
         SPA._shortcutsTab(),
         this.#details.docTab(),
         this.#details.newsTab(),
-        SPA._errorTab(),
+        LinkedIn.errorTab(),
         this.#details.licenseTab(),
       ];
 
