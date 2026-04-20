@@ -117,8 +117,14 @@
 
     /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa});
+      super({spa: spa, ...Global.#details});
       this.dispatcher.on('activate', this.#onActivate);
+    }
+
+    static #details = {
+      name: 'Globular cluster',
+      // Bogus selector to trigger page load timeout.
+      readySelector: 'footer',
     }
 
     #onActivate = () => {
