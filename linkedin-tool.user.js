@@ -233,6 +233,18 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-20',
+      issues: ['130'],
+      subject: 'Make <code>enableKeyboardService</code> the only' +
+        ' implementation',
+    },
+    {
+      date: '2026-04-20',
+      issues: ['106'],
+      subject: 'Remove an apparently no longer needed Style-2 error' +
+        ' badge tweak',
+    },
+    {
       date: '2026-04-19',
       issues: ['106'],
       subject: 'Another tweak for icon for navbar placement',
