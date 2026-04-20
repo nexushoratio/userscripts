@@ -3323,7 +3323,7 @@
         '.lit-kbd-service-active th { background-color: lightgray; }',
         '.lit-menu-badge-news-style1 {' +
           ' top: 1.5rem !important;' +
-          ' --color-alert: var(--color-new) !important;' +
+          ' --color-alert: var(--color-signal-positive) !important;' +
           '}',
         '.lit-menu-badge-news-style2 {' +
           ' position: absolute;' +
