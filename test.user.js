@@ -44,6 +44,18 @@
 
   logger.log('finished');
 
+  const issueLogger = new NH.base.Logger('Issues');
+
+  /** @param {...*} items - Posted issues. */
+  function issueListener(...issues) {
+    for (const issue of issues) {
+      issueLogger.log('item:', issue);
+    }
+    issueLogger.log('end-of-issues');
+  }
+
+  NH.base.issues.listen(issueListener);
+
   /* eslint-disable max-lines-per-function */
   /* eslint-disable require-jsdoc */
   function demoGrid() {
