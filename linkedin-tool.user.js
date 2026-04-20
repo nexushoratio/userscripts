@@ -3355,10 +3355,6 @@
           ' width: fit-content;' +
           ' z-index: 100;' +
           '}',
-        // Get rid of the donut
-        '.lit-menu-badge-error::after {' +
-          ' content: none !important;' +
-          '}',
         '.lit-menu-badge-hide { opacity: 0; }',
       ];
       style.textContent = styles.join('\n');
