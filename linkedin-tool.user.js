@@ -3047,6 +3047,7 @@
     #badgeErrorResultsStyle2
     #badgeErrorStyle1
     #badgeErrorStyle2
+    #badgeNewsResultsStyle2
     #badgeNewsStyle1
     #badgeNewsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
@@ -3326,13 +3327,32 @@
           ' --color-alert: var(--color-signal-positive) !important;' +
           '}',
         '.lit-menu-badge-news-style2 {' +
+          ' align-items: center;' +
+          ' background-color: #01754f;' +
+          ' border-radius: 1.2rem;' +
+          ' color-scheme: light;' +
+          ' color: white;' +
+          ' display: flex;' +
+          ' font-size: 1.2rem;' +
+          ' font-weight: 600;' +
+          ' height: 1.6rem;' +
+          ' inset-block-start: -0.2rem;' +
+          ' inset-inline-start: 100%;' +
+          ' justify-content: center;' +
+          ' margin-inline-start: -0.8rem;' +
+          ' min-width: 1.6rem;' +
+          ' padding-inline-end: 0.4rem;' +
+          ' padding-inline-start: 0.4rem;' +
           ' position: absolute;' +
-          ' bottom: 14px;' +
-          ' right: -5px;' +
-          ' width: 16px;' +
-          ' height: 16px;' +
+          ' top: 1.6rem;' +
+          ' z-index: 100;' +
+          '}',
+        '.lit-menu-badge-news-style2::after {' +
+          ' background: white;' +
           ' border-radius: 50%;' +
-          ' border: 5px solid green;' +
+          ' content: "";' +
+          ' height: 0.6rem;' +
+          ' width: 0.6rem;' +
           '}',
         '.lit-menu-badge-error {' +
           ' align-items: center;' +
@@ -3603,6 +3623,10 @@
     #assembleBadgesStyle2 = (element) => {
       this.#badgeErrorStyle2 = document.createElement('span');
       this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
+      this.#badgeNewsStyle2 = document.createElement('span');
+      this.#badgeNewsStyle2.classList.add('lit-menu-badge-news-style2');
+      // TODO(#106): Append this.#badgeNewsStyle2 once notifications are in
+      // place.
       element.append(this.#badgeErrorStyle2);
     }
 
@@ -3727,11 +3751,45 @@
       this.logger.leaving(me);
     }
 
+    #compareBadgeNewsStyle2 = () => {
+      const me = this.#compareBadgeNewsStyle2.name;
+      this.logger.entered(me);
+
+      // Only do this once.
+      if (!this.#badgeNewsResultsStyle2 &&
+          this.#badgeNewsStyle2?.isConnected) {
+        this.logger.log('checking error badge', this.#badgeNewsStyle2);
+        const badge = this.navbar
+          .querySelector('svg[id^="home"] + span');
+        if (badge) {
+          const ignore = new Set([
+            'background-color',
+            'bottom',
+            'inset-block-end',
+            'inset-block-start',
+            'top',
+          ]);
+          const results = this.#findMissingStyleProperties(
+            badge, this.#badgeNewsStyle2, ignore
+          );
+          if (results.length) {
+            NH.base.issues.post(
+              'Style-2 news badge needs updating:', results.join('\n')
+            );
+          }
+          this.#badgeNewsResultsStyle2 = results;
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
     #compareBadgesStyle2 = () => {
       const me = this.#compareBadgesStyle2.name;
       this.logger.entered(me);
 
       this.#compareBadgeErrorStyle2();
+      this.#compareBadgeNewsStyle2();
 
       this.logger.leaving(me);
     }

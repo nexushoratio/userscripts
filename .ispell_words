@@ -79,6 +79,7 @@ autoActivate
 badCmp
 badgeErrorResultsStyle
 badgeErrorStyle
+badgeNewsResultsStyle
 badgeNewsStyle
 badKlasses
 BaseClassCleanupTestCase
@@ -155,6 +156,7 @@ commentScroller
 commentsHow
 commentsWhat
 compareBadgeErrorStyle
+compareBadgeNewsStyle
 compareBadgesStyle
 componentkey
 computePath
@@ -321,7 +323,6 @@ finishButtonStyle
 finishConstruction
 finiteScrollHotkeyItem
 firefox
-firstAnchor
 firstChild
 firstInvite
 firstItem
