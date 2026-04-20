@@ -3322,6 +3322,10 @@
           ' text-align: right;' +
           ' padding-right: 0.5em;' +
           '}',
+        '.lit-info textarea[data-lit-id="errors"] {' +
+          ' flex-grow: 1;' +
+          ' resize: none;' +
+          '}',
         '.lit-kbd-service-active th { background-color: lightgray; }',
         '.lit-menu-badge-news-style1 {' +
           ' top: 1.35rem !important;' +
@@ -3390,6 +3394,7 @@
         this.#shortcutsTab(),
         this.docTab(),
         this.newsTab(),
+        LinkedIn.errorTab('lit'),
       ];
 
       this.#infoTabs = new TabbedUI(APP_LONG);
