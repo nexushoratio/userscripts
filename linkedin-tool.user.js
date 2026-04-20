@@ -67,7 +67,6 @@
       enableAlertOldNews: false,
       enableAlertUnsupportedPages: false,
       enableIssue241ClickMethod: false,
-      enableKeyboardService: false,
       fakeErrorRate: 0.8,
     };
     const savedOptions = await NH.userscript.getValue(OPTIONS, {});
@@ -2553,11 +2552,7 @@
 
     #onActivate = () => {
       for (const keyboard of this.#keyboards.values()) {
-        if (litOptions.enableKeyboardService) {
-          keyboard.enable();
-        } else {
-          this.logger.log('skipping enabling of', keyboard);
-        }
+        keyboard.enable();
       }
       this.#active = true;
     }
@@ -4299,10 +4294,6 @@
       const me = 'activate';
       this.logger.entered(me);
 
-      if (!litOptions.enableKeyboardService) {
-        this.logger.log('enabling SPA-based keyboard handling');
-        this.#keyboard.enable();
-      }
       await this.#waitUntilReady();
       for (const service of this.#services) {
         this.logger.log(`activating service: "${service.name}"`);
@@ -4317,7 +4308,6 @@
      * longer the current view.
      */
     deactivate() {
-      this.#keyboard.disable();
       for (const service of this.#services) {
         service.deactivate();
       }
