@@ -2679,10 +2679,11 @@
     }
 
     /**
+     * @param {string} variant - Migration text, one of `spa` or `lit`.
      * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
      * logging.
      */
-    static errorTab() {
+    static errorTab(variant) {
       return {
         name: 'Errors',
         content: [
@@ -2694,7 +2695,7 @@
           '<p><b>Please remove any identifying information before ' +
             'including it in a bug report!</b></p>',
           this.errorPlatformInfo(),
-          '<textarea data-spa-id="errors" spellcheck="false" ' +
+          `<textarea data-${variant}-id="errors" spellcheck="false" ` +
             'placeholder="No errors logged yet."></textarea>',
         ].join(''),
       };
@@ -8969,7 +8970,7 @@
         SPA._shortcutsTab(),
         this.#details.docTab(),
         this.#details.newsTab(),
-        LinkedIn.errorTab(),
+        LinkedIn.errorTab('spa'),
         this.#details.licenseTab(),
       ];
 
