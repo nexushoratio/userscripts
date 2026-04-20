@@ -3322,7 +3322,7 @@
           '}',
         '.lit-kbd-service-active th { background-color: lightgray; }',
         '.lit-menu-badge-news-style1 {' +
-          ' top: 1.5rem !important;' +
+          ' top: 1.35rem !important;' +
           ' --color-alert: var(--color-signal-positive) !important;' +
           '}',
         '.lit-menu-badge-news-style2 {' +
