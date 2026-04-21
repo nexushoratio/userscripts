@@ -429,7 +429,6 @@ idx
 iframe
 iframeDoc
 ignoreInvite
-ignoreSet
 img
 inCleanup
 includeStackTrace
@@ -951,6 +950,7 @@ setUpClass
 setUpClassCleanups
 setValue
 shareItem
+shortcutOptions
 shortcutsTab
 shortcutsWidget
 shortName

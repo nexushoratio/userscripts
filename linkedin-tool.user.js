@@ -2388,7 +2388,7 @@
 
     /** @param {string} val - New condition. */
     static set condition(val) {
-      this.#navOption.condition = val;
+      this.#shortcutOptions.condition = val;
     }
 
     /** @type {Set<VMKeyboardService>} - Instantiated services. */
@@ -2493,7 +2493,9 @@
           if (value instanceof Shortcut) {
             // While we are here, give the function a name.
             Object.defineProperty(value, 'name', {value: key});
-            keyboard.register(value.seq, value, VMKeyboardService.#navOption);
+            keyboard.register(
+              value.seq, value, VMKeyboardService.#shortcutOptions
+            );
           }
         }
         this.#keyboards.set(instance, keyboard);
@@ -2531,16 +2533,16 @@
 
     static #lastFocusedElement = null
 
+    static #services = new Set();
+
     /**
      * @type {VM.shortcut.IShortcutOptions} - Initial options for all
      * shortcuts.
      */
-    static #navOption = {
+    static #shortcutOptions = {
       condition: '!inputFocus',
       caseSensitive: true,
     };
-
-    static #services = new Set();
 
     /**
      * Handle focus event to determine if shortcuts should be disabled.
