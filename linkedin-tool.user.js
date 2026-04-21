@@ -68,6 +68,7 @@
       enableAlertUnsupportedPages: false,
       enableIssue241ClickMethod: false,
       fakeErrorRate: 0.8,
+      latestNewsRead: 0,
     };
     const savedOptions = await NH.userscript.getValue(OPTIONS, {});
     const options = {
@@ -2842,6 +2843,8 @@
       const me = 'done';
       this.logger.entered(me);
 
+      this.#checkForNewRelease();
+
       const licenseEntry = this.ui.tabs.get('License');
       licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
 
@@ -3075,6 +3078,7 @@
     #navbarHeightPixels = 0;
     #navbarMutationObserver
     #navbarResizeObserver
+    #newsQueue = new NH.base.MessageQueue();
     #ourMenuItemStyle1
     #ourMenuItemStyle2
     #pageStyle
@@ -3102,6 +3106,16 @@
       const url = `${base}/${path}`;
       return url;
     }
+
+   #checkForNewRelease = () => {
+     const curr = parseFloat(GM.info.script.version);
+     let prev = parseFloat(litOptions.latestNewsRead);
+
+     if (isNaN(prev)) {
+       prev = 0;
+     }
+     this.#newsQueue.post(curr > prev);
+   }
 
     /**
      * @param {HTMLElement} element - Starting element to avoid another query.
@@ -3164,6 +3178,13 @@
     #newsHandler = (evt) => {
       const me = this.#newsHandler.name;
       this.logger.entered(me, evt.target);
+
+      this.#newsQueue.post(false);
+      litOptions.latestNewsRead = parseFloat(GM.info.script.version);
+      // TODO(#106): Enable once notifications are in place.
+      if (window.false) {
+        saveOptions(litOptions);
+      }
 
       this.logger.leaving(me);
     }
@@ -3481,6 +3502,20 @@
       return results.sort();
     }
 
+   /**
+    * Update news badge as appropriate.
+    *
+    * @implements {NH.base.Dispatcher~Handler}
+    * @param {string} eventType - Event type.
+    * @param {boolean} show - Whether to show the badge or not.
+    */
+   #newsHandlerBadgeStyle1 = (eventType, show) => {
+     const me = this.#newsHandlerBadgeStyle1.name;
+     this.logger.entered(me, eventType, show);
+
+     this.logger.leaving(me);
+   }
+
     /**
      * Update error badge as appropriate.
      *
@@ -3586,10 +3621,25 @@
         button.addEventListener('click', this.#toolButtonHandler);
         this.#ourMenuItemStyle1 = item;
         this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle1);
+        this.dispatcher2.on('news', this.#newsHandlerBadgeStyle1);
       }
 
       this.logger.leaving(me, this.#ourMenuItemStyle1);
     }
+
+   /**
+    * Update news badge as appropriate.
+    *
+    * @implements {NH.base.Dispatcher~Handler}
+    * @param {string} eventType - Event type.
+    * @param {boolean} show - Whether to show the badge or not.
+    */
+   #newsHandlerBadgeStyle2 = (eventType, show) => {
+     const me = this.#newsHandlerBadgeStyle2.name;
+     this.logger.entered(me, eventType, show);
+
+     this.logger.leaving(me);
+   }
 
     /**
      * Updates error badge as appropriate.
@@ -3671,6 +3721,7 @@
           button.addEventListener('click', this.#toolButtonHandler);
           this.#ourMenuItemStyle2 = item;
           this.dispatcher2.on('errors', this.#errorHandlerBadgeStyle2);
+          this.dispatcher2.on('news', this.#newsHandlerBadgeStyle2);
         }
       }
 
@@ -3711,6 +3762,8 @@
             );
           }
           this.spa.refreshErrors();
+          // This will result in multiple listeners on hybrid style pages.
+          this.#newsQueue.listen(this.#newsListener);
         }
       }
 
@@ -3809,6 +3862,18 @@
 
       this.logger.leaving(me);
     }
+
+   /** Decisions about news could be made before the UI is available. */
+   #newsListener = (...msgs) => {
+     const me = this.#newsListener.name;
+     this.logger.entered(me, msgs);
+
+     for (const msg of msgs) {
+       this.dispatcher2.fire('news', msg);
+     }
+
+     this.logger.leaving(me);
+   }
 
     #ensureMenuStyle2 = () => {
       const me = this.#ensureMenuStyle2.name;

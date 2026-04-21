@@ -114,6 +114,7 @@ cdn
 centerOfElement
 charCodeAt
 checkAssertionCounts
+checkForNewRelease
 checkVisibility
 childKey
 childList
@@ -471,10 +472,10 @@ IShortcutKey
 IShortcutOptions
 isInput
 isItemViewable
+isNaN
 isSameNode
 issueHeader
 issueId
-IssueId
 issueListener
 issueLogger
 issuesLink
@@ -528,6 +529,7 @@ lastItem
 lastKlass
 lastNotification
 lastScroller
+latestNewsRead
 LayoutTestCase
 len
 libby
@@ -650,6 +652,9 @@ newMessages
 newPages
 newProp
 newsHandler
+newsHandlerBadgeStyle
+newsListener
+newsQueue
 newsTab
 newUrl
 newV
@@ -785,6 +790,7 @@ panelName
 params
 parentElement
 parsedName
+parseFloat
 parseSeq
 ParseSeqTestCase
 pathnameRE
