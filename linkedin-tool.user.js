@@ -100,6 +100,18 @@
     NH.base.Logger.config('Default').enabled = true;
   }
 
+  // TODO(#130): Duplicate issues until we are back to only a single dialog.
+  const issuesForSpa = new NH.base.MessageQueue();
+  const issuesForLinkedIn = new NH.base.MessageQueue();
+
+  /** @param {...*} items - Posted issues. */
+  function issueListener(...issues) {
+    issuesForSpa.post(...issues);
+    issuesForLinkedIn.post(...issues);
+  }
+
+  NH.base.issues.listen(issueListener);
+
   const log = new NH.base.Logger('Default');
 
   /** Encapsulate a GitHub (or similar) issue. */
@@ -2652,6 +2664,7 @@
     /** @inheritdoc */
     constructor() {
       super();
+      issuesForLinkedIn.listen(this.#issueListener);
       this.#navbarMutationObserver = new MutationObserver(
         this.#navbarHandler
       );
@@ -4093,6 +4106,10 @@
         dates: dates,
         knownIssues: knownIssues,
       };
+    }
+
+    #issueListener = (...issues) => {
+      this.logger.log('issue listener', issues);
     }
 
   }
@@ -8818,7 +8835,7 @@
       this.#details = details;
       this.#details.init(this);
       this._initializeInfoView();
-      NH.base.issues.listen(this.#issueListener);
+      issuesForSpa.listen(this.#issueListener);
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this.#onUrlChange, true);
       this.#startUrlMonitor();
