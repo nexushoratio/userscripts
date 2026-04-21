@@ -242,9 +242,16 @@
       '2026-04-08'
     ),
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
+    ish('303', 'Keys are captured while editing text', '2026-04-21'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-21',
+      issues: ['303'],
+      subject: 'Include the <code>VM.shortcut</code> version in the' +
+        ' bug reporting information',
+    },
     {
       date: '2026-04-20',
       issues: ['130'],
