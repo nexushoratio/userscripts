@@ -2351,9 +2351,8 @@
    * Integrates {@link external:VMShortcuts} with {@link Shortcut}s.
    *
    * NB {Shortcut} was designed to work natively with {external:VMShortcuts},
-   * but there should be no known technical reason preventing other
-   * implementations from being used, would have have to write a different
-   * service.
+   * but there are no known technical reason preventing other implementations
+   * from being used.  Otherwise a different service would need to be written.
    *
    * Instances of classes that have {@link Shortcut} properties on them can be
    * added and removed to each instance of this service.  The shortcuts will
@@ -2364,7 +2363,8 @@
    * conditions are added once during each call to addService(), and default
    * to '!inputFocus'.
    *
-   * The built in handler for 'inputFocus' can be enabled by executing:
+   * The built in handler for browser `focus` events to update 'inputFocus'
+   * can be enabled by executing:
    *
    * @example
    * VMKeyboardService.start();
@@ -2532,8 +2532,8 @@
     static #lastFocusedElement = null
 
     /**
-     * @type {VM.shortcut.IShortcutOptions} - Disables keys when focus is on
-     * an element or info view.
+     * @type {VM.shortcut.IShortcutOptions} - Initial options for all
+     * shortcuts.
      */
     static #navOption = {
       condition: '!inputFocus',
@@ -2733,6 +2733,7 @@
             'information in any bug report:';
 
       const msgs = NH.userscript.environmentData();
+      msgs.push('Other libraries:', ` VM.shortcut: ${VM.shortcut.version}`);
 
       return `${header}<pre>${msgs.join('\n')}</pre>`;
     }
