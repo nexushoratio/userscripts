@@ -1415,11 +1415,12 @@
     /**
      * Determines if the item can be viewed.  Usually this means the content
      * is being loaded lazily and is not ready yet.
+     *
      * @param {Element} item - The item to inspect.
      * @returns {boolean} - Whether the item has viewable content.
      */
     static #isItemViewable(item) {
-      return Boolean(item.clientHeight && item.innerText.length);
+      return Boolean(item.clientHeight);
     }
 
     #autoActivate
