@@ -3835,7 +3835,9 @@
             'inline-size',
             'inset-inline-end',
             'opacity',
+            'perspective-origin',
             'right',
+            'transform-origin',
             'width',
           ]);
           const results = this.#findMissingStyleProperties(
