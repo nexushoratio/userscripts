@@ -3328,6 +3328,10 @@
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
       const styles = [
+        ':root {' +
+          ' --lit-color-positive: #01754f;' +
+          ' --lit-color-negative: #cb112d;' +
+          '}',
         '.lit-info:modal {' +
           ' height: 100%;' +
           ' width: 65rem;' +
@@ -3376,11 +3380,11 @@
         '.lit-kbd-service-active th { background-color: lightgray; }',
         '.lit-menu-badge-news-style1 {' +
           ' top: 1.35rem !important;' +
-          ' --color-alert: var(--color-signal-positive) !important;' +
+          ' --color-alert: var(--lit-color-positive) !important;' +
           '}',
         '.lit-menu-badge-news-style2 {' +
           ' align-items: center;' +
-          ' background-color: #01754f;' +
+          ' background-color: var(--lit-color-positive);' +
           ' border-radius: 1.2rem;' +
           ' color-scheme: light;' +
           ' color: white;' +
@@ -3408,7 +3412,7 @@
           '}',
         '.lit-menu-badge-error {' +
           ' align-items: center;' +
-          ' background-color: #cb112d;' +
+          ' background-color: var(--lit-color-negative);' +
           ' border-radius: 1.2rem;' +
           ' color-scheme: light;' +
           ' color: white;' +
