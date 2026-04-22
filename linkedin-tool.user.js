@@ -3533,6 +3533,12 @@
      const me = this.#newsHandlerBadgeStyle1.name;
      this.logger.entered(me, eventType, show);
 
+     if (show) {
+       this.#badgeNewsStyle1.classList.add('notification-badge--show');
+     } else {
+       this.#badgeNewsStyle1.classList.remove('notification-badge--show');
+     }
+
      this.logger.leaving(me);
    }
 
@@ -3656,7 +3662,13 @@
     */
    #newsHandlerBadgeStyle2 = (eventType, show) => {
      const me = this.#newsHandlerBadgeStyle2.name;
-     this.logger.entered(me, eventType, show);
+     this.logger.entered(me, eventType, show, this.#badgeNewsStyle2);
+
+     if (show) {
+       this.#badgeNewsStyle2.classList.remove('lit-menu-badge-hide');
+     } else {
+       this.#badgeNewsStyle2.classList.add('lit-menu-badge-hide');
+     }
 
      this.logger.leaving(me);
    }
