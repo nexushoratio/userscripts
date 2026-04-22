@@ -171,6 +171,7 @@
     ish('106', 'info view: more tabs: News, License', '2026-03-24'),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-03-25'),
+    ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish(
       '208',
@@ -246,6 +247,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-22',
+      issues: ['298'],
+      subject: 'Remove the text length check from' +
+        ' <code>#isItemViewable()</code>',
+    },
+    {
+      date: '2026-04-22',
+      issues: ['106', '181'],
+      subject: 'Hoist up some colors as CSS custom properties',
+    },
     {
       date: '2026-04-21',
       issues: ['303'],
@@ -592,16 +604,6 @@
       date: '2026-03-24',
       issues: ['236', '291'],
       subject: 'Update the <code>Events</code> page',
-    },
-    {
-      date: '2026-03-23',
-      issues: [''],
-      subject: 'Run through <code>ispell</code>',
-    },
-    {
-      date: '2026-03-23',
-      issues: ['290'],
-      subject: 'Update the <code>Profile</code> page',
     },
   ];
 
