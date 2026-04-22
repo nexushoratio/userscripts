@@ -2709,6 +2709,42 @@
     }
 
     /**
+     * @returns {TabbedUI~TabDefinition} - Where to find documentation and
+     * file bugs.
+     */
+    static aboutTab() {
+      const issuesLink = this.#ghUrl('labels/linkedin-tool');
+      const newIssueLink = this.#ghUrl('issues/new/choose');
+      const newGfIssueLink = this.#gfUrl('feedback');
+      const releaseNotesLink = this.#gfUrl('versions');
+
+      const content = [
+        `<p>This is information about the <b>${APP_LONG}</b> ` +
+          'userscript, a type of add-on.  It is not associated with ' +
+          'LinkedIn Corporation in any way.</p>',
+        '<p>Documentation can be found on ' +
+          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
+          'notes are automatically generated on ' +
+          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
+        '<p>Existing issues are also on GitHub ' +
+          `<a href="${issuesLink}">here</a>.</p>`,
+        '<p>New issues or feature requests can be filed on GitHub (account ' +
+          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
+          'appropriate issue template to get started.  Or, on Greasy Fork ' +
+          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
+          'Review the <b>Errors</b> tab for any useful information.</p>',
+        '',
+      ];
+
+      const tab = {
+        name: 'About',
+        content: content.join('\n'),
+      };
+
+      return tab;
+    }
+
+    /**
      * @param {string} variant - Migration text, one of `spa` or `lit`.
      * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
      * logging.
@@ -2930,46 +2966,6 @@
     }
 
     /**
-     * @returns {TabbedUI~TabDefinition} - Where to find documentation and
-     * file bugs.
-     */
-    docTab() {
-      const me = this.docTab.name;
-      this.logger.entered(me);
-
-      const issuesLink = this.#ghUrl('labels/linkedin-tool');
-      const newIssueLink = this.#ghUrl('issues/new/choose');
-      const newGfIssueLink = this.#gfUrl('feedback');
-      const releaseNotesLink = this.#gfUrl('versions');
-
-      const content = [
-        `<p>This is information about the <b>${APP_LONG}</b> ` +
-          'userscript, a type of add-on.  It is not associated with ' +
-          'LinkedIn Corporation in any way.</p>',
-        '<p>Documentation can be found on ' +
-          `<a href="${GM.info.script.supportURL}">GitHub</a>.  Release ` +
-          'notes are automatically generated on ' +
-          `<a href="${releaseNotesLink}">Greasy Fork</a>.</p>`,
-        '<p>Existing issues are also on GitHub ' +
-          `<a href="${issuesLink}">here</a>.</p>`,
-        '<p>New issues or feature requests can be filed on GitHub (account ' +
-          `required) <a href="${newIssueLink}">here</a>.  Then select the ` +
-          'appropriate issue template to get started.  Or, on Greasy Fork ' +
-          `(account required) <a href="${newGfIssueLink}">here</a>.  ` +
-          'Review the <b>Errors</b> tab for any useful information.</p>',
-        '',
-      ];
-
-      const tab = {
-        name: 'About',
-        content: content.join('\n'),
-      };
-
-      this.logger.leaving(me, tab);
-      return tab;
-    }
-
-    /**
      * @returns {TabbedUI~TabDefinition} - News information.
      */
     newsTab() {
@@ -3078,6 +3074,28 @@
       '#workspace > div > div > div:nth-of-type(1)',
     ].join(', ');
 
+    /**
+     * Create a Greasy Fork project URL.
+     * @param {string} path - Portion of the URL.
+     * @returns {string} - Full URL.
+     */
+    static #gfUrl = (path) => {
+      const base = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
+      const url = `${base}/${path}`;
+      return url;
+    }
+
+    /**
+     * Create a GitHub project URL.
+     * @param {string} path - Portion of the URL.
+     * @returns {string} - Full URL.
+     */
+    static #ghUrl = (path) => {
+      const base = 'https://github.com/nexushoratio/userscripts';
+      const url = `${base}/${path}`;
+      return url;
+    }
+
     #badgeErrorResultsStyle2
     #badgeErrorStyle1
     #badgeErrorStyle2
@@ -3105,37 +3123,15 @@
     #shortcutsWidget
     #useOriginalInfoDialog = !litOptions.enableDevMode;
 
-    /**
-     * Create a Greasy Fork project URL.
-     * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
-     */
-    #gfUrl = (path) => {
-      const base = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
-      const url = `${base}/${path}`;
-      return url;
+    #checkForNewRelease = () => {
+      const curr = parseFloat(GM.info.script.version);
+      let prev = parseFloat(litOptions.latestNewsRead);
+
+      if (isNaN(prev)) {
+        prev = 0;
+      }
+      this.#newsQueue.post(curr > prev);
     }
-
-    /**
-     * Create a GitHub project URL.
-     * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
-     */
-    #ghUrl = (path) => {
-      const base = 'https://github.com/nexushoratio/userscripts';
-      const url = `${base}/${path}`;
-      return url;
-    }
-
-   #checkForNewRelease = () => {
-     const curr = parseFloat(GM.info.script.version);
-     let prev = parseFloat(litOptions.latestNewsRead);
-
-     if (isNaN(prev)) {
-       prev = 0;
-     }
-     this.#newsQueue.post(curr > prev);
-   }
 
     /**
      * @param {HTMLElement} element - Starting element to avoid another query.
@@ -3443,7 +3439,7 @@
 
       const tabs = [
         this.#shortcutsTab(),
-        this.docTab(),
+        LinkedIn.aboutTab(),
         this.newsTab(),
         LinkedIn.errorTab('lit'),
       ];
@@ -9079,7 +9075,7 @@
 
       const tabGenerators = [
         SPA._shortcutsTab(),
-        this.#details.docTab(),
+        LinkedIn.aboutTab(),
         this.#details.newsTab(),
         LinkedIn.errorTab('spa'),
         this.#details.licenseTab(),
