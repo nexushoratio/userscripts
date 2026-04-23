@@ -776,7 +776,7 @@
         `#${this.container.id} > nav > label {` +
           ' cursor: pointer;' +
           ' margin-top: 1ex; margin-left: 1px; margin-right: 1px;' +
-          ' padding: unset; color: unset !important;' +
+          ' padding: unset;' +
           '}',
         `#${this.container.id} > nav > .spacer {` +
           ' margin-left: auto; margin-right: auto;' +
