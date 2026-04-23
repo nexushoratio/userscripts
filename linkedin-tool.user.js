@@ -248,6 +248,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-23',
+      issues: ['106'],
+      subject: 'Identify updates with a green badge and highlight the' +
+        ' <code>News</code> tab',
+    },
+    {
       date: '2026-04-22',
       issues: ['298'],
       subject: 'Remove the text length check from' +
@@ -593,17 +599,6 @@
       issues: [''],
       subject: 'Track when <code>globalKnownIssues</code> were last ' +
         'reviewed for clean up',
-    },
-    {
-      date: '2026-03-24',
-      issues: [''],
-      subject: 'Update how issue processing is handled for the ' +
-        '<code>News</code> tab',
-    },
-    {
-      date: '2026-03-24',
-      issues: ['236', '291'],
-      subject: 'Update the <code>Events</code> page',
     },
   ];
 
