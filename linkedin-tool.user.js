@@ -3335,6 +3335,13 @@
           ' --lit-color-positive: #01754f;' +
           ' --lit-color-negative: #cb112d;' +
           '}',
+        '.lit-positive {' +
+          ' color: white;' +
+          ' background-color: var(--lit-color-positive);' +
+          '}',
+        '.lit-negative {' +
+          ' background-color: var(--lit-color-negative);' +
+          '}',
         '.lit-info:modal {' +
           ' height: 100%;' +
           ' width: 65rem;' +
