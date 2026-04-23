@@ -3200,10 +3200,7 @@
 
       this.#newsQueue.post(false);
       litOptions.latestNewsRead = parseFloat(GM.info.script.version);
-      // TODO(#106): Enable once notifications are in place.
-      if (window.false) {
-        saveOptions(litOptions);
-      }
+      saveOptions(litOptions);
 
       this.logger.leaving(me);
     }
@@ -3597,11 +3594,7 @@
       this.#badgeNewsStyle1 = this.#badgeErrorStyle1.cloneNode(true);
       this.#badgeNewsStyle1
         .classList.add('lit-menu-badge-news-style1');
-
-      // TODO(#106): Enable once notifications are in place.
-      if (window.false) {
-        this.#badgeErrorStyle1.after(this.#badgeNewsStyle1);
-      }
+      this.#badgeErrorStyle1.after(this.#badgeNewsStyle1);
 
       // Style-1 badges are easy to switch between counting or not.  This
       // makes sure we are in the correct mode for each badge.
@@ -3733,9 +3726,7 @@
       this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
       this.#badgeNewsStyle2 = document.createElement('span');
       this.#badgeNewsStyle2.classList.add('lit-menu-badge-news-style2');
-      // TODO(#106): Append this.#badgeNewsStyle2 once notifications are in
-      // place.
-      element.append(this.#badgeErrorStyle2);
+      element.append(this.#badgeErrorStyle2, this.#badgeNewsStyle2);
     }
 
     #createMenuItemStyle2 = () => {
@@ -3907,6 +3898,31 @@
       this.logger.leaving(me);
     }
 
+    /**
+    * Update News tab label as appropriate.
+    *
+    * @param {boolean} highlight - Whether to show the badge or not.
+    */
+    #updateInfoNewsLabel = (highlight) => {
+      const me = this.#updateInfoNewsLabel.name;
+      this.logger.entered(me, highlight);
+
+      const spaLabel = this.ui.tabs.get('News').label;
+      const litLabel = this.#infoTabs.tabs.get('News').label;
+
+      // Cannot automatically use `goto()` to focus the tab as that would then
+      // trigger the mark read feature.
+      if (highlight) {
+        spaLabel.classList.add('lit-positive');
+        litLabel.classList.add('lit-positive');
+      } else {
+        spaLabel.classList.remove('lit-positive');
+        litLabel.classList.remove('lit-positive');
+      }
+
+      this.logger.leaving(me);
+    }
+
    /** Decisions about news could be made before the UI is available. */
    #newsListener = (...msgs) => {
      const me = this.#newsListener.name;
@@ -3914,6 +3930,7 @@
 
      for (const msg of msgs) {
        this.dispatcher2.fire('news', msg);
+       this.#updateInfoNewsLabel(msg);
      }
 
      this.logger.leaving(me);

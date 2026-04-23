@@ -490,7 +490,6 @@ jobCardScroller
 jobCardSelector
 jobCardsHow
 jobCardsWhat
-JobCollections
 JobDetailsSimilarJobsSlot
 jobId
 JobsCollections
@@ -554,6 +553,7 @@ LinkedInScrollerService
 LinkedInStyleService
 LinkedInToolbarService
 listitem
+litLabel
 litOptions
 LoadMoreComments
 loadMoreConversations
@@ -972,6 +972,7 @@ SimpleParseWordsTestCase
 snapToTop
 sourceforge
 SPADetails
+spaLabel
 SPATestCase
 SPDX
 SpecificEvent
@@ -1299,6 +1300,7 @@ unknownIssues
 unusedIssues
 updateGroupByString
 updateInfoErrorsLabel
+updateInfoNewsLabel
 url
 urlchange
 urlChangeAdapter
