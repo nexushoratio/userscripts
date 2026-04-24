@@ -20,9 +20,3 @@ After installing and reloading the LinkedIn web page, hitting the `?` key will b
 Existing issues can be seen at [GitHub](https://github.com/nexushoratio/userscripts/labels/linkedin-tool).
 
 New bugs and feature requests can be filed on [GitHub](https://github.com/nexushoratio/userscripts/issues/new/choose).  Select the appropriate issue template to get started.
-
-## Versioning
-
-~~Currently I am using a [SemVer](https://semver.org/) inspired scheme of `x.y.z`.~~
-
-I am replacing SerVer with single strictly increasing numbers.  I have dropped down to two digits for the moment.  Likely once I get issue https://github.com/nexushoratio/userscripts/issues/106 to the point of tracking releases, I will switch to single digits.
