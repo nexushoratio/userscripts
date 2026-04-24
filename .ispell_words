@@ -27,6 +27,7 @@ addInfo
 addInfoDialog
 addInfoStyle
 addInfoTabs
+addInfoTabsHandlers
 addInfoViewHandlers
 addInstance
 addKey
@@ -499,7 +500,6 @@ JobsHomeModuleTabbed
 jobsHow
 JobsView
 jobsWhat
-JobView
 jsdelivr
 jsdoc
 JSDoc

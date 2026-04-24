@@ -3443,8 +3443,19 @@
       document.head.prepend(style);
     }
 
+    #addInfoTabsHandlers = () => {
+      const me = this.#addInfoTabsHandlers.name;
+      this.logger.entered(me);
+
+      this.#infoKeyboard.register('c-right', this.#nextTab);
+      this.#infoKeyboard.register('c-left', this.#prevTab);
+      this.#newsQueue.listen(this.#newsListener);
+
+      this.logger.leaving(me);
+    }
+
     #addInfoTabs = () => {
-      const me = 'addInfoTabs';
+      const me = this.#addInfoTabs.name;
       this.logger.entered(me);
 
       const tabs = [
@@ -3463,8 +3474,7 @@
 
       this.#infoWidget.container.append(this.#infoTabs.container);
 
-      this.#infoKeyboard.register('c-right', this.#nextTab);
-      this.#infoKeyboard.register('c-left', this.#prevTab);
+      this.#addInfoTabsHandlers();
 
       this.logger.leaving(me);
     }
@@ -3794,8 +3804,7 @@
             );
           }
           this.spa.refreshErrors();
-          // This will result in multiple listeners on hybrid style pages.
-          this.#newsQueue.listen(this.#newsListener);
+          this.#checkForNewRelease();
         }
       }
 
