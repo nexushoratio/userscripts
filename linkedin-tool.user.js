@@ -8287,7 +8287,9 @@
 
           // Activity has different layouts by tab
           // Posts use a carousel (also works for Featured)
-          '[data-testid="carousel-child-container"] > * > *',
+          // Skip Topcard though (Premium users can have a fancy background)
+          `:scope:not([${CKEY}$="Topcard"])` +
+            ' [data-testid="carousel-child-container"] > * > *',
           // Comments use `div` wrapped `a` like a list
           `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
           // Videos
