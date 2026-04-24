@@ -170,7 +170,7 @@
     ish('', 'Minor internal improvement', '9999'),
     ish('106', 'info view: more tabs: News, License', '2026-03-24'),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
-    ish('167', 'Refactor into libraries', '2026-03-25'),
+    ish('167', 'Refactor into libraries', '2026-04-25'),
     ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish(
@@ -243,10 +243,22 @@
       '2026-04-08'
     ),
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
+    ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-04-21'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-24',
+      issues: ['302'],
+      subject: 'Skip the Topcard carousel that some profiles have',
+    },
+    {
+      date: '2026-04-24',
+      issues: ['106'],
+      subject: 'Revert "Remove an apparently no longer needed Style-2' +
+        ' error badge tweak."',
+    },
     {
       date: '2026-04-23',
       issues: ['106'],
@@ -566,39 +578,6 @@
       date: '2026-03-27',
       issues: ['296'],
       subject: 'Change how the Style-2 error badge is created',
-    },
-    {
-      date: '2026-03-25',
-      issues: ['286'],
-      subject: 'Move style installation out of <code>SPA</code> and' +
-        ' into <code>LinkedIn</code>',
-    },
-    {
-      date: '2026-03-25',
-      issues: ['251'],
-      subject: 'Update the selector for <code>Feed</code> comments',
-    },
-    {
-      date: '2026-03-25',
-      issues: ['209', '292'],
-      subject: 'Update the <code>SearchResultsPeople</code> page',
-    },
-    {
-      date: '2026-03-25',
-      issues: [''],
-      subject: 'Update the selector for the global search input',
-    },
-    {
-      date: '2026-03-25',
-      issues: ['286'],
-      subject: 'Replace <code>SPADetails</code> with ' +
-        '<code>NH.spa.Details</code>',
-    },
-    {
-      date: '2026-03-25',
-      issues: [''],
-      subject: 'Track when <code>globalKnownIssues</code> were last ' +
-        'reviewed for clean up',
     },
   ];
 
