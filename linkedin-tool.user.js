@@ -3922,18 +3922,18 @@
       this.logger.leaving(me);
     }
 
-   /** Decisions about news could be made before the UI is available. */
-   #newsListener = (...msgs) => {
-     const me = this.#newsListener.name;
-     this.logger.entered(me, msgs);
+    /** Decisions about news could be made before the UI is available. */
+    #newsListener = (...msgs) => {
+      const me = this.#newsListener.name;
+      this.logger.entered(me, msgs);
 
-     for (const msg of msgs) {
-       this.dispatcher2.fire('news', msg);
-       this.#updateInfoNewsLabel(msg);
-     }
+      for (const msg of msgs) {
+        this.dispatcher2.fire('news', msg);
+        this.#updateInfoNewsLabel(msg);
+      }
 
-     this.logger.leaving(me);
-   }
+      this.logger.leaving(me);
+    }
 
     #ensureMenuStyle2 = () => {
       const me = this.#ensureMenuStyle2.name;
