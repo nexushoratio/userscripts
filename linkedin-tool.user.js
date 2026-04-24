@@ -3879,6 +3879,7 @@
             'bottom',
             'inset-block-end',
             'inset-block-start',
+            'opacity',
             'top',
           ]);
           const results = this.#findMissingStyleProperties(
