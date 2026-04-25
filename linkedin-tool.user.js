@@ -1395,8 +1395,9 @@
      * @param {Element} item - The item to inspect.
      * @returns {boolean} - Whether the item has viewable content.
      */
-    static #isItemViewable(item) {
-      return Boolean(item.clientHeight);
+    static #isItemViewable = (item) => {
+      const result = Boolean(item.clientHeight);
+      return result;
     }
 
     #autoActivate
@@ -3277,7 +3278,7 @@
     }
 
     /** Create the CSS styles used for indicating the current items. */
-    #addScrollerStyle() {
+    #addScrollerStyle = () => {
       const style = document.createElement('style');
       style.id = NH.base.safeId(`${this.id}-scroller-style`);
       const styles = [
