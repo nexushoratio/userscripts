@@ -1933,16 +1933,15 @@
     }
 
     #monitorConnectedness = () => {
+      const me = this.#monitorConnectedness.name;
+      this.logger.entered(me, this.#currentItem);
+
       if (this.#currentItem && !this.#currentItem.isConnected) {
-        this.logger.log('current item disconnected');
-        this.#currentItem = null;
-        if (litOptions.enableDevMode) {
-          NH.base.issues.post(
-            `Current Scroller, ${this.name}, item disconnected.`,
-            'Did an item lose shine?'
-          );
-        }
+        this.goto(this.#currentItem);
+        this.logger.log('current item reconnected');
       }
+
+      this.logger.leaving(me);
     }
 
     /* eslint-disable require-jsdoc */
@@ -7971,7 +7970,6 @@
             timeout: 3000,
           };
           await NH.web.otrot(what, how);
-          this.notifications.shine();
         }
 
         this.logger.leaving(me);
