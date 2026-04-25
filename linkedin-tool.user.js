@@ -184,6 +184,11 @@
     ish('236', 'Support <b>Events</b> page', '2026-04-10'),
     ish('238', 'eslint: Bad use of globals', '2026-04-10'),
     ish(
+      '239',
+      '<code>Scroller</code>: Active card loses shine upon revisit',
+      '2026-04-25'
+    ),
+    ish(
       '240', '<code>Scroller</code>: navbar height can change', '2026-03-30'
     ),
     ish('244', 'Capture info about all unsupported pages', '2026-04-11'),
@@ -248,6 +253,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-25',
+      issues: ['239'],
+      subject: 'Attempt to reconnect current item',
+    },
     {
       date: '2026-04-24',
       issues: ['302'],
