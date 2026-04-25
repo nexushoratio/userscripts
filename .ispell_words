@@ -241,6 +241,7 @@ dispatchEvent
 displayIssueMessage
 displayIssueSeparator
 distanceBetweenPoints
+DIVs
 doClassCleanups
 doCleanups
 docTab
@@ -513,7 +514,6 @@ keydown
 keyMap
 klass
 knownEvents
-KnownIssue
 KnownIssueDetails
 knownIssues
 knownUrlsTodo

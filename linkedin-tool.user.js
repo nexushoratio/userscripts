@@ -8051,6 +8051,18 @@
     }
 
     /**
+     * Create a CSS child combinator selector of DIVs.
+     *
+     * @param {number} n - The number of DIVs in the selector.
+     * @returns {string} - N divs like "div > div > ... > div".
+     */
+    static div(n) {
+      const a = Array(n)
+        .fill('div');
+      return a.join(' > ');
+    }
+
+    /**
      * With so much variation in items, this is overly long.
      *
      * @implements {Scroller~uidCallback}
@@ -8211,6 +8223,14 @@
       pageReadySelector: '[data-sdui-component$="profileCardsAboveActivity"]',
     };
 
+    static #div3
+
+    /* eslint-disable no-magic-numbers */
+    static {
+      this.#div3 = this.div(3);
+    }
+    /* eslint-enable */
+
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: Profile.uniqueEntryIdentifier,
@@ -8265,7 +8285,7 @@
             ' a:not(:has(svg[id^="arrow-right"]))',
 
           // About's extra content
-          `:scope[${CKEY}$="About"] > div > div > div > p`,
+          `:scope[${CKEY}$="About"] > ${this.#div3} > p`,
 
           // Activity has different layouts by tab
           // Posts use a carousel (also works for Featured)
