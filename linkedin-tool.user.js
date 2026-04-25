@@ -2649,7 +2649,6 @@
     /** @inheritdoc */
     constructor() {
       super();
-      issuesForLinkedIn.listen(this.#issueListener);
       this.#navbarMutationObserver = new MutationObserver(
         this.#navbarHandler
       );
@@ -3430,6 +3429,8 @@
       this.#infoKeyboard.register('c-right', this.#nextTab);
       this.#infoKeyboard.register('c-left', this.#prevTab);
       this.#newsQueue.listen(this.#newsListener);
+
+      issuesForLinkedIn.listen(this.#issueListener);
 
       this.logger.leaving(me);
     }
