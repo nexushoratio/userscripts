@@ -8324,7 +8324,7 @@
     /** @type {Scroller~What} */
     static #entriesWhat = {
       name: `${this.name} entries`,
-      // TODO(#297): Need to start from scratch.
+      // TODO(#302): Need to start from scratch.
       selectors: [
         // Known sections in "curr next" pairs, suitable for tsort.
         // This is just to help stay organized.
@@ -8378,7 +8378,6 @@
           `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
           // Videos
           `div[${CKEY}*="videos"] div > a:not(:has(svg[id^="arrow-right"]))`,
-          // TODO(#298): Images have a problem at the moment
           // Images are a straight forward series of `a`
           `div[${CKEY}*="images"] div > a:not(:has(svg))`,
           // Documents
