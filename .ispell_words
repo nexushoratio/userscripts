@@ -423,6 +423,7 @@ homepageURL
 hooksPath
 hotKey
 href
+hrefPathname
 HTMLDialogElement
 HTMLElement
 HTMLElements
@@ -546,7 +547,6 @@ likeItem
 linkedin
 linkedIn
 LinkedIn
-linkedInGlobals
 LinkedInGlobals
 LinkedIn's
 LinkedInScrollerService

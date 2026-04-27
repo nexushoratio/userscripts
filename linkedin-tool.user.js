@@ -8165,8 +8165,9 @@
       }
       if (href) {
         const page = new URL(document.location);
+        const hrefPathname = new URL(href).pathname;
         // The Activity > Images grid all link to the Profile.
-        if (img && new URL(href).pathname === page.pathname) {
+        if (img && hrefPathname === page.pathname) {
           // There are lots of options to choose from here.  With minimal
           // testing, so far this seems to be both unique and stable.
           content = new URL(img.src)
@@ -8182,7 +8183,7 @@
             ? '-hr'
             : '';
 
-          content = new URL(href).pathname + extra;
+          content = hrefPathname + extra;
         }
       }
 
