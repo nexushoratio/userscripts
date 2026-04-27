@@ -3089,6 +3089,7 @@
     #badgeNewsStyle1
     #badgeNewsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
+    #errorText
     #globals
     #iframeDoc
     #infoId
@@ -3438,6 +3439,40 @@
       document.head.prepend(style);
     }
 
+    /**
+     * Update Errors tab label based upon value.
+     *
+     * @param {number} count - Number of errors currently logged.
+     */
+    #updateInfoErrorsLabel = (count) => {
+      const me = this.#updateInfoErrorsLabel.name;
+      this.logger.entered(me, count);
+
+      const label = this.#infoTabs.tabs.get('Errors').label;
+      if (count) {
+        this.#infoTabs.goto('Errors');
+        label.classList.add('lit-negative');
+      } else {
+        label.classList.remove('lit-negative');
+      }
+
+      this.logger.leaving(me);
+    }
+
+    /** @param {Event} evt - The 'change' event. */
+    #errorTextHandler = (evt) => {
+      const me = this.#errorTextHandler.name;
+      this.logger.entered(me, evt);
+
+      const count = evt.target.value
+        .split('\n')
+        .filter(x => x === LinkedIn.errorMarker).length;
+      this.dispatcher2.fire('errors', count);
+      this.#updateInfoErrorsLabel(count);
+
+      this.logger.leaving(me);
+    }
+
     #addInfoTabsHandlers = () => {
       const me = this.#addInfoTabsHandlers.name;
       this.logger.entered(me);
@@ -3446,6 +3481,8 @@
       this.#infoKeyboard.register('c-left', this.#prevTab);
       this.#newsQueue.listen(this.#newsListener);
 
+      this.#errorText = document.querySelector('[data-lit-id="errors"]');
+      this.#errorText.addEventListener('change', this.#errorTextHandler);
       issuesForLinkedIn.listen(this.#issueListener);
 
       this.logger.leaving(me);
@@ -3801,6 +3838,7 @@
             );
           }
           this.spa.refreshErrors();
+          this.#refreshErrors();
           this.#checkForNewRelease();
         }
       }
@@ -4162,8 +4200,37 @@
       };
     }
 
+    /** Send `change` event to the errors text area. */
+    #refreshErrors = () => {
+      const evt = new Event('change');
+      this.#errorText.dispatchEvent(evt);
+    }
+
+    /**
+     * Add content to the Errors tab so the user can use it to file feedback.
+     * @param {string} content - Information to add.
+     */
+    #addError = (content) => {
+      this.#errorText.value += `${content}\n`;
+
+      if (content === LinkedIn.errorMarker) {
+        this.#refreshErrors();
+      }
+    }
+
+    /**
+     * Add a marker to the Errors tab so the user can see where different
+     * issues happened.
+     */
+    #addErrorMarker = () => {
+      this.#addError(LinkedIn.errorMarker);
+    }
+
     #issueListener = (...issues) => {
-      this.logger.log('issue listener', issues);
+      for (const issue of issues) {
+        this.#addError(issue);
+      }
+      this.#addErrorMarker();
     }
 
   }
