@@ -169,16 +169,16 @@
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
     ish('106', 'info view: more tabs: News, License', '2026-03-24'),
+    ish(
+      '119',
+      'info view: Dismissing dialog while focus in textarea leaves' +
+        ' keys disabled',
+      '2026-04-27'
+    ),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-04-25'),
     ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
-    ish(
-      '208',
-      '<code>Scroller</code>: If end-item is never viewable (e.g., empty),' +
-        ' cannot wrap',
-      '2026-03-27'
-    ),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-04-09'),
     ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
     ish('236', 'Support <b>Events</b> page', '2026-04-10'),
@@ -253,6 +253,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-27',
+      issues: ['119'],
+      subject: 'Force a <code>focus</code> event when closing the' +
+        ' info dialog',
+    },
     {
       date: '2026-04-25',
       issues: ['239'],
@@ -578,16 +584,6 @@
       date: '2026-03-29',
       issues: ['295'],
       subject: 'Update the <code>pathname:</code> for <code>Feed</code>',
-    },
-    {
-      date: '2026-03-27',
-      issues: [''],
-      subject: 'Fix issue caused by the recent <code>News</code> tab update',
-    },
-    {
-      date: '2026-03-27',
-      issues: ['296'],
-      subject: 'Change how the Style-2 error badge is created',
     },
   ];
 
