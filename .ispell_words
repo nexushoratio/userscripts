@@ -340,6 +340,7 @@ focusOnSidebar
 focusOnTree
 focusOption
 FooTestCase
+forceFocusEvent
 fourFive
 fromPojo
 func
@@ -514,7 +515,6 @@ keydown
 keyMap
 klass
 knownEvents
-KnownIssueDetails
 knownIssues
 knownUrlsTodo
 labelClassesFunc

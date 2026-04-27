@@ -3279,9 +3279,16 @@
       this.logger.log('info opened');
     }
 
+    /** Force any 'focus' handlers to run. */
+    #forceFocusEvent = () => {
+      document.activeElement.dispatchEvent(new Event('focus'));
+    }
+
     #onCloseInfo = () => {
       this.#infoKeyboard.disable();
       VMKeyboardService.setKeyboardContext('inDialog', false);
+      // Force this to run on the next event loop.
+      setTimeout(this.#forceFocusEvent, 0);
       this.logger.log('info closed');
     }
 
@@ -9116,6 +9123,8 @@
       dialog.addEventListener('close', () => {
         this._setKeyboardContext('inDialog', false);
         VMKeyboardService.setKeyboardContext('inDialog', false);
+        // Force this to run on the next event loop.
+        setTimeout(this.#forceFocusEvent, 0);
         this._tabUiKeyboard.disable();
       });
     }
@@ -9341,6 +9350,11 @@
     #activePageNames = () => {
       const names = Array.from(this.#activePages, x => x.pageName);
       return names;
+    }
+
+    /** Force any 'focus' handlers to run. */
+    #forceFocusEvent = () => {
+      document.activeElement.dispatchEvent(new Event('focus'));
     }
 
     #issueListener = (...issues) => {
