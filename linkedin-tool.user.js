@@ -4392,23 +4392,15 @@
   }
 
   /**
-   * Base class for handling various views of a single-page application.
-   *
-   * Generally, new classes should subclass this, override a few properties
-   * and methods, and then register themselves with an instance of the {@link
-   * SPA} class.
+   * Adapt the new NH.spa.Page to the older implementation.
    */
-  class Page {
+  class Page extends NH.spa.Page {
 
     /**
-     * @typedef {object} PageDetails
-     * @property {SPA} spa - SPA instance that manages this Page.
-     * @property {string} [pageName=this.constructor.name] - A human readable
-     * name for this page (normally parsed from the subclass name).
-     * @property {string|RegExp} [pathname=RegExp(.*)] - Pathname portion of
-     * the URL this page should handle.
-     * @property {string} [pageReadySelector='body'] - CSS selector that is
-     * used to detect that the page is loaded enough to activate.
+     * @typedef {NH.spa.PageDetails} PageDetails
+     * @deprecated @property {string} [pageName=name] - See {@link name}.
+     * @deprecated @property {string} [pageReadySelector=readySelector] -
+     * See {@link readySelector}.
      */
 
     /** @param {PageDetails} details - Details about the instance. */
@@ -4416,16 +4408,17 @@
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
-      this.#pageId = this.constructor.name;
-      this.#spa = details.spa;
-      this.#logger = new NH.base.Logger(this.pageId);
-      this.#pathnameRE = this.#computePathname(details.pathname);
-      ({
-        pageReadySelector: this.#pageReadySelector = 'body',
-        pageName: this.#pageName = NH.base.simpleParseWords(this.#pageId)
-          .join(' '),
-      } = details);
-      this.#logger.log('Base page constructed', this);
+
+      // Adapt old to new.
+      const {
+        readySelector: readySelector = details.pageReadySelector,
+        name: pageName = details.pageName,
+      } = details;
+      details.readySelector = readySelector;
+      details.name = pageName;
+
+      super(details);
+      this.logger.log('Adapter page constructed', this);
     }
 
     /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
@@ -4446,53 +4439,14 @@
       return this.#keyboard;
     }
 
-    /** @type {NH.base.Logger} */
-    get logger() {
-      return this.#logger;
-    }
-
     /** @type {string} - Machine readable name for the page. */
     get pageId() {
-      return this.#pageId;
+      return this.id;
     }
 
     /** @type {string} - Human readable name for the page. */
     get pageName() {
-      return this.#pageName;
-    }
-
-    /** @type {RegExp} */
-    get pathname() {
-      return this.#pathnameRE;
-    }
-
-    /** @type {SPA} */
-    get spa() {
-      return this.#spa;
-    }
-
-    /**
-     * Register a new {@link NH.base.Service}.
-     * @param {function(): NH.base.Service} Klass - A service class to
-     * instantiate.
-     * @param {...*} rest - Arbitrary objects to pass to constructor.
-     * @returns {NH.base.Service} - Instance of Klass.
-     */
-    addService(Klass, ...rest) {
-      const me = 'addService';
-      this.logger.entered(me, Klass, ...rest);
-
-      let instance = null;
-      if (Klass.prototype instanceof NH.base.Service) {
-        instance = new Klass(this.constructor.name, ...rest);
-        this.#services.add(instance);
-      } else {
-        this.logger.log('Bad class was passed.');
-        throw new Error(`${Klass.name} is not a Service`);
-      }
-
-      this.logger.leaving(me, instance);
-      return instance;
+      return this.name;
     }
 
     /**
@@ -4508,17 +4462,8 @@
      * Turns on this Page's features.  Called by {@link SPA} when this becomes
      * the current view.
      */
-    async activate() {
-      const me = 'activate';
-      this.logger.entered(me);
-
-      await this.#waitUntilReady();
-      for (const service of this.#services) {
-        this.logger.log(`activating service: "${service.name}"`);
-        service.activate();
-      }
-
-      this.logger.leaving(me);
+    activate() {
+      this.dispatcher.fire('activate');
     }
 
     /**
@@ -4526,9 +4471,7 @@
      * longer the current view.
      */
     deactivate() {
-      for (const service of this.#services) {
-        service.deactivate();
-      }
+      this.dispatcher.fire('deactivate');
     }
 
     /**
@@ -4542,67 +4485,6 @@
 
     /** @type {KeyboardService} */
     #keyboard = new VM.shortcut.KeyboardService();
-
-    /** @type {NH.base.Logger} - NH.base.Logger instance. */
-    #logger
-
-    #pageId
-    #pageName
-    #pageReadySelector
-
-    /** @type {RegExp} - Computed RegExp version of details.pathname. */
-    #pathnameRE
-
-    #services = new Set();
-
-    /** @type {SPA} - SPA instance managing this instance. */
-    #spa
-
-    /**
-     * Turn a pathname into a RegExp.
-     * @param {string|RegExp} pathname - A pathname to convert.
-     * @returns {RegExp} - A converted pathname.
-     */
-    #computePathname = (pathname) => {
-      const me = 'computePath';
-      this.logger.entered(me, pathname);
-
-      let pathnameRE = /.*/u;
-      if (pathname instanceof RegExp) {
-        pathnameRE = pathname;
-      } else if (pathname) {
-        pathnameRE = RegExp(`^${pathname}$`, 'u');
-      }
-
-      this.logger.leaving(me, pathnameRE);
-      return pathnameRE;
-    }
-
-    /**
-     * Wait until the page has loaded enough to continue.
-     * @returns {Element} - The element matched by #pageReadySelector.
-     */
-    #waitUntilReady = async () => {
-      const me = this.#waitUntilReady.name;
-      this.logger.entered(me, this.#pageReadySelector);
-
-      const timeout = 3000;
-      let element = null;
-      try {
-        element = await NH.web.waitForSelector(
-          this.#pageReadySelector, timeout
-        );
-      } catch (e) {
-        NH.base.issues.post(
-          `${this.pageId} failed to load`,
-          e.message,
-          this.#pageReadySelector
-        );
-      }
-
-      this.logger.leaving(me, element);
-      return element;
-    }
 
     /**
      * Registers a specific key sequence with a function with VM.shortcut.
