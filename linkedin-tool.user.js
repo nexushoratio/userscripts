@@ -255,6 +255,17 @@
 
   const globalNewsContent = [
     {
+      date: '2026-04-28',
+      issues: ['286'],
+      subject: 'Rework <code>Page</code> into an adapter for' +
+        ' <code>spa/Page</code>',
+    },
+    {
+      date: '2026-04-28',
+      issues: ['302'],
+      subject: 'Support the <em>Topcard</em>',
+    },
+    {
       date: '2026-04-27',
       issues: ['119'],
       subject: 'Force a <code>focus</code> event when closing the' +
@@ -548,43 +559,6 @@
       date: '2026-03-30',
       issues: ['295'],
       subject: 'Move reloading of hybrid pages into a <code>Service</code>',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['130'],
-      subject: 'Provide an option for using the WIP keyboard service',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['244'],
-      subject: 'Rename <code>enableIssue244Changes</code> to' +
-        ' <code>enableAlertUnsupportedPages</code>',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['184'],
-      subject: 'Update <code>ul</code> style to return bullet points and' +
-        ' indentation',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['184'],
-      subject: 'Apply a minor HTML fixup',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['296'],
-      subject: 'Ignore specific properties when comparing badges',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['295'],
-      subject: 'Implement a temporary workaround for hybrid pages',
-    },
-    {
-      date: '2026-03-29',
-      issues: ['295'],
-      subject: 'Update the <code>pathname:</code> for <code>Feed</code>',
     },
   ];
 
