@@ -67,6 +67,7 @@
       enableAlertOldNews: false,
       enableAlertUnsupportedPages: false,
       enableIssue241ClickMethod: false,
+      enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
       latestNewsRead: 0,
     };
@@ -1889,8 +1890,8 @@
      * @returns {Promise<string>} - Wait on this to finish with something
      * useful to log.
      */
-    #currentItemWatcher = () => {
-      const me = 'currentItemWatcher';
+    #currentItemWatcher = () => {  // eslint-disable-line max-lines-per-function
+      const me = this.#currentItemWatcher.name;
       this.logger.entered(me);
 
       const uid = this.itemUid;
@@ -1926,6 +1927,9 @@
             this.logger.log('one last try...');
             moCallback();
             resolve('we tried...');
+            if (litOptions.enableIssue289Monitoring) {
+              NH.base.issues.post(`${me} timed out`);
+            }
           };
 
           this.#mutationDispatcher.on('records', moCallback);
