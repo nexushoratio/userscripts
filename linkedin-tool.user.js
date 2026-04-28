@@ -8167,7 +8167,7 @@
         const page = new URL(document.location);
         const hrefPathname = new URL(href).pathname;
         // The Activity > Images grid all link to the Profile.
-        if (img && hrefPathname === page.pathname) {
+        if (img && ['/', page.pathname].includes(hrefPathname)) {
           // There are lots of options to choose from here.  With minimal
           // testing, so far this seems to be both unique and stable.
           content = new URL(img.src)
@@ -8307,10 +8307,14 @@
     };
 
     static #div3
+    static #div5
+    static #div6
 
     /* eslint-disable no-magic-numbers */
     static {
       this.#div3 = this.div(3);
+      this.#div5 = this.div(5);
+      this.#div6 = this.div(6);
     }
     /* eslint-enable */
 
@@ -8362,6 +8366,17 @@
         // Languages Interests
         // Interests Causes
         [
+          // Most items
+          `:scope[${CKEY}$="Topcard"] > ${this.#div6}` +
+            // Random premium badge
+            ':not([role])' +
+            // Carousel
+            ':not(:has(> div > div > section))',
+          // Background on most profiles
+          `:scope[${CKEY}$="Topcard"] > ${this.#div5} > a:has(img)`,
+          // Carousels (premium business profile backgrounds, private edit)
+          `:scope[${CKEY}$="Topcard"]` +
+            ' [data-testid="carousel-child-container"] div:has(> a)',
 
           // Analytics (svg == Private to you)
           ':scope:has(svg[id^="visibility"])' +
@@ -8372,7 +8387,7 @@
 
           // Activity has different layouts by tab
           // Posts use a carousel (also works for Featured)
-          // Skip Topcard though (Premium users can have a fancy background)
+          // Topcard is handled separately
           `:scope:not([${CKEY}$="Topcard"])` +
             ' [data-testid="carousel-child-container"] > * > *',
           // Comments use `div` wrapped `a` like a list
