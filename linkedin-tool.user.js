@@ -2883,8 +2883,8 @@
 
       this.#checkForNewRelease();
 
-      const licenseEntry = this.ui.tabs.get('License');
-      licenseEntry.panel.addEventListener('expose', this.#licenseHandler);
+      this.ui.tabs.get('License').panel
+        .addEventListener('expose', this.#licenseHandler);
 
       this.ui.tabs
         .get('News').panel.addEventListener('expose', this.#newsHandler);
