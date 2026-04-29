@@ -7030,7 +7030,6 @@
       if (href) {
         content = new URL(href).searchParams.get('currentJobId');
       }
-
       if (!content) {
         content = this.defaultUid(element);
       }
@@ -8120,7 +8119,6 @@
           content = hrefPathname + extra;
         }
       }
-
       if (!content) {
         content = this.defaultUid(element);
       }
