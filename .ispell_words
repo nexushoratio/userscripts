@@ -105,6 +105,7 @@ builtInClasses
 buttonClasses
 byName
 callCount
+cardId
 cardIndex
 cardItemToClick
 cardsContainer
@@ -597,7 +598,6 @@ messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
 methodName
-migrateKnownIssues
 minVersion
 missingDescriptionsAreErrors
 missingFirst
@@ -1256,6 +1256,7 @@ toolbarElement
 toolbarHook
 toolButtonHandler
 topButton
+topCard
 Topcard
 topleftmainrightbottom
 topMarginCSS
@@ -1274,6 +1275,7 @@ uidCommentRE
 uidDetailsClassRE
 uidPostRE
 uids
+uidSectionPrefix
 uidSectionRE
 ul
 undef

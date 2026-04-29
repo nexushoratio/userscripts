@@ -42,6 +42,7 @@
   const OPTIONS = 'Options';
   const APP_SHORT = APP_LONG.split(' ')
     .at(NH.base.LAST_ITEM);
+  const TOP_CARD = 'Topcard';
 
   /**
    * Save options to storage.
@@ -7997,6 +7998,9 @@
       this.addService(LinkedInToolbarService, this)
         .addHows(Profile.#sectionsHow, Profile.#entriesHow)
         .postActivateHook(this.#toolbarHook);
+
+      this.dispatcher
+        .on('activate', this.#onActivate);
     }
 
     /**
@@ -8009,10 +8013,17 @@
       this.logger.entered(me, element);
 
       let content = '';
+      let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
 
       if (key) {
-        content = Profile.#uidSectionRE.exec(key)?.groups.id;
+        content = key;
+        if (key.startsWith(Profile.#uidSectionPrefix)) {
+          cardId = key.slice(Profile.#uidSectionPrefix.length);
+        }
+      }
+      if (cardId) {
+        content = cardId;
       }
       if (!content) {
         content = this.defaultUid(element);
@@ -8257,15 +8268,15 @@
         // Interests Causes
         [
           // Most items
-          `:scope[${CKEY}$="Topcard"] > ${this.#div6}` +
+          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div6}` +
             // Random premium badge
             ':not([role])' +
             // Carousel
             ':not(:has(> div > div > section))',
           // Background on most profiles
-          `:scope[${CKEY}$="Topcard"] > ${this.#div5} > a:has(img)`,
+          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5} > a:has(img)`,
           // Carousels (premium business profile backgrounds, private edit)
-          `:scope[${CKEY}$="Topcard"]` +
+          `:scope[${CKEY}$="${TOP_CARD}"]` +
             ' [data-testid="carousel-child-container"] div:has(> a)',
 
           // Analytics (svg == Private to you)
@@ -8278,7 +8289,7 @@
           // Activity has different layouts by tab
           // Posts use a carousel (also works for Featured)
           // Topcard is handled separately
-          `:scope:not([${CKEY}$="Topcard"])` +
+          `:scope:not([${CKEY}$="${TOP_CARD}"])` +
             ' [data-testid="carousel-child-container"] > * > *',
           // Comments use `div` wrapped `a` like a list
           `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
@@ -8316,8 +8327,7 @@
       ],
     };
 
-    static #uidSectionRE =
-    /^(?:com.linkedin.sdui.profile.card.*-aow)?(?<id>.*)/u;
+    static #uidSectionPrefix
 
     #entryScroller
     #lastScroller
@@ -8338,6 +8348,21 @@
         this.#entryScroller = null;
       }
       this.entries;
+    }
+
+    #onActivate = () => {
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
+      // Grab the per-user prefix for the current profile that is used for
+      // many `section` identifiers.
+      const topCard = document.querySelector(
+        `[${CKEY}$="${TOP_CARD}"]`
+      );
+      Profile.#uidSectionPrefix = topCard?.getAttribute(CKEY)
+        ?.slice(0, -TOP_CARD.length);
+
+      this.logger.leaving(me);
     }
 
     #onEntryChange = () => {
