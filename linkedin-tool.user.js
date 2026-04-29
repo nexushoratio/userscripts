@@ -2772,14 +2772,37 @@
      * Combine text from child headers.
      *
      * @param {Element} element - Element to examine.
+     * @param {number} level - Header level to use.
      * @returns {string} - Combined header text.
      */
-    static h2(element) {
-      return element.querySelectorAll('h2')
+    static hN(element, level) {
+      return element.querySelectorAll(`h${level}`)
         .values()
         .map(x => x.innerText.trim())
         .toArray()
         .join('; ');
+    }
+
+    /**
+     * Combine text from child headers.
+     *
+     * @param {Element} element - Element to examine.
+     * @returns {string} - Combined header text.
+     */
+    static h1(element) {
+      const level = 1;
+      return this.hN(element, level);
+    }
+
+    /**
+     * Combine text from child headers.
+     *
+     * @param {Element} element - Element to examine.
+     * @returns {string} - Combined header text.
+     */
+    static h2(element) {
+      const level = 2;
+      return this.hN(element, level);
     }
 
     urlChangeMonitorSelector = 'html';
@@ -8450,7 +8473,7 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const h1 = element.querySelector('h1')?.innerText.trim();
+      const h1 = LinkedIn.h1(element);
       const h2 = LinkedIn.h2(element);
 
       if (h2) {

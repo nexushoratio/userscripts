@@ -422,6 +422,7 @@ hasOwn
 helpTabDefinition
 hiddenComment
 historicalIdToIndex
+hN
 homepageURL
 hooksPath
 hotKey
@@ -635,7 +636,6 @@ navbarResizeObserver
 navbarScrollerFixup
 navMe
 navOption
-navSelector
 navSpacer
 ndid
 ndiff
