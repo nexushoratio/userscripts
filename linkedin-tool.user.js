@@ -2639,6 +2639,9 @@
         this.#navbarHandler
       );
       this.ready = this.#waitUntilPageLoadedEnough();
+
+      this.#licenseElement = document.createElement('p');
+      this.#licenseElement.innerHTML = '<i>Loading license...</i>';
     }
 
     static Style = {
@@ -3071,6 +3074,7 @@
     #infoTabs
     #infoWidget
     #licenseData
+    #licenseElement
     #licenseLoaded
     #navbar
     #navbarDispatcher = new NH.base.Dispatcher('resize');
