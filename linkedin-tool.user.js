@@ -8015,12 +8015,16 @@
       let content = '';
       let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
+      const h2 = LinkedIn.h2(element);
 
       if (key) {
         content = key;
         if (key.startsWith(Profile.#uidSectionPrefix)) {
           cardId = key.slice(Profile.#uidSectionPrefix.length);
         }
+      }
+      if (h2) {
+        content = h2;
       }
       if (cardId) {
         content = cardId;
