@@ -2895,7 +2895,11 @@
 
       this.#checkForNewRelease();
 
-      this.ui.tabs.get('License').panel
+      this.ui.tabs
+        .get('License').panel
+        .addEventListener('expose', this.#licenseHandler);
+      this.#infoTabs.tabs
+        .get('License').panel
         .addEventListener('expose', this.#licenseHandler);
 
       this.ui.tabs
@@ -3212,7 +3216,10 @@
       this.logger.entered(me);
 
       const spaPanel = this.ui.tabs.get('License').panel;
-      spaPanel.replaceChildren(this.#licenseElement);
+      const litPanel = this.#infoTabs.tabs.get('License').panel;
+
+      spaPanel.replaceChildren(this.#licenseElement.cloneNode(true));
+      litPanel.replaceChildren(this.#licenseElement.cloneNode(true));
 
       this.logger.leaving(me);
     }
@@ -3537,6 +3544,7 @@
         LinkedIn.aboutTab(),
         this.newsTab(),
         LinkedIn.errorTab('lit'),
+        this.licenseTab(),
       ];
 
       this.#infoTabs = new TabbedUI(APP_LONG);

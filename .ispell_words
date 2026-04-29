@@ -560,6 +560,7 @@ LinkedInToolbarService
 listitem
 litLabel
 litOptions
+litPanel
 LoadMoreComments
 loadMoreConversations
 loadMoreNotifications
@@ -767,7 +768,6 @@ otrotName
 otrotRoCallback
 OtrotWhat
 ourMenuItemStyle
-ourSet
 ourValue
 outerHTML
 Outros
