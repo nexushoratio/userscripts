@@ -3336,12 +3336,6 @@
           ' display: flex;' +
           ' flex-direction: column;' +
           '}',
-        '.lit-info button {' +
-          ' border-width: 1px;' +
-          ' border-style: solid;' +
-          ' border-radius: 1em;' +
-          ' padding: 3px;' +
-          '}',
         '.lit-justify {' +
           ' display: flex;' +
           ' flex-direction: row;' +
@@ -3351,6 +3345,12 @@
           ' padding-bottom: 1ex;' +
           ' border-bottom: 1px solid black;' +
           ' margin-bottom: 5px;' +
+          '}',
+        '.lit-info button {' +
+          ' border-width: 1px;' +
+          ' border-style: solid;' +
+          ' border-radius: 1em;' +
+          ' padding: 3px;' +
           '}',
         '.lit-info code {' +
           ' background-color: ButtonFace;' +
@@ -3362,12 +3362,17 @@
           ' border-width: 1px;' +
           ' border-style: solid;' +
           '}',
-        '.lit-info p {margin-bottom: 1em; }',
+        '.lit-info p {' +
+          ' margin-bottom: 1em;' +
+          '}',
         '.lit-info ul {' +
           ' list-style: unset;' +
           ' padding-inline: revert;' +
           '}',
-        '.lit-info th { padding-top: 1em; text-align: left; }',
+        '.lit-info th {' +
+          ' padding-top: 1em;' +
+          ' text-align: left;' +
+          '}',
         '.lit-info td:first-child {' +
           ' white-space: nowrap;' +
           ' text-align: right;' +
@@ -3377,7 +3382,9 @@
           ' flex-grow: 1;' +
           ' resize: none;' +
           '}',
-        '.lit-kbd-service-active th { background-color: lightgray; }',
+        '.lit-kbd-service-active th {' +
+          ' background-color: lightgray;' +
+          '}',
         '.lit-menu-badge-news-style1 {' +
           ' top: 1.35rem !important;' +
           ' --color-alert: var(--lit-color-positive) !important;' +
@@ -3435,7 +3442,9 @@
         '.lit-menu-badge-error::after {' +
           ' content: none !important;' +
           '}',
-        '.lit-menu-badge-hide { opacity: 0; }',
+        '.lit-menu-badge-hide {' +
+          ' opacity: 0;' +
+          '}',
       ];
       style.textContent = styles.join('\n');
       document.head.prepend(style);
