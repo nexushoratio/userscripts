@@ -317,6 +317,7 @@ failMsgs
 fakeErrorRate
 falsy
 FeedType
+FetchState
 fff
 fieldName
 filterItem
@@ -541,7 +542,7 @@ licenseData
 LicenseData
 licenseElement
 licenseHandler
-licenseLoaded
+licenseState
 licenseTab
 licenseUpdateTabs
 lightgray

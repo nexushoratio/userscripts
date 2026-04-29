@@ -2995,6 +2995,16 @@
       return tab;
     }
 
+    static #FetchState = {
+      EMPTY: Symbol.for('Empty'),
+      FETCHING: Symbol.for('Fetching'),
+      FETCHED: Symbol.for('Fetched'),
+    }
+
+    static {
+      Object.freeze(LinkedIn.#FetchState);
+    }
+
     static #asideSelector = [
       // Style 1
       'aside.scaffold-layout__aside',
@@ -3076,7 +3086,7 @@
     #infoWidget
     #licenseData
     #licenseElement
-    #licenseLoaded
+    #licenseState = LinkedIn.#FetchState.EMPTY;
     #navbar
     #navbarDispatcher = new NH.base.Dispatcher('resize');
     #navbarHeightPixels = 0;
@@ -3183,16 +3193,14 @@
      */
     #licenseHandler = async () => {
       const me = this.#licenseHandler.name;
-      this.logger.entered(me, this.#licenseElement);
+      this.logger.entered(me, this.#licenseState);
 
-      // Probably should debounce this.  If the user visits this tab twice
-      // fast enough, they end up with two copies loaded.  Amusing, but
-      // probably should be resilient.
-      if (!this.#licenseLoaded) {
+      if (this.#licenseState === LinkedIn.#FetchState.EMPTY) {
         const {id, url} = this.licenseData;
 
         this.#licenseUpdateTabs();
 
+        this.#licenseState = LinkedIn.#FetchState.FETCHING;
         const response = await fetch(url);
         if (response.ok) {
           const license = document.createElement('iframe');
@@ -3202,7 +3210,9 @@
           license.srcdoc = await response.text();
           this.#licenseElement = license;
           this.#licenseUpdateTabs();
-          this.#licenseLoaded = true;
+          this.#licenseState = LinkedIn.#FetchState.FETCHED;
+        } else {
+          this.#licenseState = LinkedIn.#FetchState.EMPTY;
         }
       }
 
