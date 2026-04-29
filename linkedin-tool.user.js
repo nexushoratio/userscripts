@@ -180,6 +180,7 @@
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-04-25'),
     ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
+    ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-04-09'),
     ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
@@ -191,7 +192,7 @@
       '2026-04-25'
     ),
     ish(
-      '240', '<code>Scroller</code>: navbar height can change', '2026-03-30'
+      '240', '<code>Scroller</code>: navbar height can change', '2026-04-30'
     ),
     ish('244', 'Capture info about all unsupported pages', '2026-04-11'),
     ish(
@@ -255,6 +256,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-29',
+      issues: ['106'],
+      subject: 'Tweak icon styling to match site',
+    },
+    {
+      date: '2026-04-29',
+      issues: ['184'],
+      subject: 'Add a small highlight to <code>code</code> elements in' +
+        ' the <code>Info</code> view',
+    },
+    {
+      date: '2026-04-28',
+      issues: ['182'],
+      subject: 'Debounce loading the license with better state tracking',
+    },
     {
       date: '2026-04-28',
       issues: ['286'],
@@ -550,16 +567,6 @@
       issues: [''],
       subject: 'Support dismissing <code>Feed</code> items that use a popup' +
         ' menu',
-    },
-    {
-      date: '2026-03-30',
-      issues: ['296'],
-      subject: 'Fix how sets are manipulated',
-    },
-    {
-      date: '2026-03-30',
-      issues: ['295'],
-      subject: 'Move reloading of hybrid pages into a <code>Service</code>',
     },
   ];
 
