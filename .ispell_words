@@ -103,6 +103,7 @@ buildRows
 buildShortcutsInfo
 builtInClasses
 buttonClasses
+ButtonFace
 byName
 callCount
 cardId
@@ -613,7 +614,6 @@ monMe
 moreWork
 mozilla
 mq
-msgBox
 msgs
 mutationDispatcher
 mutationHandler

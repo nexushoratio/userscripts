@@ -3352,6 +3352,10 @@
           ' border-bottom: 1px solid black;' +
           ' margin-bottom: 5px;' +
           '}',
+        '.lit-info code {' +
+          ' background-color: ButtonFace;' +
+          ' font-family: monospace;' +
+          '}',
         '.lit-info kbd > kbd {' +
           ' font-size: 0.85em;' +
           ' padding: 0.07em;' +
@@ -9054,6 +9058,7 @@
           ' border-width: 1px;' +
           ' border-style: solid;' +
           '}',
+        `#${this._infoId} code { background-color: ButtonFace; }`,
         `#${this._infoId} p { margin-bottom: 1em; }`,
         `#${this._infoId} th { padding-top: 1em; text-align: left; }`,
         `#${this._infoId} td:first-child {` +
