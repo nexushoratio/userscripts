@@ -4656,9 +4656,7 @@
       ',',
       'Focus on the left/top sidebar (not always present)',
       () => {
-        this.logger.log('sidebar');
         this.spa.details.focusOnSidebar();
-        this.logger.log('done');
       }
     );
 
