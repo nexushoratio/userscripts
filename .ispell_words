@@ -593,7 +593,6 @@ MessageQueueTestCase
 messageScroller
 messagesHow
 messagesWhat
-messageTab
 messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
@@ -1289,6 +1288,7 @@ uniqueEventIdentifier
 uniqueFooIdentifier
 uniqueIdentifier
 uniqueIndividualsIdentifier
+uniqueInvitationIdentifier
 uniqueJobIdentifier
 uniqueMessageIdentifier
 uniqueNotificationIdentifier

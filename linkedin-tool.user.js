@@ -5911,6 +5911,29 @@
         .setScroller(this.#inviteScroller);
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueInvitationIdentifier(element) {
+      const me = InvitationManager.uniqueInvitationIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     /** @type {Scroller} */
     get invites() {
       return this.#inviteScroller;
@@ -6077,7 +6100,7 @@
     };
 
     static #invitesHow = {
-      uidCallback: LinkedIn.ckeyIdentifier,
+      uidCallback: InvitationManager.uniqueInvitationIdentifier,
       classes: ['tom'],
     };
 
