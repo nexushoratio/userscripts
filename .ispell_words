@@ -542,6 +542,7 @@ licenseElement
 licenseHandler
 licenseLoaded
 licenseTab
+licenseUpdateTabs
 lightgray
 likeItem
 linkedin
@@ -581,7 +582,6 @@ matchSelf
 maxCountLength
 maxFieldLength
 maxUidLength
-memberId
 menuItem
 messageBox
 messageBoxSelector
@@ -973,6 +973,7 @@ snapToTop
 sourceforge
 SPADetails
 spaLabel
+spaPanel
 SPATestCase
 SPDX
 SpecificEvent

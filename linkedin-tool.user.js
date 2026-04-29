@@ -3167,22 +3167,30 @@
       this.logger.leaving(me);
     }
 
+    #licenseUpdateTabs = () => {
+      const me = this.#licenseUpdateTabs.name;
+      this.logger.entered(me);
+
+      const spaPanel = this.ui.tabs.get('License').panel;
+      spaPanel.replaceChildren(this.#licenseElement);
+
+      this.logger.leaving(me);
+    }
+
     /**
      * Lazily load license text when exposed.
-     * @param {Event} evt - The 'expose' event.
      */
-    #licenseHandler = async (evt) => {
-      const me = 'licenseHandler';
-      this.logger.entered(me, evt.target);
+    #licenseHandler = async () => {
+      const me = this.#licenseHandler.name;
+      this.logger.entered(me, this.#licenseElement);
 
       // Probably should debounce this.  If the user visits this tab twice
       // fast enough, they end up with two copies loaded.  Amusing, but
       // probably should be resilient.
       if (!this.#licenseLoaded) {
-        const info = document.createElement('p');
-        info.innerHTML = '<i>Loading license...</i>';
-        evt.target.append(info);
         const {id, url} = this.licenseData;
+
+        this.#licenseUpdateTabs();
 
         const response = await fetch(url);
         if (response.ok) {
@@ -3191,7 +3199,8 @@
           license.title = id;
           license.sandbox = '';
           license.srcdoc = await response.text();
-          info.replaceWith(license);
+          this.#licenseElement = license;
+          this.#licenseUpdateTabs();
           this.#licenseLoaded = true;
         }
       }
