@@ -8115,23 +8115,32 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueEntryIdentifier(element) {
+    static uniqueEntryIdentifier(element) {  // eslint-disable-line max-lines-per-function, max-statements
       const me = Profile.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
+      let pathname = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const href = element.href;
       const img = element.querySelector(':scope:is(a) img');
+      const anchor = element.querySelector('a')?.href;
+      const anchors = element.querySelectorAll('a');
 
+      const page = new URL(document.location);
       if (key) {
         content = key;
       }
+      if (anchor) {
+        pathname = new URL(anchor).pathname;
+        if (!['/', page.pathname].includes(pathname)) {
+          content = pathname;
+        }
+      }
       if (href) {
-        const page = new URL(document.location);
-        const hrefPathname = new URL(href).pathname;
+        pathname = new URL(href).pathname;
         // The Activity > Images grid all link to the Profile.
-        if (img && ['/', page.pathname].includes(hrefPathname)) {
+        if (img && ['/', page.pathname].includes(pathname)) {
           // There are lots of options to choose from here.  With minimal
           // testing, so far this seems to be both unique and stable.
           content = new URL(img.src)
@@ -8147,11 +8156,20 @@
             ? '-hr'
             : '';
 
-          content = hrefPathname + extra;
+          content = pathname + extra;
         }
       }
       if (!content) {
         content = this.defaultUid(element);
+        if (anchors.length) {
+          const filtered = anchors.values()
+            .map(x => x.href)
+            .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
+            .toArray();
+          if (filtered.length) {
+            this.logger.log('anchors to consider:', filtered);
+          }
+        }
       }
 
       this.logger.leaving(me, content);
@@ -8329,7 +8347,7 @@
         // Languages Interests
         // Interests Causes
         [
-          // Most items
+          // Most Topcard items
           `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div6}` +
             // Random premium badge
             ':not([role])' +
@@ -8340,6 +8358,14 @@
           // Carousels (premium business profile backgrounds, private edit)
           `:scope[${CKEY}$="${TOP_CARD}"]` +
             ' [data-testid="carousel-child-container"] div:has(> a)',
+
+          // Highlights -- no discernable parts, using negative matching
+          ':scope' +
+            // Skip SDUI sections
+            `:not([${CKEY}^="com.linkedin.sdui."])` +
+            // Skip Activity (h2) and Interests (radio buttons)
+            `:not(:has(> ${this.#div3} > :is(h2, [role="radio"])))` +
+            ` > ${this.#div6}`,
 
           // Analytics (svg == Private to you)
           ':scope:has(svg[id^="visibility"])' +
