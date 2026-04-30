@@ -198,7 +198,7 @@
     ish(
       '245',
       'Revisit pages that use the terms "section{,s}" or "card{,s}"',
-      '2026-03-31'
+      '2026-04-30'
     ),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-04-22'
@@ -256,6 +256,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-04-30',
+      issues: ['302'],
+      subject: 'Support the <code>Highlights</code> sections',
+    },
     {
       date: '2026-04-29',
       issues: ['106'],
@@ -556,17 +561,6 @@
       issues: ['251'],
       subject: 'Update <code>JobsCollections.uniqueDetailsIdentifier</code>' +
         ' for consistency',
-    },
-    {
-      date: '2026-03-31',
-      issues: ['296'],
-      subject: 'Badge whac-a-mole',
-    },
-    {
-      date: '2026-03-31',
-      issues: [''],
-      subject: 'Support dismissing <code>Feed</code> items that use a popup' +
-        ' menu',
     },
   ];
 
