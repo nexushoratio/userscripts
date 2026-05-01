@@ -6226,6 +6226,29 @@
       return content;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static uniqueSectionIdentifier(element) {
+      const me = Jobs.uniqueSectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = this.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     /** @type {Scroller} */
     get jobs() {
       const me = 'get jobs';
@@ -6405,7 +6428,7 @@
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
-      uidCallback: LinkedIn.ckeyIdentifier,
+      uidCallback: Jobs.uniqueSectionIdentifier,
       classes: ['tom'],
       snapToTop: true,
     };
