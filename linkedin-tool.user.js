@@ -3124,7 +3124,6 @@
     #ourMenuItemStyle2
     #pageStyle
     #shortcutsWidget
-    #useOriginalInfoDialog = !litOptions.enableDevMode;
 
     #checkForNewRelease = () => {
       const curr = parseFloat(GM.info.script.version);
@@ -3564,17 +3563,7 @@
     }
 
     #toolButtonHandler = () => {
-      if (this.#useOriginalInfoDialog) {
-        const info = document.querySelector(`#${this.infoId}`);
-        info.showModal();
-        info.dispatchEvent(new Event('open'));
-      } else {
-        this.#infoWidget.open();
-      }
-      if (litOptions.enableDevMode) {
-        // Toggle which dialog is used.
-        this.#useOriginalInfoDialog = !this.#useOriginalInfoDialog;
-      }
+      this.#infoWidget.open();
     }
 
     /**
