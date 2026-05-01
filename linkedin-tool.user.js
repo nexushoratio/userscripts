@@ -1052,7 +1052,7 @@
         const msg = `Tried to work with destroyed ${Scroller.name} ` +
               `on ${this.#base}`;
         this.logger.log(msg);
-        throw new Error(msg);
+        throw new Scroller.Exception(msg);
       }
       const items = this.#getItems();
       let item = items.find(this.#matchItem);
