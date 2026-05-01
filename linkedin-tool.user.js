@@ -257,6 +257,16 @@
 
   const globalNewsContent = [
     {
+      date: '2026-05-01',
+      issues: ['302'],
+      subject: 'Improve support for the <code>About</code> section',
+    },
+    {
+      date: '2026-05-01',
+      issues: ['130'],
+      subject: 'Make the new <code>Info</code> view the only one',
+    },
+    {
       date: '2026-04-30',
       issues: ['302'],
       subject: 'Support the <code>Highlights</code> sections',
