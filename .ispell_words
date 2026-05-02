@@ -116,9 +116,12 @@ cardsWhat
 caseSensitive
 cdn
 centerOfElement
+CertificationTopLevel
 charCodeAt
 checkAssertionCounts
 checkForNewRelease
+checkingPartialOrder
+checkPartialOrder
 checkVisibility
 childKey
 childList
@@ -187,6 +190,7 @@ convoCardsHow
 convoCardsList
 convoCardsWhat
 countAsserts
+CourseTopLevelSection
 createElement
 createInfoWidget
 createInput
@@ -261,10 +265,12 @@ dummyEventCallback
 DummyMethodTestCase
 DummyService
 editItem
+EducationTopLevelSection
 ElementAdapter
 ElementAdapterTestCase
 ElementFinder
 enableAlertOldNews
+enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
 enableDevMode
 enableIssue
@@ -311,6 +317,7 @@ eventTypes
 eventUrn
 evt
 ExceptionTestCase
+ExperienceTopLevelSection
 extractTestMethods
 failedMethod
 failMsg
@@ -424,6 +431,7 @@ hiddenComment
 historicalIdToIndex
 hN
 homepageURL
+HonorsTopLevel
 hooksPath
 hotKey
 href
@@ -527,6 +535,7 @@ labelClassesFunc
 LabelClassesFunc
 labelledby
 labelledBy
+LanguageTopLevel
 lastFocusedElement
 lastGroup
 lastInputElement
@@ -768,7 +777,6 @@ otrotName
 otrotRoCallback
 OtrotWhat
 ourMenuItemStyle
-ourValue
 outerHTML
 Outros
 OverrideDeets
@@ -834,6 +842,7 @@ prevTab
 primaryNavLinksComponentRef
 primaryNavSelector
 profileCardsAboveActivity
+PublicationTopLevelSection
 pv
 pvs
 px
@@ -845,6 +854,7 @@ readySelector
 realHeight
 RebeccaPurple
 rebuildShortcuts
+RecommendationsTopLevel
 refreshErrors
 RegExp
 releaseNotesLink
@@ -933,6 +943,7 @@ SearchTyahInputRef
 sectionsContainer
 sectionScroller
 sectionsHow
+sectionsPartialOrder
 sectionsWhat
 seeMore
 selectCurrentResultsPage
@@ -980,6 +991,7 @@ SpecificEvent
 src
 srcdoc
 stackTrace
+startItem
 startMutationObserverUrlMonitor
 startsWith
 startTest
@@ -1192,6 +1204,7 @@ TestRunnerTestCase
 testSaveRestoreBumpsSequenceAboveHighest
 testSaveRestoreConfigsGroups
 testSaveRestoreConfigsTopLevel
+TestScoresTopLevel
 testSelectorNeedsBase
 testSeparatorsOnly
 testServices
@@ -1335,6 +1348,7 @@ violentmonkey
 visibilitychange
 VMKeyboardService
 VMShortcuts
+VolunteerExperienceTopLevel
 WAI
 waitForContainers
 waitForItemTimeout

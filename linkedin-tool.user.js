@@ -67,6 +67,7 @@
       enableDevMode: false,
       enableAlertOldNews: false,
       enableAlertUnsupportedPages: false,
+      enableAlertUnknownProfileSections: false,
       enableIssue241ClickMethod: false,
       enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
@@ -8314,40 +8315,6 @@
       name: `${this.name} entries`,
       // TODO(#302): Need to start from scratch.
       selectors: [
-        // Known sections in "curr next" pairs, suitable for tsort.
-        // This is just to help stay organized.
-        // Topcard About
-        // Topcard Analytics
-        // Topcard Highlights
-        // Highlights About
-        // Analytics About
-        // About Activity
-        // About Featured
-        // About Services
-        // Services Featured
-        // Featured Activity
-        // Activity Experience
-        // Experience Education
-        // Education License
-        // Education Skills
-        // License Projects
-        // License Skills
-        // License Volunteering
-        // Volunteering Skills
-        // Projects Skills
-        // Skills Honors
-        // Skills Interests
-        // Skills Recommendations
-        // Recommendations Courses
-        // Recommendations Interests
-        // Recommendations Publications
-        // Publications Patents
-        // Courses Languages
-        // Patents Honors
-        // Honors Interests
-        // Honors Languages
-        // Languages Interests
-        // Interests Causes
         [
           // Most Topcard items
           `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div6}` +
@@ -8403,6 +8370,70 @@
       snapToTop: false,
     };
 
+    // Known sections in "curr next" pairs, suitable for tsort.
+    static #sectionsPartialOrder = new Set([
+
+      'About, Activity',
+      'About, Featured',
+      'About, Services',
+      'Activity, ExperienceTopLevelSection',
+      'Analytics, About',
+      'CertificationTopLevel, Projects',
+      'CertificationTopLevel, Skills',
+      'CertificationTopLevel, VolunteerExperienceTopLevel',
+      'CourseTopLevelSection, HonorsTopLevel',
+      'CourseTopLevelSection, Interests',
+      'CourseTopLevelSection, LanguageTopLevel',
+      'CourseTopLevelSection, Organizations',
+      'EducationTopLevelSection, CertificationTopLevel',
+      'EducationTopLevelSection, Interests',
+      'EducationTopLevelSection, Projects',
+      'EducationTopLevelSection, RecommendationsTopLevel',
+      'EducationTopLevelSection, Skills',
+      'EducationTopLevelSection, VolunteerExperienceTopLevel',
+      'ExperienceTopLevelSection, EducationTopLevelSection',
+      'ExperienceTopLevelSection, Interests',
+      'ExperienceTopLevelSection, Skills',
+      'Featured, Activity',
+      'Highlights, About',
+      'Highlights, Activity',
+      'HonorsTopLevel, Interests',
+      'HonorsTopLevel, LanguageTopLevel',
+      'HonorsTopLevel, TestScoresTopLevel',
+      'Interests, Causes',
+      'LanguageTopLevel, Interests',
+      'LanguageTopLevel, Organizations',
+      'Organizations, Interests',
+      'Patents, Interests',
+      'Projects, Skills',
+      'PublicationTopLevelSection, Interests',
+      'PublicationTopLevelSection, LanguageTopLevel',
+      'PublicationTopLevelSection, Organizations',
+      'RecommendationsTopLevel, CourseTopLevelSection',
+      'RecommendationsTopLevel, Interests',
+      'RecommendationsTopLevel, LanguageTopLevel',
+      'RecommendationsTopLevel, Patents',
+      'RecommendationsTopLevel, PublicationTopLevelSection',
+      'Services, Activity',
+      'Services, Featured',
+      'Skills, CourseTopLevelSection',
+      'Skills, HonorsTopLevel',
+      'Skills, Interests',
+      'Skills, LanguageTopLevel',
+      'Skills, Patents',
+      'Skills, PublicationTopLevelSection',
+      'Skills, RecommendationsTopLevel',
+      'TestScoresTopLevel, LanguageTopLevel',
+      'Topcard, About',
+      'Topcard, Activity',
+      'Topcard, Analytics',
+      'Topcard, Featured',
+      'Topcard, Highlights',
+      'VolunteerExperienceTopLevel, RecommendationsTopLevel',
+      'VolunteerExperienceTopLevel, Skills',
+
+    ]);
+
     /** @type {Scroller~What} */
     static #sectionsWhat = {
       name: `${this.name} sections`,
@@ -8419,6 +8450,7 @@
 
     static #uidSectionPrefix
 
+    #checkingPartialOrder = false
     #entryScroller
     #lastScroller
     #sectionScroller
@@ -8455,6 +8487,35 @@
       this.logger.leaving(me);
     }
 
+    #checkPartialOrder = () => {
+      const me = this.#checkPartialOrder.name;
+      this.logger.entered(me, this.#checkingPartialOrder);
+
+      if (!this.#checkingPartialOrder) {
+        this.#checkingPartialOrder = true;
+        const startItem = this.sections.item;
+        this.sections.last();
+        const lastItem = this.sections.item;
+        this.sections.first();
+
+        while (this.sections.item !== lastItem) {
+          const current = this.sections.item;
+          this.sections.next();
+          const left = current.dataset.scrollerId;
+          const right = this.sections.item.dataset.scrollerId;
+          const pair = `${left}, ${right}`;
+          if (!Profile.#sectionsPartialOrder.has(pair)) {
+            Profile.#sectionsPartialOrder.add(pair);
+            NH.base.issues.post('Missing Profile pairing', `'${pair}',`);
+          }
+        }
+        this.sections.goto(startItem);
+        this.#checkingPartialOrder = false;
+      }
+
+      this.logger.leaving(me);
+    }
+
     #onEntryChange = () => {
       this.#lastScroller = this.entries;
     }
@@ -8462,6 +8523,9 @@
     #onSectionChange = () => {
       this.#resetEntries();
       this.#lastScroller = this.sections;
+      if (litOptions.enableAlertUnknownProfileSections) {
+        this.#checkPartialOrder();
+      }
     }
 
     #returnToSection = () => {
