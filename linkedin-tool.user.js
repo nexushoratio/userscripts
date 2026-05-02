@@ -255,6 +255,18 @@
 
   const globalNewsContent = [
     {
+      date: '2026-05-02',
+      issues: ['302'],
+      subject: 'Explicitly capture <code>Profile</code> sections partial' +
+        ' orderings',
+    },
+    {
+      date: '2026-05-01',
+      issues: ['130'],
+      subject: 'Delete some of the <code>SPA</code> related handling of' +
+        ' <code>News</code> and <code>Errors</code>',
+    },
+    {
       date: '2026-05-01',
       issues: ['302'],
       subject: 'Improve support for the <code>About</code> section',
@@ -563,12 +575,6 @@
       date: '2026-04-03',
       issues: [''],
       subject: 'Update <code>Feed</code> comment selectors',
-    },
-    {
-      date: '2026-04-02',
-      issues: ['251'],
-      subject: 'Update <code>JobsCollections.uniqueDetailsIdentifier</code>' +
-        ' for consistency',
     },
   ];
 
