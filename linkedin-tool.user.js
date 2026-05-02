@@ -8405,6 +8405,7 @@
       'Highlights, Activity',
       'HonorsTopLevel, Interests',
       'HonorsTopLevel, LanguageTopLevel',
+      'HonorsTopLevel, Organizations',
       'HonorsTopLevel, TestScoresTopLevel',
       'Interests, Causes',
       'LanguageTopLevel, Interests',
