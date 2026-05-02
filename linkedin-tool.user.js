@@ -102,13 +102,10 @@
     NH.base.Logger.config('Default').enabled = true;
   }
 
-  // TODO(#130): Duplicate issues until we are back to only a single dialog.
-  const issuesForSpa = new NH.base.MessageQueue();
   const issuesForLinkedIn = new NH.base.MessageQueue();
 
   /** @param {...*} items - Posted issues. */
   function issueListener(...issues) {
-    issuesForSpa.post(...issues);
     issuesForLinkedIn.post(...issues);
   }
 
@@ -2899,15 +2896,10 @@
 
       this.#checkForNewRelease();
 
-      this.ui.tabs
-        .get('License').panel
-        .addEventListener('expose', this.#licenseHandler);
       this.#infoTabs.tabs
         .get('License').panel
         .addEventListener('expose', this.#licenseHandler);
 
-      this.ui.tabs
-        .get('News').panel.addEventListener('expose', this.#newsHandler);
       this.#infoTabs.tabs
         .get('News').panel.addEventListener('expose', this.#newsHandler);
 
@@ -3218,10 +3210,8 @@
       const me = this.#licenseUpdateTabs.name;
       this.logger.entered(me);
 
-      const spaPanel = this.ui.tabs.get('License').panel;
       const litPanel = this.#infoTabs.tabs.get('License').panel;
 
-      spaPanel.replaceChildren(this.#licenseElement.cloneNode(true));
       litPanel.replaceChildren(this.#licenseElement.cloneNode(true));
 
       this.logger.leaving(me);
@@ -3878,7 +3868,6 @@
               'LIT menu installed in non-standard location.'
             );
           }
-          this.spa.refreshErrors();
           this.#refreshErrors();
           this.#checkForNewRelease();
         }
@@ -3992,16 +3981,13 @@
       const me = this.#updateInfoNewsLabel.name;
       this.logger.entered(me, highlight);
 
-      const spaLabel = this.ui.tabs.get('News').label;
       const litLabel = this.#infoTabs.tabs.get('News').label;
 
       // Cannot automatically use `goto()` to focus the tab as that would then
       // trigger the mark read feature.
       if (highlight) {
-        spaLabel.classList.add('lit-positive');
         litLabel.classList.add('lit-positive');
       } else {
-        spaLabel.classList.remove('lit-positive');
         litLabel.classList.remove('lit-positive');
       }
 
@@ -9011,7 +8997,6 @@
       this.#details = details;
       this.#details.init(this);
       this._initializeInfoView();
-      issuesForSpa.listen(this.#issueListener);
       document.addEventListener('focus', this._onFocus, true);
       document.addEventListener('urlchange', this.#onUrlChange, true);
       this.#startUrlMonitor();
@@ -9081,22 +9066,6 @@
       }
 
       this.logger.leaving(me);
-    }
-
-    /**
-     * Configure handlers for the info view.
-     * @fires 'errors'
-     */
-    _addInfoViewHandlers() {
-      this.#errorText = document.querySelector(
-        `#${this._infoId} [data-spa-id="errors"]`
-      );
-      this.#errorText.addEventListener('change', (evt) => {
-        const count = evt.target.value.split('\n')
-          .filter(x => x === LinkedIn.errorMarker).length;
-        this.#details.dispatcher2.fire('errors', count);
-        this._updateInfoErrorsLabel(count);
-      });
     }
 
     /**
@@ -9247,8 +9216,6 @@
 
       this._addInfoStyle();
       this._addInfoDialog(tabGenerators);
-      this.#details.ui = this._info;
-      this._addInfoViewHandlers();
     }
 
     _nextTab = () => {
@@ -9357,32 +9324,6 @@
       this.logger.leaving(me);
     }
 
-    /** Send `change` event to the errors text area. */
-    refreshErrors() {
-      const evt = new Event('change');
-      this.#errorText.dispatchEvent(evt);
-    }
-
-    /**
-     * Add content to the Errors tab so the user can use it to file feedback.
-     * @param {string} content - Information to add.
-     */
-    addError(content) {
-      this.#errorText.value += `${content}\n`;
-
-      if (content === LinkedIn.errorMarker) {
-        this.refreshErrors();
-      }
-    }
-
-    /**
-     * Add a marker to the Errors tab so the user can see where different
-     * issues happened.
-     */
-    addErrorMarker() {
-      this.addError(LinkedIn.errorMarker);
-    }
-
     /**
      * Add a new page to those supported by this instance.
      * @param {function(SPA): Page} Klass - A {Page} class to instantiate.
@@ -9439,7 +9380,6 @@
     #activePages = new Set();
 
     #details
-    #errorText
     #id
     #logger
     #name
@@ -9457,13 +9397,6 @@
     /** Force any 'focus' handlers to run. */
     #forceFocusEvent = () => {
       document.activeElement.dispatchEvent(new Event('focus'));
-    }
-
-    #issueListener = (...issues) => {
-      for (const issue of issues) {
-        this.addError(issue);
-      }
-      this.addErrorMarker();
     }
 
     /**
