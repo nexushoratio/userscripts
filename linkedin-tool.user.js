@@ -8346,8 +8346,9 @@
           ':scope:has(svg[id^="visibility"])' +
             ' a:not(:has(svg[id^="arrow-right"]))',
 
-          // About's extra content
+          // Obvious by :scope selector.
           `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
+          `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
 
           // Activity has different layouts by tab
           // Posts use a carousel (also works for Featured)
