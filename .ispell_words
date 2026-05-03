@@ -807,7 +807,6 @@ pojo
 populateBuilt
 portalSelector
 postActivateHook
-postHeaderSelector
 postHook
 postInfoAboutElement
 postProcessItems
@@ -1337,6 +1336,7 @@ validateWhat
 valueOf
 VerificationError
 VERYComplicated
+viaH
 viewBox
 viewInviter
 viewItem

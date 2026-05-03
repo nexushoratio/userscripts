@@ -8085,6 +8085,7 @@
       let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const h2 = LinkedIn.h2(element);
+      let viaH2 = false;
       const activity = element.closest(`[${CKEY}$="Activity"]`);
       const analytics = element.querySelector('a[href$="/dashboard/"]');
 
@@ -8096,20 +8097,32 @@
       }
       if (h2) {
         content = h2;
+        viaH2 = true;
       }
       if (activity) {
         content = 'Activity';
+        viaH2 = false;
       }
       if (analytics) {
         content = 'Analytics';
+        viaH2 = false;
       }
       if (cardId) {
         content = cardId;
+        viaH2 = false;
       }
       if (!content) {
         content = this.defaultUid(element);
+        viaH2 = false;
       }
 
+      // Monitor names derived from H2 elements for a bit
+      if (viaH2 && !['Highlights', 'Interests', 'Analytics'].includes(h2)) {
+        this.logger.log('used via H2', h2);
+        if (litOptions.enableAlertUnknownProfileSections) {
+          NH.base.issues.post('used via H2', h2);
+        }
+      }
       this.logger.leaving(me, content);
       return content;
     }
