@@ -8077,7 +8077,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueSectionIdentifier(element) {
+    static uniqueSectionIdentifier(element) {  // eslint-disable-line max-statements
       const me = Profile.uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -8085,6 +8085,7 @@
       let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const h2 = LinkedIn.h2(element);
+      const activity = element.closest(`[${CKEY}$="Activity"]`);
 
       if (key) {
         content = key;
@@ -8094,6 +8095,9 @@
       }
       if (h2) {
         content = h2;
+      }
+      if (activity) {
+        content = 'Activity';
       }
       if (cardId) {
         content = cardId;
