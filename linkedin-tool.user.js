@@ -206,7 +206,7 @@
       'Move <code>LinkedInGlobals</code> into <code>LinkedIn</code>',
       '2026-04-10'
     ),
-    ish('253', 'Support <b>My Network Events</b> page', '2026-04-03'),
+    ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-04-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-04-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-04-08'),
@@ -254,6 +254,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-02',
+      issues: ['302'],
+      subject: 'Support the <code>Services</code> section',
+    },
+    {
+      date: '2026-05-02',
+      issues: ['302'],
+      subject: 'A new partial ordering pair',
+    },
     {
       date: '2026-05-02',
       issues: ['302'],
@@ -565,16 +575,6 @@
       issues: ['232'],
       subject: 'Update how the flagged version of' +
         ' <code>Scroller.focus()</code> is implemented',
-    },
-    {
-      date: '2026-04-03',
-      issues: ['297'],
-      subject: 'Add a timeout to <code>Page.waitUntilReady</code>',
-    },
-    {
-      date: '2026-04-03',
-      issues: [''],
-      subject: 'Update <code>Feed</code> comment selectors',
     },
   ];
 
