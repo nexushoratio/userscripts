@@ -69,6 +69,7 @@
       enableAlertUnsupportedPages: false,
       enableAlertUnknownProfileSections: false,
       enableIssue241ClickMethod: false,
+      enableIssue286UseNewSpa: false,
       enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
       latestNewsRead: 0,
@@ -9548,7 +9549,14 @@
   await linkedIn.ready;
   log.log('proceeding...');
 
-  const spa = new SPA(linkedIn);
+  let spa = null;
+  if (litOptions.enableIssue286UseNewSpa) {
+    log.log('Using new SPA');
+    spa = new NH.spa.SPA(linkedIn);
+  } else {
+    log.log('Using traditional SPA');
+    spa = new SPA(linkedIn);
+  }
   spa.register(Global);
   spa.register(Feed);
   spa.register(MyNetwork);
@@ -9561,7 +9569,9 @@
   spa.register(Profile);
   spa.register(Events);
   spa.register(SearchResultsPeople);
-  spa.activate(window.location.pathname);
+  if (!litOptions.enableIssue286UseNewSpa) {
+    spa.activate(window.location.pathname);
+  }
 
   log.log('Initialization successful.');
 
