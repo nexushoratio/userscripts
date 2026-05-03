@@ -841,7 +841,6 @@ primaryNavLinksComponentRef
 primaryNavSelector
 profileCardsAboveActivity
 PublicationTopLevelSection
-pv
 pvs
 px
 qqq
@@ -1009,6 +1008,7 @@ strKey
 strs
 strValue
 subItem
+SuggestedForYou
 supportedEvents
 supportURL
 svg
