@@ -8086,6 +8086,7 @@
       const key = LinkedIn.ckeyIdentifier(element);
       const h2 = LinkedIn.h2(element);
       const activity = element.closest(`[${CKEY}$="Activity"]`);
+      const analytics = element.querySelector('a[href$="/dashboard/"]');
 
       if (key) {
         content = key;
@@ -8098,6 +8099,9 @@
       }
       if (activity) {
         content = 'Activity';
+      }
+      if (analytics) {
+        content = 'Analytics';
       }
       if (cardId) {
         content = cardId;
@@ -8347,8 +8351,8 @@
             `:not(:has(> ${this.#div3} > :is(h2, [role="radio"])))` +
             ` > ${this.#div6}`,
 
-          // Analytics (svg == Private to you)
-          ':scope:has(svg[id^="visibility"])' +
+          // Analytics
+          `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
             ' a:not(:has(svg[id^="arrow-right"]))',
 
           // Obvious by :scope selector.
