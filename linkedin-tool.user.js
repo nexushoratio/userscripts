@@ -4023,9 +4023,8 @@
 
       const litLabel = this.#infoTabs.tabs.get('News').label;
 
-      // Cannot automatically use `goto()` to focus the tab as that would then
-      // trigger the mark read feature.
       if (highlight) {
+        this.#infoTabs.goto('News');
         litLabel.classList.add('lit-positive');
       } else {
         litLabel.classList.remove('lit-positive');
