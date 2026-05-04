@@ -3226,9 +3226,9 @@
       this.logger.leaving(me);
     }
 
-    #newsHandler = () => {
-      const me = this.#newsHandler.name;
-      this.logger.entered(me);
+    #newsReadToggleHandler = () => {
+      const me = this.#newsReadToggleHandler.name;
+      this.logger.entered(me, this.#newsReadToggle.checked);
 
       const read = !this.#newsReadToggle.checked;
 
@@ -3558,7 +3558,9 @@
       this.#infoKeyboard.register('c-left', this.#prevTab);
 
       this.#newsReadToggle = document.querySelector('#lit-news-read-toggle');
-      this.#newsReadToggle.addEventListener('change', this.#newsHandler);
+      this.#newsReadToggle.addEventListener(
+        'change', this.#newsReadToggleHandler
+      );
       this.#newsQueue.listen(this.#newsListener);
 
       this.#errorText = document.querySelector('[data-lit-id="errors"]');

@@ -662,11 +662,11 @@ newMessage
 newMessages
 newPages
 newProp
-newsHandler
 newsHandlerBadgeStyle
 newsListener
 newsQueue
 newsReadToggle
+newsReadToggleHandler
 newsTab
 newUrl
 newV
