@@ -666,6 +666,7 @@ newsHandler
 newsHandlerBadgeStyle
 newsListener
 newsQueue
+newsReadToggle
 newsTab
 newUrl
 newV
@@ -841,7 +842,6 @@ primaryNavLinksComponentRef
 primaryNavSelector
 profileCardsAboveActivity
 PublicationTopLevelSection
-pvs
 px
 qqq
 querySelector

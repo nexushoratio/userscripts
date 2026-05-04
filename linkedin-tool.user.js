@@ -2908,9 +2908,6 @@
         .get('License').panel
         .addEventListener('expose', this.#licenseHandler);
 
-      this.#infoTabs.tabs
-        .get('News').panel.addEventListener('expose', this.#newsHandler);
-
       VMKeyboardService.condition = '!inputFocus && !inDialog';
       VMKeyboardService.start();
 
@@ -2970,7 +2967,7 @@
     /**
      * @returns {TabbedUI~TabDefinition} - News information.
      */
-    newsTab() {
+    newsTab() {  // eslint-disable-line max-lines-per-function
       const me = this.newsTab.name;
       this.logger.entered(me);
 
@@ -2988,6 +2985,11 @@
         '<p></p>',
         '<p>See the <b>About</b> tab for instructions on' +
           ' finding all changes by release.</p>',
+        '<div>',
+        ' <input type="checkbox" id="lit-news-read-toggle"/>',
+        ' <label for="lit-news-read-toggle">Mark news as read.</label>',
+        '</div>',
+        '<p></p>',
       ];
 
       const dateHeader = 'h3';
@@ -3131,6 +3133,7 @@
     #navbarMutationObserver
     #navbarResizeObserver
     #newsQueue = new NH.base.MessageQueue();
+    #newsReadToggle
     #ourMenuItemStyle1
     #ourMenuItemStyle2
     #pageStyle
@@ -3143,7 +3146,10 @@
       if (isNaN(prev)) {
         prev = 0;
       }
-      this.#newsQueue.post(curr > prev);
+
+      const news = curr > prev;
+      this.#newsQueue.post(news);
+      this.#newsReadToggle.checked = !news;
     }
 
     /**
@@ -3201,15 +3207,18 @@
       this.logger.leaving(me);
     }
 
-    /**
-     * @param {Event} evt - The 'expose' event.
-     */
-    #newsHandler = (evt) => {
+    #newsHandler = () => {
       const me = this.#newsHandler.name;
-      this.logger.entered(me, evt.target);
+      this.logger.entered(me);
 
-      this.#newsQueue.post(false);
-      litOptions.latestNewsRead = parseFloat(GM.info.script.version);
+      const read = !this.#newsReadToggle.checked;
+
+      this.#newsQueue.post(read);
+      if (read) {
+        litOptions.latestNewsRead = parseFloat(GM.info.script.version);
+      } else {
+        litOptions.latestNewsRead = 0;
+      }
       saveOptions(litOptions);
 
       this.logger.leaving(me);
@@ -3528,6 +3537,9 @@
 
       this.#infoKeyboard.register('c-right', this.#nextTab);
       this.#infoKeyboard.register('c-left', this.#prevTab);
+
+      this.#newsReadToggle = document.querySelector('#lit-news-read-toggle');
+      this.#newsReadToggle.addEventListener('change', this.#newsHandler);
       this.#newsQueue.listen(this.#newsListener);
 
       this.#errorText = document.querySelector('[data-lit-id="errors"]');
