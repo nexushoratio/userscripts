@@ -252,9 +252,57 @@
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-04-21'),
+    ish(
+      '311',
+      '<b>Info</b>: Replace <b>News</b> handling with explicit button',
+      '2026-05-04'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-04',
+      issues: ['311'],
+      subject: 'Replace "focus on <code>News</code> tab" with a' +
+        ' checkbox to mark read',
+    },
+    {
+      date: '2026-05-04',
+      issues: [''],
+      subject: 'Minor tweak to <code>News</code> header',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['302'],
+      subject: 'Track section names derived from <code>h2</code> so' +
+        ' maybe we can do better',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['302'],
+      subject: 'Improve selector for the <code>Analytics</code> section',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['302'],
+      subject: 'Improve detection for the <code>Activity</code> section name',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['286'],
+      subject: 'Add a developer setting for selecting <code>SPA</code>' +
+        ' implementation',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['286'],
+      subject: 'Update to the latest version of <code>lib/spa</code>',
+    },
     {
       date: '2026-05-02',
       issues: ['302'],
@@ -547,35 +595,6 @@
       date: '2026-04-07',
       issues: ['297'],
       subject: 'Partial update of <code>Profile</code> with Style-2 support',
-    },
-    {
-      date: '2026-04-04',
-      issues: ['232'],
-      subject: 'Create a library wide <code>Logger</code> instance',
-    },
-    {
-      date: '2026-04-04',
-      issues: ['295'],
-      subject: 'Modify how <code>HybridFixerService</code> detects a hybrid' +
-        ' page',
-    },
-    {
-      date: '2026-04-04',
-      issues: ['251'],
-      subject: 'Make all <code>Scroller~uidCallback</code> implementations' +
-        ' consistent',
-    },
-    {
-      date: '2026-04-04',
-      issues: ['232'],
-      subject: 'Allow <code>Jobs.focus()</code> to use the WIP' +
-        ' <code>Scroller.focus()</code> work',
-    },
-    {
-      date: '2026-04-04',
-      issues: ['232'],
-      subject: 'Update how the flagged version of' +
-        ' <code>Scroller.focus()</code> is implemented',
     },
   ];
 
