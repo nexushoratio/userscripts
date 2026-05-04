@@ -665,6 +665,7 @@ newProp
 newsHandlerBadgeStyle
 newsListener
 newsQueue
+newsRead
 newsReadToggle
 newsReadToggleHandler
 newsTab
@@ -867,7 +868,6 @@ renderType
 replaceableComment
 replaceAll
 replaceChildren
-replaceWith
 reportIssueProblems
 reprArray
 reprC

@@ -3230,10 +3230,10 @@
       const me = this.#newsReadToggleHandler.name;
       this.logger.entered(me, this.#newsReadToggle.checked);
 
-      const read = !this.#newsReadToggle.checked;
+      const newsRead = this.#newsReadToggle.checked;
 
-      this.#newsQueue.post(read);
-      if (read) {
+      this.#newsQueue.post(!newsRead);
+      if (newsRead) {
         litOptions.latestNewsRead = parseFloat(GM.info.script.version);
       } else {
         litOptions.latestNewsRead = 0;
