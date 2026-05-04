@@ -8405,9 +8405,7 @@
           `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
 
           // Activity has different layouts by tab
-          // Posts use a carousel (also works for Featured)
-          // Topcard is handled separately
-          `:scope:not([${CKEY}$="${TOP_CARD}"])` +
+          `div[${CKEY}*="posts"]` +
             ' [data-testid="carousel-child-container"] > * > *',
           // Comments use `div` wrapped `a` like a list
           `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
