@@ -309,7 +309,7 @@ Without true details passed to *super()*, this will watch any page being loaded,
 Skeleton for a new `Page` class:
 ```javascript
   /** Class for handling the Foo page. */
-  class Foo extends Page {
+  class Foo extends NH.spa.Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
@@ -323,8 +323,6 @@ Skeleton for a new `Page` class:
       pathname: '/foo/',
       pageReadySelector: '#last-element-loaded',
     };
-
-    #keyboardService
 
   }
 ```
