@@ -3429,6 +3429,9 @@
           ' background-color: ButtonFace;' +
           ' font-family: monospace;' +
           '}',
+        '.lit-info input {' +
+          ' opacity: unset !important;' +
+          '}',
         '.lit-info kbd > kbd {' +
           ' font-size: 0.85em;' +
           ' padding: 0.07em;' +
