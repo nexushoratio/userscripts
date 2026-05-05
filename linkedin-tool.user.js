@@ -8195,12 +8195,16 @@
       const key = LinkedIn.ckeyIdentifier(element);
       const href = element.href;
       const img = element.querySelector(':scope:is(a) img');
-      const anchor = element.querySelector('a')?.href;
+      const anchor = element.querySelector('a:not([href*="/safety/"])')?.href;
+      const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
       const anchors = element.querySelectorAll('a');
 
       const page = new URL(document.location);
       if (key) {
         content = key;
+      }
+      if (safetyAnchor) {
+        content = new URL(safetyAnchor).searchParams.get('urlhash');
       }
       if (anchor) {
         pathname = new URL(anchor).pathname;
@@ -8411,6 +8415,9 @@
           // Obvious by :scope selector.
           `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
           `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
+
+          `:scope[${CKEY}$="Featured"]` +
+            ' [data-testid="carousel-child-container"] > * > *',
 
           // Activity has different layouts by tab
           `div[${CKEY}*="posts"]` +

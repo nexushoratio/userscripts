@@ -902,7 +902,6 @@ returnToCard
 returnToCollection
 returnToPost
 returnToSection
-rgb
 RoCallback
 roledescription
 rowClassesFunc
@@ -910,6 +909,7 @@ RowClassesFunc
 runTests
 safeId
 SafeIdTestCase
+safetyAnchor
 sanitizedName
 savedConfigs
 savedJob
@@ -1320,6 +1320,7 @@ url
 urlchange
 urlChangeAdapter
 urlChangeMonitorSelector
+urlhash
 urlMonitorHandler
 urlMonitorObserver
 UseNewSpa
