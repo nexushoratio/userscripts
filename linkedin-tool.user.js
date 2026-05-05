@@ -263,6 +263,22 @@
     {
       date: '2026-05-04',
       issues: ['311'],
+      subject: 'Fix logic error in handling toggling a checkbox',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['311'],
+      subject: 'Make the <code>News</code> tabs focused if appropriate',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['302'],
+      subject: 'Restrict current carousel handling to' +
+        ' <code>Activity</code> -> <code>Posts</code>',
+    },
+    {
+      date: '2026-05-04',
+      issues: ['311'],
       subject: 'Replace "focus on <code>News</code> tab" with a' +
         ' checkbox to mark read',
     },
