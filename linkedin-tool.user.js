@@ -542,7 +542,7 @@
     {
       date: '2026-04-08',
       issues: [''],
-      subject: 'Update <code>pageReadySelector</code> for' +
+      subject: 'Update <code>readySelector</code> for' +
         ' <code>Notifications</code>',
     },
     {
@@ -4477,7 +4477,6 @@
     /**
      * @typedef {NH.spa.PageDetails} PageDetails
      * @deprecated @property {string} [pageName=name] - See {@link name}.
-     * @deprecated @property {string} [pageReadySelector=readySelector] -
      * See {@link readySelector}.
      */
 
@@ -4489,10 +4488,8 @@
 
       // Adapt old to new.
       const {
-        readySelector: readySelector = details.pageReadySelector,
         name: pageName = details.pageName,
       } = details;
-      details.readySelector = readySelector;
       details.name = pageName;
 
       super(details);
@@ -5296,7 +5293,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/feed/?', 'u'),
-      pageReadySelector: 'main > div > div > div',
+      readySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -5905,7 +5902,7 @@
       pageName: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
-      pageReadySelector: 'main > div > div > div',
+      readySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -6187,7 +6184,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
-      pageReadySelector: 'main > div > div > div',
+      readySelector: 'main > div > div > div',
     };
 
     static #invitesHow = {
@@ -6435,7 +6432,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/jobs/',
-      pageReadySelector: 'main > div > div > div',
+      readySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -6911,7 +6908,7 @@
       pageName: 'Jobs Collections (various listings)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      pageReadySelector: 'footer.global-footer-compact',
+      readySelector: 'footer.global-footer-compact',
     };
 
     /** @type {Scroller~How} */
@@ -7291,7 +7288,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-      pageReadySelector: 'main > div > div > div',
+      readySelector: 'main > div > div > div',
     };
 
     /** @type {Scroller~How} */
@@ -7644,7 +7641,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/messaging/.*', 'u'),
-      pageReadySelector: LinkedIn.asideSelector,
+      readySelector: LinkedIn.asideSelector,
     };
 
     static #messageBoxSelector = 'main div.msg-form__contenteditable';
@@ -8066,7 +8063,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/notifications/',
-      pageReadySelector: 'footer.global-footer-compact',
+      readySelector: 'footer.global-footer-compact',
     };
 
     /** @type {Scroller~How} */
@@ -8362,7 +8359,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/in/.*', 'u'),
-      pageReadySelector: '[data-sdui-component$="profileCardsAboveActivity"]',
+      readySelector: '[data-sdui-component$="profileCardsAboveActivity"]',
     };
 
     static #div3
@@ -8812,7 +8809,7 @@
 
     static #details = {
       pathname: '/events/',
-      pageReadySelector: '#share-linkedin-small',
+      readySelector: '#share-linkedin-small',
     };
 
     /** @type {Scroller~How} */
@@ -9032,7 +9029,7 @@
 
     static #details = {
       pathname: '/search/results/people/',
-      pageReadySelector: 'div > footer',
+      readySelector: 'div > footer',
     };
 
     /** @type {Scroller~How} */
