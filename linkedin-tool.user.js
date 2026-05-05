@@ -5165,7 +5165,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open closest <button class="spa-meatball">⋯</button> menu',
+      'Open closest <button>⋯</button> menu',
       () => {
         const el = this.#getItemHeader();
         NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
@@ -5810,7 +5810,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open closest <button class="spa-meatball">⋯</button> menu',
+      'Open closest <button>⋯</button> menu',
       () => {
         const el = this.#lastScroller?.item;
         NH.web.clickElement(el, [
@@ -6408,7 +6408,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open closest <button class="spa-meatball">⋯</button> menu',
+      'Open closest <button>⋯</button> menu',
       () => {
         const el = this.jobs?.item;
         NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
@@ -6841,7 +6841,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open the <button class="spa-meatball">⋯</button> menu',
+      'Open the <button>⋯</button> menu',
       () => {
         // XXX: There are TWO buttons.  The *second* one is hidden until the
         // user scrolls down.  This always triggers the first one.
@@ -7546,7 +7546,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open closest <button class="spa-meatball">⋯</button> menu (tricky, ' +
+      'Open closest <button>⋯</button> menu (tricky, ' +
         'as there are many buttons to choose from)',
       () => {
         const me = this.openMeatballMenu.name;
@@ -8018,7 +8018,7 @@
 
     openMeatballMenu = new Shortcut(
       '=',
-      'Open the <button class="spa-meatball">⋯</button> menu',
+      'Open the <button>⋯</button> menu',
       () => {
         NH.web.clickElement(this.notifications.item,
           ['button:has(> svg[data-test-icon^="overflow"]']);
