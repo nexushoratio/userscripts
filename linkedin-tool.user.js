@@ -1904,14 +1904,6 @@
      *
      * Used during activation to deal with items still being loaded.
      *
-     * TODO(#150): This is a good start but needs more work.  Hooking into the
-     * MutationObserver seemed like a good idea, but in practice, we only get
-     * invoked once, then time out.  Likely the observe options need some
-     * tweaking.  Will need to balance between what we do on activation as
-     * well as long term monitoring (which is not being done yet anyway).
-     * Also note the call to Scroller.#isItemViewable, a direct nod to what
-     * Feed needs to do.
-     *
      * @returns {Promise<string>} - Wait on this to finish with something
      * useful to log.
      */
