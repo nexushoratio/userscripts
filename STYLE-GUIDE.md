@@ -197,7 +197,7 @@ Do **NOT** check in!
 
 ### Supporting a new page
 
-Supporting a new page is not always easy.  Many pages load dynamically, which is why things like `Page`'s *pageReadySelector* exists.  Learning what that selector should be can be challenging, and it will be discovered that, depending on what gets loaded onto the page, it may change from time to time.
+Supporting a new page is not always easy.  Many pages load dynamically, which is why things like `Page`'s *readySelector* exists.  Learning what that selector should be can be challenging, and it will be discovered that, depending on what gets loaded onto the page, it may change from time to time.
 
 One technique is to create *MutationObserver* that simply adds a counter to each element on the page as it arrives.  Elements that existed before the observe gets activated will have no counter.  Simply watching to see when the page settles down can provide a strong hint on when things are ready.
 
@@ -315,13 +315,14 @@ Skeleton for a new `Page` class:
     constructor(spa) {
       super({spa: spa, ...Foo.#details});
 
-      this.#keyboardService = this.addService(VMKeyboardService);
-      this.#keyboardService.addInstance(this);
+      // Register itself as an instance with a bunch of {@link Shortcut}s.
+      this.addService(VMKeyboardService)
+        .addInstance(this);
     }
 
     static #details = {
       pathname: '/foo/',
-      pageReadySelector: '#last-element-loaded',
+      readySelector: '#last-element-loaded',
     };
 
   }
