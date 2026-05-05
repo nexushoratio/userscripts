@@ -1230,7 +1230,7 @@
 
     /** Click either the current item OR document.activeElement. */
     click() {
-      const me = 'click';
+      const me = this.click.name;
       const item = this.item;
       this.logger.entered(me, item);
 
@@ -1297,7 +1297,7 @@
      * @returns {boolean} - Was able to goto the item.
      */
     gotoUid(uid) {
-      const me = 'gotoUid';
+      const me = this.gotoUid.name;
       this.logger.entered(me, uid);
 
       const items = this.#getItems();
@@ -1400,7 +1400,7 @@
 
     /** Mark instance as inactive and do any internal cleanup. */
     destroy() {
-      const me = 'destroy';
+      const me = this.destroy.name;
       this.logger.entered(me);
 
       this.deactivate();
@@ -1470,7 +1470,7 @@
      * @param {Event} evt - Standard 'click' event.
      */
     #onClick = (evt) => {
-      const me = 'onClick';
+      const me = this.#onClick.name;
       this.logger.entered(me, evt);
 
       for (const item of this.#getItems()) {
@@ -1508,7 +1508,7 @@
      * @fires 'records'
      */
     #mutationHandler = (records) => {
-      const me = 'mutationHandler';
+      const me = this.#mutationHandler.name;
       this.logger.entered(
         me, `records: ${records.length} type: ${records[0].type}`
       );
@@ -1525,7 +1525,7 @@
      * @fires 'change'
      */
     #bottomHalf = (val) => {
-      const me = 'bottomHalf';
+      const me = this.#bottomHalf.name;
       this.logger.entered(me, val);
 
       this.#currentItem = val;
@@ -1544,7 +1544,7 @@
      * @returns {Elements[]} - Items to scroll through.
      */
     #getItems = () => {
-      const me = 'getItems';
+      const me = this.#getItems.name;
       this.logger.entered(me);
 
       const items = [];
@@ -1573,7 +1573,7 @@
      * @param {[Element]} items - Elements in the Scroller.
      */
     #postProcessItems = (items) => {
-      const me = 'postProcessItems';
+      const me = this.#postProcessItems.name;
       this.logger.starting(me, `count: ${items.length}`);
 
       const uids = new NH.base.DefaultMap(Array);
@@ -1608,7 +1608,7 @@
      * @returns {string} - Computed uid for element.
      */
     #uid = (element) => {
-      const me = 'uid';
+      const me = this.#uid.name;
       this.logger.entered(me, element);
 
       let uid = null;
@@ -1630,7 +1630,7 @@
      * @returns {boolean} - Whether or not element is the current one.
      */
     #matchItem = (element) => {
-      const me = 'matchItem';
+      const me = this.#matchItem.name;
       this.logger.entered(me);
 
       const res = this.#currentItemId === this.#uid(element);
@@ -1680,7 +1680,7 @@
      * no-op.
      */
     #scrollToCurrentItem = () => {
-      const me = 'scrollToCurrentItem';
+      const me = this.#scrollToCurrentItem.name;
       this.logger.entered(me, `snapToTop: ${this.#snapToTop}`);
 
       const item = this.item;
@@ -1704,7 +1704,7 @@
      * else, the last.
      */
     #jumpToEndItem = (first) => {
-      const me = 'jumpToEndItem';
+      const me = this.#jumpToEndItem.name;
       this.logger.entered(me, `first=${first}`);
 
       const items = this.#getItems();
@@ -1735,7 +1735,7 @@
      * @fires 'out-of-range'
      */
     #scrollBy = (n) => {
-      const me = 'scrollBy';
+      const me = this.#scrollBy.name;
       this.logger.entered(me, n);
 
       /**
@@ -1868,7 +1868,7 @@
      * @returns {Promise<Element[]>} - All the new base elements.
      */
     #waitForContainers = () => {
-      const me = 'waitForContainers';
+      const me = this.#waitForContainers.name;
       this.logger.entered(me);
 
       const results = [];
