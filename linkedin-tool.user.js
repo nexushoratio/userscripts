@@ -4501,24 +4501,11 @@
    */
   class Page extends NH.spa.Page {
 
-    /**
-     * @typedef {NH.spa.PageDetails} PageDetails
-     * @deprecated @property {string} [pageName=name] - See {@link name}.
-     * See {@link readySelector}.
-     */
-
     /** @param {PageDetails} details - Details about the instance. */
     constructor(details = {}) {
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
-
-      // Adapt old to new.
-      const {
-        name: pageName = details.pageName,
-      } = details;
-      details.name = pageName;
-
       super(details);
       this.logger.log('Adapter page constructed', this);
     }
@@ -5926,7 +5913,7 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
-      pageName: 'My Network (Grow, Catch up)',
+      name: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
       readySelector: 'main > div > div > div',
@@ -6932,7 +6919,7 @@
 
     /** @type {Page~PageDetails} */
     static #details = {
-      pageName: 'Jobs Collections (various listings)',
+      name: 'Jobs Collections (various listings)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
       readySelector: 'footer.global-footer-compact',
