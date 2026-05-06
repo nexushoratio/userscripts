@@ -1377,7 +1377,7 @@
      * @fires 'activate'
      */
     async activate() {
-      const me = 'activate';
+      const me = this.activate.name;
       this.logger.entered(me);
 
       const containers = new Set(
@@ -1678,7 +1678,7 @@
      * @param {HTMLElement} item - The item to scroll into view.
      */
     #gentlyScrollIntoView = (item) => {
-      const me = 'gentlyScrollIntoView';
+      const me = this.#gentlyScrollIntoView.name;
       this.logger.entered(me, item);
 
       item.style.scrollMarginBottom = this.#bottomMarginCSS;
