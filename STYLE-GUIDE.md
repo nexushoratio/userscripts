@@ -201,110 +201,13 @@ Supporting a new page is not always easy.  Many pages load dynamically, which is
 
 One technique is to create *MutationObserver* that simply adds a counter to each element on the page as it arrives.  Elements that existed before the observe gets activated will have no counter.  Simply watching to see when the page settles down can provide a strong hint on when things are ready.
 
-The is an example of a new `Page` that does this.  Note that sometimes, nodes get removed from a page moments after they get added.  Shipping your org chart FTW!
+The `NH.spa.WatchPage` exists to do exactly that.
+
+Note that sometimes, nodes get removed from a page moments after they get added.  Shipping your org chart FTW!
 
 ```javascript
-  class WatchPage extends Page {  // eslint-disable-line require-jsdoc
-
-    /** @param {SPA} spa - SPA instance that manages this Page. */
-    constructor(spa) {
-      super({spa: spa});
-
-      this.#MO = new MutationObserver(this.#mutationHandler);
-      this.#activator = this.addService(WatchPage.#Activator);
-      this.#activator.page = this;
-    }
-
-    static #Activator = class extends NH.base.Service {
-
-      /** @inheritdoc */
-      constructor(name) {
-        super(name);
-        this.on('activate', this.#onActivate)
-          .allowReactivation(false);
-      }
-
-      /** @returns {WatchPage} - Associated instance. */
-      get page() {
-        return this.#page;
-      }
-
-      /** @param {WatchPage} val - Associated instance. */
-      set page(val) {
-        this.#page = val;
-      }
-
-      #page
-
-      #onActivate = () => {
-        const me = 'onActivate';
-        this.logger.entered(me);
-
-        this.page.counter = 1;
-        this.page.#MO.observe(document.querySelector('body'),
-          {childList: true, subtree: true});
-
-        this.logger.leaving(me);
-      }
-
-    }
-
-    #MO
-    #activator
-
-    /**
-     * MutationObserver callback.
-     * @param {MutationRecord[]} records - Standard mutation records.
-     */
-    #mutationHandler = (records) => {  // eslint-disable-line max-statements
-      const me = 'mutationHandler';
-      this.logger.entered(me, `records: ${records.length}`);
-
-      const adds = [];
-      const dels = [];
-      for (const record of records) {
-        if (record.type === 'childList') {
-          for (const node of record.addedNodes) {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              node.dataset.counter = this.counter;
-              this.counter += 1;
-              adds.push(node);
-            }
-          }
-          for (const node of record.removedNodes) {
-            if (node.nodeType === Node.ELEMENT_NODE &&
-                node.matches('[data-counter]')) {
-              dels.push(node);
-            }
-          }
-        }
-      }
-
-      if (adds.length) {
-        this.logger.starting('adds', adds.length);
-        for (const node of adds) {
-          this.logger.log('node:', node, node.innerText);
-        }
-        this.logger.finished('adds');
-      }
-      if (dels.length) {
-        this.logger.starting('dels', dels.length);
-        for (const node of dels) {
-          this.logger.log('node:', node);
-        }
-        this.logger.finished('dels');
-      }
-      this.logger.leaving(me, this.counter);
-    }
-
-  }
+spa.register(NH.spa.WatchPage);
 ```
-Then in the console, do a query for the largest *data-counter* to see what the last thing loaded was.  Having timestamps turned on in the console helps.
-```javascript
-$$('[data-counter]:not(svg,image,figure)').map(x => [x.dataset.counter, x]).sort((a,b) => (b[0] - a[0]))
-```
-
-Without true details passed to *super()*, this will watch any page being loaded, so careful.
 
 Skeleton for a new `Page` class:
 ```javascript

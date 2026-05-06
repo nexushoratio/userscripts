@@ -927,7 +927,6 @@ ScrollerTestCase
 scrollIntoView
 scrollMarginBottom
 scrollMarginTop
-scrollTo
 scrollToCurrentItem
 scrollTop
 sdui
@@ -980,6 +979,7 @@ SimpleParseWordsTestCase
 snapToTop
 sourceforge
 SPADetails
+spaInstance
 spaLabel
 spaPanel
 SPATestCase
