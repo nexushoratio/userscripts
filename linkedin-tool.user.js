@@ -11,12 +11,12 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1787507/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1788132/NH_base.js
+// @require     https://update.greasyfork.org/scripts/478188/1802500/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/477290/1802495/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1798299/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1798298/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1802498/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1815041/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/570146/1817415/NH_spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -29,12 +29,12 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 56},
-    {name: 'base', minVersion: 54},
+    {name: 'xunit', minVersion: 58},
+    {name: 'base', minVersion: 55},
     {name: 'userscript', minVersion: 11},
-    {name: 'web', minVersion: 13},
+    {name: 'web', minVersion: 14},
     {name: 'widget', minVersion: 46},
-    {name: 'spa', minVersion: 7},
+    {name: 'spa', minVersion: 8},
   ]);
 
   const APP_LONG = GM.info.script.name;
@@ -68,6 +68,7 @@
       enableAlertOldNews: false,
       enableAlertUnsupportedPages: false,
       enableAlertUnknownProfileSections: false,
+      enableWatchPage: false,
       enableIssue241ClickMethod: false,
       enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
@@ -9162,6 +9163,9 @@
   log.log('proceeding...');
 
   const spa = new NH.spa.SPA(linkedIn);
+  if (litOptions.enableWatchPage) {
+    spa.register(NH.spa.WatchPage);
+  }
   spa.register(Global);
   spa.register(Feed);
   spa.register(MyNetwork);

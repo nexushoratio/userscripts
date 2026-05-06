@@ -276,6 +276,7 @@ enableDevMode
 enableIssue
 enableKeyboardService
 enableScrollerChangesFocus
+enableWatchPage
 engageIndividual
 ensureMenuStyle
 EnsureTestCase
@@ -944,7 +945,6 @@ sectionsWhat
 seeMore
 selectCurrentResultsPage
 selectorArray
-semver
 SemVer
 sendPost
 sendToggle
