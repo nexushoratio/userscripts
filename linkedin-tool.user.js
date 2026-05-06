@@ -256,9 +256,35 @@
       '<b>Info</b>: Replace <b>News</b> handling with explicit button',
       '2026-05-04'
     ),
+    ish(
+      '320',
+      '<code>Page</code>: Finish migration to <code>lib/spa</code> version',
+      '2026-05-06'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-06',
+      issues: ['320'],
+      subject: 'Retire the <code>readySelector</code> shim',
+    },
+    {
+      date: '2026-05-06',
+      issues: ['311'],
+      subject: 'Force a checkbox to always be visible',
+    },
+    {
+      date: '2026-05-06',
+      issues: ['302'],
+      subject: 'Support the <code>Featured</code> section',
+    },
+    {
+      date: '2026-05-06',
+      issues: ['130', '286'],
+      subject: 'Retire the original <code>SPA</code> implementation' +
+        ' in favor of the new',
+    },
     {
       date: '2026-05-04',
       issues: ['311'],
