@@ -1402,7 +1402,7 @@
       }
 
       this.logger.log('watcher:', await watcher);
-      this.#mutationDispatcher.on('records', this.#monitorConnectedness);
+      this.#mutationDispatcher.on('childList', this.#monitorConnectedness);
 
       this.dispatcher.fire('activate', null);
 
@@ -1414,7 +1414,7 @@
      * @fires 'deactivate'
      */
     deactivate() {
-      this.#mutationDispatcher.off('records', this.#monitorConnectedness);
+      this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#mutationObserver.disconnect();
       for (const container of this.#onClickElements) {
         container.removeEventListener('click',
@@ -1479,7 +1479,7 @@
     #historicalIdToIndex = new Map();
     #logger
     #maxUidLength
-    #mutationDispatcher = new NH.base.Dispatcher('records');
+    #mutationDispatcher = new NH.base.Dispatcher('childList');
     #mutationObserver
     #name
     #onClickElements = new Set();
@@ -1532,15 +1532,22 @@
 
     /**
      * @param {MutationRecord[]} records - Standard mutation records.
-     * @fires 'records'
+     * @fires 'childList'
      */
     #mutationHandler = (records) => {
       const me = this.#mutationHandler.name;
-      this.logger.entered(
-        me, `records: ${records.length} type: ${records[0].type}`
-      );
+      this.logger.entered(me, `records: ${records.length}`);
 
-      this.#mutationDispatcher.fire('records', null);
+      const types = new NH.base.DefaultMap(Array);
+
+      for (const record of records) {
+        types.get(record.type)
+          .push(record);
+      }
+
+      for (const [type, items] of types) {
+        this.#mutationDispatcher.fire(type, items);
+      }
 
       this.logger.leaving(me);
     }
@@ -1954,7 +1961,7 @@
               this.logger.log('item is present', this.item);
               if (Scroller.#isItemViewable(this.item)) {
                 this.logger.log('and viewable');
-                this.#mutationDispatcher.off('records', moCallback);
+                this.#mutationDispatcher.off('childList', moCallback);
                 clearTimeout(timeoutID);
                 resolve('looks good');
               } else {
@@ -1967,7 +1974,7 @@
 
           /** Standard setTimeout callback. */
           const toCallback = () => {
-            this.#mutationDispatcher.off('records', moCallback);
+            this.#mutationDispatcher.off('childList', moCallback);
             this.logger.log('one last try...');
             moCallback();
             resolve('we tried...');
@@ -1976,7 +1983,7 @@
             }
           };
 
-          this.#mutationDispatcher.on('records', moCallback);
+          this.#mutationDispatcher.on('childList', moCallback);
           timeoutID = setTimeout(toCallback, this.#waitForItemTimeout);
           moCallback();
         });
