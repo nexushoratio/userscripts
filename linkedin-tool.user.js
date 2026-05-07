@@ -208,7 +208,7 @@
       '2026-04-10'
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
-    ish('255', 'Support <b>Search appearances</b> page', '2026-04-07'),
+    ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-04-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-04-08'),
     ish(
@@ -265,6 +265,18 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-07',
+      issues: ['286', '303'],
+      subject: 'Replace old <code>done()</code> method with a listener' +
+        ' for <code>initialize</code>',
+    },
+    {
+      date: '2026-05-07',
+      issues: ['302'],
+      subject: 'Support the <code>Activity</code> ->' +
+        ' <code>Newsletters</code> subsection',
+    },
     {
       date: '2026-05-06',
       issues: ['320'],
@@ -577,66 +589,6 @@
       issues: ['286'],
       subject: 'Move a couple of functions from' +
         ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
-    },
-    {
-      date: '2026-04-07',
-      issues: [''],
-      subject: 'Update <code>Feed</code> comments selector',
-    },
-    {
-      date: '2026-04-07',
-      issues: [''],
-      subject: 'Update selector to load more <code>Feed</code> comments',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['286'],
-      subject: 'Move <code>ckeyIdentifier()</code> from' +
-        ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['298'],
-      subject: 'Enhance a logging statement for easier filtering',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['297'],
-      subject: 'Add a list of known sections on the <code>Profile</code>' +
-        ' page',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['130'],
-      subject: 'Put active keyboard services first in the new shortcuts tab',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['232'],
-      subject: 'Use <code>Scroller.focus()</code> for all focus attempts' +
-        ' (behind option)',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['251'],
-      subject: 'Rename <code>uniqueIdentifier</code> to' +
-        ' <code>uniqueNotificationIdentifier</code>',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['286'],
-      subject: 'Move <code>LinkedInGlobals.Style</code> to' +
-        ' <code>LinkedIn.Style</code>',
-    },
-    {
-      date: '2026-04-07',
-      issues: [''],
-      subject: 'Report old news before unused issues',
-    },
-    {
-      date: '2026-04-07',
-      issues: ['297'],
-      subject: 'Partial update of <code>Profile</code> with Style-2 support',
     },
   ];
 
