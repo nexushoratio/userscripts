@@ -8383,7 +8383,6 @@
           // Obvious by :scope selector.
           `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
           `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
-
           `:scope[${CKEY}$="Featured"]` +
             ' [data-testid="carousel-child-container"] > * > *',
 
