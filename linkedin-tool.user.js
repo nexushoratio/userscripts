@@ -2719,6 +2719,8 @@
 
       this.#licenseElement = document.createElement('p');
       this.#licenseElement.innerHTML = '<i>Loading license...</i>';
+
+      this.dispatcher.on('initialize', this.#onInit);
     }
 
     static Style = {
@@ -2951,29 +2953,6 @@
       return this.#pageStyle;
     }
 
-    /** @param {SPA} spa - The SPA instance. */
-    init(spa) {
-      this.dispatcher.fire('initialize', spa);
-      this.dispatcher.fire('initialized', null);
-    }
-
-    /** Called by SPA. */
-    done() {
-      const me = 'done';
-      this.logger.entered(me);
-
-      this.#checkForNewRelease();
-
-      this.#infoTabs.tabs
-        .get('License').panel
-        .addEventListener('expose', this.#licenseHandler);
-
-      VMKeyboardService.condition = '!inputFocus && !inDialog';
-      VMKeyboardService.start();
-
-      this.logger.leaving(me);
-    }
-
     /** Scroll common sidebar into view and move focus to it. */
     focusOnSidebar = () => {
       const sidebar = document.querySelector(LinkedIn.sidebarSelector);
@@ -3198,6 +3177,22 @@
     #ourMenuItemStyle2
     #pageStyle
     #shortcutsWidget
+
+    #onInit = () => {
+      const me = this.#onInit.name;
+      this.logger.entered(me);
+
+      this.#checkForNewRelease();
+
+      this.#infoTabs.tabs
+        .get('License').panel
+        .addEventListener('expose', this.#licenseHandler);
+
+      VMKeyboardService.condition = '!inputFocus && !inDialog';
+      VMKeyboardService.start();
+
+      this.logger.leaving(me);
+    }
 
     #checkForNewRelease = () => {
       const curr = parseFloat(GM.info.script.version);
