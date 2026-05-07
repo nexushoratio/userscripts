@@ -8331,12 +8331,14 @@
     };
 
     static #div3
+    static #div4
     static #div5
     static #div6
 
     /* eslint-disable no-magic-numbers */
     static {
       this.#div3 = this.div(3);
+      this.#div4 = this.div(4);
       this.#div5 = this.div(5);
       this.#div6 = this.div(6);
     }
@@ -8372,8 +8374,11 @@
           ':scope' +
             // Skip SDUI sections
             `:not([${CKEY}^="com.linkedin.sdui."])` +
-            // Skip Activity (h2) and Interests (radio buttons)
-            `:not(:has(> ${this.#div3} > :is(h2, [role="radio"])))` +
+            // Skip Activity
+            `:not(:has(> ${this.#div3} > [${CKEY}*="activity_"]))` +
+            `:not(:has(> ${this.#div4} > [${CKEY}*="activity_"]))` +
+            // Skip Interests
+            `:not(:has(> ${this.#div3} > h2))` +
             ` > ${this.#div6}`,
 
           // Analytics
