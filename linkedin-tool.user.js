@@ -8181,7 +8181,12 @@
         }
       }
       if (href) {
-        pathname = new URL(href).pathname;
+        const url = new URL(href);
+        pathname = url.pathname;
+        if (pathname.startsWith('/feed/update/')) {
+          // Another key might be 'dashReplyUrn'.
+          pathname = url.searchParams.get('dashCommentUrn');
+        }
         // The Activity > Images grid all link to the Profile.
         if (img && ['/', page.pathname].includes(pathname)) {
           // There are lots of options to choose from here.  With minimal

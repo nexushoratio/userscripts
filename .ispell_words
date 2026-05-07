@@ -210,6 +210,8 @@ currHeight
 CustomEvent
 cx
 dalgoda
+dashCommentUrn
+dashReplyUrn
 dateHeader
 debounce
 DebugKeys
@@ -949,7 +951,6 @@ SemVer
 sendPost
 sendToggle
 sendToggleSelector
-SerVer
 ServiceTestCase
 setAttribute
 setAutoManageLoggerConfigs
