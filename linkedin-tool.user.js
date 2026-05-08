@@ -8396,12 +8396,12 @@
             // Random premium badge
             ':not([role])' +
             // Carousels
+            ':not(:has(> ul))' +
             ':not(:has([data-testid="carousel-child-container"]))',
-          // Background on most profiles
-          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5} > a:has(img)`,
-          // Carousels (premium business profile backgrounds, private edit)
+          // Carousels (private edit)
           `:scope[${CKEY}$="${TOP_CARD}"]` +
-            ' [data-testid="carousel-child-container"] div:has(> a)',
+            ' [data-testid="carousel-child-container"]' +
+            ' div:has(> a[href*="/in/"])',
 
           // Highlights -- no discernable parts, using negative matching
           ':scope' +
