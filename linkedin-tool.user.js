@@ -8395,8 +8395,8 @@
           `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div6}` +
             // Random premium badge
             ':not([role])' +
-            // Carousel
-            ':not(:has(> div > div > section))',
+            // Carousels
+            ':not(:has([data-testid="carousel-child-container"]))',
           // Background on most profiles
           `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5} > a:has(img)`,
           // Carousels (premium business profile backgrounds, private edit)
