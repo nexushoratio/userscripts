@@ -4509,16 +4509,6 @@
       return this.#keyboard;
     }
 
-    /** @type {string} - Machine readable name for the page. */
-    get pageId() {
-      return this.id;
-    }
-
-    /** @type {string} - Human readable name for the page. */
-    get pageName() {
-      return this.name;
-    }
-
     /**
      * Called when registered via {@link SPA}.
      */
@@ -5118,7 +5108,7 @@
         }
 
         const what = {
-          name: `${this.pageId} ${me}`,
+          name: `${this.id} ${me}`,
           base: document.querySelector('main [data-testid="mainFeed"]'),
         };
         const how = {
@@ -5228,7 +5218,7 @@
         }
         if (target) {
           const what = {
-            name: `${this.pageId} ${me}`,
+            name: `${this.id} ${me}`,
             base: el,
           };
           const how = {
@@ -5556,7 +5546,7 @@
       };
       if (this.posts.item) {
         const what = {
-          name: `${this.pageId} ${me}`,
+          name: `${this.id} ${me}`,
           base: this.posts.item,
         };
         const how = {
@@ -7989,7 +7979,7 @@
         };
 
         const what = {
-          name: `${this.pageId} ${me}`,
+          name: `${this.id} ${me}`,
           base: document.querySelector('div.scaffold-finite-scroll__content'),
         };
         const how = {
@@ -8042,7 +8032,7 @@
         }
         if (el) {
           const what = {
-            name: `${this.pageId} ${me}`,
+            name: `${this.id} ${me}`,
             base: el,
           };
           const how = {
