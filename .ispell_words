@@ -76,6 +76,7 @@ assertX
 attr
 attrElements
 attributeFilter
+attributesHandler
 attrText
 autoActivate
 badCmp
@@ -634,6 +635,7 @@ mutationHandler
 mutationObserver
 MutationObserver
 MutationRecord
+MutationRecords
 myName
 mynetwork
 MyNetwork
@@ -719,6 +721,7 @@ ntCardIndex
 NumberOp
 NumberOpTestCase
 objectBoundingBox
+observeAttributes
 observeNavbar
 observeOptions
 occludable
@@ -979,7 +982,6 @@ simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
 sourceforge
-SPADetails
 spaInstance
 spaLabel
 spaPanel

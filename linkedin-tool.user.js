@@ -975,6 +975,11 @@
      */
 
     /**
+     * @external MutationObserver
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
+     */
+
+    /**
      * There are two ways to describe what elements go into a Scroller:
      * 1. An explicit container (base) element and selectors stemming from it.
      * 2. An array of ContainerItemsSelector that can allow for multiple
@@ -1001,6 +1006,9 @@
      * watch for clicks and if one is inside an item, select it.
      * @property {boolean} [autoActivate=false] - Whether to call the activate
      * method at the end of construction.
+     * @property {boolean} [observeAttributes=false] - Whether the built in
+     * {@link external:MutationObserver} should also observer node attributes
+     * (useful if the uid depends on attributes).
      * @property {boolean} [snapToTop=false] - Whether items should snap to
      * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
@@ -1041,6 +1049,8 @@
         watchForClicks: this.#watchForClicks =
         Scroller.#defaults.WATCH_FOR_CLICKS,
         autoActivate: this.#autoActivate = false,
+        observeAttributes: this.#observeAttributes =
+        Scroller.#defaults.OBSERVE_ATTRIBUTES,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
         bottomMarginPixels: this.#bottomMarginPixels = 0,
@@ -1341,6 +1351,11 @@
       }
 
       const watcher = this.#currentItemWatcher();
+      const observeOptions = {
+        childList: true,
+        subtree: true,
+        attributes: this.#observeAttributes,
+      };
 
       for (const container of containers) {
         if (this.#watchForClicks) {
@@ -1349,11 +1364,12 @@
             this.#onClick,
             this.#clickOptions);
         }
-        this.#mutationObserver.observe(container,
-          {childList: true, subtree: true});
+        this.logger.log('observing with', container, observeOptions);
+        this.#mutationObserver.observe(container, observeOptions);
       }
 
       this.logger.log('watcher:', await watcher);
+      this.#mutationDispatcher.on('attributes', this.#attributesHandler);
       this.#mutationDispatcher.on('childList', this.#monitorConnectedness);
 
       this.dispatcher.fire('activate', null);
@@ -1366,6 +1382,7 @@
      * @fires 'deactivate'
      */
     deactivate() {
+      this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#mutationObserver.disconnect();
       for (const container of this.#onClickElements) {
@@ -1393,6 +1410,7 @@
 
     static {
       Scroller.#defaults.MAX_UID_LENGTH = 20;
+      Scroller.#defaults.OBSERVE_ATTRIBUTES = false;
       Scroller.#defaults.WAIT_FOR_ITEM = 3000;
       Scroller.#defaults.WATCH_FOR_CLICKS = true;
 
@@ -1431,9 +1449,10 @@
     #historicalIdToIndex = new Map();
     #logger
     #maxUidLength
-    #mutationDispatcher = new NH.base.Dispatcher('childList');
+    #mutationDispatcher = new NH.base.Dispatcher('attributes', 'childList');
     #mutationObserver
     #name
+    #observeAttributes
     #onClickElements = new Set();
     #selectors
     #snapToTop
@@ -1443,6 +1462,14 @@
     #uidCallback
     #waitForItemTimeout
     #watchForClicks
+
+    /** @param {MutationRecord[]} records - Standard MutationRecords. */
+    #attributesHandler = (records) => {
+      const me = this.#attributesHandler.name;
+      this.logger.entered(me, records.length);
+
+      this.logger.leaving(me);
+    }
 
     /**
      * If an item is clicked, switch to it.
@@ -6924,6 +6951,7 @@
       snapToTop: false,
       bottomMarginCSS: '3em',
       containerTimeout: 1000,
+      observeAttributes: true,
     };
 
     /** @type {Scroller~What} */
