@@ -8190,7 +8190,7 @@
       let pathname = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const href = element.href;
-      const img = element.querySelector(':scope:is(a) img');
+      const img = element.querySelector(':scope:is(a) img')?.src;
       const anchor = element.querySelector('a:not([href*="/safety/"])')?.href;
       const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
       const anchors = element.querySelectorAll('a');
@@ -8219,7 +8219,7 @@
         if (img && ['/', page.pathname].includes(pathname)) {
           // There are lots of options to choose from here.  With minimal
           // testing, so far this seems to be both unique and stable.
-          content = new URL(img.src)
+          content = new URL(img)
             .pathname
             .split('/')
             .at(NH.base.LAST_ITEM);
