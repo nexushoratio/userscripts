@@ -181,7 +181,7 @@
     ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
     ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
-    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-04-09'),
+    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
     ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
     ish('236', 'Support <b>Events</b> page', '2026-04-10'),
     ish('238', 'eslint: Bad use of globals', '2026-04-10'),
@@ -209,8 +209,8 @@
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
-    ish('256', 'Support <b>Verify</b> page', '2026-04-08'),
-    ish('257', 'Support <b>Analytics & tools</b> page', '2026-04-08'),
+    ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
+    ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
     ish(
       '272', 'Styling issue on <code>Information view</code>', '2026-04-23'
     ),
@@ -249,6 +249,12 @@
         ' item is an image',
       '2026-04-08'
     ),
+    ish(
+      '300',
+      '<code>Scroller</code>: The <b>JobsCollections</b> pagination' +
+        ' scroller gets out of sync',
+      '2026-05-09'
+    ),
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-04-21'),
@@ -265,6 +271,21 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-08',
+      issues: ['302'],
+      subject: 'Stop supporting all Topcard background images (for now)',
+    },
+    {
+      date: '2026-05-08',
+      issues: ['302'],
+      subject: 'Make negative carousel selector similar to the positive one',
+    },
+    {
+      date: '2026-05-08',
+      issues: ['300'],
+      subject: 'Provide option to observe attributes inside the container',
+    },
     {
       date: '2026-05-07',
       issues: ['286', '303'],
@@ -553,42 +574,6 @@
       issues: ['232'],
       subject: 'Migrate to using the refactored version of' +
         ' <code>focusOnTree()</code>',
-    },
-    {
-      date: '2026-04-09',
-      issues: ['297'],
-      subject: 'Handle the <em>Analytics</em> section on the' +
-        ' <code>Profile</code> page',
-    },
-    {
-      date: '2026-04-09',
-      issues: [''],
-      subject: 'Include the <code>fakeErrorRate</code> in the dummy/test' +
-        ' error messages',
-    },
-    {
-      date: '2026-04-08',
-      issues: ['297'],
-      subject: 'Match the <code>Show all</code> button on the' +
-        ' <code>Profile</code> page',
-    },
-    {
-      date: '2026-04-08',
-      issues: ['232'],
-      subject: 'Fire <code>focus</code>/<code>focused</code>' +
-        ' events inside <code>Scroller</code>',
-    },
-    {
-      date: '2026-04-08',
-      issues: [''],
-      subject: 'Update <code>readySelector</code> for' +
-        ' <code>Notifications</code>',
-    },
-    {
-      date: '2026-04-08',
-      issues: ['286'],
-      subject: 'Move a couple of functions from' +
-        ' <code>LinkedInGlobals</code> to <code>LinkedIn</code>',
     },
   ];
 
