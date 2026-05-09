@@ -4519,31 +4519,6 @@
     }
 
     /**
-     * Called when registered via {@link SPA}.
-     */
-    start() {
-      for (const shortcut of this.allShortcuts) {
-        this.#addKey(shortcut);
-      }
-    }
-
-    /**
-     * Turns on this Page's features.  Called by {@link SPA} when this becomes
-     * the current view.
-     */
-    activate() {
-      this.dispatcher.fire('activate');
-    }
-
-    /**
-     * Turns off this Page's features.  Called by {@link SPA} when this is no
-     * longer the current view.
-     */
-    deactivate() {
-      this.dispatcher.fire('deactivate');
-    }
-
-    /**
      * @type {IShortcutOptions} - Disables keys when focus is on an element or
      * info view.
      */
