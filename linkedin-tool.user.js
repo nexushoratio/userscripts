@@ -1448,10 +1448,34 @@
     #waitForItemTimeout
     #watchForClicks
 
-    /** @param {MutationRecord[]} records - Standard MutationRecords. */
-    #attributesHandler = (records) => {
+    /**
+     * Currently removes `scrollerId` at the drop of a hat.
+     *
+     * XXX: This was originally intended to clear scrollerId before
+     * duplications were detected.  But such detection happens inside {@link
+     * #getItems()}.  So this does not help with that.  But, still, might be
+     * useful in cases where the uid depends on attributes, even if duplicates
+     * are not involved.
+     *
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {MutationRecords[]} records - Standard MutationRecords.
+     */
+    #attributesHandler = (type, records) => {
       const me = this.#attributesHandler.name;
-      this.logger.entered(me, records.length);
+      this.logger.entered(me, type, records.length);
+
+      for (const item of this.#getItems()) {
+        for (const record of records) {
+          if (record.attributeName !== 'data-scroller-id') {
+            if (item.contains(record.target)) {
+              delete item.dataset.scrollerId;
+              this.logger.log('reset item', item);
+              break;
+            }
+          }
+        }
+      }
 
       this.logger.leaving(me);
     }

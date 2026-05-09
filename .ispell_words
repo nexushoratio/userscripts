@@ -76,6 +76,7 @@ assertX
 attr
 attrElements
 attributeFilter
+attributeName
 attributesHandler
 attrText
 autoActivate
@@ -1024,7 +1025,6 @@ TabContent
 TabDefinition
 TabEntry
 TabEntryTestCase
-TabGenerator
 tabGenerators
 tabindex
 tablist
