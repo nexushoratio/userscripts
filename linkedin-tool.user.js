@@ -8193,10 +8193,15 @@
       const anchor = element.querySelector('a:not([href*="/safety/"])')?.href;
       const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
       const anchors = element.querySelectorAll('a');
+      const ariaLabel = element.querySelector('[aria-label]')
+        ?.getAttribute('aria-label');
 
       const page = new URL(document.location);
       if (key) {
         content = key;
+      }
+      if (ariaLabel) {
+        content = ariaLabel;
       }
       if (safetyAnchor) {
         content = new URL(safetyAnchor).searchParams.get('urlhash');
