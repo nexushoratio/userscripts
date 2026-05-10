@@ -183,8 +183,7 @@
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
     ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
-    ish('236', 'Support <b>Events</b> page', '2026-04-10'),
-    ish('238', 'eslint: Bad use of globals', '2026-04-10'),
+    ish('236', 'Support <b>Events</b> page', '2026-05-10'),
     ish(
       '239',
       '<code>Scroller</code>: Active card loses shine upon revisit',
@@ -271,6 +270,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-09',
+      issues: ['302'],
+      subject: 'Add <code>aria-label</code> as a source for uids',
+    },
+    {
+      date: '2026-05-09',
+      issues: ['300'],
+      subject: 'Reset <code>scrollerId</code> on attribute change',
+    },
     {
       date: '2026-05-08',
       issues: ['302'],
@@ -545,35 +554,6 @@
       issues: ['232'],
       subject: 'Ensure the primary item is visible during secondary' +
         ' scrolling',
-    },
-    {
-      date: '2026-04-10',
-      issues: ['297'],
-      subject: 'Handle <em>Featured</em> and <em>Activity</em> sections on' +
-        ' the <code>Profile</code> page',
-    },
-    {
-      date: '2026-04-10',
-      issues: ['130'],
-      subject: 'Add <code>VMKeyboardService</code> to the' +
-        ' <code>InvitationManager</code> page',
-    },
-    {
-      date: '2026-04-10',
-      issues: [''],
-      subject: 'Update section selector for the <code>Jobs</code> page',
-    },
-    {
-      date: '2026-04-10',
-      issues: ['252'],
-      subject: 'Migrated a few users of <code>focusOnElement()</code>' +
-        ' to <code>focusOnTree()</code>',
-    },
-    {
-      date: '2026-04-10',
-      issues: ['232'],
-      subject: 'Migrate to using the refactored version of' +
-        ' <code>focusOnTree()</code>',
     },
   ];
 
