@@ -2688,6 +2688,10 @@
       this.#licenseElement = document.createElement('p');
       this.#licenseElement.innerHTML = '<i>Loading license...</i>';
 
+      // TODO(#240): Due to changes in start up, this value is no longer set
+      // before Pages are registered.
+      this.navbarHeightPixels = 16;
+
       this.dispatcher.on('initialize', this.#onInit);
     }
 
@@ -9044,10 +9048,6 @@
   NH.xunit.testing.run();
 
   const linkedIn = new LinkedIn();
-
-  // TODO(#240): Due to changes in start up, this value is no longer set
-  // before Pages are registered.
-  linkedIn.navbarHeightPixels = 16;
 
   await linkedIn.ready;
   log.log('proceeding...');
