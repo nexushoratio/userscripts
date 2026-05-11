@@ -192,7 +192,7 @@
     ish(
       '240', '<code>Scroller</code>: navbar height can change', '2026-04-30'
     ),
-    ish('244', 'Capture info about all unsupported pages', '2026-04-11'),
+    ish('244', 'Capture info about all unsupported pages', '2026-05-11'),
     ish(
       '245',
       'Revisit pages that use the terms "section{,s}" or "card{,s}"',
@@ -270,6 +270,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-11',
+      issues: ['302'],
+      subject: 'Rework how <code>Topcard</code> entries are detected',
+    },
     {
       date: '2026-05-09',
       issues: ['302'],
@@ -548,12 +553,6 @@
       issues: ['297'],
       subject: 'Partially handle the <code>About</code> section on the' +
         ' <code>Profile</code> page',
-    },
-    {
-      date: '2026-04-11',
-      issues: ['232'],
-      subject: 'Ensure the primary item is visible during secondary' +
-        ' scrolling',
     },
   ];
 
