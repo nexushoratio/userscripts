@@ -8351,11 +8351,11 @@
       selectors: [
         [
           // Most Topcard items
-          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div6}` +
-            // Random premium badge
-            ':not([role])' +
-            // Carousels
-            ':not(:has(> ul))' +
+          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5}` +
+            // Premium badge and footer
+            ':not(:has(> :is(a, [role])))' +
+            // Skip carousels
+            ':not(:has(> div > ul))' +
             ':not(:has([data-testid="carousel-child-container"]))',
           // Carousels (private edit)
           `:scope[${CKEY}$="${TOP_CARD}"]` +
