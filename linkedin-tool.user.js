@@ -2214,6 +2214,44 @@
 
   NH.xunit.testing.testCases.push(ScrollerTestCase);
 
+  /** Manage a {Scroller} as a {NH.base.Service}. */
+  class ScrollerService extends NH.base.Service {
+
+    /**
+     * @param {string} instanceName - Custom portion of this instance.
+     */
+    constructor(instanceName) {
+      super(instanceName);
+      this.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate)
+        .setScroller();
+    }
+
+    /**
+     * Sets the {@link Scroller} to manage with this service.
+     *
+     * If not value is passed, any existing instance will be removed.
+     *
+     * @param {Scroller} [scroller] - The instance to manage.
+     * @returns {ScrollerService} - This instance, for chaining.
+     */
+    setScroller(scroller = null) {
+      this.#scroller = scroller;
+      return this;
+    }
+
+    #scroller
+
+    #onActivate = () => {
+      this.#scroller?.activate();
+    }
+
+    #onDeactivate = () => {
+      this.#scroller?.deactivate();
+    }
+
+  }
+
   /** A table with collapsible sections. */
   class AccordionTableWidget extends NH.widget.Widget {
 
@@ -2310,60 +2348,6 @@
       myself.desc = desc;
       this.func = func;
       return myself;
-    }
-
-  }
-
-  /**
-   * Manage a {Scroller} via {NH.base.Service} with LIT idiosyncrasies.
-   *
-   * It will turn the {Scroller} on/off.
-   * Apply any fixups for margin features.
-   * Monitor margin for changes.
-   */
-  class LinkedInScrollerService extends NH.base.Service {
-
-    /**
-     * @param {string} instanceName - Custom portion of this instance.
-     */
-    constructor(instanceName) {
-      super(instanceName);
-      this.on('activate', this.#onActivate)
-        .on('deactivate', this.#onDeactivate)
-        .setScroller();
-    }
-
-    /**
-     * @param {NH.base.Dispatcher} details - The {@link LinkedIn} instance.
-     * @returns {LinkedInScrollerService} - This instance, for chaining.
-     */
-    setDetails(details) {
-      this.#details = details;
-      return this;
-    }
-
-    /**
-     * Sets the {@link Scroller} to manage with this service.
-     *
-     * If not value is passed, any existing instance will be removed.
-     *
-     * @param {Scroller} [scroller] - The instance to manage.
-     * @returns {LinkedInScrollerService} - This instance, for chaining.
-     */
-    setScroller(scroller = null) {
-      this.#scroller = scroller;
-      return this;
-    }
-
-    #details
-    #scroller
-
-    #onActivate = () => {
-      this.#scroller?.activate();
-    }
-
-    #onDeactivate = () => {
-      this.#scroller?.deactivate();
     }
 
   }
@@ -4815,7 +4799,7 @@
       spa.details.navbarScrollerFixup(Feed.#commentsHow);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#postScroller);
       this.#postScroller.dispatcher
         .on('activate', this.#onPostActivate)
@@ -5541,7 +5525,7 @@
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher
         .on('change', this.#onCollectionChange)
@@ -5898,7 +5882,7 @@
         InvitationManager.#invitesWhat,
         InvitationManager.#invitesHow
       );
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#inviteScroller);
     }
 
@@ -6140,7 +6124,7 @@
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
         .on('change', this.#onSectionChange)
@@ -6479,7 +6463,7 @@
 
       this.#jobCardScroller = new Scroller(JobsCollections.#jobCardsWhat,
         JobsCollections.#jobCardsHow);
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#jobCardScroller)
         .allowReactivation(false);
       this.#jobCardScroller.dispatcher
@@ -6489,7 +6473,7 @@
       this.#paginationScroller = new Scroller(
         JobsCollections.#paginationWhat, JobsCollections.#paginationHow
       );
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#paginationScroller)
         .allowReactivation(false);
       this.#paginationScroller.dispatcher
@@ -6500,7 +6484,7 @@
       this.#detailsScroller = new Scroller(
         JobsCollections.#detailsWhat, JobsCollections.#detailsHow
       );
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#detailsScroller)
         .allowReactivation(false);
       this.#detailsScroller.dispatcher
@@ -7028,7 +7012,7 @@
       if (!this.#cardScroller) {
         this.#cardScroller = new Scroller(JobsView.#cardsWhat,
           JobsView.#cardsHow);
-        this.addService(LinkedInScrollerService)
+        this.addService(ScrollerService)
           .setScroller(this.#cardScroller);
         this.#cardScroller.dispatcher
           .on('change', this.#onCardChange);
@@ -7265,7 +7249,7 @@
 
       this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
         Messaging.#convoCardsHow);
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#convoCardScroller);
       this.#convoCardScroller.dispatcher
         .on('activate', this.#onConvoCardActivate)
@@ -7739,7 +7723,7 @@
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnSidebar);
@@ -8184,7 +8168,7 @@
       if (!this.#sectionScroller) {
         this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
           Profile.#sectionsHow);
-        this.addService(LinkedInScrollerService)
+        this.addService(ScrollerService)
           .setScroller(this.#sectionScroller);
         this.#sectionScroller.dispatcher
           .on('change', this.#onSectionChange);
@@ -8558,7 +8542,7 @@
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
       );
-      this.addService(LinkedInScrollerService)
+      this.addService(ScrollerService)
         .setScroller(this.#collectionScroller);
 
       this.#collectionScroller.dispatcher
@@ -8849,7 +8833,7 @@
           SearchResultsPeople.#paginationWhat,
           SearchResultsPeople.#paginationHow
         );
-        this.addService(LinkedInScrollerService)
+        this.addService(ScrollerService)
           .setScroller(this.#paginationScroller);
         this.#paginationScroller.dispatcher
           .on('activate', this.#onPaginationActivate)
@@ -8863,7 +8847,7 @@
       if (!this.#resultScroller) {
         this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
           SearchResultsPeople.#resultsHow);
-        this.addService(LinkedInScrollerService)
+        this.addService(ScrollerService)
           .setScroller(this.#resultScroller);
         this.#resultScroller.dispatcher
           .on('change', this.#onResultChange);
