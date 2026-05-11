@@ -3223,7 +3223,6 @@
 
       this.#createInfoWidget();
       this.#addInfoTabs();
-      this.#addScrollerStyle();
       this.#addLitStyle();
       this.#findNavbar();
 
@@ -3361,27 +3360,6 @@
       this.logger.log('info closed');
     }
 
-    /** Create the CSS styles used for indicating the current items. */
-    #addScrollerStyle = () => {
-      const style = document.createElement('style');
-      style.id = NH.base.safeId(`${this.id}-scroller-style`);
-      const styles = [
-        '.tom {' +
-          ' border-color: orange !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: medium !important;' +
-          '}',
-        '.dick {' +
-          ' border-color: red !important;' +
-          ' border-style: solid !important;' +
-          ' border-width: thin !important;' +
-          '}',
-        '',
-      ];
-      style.textContent = styles.join('\n');
-      document.head.append(style);
-    }
-
     /** Create CSS styles for stuff specific to LinkedIn Tool. */
     #addLitStyle = () => {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
@@ -3397,6 +3375,16 @@
           '}',
         '.lit-negative {' +
           ' background-color: var(--lit-color-negative);' +
+          '}',
+        '.lit-scroller-primary {' +
+          ' border-color: orange !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: medium !important;' +
+          '}',
+        '.lit-scroller-secondary {' +
+          ' border-color: red !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: thin !important;' +
           '}',
         '.lit-info:modal {' +
           ' height: 100%;' +
@@ -5182,7 +5170,7 @@
     /** @type {Scroller~How} */
     static #commentsHow = {
       uidCallback: Feed.uniqueCommentIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
     };
@@ -5210,7 +5198,7 @@
     /** @type {Scroller~How} */
     static #postsHow = {
       uidCallback: Feed.uniquePostIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: true,
     };
 
@@ -5786,7 +5774,7 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: MyNetwork.uniqueCollectionIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: true,
     };
 
@@ -5819,7 +5807,7 @@
     /** @type {Scroller~How} */
     static #individualsHow = {
       uidCallback: MyNetwork.uniqueIndividualsIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -6100,7 +6088,7 @@
 
     static #invitesHow = {
       uidCallback: InvitationManager.uniqueInvitationIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
     };
 
     /** @type {Scroller~What} */
@@ -6349,7 +6337,7 @@
     /** @type {Scroller~How} */
     static #jobsHow = {
       uidCallback: Jobs.uniqueJobIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -6384,7 +6372,7 @@
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Jobs.uniqueSectionIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: true,
     };
 
@@ -6825,7 +6813,7 @@
     /** @type {Scroller~How} */
     static #detailsHow = {
       uidCallback: JobsCollections.uniqueDetailsIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       snapToTop: true,
     };
 
@@ -6843,7 +6831,7 @@
     /** @type {Scroller~How} */
     static #jobCardsHow = {
       uidCallback: JobsCollections.uniqueJobIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
       bottomMarginCSS: '3em',
     };
@@ -6863,7 +6851,7 @@
     /** @type {Scroller~How} */
     static #paginationHow = {
       uidCallback: JobsCollections.uniquePaginationIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       snapToTop: false,
       bottomMarginCSS: '3em',
       containerTimeout: 1000,
@@ -7176,7 +7164,7 @@
     /** @type {Scroller~How} */
     static #cardsHow = {
       uidCallback: JobsView.uniqueCardIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
     };
 
@@ -7206,7 +7194,7 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: JobsView.uniqueEntryIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
     };
@@ -7531,7 +7519,7 @@
     /** @type {Scroller~How} */
     static #convoCardsHow = {
       uidCallback: Messaging.uniqueConvoCardsIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
     };
 
@@ -7561,7 +7549,7 @@
     /** @type {Scroller~How} */
     static #messagesHow = {
       uidCallback: Messaging.uniqueMessageIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
     };
@@ -7981,7 +7969,7 @@
     /** @type {Scroller~How} */
     static #notificationsHow = {
       uidCallback: Notifications.uniqueNotificationIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
       clickConfig: {
         finder: Notifications.cardItemToClick,
@@ -8301,7 +8289,7 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: Profile.uniqueEntryIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       autoActivate: true,
       snapToTop: false,
     };
@@ -8369,7 +8357,7 @@
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Profile.uniqueSectionIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
     };
 
@@ -8718,7 +8706,7 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: Events.uniqueCollectionIdentifier,
-      classes: ['tom'],
+      classes: ['lit-scroller-primary'],
       snapToTop: false,
     };
 
@@ -8744,7 +8732,7 @@
     /** @type {Scroller~How} */
     static #eventsHow = {
       uidCallback: Events.uniqueEventIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       snapToTop: false,
     };
 
@@ -8964,7 +8952,7 @@
     /** @type {Scroller~How} */
     static #paginationHow = {
       uidCallback: SearchResultsPeople.uniquePaginationIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       snapToTop: false,
       bottomMarginCSS: '3em',
       containerTimeout: 1000,
@@ -8985,7 +8973,7 @@
     /** @type {Scroller~How} */
     static #resultsHow = {
       uidCallback: SearchResultsPeople.uniqueResultIdentifier,
-      classes: ['dick'],
+      classes: ['lit-scroller-secondary'],
       snapToTop: false,
     };
 
