@@ -4480,44 +4480,6 @@
       this.logger.log('Adapter page constructed', this);
     }
 
-    /** @type {Shortcut[]} - List of {@link Shortcut}s to register. */
-    get allShortcuts() {
-      const shortcuts = [];
-      for (const [key, value] of Object.entries(this)) {
-        if (value instanceof Shortcut) {
-          shortcuts.push(value);
-          // While we are here, give the function a name.
-          Object.defineProperty(value, 'name', {value: key});
-        }
-      }
-      return shortcuts;
-    }
-
-    /** @type {KeyboardService} */
-    get keyboard() {
-      return this.#keyboard;
-    }
-
-    /**
-     * @type {IShortcutOptions} - Disables keys when focus is on an element or
-     * info view.
-     */
-    static #navOption = {
-      caseSensitive: true,
-      condition: '!inputFocus && !inDialog',
-    };
-
-    /** @type {KeyboardService} */
-    #keyboard = new VM.shortcut.KeyboardService();
-
-    /**
-     * Registers a specific key sequence with a function with VM.shortcut.
-     * @param {Shortcut} shortcut - Shortcut to register.
-     */
-    #addKey = (shortcut) => {
-      this.#keyboard.register(shortcut.seq, shortcut, Page.#navOption);
-    }
-
   }
 
   /** Class for holding keystrokes that simplify debugging. */
