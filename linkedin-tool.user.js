@@ -8120,6 +8120,7 @@
       const me = Profile.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
+      let mode = 'unknown';
       let content = '';
       let pathname = '';
       const key = LinkedIn.ckeyIdentifier(element);
@@ -8133,17 +8134,21 @@
 
       const page = new URL(document.location);
       if (key) {
+        mode = 'key';
         content = key;
       }
       if (ariaLabel) {
+        mode = 'ariaLabel';
         content = ariaLabel;
       }
       if (safetyAnchor) {
+        mode = 'safetyAnchor';
         content = new URL(safetyAnchor).searchParams.get('urlhash');
       }
       if (anchor) {
         pathname = new URL(anchor).pathname;
         if (!['/', page.pathname].includes(pathname)) {
+          mode = 'anchor';
           content = pathname;
         }
       }
@@ -8158,6 +8163,7 @@
         if (img && ['/', page.pathname].includes(pathname)) {
           // There are lots of options to choose from here.  With minimal
           // testing, so far this seems to be both unique and stable.
+          mode = 'href,img';
           content = new URL(img)
             .pathname
             .split('/')
@@ -8171,10 +8177,12 @@
             ? '-hr'
             : '';
 
+          mode = 'href';
           content = pathname + extra;
         }
       }
       if (!content) {
+        mode = 'default';
         content = this.defaultUid(element);
         if (anchors.length) {
           const filtered = anchors.values()
@@ -8187,8 +8195,8 @@
         }
       }
 
-      this.logger.leaving(me, content);
-      return content;
+      this.logger.leaving(me, mode, content);
+      return [mode, content].join('-');
     }
 
     /** @type {Scroller} */
