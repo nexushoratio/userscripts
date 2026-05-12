@@ -2554,6 +2554,49 @@
     };
 
     /**
+     * Fork of NH.web.isInput for tracking down a bug.
+     *
+     * TODO(#325): Remove and update lib/web when fixed.
+     *
+     * @param {Element} element - HTML Element to examine.
+     * @returns {boolean} - Indicating whether the element accepts keyboard
+     * input.
+     */
+    static #isInput = (element) => {
+      const me = this.#isInput.name;
+      log.entered(me, element);
+
+      let tagName = '';
+      if ('tagName' in element) {
+        tagName = element.tagName.toLowerCase();
+      }
+
+      let textContent = false;
+      if (tagName === 'input') {
+        textContent = true;
+        if (element.type === 'checkbox') {
+          textContent = false;
+        }
+        if (textContent) {
+          const group = 'attributes';
+          log.starting(group, element);
+
+          for (const attr of element.attributes) {
+            log.log('attr', attr);
+          }
+
+          log.finished(group);
+        }
+      }
+      // eslint-disable-next-line no-extra-parens
+      const ret = (
+        element.isContentEditable || textContent || tagName === 'textarea');
+
+      log.leaving(me, ret);
+      return ret;
+    }
+
+    /**
      * Handle focus event to determine if shortcuts should be disabled.
      * @param {Event} evt - Standard 'focus' event.
      */
@@ -2563,7 +2606,7 @@
         this.#lastFocusedElement = null;
         this.setKeyboardContext('inputFocus', false);
       }
-      if (NH.web.isInput(evt.target)) {
+      if (this.#isInput(evt.target)) {
         this.setKeyboardContext('inputFocus', true);
         this.#lastFocusedElement = evt.target;
       }
