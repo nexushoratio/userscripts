@@ -5198,7 +5198,8 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/feed/?', 'u'),
-      readySelector: 'main > div > div > div',
+      // Sort by: X button (yes, the svg)
+      readySelector: 'main #chevron-down-medium',
     };
 
     /** @type {Scroller~How} */
