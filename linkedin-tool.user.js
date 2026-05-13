@@ -977,12 +977,8 @@
      * the top of the window when coming into view.
      * @property {number} [topMarginPixels=0] - Used to determine if scrolling
      * should happen when {snapToTop} is false.
-     * @property {number} [bottomMarginPixels=0] - Used to determine if
-     * scrolling should happen when {snapToTop} is false.
      * @property {string} [topMarginCSS='0'] - CSS applied to
      * `scrollMarginTop`.
-     * @property {string} [bottomMarginCSS='0'] - CSS applied to
-     * `scrollMarginBottom`.
      * @property {number} [waitForItemTimeout=3000] - Time to wait, in
      * milliseconds, for existing item to reappear upon reactivation.
      * @property {number} [containerTimeout=0] - Time to wait, in
@@ -1017,9 +1013,7 @@
         Scroller.#defaults.OBSERVE_ATTRIBUTES,
         snapToTop: this.#snapToTop = false,
         topMarginPixels: this.#topMarginPixels = 0,
-        bottomMarginPixels: this.#bottomMarginPixels = 0,
         topMarginCSS: this.#topMarginCSS = '0',
-        bottomMarginCSS: this.#bottomMarginCSS = '0',
         waitForItemTimeout: this.#waitForItemTimeout =
         Scroller.#defaults.WAIT_FOR_ITEM,
         containerTimeout: this.#containerTimeout = 0,
@@ -1154,30 +1148,11 @@
     }
 
     /**
-     * @param {number} [pixels=0] - Used to determine if scrolling should
-     * happen when {snapToTop} is false.
-     * @returns {Scroller} - This instance, for chaining.
-     */
-    bottomMarginPixels(pixels = 0) {
-      this.#bottomMarginPixels = pixels;
-      return this;
-    }
-
-    /**
      * @param {string} [css='0'] - CSS applied to `scrollMarginTop`.
      * @returns {Scroller} - This instance, for chaining.
      */
     topMarginCSS(css = '0') {
       this.#topMarginCSS = css;
-      return this;
-    }
-
-    /**
-     * @param {string} [css='0'] - CSS applied to `scrollMarginBottom`.
-     * @returns {Scroller} - This instance, for chaining.
-     */
-    bottomMarginCSS(css = '0') {
-      this.#bottomMarginCSS = css;
       return this;
     }
 
@@ -1395,8 +1370,6 @@
 
     #autoActivate
     #base
-    #bottomMarginCSS
-    #bottomMarginPixels
     #classes
     #clickConfig
     #clickOptions = {capture: true};
@@ -1648,11 +1621,9 @@
       const me = this.#gentlyScrollIntoView.name;
       this.logger.entered(me, item);
 
-      item.style.scrollMarginBottom = this.#bottomMarginCSS;
       let rect = item.getBoundingClientRect();
 
-      const allowedBottom = document.documentElement.clientHeight -
-                this.#bottomMarginPixels;
+      const allowedBottom = document.documentElement.clientHeight;
       if (rect.bottom > allowedBottom) {
         this.logger.log('scrolling up onto page');
         item.scrollIntoView(false);
@@ -2986,7 +2957,6 @@
 
       how.topMarginPixels = this.navbarHeightPixels;
       how.topMarginCSS = this.navbarHeightCSS;
-      how.bottomMarginCSS = '3em';
 
       this.logger.leaving(me, how);
     }
@@ -3410,11 +3380,13 @@
           ' border-color: orange !important;' +
           ' border-style: solid !important;' +
           ' border-width: medium !important;' +
+          ' scroll-margin-bottom: 3em;' +
           '}',
         '.lit-scroller-secondary {' +
           ' border-color: red !important;' +
           ' border-style: solid !important;' +
           ' border-width: thin !important;' +
+          ' scroll-margin-bottom: 3em;' +
           '}',
         '.lit-info:modal {' +
           ' height: 100%;' +
@@ -6863,7 +6835,6 @@
       uidCallback: JobsCollections.uniqueJobIdentifier,
       classes: ['lit-scroller-primary'],
       snapToTop: false,
-      bottomMarginCSS: '3em',
     };
 
     /** @type {Scroller~What} */
@@ -6883,7 +6854,6 @@
       uidCallback: JobsCollections.uniquePaginationIdentifier,
       classes: ['lit-scroller-secondary'],
       snapToTop: false,
-      bottomMarginCSS: '3em',
       containerTimeout: 1000,
       observeAttributes: true,
     };
@@ -8993,7 +8963,6 @@
       uidCallback: SearchResultsPeople.uniquePaginationIdentifier,
       classes: ['lit-scroller-secondary'],
       snapToTop: false,
-      bottomMarginCSS: '3em',
       containerTimeout: 1000,
     };
 
