@@ -96,6 +96,7 @@ bitness
 bobInfo
 botButton
 bottomHalf
+bottomMargin
 bottomMarginCSS
 bottomMarginPixels
 browserName
@@ -468,6 +469,7 @@ infoName
 infoTabs
 infoWidget
 inheritdoc
+inInput
 initialHeight
 initializeInfoDialog
 initializeInfoView
@@ -1025,7 +1027,6 @@ TabContent
 TabDefinition
 TabEntry
 TabEntryTestCase
-tabGenerators
 tabindex
 tablist
 tabList

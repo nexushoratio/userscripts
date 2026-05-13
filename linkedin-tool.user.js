@@ -201,11 +201,6 @@
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-04-22'
     ),
-    ish(
-      '252',
-      'Move <code>LinkedInGlobals</code> into <code>LinkedIn</code>',
-      '2026-04-10'
-    ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
@@ -254,7 +249,7 @@
         ' scroller gets out of sync',
       '2026-05-09'
     ),
-    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-04-13'),
+    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-05-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-04-21'),
     ish(
@@ -267,9 +262,32 @@
       '<code>Page</code>: Finish migration to <code>lib/spa</code> version',
       '2026-05-06'
     ),
+    ish('322', '<code>Scroller</code>: Remove margin support', '2026-05-13'),
+    ish('325', '<code>isInput()</code> is overly broad', '2026-05-13'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-13',
+      issues: ['240', '322'],
+      subject: 'Move <code>bottomMargin*</code> support from' +
+        ' <code>Scroller</code> to CSS',
+    },
+    {
+      date: '2026-05-12',
+      issues: ['302'],
+      subject: 'Use own <code>ariaLabel</code> if present',
+    },
+    {
+      date: '2026-05-12',
+      issues: ['302'],
+      subject: 'Mix in how the uid was computed',
+    },
+    {
+      date: '2026-05-12',
+      issues: ['325'],
+      subject: 'Fork a custom version of <code>inInput()</code> for testing',
+    },
     {
       date: '2026-05-11',
       issues: ['302'],
@@ -535,24 +553,6 @@
       issues: ['232'],
       subject: 'Update to latest version of <code>focusOnTree()</code> to' +
         ' simplify code',
-    },
-    {
-      date: '2026-04-13',
-      issues: ['252'],
-      subject: 'Move the remaining items from <code>LinkedInGlobals</code>' +
-        ' to <code>LinkedIn</code>',
-    },
-    {
-      date: '2026-04-13',
-      issues: ['301'],
-      subject: 'Restrict secondary scrolling to <em>More jobs</em> in' +
-        ' <code>JobsView</code>',
-    },
-    {
-      date: '2026-04-12',
-      issues: ['297'],
-      subject: 'Partially handle the <code>About</code> section on the' +
-        ' <code>Profile</code> page',
     },
   ];
 
