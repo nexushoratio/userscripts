@@ -1658,7 +1658,11 @@
       const item = this.item;
 
       if (item) {
-        item.style.scrollMarginTop = this.#topMarginCSS;
+        if (this.#topMarginPixels) {
+          item.style.scrollMarginTop = this.#topMarginCSS;
+        } else {
+          delete item.style.scrollMarginTop;
+        }
         if (this.#snapToTop) {
           this.logger.log('snapping to top');
           item.scrollIntoView(true);
