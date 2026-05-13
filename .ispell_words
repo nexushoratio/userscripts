@@ -87,6 +87,8 @@ badgeNewsResultsStyle
 badgeNewsStyle
 badKlasses
 BaseClassCleanupTestCase
+baseService
+BaseService
 BasicFeaturesTestCase
 baz
 bbox
@@ -800,6 +802,7 @@ pageId
 pageInfoId
 pageName
 pageReadySelector
+pageService
 pageStyle
 PageTestCase
 paginationHow
@@ -1209,7 +1212,12 @@ testSaveRestoreConfigsTopLevel
 TestScoresTopLevel
 testSelectorNeedsBase
 testSeparatorsOnly
-testServices
+testService
+TestService
+testServicePagePropertyCannotBeAssignedTwice
+testServicePagePropertyInitialized
+testServicesActivation
+testServicesAdded
 testSetDestroysPrevious
 testSetRequiresPanel
 testSetUpdatesData
