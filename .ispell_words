@@ -1032,7 +1032,6 @@ tablist
 tabList
 tabSnippet
 TabsTestCase
-tabUiKeyboard
 tagName
 Tampermonkey
 tbody
@@ -1173,6 +1172,7 @@ testNoArgument
 testNoClasses
 testNoFactory
 testNormalInputs
+testNotAService
 testNotBaseAndContainerItems
 testNotEqual
 testOne
