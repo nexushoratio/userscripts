@@ -268,6 +268,17 @@
 
   const globalNewsContent = [
     {
+      date: '2026-05-14',
+      issues: ['302'],
+      subject: 'Support button list widget for <code>Topcard</code>' +
+        ' background carousels',
+    },
+    {
+      date: '2026-05-13',
+      issues: [''],
+      subject: 'Update <code>Feed</code>\'s <code>readySelector</code>',
+    },
+    {
       date: '2026-05-13',
       issues: ['240', '322'],
       subject: 'Move <code>bottomMargin*</code> support from' +
@@ -547,12 +558,6 @@
       issues: ['232'],
       subject: 'Make <code>enableScrollerChangesFocus</code> the only' +
         ' implementation',
-    },
-    {
-      date: '2026-04-14',
-      issues: ['232'],
-      subject: 'Update to latest version of <code>focusOnTree()</code> to' +
-        ' simplify code',
     },
   ];
 
