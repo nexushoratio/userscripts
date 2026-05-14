@@ -8325,6 +8325,9 @@
           `:scope[${CKEY}$="${TOP_CARD}"]` +
             ' [data-testid="carousel-child-container"]' +
             ' div:has(> a[href*="/in/"])',
+          // Buttons for Premium background carousel
+          `:scope[${CKEY}$="${TOP_CARD}"]` +
+            ' [data-testid="pagination-controls-list"]',
 
           // Highlights -- no discernable parts, using negative matching
           ':scope' +
