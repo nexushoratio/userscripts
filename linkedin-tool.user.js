@@ -16,7 +16,7 @@
 // @require     https://update.greasyfork.org/scripts/478349/1798299/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1802498/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1817415/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/570146/1824927/NH_spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -34,7 +34,7 @@
     {name: 'userscript', minVersion: 11},
     {name: 'web', minVersion: 14},
     {name: 'widget', minVersion: 46},
-    {name: 'spa', minVersion: 8},
+    {name: 'spa', minVersion: 9},
   ]);
 
   const APP_LONG = GM.info.script.name;
