@@ -3066,7 +3066,7 @@
       // Style 1
       'aside.scaffold-layout__aside',
       // Style 2
-      '#workspace > div > div > div:nth-of-type(3)',
+      '#workspace > div > div > section + aside',
     ].join(', ');
 
     static #icon =
@@ -3101,7 +3101,7 @@
       // Style 1
       'aside.scaffold-layout__sidebar',
       // Style 2
-      '#workspace > div > div > div:nth-of-type(1)',
+      '#workspace > div > div > aside:has(+ section)',
     ].join(', ');
 
     /**
