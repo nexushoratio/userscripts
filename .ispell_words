@@ -1261,7 +1261,6 @@ textarea
 textContent
 textNodes
 thead
-theirValue
 thirtyDays
 timeoutID
 toArray
@@ -1389,5 +1388,6 @@ xmlns
 xunit
 xUnit
 XUnit
+xxsmall
 xyzzy
 XyZzy

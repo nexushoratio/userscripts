@@ -5251,7 +5251,7 @@
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/feed/?', 'u'),
       // Sort by: X button (yes, the svg)
-      readySelector: 'main #chevron-down-medium',
+      readySelector: '#linkedin-logo-xxsmall',
     };
 
     /** @type {Scroller~How} */
@@ -5860,7 +5860,7 @@
       name: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
-      readySelector: 'main > div > div > div',
+      readySelector: '#linkedin-logo-xxsmall',
     };
 
     /** @type {Scroller~How} */
@@ -6142,7 +6142,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
-      readySelector: 'main > div > div > div',
+      readySelector: '#linkedin-logo-xxsmall',
     };
 
     static #invitesHow = {
@@ -6390,7 +6390,7 @@
     /** @type {Page~PageDetails} */
     static #details = {
       pathname: '/jobs/',
-      readySelector: 'main > div > div > div',
+      readySelector: '#linkedin-logo-xxsmall',
     };
 
     /** @type {Scroller~How} */
@@ -7245,7 +7245,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-      readySelector: 'main > div > div > div',
+      readySelector: '[data-sdui-component]',
     };
 
     /** @type {Scroller~How} */
@@ -8335,7 +8335,7 @@
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/in/.*', 'u'),
-      readySelector: '[data-sdui-component$="profileCardsAboveActivity"]',
+      readySelector: '[data-sdui-component]',
     };
 
     static #div3
@@ -9015,7 +9015,7 @@
 
     static #details = {
       pathname: '/search/results/people/',
-      readySelector: 'div > footer',
+      readySelector: '#linkedin-logo-xxsmall',
     };
 
     /** @type {Scroller~How} */
