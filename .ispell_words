@@ -109,6 +109,7 @@ buildShortcutsInfo
 builtInClasses
 buttonClasses
 ButtonFace
+byId
 byName
 callCount
 cardId
@@ -175,6 +176,7 @@ componentkey
 computePath
 computePathname
 computePathnameRE
+concat
 config
 configs
 configSaver
@@ -271,6 +273,7 @@ dummyArgs
 dummyEventCallback
 DummyMethodTestCase
 DummyService
+dumpWatched
 editItem
 EducationTopLevelSection
 ElementAdapter
@@ -455,6 +458,7 @@ idName
 idx
 iframe
 iframeDoc
+ignoredExtras
 ignoreInvite
 img
 inCleanup
@@ -1257,7 +1261,6 @@ textarea
 textContent
 textNodes
 thead
-theirSet
 theirValue
 thirtyDays
 timeoutID

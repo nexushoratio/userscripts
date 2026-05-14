@@ -4505,6 +4505,53 @@
       }
     );
 
+    dumpWatched = new Shortcut(
+      'c-c c-d',
+      'Dump watched elements (help find a readySelector)',
+      () => {
+        const me = this.dumpWatched.name;
+        this.#logger.entered(me);
+
+        try {
+          const byId = new NH.base.DefaultMap(Array);
+          // Will get wrapped in a `:not(...)`
+          const ignoredExtras = [
+            'iframe',
+            'img',
+            'figure',
+          ];
+
+          // Eliminate element ids used more than once.
+          document.querySelectorAll('[data-counter][id]')
+            .values()
+            .map(x => byId.get(x.id)
+              .push(1))
+            .toArray();
+
+          const nots = byId.entries()
+            .filter(x => x[1].length > 1)
+            .map(x => `#${x[0]}`)
+            .toArray()
+            .concat(ignoredExtras)
+            .map(x => `:not(${x})`)
+            .join('');
+
+          this.#logger.log(
+            'watched',
+            document.querySelectorAll(`[data-counter]${nots}`)
+              .values()
+              .map(x => [x.dataset.counter, x])
+              .toArray()
+              .sort((a, b) => b[0] - a[0])
+          );
+        } catch (e) {
+          this.#logger.log('caught', e);
+        }
+
+        this.#logger.leaving(me);
+      }
+    );
+
     #logger
 
   }
