@@ -4309,32 +4309,6 @@
 
   }
 
-  /** TODO(#295): This is a hack.  Find a more principled solution. */
-  class HybridFixerService extends NH.base.Service {
-
-    /**
-     * @param {string} instanceName - Custom portion of this instance.
-     * @param {Page} page - Page this service is tied to.
-     */
-    constructor(instanceName, page) {
-      super(instanceName);
-      this.#page = page;
-      this.on('activate', this.#onActivate);
-    }
-
-    #page
-
-    #onActivate = () => {
-      const pageStyle = this.#page.spa.details.pageStyle;
-      const main = document.querySelector('main')?.id;
-      if (pageStyle === LinkedIn.Style.ONE && main === 'workspace') {
-        this.logger.log('hybrid mode, reloading');
-        document.location.reload();
-      }
-    }
-
-  }
-
   /**
    * Verify a {Page} implementation and current site style match.
    *
@@ -4567,7 +4541,8 @@
     constructor(spa) {
       super({spa: spa});
 
-      this.addService(HybridFixerService, this);
+      this.addService(NH.spa.Page.Service)
+        .on('activate', this.#onHybridActivate);
 
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.ONE, LinkedIn.Style.TWO);
@@ -4846,6 +4821,21 @@
         .closest(`:has(${target})`)
         .querySelector(target)
         .click();
+
+      this.logger.leaving(me);
+    }
+
+    /** TODO(#295): This is a hack.  Find a more principled solution. */
+    #onHybridActivate = () => {
+      const me = this.#onHybridActivate.name;
+      this.logger.entered(me, this.spa.details.pageStyle);
+
+      const main = document.querySelector('main')?.id;
+      if (this.spa.details.pageStyle === LinkedIn.Style.ONE &&
+          main === 'workspace') {
+        this.logger.log('hybrid mode, reloading');
+        document.location.reload();
+      }
 
       this.logger.leaving(me);
     }

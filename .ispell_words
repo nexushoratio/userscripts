@@ -759,6 +759,7 @@ onEvent
 onEventChange
 onFocus
 onHide
+onHybridActivate
 onIndividualChange
 onIndividualFocus
 onInit
@@ -1274,7 +1275,6 @@ toggleFollowCompany
 toggleItem
 toggleSaveJob
 toggleStar
-toggleThumbsUp
 toJSON
 toLowerCase
 ToMyLou
