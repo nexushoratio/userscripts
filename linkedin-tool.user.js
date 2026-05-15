@@ -264,9 +264,41 @@
     ),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-05-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-05-13'),
+    ish(
+      '327',
+      'Style-2 pages need new <code>readySelector</code>s.',
+      '2026-05-15'
+    ),
+    ish('328', 'Update layout selectors for Style-2 pages', '2026-05-15'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-15',
+      issues: ['302'],
+      subject: 'Handle the case where a post link may not have search params',
+    },
+    {
+      date: '2026-05-15',
+      issues: ['302'],
+      subject: 'Handle deeper links to posts separately',
+    },
+    {
+      date: '2026-05-15',
+      issues: ['328'],
+      subject: 'Update <code>Scroller</code> selectors for a couple of' +
+        ' different pages',
+    },
+    {
+      date: '2026-05-14',
+      issues: ['328'],
+      subject: 'Update selectors for Style-2 asides',
+    },
+    {
+      date: '2026-05-14',
+      issues: ['327'],
+      subject: 'Update <code>readySelector</code>s all around',
+    },
     {
       date: '2026-05-14',
       issues: ['302'],
