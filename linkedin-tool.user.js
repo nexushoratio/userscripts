@@ -8190,8 +8190,9 @@
         const url = new URL(href);
         pathname = url.pathname;
         if (pathname.startsWith('/feed/update/')) {
-          // Another key might be 'dashReplyUrn'.
-          pathname = url.searchParams.get('dashCommentUrn');
+          pathname = url.searchParams.get('dashCommentUrn') ||
+            url.searchParams.get('dashReplyUrn') ||
+            pathname;
         }
         // The Activity > Images grid all link to the Profile.
         if (img && ['/', page.pathname].includes(pathname)) {
