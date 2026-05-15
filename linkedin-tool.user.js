@@ -8152,7 +8152,10 @@
       const key = LinkedIn.ckeyIdentifier(element);
       const href = element.href;
       const img = element.querySelector(':scope:is(a) img')?.src;
-      const anchor = element.querySelector('a:not([href*="/safety/"])')?.href;
+      const anchor = element.querySelector(
+        'a:not([href*="/feed/"]):not([href*="/safety/"])'
+      )?.href;
+      const feedAnchor = element.querySelector('a[href*="/feed/"')?.href;
       const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
       const anchors = element.querySelectorAll('a');
       const ariaLabel = element.ariaLabel ||
@@ -8171,6 +8174,10 @@
       if (safetyAnchor) {
         mode = 'safetyAnchor';
         content = new URL(safetyAnchor).searchParams.get('urlhash');
+      }
+      if (feedAnchor) {
+        mode = 'feedAnchor';
+        content = new URL(feedAnchor).pathname;
       }
       if (anchor) {
         pathname = new URL(anchor).pathname;

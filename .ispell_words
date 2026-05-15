@@ -335,6 +335,7 @@ failMsg
 failMsgs
 fakeErrorRate
 falsy
+feedAnchor
 FeedType
 FetchState
 fff
@@ -1269,7 +1270,6 @@ TODO
 toggleAlert
 toggleCenter
 toggleDismissJob
-toggleDismissPost
 toggleFollowCompany
 toggleItem
 toggleSaveJob
