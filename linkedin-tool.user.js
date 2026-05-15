@@ -5842,14 +5842,13 @@
       name: `${this.name} cards`,
       containerItems: [
         {
-          container: 'main > div > div > div:nth-of-type(2) > div',
+          container: 'main > div > div > section',
           items: [
             // Most "Grow" cards
-            '[role="main"] > div > div > div > section',
-            // Other "Grow" cards
-            '[role="main"] > div > div > section',
-            // "Catch up" card
-            ':scope > div > section',
+            ':scope > div > div > div > div > section',
+            ':scope > div > div > div > div > div > section',
+            // "Catch up"
+            ':scope > div > div > section',
           ].join(','),
         },
       ],
@@ -6155,7 +6154,7 @@
       name: `${this.name} cards`,
       containerItems: [
         {
-          container: 'main [role="main"] [data-testid="lazy-column"]',
+          container: 'main > div > div > section [data-testid="lazy-column"]',
           items: [
             // Standard invites
             `:scope > div[${CKEY}]`,
