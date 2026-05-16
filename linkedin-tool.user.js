@@ -274,6 +274,18 @@
 
   const globalNewsContent = [
     {
+      date: '2026-05-16',
+      issues: ['302'],
+      subject: 'Support the <code>Activity</code> -> <code>Articles</code>' +
+        ' subsection',
+    },
+    {
+      date: '2026-05-15',
+      issues: ['240'],
+      subject: 'Migrate <code>Feed</code> to a page-specific CSS class' +
+        ' for <code>Scroller</code>s',
+    },
+    {
       date: '2026-05-15',
       issues: ['302'],
       subject: 'Handle the case where a post link may not have search params',
@@ -584,12 +596,6 @@
       issues: ['106'],
       subject: 'Update the icon to better handle resizing/placement in' +
         ' the navbar',
-    },
-    {
-      date: '2026-04-16',
-      issues: ['232'],
-      subject: 'Make <code>enableScrollerChangesFocus</code> the only' +
-        ' implementation',
     },
   ];
 
