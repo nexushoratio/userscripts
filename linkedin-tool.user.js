@@ -4346,15 +4346,13 @@
    *
    * It will post a bug on mismatches.
    */
-  class LinkedInStyleService extends NH.base.Service {
+  class LinkedInStyleService extends NH.spa.Page.Service {
 
     /**
      * @param {string} instanceName - Custom portion of this instance.
-     * @param {Page} page - Page this service is tied to.
      */
-    constructor(instanceName, page) {
+    constructor(instanceName) {
       super(instanceName);
-      this.#page = page;
       this.on('activate', this.#onActivate);
     }
 
@@ -4370,11 +4368,10 @@
     }
 
     #allowedStyles = new Set();
-    #page
 
     #onActivate = () => {
-      if (!this.#allowedStyles.has(this.#page.spa.details.pageStyle)) {
-        const style = this.#page.spa.details.pageStyle.toString()
+      if (!this.#allowedStyles.has(this.page.spa.details.pageStyle)) {
+        const style = this.page.spa.details.pageStyle.toString()
           .replace('Symbol(', '')
           .replace(')', '');
         NH.base.issues.post([
@@ -4576,7 +4573,7 @@
       this.addService(NH.spa.Page.Service)
         .on('activate', this.#onHybridActivate);
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE, LinkedIn.Style.TWO);
 
       const keyboardService = this.addService(VMKeyboardService)
@@ -4883,7 +4880,7 @@
 
       this.#sortByResizeObserver = new ResizeObserver(this.#sortByRoHandler);
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -5654,7 +5651,7 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -6007,7 +6004,7 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -6252,7 +6249,7 @@
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -6594,7 +6591,7 @@
     constructor(spa) {
       super({spa: spa, ...JobsCollections.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
@@ -7077,7 +7074,7 @@
     constructor(spa) {
       super({spa: spa, ...JobsView.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -7378,7 +7375,7 @@
     constructor(spa) {
       super({spa: spa, ...Messaging.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
@@ -7849,7 +7846,7 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
@@ -8123,7 +8120,7 @@
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
@@ -8687,7 +8684,7 @@
     constructor(spa) {
       super({spa: spa, ...Events.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
@@ -8931,7 +8928,7 @@
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
 
-      this.addService(LinkedInStyleService, this)
+      this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
