@@ -8484,6 +8484,8 @@
           `div[${CKEY}*="videos"] div > a:not(:has(svg[id^="arrow-right"]))`,
           // Images are a straight forward series of `a`
           `div[${CKEY}*="images"] div > a:not(:has(svg))`,
+          // Articles are a straight forward series of `a`
+          `div[${CKEY}*="articles"] div > a:not(:has(svg))`,
           // Newsletters have both subscribe and posts subsections
           `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
           `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
