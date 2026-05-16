@@ -88,35 +88,7 @@
       }
     ],
     "no-ternary": "off",
-    "no-underscore-dangle": [  // TODO(#141): Periodically review.
-      "error",
-      {
-        "allow": [
-          "_addInfo",
-          "_addInfoDialog",
-          "_addInfoStyle",
-          "_addInfoViewHandlers",
-          "_dull",
-          "_findPages",
-          "_info",
-          "_infoId",
-          "_initializeInfoDialog",
-          "_initializeInfoView",
-          "_initializeTabUiKeyboard",
-          "_lastInputElement",
-          "_nextTab",
-          "_onFocus",
-          "_pageHeader",
-          "_pageInfoId",
-          "_prevTab",
-          "_setKeyboardContext",
-          "_shine",
-          "_shortcutsTab",
-          "_tabUiKeyboard",
-          "_updateInfoErrorsLabel"
-        ]
-      }
-    ],
+    "no-underscore-dangle": "error",
     "no-unused-expressions": "off",
     "no-warning-comments": [
       "error",
