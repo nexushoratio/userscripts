@@ -4881,14 +4881,17 @@
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
+      this.#sortByResizeObserver = new ResizeObserver(this.#sortByRoHandler);
+
       this.addService(LinkedInStyleService, this)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      spa.details.navbarScrollerFixup(Feed.#postsHow);
-      spa.details.navbarScrollerFixup(Feed.#commentsHow);
+      this.addService(NH.spa.Page.Service)
+        .on('activate', this.#onActivateWidgetRo)
+        .on('deactivate', this.#onDeactivateWidgetRo);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(ScrollerService)
@@ -5250,7 +5253,7 @@
     /** @type {Scroller~How} */
     static #commentsHow = {
       uidCallback: Feed.uniqueCommentIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: ['lit-scroller-secondary', 'lit-feed'],
       autoActivate: true,
       snapToTop: false,
     };
@@ -5279,7 +5282,7 @@
     /** @type {Scroller~How} */
     static #postsHow = {
       uidCallback: Feed.uniquePostIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: ['lit-scroller-primary', 'lit-feed'],
       snapToTop: true,
     };
 
@@ -5299,6 +5302,7 @@
       ],
     };
 
+    static #scrollerStyle
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     static #uidCommentRE =
@@ -5309,6 +5313,49 @@
     #commentScroller
     #lastScroller
     #postScroller
+    #sortByResizeObserver
+    #sortByWidget
+
+    #onActivateWidgetRo = () => {
+      const me = this.#onActivateWidgetRo.name;
+      this.logger.entered(me);
+
+      if (!Feed.#scrollerStyle) {
+        Feed.#scrollerStyle = document.createElement('style');
+        document.head.prepend(Feed.#scrollerStyle);
+      }
+
+      // We want the element with the listener, which happens to be the one
+      // with the "aria-expanded".
+      if (!this.#sortByWidget?.isConnected) {
+        this.#sortByWidget = document.querySelector('#chevron-down-medium')
+          ?.closest('[aria-expanded]');
+      }
+
+      if (this.#sortByWidget) {
+        this.#sortByResizeObserver.observe(this.#sortByWidget);
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onDeactivateWidgetRo = () => {
+      this.#sortByResizeObserver.disconnect();
+    }
+
+    #setScrollerStyle = () => {
+      const height = this.#sortByWidget?.clientHeight || 0;
+      const styles = [
+        '.lit-feed {' +
+          ` scroll-margin-top: ${height}px;` +
+          '}',
+      ];
+      Feed.#scrollerStyle.textContent = styles.join('\n');
+    }
+
+    #sortByRoHandler = () => {
+      this.#setScrollerStyle();
+    }
 
     /** @returns {HTMLElement} - Header container for current post. */
     #getPostHeader = () => {

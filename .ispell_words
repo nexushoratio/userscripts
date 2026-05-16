@@ -741,6 +741,7 @@ oldItems
 oldPages
 oldUrl
 onActivate
+onActivateWidgetRo
 onBuild
 onCardChange
 onChange
@@ -752,6 +753,7 @@ onCommentChange
 onConvoCardActivate
 onConvoCardChange
 onDeactivate
+onDeactivateWidgetRo
 onDestroy
 onDetailsChange
 onEntryChange
@@ -941,6 +943,7 @@ scroller
 scrollerHows
 scrollerId
 ScrollerService
+scrollerStyle
 ScrollerTestCase
 scrollIntoView
 scrollMarginBottom
@@ -973,6 +976,7 @@ setContext
 setDetails
 setKeyboardContext
 setScroller
+setScrollerStyle
 setTimeout
 setTitle
 setUp
@@ -993,6 +997,9 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
+sortByResizeObserver
+sortByRoHandler
+sortByWidget
 sourceforge
 spaInstance
 spaLabel
@@ -1302,7 +1309,6 @@ uidDetailsClassRE
 uidPostRE
 uids
 uidSectionPrefix
-uidSectionRE
 ul
 undef
 unicode
