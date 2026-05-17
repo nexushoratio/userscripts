@@ -746,6 +746,7 @@ oldPages
 oldUrl
 onActivate
 onActivateTablistRo
+onActivateUnsupportedPageCheck
 onActivateWidgetRo
 onBuild
 onCardChange
@@ -1392,7 +1393,6 @@ wasSuccessful
 watchForClicks
 WatchPage
 WeakRef
-whac
 WidgetTestCase
 wikipedia
 willError

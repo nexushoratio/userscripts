@@ -4600,7 +4600,8 @@
       }
 
       if (litOptions.enableAlertUnsupportedPages) {
-        this.addService(Global.#Activator, this);
+        this.addService(NH.spa.Page.Service)
+          .on('activate', this.#onActivateUnsupportedPageCheck);
       }
     }
 
@@ -4752,64 +4753,48 @@
       this.spa.details.pageChanged();
     }
 
-    static #Activator = class extends NH.base.Service {
+    #onActivateUnsupportedPageCheck = () => {
+      const me = this.#onActivateUnsupportedPageCheck.name;
+      this.logger.entered(me, this.spa);
 
-      /**
-       * @param {string} instanceName - Custom portion of this instance.
-       * @param {Page} page - Page this service is tied to.
-       */
-      constructor(instanceName, page) {
-        super(instanceName);
-        this.#page = page;
-        this.on('activate', this.#onActivate);
-      }
-
-      #page
-
-      /** Called each time service is activated. */
-      #onActivate = () => {
-        const me = 'onActivate';
-        this.logger.entered(me);
-
-        if (this.#page.spa.activePages.size === NH.base.ONE_ITEM) {
-          const pathname = window.location.pathname;
-          /* eslint-disable prefer-regex-literals */
-          const knownUrlsTodo = [
-            // TODO(#237): Support *SpecificEvent* pages
-            RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
-            // TODO(#253): Support *My Network Events* page
-            '/mynetwork/network-manager/events/',
-            // TODO(#255): Support *Search appearances* page
-            '/analytics/search-appearances/',
-            // TODO(#256): Support *Verify* page
-            RegExp('/verify/?.*', 'u'),
-            // TODO(#257): Support *Analytics & tools* page
-            '/dashboard/',
-            // TODO(#260): Support *My Jobs* page
-            RegExp('^/my-items/saved-jobs/.*', 'u'),
-            // TODO(#261): Support *Follow Page* Page
-            '/suggested-for-you/follow-page/',
-            // TODO(#262): Support *Analytics Posts* Page
-            '/analytics/creator/content/',
-            // TODO(#263): Support *Feed update* Page
-            '/feed/update/',
-            // TODO(#264): Support *Saved Posts* Page
-            '/my-items/saved-posts/',
-            // TODO(#265): Support *Post analytics* Page
-            '/analytics/post-summary/',
-            // TODO(#266): Support *Company* Page
-            '/company/',
-          ];
+      // TODO(#322): optional chaining because the API is unsupported.
+      if (this.spa.activePages?.size === NH.base.ONE_ITEM) {
+        const pathname = window.location.pathname;
+        /* eslint-disable prefer-regex-literals */
+        const knownUrlsTodo = [
+          // TODO(#237): Support *SpecificEvent* pages
+          RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
+          // TODO(#253): Support *My Network Events* page
+          '/mynetwork/network-manager/events/',
+          // TODO(#255): Support *Search appearances* page
+          '/analytics/search-appearances/',
+          // TODO(#256): Support *Verify* page
+          RegExp('/verify/?.*', 'u'),
+          // TODO(#257): Support *Analytics & tools* page
+          '/dashboard/',
+          // TODO(#260): Support *My Jobs* page
+          RegExp('^/my-items/saved-jobs/.*', 'u'),
+          // TODO(#261): Support *Follow Page* Page
+          '/suggested-for-you/follow-page/',
+          // TODO(#262): Support *Analytics Posts* Page
+          '/analytics/creator/content/',
+          // TODO(#263): Support *Feed update* Page
+          '/feed/update/',
+          // TODO(#264): Support *Saved Posts* Page
+          '/my-items/saved-posts/',
+          // TODO(#265): Support *Post analytics* Page
+          '/analytics/post-summary/',
+          // TODO(#266): Support *Company* Page
+          '/company/',
+        ];
           /* eslint-enable */
 
-          if (!knownUrlsTodo.some(x => pathname.match(x))) {
-            NH.base.issues.post('Unsupported page:', window.location);
-          }
+        if (!knownUrlsTodo.some(x => pathname.match(x))) {
+          NH.base.issues.post('Unsupported page:', window.location);
         }
-
-        this.logger.leaving(me);
       }
 
+      this.logger.leaving(me);
     }
 
     /**
