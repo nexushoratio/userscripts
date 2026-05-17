@@ -8145,7 +8145,7 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueSectionIdentifier(element) {  // eslint-disable-line max-statements
+    static uniqueSectionIdentifier(element) {  // eslint-disable-line max-statements, max-lines-per-function
       const me = Profile.uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -8155,6 +8155,9 @@
       const h2 = LinkedIn.h2(element);
       let viaH2 = false;
       const activity = element.closest(`[${CKEY}$="Activity"]`);
+      const similarTo = element.closest(
+        `[${CKEY}^="ProfilePostConnectDrawer"]`
+      );
       const analytics = element.querySelector('a[href$="/dashboard/"]');
 
       if (key) {
@@ -8169,6 +8172,10 @@
       }
       if (activity) {
         content = 'Activity';
+        viaH2 = false;
+      }
+      if (similarTo) {
+        content = 'SimilarTo';
         viaH2 = false;
       }
       if (analytics) {
@@ -8562,6 +8569,7 @@
       'RecommendationsTopLevel, PublicationTopLevelSection',
       'Services, Activity',
       'Services, Featured',
+      'SimilarTo, Highlights',
       'Skills, CourseTopLevelSection',
       'Skills, HonorsTopLevel',
       'Skills, Interests',
@@ -8576,6 +8584,7 @@
       'Topcard, Analytics',
       'Topcard, Featured',
       'Topcard, Highlights',
+      'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
       'VolunteerExperienceTopLevel, RecommendationsTopLevel',
       'VolunteerExperienceTopLevel, Skills',
