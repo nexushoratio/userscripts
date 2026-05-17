@@ -324,12 +324,14 @@ eventScroller
 eventsHow
 eventsWhat
 eventType
+EventTypeError
 eventTypes
 eventUrn
 evt
 ExceptionTestCase
 ExperienceTopLevelSection
 extractTestMethods
+FactoryTypeError
 failedMethod
 failMsg
 failMsgs
@@ -584,6 +586,7 @@ listitem
 litLabel
 litOptions
 litPanel
+LoadError
 LoadMoreComments
 loadMoreConversations
 loadMoreNotifications
@@ -626,6 +629,7 @@ messagingOptions
 messagingOptionsSelector
 methodName
 minVersion
+MinVersionError
 missingDescriptionsAreErrors
 missingFirst
 missingSecond
@@ -1368,7 +1372,6 @@ viaH
 viewBox
 viewInviter
 viewItem
-viewName
 viewReactions
 viewReposts
 viewTarget
