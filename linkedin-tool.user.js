@@ -2756,6 +2756,11 @@
       return this.#asideSelector;
     }
 
+    /** @type {string} - LinkedIn's primary content for many layouts. */
+    static get primaryContentSelector() {
+      return this.#primaryContentSelector;
+    }
+
     /** @type {string} - LinkedIn's common navigation bar. */
     static get primaryNavSelector() {
       return this.#primaryNavSelector;
@@ -3127,6 +3132,11 @@
       '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
+
+    static #primaryContentSelector = [
+      // Style 2
+      '#workspace > div > div > section',
+    ].join(', ');
 
     static #primaryNavSelector = [
       // Style 1
@@ -5846,7 +5856,9 @@
       'l',
       'Focus on Manage invitations tab list',
       () => {
-        const el = document.querySelector('main nav [aria-current]');
+        const el = document.querySelector(
+          `${LinkedIn.primaryContentSelector} [aria-current]`
+        );
         el.scrollIntoView(false);
         NH.web.focusOnElement(el);
       }
@@ -5914,7 +5926,7 @@
       name: `${this.name} cards`,
       containerItems: [
         {
-          container: 'main > div > div > section',
+          container: LinkedIn.primaryContentSelector,
           items: [
             // Most "Grow" cards
             ':scope > div > div > div > div > section',
@@ -6226,7 +6238,8 @@
       name: `${this.name} cards`,
       containerItems: [
         {
-          container: 'main > div > div > section [data-testid="lazy-column"]',
+          container: `${LinkedIn.primaryContentSelector}` +
+            ' [data-testid="lazy-column"]',
           items: [
             // Standard invites
             `:scope > div[${CKEY}]`,

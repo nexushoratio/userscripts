@@ -859,6 +859,7 @@ prevResult
 prevResultsPage
 prevSection
 prevTab
+primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
 profileCardsAboveActivity
@@ -1323,7 +1324,6 @@ uniqueDetailsIdentifier
 uniqueEntryIdentifier
 uniqueEventIdentifier
 uniqueFooIdentifier
-uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueInvitationIdentifier
 uniqueJobIdentifier
