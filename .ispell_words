@@ -1050,6 +1050,7 @@ TabEntryTestCase
 tabindex
 tablist
 tabList
+tablistSelector
 tabSnippet
 TabsTestCase
 tagName
@@ -1346,7 +1347,6 @@ urlChangeMonitorSelector
 urlhash
 urlMonitorHandler
 urlMonitorObserver
-UseNewSpa
 useOriginalInfoDialog
 userAgentData
 UserLibrary

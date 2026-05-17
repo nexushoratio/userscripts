@@ -5857,7 +5857,7 @@
       'Focus on Manage invitations tab list',
       () => {
         const el = document.querySelector(
-          `${LinkedIn.primaryContentSelector} [aria-current]`
+          `${MyNetwork.#tablistSelector} [aria-current]`
         );
         el.scrollIntoView(false);
         NH.web.focusOnElement(el);
@@ -5971,6 +5971,8 @@
         ].join(','),
       ],
     };
+
+    static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
 
     #collectionScroller
     #individualScroller
