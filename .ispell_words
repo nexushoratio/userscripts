@@ -741,6 +741,7 @@ oldItems
 oldPages
 oldUrl
 onActivate
+onActivateTablistRo
 onActivateWidgetRo
 onBuild
 onCardChange
@@ -753,6 +754,7 @@ onCommentChange
 onConvoCardActivate
 onConvoCardChange
 onDeactivate
+onDeactivateTablistRo
 onDeactivateWidgetRo
 onDestroy
 onDetailsChange
@@ -1050,7 +1052,10 @@ TabEntryTestCase
 tabindex
 tablist
 tabList
+tablistResizeObserver
+tablistRoHandler
 tablistSelector
+tablistWidget
 tabSnippet
 TabsTestCase
 tagName
@@ -1347,7 +1352,6 @@ urlChangeMonitorSelector
 urlhash
 urlMonitorHandler
 urlMonitorObserver
-useOriginalInfoDialog
 userAgentData
 UserLibrary
 userscript

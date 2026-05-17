@@ -5667,14 +5667,19 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
+      this.#tablistResizeObserver = new ResizeObserver(
+        this.#tablistRoHandler
+      );
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      spa.details.navbarScrollerFixup(MyNetwork.#collectionsHow);
-      spa.details.navbarScrollerFixup(MyNetwork.#individualsHow);
+      this.addService(NH.spa.Page.Service)
+        .on('activate', this.#onActivateTablistRo)
+        .on('deactivate', this.#onDeactivateTablistRo);
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
@@ -5917,7 +5922,7 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: MyNetwork.uniqueCollectionIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: ['lit-scroller-primary', 'lit-mynetwork'],
       snapToTop: true,
     };
 
@@ -5949,7 +5954,7 @@
     /** @type {Scroller~How} */
     static #individualsHow = {
       uidCallback: MyNetwork.uniqueIndividualsIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: ['lit-scroller-secondary', 'lit-mynetwork'],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -5972,11 +5977,58 @@
       ],
     };
 
+    static #scrollerStyle
     static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
 
     #collectionScroller
     #individualScroller
     #lastScroller
+    #tablistResizeObserver
+    #tablistWidget
+
+    #tablistRoHandler = () => {
+      this.#setScrollerStyle();
+    }
+
+    #onActivateTablistRo = () => {
+      const me = this.#onActivateTablistRo.name;
+      this.logger.entered(me, MyNetwork.#tablistSelector);
+
+      if (!MyNetwork.#scrollerStyle) {
+        MyNetwork.#scrollerStyle = document.createElement('style');
+        document.head.prepend(MyNetwork.#scrollerStyle);
+      }
+
+      if (!this.#tablistWidget?.isConnected) {
+        this.#tablistWidget = document.querySelector(
+          MyNetwork.#tablistSelector
+        );
+      }
+
+      if (this.#tablistWidget) {
+        this.#tablistResizeObserver.observe(this.#tablistWidget);
+        this.#setScrollerStyle();
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onDeactivateTablistRo = () => {
+      this.#tablistResizeObserver.disconnect();
+    }
+
+    #setScrollerStyle = () => {
+      // We want just enough such that when the top element is active, the
+      // tablist is visible.
+      const padding = 6;
+      const height = this.#tablistWidget?.clientHeight || 0;
+      const styles = [
+        '.lit-mynetwork {' +
+          ` scroll-margin-top: ${height + padding}px;` +
+          '}',
+      ];
+      MyNetwork.#scrollerStyle.textContent = styles.join('\n');
+    }
 
     #resetIndividuals = () => {
       if (this.#individualScroller) {
