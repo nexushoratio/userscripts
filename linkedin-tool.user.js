@@ -2923,16 +2923,6 @@
       return this.#dispatcher;
     }
 
-    /** @type {string} - The element.id used to identify the info pop-up. */
-    get infoId() {
-      return this.#infoId;
-    }
-
-    /** @param {string} val - Set the value of the info element.id. */
-    set infoId(val) {
-      this.#infoId = val;
-    }
-
     /**
      * @typedef {object} LicenseData
      * @property {string} name - Name of the license.
@@ -3203,7 +3193,6 @@
     #errorText
     #globals
     #iframeDoc
-    #infoId
     #infoKeyboard
     #infoTabs
     #infoWidget
