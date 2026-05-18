@@ -182,7 +182,6 @@
     ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
-    ish('232', '<code>Scroller</code>: Change the focus UX', '2026-03-29'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
     ish(
       '239',
@@ -273,6 +272,32 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-17',
+      issues: ['240'],
+      subject: 'Migrate <code>MyNetwork</code> to a page-specific CSS' +
+        ' class for <code>Scroller</code>s',
+    },
+    {
+      date: '2026-05-17',
+      issues: ['240'],
+      subject: 'Factor out a tablist selector for reuse',
+    },
+    {
+      date: '2026-05-17',
+      issues: ['240'],
+      subject: 'Factor out a <code>primaryContentSelector</code>',
+    },
+    {
+      date: '2026-05-16',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
+    {
+      date: '2026-05-16',
+      issues: ['302'],
+      subject: 'Identified a rare <code>People Similar to ...</code> section',
+    },
     {
       date: '2026-05-16',
       issues: ['302'],
@@ -590,12 +615,6 @@
       date: '2026-04-19',
       issues: ['106'],
       subject: 'Another tweak for icon for navbar placement',
-    },
-    {
-      date: '2026-04-18',
-      issues: ['106'],
-      subject: 'Update the icon to better handle resizing/placement in' +
-        ' the navbar',
     },
   ];
 
