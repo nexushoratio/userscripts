@@ -978,7 +978,7 @@
      */
 
     /**
-     * Function that finds an DOM element based upon another one.
+     * Function that finds a DOM element based upon another one.
      *
      * Useful for cases where CSS selectors are not sufficient.
      * @callback ElementFinder
