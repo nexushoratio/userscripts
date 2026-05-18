@@ -8613,6 +8613,8 @@
           // Newsletters have both subscribe and posts subsections
           `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
           `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
+          // Events are a straight forward series of `a`
+          `div[${CKEY}*="events"] div > a:not(:has(> svg))`,
           // Documents
           `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
 
