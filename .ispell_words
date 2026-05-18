@@ -10,7 +10,6 @@ activateNotification
 activeCenter
 activeElement
 activeFirst
-activePageNames
 activePages
 addClassCleanup
 addCleanup
@@ -949,10 +948,14 @@ scriptHandler
 scriptMetaStr
 scrollBy
 scroller
+scrollerClassName
+scrollerFinder
 scrollerHows
 scrollerId
 ScrollerService
 scrollerStyle
+scrollerStyleConfig
+ScrollerStyleService
 ScrollerTestCase
 scrollIntoView
 scrollMarginBottom
@@ -986,6 +989,7 @@ setDetails
 setKeyboardContext
 setScroller
 setScrollerStyle
+setStyle
 setTimeout
 setTitle
 setUp

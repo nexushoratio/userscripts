@@ -4880,6 +4880,86 @@
 
   }
 
+  /** Update a style element every time a particular element changes size. */
+  class ScrollerStyleService extends NH.base.Service {
+
+    /**
+     * Function that finds a DOM element.
+     *
+     * @callback Finder
+     * @returns {HTMLElement} - Desired element.
+     */
+
+    /**
+     * @typedef {object} Config
+     * @property {string} className - Name for the class to control.
+     * @property {Finder} finder - Function to find the element to monitor.
+     */
+
+    /**
+     * @param {string} instanceName - Custom portion of this instance.
+     * @param {Config} config - Instance configuration.
+     */
+    constructor(instanceName, config) {
+      super(instanceName);
+
+      ({
+        className: this.#className,
+        finder: this.#finder,
+      } = config);
+
+      this.#observer = new ResizeObserver(this.#handler);
+
+      this.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate);
+    }
+
+    #className
+    #finder
+    #observer
+    #style
+    #widget
+
+    #onActivate = () => {
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
+      if (!this.#style) {
+        this.#style = document.createElement('style');
+        document.head.prepend(this.#style);
+      }
+
+      if (!this.#widget?.isConnected) {
+        this.#widget = this.#finder();
+      }
+
+      if (this.#widget) {
+        this.#observer.observe(this.#widget);
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onDeactivate = () => {
+      this.#observer.disconnect();
+    }
+
+    #handler = () => {
+      this.#setStyle();
+    }
+
+    #setStyle = () => {
+      const height = this.#widget?.clientHeight || 0;
+      const styles = [
+        `.${this.#className} {` +
+          ` scroll-margin-top: ${height}px;` +
+          '}',
+      ];
+      this.#style.textContent = styles.join('\n');
+    }
+
+  }
+
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
@@ -4887,17 +4967,13 @@
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
-      this.#sortByResizeObserver = new ResizeObserver(this.#sortByRoHandler);
+      this.addService(ScrollerStyleService, Feed.#scrollerStyleConfig);
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      this.addService(NH.spa.Page.Service)
-        .on('activate', this.#onActivateWidgetRo)
-        .on('deactivate', this.#onDeactivateWidgetRo);
 
       this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
       this.addService(ScrollerService)
@@ -4908,6 +4984,11 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
+    }
+
+    /** Work around overly picky style checker. */
+    static get scrollerClassName() {
+      return 'lit-feed';
     }
 
     /**
@@ -4962,6 +5043,15 @@
 
       this.logger.leaving(me, content);
       return content;
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    static scrollerFinder = () => {
+      // We want the element with the listener, which happens to be the one
+      // with the "aria-expanded".
+      const ret = document.querySelector('#chevron-down-medium')
+        ?.closest('[aria-expanded]');
+      return ret;
     }
 
     /** @type {Scroller} */
@@ -5259,7 +5349,7 @@
     /** @type {Scroller~How} */
     static #commentsHow = {
       uidCallback: Feed.uniqueCommentIdentifier,
-      classes: ['lit-scroller-secondary', 'lit-feed'],
+      classes: ['lit-scroller-secondary', Feed.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -5288,7 +5378,7 @@
     /** @type {Scroller~How} */
     static #postsHow = {
       uidCallback: Feed.uniquePostIdentifier,
-      classes: ['lit-scroller-primary', 'lit-feed'],
+      classes: ['lit-scroller-primary', Feed.scrollerClassName],
       snapToTop: true,
     };
 
@@ -5308,7 +5398,11 @@
       ],
     };
 
-    static #scrollerStyle
+    static #scrollerStyleConfig = {
+      className: Feed.scrollerClassName,
+      finder: Feed.scrollerFinder,
+    };
+
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     static #uidCommentRE =
@@ -5319,49 +5413,6 @@
     #commentScroller
     #lastScroller
     #postScroller
-    #sortByResizeObserver
-    #sortByWidget
-
-    #onActivateWidgetRo = () => {
-      const me = this.#onActivateWidgetRo.name;
-      this.logger.entered(me);
-
-      if (!Feed.#scrollerStyle) {
-        Feed.#scrollerStyle = document.createElement('style');
-        document.head.prepend(Feed.#scrollerStyle);
-      }
-
-      // We want the element with the listener, which happens to be the one
-      // with the "aria-expanded".
-      if (!this.#sortByWidget?.isConnected) {
-        this.#sortByWidget = document.querySelector('#chevron-down-medium')
-          ?.closest('[aria-expanded]');
-      }
-
-      if (this.#sortByWidget) {
-        this.#sortByResizeObserver.observe(this.#sortByWidget);
-      }
-
-      this.logger.leaving(me);
-    }
-
-    #onDeactivateWidgetRo = () => {
-      this.#sortByResizeObserver.disconnect();
-    }
-
-    #setScrollerStyle = () => {
-      const height = this.#sortByWidget?.clientHeight || 0;
-      const styles = [
-        '.lit-feed {' +
-          ` scroll-margin-top: ${height}px;` +
-          '}',
-      ];
-      Feed.#scrollerStyle.textContent = styles.join('\n');
-    }
-
-    #sortByRoHandler = () => {
-      this.#setScrollerStyle();
-    }
 
     /** @returns {HTMLElement} - Header container for current post. */
     #getPostHeader = () => {
