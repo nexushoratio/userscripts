@@ -746,6 +746,7 @@ oldUrl
 onActivate
 onActivateTablistRo
 onActivateUnsupportedPageCheck
+onActivateWatch
 onActivateWidgetRo
 onBuild
 onCardChange
@@ -985,7 +986,6 @@ ServiceTestCase
 setAttribute
 setAutoManageLoggerConfigs
 setContext
-setDetails
 setKeyboardContext
 setScroller
 setScrollerStyle
