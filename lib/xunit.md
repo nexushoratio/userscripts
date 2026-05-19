@@ -2,9 +2,9 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUnit](https://en.wikipedia.org/wiki/XUnit) style test framework.
 
-## Exported properties (as of version 51)
+## Exported properties (as of version 60)
 * version - Bumped per release.
-* testing - Object for testing support.
+* testing - Default testing support.
 * TestCase - An xUnit style test framework.
 * runTests - Run registered TestCases.
 
