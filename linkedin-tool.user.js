@@ -273,6 +273,17 @@
 
   const globalNewsContent = [
     {
+      date: '2026-05-18',
+      issues: ['302'],
+      subject: 'Support the <code>Activity</code> ->' +
+        ' <code>Events</code> subsection',
+    },
+    {
+      date: '2026-05-18',
+      issues: ['240'],
+      subject: 'Factor out common code into a <code>Service</code>',
+    },
+    {
       date: '2026-05-17',
       issues: ['240'],
       subject: 'Migrate <code>MyNetwork</code> to a page-specific CSS' +
@@ -610,11 +621,6 @@
       issues: ['106'],
       subject: 'Remove an apparently no longer needed Style-2 error' +
         ' badge tweak',
-    },
-    {
-      date: '2026-04-19',
-      issues: ['106'],
-      subject: 'Another tweak for icon for navbar placement',
     },
   ];
 
