@@ -23,7 +23,6 @@ addFailure
 addHeader
 addHows
 addInfo
-addInfoDialog
 addInfoTabs
 addInfoTabsHandlers
 addInfoViewHandlers
@@ -404,6 +403,7 @@ globalKnownIssues
 globalNewsContent
 gmail
 goHome
+googleapis
 gotFocus
 gotoBusiness
 gotoFilter
@@ -935,6 +935,7 @@ RoCallback
 roledescription
 rowClassesFunc
 RowClassesFunc
+rpc
 runTests
 safeId
 SafeIdTestCase

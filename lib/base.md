@@ -2,13 +2,14 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of *console*.
 
-## Exported properties (as of version 54)
+## Exported properties (as of version 57)
 * version - Bumped per release.
 * NOT_FOUND - Returned by some APIs like `findIndex()`.
 * ONE_ITEM - Useful for testing length of an array.
 * LAST_ITEM - Identify the last item in a collection like `at(-1)`.
 * ensure - Ensures appropriate versions of NexusHoratio libraries are loaded.
 * Exception - Base exception that uses the name of the class.
+* Code - Mapping of Google's Canonical Error Codes.
 * Dispatcher - Simple dispatcher (event bus).
 * MessageQueue - A simple message system that will queue messages to be delivered.
 * issues - NexusHoratio libraries and apps should log issues here.
