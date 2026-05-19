@@ -54,6 +54,8 @@ apg
 applyToJob
 args
 ariaLabel
+arrowRight
+arrowRightNot
 artdeco
 asdf
 asideSelector
@@ -814,7 +816,6 @@ pageChanged
 PageDetails
 pageHeader
 pageId
-pageInfoId
 pageName
 pageReadySelector
 pageService

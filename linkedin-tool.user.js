@@ -8497,6 +8497,9 @@
       }
     );
 
+    static #arrowRight = ':has(svg[id^="arrow-right"])';
+    static #arrowRightNot = `:not(${this.#arrowRight})`;
+
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -8560,7 +8563,7 @@
 
           // Analytics
           `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
-            ' a:not(:has(svg[id^="arrow-right"]))',
+            ` a${this.#arrowRightNot}`,
 
           // Obvious by :scope selector.
           `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
@@ -8588,7 +8591,7 @@
           `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
 
           // "Show all" buttons
-          'hr ~ div > a:has(svg[id^="arrow-right"])',
+          `hr ~ div > a${this.#arrowRight}`,
         ].join(','),
       ],
     };
