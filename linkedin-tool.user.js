@@ -189,7 +189,9 @@
       '2026-04-25'
     ),
     ish(
-      '240', '<code>Scroller</code>: navbar height can change', '2026-04-30'
+      '240',
+      'Update top margin for <code>Scroller</code>s dynamically',
+      '2026-04-30'
     ),
     ish('244', 'Capture info about all unsupported pages', '2026-05-11'),
     ish(
@@ -272,6 +274,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-19',
+      issues: ['302'],
+      subject: 'Factor out a common CSS selector',
+    },
+    {
+      date: '2026-05-19',
+      issues: ['240'],
+      subject: 'Migrate <code>MyNetwork</code> to the new' +
+        ' <code>ScrollerStyleService</code>',
+    },
     {
       date: '2026-05-18',
       issues: ['302'],
