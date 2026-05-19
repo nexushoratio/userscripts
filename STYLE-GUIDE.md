@@ -151,16 +151,15 @@ All tests are ran in the browser, and applications should include the following 
 
 Typically, a library or app will do something like the following to register tests:
 ```javascript
-  /* eslint-disable no-empty-function */
   /* eslint-disable no-magic-numbers */
-  /* eslint-disable no-new */
   /* eslint-disable require-jsdoc */
   class FooTestCase extends NH.xunit.TestCase {
     ... do test stuff ...
+
+    static { this.register(); }
+
   }
   /* eslint-enable */
-
-  NH.xunit.testing.testCases.push(FooTestCase);
 ```
 
 > [!NOTE]

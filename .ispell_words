@@ -85,6 +85,7 @@ badgeErrorStyle
 badgeNewsResultsStyle
 badgeNewsStyle
 badKlasses
+BarTestCase
 BaseClassCleanupTestCase
 baseService
 BaseService
@@ -471,7 +472,6 @@ inDialog
 individualScroller
 individualsHow
 individualsWhat
-infoId
 infoInstructions
 infoKeyboard
 infoName
