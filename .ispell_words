@@ -24,7 +24,6 @@ addHeader
 addHows
 addInfo
 addInfoDialog
-addInfoStyle
 addInfoTabs
 addInfoTabsHandlers
 addInfoViewHandlers
@@ -627,6 +626,7 @@ messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
 methodName
+MethodResult
 minVersion
 MinVersionError
 missingDescriptionsAreErrors
