@@ -12,11 +12,11 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * Code - Mapping of Google's Canonical Error Codes.
 * Dispatcher - Simple dispatcher (event bus).
 * MessageQueue - A simple message system that will queue messages to be delivered.
-* issues - NexusHoratio libraries and apps should log issues here.
+* issues - NexusHoratio libraries and apps should post issues to this MessageQueue.
 * DefaultMap - Subclass of *Map* similar to Python's *defaultdict*.
 * Logger - Fancy-ish log messages (likely over engineered).
 * uuId - Create a UUID-like string with a base.
-* safeId - Normalizes a string to be safe to use as an HTML element id.
+* safeId - Normalize a string to be safe to use as an HTML element id.
 * strHash - Equivalent (for now) of Java's hashCode (do not store externally).
 * simpleParseWords - Separate a string of concatenated words along transitions.
 * Service - Base class for building services that can be turned on and off.
