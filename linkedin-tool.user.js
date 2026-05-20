@@ -8567,6 +8567,8 @@
     static #div5
     static #div6
 
+    static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
+
     /* eslint-disable no-magic-numbers */
     static {
       this.#div3 = this.div(3);
@@ -8629,21 +8631,17 @@
           // Activity has different layouts by tab
           `div[${CKEY}*="posts"]` +
             ' [data-testid="carousel-child-container"] > * > *',
-          // Comments use `div` wrapped `a` like a list
-          `div[${CKEY}*="comments"] div > div > a:not(:has(svg))`,
-          // Videos
-          `div[${CKEY}*="videos"] div > a:not(:has(svg[id^="arrow-right"]))`,
-          // Images are a straight forward series of `a`
-          `div[${CKEY}*="images"] div > a:not(:has(svg))`,
-          // Articles are a straight forward series of `a`
-          `div[${CKEY}*="articles"] div > a:not(:has(svg))`,
           // Newsletters have both subscribe and posts subsections
           `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
           `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
-          // Events are a straight forward series of `a`
-          `div[${CKEY}*="events"] div > a:not(:has(> svg))`,
           // Documents
           `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+          // Used by many tabs
+          `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
+          `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
+          `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
+          `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
+          `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
 
           // "Show all" buttons
           `hr ~ div > a${this.#arrowRight}`,

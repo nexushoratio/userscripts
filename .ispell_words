@@ -44,7 +44,6 @@ aLert
 allowedBottom
 allowedStyles
 allowReactivation
-allShortcuts
 alnum
 alsoNotATest
 AnOverridePage
@@ -256,6 +255,7 @@ dispatchEvent
 displayIssueMessage
 displayIssueSeparator
 distanceBetweenPoints
+divAnchorNoArrowRight
 DIVs
 doClassCleanups
 doCleanups
@@ -1065,7 +1065,6 @@ tabindex
 tablist
 tabList
 tablistResizeObserver
-tablistRoHandler
 tablistSelector
 tabSnippet
 TabsTestCase
