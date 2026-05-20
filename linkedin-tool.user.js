@@ -6102,15 +6102,14 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
+      this.addService(ScrollerStyleService,
+        InvitationManager.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      spa.details.navbarScrollerFixup(
-        InvitationManager.#invitesHow
-      );
 
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat,
@@ -6312,7 +6311,7 @@
 
     static #invitesHow = {
       uidCallback: InvitationManager.uniqueInvitationIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [],
     };
 
     /** @type {Scroller~What} */
@@ -6331,6 +6330,28 @@
         },
       ],
     };
+
+    static #scrollerClassName = 'lit-invitation-manager';
+
+    static #scrollerStyleConfig = {
+      className: InvitationManager.#scrollerClassName,
+      finder: null,
+    };
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector('#workspace [data-sdui-screen] nav');
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = InvitationManager.#scrollerFinder;
+      this.#invitesHow.classes = [
+        'lit-scroller-primary',
+        InvitationManager.#scrollerClassName,
+      ];
+    }
 
     #inviteScroller
 
