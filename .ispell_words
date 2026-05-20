@@ -66,6 +66,7 @@ assertFalse
 assertNoRaises
 assertNotEqual
 assertRaises
+assertRaisesCause
 assertRaisesRegExp
 assertRegExp
 assertsCalled
@@ -173,7 +174,6 @@ compareBadgeErrorStyle
 compareBadgeNewsStyle
 compareBadgesStyle
 componentkey
-computePath
 computePathname
 computePathnameRE
 concat
@@ -631,7 +631,6 @@ methodName
 MethodResult
 minVersion
 MinVersionError
-missingDescriptionsAreErrors
 missingFirst
 missingSecond
 moCallback
@@ -1022,7 +1021,6 @@ sortByRoHandler
 sortByWidget
 sourceforge
 spaInstance
-spaLabel
 spaPanel
 SPATestCase
 SPDX
@@ -1097,6 +1095,7 @@ testAssertNoRaises
 testAssertNotEqualFailureMessages
 testAssertNotEqualPrimitives
 testAssertRaises
+testAssertRaisesCause
 testAssertRaisesRegExp
 testAssertRegExp
 testAssertTrue
