@@ -6118,6 +6118,8 @@
       );
       this.addService(ScrollerService)
         .setScroller(this.#inviteScroller);
+      this.#inviteScroller.dispatcher
+        .on('out-of-range', this.spa.details.focusOnAside);
     }
 
     /**
