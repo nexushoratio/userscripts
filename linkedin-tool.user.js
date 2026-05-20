@@ -2804,6 +2804,16 @@
       return this.#primaryNavSelector;
     }
 
+    /** @type {string} - CSS class name common for primary scrollers. */
+    static get scrollerPrimaryClassName() {
+      return this.#scrollerPrimaryClassName;
+    }
+
+    /** @type {string} - CSS class name common for secondary scrollers. */
+    static get scrollerSecondaryClassName() {
+      return this.#scrollerSecondaryClassName;
+    }
+
     /** @type {string} - LinkedIn's common sidebar used in many layouts. */
     static get sidebarSelector() {
       return this.#sidebarSelector;
@@ -3173,6 +3183,9 @@
       `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
     ].join(', ');
 
+    static #scrollerPrimaryClassName = 'lit-scroller-primary';
+    static #scrollerSecondaryClassName = 'lit-scroller-secondary';
+
     static #sidebarSelector = [
       // Style 1
       'aside.scaffold-layout__sidebar',
@@ -3460,13 +3473,13 @@
         '.lit-negative {' +
           ' background-color: var(--lit-color-negative);' +
           '}',
-        '.lit-scroller-primary {' +
+        `.${LinkedIn.scrollerPrimaryClassName} {` +
           ' border-color: orange !important;' +
           ' border-style: solid !important;' +
           ' border-width: medium !important;' +
           ' scroll-margin-bottom: 3em;' +
           '}',
-        '.lit-scroller-secondary {' +
+        `.${LinkedIn.scrollerSecondaryClassName} {` +
           ' border-color: red !important;' +
           ' border-style: solid !important;' +
           ' border-width: thin !important;' +
@@ -5368,7 +5381,7 @@
     /** @type {Scroller~How} */
     static #commentsHow = {
       uidCallback: Feed.uniqueCommentIdentifier,
-      classes: ['lit-scroller-secondary', Feed.scrollerClassName],
+      classes: [LinkedIn.scrollerSecondaryClassName, Feed.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -5397,7 +5410,7 @@
     /** @type {Scroller~How} */
     static #postsHow = {
       uidCallback: Feed.uniquePostIdentifier,
-      classes: ['lit-scroller-primary', Feed.scrollerClassName],
+      classes: [LinkedIn.scrollerPrimaryClassName, Feed.scrollerClassName],
       snapToTop: true,
     };
 
@@ -5990,7 +6003,10 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: MyNetwork.uniqueCollectionIdentifier,
-      classes: ['lit-scroller-primary', MyNetwork.scrollerClassName],
+      classes: [
+        LinkedIn.scrollerPrimaryClassName,
+        MyNetwork.scrollerClassName,
+      ],
       snapToTop: true,
     };
 
@@ -6022,7 +6038,10 @@
     /** @type {Scroller~How} */
     static #individualsHow = {
       uidCallback: MyNetwork.uniqueIndividualsIdentifier,
-      classes: ['lit-scroller-secondary', MyNetwork.scrollerClassName],
+      classes: [
+        LinkedIn.scrollerSecondaryClassName,
+        MyNetwork.scrollerClassName,
+      ],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -6348,7 +6367,7 @@
     static {
       this.#scrollerStyleConfig.finder = InvitationManager.#scrollerFinder;
       this.#invitesHow.classes = [
-        'lit-scroller-primary',
+        LinkedIn.scrollerPrimaryClassName,
         InvitationManager.#scrollerClassName,
       ];
     }
@@ -6583,7 +6602,7 @@
     /** @type {Scroller~How} */
     static #jobsHow = {
       uidCallback: Jobs.uniqueJobIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -6618,7 +6637,7 @@
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Jobs.uniqueSectionIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: true,
     };
 
@@ -7059,7 +7078,7 @@
     /** @type {Scroller~How} */
     static #detailsHow = {
       uidCallback: JobsCollections.uniqueDetailsIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       snapToTop: true,
     };
 
@@ -7077,7 +7096,7 @@
     /** @type {Scroller~How} */
     static #jobCardsHow = {
       uidCallback: JobsCollections.uniqueJobIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
     };
 
@@ -7096,7 +7115,7 @@
     /** @type {Scroller~How} */
     static #paginationHow = {
       uidCallback: JobsCollections.uniquePaginationIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       snapToTop: false,
       containerTimeout: 1000,
       observeAttributes: true,
@@ -7408,7 +7427,7 @@
     /** @type {Scroller~How} */
     static #cardsHow = {
       uidCallback: JobsView.uniqueCardIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
     };
 
@@ -7438,7 +7457,7 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: JobsView.uniqueEntryIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -7763,7 +7782,7 @@
     /** @type {Scroller~How} */
     static #convoCardsHow = {
       uidCallback: Messaging.uniqueConvoCardsIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
     };
 
@@ -7793,7 +7812,7 @@
     /** @type {Scroller~How} */
     static #messagesHow = {
       uidCallback: Messaging.uniqueMessageIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -8213,7 +8232,7 @@
     /** @type {Scroller~How} */
     static #notificationsHow = {
       uidCallback: Notifications.uniqueNotificationIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
       clickConfig: {
         finder: Notifications.cardItemToClick,
@@ -8560,7 +8579,7 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: Profile.uniqueEntryIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -8635,7 +8654,7 @@
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Profile.uniqueSectionIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
     };
 
@@ -8991,7 +9010,7 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: Events.uniqueCollectionIdentifier,
-      classes: ['lit-scroller-primary'],
+      classes: [LinkedIn.scrollerPrimaryClassName],
       snapToTop: false,
     };
 
@@ -9017,7 +9036,7 @@
     /** @type {Scroller~How} */
     static #eventsHow = {
       uidCallback: Events.uniqueEventIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       snapToTop: false,
     };
 
@@ -9237,7 +9256,7 @@
     /** @type {Scroller~How} */
     static #paginationHow = {
       uidCallback: SearchResultsPeople.uniquePaginationIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       snapToTop: false,
       containerTimeout: 1000,
     };
@@ -9257,7 +9276,7 @@
     /** @type {Scroller~How} */
     static #resultsHow = {
       uidCallback: SearchResultsPeople.uniqueResultIdentifier,
-      classes: ['lit-scroller-secondary'],
+      classes: [LinkedIn.scrollerSecondaryClassName],
       snapToTop: false,
     };
 

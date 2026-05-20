@@ -955,6 +955,9 @@ scrollerClassName
 scrollerFinder
 scrollerHows
 scrollerId
+scrollerPrimaryClassName
+scrollers
+scrollerSecondaryClassName
 ScrollerService
 scrollerStyle
 scrollerStyleConfig
@@ -1066,7 +1069,6 @@ tabList
 tablistResizeObserver
 tablistRoHandler
 tablistSelector
-tablistWidget
 tabSnippet
 TabsTestCase
 tagName
