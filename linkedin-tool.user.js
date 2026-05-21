@@ -11,7 +11,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
-// @require     https://update.greasyfork.org/scripts/478188/1802500/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/478188/1829874/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1802495/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1798299/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1826302/NH_web.js
@@ -29,7 +29,7 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 58},
+    {name: 'xunit', minVersion: 60},
     {name: 'base', minVersion: 55},
     {name: 'userscript', minVersion: 11},
     {name: 'web', minVersion: 15},
@@ -2037,12 +2037,12 @@
         });
       }
 
+      static { this.register(); }
+
     }
     /* eslint-enable */
 
   }
-
-  NH.xunit.testing.testCases.push(Scroller.ScrollerTestCase);
 
   /* eslint-disable max-lines-per-function */
   /* eslint-disable no-empty-function */
@@ -2264,10 +2264,10 @@
       );
     }
 
+      static { this.register(); }
+
   }
   /* eslint-enable */
-
-  NH.xunit.testing.testCases.push(ScrollerTestCase);
 
   /** Manage a {Scroller} as a {NH.base.Service}. */
   class ScrollerService extends NH.base.Service {
@@ -2748,10 +2748,10 @@
       'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>');
     }
 
+      static { this.register(); }
+
   }
   /* eslint-enable */
-
-  NH.xunit.testing.testCases.push(ParseSeqTestCase);
 
   /** LinkedIn specific information. */
   class LinkedIn extends NH.spa.Details {
