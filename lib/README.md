@@ -18,3 +18,4 @@ The function `NexusHoratio.base.ensure()` can be used to make sure appropriate l
 * [userscript](userscript.md) - Wrappers for dealing with variations in userscript managers.
 * [web](web.md) - Common patterns for working with the [WEB API](https://developer.mozilla.org/en-US/docs/Web/API).
 * [widget](widget.md) - Widgets for user interactions.
+* [spa](spa.md) - Support for Single-Page Applications (SPA).
