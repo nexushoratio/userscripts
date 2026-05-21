@@ -271,9 +271,38 @@
       '2026-05-15'
     ),
     ish('328', 'Update layout selectors for Style-2 pages', '2026-05-15'),
+    ish(
+      '329',
+      '<code>focusOnTree()</code> can select a disabled element',
+      '2026-05-21'
+    ),
+    ish('334', '<b>InvitationManager</b>: Focus on aside', '2026-05-21'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-20',
+      issues: ['302'],
+      subject: 'Factor out a common CSS selector for' +
+        ' <code>Activity</code> tabs',
+    },
+    {
+      date: '2026-05-19',
+      issues: ['240'],
+      subject: 'Migrate <code>InvitationManager</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
+    {
+      date: '2026-05-19',
+      issues: ['334'],
+      subject: 'Focus on Aside when scrolling out of range in' +
+        ' Invitation Manager',
+    },
+    {
+      date: '2026-05-19',
+      issues: ['329'],
+      subject: 'Update to latest version of <code>lib/web.js</code>',
+    },
     {
       date: '2026-05-19',
       issues: ['302'],
@@ -616,24 +645,6 @@
       date: '2026-04-22',
       issues: ['106', '181'],
       subject: 'Hoist up some colors as CSS custom properties',
-    },
-    {
-      date: '2026-04-21',
-      issues: ['303'],
-      subject: 'Include the <code>VM.shortcut</code> version in the' +
-        ' bug reporting information',
-    },
-    {
-      date: '2026-04-20',
-      issues: ['130'],
-      subject: 'Make <code>enableKeyboardService</code> the only' +
-        ' implementation',
-    },
-    {
-      date: '2026-04-20',
-      issues: ['106'],
-      subject: 'Remove an apparently no longer needed Style-2 error' +
-        ' badge tweak',
     },
   ];
 
