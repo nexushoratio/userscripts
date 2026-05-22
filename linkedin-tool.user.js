@@ -4549,6 +4549,16 @@
       this.logger.log('Adapter page constructed', this);
     }
 
+    /** @returns {string} - Useful default for CSS class name. */
+    static get scrollerClassName() {
+      const split = NH.base.simpleParseWords(this.name)
+        .map(x => x.toLowerCase());
+      const className = ['lit'].concat(split)
+        .concat(['scroller'])
+        .join('-');
+      return className;
+    }
+
   }
 
   /** Class for holding keystrokes that simplify debugging. */
@@ -5029,11 +5039,6 @@
       this.#lastScroller = this.#postScroller;
     }
 
-    /** Work around overly picky style checker. */
-    static get scrollerClassName() {
-      return 'lit-feed';
-    }
-
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
@@ -5392,7 +5397,7 @@
     /** @type {Scroller~How} */
     static #commentsHow = {
       uidCallback: Feed.uniqueCommentIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName, Feed.scrollerClassName],
+      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -5421,7 +5426,7 @@
     /** @type {Scroller~How} */
     static #postsHow = {
       uidCallback: Feed.uniquePostIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, Feed.scrollerClassName],
+      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
       snapToTop: true,
     };
 
@@ -5442,7 +5447,7 @@
     };
 
     static #scrollerStyleConfig = {
-      className: Feed.scrollerClassName,
+      className: this.scrollerClassName,
       finder: Feed.scrollerFinder,
     };
 
@@ -5773,11 +5778,6 @@
       this.#lastScroller = this.#collectionScroller;
     }
 
-    /** Work around overly picky style checker. */
-    static get scrollerClassName() {
-      return 'lit-my-network';
-    }
-
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
@@ -6016,7 +6016,7 @@
       uidCallback: MyNetwork.uniqueCollectionIdentifier,
       classes: [
         LinkedIn.scrollerPrimaryClassName,
-        MyNetwork.scrollerClassName,
+        this.scrollerClassName,
       ],
       snapToTop: true,
     };
@@ -6051,7 +6051,7 @@
       uidCallback: MyNetwork.uniqueIndividualsIdentifier,
       classes: [
         LinkedIn.scrollerSecondaryClassName,
-        MyNetwork.scrollerClassName,
+        this.scrollerClassName,
       ],
       autoActivate: true,
       snapToTop: false,
@@ -6076,7 +6076,7 @@
     };
 
     static #scrollerStyleConfig = {
-      className: MyNetwork.scrollerClassName,
+      className: this.scrollerClassName,
       finder: MyNetwork.scrollerFinder,
     };
 
@@ -6341,7 +6341,10 @@
 
     static #invitesHow = {
       uidCallback: InvitationManager.uniqueInvitationIdentifier,
-      classes: [],
+      classes: [
+        LinkedIn.scrollerPrimaryClassName,
+        this.scrollerClassName,
+      ],
     };
 
     /** @type {Scroller~What} */
@@ -6361,10 +6364,8 @@
       ],
     };
 
-    static #scrollerClassName = 'lit-invitation-manager';
-
     static #scrollerStyleConfig = {
-      className: InvitationManager.#scrollerClassName,
+      className: this.scrollerClassName,
       finder: null,
     };
 
@@ -6377,10 +6378,6 @@
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = InvitationManager.#scrollerFinder;
-      this.#invitesHow.classes = [
-        LinkedIn.scrollerPrimaryClassName,
-        InvitationManager.#scrollerClassName,
-      ];
     }
 
     #inviteScroller
@@ -8244,7 +8241,10 @@
     /** @type {Scroller~How} */
     static #notificationsHow = {
       uidCallback: Notifications.uniqueNotificationIdentifier,
-      classes: [],
+      classes: [
+        LinkedIn.scrollerPrimaryClassName,
+        this.scrollerClassName,
+      ],
       snapToTop: false,
       clickConfig: {
         finder: Notifications.cardItemToClick,
@@ -8262,10 +8262,8 @@
       ],
     };
 
-    static #scrollerClassName = 'lit-notifications';
-
     static #scrollerStyleConfig = {
-      className: this.#scrollerClassName,
+      className: this.scrollerClassName,
       finder: null,
     }
 
@@ -8278,10 +8276,6 @@
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-      this.#notificationsHow.classes = [
-        LinkedIn.scrollerPrimaryClassName,
-        this.#scrollerClassName,
-      ];
     }
 
     #notificationScroller
