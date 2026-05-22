@@ -7998,13 +7998,14 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
+      this.addService(ScrollerStyleService,
+        Notifications.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      spa.details.navbarScrollerFixup(Notifications.#notificationsHow);
 
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications.#notificationsHow
@@ -8243,7 +8244,7 @@
     /** @type {Scroller~How} */
     static #notificationsHow = {
       uidCallback: Notifications.uniqueNotificationIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
+      classes: [],
       snapToTop: false,
       clickConfig: {
         finder: Notifications.cardItemToClick,
@@ -8260,6 +8261,28 @@
         },
       ],
     };
+
+    static #scrollerClassName = 'lit-notifications';
+
+    static #scrollerStyleConfig = {
+      className: this.#scrollerClassName,
+      finder: null,
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector(LinkedIn.primaryNavSelector);
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+      this.#notificationsHow.classes = [
+        LinkedIn.scrollerPrimaryClassName,
+        this.#scrollerClassName,
+      ];
+    }
 
     #notificationScroller
 
