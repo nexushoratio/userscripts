@@ -8395,7 +8395,10 @@
       const href = element.href;
       const img = element.querySelector(':scope:is(a) img')?.src;
       const anchor = element.querySelector(
-        'a:not([href*="/feed/"]):not([href*="/safety/"])'
+        'a' +
+          ':not([href*="/company/"])' +
+          ':not([href*="/feed/"])' +
+          ':not([href*="/safety/"])'
       )?.href;
       const feedAnchor = element.querySelector('a[href*="/feed/"')?.href;
       const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
@@ -8405,13 +8408,14 @@
               ?.getAttribute('aria-label');
 
       const page = new URL(document.location);
-      if (key) {
-        mode = 'key';
-        content = key;
-      }
+      // Aria-label may point to the same company logo more than once.
       if (ariaLabel) {
         mode = 'ariaLabel';
         content = ariaLabel;
+      }
+      if (key) {
+        mode = 'key';
+        content = key;
       }
       if (safetyAnchor) {
         mode = 'safetyAnchor';
@@ -8655,6 +8659,7 @@
           `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
           `:scope[${CKEY}$="Featured"]` +
             ' [data-testid="carousel-child-container"] > * > *',
+          `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
 
           // Activity has different layouts by tab
           `div[${CKEY}*="posts"]` +
