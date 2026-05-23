@@ -178,7 +178,6 @@
     ),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-04-25'),
-    ish('181', 'Add <b>Errors</b> tab to new modal view', '2026-04-22'),
     ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
@@ -200,15 +199,12 @@
       '2026-04-30'
     ),
     ish(
-      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-04-22'
+      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish(
-      '272', 'Styling issue on <code>Information view</code>', '2026-04-23'
-    ),
     ish('278', 'Update <b>Jobs</b> pages', '2026-04-24'),
     ish('279', 'Update <b>Messaging</b> page', '2026-04-25'),
     ish('280', 'Update <b>Invitation Manager</b> pages', '2026-04-26'),
@@ -238,12 +234,6 @@
     ),
     ish('296', 'Ugly and missing badges', '2026-05-07'),
     ish('297', 'Update <b>Profile</b> page (Style-2)', '2026-05-08'),
-    ish(
-      '298',
-      '<code>Scroller</code>: <code>#isItemViewable()</code> is broken when' +
-        ' item is an image',
-      '2026-04-08'
-    ),
     ish(
       '300',
       '<code>Scroller</code>: The <b>JobsCollections</b> pagination' +
@@ -280,6 +270,23 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-22',
+      issues: ['302'],
+      subject: 'Support the <em>Experience</em> section',
+    },
+    {
+      date: '2026-05-22',
+      issues: ['240'],
+      subject: 'Create class names for <code>Scroller</code>s' +
+        ' programmatically',
+    },
+    {
+      date: '2026-05-22',
+      issues: ['240'],
+      subject: 'Migrate <code>Notifications</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
     {
       date: '2026-05-20',
       issues: ['302'],
@@ -628,23 +635,6 @@
       issues: ['106'],
       subject: 'Revert "Remove an apparently no longer needed Style-2' +
         ' error badge tweak."',
-    },
-    {
-      date: '2026-04-23',
-      issues: ['106'],
-      subject: 'Identify updates with a green badge and highlight the' +
-        ' <code>News</code> tab',
-    },
-    {
-      date: '2026-04-22',
-      issues: ['298'],
-      subject: 'Remove the text length check from' +
-        ' <code>#isItemViewable()</code>',
-    },
-    {
-      date: '2026-04-22',
-      issues: ['106', '181'],
-      subject: 'Hoist up some colors as CSS custom properties',
     },
   ];
 
