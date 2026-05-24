@@ -27,7 +27,6 @@ addInfoTabs
 addInfoTabsHandlers
 addInfoViewHandlers
 addInstance
-addKey
 addLitStyle
 addon
 addReprFunc
@@ -173,7 +172,6 @@ compareBadgeErrorStyle
 compareBadgeNewsStyle
 compareBadgesStyle
 componentkey
-computePathname
 computePathnameRE
 concat
 config
@@ -729,6 +727,7 @@ notequal
 notificationScroller
 notificationsHow
 notificationsWhat
+NotLoaded
 nowrap
 npm
 ntCardIndex
