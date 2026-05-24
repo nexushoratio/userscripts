@@ -257,7 +257,6 @@ divAnchorNoArrowRight
 DIVs
 doClassCleanups
 doCleanups
-docTab
 docTabDefinition
 documentElement
 doObserve
@@ -290,6 +289,8 @@ ensureMenuStyle
 EnsureTestCase
 ent
 entriesHow
+entriesScrollerConfigDefault
+entriesScrollerConfigs
 entriesSelectorDefault
 entriesSelectorFooter
 entriesSelectorsWhat
@@ -576,7 +577,6 @@ likeItem
 linkedin
 linkedIn
 LinkedIn
-LinkedInGlobals
 LinkedIn's
 LinkedInScrollerService
 LinkedInStyleService
@@ -949,6 +949,7 @@ scriptMetaStr
 scrollBy
 scroller
 scrollerClassName
+ScrollerConfig
 scrollerFinder
 scrollerHows
 scrollerId
@@ -990,7 +991,6 @@ setAutoManageLoggerConfigs
 setContext
 setKeyboardContext
 setScroller
-setScrollerStyle
 setStyle
 setTimeout
 setTitle
@@ -1014,7 +1014,6 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
-sortByResizeObserver
 sortByRoHandler
 sortByWidget
 sourceforge

@@ -8473,6 +8473,13 @@
     /** @type {Scroller} */
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
+        this.logger.log('current section', this.sections.itemUid);
+        ({
+          uidCallback: Profile.#entriesHow.uidCallback,
+          selectors: Profile.#entriesWhat.selectors,
+        } = Profile.#entriesScrollerConfigs.get(this.sections.itemUid) ||
+         Profile.#entriesScrollerConfigDefault);
+
         this.#entryScroller = new Scroller(
           {base: this.sections.item, ...Profile.#entriesWhat},
           Profile.#entriesHow
@@ -8602,11 +8609,23 @@
 
     /** @type {Scroller~How} */
     static #entriesHow = {
-      uidCallback: Profile.uniqueEntryIdentifier,
       classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
     };
+
+    /**
+     * @typedef {object} ScrollerConfig
+     * @property {Scroller~uidCallback} uidCallback - Callback to generate a
+     * uid.
+     * @property {string[]} selectors - Array of CSS selectors to find
+     */
+
+    /** @type {ScrollerConfig} */
+    static #entriesScrollerConfigDefault
+
+    /** @type {Map<string, ScrollerConfig>} */
+    static #entriesScrollerConfigs = new Map();
 
     static #entriesSelectorDefault = [
       // Most Topcard items
@@ -8675,8 +8694,14 @@
     /** @type {Scroller~What} */
     static #entriesWhat = {
       name: `${this.name} entries`,
-      selectors: this.#entriesSelectorsWhat,
     };
+
+    static {
+      this.#entriesScrollerConfigDefault = {
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: this.#entriesSelectorsWhat,
+      };
+    }
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
