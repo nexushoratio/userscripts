@@ -8279,15 +8279,15 @@
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
 
+      // TODO(#240): This needs a better solution for this page.
+      this.addService(ScrollerStyleService,
+        Profile.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      this.addService(LinkedInToolbarService, this)
-        .addHows(Profile.#sectionsHow, Profile.#entriesHow)
-        .postActivateHook(this.#toolbarHook);
 
       this.dispatcher
         .on('activate', this.#onActivate);
@@ -8603,7 +8603,7 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: Profile.uniqueEntryIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
+      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
     };
@@ -8672,11 +8672,16 @@
       ],
     };
 
+    static #scrollerStyleConfig = {
+      className: this.scrollerClassName,
+      finder: null,
+    }
+
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Profile.uniqueSectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
+      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
+      snapToTop: true,
     };
 
     // Known sections in "curr next" pairs, suitable for tsort.
@@ -8773,19 +8778,21 @@
 
     static #uidSectionPrefix
 
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector('[role="toolbar"]');
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+    }
+
     #checkingPartialOrder = false
     #entryScroller
     #lastScroller
     #sectionScroller
-
-    #toolbarHook = () => {
-      const me = 'toolbarHook';
-      this.logger.entered(me);
-
-      this.logger.log('Initializing scroller:', this.sections.item);
-
-      this.logger.leaving(me);
-    }
 
     #resetEntries = () => {
       if (this.#entryScroller) {
