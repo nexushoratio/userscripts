@@ -8345,7 +8345,7 @@
       }
 
       // Monitor names derived from H2 elements for a bit
-      if (viaH2 && !['Highlights', 'Interests', 'Analytics'].includes(h2)) {
+      if (viaH2 && !['Highlights', 'Interests'].includes(h2)) {
         this.logger.log('used via H2', h2);
         if (litOptions.enableAlertUnknownProfileSections) {
           NH.base.issues.post('used via H2', h2);
