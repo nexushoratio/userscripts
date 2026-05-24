@@ -8829,10 +8829,9 @@
         this.sections.first();
 
         while (this.sections.item !== lastItem) {
-          const current = this.sections.item;
+          const left = this.sections.itemUid;
           this.sections.next();
-          const left = current.dataset.scrollerId;
-          const right = this.sections.item.dataset.scrollerId;
+          const right = this.sections.itemUid;
           const pair = `${left}, ${right}`;
           if (!Profile.#sectionsPartialOrder.has(pair)) {
             Profile.#sectionsPartialOrder.add(pair);
