@@ -290,6 +290,9 @@ ensureMenuStyle
 EnsureTestCase
 ent
 entriesHow
+entriesSelectorDefault
+entriesSelectorFooter
+entriesSelectorsWhat
 entriesWhat
 entryScroller
 enum
@@ -478,7 +481,6 @@ infoWidget
 inheritdoc
 inInput
 initialHeight
-initializeInfoDialog
 initializeInfoView
 initializeTabUiKeyboard
 initialWidth
@@ -511,7 +513,6 @@ issueId
 issueListener
 issueLogger
 issuesForLinkedIn
-issuesForSpa
 issuesLink
 itemUid
 iu
@@ -744,7 +745,6 @@ oldItems
 oldPages
 oldUrl
 onActivate
-onActivateTablistRo
 onActivateUnsupportedPageCheck
 onActivateWatch
 onActivateWidgetRo
@@ -814,7 +814,6 @@ pageChanged
 PageDetails
 pageHeader
 pageId
-pageName
 pageReadySelector
 pageService
 pageStyle

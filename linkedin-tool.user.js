@@ -8608,68 +8608,74 @@
       snapToTop: false,
     };
 
+    static #entriesSelectorDefault = [
+      // Most Topcard items
+      `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5}` +
+      // Premium badge and footer
+      ':not(:has(> :is(a, [role])))' +
+      // Skip carousels
+      ':not(:has(> div > ul))' +
+        ':not(:has([data-testid="carousel-child-container"]))',
+      // Carousels (private edit)
+      `:scope[${CKEY}$="${TOP_CARD}"]` +
+        ' [data-testid="carousel-child-container"]' +
+        ' div:has(> a[href*="/in/"])',
+      // Buttons for Premium background carousel
+      `:scope[${CKEY}$="${TOP_CARD}"]` +
+        ' [data-testid="pagination-controls-list"]',
+
+      // Highlights -- no discernable parts, using negative matching
+      ':scope' +
+      // Skip SDUI sections
+      `:not([${CKEY}^="com.linkedin.sdui."])` +
+      // Skip Activity
+      `:not(:has(> ${this.#div3} > [${CKEY}*="activity_"]))` +
+        `:not(:has(> ${this.#div4} > [${CKEY}*="activity_"]))` +
+      // Skip Interests
+      `:not(:has(> ${this.#div3} > h2))` +
+        ` > ${this.#div6}`,
+
+      // Analytics
+      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
+        ` a${this.#arrowRightNot}`,
+
+      // Obvious by :scope selector.
+      `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
+      `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
+      `:scope[${CKEY}$="Featured"]` +
+        ' [data-testid="carousel-child-container"] > * > *',
+      `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
+
+      // Activity has different layouts by tab
+      `div[${CKEY}*="posts"]` +
+        ' [data-testid="carousel-child-container"] > * > *',
+      // Newsletters have both subscribe and posts subsections
+      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
+      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
+      // Documents
+      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+      // Used by many tabs
+      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
+    ].join(',')
+
+    static #entriesSelectorFooter = [
+      // "Show all" buttons
+      `hr ~ div > a${this.#arrowRight}`,
+    ].join(',');
+
+    static #entriesSelectorsWhat = [
+      this.#entriesSelectorDefault,
+      this.#entriesSelectorFooter,
+    ];
+
     /** @type {Scroller~What} */
     static #entriesWhat = {
       name: `${this.name} entries`,
-      // TODO(#302): Need to start from scratch.
-      selectors: [
-        [
-          // Most Topcard items
-          `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5}` +
-            // Premium badge and footer
-            ':not(:has(> :is(a, [role])))' +
-            // Skip carousels
-            ':not(:has(> div > ul))' +
-            ':not(:has([data-testid="carousel-child-container"]))',
-          // Carousels (private edit)
-          `:scope[${CKEY}$="${TOP_CARD}"]` +
-            ' [data-testid="carousel-child-container"]' +
-            ' div:has(> a[href*="/in/"])',
-          // Buttons for Premium background carousel
-          `:scope[${CKEY}$="${TOP_CARD}"]` +
-            ' [data-testid="pagination-controls-list"]',
-
-          // Highlights -- no discernable parts, using negative matching
-          ':scope' +
-            // Skip SDUI sections
-            `:not([${CKEY}^="com.linkedin.sdui."])` +
-            // Skip Activity
-            `:not(:has(> ${this.#div3} > [${CKEY}*="activity_"]))` +
-            `:not(:has(> ${this.#div4} > [${CKEY}*="activity_"]))` +
-            // Skip Interests
-            `:not(:has(> ${this.#div3} > h2))` +
-            ` > ${this.#div6}`,
-
-          // Analytics
-          `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
-            ` a${this.#arrowRightNot}`,
-
-          // Obvious by :scope selector.
-          `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
-          `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
-          `:scope[${CKEY}$="Featured"]` +
-            ' [data-testid="carousel-child-container"] > * > *',
-          `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
-
-          // Activity has different layouts by tab
-          `div[${CKEY}*="posts"]` +
-            ' [data-testid="carousel-child-container"] > * > *',
-          // Newsletters have both subscribe and posts subsections
-          `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
-          `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
-          // Documents
-          `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
-          // Used by many tabs
-          `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
-          `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
-          `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
-          `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
-          `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
-
-          // "Show all" buttons
-          `hr ~ div > a${this.#arrowRight}`,
-        ].join(','),
-      ],
+      selectors: this.#entriesSelectorsWhat,
     };
 
     static #scrollerStyleConfig = {
