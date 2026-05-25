@@ -177,16 +177,11 @@
       '2026-04-27'
     ),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
-    ish('167', 'Refactor into libraries', '2026-04-25'),
+    ish('167', 'Refactor into libraries', '2026-05-25'),
     ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
     ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
-    ish(
-      '239',
-      '<code>Scroller</code>: Active card loses shine upon revisit',
-      '2026-04-25'
-    ),
     ish(
       '240',
       'Update top margin for <code>Scroller</code>s dynamically',
@@ -205,8 +200,6 @@
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish('278', 'Update <b>Jobs</b> pages', '2026-04-24'),
-    ish('279', 'Update <b>Messaging</b> page', '2026-04-25'),
     ish('280', 'Update <b>Invitation Manager</b> pages', '2026-04-26'),
     ish('281', 'Internal page structure changed mid-migration', '2026-04-27'),
     ish(
@@ -270,6 +263,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-24',
+      issues: ['240'],
+      subject: 'Migrate <code>Profile</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
     {
       date: '2026-05-22',
       issues: ['302'],
@@ -619,22 +618,6 @@
       issues: ['119'],
       subject: 'Force a <code>focus</code> event when closing the' +
         ' info dialog',
-    },
-    {
-      date: '2026-04-25',
-      issues: ['239'],
-      subject: 'Attempt to reconnect current item',
-    },
-    {
-      date: '2026-04-24',
-      issues: ['302'],
-      subject: 'Skip the Topcard carousel that some profiles have',
-    },
-    {
-      date: '2026-04-24',
-      issues: ['106'],
-      subject: 'Revert "Remove an apparently no longer needed Style-2' +
-        ' error badge tweak."',
     },
   ];
 
