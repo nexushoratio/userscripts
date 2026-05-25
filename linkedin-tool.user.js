@@ -8889,14 +8889,13 @@
     constructor(spa) {
       super({spa: spa, ...Events.#details});
 
+      this.addService(ScrollerStyleService, Events.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      spa.details.navbarScrollerFixup(Events.#collectionsHow);
-      spa.details.navbarScrollerFixup(Events.#eventsHow);
 
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
@@ -9053,8 +9052,8 @@
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: Events.uniqueCollectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
+      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
+      snapToTop: true,
     };
 
     /** @type {Scroller~What} */
@@ -9079,7 +9078,7 @@
     /** @type {Scroller~How} */
     static #eventsHow = {
       uidCallback: Events.uniqueEventIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
+      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       snapToTop: false,
     };
 
@@ -9097,6 +9096,22 @@
         ':scope > footer',
       ],
     };
+
+    static #scrollerStyleConfig = {
+      className: this.scrollerClassName,
+      finder: null,
+    };
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector(LinkedIn.primaryNavSelector);
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+    }
 
     #collectionScroller
     #eventScroller
