@@ -8880,6 +8880,8 @@
   /**
    * Class for handling the Events page.
    * TODO(#236): WIP.
+   * - The `artdeco-card` style include `border: none !important` which
+   *   overrides our normal border stuff.
    */
   class Events extends Page {
 
@@ -9107,6 +9109,7 @@
     }
 
     #onEventChange = () => {
+      this.events.item?.classList.remove('artdeco-card');
       this.#lastScroller = this.events;
     }
 
