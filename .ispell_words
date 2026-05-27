@@ -22,7 +22,6 @@ addEventListener
 addFailure
 addHeader
 addHows
-addInfo
 addInfoTabs
 addInfoTabsHandlers
 addInfoViewHandlers
@@ -45,6 +44,7 @@ allowedStyles
 allowReactivation
 alnum
 alsoNotATest
+amet
 AnOverridePage
 AnUPPERWord
 aow
@@ -179,6 +179,7 @@ configs
 configSaver
 connectMenuItem
 connectSuggestion
+consectetur
 contactTabDefinition
 containerItems
 ContainerItemsSelector
@@ -281,7 +282,6 @@ enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
 enableDevMode
 enableIssue
-enableKeyboardService
 enableScrollerChangesFocus
 enableWatchPage
 engageIndividual
@@ -501,6 +501,7 @@ InvitationManager
 inviteScroller
 invitesHow
 invitesWhat
+ipsum
 isConnected
 isContentEditable
 IShortcutKey
@@ -602,6 +603,7 @@ loggerName
 loggerRef
 LoggerTestCase
 longName
+lorem
 lou
 lowerCamelCase
 lowerUpper
@@ -760,7 +762,6 @@ onConvoCardActivate
 onConvoCardChange
 onDeactivate
 onDeactivateTablistRo
-onDeactivateWidgetRo
 onDestroy
 onDetailsChange
 onEntryChange
@@ -812,7 +813,6 @@ padEnd
 padStart
 pageChanged
 PageDetails
-pageHeader
 pageId
 pageReadySelector
 pageService
@@ -867,7 +867,6 @@ prevTab
 primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
-profileCardsAboveActivity
 ProfilePostConnectDrawer
 PublicationTopLevelSection
 px
@@ -1018,7 +1017,6 @@ sortByRoHandler
 sortByWidget
 sourceforge
 spaInstance
-spaPanel
 SPATestCase
 SPDX
 SpecificEvent
@@ -1156,6 +1154,7 @@ testDummy
 testElement
 testEmpty
 testEmptyBuild
+testEnabled
 testEqualArray
 testEqualMap
 testEqualObject
