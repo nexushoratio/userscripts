@@ -170,12 +170,6 @@
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
     ish('106', 'info view: more tabs: News, License', '2026-03-24'),
-    ish(
-      '119',
-      'info view: Dismissing dialog while focus in textarea leaves' +
-        ' keys disabled',
-      '2026-04-27'
-    ),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-05-25'),
     ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
@@ -200,8 +194,6 @@
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish('280', 'Update <b>Invitation Manager</b> pages', '2026-04-26'),
-    ish('281', 'Internal page structure changed mid-migration', '2026-04-27'),
     ish(
       '282',
       '<code>LinkedInToolbarService</code> needs a refresh',
@@ -263,6 +255,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-25',
+      issues: ['240'],
+      subject: 'Migrate <code>Events</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
+    {
+      date: '2026-05-25',
+      issues: ['236'],
+      subject: 'Remove the <code>artdeco-card</code> class from events',
+    },
     {
       date: '2026-05-24',
       issues: ['240'],
@@ -612,12 +615,6 @@
       date: '2026-04-28',
       issues: ['302'],
       subject: 'Support the <em>Topcard</em>',
-    },
-    {
-      date: '2026-04-27',
-      issues: ['119'],
-      subject: 'Force a <code>focus</code> event when closing the' +
-        ' info dialog',
     },
   ];
 
