@@ -194,11 +194,6 @@
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish(
-      '282',
-      '<code>LinkedInToolbarService</code> needs a refresh',
-      '2026-04-28'
-    ),
     ish('283', 'Update <b>Notifications</b> page', '2026-04-29'),
     ish('284', 'Create a style monitoring feature', '2026-04-30'),
     ish('286',
@@ -255,6 +250,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-28',
+      issues: ['240'],
+      subject: 'Initialize <code>Profile</code>\'s primary' +
+        ' <code>Scroller</code> during construction',
+    },
     {
       date: '2026-05-25',
       issues: ['240'],
@@ -599,22 +600,6 @@
       issues: ['184'],
       subject: 'Add a small highlight to <code>code</code> elements in' +
         ' the <code>Info</code> view',
-    },
-    {
-      date: '2026-04-28',
-      issues: ['182'],
-      subject: 'Debounce loading the license with better state tracking',
-    },
-    {
-      date: '2026-04-28',
-      issues: ['286'],
-      subject: 'Rework <code>Page</code> into an adapter for' +
-        ' <code>spa/Page</code>',
-    },
-    {
-      date: '2026-04-28',
-      issues: ['302'],
-      subject: 'Support the <em>Topcard</em>',
     },
   ];
 
