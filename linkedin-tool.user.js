@@ -1107,10 +1107,15 @@
       this.logger.entered(me);
 
       if (this.#destroyed) {
-        const msg = `Tried to work with destroyed ${Scroller.name} ` +
-              `on ${this.#base}`;
-        this.logger.log(msg);
-        throw new Scroller.Exception(msg);
+        const msg = 'Tried to work with destroyed scroller';
+        const opts = {
+          cause: {
+            code: NH.base.Code.FAILED_PRECONDITION,
+            reason: 'Destroyed',
+            scroller: this.name,
+          },
+        };
+        throw new Error(msg, opts);
       }
       const items = this.#getItems();
       let item = items.find(this.#matchItem);
