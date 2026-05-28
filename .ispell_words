@@ -555,7 +555,6 @@ labelledBy
 LanguageTopLevel
 lastFocusedElement
 lastGroup
-lastInputElement
 lastInvite
 lastItem
 lastKlass
@@ -1059,7 +1058,6 @@ TabEntryTestCase
 tabindex
 tablist
 tabList
-tablistResizeObserver
 tablistSelector
 tabSnippet
 TabsTestCase
@@ -1265,6 +1263,7 @@ testStringManipulation
 testStringObject
 testSummary
 testTemplateLiteral
+testTooManyOutros
 testToString
 testTwo
 testUid
