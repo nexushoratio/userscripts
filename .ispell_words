@@ -175,6 +175,9 @@ componentkey
 computePathnameRE
 concat
 config
+configDispatcher
+configDispatcherEnabled
+configEvents
 configs
 configSaver
 connectMenuItem
@@ -578,14 +581,12 @@ linkedin
 linkedIn
 LinkedIn
 LinkedIn's
-LinkedInScrollerService
 LinkedInStyleService
 LinkedInToolbarService
 listitem
 litLabel
 litOptions
 litPanel
-LoadError
 LoadMoreComments
 loadMoreConversations
 loadMoreNotifications
@@ -664,7 +665,6 @@ navbarMutationObserver
 navbarResizeObserver
 navbarScrollerFixup
 navMe
-navOption
 navSpacer
 ndid
 ndiff
@@ -741,6 +741,7 @@ observeNavbar
 observeOptions
 occludable
 occludableJobId
+offConfig
 oldestAllowedDate
 oldItems
 oldPages
@@ -748,7 +749,6 @@ oldUrl
 onActivate
 onActivateUnsupportedPageCheck
 onActivateWatch
-onActivateWidgetRo
 onBuild
 onCardChange
 onChange
@@ -757,6 +757,7 @@ onClickElements
 onCloseInfo
 onCollectionChange
 onCommentChange
+onConfig
 onConvoCardActivate
 onConvoCardChange
 onDeactivate
@@ -936,7 +937,6 @@ runTests
 safeId
 SafeIdTestCase
 safetyAnchor
-sanitizedName
 savedConfigs
 savedJob
 savedOptions
@@ -955,7 +955,6 @@ scrollerPrimaryClassName
 scrollers
 scrollerSecondaryClassName
 ScrollerService
-scrollerStyle
 scrollerStyleConfig
 ScrollerStyleService
 ScrollerTestCase
