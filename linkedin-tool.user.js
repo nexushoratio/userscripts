@@ -8271,6 +8271,15 @@
 
       this.dispatcher
         .on('activate', this.#onActivate);
+
+      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
+        Profile.#sectionsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#sectionScroller);
+      this.#sectionScroller.dispatcher
+        .on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
     }
 
     /**
@@ -8473,16 +8482,6 @@
 
     /** @type {Scroller} */
     get sections() {
-      if (!this.#sectionScroller) {
-        this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
-          Profile.#sectionsHow);
-        this.addService(ScrollerService)
-          .setScroller(this.#sectionScroller);
-        this.#sectionScroller.dispatcher
-          .on('change', this.#onSectionChange);
-
-        this.#lastScroller = this.#sectionScroller;
-      }
       return this.#sectionScroller;
     }
 
