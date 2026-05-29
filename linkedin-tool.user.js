@@ -3180,7 +3180,7 @@
       // Style 1
       '#global-nav .global-nav__primary-items',
       // Style 2
-      `nav[${CKEY}="primaryNavLinksComponentRef"] > ul`,
+      `[${CKEY}="primaryNavLinksComponentRef"] > nav > ul`,
     ].join(', ');
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
