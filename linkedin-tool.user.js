@@ -169,11 +169,8 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
-    ish('106', 'info view: more tabs: News, License', '2026-03-24'),
     ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-05-25'),
-    ish('182', 'Add <b>License</b> tab to new modal view', '2026-04-29'),
-    ish('184', 'Fix <b>News</b> tab rendering', '2026-03-30'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
     ish(
@@ -194,7 +191,6 @@
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish('283', 'Update <b>Notifications</b> page', '2026-04-29'),
     ish('284', 'Create a style monitoring feature', '2026-04-30'),
     ish('286',
       'Factor out <code>SPA</code> related code into a library',
@@ -250,6 +246,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-29',
+      issues: [''],
+      subject: 'Update Style-2 primary nav selector',
+    },
+    {
+      date: '2026-05-29',
+      issues: ['240'],
+      subject: 'Remove <code>LinkedInToolbarService</code> from' +
+        ' <code>SearchResultsPeople</code>',
+    },
+    {
+      date: '2026-05-29',
+      issues: [''],
+      subject: 'Update selector for <em></em>Feed<em></em> comments',
+    },
     {
       date: '2026-05-28',
       issues: ['240'],
@@ -589,17 +601,6 @@
       date: '2026-04-30',
       issues: ['302'],
       subject: 'Support the <code>Highlights</code> sections',
-    },
-    {
-      date: '2026-04-29',
-      issues: ['106'],
-      subject: 'Tweak icon styling to match site',
-    },
-    {
-      date: '2026-04-29',
-      issues: ['184'],
-      subject: 'Add a small highlight to <code>code</code> elements in' +
-        ' the <code>Info</code> view',
     },
   ];
 
