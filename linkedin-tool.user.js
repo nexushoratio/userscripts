@@ -9139,12 +9139,24 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.addService(LinkedInToolbarService, this)
-        .addHows(
-          SearchResultsPeople.#resultsHow,
-          SearchResultsPeople.#paginationHow
-        )
-        .postActivateHook(this.#toolbarHook);
+      this.#paginationScroller = new Scroller(
+        SearchResultsPeople.#paginationWhat,
+        SearchResultsPeople.#paginationHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#paginationScroller);
+      this.#paginationScroller.dispatcher
+        .on('activate', this.#onPaginationActivate)
+        .on('change', this.#onPaginationChange);
+
+      this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
+        SearchResultsPeople.#resultsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#resultScroller);
+      this.#resultScroller.dispatcher
+        .on('change', this.#onResultChange);
+
+      this.#lastScroller = this.#resultScroller;
     }
 
     /**
@@ -9187,32 +9199,11 @@
 
     /** @type {Scroller} */
     get paginator() {
-      if (!this.#paginationScroller) {
-        this.#paginationScroller = new Scroller(
-          SearchResultsPeople.#paginationWhat,
-          SearchResultsPeople.#paginationHow
-        );
-        this.addService(ScrollerService)
-          .setScroller(this.#paginationScroller);
-        this.#paginationScroller.dispatcher
-          .on('activate', this.#onPaginationActivate)
-          .on('change', this.#onPaginationChange);
-      }
       return this.#paginationScroller;
     }
 
     /** @type {Scroller} */
     get results() {
-      if (!this.#resultScroller) {
-        this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
-          SearchResultsPeople.#resultsHow);
-        this.addService(ScrollerService)
-          .setScroller(this.#resultScroller);
-        this.#resultScroller.dispatcher
-          .on('change', this.#onResultChange);
-
-        this.#lastScroller = this.#resultScroller;
-      }
       return this.#resultScroller;
     }
 
@@ -9337,16 +9328,6 @@
     #lastScroller
     #paginationScroller
     #resultScroller
-
-    #toolbarHook = () => {
-      const me = 'toolbarHook';
-      this.logger.entered(me);
-
-      this.logger.log('Initializing paginator:', this.paginator.item);
-      this.logger.log('Initializing results:', this.results.item);
-
-      this.logger.leaving(me);
-    }
 
     #onPaginationActivate = async () => {
       const me = 'onPaginationActivate';
