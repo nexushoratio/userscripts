@@ -5368,9 +5368,7 @@
       selectors: [
         [
           // Regular
-          `[${CKEY}*=":comment:"]:has(> * > [${CKEY}*=":comment:"])`,
-          // Dismissed
-          `[${CKEY}*=":comment:"]:has(> * > * > [${CKEY}^="hiddenComment"])`,
+          `[data-component-type] > div > div > [${CKEY}*=":comment:"]`,
         ].join(','),
       ],
     };
