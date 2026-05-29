@@ -24,7 +24,6 @@ addHeader
 addHows
 addInfoTabs
 addInfoTabsHandlers
-addInfoViewHandlers
 addInstance
 addLitStyle
 addon
@@ -47,7 +46,6 @@ alsoNotATest
 amet
 AnOverridePage
 AnUPPERWord
-aow
 apg
 applyToJob
 args
@@ -85,9 +83,13 @@ badgeNewsResultsStyle
 badgeNewsStyle
 badKlasses
 BarTestCase
+BaseAndContainerItems
 BaseClassCleanupTestCase
+BaseNotAnElement
+BaseOrContainerItems
 baseService
 BaseService
+BaseWithoutSelectors
 BasicFeaturesTestCase
 baz
 bbox
@@ -221,7 +223,6 @@ dalgoda
 dashCommentUrn
 dashReplyUrn
 dateHeader
-debounce
 DebugKeys
 deduped
 defaultClassesFunc
@@ -412,7 +413,6 @@ globalNewsContent
 gmail
 goHome
 googleapis
-gotFocus
 gotoBusiness
 gotoFilter
 gotoJobs
@@ -447,7 +447,6 @@ handleEvent
 hashCode
 hasOwn
 helpTabDefinition
-hiddenComment
 historicalIdToIndex
 hN
 homepageURL
@@ -761,7 +760,6 @@ onConfig
 onConvoCardActivate
 onConvoCardChange
 onDeactivate
-onDeactivateTablistRo
 onDestroy
 onDetailsChange
 onEntryChange
@@ -978,6 +976,7 @@ sectionsWhat
 seeMore
 selectCurrentResultsPage
 selectorArray
+SelectorsWithoutBase
 SemVer
 sendPost
 sendToggle

@@ -1812,35 +1812,44 @@
     }
 
     /** @throws {Scroller.Exception} - On many validation issues. */
-    #validateWhat = () => {
+    #validateWhat = () => {  // eslint-disable-line max-statements
+      let msg = '';
+      const opts = {
+        cause: {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'Unknown',
+          scroller: this.name,
+        },
+      };
+
       if (this.#base && this.#containerItems.length) {
-        throw new Scroller.Exception(
-          `Cannot have both base AND containerItems: ${this.#name} has both`
-        );
+        msg = 'Cannot have both base AND containerItems';
+        opts.cause.reason = 'BaseAndContainerItems';
+        throw new Error(msg, opts);
       }
 
       if (!this.#base && !this.#containerItems.length) {
-        throw new Scroller.Exception(
-          `Needs either base OR containerItems: ${this.#name} has neither`
-        );
+        msg = 'Needs either base OR containerItems';
+        opts.cause.reason = 'BaseOrContainerItems';
+        throw new Error(msg, opts);
       }
 
       if (this.#base && !(this.#base instanceof Element)) {
-        throw new Scroller.Exception(
-          `Not an element: base ${this.#base} given for ${this.#name}`
-        );
+        msg = 'Supplied base is not an element';
+        opts.cause.reason = 'BaseNotAnElement';
+        throw new Error(msg, opts);
       }
 
       if (this.#base && !this.#selectors) {
-        throw new Scroller.Exception(
-          `No selectors: ${this.#name} is missing selectors`
-        );
+        msg = 'Base was supplied without selectors';
+        opts.cause.reason = 'BaseWithoutSelectors';
+        throw new Error(msg, opts);
       }
 
       if (this.#selectors && !this.#base) {
-        throw new Scroller.Exception(
-          `No base: ${this.#name} is using selectors and so needs a base`
-        );
+        msg = 'Selectors were supplied without a base';
+        opts.cause.reason = 'SelectorsWithoutBase';
+        throw new Error(msg, opts);
       }
     }
 
@@ -2029,9 +2038,13 @@
       const how = {
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Needs either base OR containerItems:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'BaseOrContainerItems',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         }
@@ -2047,9 +2060,13 @@
       const how = {
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Cannot have both base AND containerItems:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'BaseAndContainerItems',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         }
@@ -2064,9 +2081,13 @@
       const how = {
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Not an element:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'BaseNotAnElement',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         }
@@ -2080,14 +2101,18 @@
       };
       const how = {
       };
-
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /No selectors:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'BaseWithoutSelectors',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         }
       );
+
     }
 
     testSelectorNeedsBase() {
@@ -2099,9 +2124,13 @@
       const how = {
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /No base:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'SelectorsWithoutBase',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         }
