@@ -8377,12 +8377,13 @@
      * With so much variation in items, this is overly long.
      *
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {[string, string]} - A [mode, value] unique to this element.
      */
-    static uniqueEntryIdentifier(element) {  // eslint-disable-line max-lines-per-function, max-statements
+    static uniqueEntryIdentifier = (scroller, element) => {  // eslint-disable-line max-lines-per-function, max-statements
       const me = Profile.uniqueEntryIdentifier.name;
-      this.logger.entered(me, element);
+      scroller.logger.entered(me, element);
 
       let mode = 'unknown';
       let content = '';
@@ -8460,19 +8461,29 @@
       }
       if (!content) {
         mode = 'default';
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
         if (anchors.length) {
           const filtered = anchors.values()
             .map(x => x.href)
             .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
             .toArray();
           if (filtered.length) {
-            this.logger.log('anchors to consider:', filtered);
+            scroller.logger.log('anchors to consider:', filtered);
           }
         }
       }
 
-      this.logger.leaving(me, mode, content);
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static entriesUidShim(element) {
+      const [mode, content] = Profile.#entriesCurrentUid(this, element);
       return [mode, content].join('-');
     }
 
@@ -8480,11 +8491,12 @@
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
         this.logger.log('current section', this.sections.itemUid);
-        ({
-          uidCallback: Profile.#entriesHow.uidCallback,
-          selectors: Profile.#entriesWhat.selectors,
-        } = Profile.#entriesScrollerConfigs.get(this.sections.itemUid) ||
-         Profile.#entriesScrollerConfigDefault);
+        const config = Profile.#entriesScrollerConfigs.get(
+          this.sections.itemUid
+        ) ?? Profile.#entriesScrollerConfigDefault;
+
+        Profile.#entriesCurrentUid = config.uidCallback;
+        Profile.#entriesWhat.selectors = config.selectors;
 
         this.#entryScroller = new Scroller(
           {base: this.sections.item, ...Profile.#entriesWhat},
@@ -8603,8 +8615,12 @@
     }
     /* eslint-enable */
 
+    /** @type {Scroller~uidCallback} */
+    static #entriesCurrentUid
+
     /** @type {Scroller~How} */
     static #entriesHow = {
+      uidCallback: this.entriesUidShim,
       classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       autoActivate: true,
       snapToTop: false,

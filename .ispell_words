@@ -100,7 +100,6 @@ bobInfo
 botButton
 bottomHalf
 bottomMargin
-bottomMarginCSS
 bottomMarginPixels
 browserName
 browserVersion
@@ -292,12 +291,14 @@ engageIndividual
 ensureMenuStyle
 EnsureTestCase
 ent
+entriesCurrentUid
 entriesHow
 entriesScrollerConfigDefault
 entriesScrollerConfigs
 entriesSelectorDefault
 entriesSelectorFooter
 entriesSelectorsWhat
+entriesUidShim
 entriesWhat
 entryScroller
 enum
@@ -485,7 +486,6 @@ inheritdoc
 inInput
 initialHeight
 initializeInfoView
-initializeTabUiKeyboard
 initialWidth
 initMain
 injectInto
@@ -1010,7 +1010,6 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
-sortByRoHandler
 sortByWidget
 sourceforge
 spaInstance
