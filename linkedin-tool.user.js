@@ -180,18 +180,12 @@
     ),
     ish('244', 'Capture info about all unsupported pages', '2026-05-11'),
     ish(
-      '245',
-      'Revisit pages that use the terms "section{,s}" or "card{,s}"',
-      '2026-04-30'
-    ),
-    ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish('284', 'Create a style monitoring feature', '2026-04-30'),
     ish('286',
       'Factor out <code>SPA</code> related code into a library',
       '2026-05-01'),
@@ -246,6 +240,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-30',
+      issues: ['302'],
+      subject: 'Factor out the <em></em>Topcard<em></em> section into' +
+        ' secondary config',
+    },
+    {
+      date: '2026-05-30',
+      issues: ['240'],
+      subject: 'Factor out computing values for the style',
+    },
     {
       date: '2026-05-29',
       issues: [''],
@@ -596,11 +601,6 @@
       date: '2026-05-01',
       issues: ['130'],
       subject: 'Make the new <code>Info</code> view the only one',
-    },
-    {
-      date: '2026-04-30',
-      issues: ['302'],
-      subject: 'Support the <code>Highlights</code> sections',
     },
   ];
 
