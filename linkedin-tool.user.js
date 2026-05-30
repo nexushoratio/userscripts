@@ -1041,7 +1041,7 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
-     * @throws {Scroller.Exception} - On many construction problems.
+     * @throws {Error} - On many construction problems.
      */
     constructor(what, how) {
       ({
@@ -1079,8 +1079,6 @@
         this.activate();
       }
     }
-
-    static Exception = class extends NH.base.Exception {}
 
     /** @type {NH.base.Dispatcher} */
     get dispatcher() {
@@ -1806,19 +1804,18 @@
       this.logger.leaving(me);
     }
 
-    /** @throws {Scroller.Exception} - On many validation issues. */
+    /** @throws {Error} - On many validation issues. */
     #validateInstance = () => {
       this.#validateWhat();
       this.#validateHow();
     }
 
-    /** @throws {Scroller.Exception} - On many validation issues. */
+    /** @throws {Error} - On many validation issues. */
     #validateWhat = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
         cause: {
           code: NH.base.Code.INVALID_ARGUMENT,
-          reason: 'Unknown',
           scroller: this.name,
         },
       };
@@ -1855,12 +1852,11 @@
     }
 
     /** @throws {Error} - On many validation issues. */
-    #validateHow = () => {  // eslint-disable-line max-lines-per-function, max-statements
+    #validateHow = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
         cause: {
           code: NH.base.Code.INVALID_ARGUMENT,
-          reason: 'Unknown',
           scroller: this.name,
         },
       };
