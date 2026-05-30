@@ -29,7 +29,6 @@ addLitStyle
 addon
 addReprFunc
 addRow
-addScrollerStyle
 addSection
 addService
 addSkip
@@ -100,7 +99,6 @@ bobInfo
 botButton
 bottomHalf
 bottomMargin
-bottomMarginPixels
 browserName
 browserVersion
 buildHeader
@@ -153,6 +151,10 @@ clearTimeout
 clickClosestMenuButton
 clickConfig
 ClickConfig
+ClickConfigFinderNotFunction
+ClickConfigFinderWrongSignature
+ClickConfigSelectorArrayAndFinderFunction
+ClickConfigSelectorNotArray
 clickElement
 ClickMethod
 clickOptions
@@ -455,14 +457,12 @@ HonorsTopLevel
 hooksPath
 hotKey
 href
-hrefPathname
 HTMLDialogElement
 HTMLElement
 HTMLElements
 htmlFor
 HTMLStyleElement
 HTMLUnknownElement
-HybridFixerService
 idName
 idx
 iframe
@@ -809,7 +809,6 @@ padEnd
 padStart
 pageChanged
 PageDetails
-pageId
 pageReadySelector
 pageService
 pageStyle
@@ -1008,7 +1007,6 @@ SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
 snapToTop
-sortByWidget
 sourceforge
 spaInstance
 SPATestCase
@@ -1315,6 +1313,8 @@ TypeError
 typeof
 uid
 uidCallback
+UidCallbackMissing
+UidCallbackNotFunction
 uidCommentRE
 uidDetailsClassRE
 uidPostRE
@@ -1383,7 +1383,6 @@ waitForContainers
 waitForItemTimeout
 waitForSelector
 waitForSelectorToBeGone
-waitOnPageLoadedEnough
 waitUntilPageLoadedEnough
 waitUntilReady
 wasSuccessful

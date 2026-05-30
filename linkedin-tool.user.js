@@ -1854,49 +1854,55 @@
       }
     }
 
-    /** @throws {Scroller.Exception} - On many validation issues. */
-    #validateHow = () => {
+    /** @throws {Error} - On many validation issues. */
+    #validateHow = () => {  // eslint-disable-line max-lines-per-function, max-statements
+      let msg = '';
+      const opts = {
+        cause: {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'Unknown',
+          scroller: this.name,
+        },
+      };
+
       if (!this.#uidCallback) {
-        throw new Scroller.Exception(
-          `Missing uidCallback: ${this.#name} has no uidCallback defined`
-        );
+        msg = 'No uidCallback defined';
+        opts.cause.reason = 'UidCallbackMissing';
+        throw new Error(msg, opts);
       }
 
       if (!(this.#uidCallback instanceof Function)) {
-        throw new Scroller.Exception(
-          `Invalid uidCallback: ${this.#name} uidCallback is not a function`
-        );
+        msg = 'The uidCallback is not a function';
+        opts.cause.reason = 'UidCallbackNotFunction';
+        throw new Error(msg, opts);
       }
 
       if (this.#clickConfig.selectorArray && this.#clickConfig.finder) {
-        throw new Scroller.Exception(
-          `Invalid clickConfig: ${this.name} cannot have both ` +
-            'selectorArray AND a finder function'
-        );
+        msg = 'Cannot have both a selectorArray AND a finder function';
+        opts.cause.reason = 'ClickConfigSelectorArrayAndFinderFunction';
+        throw new Error(msg, opts);
       }
 
       if (this.#clickConfig.selectorArray) {
         if (!(this.#clickConfig.selectorArray instanceof Array)) {
-          throw new Scroller.Exception(
-            `Invalid clickConfig: ${this.#name} selectorArray is not an Array`
-          );
+          msg = 'The selectorArray is not an Array';
+          opts.cause.reason = 'ClickConfigSelectorNotArray';
+          throw new Error(msg, opts);
         }
       }
 
       if (this.#clickConfig.finder) {
         if (!(this.#clickConfig.finder instanceof Function)) {
-          throw new Scroller.Exception(
-            `Invalid clickConfig: ${this.#name} finder property should be ` +
-              'a function'
-          );
+          msg = 'The finder property should be a function';
+          opts.cause.reason = 'ClickConfigFinderNotFunction';
+          throw new Error(msg, opts);
         }
 
         if (this.#clickConfig.finder.length !== NH.base.ONE_ITEM) {
-          throw new Scroller.Exception(
-            `Invalid clickConfig: ${this.#name} finder function should ` +
-                'take exactly one argument, currently takes ' +
-                `${this.#clickConfig.finder.length}`
-          );
+          msg = 'The finder function should take exactly one argument,' +
+            ` currently takes ${this.#clickConfig.finder.length}`;
+          opts.cause.reason = 'ClickConfigFinderWrongSignature';
+          throw new Error(msg, opts);
         }
       }
     }
@@ -2162,9 +2168,13 @@
       const how = {
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Missing uidCallback:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'UidCallbackMissing',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
@@ -2173,13 +2183,17 @@
 
       how.uidCallback = {};
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid uidCallback:/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'UidCallbackNotFunction',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
-        'invalid',
+        'not function',
       );
 
       how.uidCallback = () => {};
@@ -2214,9 +2228,13 @@
         finder: {},
       };
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .*both selectorArray AND a finder function$/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'ClickConfigSelectorArrayAndFinderFunction',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
@@ -2225,13 +2243,34 @@
 
       how.clickConfig = {selectorArray: 'string'};
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .* selectorArray is not an Array$/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'ClickConfigSelectorNotArray',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
         'non-array'
+      );
+
+      how.clickConfig = {
+        finder: {},
+      };
+
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'ClickConfigFinderNotFunction',
+          scroller: this.id,
+        },
+        () => {
+          new Scroller(what, how);
+        },
+        'non-function'
       );
 
       how.clickConfig = {
@@ -2244,9 +2283,13 @@
 
       how.clickConfig.finder = () => {};
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .* 0$/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'ClickConfigFinderWrongSignature',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
@@ -2255,9 +2298,13 @@
 
       how.clickConfig.finder = (a, b, c) => {};
 
-      this.assertRaisesRegExp(
-        Scroller.Exception,
-        /Invalid clickConfig: .* 3$/u,
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'ClickConfigFinderWrongSignature',
+          scroller: this.id,
+        },
         () => {
           new Scroller(what, how);
         },
@@ -2265,7 +2312,7 @@
       );
     }
 
-      static { this.register(); }
+    static { this.register(); }
 
   }
   /* eslint-enable */
