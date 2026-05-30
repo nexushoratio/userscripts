@@ -8716,21 +8716,6 @@
     static #entriesScrollerConfigs = new Map();
 
     static #entriesSelectorDefault = [
-      // Most Topcard items
-      `:scope[${CKEY}$="${TOP_CARD}"] > ${this.#div5}` +
-      // Premium badge and footer
-      ':not(:has(> :is(a, [role])))' +
-      // Skip carousels
-      ':not(:has(> div > ul))' +
-        ':not(:has([data-testid="carousel-child-container"]))',
-      // Carousels (private edit)
-      `:scope[${CKEY}$="${TOP_CARD}"]` +
-        ' [data-testid="carousel-child-container"]' +
-        ' div:has(> a[href*="/in/"])',
-      // Buttons for Premium background carousel
-      `:scope[${CKEY}$="${TOP_CARD}"]` +
-        ' [data-testid="pagination-controls-list"]',
-
       // Highlights -- no discernable parts, using negative matching
       ':scope' +
       // Skip SDUI sections
@@ -8778,6 +8763,25 @@
       this.#entriesSelectorDefault,
       this.#entriesSelectorFooter,
     ];
+
+    static #entriesTopcardSelector = [
+      // Most items
+      `:scope > ${this.#div5}` +
+      // Premium badge
+      ':not(:has(> a))' +
+      // Skip carousels
+      ':not([data-testid="carousel-viewport-container"])',
+      // Profile photo
+      `:scope > ${this.#div3} > a > div`,
+      // Edit intro and connections
+      `:scope > ${this.#div4} > a`,
+      // Carousels (private edit footer)
+      ':scope' +
+        ' [data-testid="carousel-child-container"]' +
+        ' div:has(> a[href*="/in/"])',
+      // Buttons for Premium background carousel
+      ':scope [data-testid="pagination-controls-list"]',
+    ].join(',');
 
     /** @type {Scroller~What} */
     static #entriesWhat = {
@@ -8903,9 +8907,62 @@
       return ret;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static #entriesTopcardUid = (scroller, element) => {  // eslint-disable-line max-statements
+      const me = this.#entriesTopcardUid.name;
+      scroller.logger.entered(me, element);
+
+      let mode = 'unknown';
+      let content = '';
+
+      const ariaLabel = element.ariaLabel ||
+            element.querySelector('[aria-label]')
+              ?.getAttribute('aria-label');
+      const testId = element.dataset.testid;
+      const anchors = element.querySelectorAll('a');
+      const page = new URL(document.location);
+
+      if (ariaLabel) {
+        mode = 'ariaLabel';
+        content = ariaLabel;
+      }
+      if (testId) {
+        mode = 'testId';
+        content = testId;
+      }
+      if (!content) {
+        mode = 'default';
+        content = scroller.defaultUid(element);
+        if (anchors.length) {
+          const filtered = anchors.values()
+            .map(x => x.href)
+            .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
+            .toArray();
+          if (filtered.length) {
+            scroller.logger.log('anchors to consider:', filtered);
+          }
+        } else {
+          scroller.logger.log('No anchors to suggest');
+        }
+      }
+
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
+    }
+
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+
+      this.#entriesScrollerConfigs.set('Topcard', {
+        uidCallback: this.#entriesTopcardUid,
+        selectors: [this.#entriesTopcardSelector],
+      });
     }
 
     #checkingPartialOrder = false

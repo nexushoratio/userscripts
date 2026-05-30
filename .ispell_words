@@ -300,6 +300,8 @@ entriesScrollerConfigs
 entriesSelectorDefault
 entriesSelectorFooter
 entriesSelectorsWhat
+entriesTopcardSelector
+entriesTopcardUid
 entriesUidShim
 entriesWhat
 entryScroller
@@ -809,7 +811,6 @@ padEnd
 padStart
 pageChanged
 PageDetails
-pageReadySelector
 pageService
 pageStyle
 PageTestCase
