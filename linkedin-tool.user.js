@@ -2961,7 +2961,7 @@
 
     /** @type {LicenseData} */
     get licenseData() {
-      const me = 'licenseData';
+      const me = 'get licenseData';
       this.logger.entered(me);
 
       if (!this.#licenseData) {
@@ -3043,7 +3043,7 @@
      * @param {Scroller~How} how - Object to be fixed up.
      */
     navbarScrollerFixup(how) {
-      const me = 'navbarScrollerFixup';
+      const me = this.navbarScrollerFixup.name;
       this.logger.entered(me, how);
 
       how.topMarginPixels = this.navbarHeightPixels;
@@ -3301,7 +3301,7 @@
 
     /** Hang out until the navigation bar has stabilized. */
     #waitUntilPageLoadedEnough = async () => {
-      const me = 'waitOnPageLoadedEnough';
+      const me = this.#waitUntilPageLoadedEnough.name;
       this.logger.entered(me);
 
       // Wait for page to hopefully settle.
@@ -3316,7 +3316,7 @@
 
     /** Do the bits that were waiting on the page. */
     #finishConstruction = () => {
-      const me = 'finishConstruction';
+      const me = this.#finishConstruction.name;
       this.logger.entered(me);
 
       this.#createInfoWidget();
