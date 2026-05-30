@@ -4934,6 +4934,17 @@
      */
 
     /**
+     * @typedef {object} Values
+     * @property {string} top -  Value for scroll-margin-top.
+     */
+
+    /**
+     * @callback ValueExtractor
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+
+    /**
      * @typedef {object} Config
      * @property {string} className - Name for the class to control.
      * @property {Finder} finder - Function to find the element to monitor.
@@ -4955,6 +4966,25 @@
 
       this.on('activate', this.#onActivate)
         .on('deactivate', this.#onDeactivate);
+    }
+
+    /**
+     * @implements {ValueExtractor}
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+    elementHeight(element) {
+      const me = this.elementHeight.name;
+      this.logger.entered(me, element);
+
+      const height = element?.clientHeight || 0;
+
+      const values = {
+        top: `${height}px`,
+      };
+
+      this.logger.leaving(me, values);
+      return values;
     }
 
     #className
@@ -4992,11 +5022,13 @@
     }
 
     #setStyle = () => {
-      const height = this.#widget?.clientHeight || 0;
+      const values = this.elementHeight(this.#widget);
       const styles = [
-        `.${this.#className} {` +
-          ` scroll-margin-top: ${height}px;` +
-          '}',
+        '',
+        `.${this.#className} {`,
+        `  scroll-margin-top: ${values.top};`,
+        '}',
+        '',
       ];
       this.#style.textContent = styles.join('\n');
     }

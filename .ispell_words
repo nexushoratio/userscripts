@@ -280,12 +280,12 @@ EducationTopLevelSection
 ElementAdapter
 ElementAdapterTestCase
 ElementFinder
+elementHeight
 enableAlertOldNews
 enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
 enableDevMode
 enableIssue
-enableScrollerChangesFocus
 enableWatchPage
 engageIndividual
 ensureMenuStyle
@@ -485,7 +485,6 @@ infoWidget
 inheritdoc
 inInput
 initialHeight
-initializeInfoView
 initialWidth
 initMain
 injectInto
@@ -789,7 +788,6 @@ onVerify
 oopsie
 openMeatballMenu
 openShareMenu
-OpenUserJS
 optionsCenter
 origCallback
 origMessages
@@ -1364,6 +1362,7 @@ uuId
 validateHow
 validateInstance
 validateWhat
+ValueExtractor
 valueOf
 VerificationError
 VERYComplicated
