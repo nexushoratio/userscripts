@@ -181,6 +181,8 @@ config
 configDispatcher
 configDispatcherEnabled
 configEvents
+ConfigMutationHandler
+ConfigMutationRecord
 configs
 configSaver
 connectMenuItem
