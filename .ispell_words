@@ -411,6 +411,7 @@ getTabControls
 getType
 GetTypeTestCase
 getValue
+getWithArguments
 gfUrl
 gh
 ghIj
@@ -1164,7 +1165,7 @@ TestException
 TestExecution
 testExpectMismatchedGroup
 testExplicitTitle
-testFactorWithArgs
+testFactoryWithArgs
 testFail
 testFancyMessages
 testField
