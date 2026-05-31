@@ -8476,7 +8476,6 @@
       )?.href;
       const feedAnchor = element.querySelector('a[href*="/feed/"')?.href;
       const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
-      const anchors = element.querySelectorAll('a');
       const ariaLabel = element.ariaLabel ||
             element.querySelector('[aria-label]')
               ?.getAttribute('aria-label');
@@ -8537,17 +8536,9 @@
         }
       }
       if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
         mode = 'default';
         content = scroller.defaultUid(element);
-        if (anchors.length) {
-          const filtered = anchors.values()
-            .map(x => x.href)
-            .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
-            .toArray();
-          if (filtered.length) {
-            scroller.logger.log('anchors to consider:', filtered);
-          }
-        }
       }
 
       scroller.logger.leaving(me, mode, content);
@@ -8933,12 +8924,39 @@
         content = pathname + extra;
       }
       if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
         mode = 'default';
         content = scroller.defaultUid(element);
       }
 
       scroller.logger.leaving(me, mode, content);
       return [mode, content];
+    }
+
+    /**
+     * Mention things that might have been missed during development.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     */
+    static #entriesMentionUidPossibilities = (scroller, element) => {
+      const me = this.#entriesMentionUidPossibilities.name;
+      scroller.logger.entered(me, element);
+
+      const page = new URL(document.location);
+      const anchors = element.querySelectorAll('a')
+        .values()
+        .map(x => x.href)
+        .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
+        .toArray();
+
+      if (anchors.length) {
+        scroller.logger.log('Anchors to consider:', anchors);
+      } else {
+        scroller.logger.log('No anchors to suggest');
+      }
+
+      scroller.logger.leaving(me);
     }
 
     /**
@@ -8954,12 +8972,11 @@
       let mode = 'unknown';
       let content = '';
 
+      const href = element.href;
       const ariaLabel = element.ariaLabel ||
             element.querySelector('[aria-label]')
               ?.getAttribute('aria-label');
       const testId = element.dataset.testid;
-      const anchors = element.querySelectorAll('a');
-      const page = new URL(document.location);
 
       if (ariaLabel) {
         mode = 'ariaLabel';
@@ -8969,20 +8986,14 @@
         mode = 'testId';
         content = testId;
       }
+      if (href) {
+        mode = 'href';
+        content = new URL(href).pathname;
+      }
       if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
         mode = 'default';
         content = scroller.defaultUid(element);
-        if (anchors.length) {
-          const filtered = anchors.values()
-            .map(x => x.href)
-            .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
-            .toArray();
-          if (filtered.length) {
-            scroller.logger.log('anchors to consider:', filtered);
-          }
-        } else {
-          scroller.logger.log('No anchors to suggest');
-        }
       }
 
       scroller.logger.leaving(me, mode, content);
