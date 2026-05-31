@@ -295,6 +295,8 @@ engageIndividual
 ensureMenuStyle
 EnsureTestCase
 ent
+entriesAnalyticsSelector
+entriesAnalyticsUid
 entriesCurrentUid
 entriesHow
 entriesScrollerConfigDefault

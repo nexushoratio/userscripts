@@ -8692,6 +8692,11 @@
     }
     /* eslint-enable */
 
+    static #entriesAnalyticsSelector = [
+      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
+        ` a${this.#arrowRightNot}`,
+    ].join(',');
+
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
 
@@ -8727,10 +8732,6 @@
       // Skip Interests
       `:not(:has(> ${this.#div3} > h2))` +
         ` > ${this.#div6}`,
-
-      // Analytics
-      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
-        ` a${this.#arrowRightNot}`,
 
       // Obvious by :scope selector.
       `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
@@ -8914,6 +8915,38 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
+    static #entriesAnalyticsUid = (scroller, element) => {
+      const me = this.#entriesAnalyticsUid.name;
+      scroller.logger.entered(me, element);
+
+      let mode = 'unknown';
+      let content = '';
+      const href = element.href;
+
+      if (href) {
+        const url = new URL(href);
+        const pathname = url.pathname;
+        const extra = element.parentElement.matches(':has(hr)')
+          ? '-hr'
+          : '';
+        mode = 'href';
+        content = pathname + extra;
+      }
+      if (!content) {
+        mode = 'default';
+        content = scroller.defaultUid(element);
+      }
+
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static #entriesTopcardUid = (scroller, element) => {  // eslint-disable-line max-statements
       const me = this.#entriesTopcardUid.name;
       scroller.logger.entered(me, element);
@@ -8963,6 +8996,13 @@
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesTopcardUid,
         selectors: [this.#entriesTopcardSelector],
+      });
+      this.#entriesScrollerConfigs.set('Analytics', {
+        uidCallback: this.#entriesAnalyticsUid,
+        selectors: [
+          this.#entriesAnalyticsSelector,
+          this.#entriesSelectorFooter,
+        ],
       });
     }
 
