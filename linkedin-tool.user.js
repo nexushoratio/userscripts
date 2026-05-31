@@ -4978,7 +4978,7 @@
 
     /**
      * @typedef {object} Values
-     * @property {string} top -  Value for scroll-margin-top.
+     * @property {string} top - Value for scroll-margin-top.
      */
 
     /**
@@ -4991,6 +4991,8 @@
      * @typedef {object} Config
      * @property {string} className - Name for the class to control.
      * @property {Finder} finder - Function to find the element to monitor.
+     * @property {ValueExtractor} [valueExtractor=#elementHeight] - Function
+     * to extract values on a change.
      */
 
     /**
@@ -5003,6 +5005,8 @@
       ({
         className: this.#className,
         finder: this.#finder,
+        valueExtractor:
+          this.#valueExtractor = ScrollerStyleService.#elementHeight,
       } = config);
 
       this.#observer = new ResizeObserver(this.#handler);
@@ -5016,17 +5020,13 @@
      * @param {Element} element - Element to examine.
      * @returns {Values} - Extracted values.
      */
-    elementHeight(element) {
-      const me = this.elementHeight.name;
-      this.logger.entered(me, element);
-
+    static #elementHeight = (element) => {
       const height = element?.clientHeight || 0;
 
       const values = {
         top: `${height}px`,
       };
 
-      this.logger.leaving(me, values);
       return values;
     }
 
@@ -5034,6 +5034,7 @@
     #finder
     #observer
     #style
+    #valueExtractor
     #widget
 
     #onActivate = () => {
@@ -5065,7 +5066,7 @@
     }
 
     #setStyle = () => {
-      const values = this.elementHeight(this.#widget);
+      const values = this.#valueExtractor(this.#widget);
       const styles = [
         '',
         `.${this.#className} {`,

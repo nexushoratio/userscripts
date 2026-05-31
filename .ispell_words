@@ -1365,6 +1365,7 @@ uuId
 validateHow
 validateInstance
 validateWhat
+valueExtractor
 ValueExtractor
 valueOf
 VerificationError
