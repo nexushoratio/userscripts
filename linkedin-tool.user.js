@@ -6443,14 +6443,13 @@
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
 
+      this.addService(ScrollerStyleService, Jobs.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      spa.details.navbarScrollerFixup(Jobs.#sectionsHow);
-      spa.details.navbarScrollerFixup(Jobs.#jobsHow);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
@@ -6655,7 +6654,7 @@
     /** @type {Scroller~How} */
     static #jobsHow = {
       uidCallback: Jobs.uniqueJobIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
+      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
       autoActivate: true,
       snapToTop: false,
       clickConfig: {
@@ -6684,13 +6683,17 @@
       ],
     };
 
+    static #scrollerStyleConfig = {
+      className: this.scrollerClassName,
+    };
+
     static #sectionsContainer =
       '[data-testid="JobsHomeFeedModuleListCollection"]';
 
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Jobs.uniqueSectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
+      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
       snapToTop: true,
     };
 
@@ -6709,6 +6712,31 @@
         },
       ],
     };
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector('main > div');
+      return ret;
+    }
+
+    /**
+     * @implements {ValueExtractor}
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+    static #scrollerValueExtractor = (element) => {
+      const style = getComputedStyle(element);
+      const values = {
+        top: style.marginTop,
+      };
+      return values;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
+    }
 
     #jobScroller
     #lastScroller

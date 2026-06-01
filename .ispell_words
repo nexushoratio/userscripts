@@ -615,6 +615,7 @@ lou
 lowerCamelCase
 lowerUpper
 mainFeed
+marginTop
 maskContentUnits
 matchItem
 matchSelf
@@ -964,6 +965,7 @@ ScrollerService
 scrollerStyleConfig
 ScrollerStyleService
 ScrollerTestCase
+scrollerValueExtractor
 scrollIntoView
 scrollMarginBottom
 scrollMarginTop
