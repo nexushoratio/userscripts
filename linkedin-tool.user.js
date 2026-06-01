@@ -8952,20 +8952,27 @@
       const me = this.#entriesMentionUidPossibilities.name;
       scroller.logger.entered(me, element);
 
+      const suggestions = [];
+
       const page = new URL(document.location);
       const anchors = element.querySelectorAll('a')
         .values()
         .map(x => x.href)
         .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
         .toArray();
+      const ids = element.querySelectorAll('[id]');
 
       if (anchors.length) {
+        suggestions.push('anchors');
         scroller.logger.log('Anchors to consider:', anchors);
-      } else {
-        scroller.logger.log('No anchors to suggest');
       }
 
-      scroller.logger.leaving(me);
+      if (ids.length) {
+        suggestions.push('ids');
+        scroller.logger.log('IDs to consider:', ids);
+      }
+
+      scroller.logger.leaving(me, 'Suggested:', suggestions);
     }
 
     /**
