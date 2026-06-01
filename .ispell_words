@@ -477,6 +477,7 @@ iframe
 iframeDoc
 ignoredExtras
 ignoreInvite
+ignoreList
 img
 inCleanup
 includeStackTrace
@@ -657,6 +658,7 @@ mutationObserver
 MutationObserver
 MutationRecord
 MutationRecords
+mutex
 myName
 mynetwork
 MyNetwork
@@ -782,6 +784,7 @@ onInit
 onJobCardActivate
 onJobCardChange
 onJobChange
+onLoggerConfig
 onMessageChange
 onOpenInfo
 onPaginationActivate
@@ -1361,6 +1364,7 @@ urlChangeMonitorSelector
 urlhash
 urlMonitorHandler
 urlMonitorObserver
+usedCount
 userAgentData
 UserLibrary
 userscript
