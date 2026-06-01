@@ -189,11 +189,6 @@
     ish('286',
       'Factor out <code>SPA</code> related code into a library',
       '2026-05-01'),
-    ish(
-      '288',
-      'Add <code>Logger</code> startup ability to <code>userscript</code>',
-      '2026-05-02'
-    ),
     ish('290', 'Update <b>Profile</b> page', '2026-05-03'),
     ish('291', 'Update <b>Events</b> page', '2026-05-04'),
     ish('292', 'Update <b>SearchResultsPeople</b> page', '2026-05-05'),
@@ -240,6 +235,24 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-05-31',
+      issues: ['302'],
+      subject: 'Refactor helper code into' +
+        ' <code>#entriesMentionUidPossibilities()</code>',
+    },
+    {
+      date: '2026-05-31',
+      issues: ['302'],
+      subject: 'Factor out the <em></em>Analytics<em></em> section' +
+        ' into a secondary config',
+    },
+    {
+      date: '2026-05-31',
+      issues: ['240'],
+      subject: 'Make <code>ScrollerStyleService</code> value' +
+        ' extractor configurable',
+    },
     {
       date: '2026-05-30',
       issues: ['302'],
@@ -569,38 +582,6 @@
       date: '2026-05-04',
       issues: ['286'],
       subject: 'Update to the latest version of <code>lib/spa</code>',
-    },
-    {
-      date: '2026-05-02',
-      issues: ['302'],
-      subject: 'Support the <code>Services</code> section',
-    },
-    {
-      date: '2026-05-02',
-      issues: ['302'],
-      subject: 'A new partial ordering pair',
-    },
-    {
-      date: '2026-05-02',
-      issues: ['302'],
-      subject: 'Explicitly capture <code>Profile</code> sections partial' +
-        ' orderings',
-    },
-    {
-      date: '2026-05-01',
-      issues: ['130'],
-      subject: 'Delete some of the <code>SPA</code> related handling of' +
-        ' <code>News</code> and <code>Errors</code>',
-    },
-    {
-      date: '2026-05-01',
-      issues: ['302'],
-      subject: 'Improve support for the <code>About</code> section',
-    },
-    {
-      date: '2026-05-01',
-      issues: ['130'],
-      subject: 'Make the new <code>Info</code> view the only one',
     },
   ];
 
