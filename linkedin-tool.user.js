@@ -8700,6 +8700,11 @@
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
 
+    static #entriesHighlightsSelector = [
+      // Simple layout
+      `:scope > ${this.#div6}`,
+    ].join(',');
+
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: this.entriesUidShim,
@@ -8722,17 +8727,6 @@
     static #entriesScrollerConfigs = new Map();
 
     static #entriesSelectorDefault = [
-      // Highlights -- no discernable parts, using negative matching
-      ':scope' +
-      // Skip SDUI sections
-      `:not([${CKEY}^="com.linkedin.sdui."])` +
-      // Skip Activity
-      `:not(:has(> ${this.#div3} > [${CKEY}*="activity_"]))` +
-        `:not(:has(> ${this.#div4} > [${CKEY}*="activity_"]))` +
-      // Skip Interests
-      `:not(:has(> ${this.#div3} > h2))` +
-        ` > ${this.#div6}`,
-
       // Obvious by :scope selector.
       `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
       `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
@@ -8981,6 +8975,41 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
+    static #entriesHighlightsUid = (scroller, element) => {
+      const me = this.#entriesHighlightsUid.name;
+      scroller.logger.entered(me, element);
+
+      let mode = 'unknown';
+      let content = '';
+      const companyAnchor = element.querySelector(
+        'a[href*="/company/"]'
+      )?.href;
+      const id = element.querySelector('[id]')?.id;
+
+      if (id) {
+        mode = 'id';
+        content = id;
+      }
+      if (companyAnchor) {
+        mode = 'companyAnchor';
+        content = new URL(companyAnchor).pathname;
+      }
+      if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
+        mode = 'default';
+        content = scroller.defaultUid(element);
+      }
+
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static #entriesTopcardUid = (scroller, element) => {  // eslint-disable-line max-statements
       const me = this.#entriesTopcardUid.name;
       scroller.logger.entered(me, element);
@@ -9030,6 +9059,10 @@
           this.#entriesAnalyticsSelector,
           this.#entriesSelectorFooter,
         ],
+      });
+      this.#entriesScrollerConfigs.set('Highlights', {
+        uidCallback: this.#entriesHighlightsUid,
+        selectors: [this.#entriesHighlightsSelector],
       });
     }
 

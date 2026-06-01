@@ -171,6 +171,7 @@ commentOnItem
 commentScroller
 commentsHow
 commentsWhat
+companyAnchor
 compareBadgeErrorStyle
 compareBadgeNewsStyle
 compareBadgesStyle
@@ -298,6 +299,8 @@ ent
 entriesAnalyticsSelector
 entriesAnalyticsUid
 entriesCurrentUid
+entriesHighlightsSelector
+entriesHighlightsUid
 entriesHow
 entriesMentionUidPossibilities
 entriesScrollerConfigDefault
