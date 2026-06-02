@@ -182,14 +182,13 @@
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
-    ish('253', 'Support <b>My Network Events</b> page', '2026-05-03'),
+    ish('253', 'Support <b>My Network Events</b> page', '2026-06-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
     ish('286',
       'Factor out <code>SPA</code> related code into a library',
       '2026-05-01'),
-    ish('290', 'Update <b>Profile</b> page', '2026-05-03'),
     ish('291', 'Update <b>Events</b> page', '2026-05-04'),
     ish('292', 'Update <b>SearchResultsPeople</b> page', '2026-05-05'),
     ish(
@@ -235,6 +234,24 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-01',
+      issues: ['302'],
+      subject: 'Factor out the <em></em>Highlights<em></em> section into' +
+        ' a secondary config',
+    },
+    {
+      date: '2026-06-01',
+      issues: ['302'],
+      subject: 'Add <code>id</code> as a suggestion, and log suggestions' +
+        ' on the way out',
+    },
+    {
+      date: '2026-06-01',
+      issues: ['240'],
+      subject: 'Migrate <code>Jobs</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
     {
       date: '2026-05-31',
       issues: ['302'],
