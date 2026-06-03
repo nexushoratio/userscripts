@@ -6898,14 +6898,14 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#jobCardScroller = new Scroller(JobsCollections.#jobCardsWhat,
-        JobsCollections.#jobCardsHow);
+      this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
+        JobsCollections.#cardsHow);
       this.addService(ScrollerService)
-        .setScroller(this.#jobCardScroller)
+        .setScroller(this.#cardsScroller)
         .allowReactivation(false);
-      this.#jobCardScroller.dispatcher
-        .on('activate', this.#onJobCardActivate)
-        .on('change', this.#onJobCardChange);
+      this.#cardsScroller.dispatcher
+        .on('activate', this.#onCardActivate)
+        .on('change', this.#onCardChange);
 
       this.#paginationScroller = new Scroller(
         JobsCollections.#paginationWhat, JobsCollections.#paginationHow
@@ -6927,7 +6927,7 @@
       this.#detailsScroller.dispatcher
         .on('change', this.#onDetailsChange);
 
-      this.#lastScroller = this.#jobCardScroller;
+      this.#lastScroller = this.#cardsScroller;
     }
 
     /**
@@ -7031,13 +7031,13 @@
     }
 
     /** @type {Scroller} */
-    get details() {
-      return this.#detailsScroller;
+    get cards() {
+      return this.#cardsScroller;
     }
 
     /** @type {Scroller} */
-    get jobCards() {
-      return this.#jobCardScroller;
+    get details() {
+      return this.#detailsScroller;
     }
 
     /** @type {Scroller} */
@@ -7049,7 +7049,7 @@
       'j',
       'Next job card',
       () => {
-        this.jobCards.next();
+        this.cards.next();
       }
     );
 
@@ -7057,7 +7057,7 @@
       'k',
       'Previous job card',
       () => {
-        this.jobCards.prev();
+        this.cards.prev();
       }
     );
 
@@ -7192,7 +7192,7 @@
       'X',
       'Toggle dismissing job, if available',
       () => {
-        NH.web.clickElement(this.jobCards.item, ['button']);
+        NH.web.clickElement(this.cards.item, ['button']);
       }
     );
 
@@ -7227,6 +7227,25 @@
       }
     );
 
+    /** @type {Scroller~How} */
+    static #cardsHow = {
+      uidCallback: JobsCollections.uniqueJobIdentifier,
+      classes: [LinkedIn.scrollerPrimaryClassName],
+      snapToTop: false,
+    };
+
+    /** @type {Scroller~What} */
+    static #cardsWhat = {
+      name: `${this.name} cards`,
+      containerItems: [
+        {
+          container: 'div.scaffold-layout__list > div > ul',
+          // This selector is also used in #onCardActivate.
+          items: ':scope > li',
+        },
+      ],
+    };
+
     /** @type {Page~PageDetails} */
     static #details = {
       name: 'Jobs Collections (various listings)',
@@ -7254,25 +7273,6 @@
     };
 
     /** @type {Scroller~How} */
-    static #jobCardsHow = {
-      uidCallback: JobsCollections.uniqueJobIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #jobCardsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: 'div.scaffold-layout__list > div > ul',
-          // This selector is also used in #onJobCardActivate.
-          items: ':scope > li',
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
     static #paginationHow = {
       uidCallback: JobsCollections.uniquePaginationIdentifier,
       classes: [LinkedIn.scrollerSecondaryClassName],
@@ -7295,13 +7295,13 @@
 
     static #uidDetailsClassRE = /^(?:job-details|jobs)-(?<class>[^_]*)__/u;
 
+    #cardsScroller
     #detailsScroller
-    #jobCardScroller
     #lastScroller
     #paginationScroller
 
-    #onJobCardActivate = async () => {
-      const me = 'onJobCardActivate';
+    #onCardActivate = async () => {
+      const me = this.#onCardActivate.name;
       this.logger.entered(me);
 
       const params = new URL(document.location).searchParams;
@@ -7320,7 +7320,7 @@
           timeout
         );
         this.logger.log('Found', item);
-        this.jobCards.gotoUid(JobsCollections.uniqueJobIdentifier(item));
+        this.cards.gotoUid(JobsCollections.uniqueJobIdentifier(item));
         this.logger.log('and went to it');
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
@@ -7329,13 +7329,13 @@
       this.logger.leaving(me);
     }
 
-    #onJobCardChange = () => {
-      const me = 'onJobCardChange';
-      this.logger.entered(me, this.jobCards.item);
+    #onCardChange = () => {
+      const me = this.#onCardChange.name;
+      this.logger.entered(me, this.cards.item);
 
-      NH.web.clickElement(this.jobCards.item, ['div[data-job-id]']);
+      NH.web.clickElement(this.cards.item, ['div[data-job-id]']);
       this.details.first();
-      this.#lastScroller = this.jobCards;
+      this.#lastScroller = this.cards;
 
       this.logger.leaving(me);
     }

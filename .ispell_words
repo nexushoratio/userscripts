@@ -116,6 +116,7 @@ cardItemToClick
 cardsContainer
 cardScroller
 cardsHow
+cardsScroller
 cardsWhat
 caseSensitive
 cdn
@@ -766,6 +767,7 @@ onActivate
 onActivateUnsupportedPageCheck
 onActivateWatch
 onBuild
+onCardActivate
 onCardChange
 onChange
 onClick
