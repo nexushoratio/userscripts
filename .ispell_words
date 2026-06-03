@@ -597,6 +597,7 @@ LinkedInToolbarService
 listitem
 litLabel
 litOptions
+LitPageTestCase
 litPanel
 LoadMoreComments
 loadMoreConversations
@@ -1221,6 +1222,7 @@ testOnOff
 testOrTheOther
 testOverrideProperties
 testOverrides
+TestPage
 testPanel
 testPanelsStartSimple
 testPass
@@ -1248,6 +1250,7 @@ testSaveRestoreBumpsSequenceAboveHighest
 testSaveRestoreConfigsGroups
 testSaveRestoreConfigsTopLevel
 TestScoresTopLevel
+testScrollerClassName
 testSelectorNeedsBase
 testSeparatorsOnly
 testService

@@ -4592,6 +4592,33 @@
 
   }
 
+  /* eslint-disable no-new */
+  /* eslint-disable require-jsdoc */
+  class LitPageTestCase extends NH.xunit.TestCase {
+
+    static TestPage = class extends Page {}
+
+    testAbstract() {
+      this.assertRaises(TypeError, () => {
+        new Page();
+      });
+
+      this.assertNoRaises(() => {
+        new LitPageTestCase.TestPage();
+      }, 'subclass passes');
+    }
+
+    testScrollerClassName() {
+      this.assertEqual(
+        LitPageTestCase.TestPage.scrollerClassName, 'lit-test-page-scroller'
+      );
+    }
+
+    static { this.register(); }
+
+  }
+  /* eslint-enable */
+
   /** Class for holding keystrokes that simplify debugging. */
   class DebugKeys {
 
