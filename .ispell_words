@@ -212,6 +212,7 @@ createLabel
 createMenuItemStyle
 createPanel
 css
+cssClassName
 ctor
 currentColor
 currentItem
@@ -1142,6 +1143,7 @@ testConstructor
 testCount
 testCounter
 testCountsCollected
+testCssClassName
 testDataIsLive
 TestDeets
 testDefaultBuilds

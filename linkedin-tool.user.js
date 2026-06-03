@@ -4582,10 +4582,20 @@
 
     /** @returns {string} - Useful default for CSS class name. */
     static get scrollerClassName() {
+      return this.cssClassName(['scroller']);
+    }
+
+    /**
+     * Derive a CSS className from the name of the subclass.
+     *
+     * @param {string[]} extras - Extract strings to add to the class name.
+     * @returns {string} - A CSS className.
+     */
+    static cssClassName(extras = []) {
       const split = NH.base.simpleParseWords(this.name)
         .map(x => x.toLowerCase());
       const className = ['lit'].concat(split)
-        .concat(['scroller'])
+        .concat(extras)
         .join('-');
       return className;
     }
@@ -4611,6 +4621,31 @@
     testScrollerClassName() {
       this.assertEqual(
         LitPageTestCase.TestPage.scrollerClassName, 'lit-test-page-scroller'
+      );
+    }
+
+    testCssClassName() {
+      this.assertEqual(
+        LitPageTestCase.TestPage.cssClassName(),
+        'lit-test-page',
+        'no arguments'
+      );
+      this.assertEqual(
+        LitPageTestCase.TestPage.cssClassName([]),
+        'lit-test-page',
+        'empty array'
+      );
+      this.assertEqual(
+        LitPageTestCase.TestPage.cssClassName(['single']),
+        'lit-test-page-single',
+        'single item'
+      );
+      this.assertEqual(
+        LitPageTestCase.TestPage.cssClassName(
+          ['multiple', 'items', 'here']
+        ),
+        'lit-test-page-multiple-items-here',
+        'multiple items'
       );
     }
 
