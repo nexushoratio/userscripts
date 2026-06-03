@@ -8839,6 +8839,12 @@
       this.#entriesSelectorFooter,
     ];
 
+    static #entriesSuggestedForYouSelector = [
+      // May or may not be a list/carousel
+      ':scope [data-testid="carousel-child-container"] > *',
+      `:scope > ${this.#div4}:not(:has(> svg))`,
+    ].join(',');
+
     static #entriesTopcardSelector = [
       // Most items
       `:scope > ${this.#div5}` +
@@ -9089,6 +9095,28 @@
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
+    static #entriesSuggestedForYouUid = (scroller, element) => {
+      const me = this.#entriesSuggestedForYouUid.name;
+      scroller.logger.entered(me, element);
+
+      let mode = 'unknown';
+      let content = '';
+      if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
+        mode = 'default';
+        content = scroller.defaultUid(element);
+      }
+
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
     static #entriesTopcardUid = (scroller, element) => {  // eslint-disable-line max-statements
       const me = this.#entriesTopcardUid.name;
       scroller.logger.entered(me, element);
@@ -9131,6 +9159,10 @@
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesTopcardUid,
         selectors: [this.#entriesTopcardSelector],
+      });
+      this.#entriesScrollerConfigs.set('SuggestedForYou', {
+        uidCallback: this.#entriesTopcardUid,
+        selectors: [this.#entriesSuggestedForYouUid],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesAnalyticsUid,

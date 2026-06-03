@@ -310,6 +310,8 @@ entriesScrollerConfigs
 entriesSelectorDefault
 entriesSelectorFooter
 entriesSelectorsWhat
+entriesSuggestedForYouSelector
+entriesSuggestedForYouUid
 entriesTopcardSelector
 entriesTopcardUid
 entriesUidShim
