@@ -5170,15 +5170,6 @@
       return content;
     }
 
-    /** @returns {Element?} - Element to monitor. */
-    static scrollerFinder = () => {
-      // We want the element with the listener, which happens to be the one
-      // with the "aria-expanded".
-      const ret = document.querySelector('#chevron-down-medium')
-        ?.closest('[aria-expanded]');
-      return ret;
-    }
-
     /** @type {Scroller} */
     get comments() {
       const me = 'get comments';
@@ -5523,8 +5514,7 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: Feed.scrollerFinder,
-    };
+    }
 
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
@@ -5532,6 +5522,20 @@
     /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
 
     static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      // We want the element with the listener, which happens to be the one
+      // with the "aria-expanded".
+      const ret = document.querySelector('#chevron-down-medium')
+        ?.closest('[aria-expanded]');
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+    }
 
     #commentScroller
     #lastScroller
@@ -5911,12 +5915,6 @@
       return content;
     }
 
-    /** @returns {Element?} - Element to monitor. */
-    static scrollerFinder = () => {
-      const ret = document.querySelector(MyNetwork.#tablistSelector);
-      return ret;
-    }
-
     /** @type {Scroller} */
     get collections() {
       return this.#collectionScroller;
@@ -6152,10 +6150,20 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: MyNetwork.scrollerFinder,
     };
 
     static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector(this.#tablistSelector);
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+    }
 
     #collectionScroller
     #individualScroller
@@ -6441,7 +6449,6 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: null,
     };
 
     /** @returns {Element?} - Element to monitor. */
@@ -6452,7 +6459,7 @@
 
     // Work around picky style checker.
     static {
-      this.#scrollerStyleConfig.finder = InvitationManager.#scrollerFinder;
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
     }
 
     #inviteScroller
@@ -8367,7 +8374,6 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: null,
     }
 
     /** @returns {Element?} - Element to monitor. */
@@ -8833,7 +8839,6 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: null,
     }
 
     /** @type {Scroller~How} */
@@ -9460,8 +9465,7 @@
 
     static #scrollerStyleConfig = {
       className: this.scrollerClassName,
-      finder: null,
-    };
+    }
 
     /** @returns {Element?} - Element to monitor. */
     static #scrollerFinder = () => {
