@@ -189,8 +189,6 @@
     ish('286',
       'Factor out <code>SPA</code> related code into a library',
       '2026-05-01'),
-    ish('291', 'Update <b>Events</b> page', '2026-05-04'),
-    ish('292', 'Update <b>SearchResultsPeople</b> page', '2026-05-05'),
     ish(
       '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
@@ -234,6 +232,18 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-04',
+      issues: ['302'],
+      subject: 'Factor out the <em></em>About<em></em> section into' +
+        ' a secondary config',
+    },
+    {
+      date: '2026-06-04',
+      issues: ['302'],
+      subject: 'Initial support for the' +
+        ' <em></em>SuggestedForYou<em></em> section',
+    },
     {
       date: '2026-06-01',
       issues: ['302'],
@@ -540,65 +550,6 @@
       issues: ['130', '286'],
       subject: 'Retire the original <code>SPA</code> implementation' +
         ' in favor of the new',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['311'],
-      subject: 'Fix logic error in handling toggling a checkbox',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['311'],
-      subject: 'Make the <code>News</code> tabs focused if appropriate',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['302'],
-      subject: 'Restrict current carousel handling to' +
-        ' <code>Activity</code> -> <code>Posts</code>',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['311'],
-      subject: 'Replace "focus on <code>News</code> tab" with a' +
-        ' checkbox to mark read',
-    },
-    {
-      date: '2026-05-04',
-      issues: [''],
-      subject: 'Minor tweak to <code>News</code> header',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['302'],
-      subject: 'Track section names derived from <code>h2</code> so' +
-        ' maybe we can do better',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['302'],
-      subject: 'Improve selector for the <code>Analytics</code> section',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['302'],
-      subject: 'Improve detection for the <code>Activity</code> section name',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['286'],
-      subject: 'Add a developer setting for selecting <code>SPA</code>' +
-        ' implementation',
-    },
-    {
-      date: '2026-05-04',
-      issues: ['286'],
-      subject: 'Update to the latest version of <code>lib/spa</code>',
     },
   ];
 
