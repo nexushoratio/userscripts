@@ -298,6 +298,8 @@ engageIndividual
 ensureMenuStyle
 EnsureTestCase
 ent
+entriesAboutSelector
+entriesAboutUid
 entriesAnalyticsSelector
 entriesAnalyticsUid
 entriesCurrentUid

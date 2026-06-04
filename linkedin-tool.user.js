@@ -8771,6 +8771,11 @@
     }
     /* eslint-enable */
 
+    static #entriesAboutSelector = [
+      // Fairly simple layout
+      `:scope > ${this.#div3}:has(> p) > *`,
+    ].join(',');
+
     static #entriesAnalyticsSelector = [
       `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
         ` a${this.#arrowRightNot}`,
@@ -8807,7 +8812,6 @@
 
     static #entriesSelectorDefault = [
       // Obvious by :scope selector.
-      `:scope[${CKEY}$="About"] > ${this.#div3}:has(> p) > *`,
       `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
       `:scope[${CKEY}$="Featured"]` +
         ' [data-testid="carousel-child-container"] > * > *',
@@ -8986,6 +8990,34 @@
     static #scrollerFinder = () => {
       const ret = document.querySelector('[role="toolbar"]');
       return ret;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    static #entriesAboutUid = (scroller, element) => {
+      const me = this.#entriesAboutUid.name;
+      scroller.logger.entered(me, element);
+
+      let mode = 'unknown';
+      let content = '';
+      const anchor = element.querySelector('a')?.href;
+
+      if (anchor) {
+        mode = 'anchor';
+        content = new URL(anchor).pathname;
+      }
+      if (!content) {
+        this.#entriesMentionUidPossibilities(scroller, element);
+        mode = 'default';
+        content = scroller.defaultUid(element);
+      }
+
+      scroller.logger.leaving(me, mode, content);
+      return [mode, content];
     }
 
     /**
@@ -9174,6 +9206,10 @@
       this.#entriesScrollerConfigs.set('Highlights', {
         uidCallback: this.#entriesHighlightsUid,
         selectors: [this.#entriesHighlightsSelector],
+      });
+      this.#entriesScrollerConfigs.set('About', {
+        uidCallback: this.#entriesAboutUid,
+        selectors: [this.#entriesAboutSelector],
       });
     }
 
