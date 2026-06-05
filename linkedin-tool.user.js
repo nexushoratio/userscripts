@@ -6858,6 +6858,9 @@
 
       this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
         JobsCollections.#cardsHow);
+
+      // The various calls to .allowReactivation() are because navigation
+      // updates the URL, causing the page to reactivate.  See #218.
       this.addService(ScrollerService)
         .setScroller(this.#cardsScroller)
         .allowReactivation(false);
