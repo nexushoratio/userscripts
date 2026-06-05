@@ -2947,8 +2947,9 @@
 
     /**
      * @typedef {object} LicenseData
-     * @property {string} name - Name of the license.
+     * @property {string} id - SPDX id for the license.
      * @property {string} url - License URL.
+     * @property {string?} content - Fallback content.
      */
 
     /** @type {LicenseData} */
@@ -2964,8 +2965,10 @@
             this.logger.log('e:', e);
             NH.base.issues.post(e.message);
             this.#licenseData = {
-              id: 'Unable to extract: Please file a bug',
+              id: 'Unknown',
               url: '',
+              content: 'Unable to extract license data from the' +
+                ' userscript: Please file a bug',
             };
           }
         }
@@ -3348,6 +3351,48 @@
     }
 
     /**
+     * @typedef {object} FetchResult
+     * @property {boolean} fetched - Indicates if a useful result was
+     * generated; all right to retry if false.
+     * @property {string} spdx - The SPDX id.
+     * @property {string} content - HTML content to be rendered.
+     */
+
+    /** @returns {FetchResult} - Summary of the fetch. */
+    #licenseFetch = async () => {
+      const url = this.licenseData.url;
+      const result = {
+        fetched: false,
+        spdx: this.licenseData.id,
+      };
+      if (url) {
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            result.content = await response.text();
+            result.fetched = true;
+          } else {
+            if (response.statusText) {
+              result.content = response.statusText;
+            } else {
+              result.content =
+                `License fetch failed with: ${response.status}`;
+            }
+            result.fetched = true;
+          }
+        } catch (e) {
+          result.content = e.message;
+          result.fetched = true;
+        }
+      } else {
+        result.fetched = true;
+        result.content = this.licenseData.content;
+        this.logger.log('this.licenseData', this.licenseData);
+      }
+      return result;
+    }
+
+    /**
      * Lazily load license text when exposed.
      */
     #licenseHandler = async () => {
@@ -3355,18 +3400,17 @@
       this.logger.entered(me, this.#licenseState);
 
       if (this.#licenseState === LinkedIn.#FetchState.EMPTY) {
-        const {id, url} = this.licenseData;
 
         this.#licenseUpdateTabs();
 
         this.#licenseState = LinkedIn.#FetchState.FETCHING;
-        const response = await fetch(url);
-        if (response.ok) {
+        const result = await this.#licenseFetch();
+        if (result.fetched) {
           const license = document.createElement('iframe');
           license.style.flexGrow = 1;
-          license.title = id;
+          license.title = result.spdx;
           license.sandbox = '';
-          license.srcdoc = await response.text();
+          license.srcdoc = result.content;
           this.#licenseElement = license;
           this.#licenseUpdateTabs();
           this.#licenseState = LinkedIn.#FetchState.FETCHED;

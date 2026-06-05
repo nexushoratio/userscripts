@@ -364,6 +364,7 @@ fakeErrorRate
 falsy
 feedAnchor
 FeedType
+FetchResult
 FetchState
 fff
 fieldName
@@ -588,6 +589,7 @@ libraryName
 licenseData
 LicenseData
 licenseElement
+licenseFetch
 licenseHandler
 licenseState
 licenseTab
@@ -1035,7 +1037,7 @@ snapToTop
 sourceforge
 spaInstance
 SPATestCase
-SPDX
+spdx
 SpecificEvent
 src
 srcdoc
@@ -1047,6 +1049,7 @@ startTest
 startUrlMonitor
 startUserscriptManagerUrlMonitor
 StatusBar
+statusText
 stopMutationObserverUrlMonitor
 stopTest
 stopUrlMonitor
