@@ -169,7 +169,6 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
-    ish('130', 'Factor hotkey handling out of SPA', '2026-03-24'),
     ish('167', 'Refactor into libraries', '2026-05-25'),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
@@ -183,18 +182,14 @@
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-06-03'),
-    ish('255', 'Support <b>Search appearances</b> page', '2026-05-07'),
+    ish('255', 'Support <b>Search appearances</b> page', '2026-06-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
-    ish('286',
-      'Factor out <code>SPA</code> related code into a library',
-      '2026-05-01'),
     ish(
       '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
-      '2026-05-06'
+      '2026-06-06'
     ),
-    ish('296', 'Ugly and missing badges', '2026-05-07'),
     ish('297', 'Update <b>Profile</b> page (Style-2)', '2026-05-08'),
     ish(
       '300',
@@ -204,17 +199,7 @@
     ),
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-05-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
-    ish('303', 'Keys are captured while editing text', '2026-04-21'),
-    ish(
-      '311',
-      '<b>Info</b>: Replace <b>News</b> handling with explicit button',
-      '2026-05-04'
-    ),
-    ish(
-      '320',
-      '<code>Page</code>: Finish migration to <code>lib/spa</code> version',
-      '2026-05-06'
-    ),
+    ish('303', 'Keys are captured while editing text', '2026-05-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-05-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-05-13'),
     ish(
@@ -229,9 +214,27 @@
       '2026-05-21'
     ),
     ish('334', '<b>InvitationManager</b>: Focus on aside', '2026-05-21'),
+    ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-05',
+      issues: ['302'],
+      subject: 'Fix <code>uidCallback</code> for the' +
+        ' <b>SuggestedForYou</b> section',
+    },
+    {
+      date: '2026-06-05',
+      issues: ['338'],
+      subject: 'Make license fetching a bit more robust',
+    },
+    {
+      date: '2026-06-04',
+      issues: ['240'],
+      subject: 'Normalize how <code>ScrollerStyleService</code> is' +
+        ' configured',
+    },
     {
       date: '2026-06-04',
       issues: ['302'],
@@ -517,39 +520,6 @@
       date: '2026-05-08',
       issues: ['300'],
       subject: 'Provide option to observe attributes inside the container',
-    },
-    {
-      date: '2026-05-07',
-      issues: ['286', '303'],
-      subject: 'Replace old <code>done()</code> method with a listener' +
-        ' for <code>initialize</code>',
-    },
-    {
-      date: '2026-05-07',
-      issues: ['302'],
-      subject: 'Support the <code>Activity</code> ->' +
-        ' <code>Newsletters</code> subsection',
-    },
-    {
-      date: '2026-05-06',
-      issues: ['320'],
-      subject: 'Retire the <code>readySelector</code> shim',
-    },
-    {
-      date: '2026-05-06',
-      issues: ['311'],
-      subject: 'Force a checkbox to always be visible',
-    },
-    {
-      date: '2026-05-06',
-      issues: ['302'],
-      subject: 'Support the <code>Featured</code> section',
-    },
-    {
-      date: '2026-05-06',
-      issues: ['130', '286'],
-      subject: 'Retire the original <code>SPA</code> implementation' +
-        ' in favor of the new',
     },
   ];
 
