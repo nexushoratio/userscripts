@@ -9196,7 +9196,7 @@
         selectors: [this.#entriesTopcardSelector],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
-        uidCallback: this.#entriesTopcardUid,
+        uidCallback: this.uniqueEntryIdentifier,
         selectors: [this.#entriesSuggestedForYouUid],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
