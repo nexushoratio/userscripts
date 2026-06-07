@@ -7343,15 +7343,27 @@
     constructor(spa) {
       super({spa: spa, ...JobsView.#details});
 
+      this.addService(ScrollerStyleService, JobsView.#scrollerStyleConfig);
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.addService(LinkedInToolbarService, this)
-        .addHows(JobsView.#cardsHow, JobsView.#entriesHow)
-        .postActivateHook(this.#toolbarHook);
+      // TODO(#240): This is the last use of LinkedInToolbarService.  It
+      // continues to exist so that we can delete the class in a separate
+      // change.
+      this.addService(LinkedInToolbarService, this);
+
+      this.#cardScroller = new Scroller(
+        JobsView.#cardsWhat, JobsView.#cardsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#cardScroller);
+      this.#cardScroller.dispatcher
+        .on('change', this.#onCardChange);
+      this.#lastScroller = this.#cardScroller;
     }
 
     /**
@@ -7412,16 +7424,6 @@
 
     /** @type {Scroller} */
     get cards() {
-      if (!this.#cardScroller) {
-        this.#cardScroller = new Scroller(JobsView.#cardsWhat,
-          JobsView.#cardsHow);
-        this.addService(ScrollerService)
-          .setScroller(this.#cardScroller);
-        this.#cardScroller.dispatcher
-          .on('change', this.#onCardChange);
-
-        this.#lastScroller = this.#cardScroller;
-      }
       return this.#cardScroller;
     }
 
@@ -7555,8 +7557,11 @@
     /** @type {Scroller~How} */
     static #cardsHow = {
       uidCallback: JobsView.uniqueCardIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
+      classes: [
+        LinkedIn.scrollerPrimaryClassName,
+        this.scrollerClassName,
+      ],
+      snapToTop: true,
     };
 
     /** @type {Scroller~What} */
@@ -7585,7 +7590,10 @@
     /** @type {Scroller~How} */
     static #entriesHow = {
       uidCallback: JobsView.uniqueEntryIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
+      classes: [
+        LinkedIn.scrollerSecondaryClassName,
+        this.scrollerClassName,
+      ],
       autoActivate: true,
       snapToTop: false,
     };
@@ -7601,18 +7609,24 @@
 
     static #jobCardSelector = `${JobsView.#cardsContainer} > div:first-child`;
 
+    static #scrollerStyleConfig = {
+      className: this.scrollerClassName,
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector('[role="toolbar"]');
+      return ret;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+    }
+
     #cardScroller
     #entryScroller
     #lastScroller
-
-    #toolbarHook = () => {
-      const me = 'toolbarHook';
-      this.logger.entered(me);
-
-      this.logger.log('Initializing scroller:', this.cards.item);
-
-      this.logger.leaving(me);
-    }
 
     #onCardChange = () => {
       this.#resetEntries();
