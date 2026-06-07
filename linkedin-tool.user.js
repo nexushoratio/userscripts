@@ -1495,15 +1495,17 @@
           }
         }
       }
-      this.#postProcessItems(items);
+      const filtered = this.#postProcessItems(items);
 
-      this.logger.leaving(me, items.length);
-      return items;
+      this.logger.leaving(me, filtered.length);
+      return filtered;
     }
 
     /**
      * Log items and do any fixups on them.
+     *
      * @param {[Element]} items - Elements in the Scroller.
+     * @returns {[Element]} - Post processed items.
      */
     #postProcessItems = (items) => {
       const me = this.#postProcessItems.name;
@@ -1531,7 +1533,10 @@
         }
       }
 
-      this.logger.finished(me, `uid count: ${uids.size}`);
+      const filtered = items.filter(Scroller.#isItemViewable);
+
+      this.logger.finished(me, `count: ${filtered.length}`);
+      return filtered;
     }
 
     /**
@@ -1643,10 +1648,13 @@
       this.logger.entered(me, `first=${first}`);
 
       const items = this.#getItems();
+      this.logger.log('length', items.length);
       if (items.length) {
         // eslint-disable-next-line no-extra-parens
         let idx = first ? 0 : (items.length - NH.base.ONE_ITEM);
+        this.logger.log('idx', idx);
         let item = items[idx];
+        this.logger.log('item', item);
 
         // Content of items is sometimes loaded lazily and can be detected by
         // having no innerText yet.  So start at the end and work our way up
