@@ -13,7 +13,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://update.greasyfork.org/scripts/478188/1831322/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1840658/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1798299/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478349/1842847/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1826302/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1824927/NH_spa.js
@@ -31,7 +31,7 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 61},
     {name: 'base', minVersion: 63},
-    {name: 'userscript', minVersion: 11},
+    {name: 'userscript', minVersion: 16},
     {name: 'web', minVersion: 15},
     {name: 'widget', minVersion: 46},
     {name: 'spa', minVersion: 9},
@@ -2931,16 +2931,13 @@
         try {
           this.#licenseData = NH.userscript.licenseData();
         } catch (e) {
-          if (e instanceof NH.userscript.Exception) {
-            this.logger.log('e:', e);
-            NH.base.issues.post(e.message);
-            this.#licenseData = {
-              id: 'Unknown',
-              url: '',
-              content: 'Unable to extract license data from the' +
-                ' userscript: Please file a bug',
-            };
-          }
+          NH.base.issues.post(e.message);
+          this.#licenseData = {
+            id: e.case?.code.reason ?? 'Unknown',
+            url: '',
+            content: 'Unable to extract license data from the' +
+              ' userscript: Please file a bug.',
+          };
         }
       }
 
