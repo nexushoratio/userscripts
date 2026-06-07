@@ -2,9 +2,8 @@
 
 Support for Single-Page Applications (SPA).
 
-## Exported properties (as of version 8)
+## Exported properties (as of version 12)
 * version - Bumped per release.
-* Exception - Library specific exception.
 * Page - Base class for handling various views of a single-page application.
 * WatchPage - Class for monitoring and logging mutations to a page.
 * Details - Base class for site details.
