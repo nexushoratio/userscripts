@@ -36,9 +36,11 @@
   const logger = new NH.base.Logger('Testing');
   logger.log('starting');
 
+  logger.starting(NH.userscript.environmentData.name);
   for (const entry of NH.userscript.environmentData()) {
     logger.log(entry);
   }
+  logger.finished(NH.userscript.environmentData.name);
 
   NH.xunit.testing.run();
 
