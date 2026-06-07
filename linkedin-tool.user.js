@@ -3354,7 +3354,6 @@
       } else {
         result.fetched = true;
         result.content = this.licenseData.content;
-        this.logger.log('this.licenseData', this.licenseData);
       }
       return result;
     }
