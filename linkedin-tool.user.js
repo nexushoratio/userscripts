@@ -183,14 +183,13 @@
     ),
     ish('253', 'Support <b>My Network Events</b> page', '2026-06-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-06-07'),
-    ish('256', 'Support <b>Verify</b> page', '2026-05-08'),
+    ish('256', 'Support <b>Verify</b> page', '2026-06-08'),
     ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
     ish(
       '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
       '2026-06-06'
     ),
-    ish('297', 'Update <b>Profile</b> page (Style-2)', '2026-05-08'),
     ish(
       '300',
       '<code>Scroller</code>: The <b>JobsCollections</b> pagination' +
@@ -218,6 +217,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-06',
+      issues: ['302'],
+      subject: 'Make <strong>Topcard</strong> UID computation table-driven',
+    },
     {
       date: '2026-06-05',
       issues: ['302'],
@@ -505,21 +509,6 @@
       date: '2026-05-09',
       issues: ['300'],
       subject: 'Reset <code>scrollerId</code> on attribute change',
-    },
-    {
-      date: '2026-05-08',
-      issues: ['302'],
-      subject: 'Stop supporting all Topcard background images (for now)',
-    },
-    {
-      date: '2026-05-08',
-      issues: ['302'],
-      subject: 'Make negative carousel selector similar to the positive one',
-    },
-    {
-      date: '2026-05-08',
-      issues: ['300'],
-      subject: 'Provide option to observe attributes inside the container',
     },
   ];
 
