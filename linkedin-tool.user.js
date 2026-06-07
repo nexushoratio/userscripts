@@ -8434,6 +8434,14 @@
       this.#lastScroller = this.#sectionScroller;
     }
 
+    static UidMode = Object.freeze({
+      ANCHOR: Symbol.for('anchor'),
+      ARIA_LABEL: Symbol.for('ariaLabel'),
+      FALLBACK: Symbol.for('fallback'),
+      HREF: Symbol.for('href'),
+      TEST_ID: Symbol.for('testId'),
+    })
+
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
@@ -8610,7 +8618,8 @@
      */
     static entriesUidShim(element) {
       const [mode, content] = Profile.#entriesCurrentUid(this, element);
-      return [mode, content].join('-');
+      // TODO(#302): Transitioning from String to Symbol.
+      return [mode.description ?? mode, content].join('-');
     }
 
     /** @type {Scroller} */
@@ -8623,6 +8632,7 @@
 
         Profile.#entriesCurrentUid = config.uidCallback;
         Profile.#entriesWhat.selectors = config.selectors;
+        Profile.#entriesCurrentModes = config.modes;
 
         this.#entryScroller = new Scroller(
           {base: this.sections.item, ...Profile.#entriesWhat},
@@ -8750,6 +8760,9 @@
       `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
         ` a${this.#arrowRightNot}`,
     ].join(',');
+
+    /** @type {UidMode[]} */
+    static #entriesCurrentModes
 
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
@@ -8962,6 +8975,84 @@
     }
 
     /**
+     * Compute all UIDs for the requested modes.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @param {UidMode[]} modes - Computation modes to consider.
+     * @returns {Map<UidMode, string>} - All computed values.
+     */
+    static #entriesModeToUid = (scroller, element, modes) => {
+      const me = this.#entriesModeToUid.name;
+      scroller.logger.entered(me, element, modes);
+
+      const results = new Map();
+
+      // Different types may get additional post-processing.
+      let content = null;
+      let href = null;
+
+      for (const mode of modes) {
+        content = null;
+        href = null;
+        switch (mode) {
+          case this.UidMode.ANCHOR:
+            href = element.querySelector('a')?.href;
+            break;
+          case this.UidMode.ARIA_LABEL:
+            content = element.ariaLabel ||
+            element.querySelector('[aria-label]')
+              ?.getAttribute('aria-label');
+            break;
+          case this.UidMode.HREF:
+            href = element.href;
+            break;
+          case this.UidMode.TEST_ID:
+            content = element.dataset.testid;
+            break;
+          default:
+            NH.base.issues.post('Unsupported mode:', mode.description);
+        }
+        if (content) {
+          results.set(mode, content);
+        } else if (href) {
+          results.set(mode, new URL(href).pathname);
+        }
+      }
+
+      scroller.logger.leaving(me, results);
+      return results;
+    }
+
+    /**
+     * Return the first UID computed from supported modes.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {[UidMode, string]} - How the UID was computed, and value.
+     */
+    static #entriesUidFromModes = (scroller, element) => {
+      const me = this.#entriesUidFromModes.name;
+      scroller.logger.entered(me, element);
+
+      const results = this.#entriesModeToUid(
+        scroller, this.#entriesCurrentModes, element
+      );
+
+      if (results.size === 0) {
+        this.#entriesMentionUidPossibilities(scroller, element);
+        results.set(this.UidMode.FALLBACK, scroller.defaultUid(element));
+      }
+
+      const [mode, uid] = results
+        .entries()
+        .next().value;
+
+      scroller.logger.leaving(me, mode, uid);
+      return [mode, uid];
+    }
+
+    /**
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
@@ -9112,54 +9203,18 @@
       return [mode, content];
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static #entriesTopcardUid = (scroller, element) => {  // eslint-disable-line max-statements
-      const me = this.#entriesTopcardUid.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-
-      const href = element.href;
-      const ariaLabel = element.ariaLabel ||
-            element.querySelector('[aria-label]')
-              ?.getAttribute('aria-label');
-      const testId = element.dataset.testid;
-
-      if (ariaLabel) {
-        mode = 'ariaLabel';
-        content = ariaLabel;
-      }
-      if (testId) {
-        mode = 'testId';
-        content = testId;
-      }
-      if (href) {
-        mode = 'href';
-        content = new URL(href).pathname;
-      }
-      if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
 
       this.#entriesScrollerConfigs.set('Topcard', {
-        uidCallback: this.#entriesTopcardUid,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesTopcardSelector],
+        modes: [
+          this.UidMode.HREF,
+          this.UidMode.TEST_ID,
+          this.UidMode.ARIA_LABEL,
+        ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
         uidCallback: this.uniqueEntryIdentifier,

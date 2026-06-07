@@ -302,11 +302,13 @@ entriesAboutSelector
 entriesAboutUid
 entriesAnalyticsSelector
 entriesAnalyticsUid
+entriesCurrentModes
 entriesCurrentUid
 entriesHighlightsSelector
 entriesHighlightsUid
 entriesHow
 entriesMentionUidPossibilities
+entriesModeToUid
 entriesScrollerConfigDefault
 entriesScrollerConfigs
 entriesSelectorDefault
@@ -315,7 +317,7 @@ entriesSelectorsWhat
 entriesSuggestedForYouSelector
 entriesSuggestedForYouUid
 entriesTopcardSelector
-entriesTopcardUid
+entriesUidFromModes
 entriesUidShim
 entriesWhat
 entryScroller
@@ -1348,8 +1350,10 @@ UidCallbackMissing
 UidCallbackNotFunction
 uidCommentRE
 uidDetailsClassRE
+UidMode
 uidPostRE
 uids
+UIDs
 uidSectionPrefix
 ul
 undef
