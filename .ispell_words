@@ -35,6 +35,7 @@ addSkip
 addStyles
 addSuccess
 addTab
+addValueChangeListener
 ADefaultPage
 aLert
 allowedBottom
@@ -715,6 +716,7 @@ newsTab
 newUrl
 newV
 newVal
+newValue
 nextButton
 nextCard
 nextCollection
@@ -771,6 +773,7 @@ oldestAllowedDate
 oldItems
 oldPages
 oldUrl
+oldValue
 onActivate
 onActivateUnsupportedPageCheck
 onActivateWatch
@@ -910,6 +913,7 @@ removedNodes
 removeEventListener
 removeInstance
 removeNonExistent
+removeValueChangeListener
 renderFunc
 RenderFunc
 renderInt
@@ -1398,9 +1402,11 @@ uuId
 validateHow
 validateInstance
 validateWhat
+valueChangeListener
 valueExtractor
 ValueExtractor
 valueOf
+vclId
 VerificationError
 VERYComplicated
 viaH
