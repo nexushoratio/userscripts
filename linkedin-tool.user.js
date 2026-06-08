@@ -170,7 +170,7 @@
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
     ish('167', 'Refactor into libraries', '2026-05-25'),
-    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-05-09'),
+    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-06-09'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
     ish(
       '240',
@@ -184,17 +184,22 @@
     ish('253', 'Support <b>My Network Events</b> page', '2026-06-03'),
     ish('255', 'Support <b>Search appearances</b> page', '2026-06-07'),
     ish('256', 'Support <b>Verify</b> page', '2026-06-08'),
-    ish('257', 'Support <b>Analytics & tools</b> page', '2026-05-09'),
+    ish('257', 'Support <b>Analytics & tools</b> page', '2026-06-09'),
     ish(
       '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
       '2026-06-06'
     ),
     ish(
+      '299',
+      '<code>VM.shortcut</code> is swallowing and ignoring exceptions',
+      '2026-06-08'
+    ),
+    ish(
       '300',
       '<code>Scroller</code>: The <b>JobsCollections</b> pagination' +
         ' scroller gets out of sync',
-      '2026-05-09'
+      '2026-06-09'
     ),
     ish('301', '<b>JobsView</b>: Entries need tuning', '2026-05-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
@@ -214,9 +219,36 @@
     ),
     ish('334', '<b>InvitationManager</b>: Focus on aside', '2026-05-21'),
     ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
+    ish(
+      '342',
+      '<strong>Messaging</strong>: Causing browser slow down',
+      '2026-06-08'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-08',
+      issues: ['342'],
+      subject: 'Turn off reactivation for all <code>ScrollerService</code>s',
+    },
+    {
+      date: '2026-06-08',
+      issues: ['299'],
+      subject: 'Capture exceptions that happen in <code>Shortcut</code>',
+    },
+    {
+      date: '2026-06-08',
+      issues: ['302'],
+      subject: 'Fix the order of arguments to' +
+        ' <code>.#entriesModeToUid()</code>',
+    },
+    {
+      date: '2026-06-07',
+      issues: ['240'],
+      subject: 'Migrate <code>JobsView</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
     {
       date: '2026-06-06',
       issues: ['302'],
@@ -499,16 +531,6 @@
       date: '2026-05-11',
       issues: ['302'],
       subject: 'Rework how <code>Topcard</code> entries are detected',
-    },
-    {
-      date: '2026-05-09',
-      issues: ['302'],
-      subject: 'Add <code>aria-label</code> as a source for uids',
-    },
-    {
-      date: '2026-05-09',
-      issues: ['300'],
-      subject: 'Reset <code>scrollerId</code> on attribute change',
     },
   ];
 
