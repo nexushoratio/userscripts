@@ -2239,6 +2239,7 @@
       super(instanceName);
       this.on('activate', this.#onActivate)
         .on('deactivate', this.#onDeactivate)
+        .allowReactivation(false)
         .setScroller();
     }
 
@@ -6881,11 +6882,8 @@
       this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
         JobsCollections.#cardsHow);
 
-      // The various calls to .allowReactivation() are because navigation
-      // updates the URL, causing the page to reactivate.  See #218.
       this.addService(ScrollerService)
-        .setScroller(this.#cardsScroller)
-        .allowReactivation(false);
+        .setScroller(this.#cardsScroller);
       this.#cardsScroller.dispatcher
         .on('activate', this.#onCardActivate)
         .on('change', this.#onCardChange);
@@ -6894,8 +6892,7 @@
         JobsCollections.#paginationWhat, JobsCollections.#paginationHow
       );
       this.addService(ScrollerService)
-        .setScroller(this.#paginationScroller)
-        .allowReactivation(false);
+        .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
         .on('activate', this.#onPaginationActivate)
         .on('change', this.#onPaginationChange);
@@ -6905,8 +6902,7 @@
         JobsCollections.#detailsWhat, JobsCollections.#detailsHow
       );
       this.addService(ScrollerService)
-        .setScroller(this.#detailsScroller)
-        .allowReactivation(false);
+        .setScroller(this.#detailsScroller);
       this.#detailsScroller.dispatcher
         .on('change', this.#onDetailsChange);
 
