@@ -1068,6 +1068,7 @@ strHash
 StringAdapter
 StringAdapterTestCase
 stringify
+stringifying
 strKey
 strs
 strValue
@@ -1351,6 +1352,9 @@ tpe
 tsort
 TypeError
 typeof
+typeTool
+TypeTool
+TypeToolTestCase
 uid
 uidCallback
 UidCallbackMissing
