@@ -13,6 +13,8 @@
 // @require     https://greasyfork.org/scripts/478440-nh-web/code/NH_web.js
 // @require     https://greasyfork.org/scripts/478676-nh-widget/code/NH_widget.js
 // @require     https://greasyfork.org/scripts/570146-nh-spa/code/NH_spa.js
+// @grant       GM.addValueChangeListener
+// @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
