@@ -9047,7 +9047,7 @@
       scroller.logger.entered(me, element);
 
       const results = this.#entriesModeToUid(
-        scroller, this.#entriesCurrentModes, element
+        scroller, element, this.#entriesCurrentModes
       );
 
       if (results.size === 0) {
