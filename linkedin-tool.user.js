@@ -2357,12 +2357,27 @@
      * form of an arrow function.  Keep JS `this` magic in mind!
      */
     constructor(seq, desc, func) {
-      super('return this.func();');
+      super('return this.wrapper();');
       const myself = this.bind(this);
       myself.seq = seq;
       myself.desc = desc;
       this.func = func;
       return myself;
+    }
+
+    wrapper = () => {
+      try {
+        this.func();
+      } catch (e) {
+        const output = [
+          `${this.constructor.name} caught error:`,
+          e.message,
+        ];
+        if (e.cause) {
+          output.push(e.cause);
+        }
+        NH.base.issues.post(...output);
+      }
     }
 
   }
