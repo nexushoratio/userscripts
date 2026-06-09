@@ -9189,28 +9189,6 @@
       return [mode, content];
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static #entriesSuggestedForYouUid = (scroller, element) => {
-      const me = this.#entriesSuggestedForYouUid.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-      if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
@@ -9225,8 +9203,9 @@
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
-        uidCallback: this.uniqueEntryIdentifier,
-        selectors: [this.#entriesSuggestedForYouUid],
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [this.#entriesSuggestedForYouSelector],
+        modes: [],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesAnalyticsUid,
