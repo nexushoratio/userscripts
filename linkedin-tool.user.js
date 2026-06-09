@@ -9024,7 +9024,12 @@
         if (content) {
           results.set(mode, content);
         } else if (href) {
-          results.set(mode, new URL(href).pathname);
+          const url = new URL(href);
+          const pathname = url.pathname;
+          const extra = element.parentElement.matches(':has(hr)')
+            ? '-hr'
+            : '';
+          results.set(mode, pathname + extra);
         }
       }
 
@@ -9077,39 +9082,6 @@
       if (anchor) {
         mode = 'anchor';
         content = new URL(anchor).pathname;
-      }
-      if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static #entriesAnalyticsUid = (scroller, element) => {
-      const me = this.#entriesAnalyticsUid.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-      const href = element.href;
-
-      if (href) {
-        const url = new URL(href);
-        const pathname = url.pathname;
-        const extra = element.parentElement.matches(':has(hr)')
-          ? '-hr'
-          : '';
-        mode = 'href';
-        content = pathname + extra;
       }
       if (!content) {
         this.#entriesMentionUidPossibilities(scroller, element);
@@ -9208,11 +9180,12 @@
         modes: [],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
-        uidCallback: this.#entriesAnalyticsUid,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesAnalyticsSelector,
           this.#entriesSelectorFooter,
         ],
+        modes: [this.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('Highlights', {
         uidCallback: this.#entriesHighlightsUid,
