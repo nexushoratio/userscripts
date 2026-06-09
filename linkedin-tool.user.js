@@ -12,11 +12,11 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://update.greasyfork.org/scripts/478188/1831322/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1840658/NH_base.js
+// @require     https://update.greasyfork.org/scripts/477290/1846238/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1846239/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1826302/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1824927/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/570146/1846241/NH_spa.js
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
@@ -30,11 +30,11 @@
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 61},
-    {name: 'base', minVersion: 63},
+    {name: 'base', minVersion: 65},
     {name: 'userscript', minVersion: 17},
     {name: 'web', minVersion: 15},
     {name: 'widget', minVersion: 46},
-    {name: 'spa', minVersion: 9},
+    {name: 'spa', minVersion: 12},
   ]);
 
   const APP_LONG = GM.info.script.name;
