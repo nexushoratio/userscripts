@@ -8453,7 +8453,7 @@
         LinkedIn.scrollerPrimaryClassName,
         this.scrollerClassName,
       ],
-      snapToTop: false,
+      snapToTop: true,
       clickConfig: {
         finder: Notifications.cardItemToClick,
       },
@@ -8476,13 +8476,27 @@
 
     /** @returns {Element?} - Element to monitor. */
     static #scrollerFinder = () => {
-      const ret = document.querySelector(LinkedIn.primaryNavSelector);
+      const ret = document.querySelector('aside > div');
       return ret;
+    }
+
+    /**
+     * @implements {ValueExtractor}
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+    static #scrollerValueExtractor = (element) => {
+      const rect = element.getBoundingClientRect();
+      const values = {
+        top: `${rect.top}px`,
+      };
+      return values;
     }
 
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
     }
 
     #notificationScroller
