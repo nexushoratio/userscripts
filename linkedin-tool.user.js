@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     41
+// @version     42
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -228,6 +228,39 @@
 
   const globalNewsContent = [
     {
+      date: '2026-06-09',
+      issues: ['302'],
+      subject: 'Make <strong>Analytics</strong> UID computation table-driven',
+    },
+    {
+      date: '2026-06-09',
+      issues: ['302'],
+      subject: 'Make <strong>SuggestedForYou</strong> UID computation' +
+        ' table-driven',
+    },
+    {
+      date: '2026-06-09',
+      issues: ['240'],
+      subject: 'Retire <code>LinkedInToolbarService</code>',
+    },
+    {
+      date: '2026-06-09',
+      issues: ['240'],
+      subject: 'Update <strong>Event</strong>\'s use of' +
+        ' <code>ScrollerStyleService</code>',
+    },
+    {
+      date: '2026-06-09',
+      issues: [''],
+      subject: 'Give <code>DebugKeys</code> its own <code>Logger</code>',
+    },
+    {
+      date: '2026-06-09',
+      issues: ['240'],
+      subject: 'Update <strong>Notification</strong>\'s use of' +
+        ' <code>ScrollerStyleService</code>',
+    },
+    {
       date: '2026-06-08',
       issues: ['342'],
       subject: 'Turn off reactivation for all <code>ScrollerService</code>s',
@@ -274,19 +307,19 @@
     {
       date: '2026-06-04',
       issues: ['302'],
-      subject: 'Factor out the <em></em>About<em></em> section into' +
+      subject: 'Factor out the <strong>About</strong> section into' +
         ' a secondary config',
     },
     {
       date: '2026-06-04',
       issues: ['302'],
       subject: 'Initial support for the' +
-        ' <em></em>SuggestedForYou<em></em> section',
+        ' <strong>SuggestedForYou</strong> section',
     },
     {
       date: '2026-06-01',
       issues: ['302'],
-      subject: 'Factor out the <em></em>Highlights<em></em> section into' +
+      subject: 'Factor out the <strong>Highlights</strong> section into' +
         ' a secondary config',
     },
     {
@@ -310,7 +343,7 @@
     {
       date: '2026-05-31',
       issues: ['302'],
-      subject: 'Factor out the <em></em>Analytics<em></em> section' +
+      subject: 'Factor out the <strong>Analytics</strong> section' +
         ' into a secondary config',
     },
     {
@@ -322,7 +355,7 @@
     {
       date: '2026-05-30',
       issues: ['302'],
-      subject: 'Factor out the <em></em>Topcard<em></em> section into' +
+      subject: 'Factor out the <strong>Topcard</strong> section into' +
         ' secondary config',
     },
     {
@@ -344,7 +377,7 @@
     {
       date: '2026-05-29',
       issues: [''],
-      subject: 'Update selector for <em></em>Feed<em></em> comments',
+      subject: 'Update selector for <strong>Feed</strong> comments',
     },
     {
       date: '2026-05-28',
