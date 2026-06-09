@@ -4573,6 +4573,7 @@
         throw new TypeError('Abstract class; do not instantiate directly.');
       }
       super(details);
+
       this.logger.log('Adapter page constructed', this);
     }
 
@@ -4596,6 +4597,13 @@
       return className;
     }
 
+    /** @type {Page} - Equivalent of this.constructor */
+    get ctor() {
+      return this.constructor;
+    }
+
+    #klass
+
   }
 
   /* eslint-disable no-new */
@@ -4603,6 +4611,26 @@
   class LitPageTestCase extends NH.xunit.TestCase {
 
     static TestPage = class extends Page {}
+
+    static CtorPage = class extends Page {
+
+      constructor() {
+        super();
+
+        this.ctor.#business = 'nunya';
+      }
+
+      static get businessClass() {
+        return [this.#business, 'class'].join('-');
+      }
+
+      get businessInst() {
+        return [this.ctor.#business, 'inst'].join('-');
+      }
+
+      static #business = 'uninit';
+
+    }
 
     testAbstract() {
       this.assertRaises(TypeError, () => {
@@ -4642,6 +4670,19 @@
         ),
         'lit-test-page-multiple-items-here',
         'multiple items'
+      );
+    }
+
+    testCtor() {
+      this.assertEqual(
+        LitPageTestCase.CtorPage.businessClass, 'uninit-class', 'uninit'
+      );
+      const page = new LitPageTestCase.CtorPage();
+
+      this.assertEqual(page.ctor, LitPageTestCase.CtorPage, 'equivalence');
+      this.assertEqual(page.businessInst, 'nunya-inst', 'inst');
+      this.assertEqual(
+        LitPageTestCase.CtorPage.businessClass, 'nunya-class', 'static'
       );
     }
 

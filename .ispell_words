@@ -107,6 +107,8 @@ buildHeader
 buildRows
 buildShortcutsInfo
 builtInClasses
+businessClass
+businessInst
 buttonClasses
 ButtonFace
 byId
@@ -217,6 +219,7 @@ createPanel
 css
 cssClassName
 ctor
+CtorPage
 currentColor
 currentItem
 currentItemId
@@ -765,6 +768,7 @@ npm
 ntCardIndex
 NumberOp
 NumberOpTestCase
+nunya
 objectBoundingBox
 observeAttributes
 observeNavbar
@@ -1163,6 +1167,7 @@ testCount
 testCounter
 testCountsCollected
 testCssClassName
+testCtor
 testDataIsLive
 TestDeets
 testDefaultBuilds
@@ -1369,6 +1374,7 @@ uidSectionPrefix
 ul
 undef
 unicode
+uninit
 uniqueCardIdentifier
 uniqueCollectionIdentifier
 uniqueCommentIdentifier
