@@ -168,6 +168,7 @@ clientWidth
 cloneNode
 colClassesFunc
 ColClassesFunc
+collectionsContainer
 collectionScroller
 collectionsHow
 collectionsWhat
@@ -776,6 +777,7 @@ observeOptions
 occludable
 occludableJobId
 offConfig
+offsetHeight
 oldestAllowedDate
 oldItems
 oldPages

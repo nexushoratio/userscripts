@@ -9581,6 +9581,8 @@
       }
     );
 
+    static #collectionsContainer = 'main:has(> section)'
+
     /** @type {Scroller~How} */
     static #collectionsHow = {
       uidCallback: Events.uniqueCollectionIdentifier,
@@ -9593,7 +9595,7 @@
       name: `${this.name} collections`,
       containerItems: [
         {
-          container: 'main:has(> section)',
+          container: this.#collectionsContainer,
           items: [
             // Major collections
             ':scope > section',
@@ -9635,13 +9637,29 @@
 
     /** @returns {Element?} - Element to monitor. */
     static #scrollerFinder = () => {
-      const ret = document.querySelector(LinkedIn.primaryNavSelector);
+      const ret = document.querySelector(this.#collectionsContainer)
+        ?.parentElement;
       return ret;
+    }
+
+    /**
+     * @implements {ValueExtractor}
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+    static #scrollerValueExtractor = (element) => {
+      const navbar = document.querySelector('#global-nav')?.offsetHeight ?? 0;
+      const style = getComputedStyle(element);
+      const values = {
+        top: `calc(${navbar}px + ${style.marginTop})`,
+      };
+      return values;
     }
 
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
     }
 
     #collectionScroller
