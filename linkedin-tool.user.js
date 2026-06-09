@@ -4694,9 +4694,9 @@
   /** Class for holding keystrokes that simplify debugging. */
   class DebugKeys {
 
-    /** @param {NH.base.Logger} logger - Logger to use. */
-    constructor(logger) {
-      this.#logger = logger;
+    /** Initialize DebugKeys. */
+    constructor() {
+      this.#logger = new NH.base.Logger(`[${this.constructor.name}]`);
     }
 
     clearConsole = new Shortcut(
@@ -4786,8 +4786,7 @@
       const keyboardService = this.addService(VMKeyboardService)
         .addInstance(this);
       if (litOptions.enableDevMode) {
-        const dk = new DebugKeys(this.logger);
-        keyboardService.addInstance(dk);
+        keyboardService.addInstance(new DebugKeys());
       }
 
       if (litOptions.enableAlertUnsupportedPages) {
