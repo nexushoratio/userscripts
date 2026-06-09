@@ -4478,91 +4478,6 @@
   }
 
   /**
-   * Helper for pages that have an extra drop-down toolbar.
-   *
-   * Some LinkedIn pages have an extra toolbar that will drop down and obscure
-   * content.  This makes it difficult for `LinkedIn.navbarScrollerFixup()` to
-   * properly adjust.
-   *
-   * For those pages, use this Service which will activate once to do the
-   * initial fixups, then the additional ones necessary for that page.
-   */
-  class LinkedInToolbarService extends NH.base.Service {
-
-    /**
-     * @param {string} instanceName - Custom portion of this instance.
-     * @param {Page} page - Page this service is tied to.
-     */
-    constructor(instanceName, page) {
-      super(instanceName);
-      this.#page = page;
-      this.#postHook = () => {};  // eslint-disable-line no-empty-function
-      this.on('activate', this.#onActivate);
-    }
-
-    /**
-     * @param {...Scroller~How} hows - How types to update.
-     * @returns {LinkedInToolbarService} - This instance, for chaining.
-     */
-    addHows(...hows) {
-      for (const how of hows) {
-        this.#scrollerHows.add(how);
-      }
-      return this;
-    }
-
-    /**
-     * Often a {Page} would like to do a bit more initialization after this
-     * fixups.  That is what this hook is for.
-     *
-     * @param {NH.web.SimpleFunction} hook - Function to call post activation.
-     * @returns {LinkedInToolbarService} - This instance, for chaining.
-     */
-    postActivateHook(hook) {
-      this.#postHook = hook;
-      return this;
-    }
-
-    #activatedOnce = false;
-    #page
-    #postHook
-    #scrollerHows = new Set();
-
-    #onActivate = () => {
-      const me = 'onActivate';
-      this.logger.entered(me, this.#page);
-
-      if (!this.#activatedOnce) {
-        const toolbarElement = document.querySelector(
-          '.scaffold-layout-toolbar'
-        );
-        this.logger.log('toolbar:', toolbarElement);
-
-        if (toolbarElement) {
-          for (const how of this.#scrollerHows) {
-            this.logger.log('how:', how);
-            this.#page.spa.details.navbarScrollerFixup(how);
-
-            const newHeight = how.topMarginPixels +
-                  toolbarElement.clientHeight;
-            const newCSS = `${newHeight}px`;
-
-            how.topMarginPixels = newHeight;
-            how.topMarginCSS = newCSS;
-          }
-
-          this.#postHook();
-        }
-      }
-
-      this.#activatedOnce = true;
-
-      this.logger.leaving(me);
-    }
-
-  }
-
-  /**
    * Adapt the new NH.spa.Page to the older implementation.
    */
   class Page extends NH.spa.Page {
@@ -7423,11 +7338,6 @@
 
       this.addService(VMKeyboardService)
         .addInstance(this);
-
-      // TODO(#240): This is the last use of LinkedInToolbarService.  It
-      // continues to exist so that we can delete the class in a separate
-      // change.
-      this.addService(LinkedInToolbarService, this);
 
       this.#cardScroller = new Scroller(
         JobsView.#cardsWhat, JobsView.#cardsHow
