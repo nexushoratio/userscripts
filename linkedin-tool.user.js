@@ -9111,34 +9111,6 @@
     }
 
     /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static #entriesAboutUid = (scroller, element) => {
-      const me = this.#entriesAboutUid.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-      const anchor = element.querySelector('a')?.href;
-
-      if (anchor) {
-        mode = 'anchor';
-        content = new URL(anchor).pathname;
-      }
-      if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
-    /**
      * Mention things that might have been missed during development.
      *
      * @param {Scroller} scroller - Scroller instance.
@@ -9215,8 +9187,9 @@
         ],
       });
       this.#entriesScrollerConfigs.set('About', {
-        uidCallback: this.#entriesAboutUid,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesAboutSelector],
+        modes: [this.UidMode.ANCHOR],
       });
     }
 
