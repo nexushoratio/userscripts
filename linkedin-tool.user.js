@@ -8480,8 +8480,10 @@
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
+      COMPANY_ANCHOR: Symbol.for('companyAnchor'),
       FALLBACK: Symbol.for('fallback'),
       HREF: Symbol.for('href'),
+      ID: Symbol.for('id'),
       TEST_ID: Symbol.for('testId'),
     })
 
@@ -8971,6 +8973,7 @@
       'RecommendationsTopLevel, LanguageTopLevel',
       'RecommendationsTopLevel, Patents',
       'RecommendationsTopLevel, PublicationTopLevelSection',
+      'SalesInsightsOrHighlights, About',
       'Services, Activity',
       'Services, Featured',
       'SimilarTo, Highlights',
@@ -8988,6 +8991,7 @@
       'Topcard, Analytics',
       'Topcard, Featured',
       'Topcard, Highlights',
+      'Topcard, SalesInsightsOrHighlights',
       'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
       'VolunteerExperienceTopLevel, RecommendationsTopLevel',
@@ -9025,7 +9029,7 @@
      * @param {UidMode[]} modes - Computation modes to consider.
      * @returns {Map<UidMode, string>} - All computed values.
      */
-    static #entriesModeToUid = (scroller, element, modes) => {
+    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function
       const me = this.#entriesModeToUid.name;
       scroller.logger.entered(me, element, modes);
 
@@ -9047,8 +9051,14 @@
             element.querySelector('[aria-label]')
               ?.getAttribute('aria-label');
             break;
+          case this.UidMode.COMPANY_ANCHOR:
+            href = element.querySelector('a[href*="/company/"]')?.href;
+            break;
           case this.UidMode.HREF:
             href = element.href;
+            break;
+          case this.UidMode.ID:
+            content = element.querySelector('[id]')?.id;
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid;
@@ -9161,41 +9171,6 @@
       scroller.logger.leaving(me, 'Suggested:', suggestions);
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static #entriesHighlightsUid = (scroller, element) => {
-      const me = this.#entriesHighlightsUid.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-      const companyAnchor = element.querySelector(
-        'a[href*="/company/"]'
-      )?.href;
-      const id = element.querySelector('[id]')?.id;
-
-      if (id) {
-        mode = 'id';
-        content = id;
-      }
-      if (companyAnchor) {
-        mode = 'companyAnchor';
-        content = new URL(companyAnchor).pathname;
-      }
-      if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
     // Work around picky style checker.
     static {
       this.#scrollerStyleConfig.finder = this.#scrollerFinder;
@@ -9222,9 +9197,22 @@
         ],
         modes: [this.UidMode.HREF],
       });
+      // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
       this.#entriesScrollerConfigs.set('Highlights', {
-        uidCallback: this.#entriesHighlightsUid,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesHighlightsSelector],
+        modes: [
+          this.UidMode.COMPANY_ANCHOR,
+          this.UidMode.ID,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [this.#entriesHighlightsSelector],
+        modes: [
+          this.UidMode.COMPANY_ANCHOR,
+          this.UidMode.ID,
+        ],
       });
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesAboutUid,

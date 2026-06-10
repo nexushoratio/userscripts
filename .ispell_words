@@ -979,6 +979,7 @@ runTests
 safeId
 SafeIdTestCase
 safetyAnchor
+SalesInsightsOrHighlights
 savedConfigs
 savedJob
 savedOptions
