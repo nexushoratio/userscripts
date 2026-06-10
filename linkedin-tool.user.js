@@ -2807,6 +2807,9 @@
       // before Pages are registered.
       this.navbarHeightPixels = 16;
 
+      // The default reprString wraps in double-quotes.
+      this.#typeTool.addReprFunc('String', x => x);
+
       this.dispatcher.on('initialize', this.#onInit);
     }
 
@@ -3275,6 +3278,7 @@
     #ourMenuItemStyle2
     #pageStyle
     #shortcutsWidget
+    #typeTool = new NH.xunit.TypeTool();
 
     #onInit = () => {
       const me = this.#onInit.name;
@@ -4446,7 +4450,8 @@
      * @param {string} content - Information to add.
      */
     #addError = (content) => {
-      this.#errorText.value += `${content}\n`;
+      const repr = this.#typeTool.repr(content);
+      this.#errorText.value += `${repr}\n`;
 
       if (content === LinkedIn.errorMarker) {
         this.#refreshErrors();
