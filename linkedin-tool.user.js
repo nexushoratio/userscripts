@@ -9017,6 +9017,7 @@
       'RecommendationsTopLevel, Patents',
       'RecommendationsTopLevel, PublicationTopLevelSection',
       'SalesInsightsOrHighlights, About',
+      'SalesInsightsOrHighlights, Activity',
       'Services, Activity',
       'Services, Featured',
       'SimilarTo, Highlights',
