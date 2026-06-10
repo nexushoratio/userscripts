@@ -17,6 +17,8 @@
 // @require     https://update.greasyfork.org/scripts/478440/1826302/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1787505/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1846241/NH_spa.js
+// @grant       GM.addValueChangeListener
+// @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
 // @grant       GM.setValue
 // @grant       window.onurlchange
