@@ -9595,6 +9595,10 @@
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
 
+      this.addService(
+        ScrollerStyleService, SearchResultsPeople.#scrollerStyleConfig
+      );
+
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
@@ -9772,8 +9776,8 @@
     /** @type {Scroller~How} */
     static #resultsHow = {
       uidCallback: SearchResultsPeople.uniqueResultIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
-      snapToTop: false,
+      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
+      snapToTop: true,
     };
 
     /** @type {Scroller~What} */
@@ -9786,6 +9790,37 @@
         },
       ],
     };
+
+    static #scrollerStyleConfig = {
+      className: this.scrollerClassName,
+    };
+
+    /** @returns {Element?} - Element to monitor. */
+    static #scrollerFinder = () => {
+      const ret = document.querySelector(LinkedIn.primaryContentSelector)
+        ?.parentElement
+        ?.parentElement;
+      return ret;
+    }
+
+    /**
+     * @implements {ValueExtractor}
+     * @param {Element} element - Element to examine.
+     * @returns {Values} - Extracted values.
+     */
+    static #scrollerValueExtractor = (element) => {
+      const style = getComputedStyle(element);
+      const values = {
+        top: style.marginTop,
+      };
+      return values;
+    }
+
+    // Work around picky style checker.
+    static {
+      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
+      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
+    }
 
     #lastScroller
     #paginationScroller
