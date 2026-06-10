@@ -4,7 +4,6 @@ aboutTab
 abxd
 acceptInvite
 AccordionTableWidget
-activatedOnce
 activateItem
 activateNotification
 activeCenter
@@ -99,6 +98,7 @@ BigInt
 bitness
 bobInfo
 botButton
+BothLabelledbyAndLabel
 bottomHalf
 bottomMargin
 browserName
@@ -168,6 +168,7 @@ clientWidth
 cloneNode
 colClassesFunc
 ColClassesFunc
+ColClassesNotFunction
 collectionsContainer
 collectionScroller
 collectionsHow
@@ -307,7 +308,6 @@ ent
 entriesAboutSelector
 entriesAboutUid
 entriesAnalyticsSelector
-entriesAnalyticsUid
 entriesCurrentModes
 entriesCurrentUid
 entriesHighlightsSelector
@@ -579,6 +579,7 @@ knownIssues
 knownUrlsTodo
 labelClassesFunc
 LabelClassesFunc
+LabelClassesNotFunction
 labelledby
 labelledBy
 LanguageTopLevel
@@ -661,7 +662,10 @@ methodName
 MethodResult
 minVersion
 MinVersionError
+MissingField
 missingFirst
+MissingLabel
+MissingLabelledbyOrLabel
 missingSecond
 moCallback
 ModalTestCase
@@ -926,6 +930,7 @@ removeValueChangeListener
 renderFunc
 RenderFunc
 renderInt
+RenderNotFunction
 renderType
 replaceableComment
 replaceAll
@@ -968,6 +973,7 @@ RoCallback
 roledescription
 rowClassesFunc
 RowClassesFunc
+RowClassesNotFunction
 rpc
 runTests
 safeId
@@ -1258,6 +1264,7 @@ testPrimitives
 testPrimitiveString
 testProperties
 testReactivation
+TestReason
 testRebuildDestroys
 testRegister
 testRegularClasses
