@@ -5132,7 +5132,7 @@
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
-      this.addService(ScrollerStyleService, Feed.#scrollerStyleConfig);
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -5140,7 +5140,9 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#postScroller = new Scroller(Feed.#postsWhat, Feed.#postsHow);
+      this.#postScroller = new Scroller(
+        this.ctor.#postsWhat, this.ctor.#postsHow
+      );
       this.addService(ScrollerService)
         .setScroller(this.#postScroller);
       this.#postScroller.dispatcher
@@ -5212,7 +5214,8 @@
 
       if (!this.#commentScroller && this.posts.item) {
         this.#commentScroller = new Scroller(
-          {base: this.posts.item, ...Feed.#commentsWhat}, Feed.#commentsHow
+          {base: this.posts.item, ...this.ctor.#commentsWhat},
+          this.ctor.#commentsHow
         );
         this.#commentScroller.dispatcher
           .on('change', this.#onCommentChange)
@@ -5436,7 +5439,7 @@
 
     gotoShare = new Shortcut(
       'P',
-      `Go to the share box to start a post or ${Feed.#tabSnippet} ` +
+      `Go to the share box to start a post or ${this.ctor.#tabSnippet} ` +
         'to the other creator options',
       () => {
         document
