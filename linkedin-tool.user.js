@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     42
+// @version     43
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -172,6 +172,11 @@
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
     ish('167', 'Refactor into libraries', '2026-05-25'),
+    ish(
+      '196',
+      '<code>userscript</code>: Explore <code>addValueChangeListener</code>',
+      '2026-06-10'
+    ),
     ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-06-09'),
     ish('236', 'Support <b>Events</b> page', '2026-05-10'),
     ish(
@@ -179,7 +184,6 @@
       'Update top margin for <code>Scroller</code>s dynamically',
       '2026-04-30'
     ),
-    ish('244', 'Capture info about all unsupported pages', '2026-05-11'),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
@@ -226,9 +230,45 @@
       '<strong>Messaging</strong>: Causing browser slow down',
       '2026-06-08'
     ),
+    ish('343',
+      '<code>#addError</code>: Handle objects better',
+      '2026-06-10'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-10',
+      issues: ['343'],
+      subject: 'Have <code>#addError()</code> run everything through' +
+        ' <code>TypeTool.repr()</code>',
+    },
+    {
+      date: '2026-06-10',
+      issues: ['302'],
+      subject: 'Make <strong>About</strong> UID computation table-driven',
+    },
+    {
+      date: '2026-06-10',
+      issues: ['302'],
+      subject: 'Make <strong>Highlights</strong> UID computation' +
+        ' table-driven',
+    },
+    {
+      date: '2026-06-10',
+      issues: ['240'],
+      subject: 'Migrate <code>SearchResultsPeople</code> to' +
+        ' <code>ScrollerStyleService</code>',
+    },
+    {
+      date: '2026-06-10',
+      issues: [''],
+      subject: 'Fine tune the Style-2 body selectors',
+    },
+    {
+      date: '2026-06-10',
+      issues: ['196'],
+      subject: 'Enable the Value Change Listener API',
+    },
     {
       date: '2026-06-09',
       issues: ['302'],
@@ -561,11 +601,6 @@
       date: '2026-05-12',
       issues: ['325'],
       subject: 'Fork a custom version of <code>inInput()</code> for testing',
-    },
-    {
-      date: '2026-05-11',
-      issues: ['302'],
-      subject: 'Rework how <code>Topcard</code> entries are detected',
     },
   ];
 
