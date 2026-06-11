@@ -515,6 +515,7 @@ inInput
 initialHeight
 initialWidth
 initMain
+initScrollers
 injectInto
 innerHTML
 innerText
@@ -1351,7 +1352,6 @@ toJSON
 toLowerCase
 ToMyLou
 toolbarElement
-toolbarHook
 toolButtonHandler
 topButton
 topCard

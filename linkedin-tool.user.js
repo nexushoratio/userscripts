@@ -6934,34 +6934,8 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
-        JobsCollections.#cardsHow);
-
-      this.addService(ScrollerService)
-        .setScroller(this.#cardsScroller);
-      this.#cardsScroller.dispatcher
-        .on('activate', this.#onCardActivate)
-        .on('change', this.#onCardChange);
-
-      this.#paginationScroller = new Scroller(
-        JobsCollections.#paginationWhat, JobsCollections.#paginationHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#paginationScroller);
-      this.#paginationScroller.dispatcher
-        .on('activate', this.#onPaginationActivate)
-        .on('change', this.#onPaginationChange);
-
       spa.details.navbarScrollerFixup(JobsCollections.#detailsHow);
-      this.#detailsScroller = new Scroller(
-        JobsCollections.#detailsWhat, JobsCollections.#detailsHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#detailsScroller);
-      this.#detailsScroller.dispatcher
-        .on('change', this.#onDetailsChange);
-
-      this.#lastScroller = this.#cardsScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -7333,6 +7307,36 @@
     #detailsScroller
     #lastScroller
     #paginationScroller
+
+    #initScrollers = () => {
+      this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
+        JobsCollections.#cardsHow);
+
+      this.addService(ScrollerService)
+        .setScroller(this.#cardsScroller);
+      this.#cardsScroller.dispatcher
+        .on('activate', this.#onCardActivate)
+        .on('change', this.#onCardChange);
+
+      this.#paginationScroller = new Scroller(
+        JobsCollections.#paginationWhat, JobsCollections.#paginationHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#paginationScroller);
+      this.#paginationScroller.dispatcher
+        .on('activate', this.#onPaginationActivate)
+        .on('change', this.#onPaginationChange);
+
+      this.#detailsScroller = new Scroller(
+        JobsCollections.#detailsWhat, JobsCollections.#detailsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#detailsScroller);
+      this.#detailsScroller.dispatcher
+        .on('change', this.#onDetailsChange);
+
+      this.#lastScroller = this.#cardsScroller;
+    }
 
     #onCardActivate = async () => {
       const me = this.#onCardActivate.name;
