@@ -816,7 +816,6 @@ onIndividualChange
 onIndividualFocus
 onInit
 onJobCardActivate
-onJobCardChange
 onJobChange
 onLoggerConfig
 onMessageChange
@@ -1403,6 +1402,7 @@ uniquePostIdentifier
 uniqueResultIdentifier
 uniqueSectionIdentifier
 unittest
+UnknownEventType
 unknownIssues
 unusedIssues
 updateGroupByString
