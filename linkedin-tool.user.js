@@ -5291,7 +5291,7 @@
       'n',
       'Next comment',
       () => {
-        this.comments.next();
+        this.comments?.next();
       }
     );
 
@@ -5299,7 +5299,7 @@
       'p',
       'Previous comment',
       () => {
-        this.comments.prev();
+        this.comments?.prev();
       }
     );
 
@@ -5640,8 +5640,8 @@
       const me = this.#getCommentHeader.name;
       this.logger.entered(me);
 
-      const el = this.comments
-        ?.item?.querySelector('div:has(> div ~ button)');
+      const el = this.comments?.item
+        ?.querySelector('div:has(> div ~ button)');
 
       this.logger.leaving(me, el);
       return el;
@@ -6033,7 +6033,7 @@
       'n',
       'Next individual item in collection',
       () => {
-        this.individuals.next();
+        this.individuals?.next();
       }
     );
 
@@ -6041,7 +6041,7 @@
       'p',
       'Previous individual item in collection',
       () => {
-        this.individuals.prev();
+        this.individuals?.prev();
       }
     );
 
@@ -6074,7 +6074,7 @@
       'View the current item',
       () => {
         if (litOptions.enableIssue241ClickMethod) {
-          this.individuals.click();
+          this.individuals?.click();
         } else {
           const individual = this.individuals?.item;
           if (individual) {
@@ -6668,7 +6668,7 @@
       'n',
       'Next job',
       () => {
-        this.jobs.next();
+        this.jobs?.next();
       }
     );
 
@@ -6676,7 +6676,7 @@
       'p',
       'Previous job',
       () => {
-        this.jobs.prev();
+        this.jobs?.prev();
       }
     );
 
@@ -6709,7 +6709,7 @@
       'Activate the current item (click on it)',
       () => {
         if (litOptions.enableIssue241ClickMethod) {
-          this.jobs.click();
+          this.jobs?.click();
         } else {
           const el = this.jobs?.item;
           if (el) {
@@ -7526,7 +7526,7 @@
       'n',
       'Next entry in a section',
       () => {
-        this.entries.next();
+        this.entries?.next();
       }
     );
 
@@ -7534,7 +7534,7 @@
       'p',
       'Previous entry in a section',
       () => {
-        this.entries.prev();
+        this.entries?.prev();
       }
     );
 
@@ -8762,7 +8762,7 @@
       'n',
       'Next entry in a section',
       () => {
-        this.entries.next();
+        this.entries?.next();
       }
     );
 
@@ -8770,7 +8770,7 @@
       'p',
       'Previous entry in a section',
       () => {
-        this.entries.prev();
+        this.entries?.prev();
       }
     );
 
@@ -9434,7 +9434,7 @@
       'n',
       'Next event in collection',
       () => {
-        this.events.next();
+        this.events?.next();
       }
     );
 
@@ -9442,7 +9442,7 @@
       'p',
       'Previous event in collection',
       () => {
-        this.events.prev();
+        this.events?.prev();
       }
     );
 
@@ -9475,7 +9475,7 @@
       'Share the current item, if available',
       () => {
         const me = 'shareItem';
-        const item = this.events.item;
+        const item = this.events?.item;
         this.logger.entered(me, item);
 
         if (item) {
@@ -9579,7 +9579,7 @@
     }
 
     #onEventChange = () => {
-      this.events.item?.classList.remove('artdeco-card');
+      this.events?.item?.classList.remove('artdeco-card');
       this.#lastScroller = this.events;
     }
 
