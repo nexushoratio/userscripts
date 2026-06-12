@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     43
+// @version     44
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -207,11 +207,11 @@
         ' scroller gets out of sync',
       '2026-06-09'
     ),
-    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-05-13'),
+    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-06-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-05-21'),
-    ish('322', '<code>Scroller</code>: Remove margin support', '2026-05-13'),
-    ish('325', '<code>isInput()</code> is overly broad', '2026-05-13'),
+    ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
+    ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
     ish(
       '327',
       'Style-2 pages need new <code>readySelector</code>s.',
@@ -236,6 +236,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-11',
+      issues: ['299'],
+      subject: 'Use optional chaining in more shortcuts',
+    },
+    {
+      date: '2026-06-11',
+      issues: ['240'],
+      subject: 'Refactor a <code>constructor()</code> that is about a' +
+        ' grow a bit',
+    },
+    {
+      date: '2026-06-10',
+      issues: ['302'],
+      subject: 'A new partial ordering pair',
+    },
     {
       date: '2026-06-10',
       issues: ['343'],
@@ -575,32 +591,6 @@
       issues: ['302'],
       subject: 'Support button list widget for <code>Topcard</code>' +
         ' background carousels',
-    },
-    {
-      date: '2026-05-13',
-      issues: [''],
-      subject: 'Update <code>Feed</code>\'s <code>readySelector</code>',
-    },
-    {
-      date: '2026-05-13',
-      issues: ['240', '322'],
-      subject: 'Move <code>bottomMargin*</code> support from' +
-        ' <code>Scroller</code> to CSS',
-    },
-    {
-      date: '2026-05-12',
-      issues: ['302'],
-      subject: 'Use own <code>ariaLabel</code> if present',
-    },
-    {
-      date: '2026-05-12',
-      issues: ['302'],
-      subject: 'Mix in how the uid was computed',
-    },
-    {
-      date: '2026-05-12',
-      issues: ['325'],
-      subject: 'Fork a custom version of <code>inInput()</code> for testing',
     },
   ];
 
