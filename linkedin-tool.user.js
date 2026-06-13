@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     44
+// @version     45
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -236,6 +236,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-12',
+      issues: ['302'],
+      subject: 'Factor out <em></em>Services<em></em> into a' +
+        ' secondary config',
+    },
+    {
+      date: '2026-06-12',
+      issues: ['240'],
+      subject: 'Initial implementation of <code>StyleService</code>',
+    },
     {
       date: '2026-06-11',
       issues: ['299'],
@@ -575,22 +586,6 @@
       issues: ['328'],
       subject: 'Update <code>Scroller</code> selectors for a couple of' +
         ' different pages',
-    },
-    {
-      date: '2026-05-14',
-      issues: ['328'],
-      subject: 'Update selectors for Style-2 asides',
-    },
-    {
-      date: '2026-05-14',
-      issues: ['327'],
-      subject: 'Update <code>readySelector</code>s all around',
-    },
-    {
-      date: '2026-05-14',
-      issues: ['302'],
-      subject: 'Support button list widget for <code>Topcard</code>' +
-        ' background carousels',
     },
   ];
 
