@@ -256,6 +256,9 @@ demoGrid
 demoSpa
 deref
 describedby
+detailsContainerClassName
+detailsElementsProcessor
+detailsFinder
 detailsHow
 detailsPane
 detailsScroller
@@ -295,6 +298,9 @@ ElementAdapter
 ElementAdapterTestCase
 ElementFinder
 elementHeight
+ElementMap
+elementsProcessor
+ElementsProcessor
 enableAlertOldNews
 enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
@@ -306,7 +312,6 @@ ensureMenuStyle
 EnsureTestCase
 ent
 entriesAboutSelector
-entriesAboutUid
 entriesAnalyticsSelector
 entriesCurrentModes
 entriesCurrentUid
@@ -850,6 +855,7 @@ ourMenuItemStyle
 outerHTML
 Outros
 OverrideDeets
+paddingTop
 padEnd
 padStart
 pageChanged
@@ -959,6 +965,7 @@ resetLoggerConfigs
 resetMessages
 resetScroll
 ResizeAction
+resizeObserver
 ResizeObserver
 ResizeObserverEntry
 restoreConfigs
@@ -1085,6 +1092,9 @@ stringifying
 strKey
 strs
 strValue
+styleConfig
+StyleProperties
+StyleService
 subItem
 SuggestedForYou
 supportedEvents
@@ -1363,6 +1373,7 @@ topScroll
 toString
 toUpperCase
 tpe
+transitionend
 tsort
 TypeError
 typeof

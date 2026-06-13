@@ -5155,6 +5155,135 @@
 
   }
 
+  // TODO(#240): Move to web.js after a couple of uses.
+  /** Update a style element every time monitored elements change. */
+  class StyleService extends NH.base.Service {
+
+    /**
+     * @typedef {Map<string, Element>} ElementMap
+     */
+
+    /**
+     * @typedef {object} StyleProperties
+     * @property {Map<string, string>} - CSS style properties.
+     */
+
+    /**
+     * Function that finds DOM elements.
+     *
+     * @callback Finder
+     * @returns {ElementMap} - Desired elements.
+     */
+
+    /**
+     * Function that examines multiple elements to compute a style.
+     *
+     * @callback ElementsProcessor
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+
+    /**
+     * @typedef {object} Config
+     * @property {string} className - Name for the class to control.
+     * @property {Finder} finder - Function to find the elements to monitor.
+     * @property {ElementsProcessor} elementsProcessor - Function that
+     * examines multiple elements to compute a style.
+     * @property {string[]} [events=[]] - List of HTMLElement events to
+     * listen to on the elements.
+     */
+
+    /**
+     * @param {string} instanceName - Custom portion of this instance.
+     * @param {Config} config - Instance configuration.
+     */
+    constructor(instanceName, config) {
+      super(instanceName);
+
+      ({
+        className: this.#className,
+        finder: this.#finder,
+        elementsProcessor: this.#elementsProcessor,
+        events: this.#events = [],
+      } = config);
+
+      this.#resizeObserver = new ResizeObserver(this.#handler);
+
+      this.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate)
+        .allowReactivation(false);
+    }
+
+    #className
+    #elements = new Map()
+    #elementsProcessor
+    #events
+    #finder
+    #resizeObserver
+    #style
+
+    #onActivate = () => {
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
+      if (!this.#style) {
+        this.#style = document.createElement('style');
+        document.head.prepend(this.#style);
+      }
+
+      const connected = this.#elements.values()
+        .every(x => x?.isConnected);
+      if (this.#elements.size === 0 || !connected) {
+        this.#elements = this.#finder();
+      }
+
+      for (const element of this.#elements.values()) {
+        if (element) {
+          // . this.#resizeObserver.observe(element);
+          for (const evt of this.#events) {
+            this.logger.log('evt', evt);
+            element.addEventListener(evt, this.#handler);
+          }
+        }
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #onDeactivate = () => {
+      this.#resizeObserver.disconnect();
+      for (const element of this.#elements.values()) {
+        for (const evt of this.#events) {
+          this.logger.log('evt', evt);
+          element.removeEventListener(evt, this.#handler);
+        }
+      }
+    }
+
+    #handler = () => {
+      this.#setStyle();
+    }
+
+    #setStyle = () => {
+      const properties = this.#elementsProcessor(this.#elements);
+      const style = [
+        '',
+        `.${this.#className} {`,
+      ];
+
+      for (const [key, value] of properties) {
+        style.push(`  ${key}: ${value};`);
+      }
+
+      style.concat([
+        '}',
+        '',
+      ]);
+      this.#style.textContent = style.join('\n');
+    }
+
+  }
+
   /** Class for handling the Posts feed. */
   class Feed extends Page {
 
@@ -6924,7 +7053,6 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      spa.details.navbarScrollerFixup(JobsCollections.#detailsHow);
       this.#initScrollers();
     }
 
@@ -7294,11 +7422,24 @@
     static #uidDetailsClassRE = /^(?:job-details|jobs)-(?<class>[^_]*)__/u;
 
     #cardsScroller
+    #detailsContainerClassName
     #detailsScroller
     #lastScroller
     #paginationScroller
 
     #initScrollers = () => {
+      this.#detailsContainerClassName = this.ctor.cssClassName(
+        ['details', 'container']
+      );
+      const styleConfig = {
+        className: this.#detailsContainerClassName,
+        finder: this.#detailsFinder,
+        elementsProcessor: this.#detailsElementsProcessor,
+        events: ['transitionend'],
+      };
+
+      this.addService(StyleService, styleConfig);
+
       this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
         JobsCollections.#cardsHow);
 
@@ -7326,6 +7467,65 @@
         .on('change', this.#onDetailsChange);
 
       this.#lastScroller = this.#cardsScroller;
+    }
+
+    /**
+     * @implements {StyleService~ElementsProcessor}
+     * @param {Element[]} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    #detailsElementsProcessor = (elements) => {
+      const me = this.#detailsElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      let height = 0;
+      let padding = '0px';
+      const properties = new Map();
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'container':
+            if (value) {
+              value.classList.add(this.#detailsContainerClassName);
+              padding = getComputedStyle(value).paddingTop;
+            }
+            break;
+          case 'header':
+            if (value) {
+              const header = getComputedStyle(value);
+              if (header.visibility === 'visible') {
+                height = value.offsetHeight;
+              }
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      properties.set('scroll-padding-top', `calc(${padding} + ${height}px)`);
+
+      this.logger.leaving(me, properties);
+      return properties;
+    }
+
+    /** @returns {Element[]} - Elements to monitor. */
+    #detailsFinder = () => {
+      const me = this.#detailsFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+
+      elements.set('container', document.querySelector(
+        '.jobs-search__job-details--wrapper'
+      ));
+      elements.set('header', document.querySelector(
+        '.job-details-jobs-unified-top-card__sticky-header'
+      ));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
     #onCardActivate = async () => {
