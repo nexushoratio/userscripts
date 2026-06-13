@@ -9077,7 +9077,6 @@
 
     static #entriesSelectorDefault = [
       // Obvious by :scope selector.
-      `:scope[${CKEY}$="Services"] > ${this.#div5} > *`,
       `:scope[${CKEY}$="Featured"]` +
         ' [data-testid="carousel-child-container"] > * > *',
       `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
@@ -9107,6 +9106,13 @@
       this.#entriesSelectorDefault,
       this.#entriesSelectorFooter,
     ];
+
+    static #entriesServicesSelector = [
+      `:scope > ${this.#div5}` +
+        ':not([data-testid="carousel-viewport-container"])' +
+        ' > *',
+      ':scope [data-testid="carousel-child-container"] > *',
+    ].join(',');
 
     static #entriesSuggestedForYouSelector = [
       // May or may not be a list/carousel
@@ -9299,7 +9305,9 @@
             content = element.querySelector('[id]')?.id;
             break;
           case this.UidMode.TEST_ID:
-            content = element.dataset.testid;
+            content = element.dataset.testid ||
+            element.querySelector('[data-testid]')
+              ?.getAttribute('data-testid');
             break;
           default:
             NH.base.issues.post('Unsupported mode:', mode.description);
@@ -9428,6 +9436,18 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesAboutSelector],
         modes: [this.UidMode.ANCHOR],
+      });
+      this.#entriesScrollerConfigs.set('Services', {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [
+          this.#entriesServicesSelector,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.UidMode.TEST_ID,
+          this.UidMode.ARIA_LABEL,
+          this.UidMode.HREF,
+        ],
       });
     }
 
