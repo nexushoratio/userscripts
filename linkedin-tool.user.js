@@ -3203,7 +3203,7 @@
       // Style 1
       'aside.scaffold-layout__aside',
       // Style 2
-      '#workspace > div div > section + aside',
+      '#workspace > div > div > section + aside',
     ].join(', ');
 
     static #icon =
@@ -3229,7 +3229,7 @@
 
     static #primaryContentSelector = [
       // Style 2
-      '#workspace > div div > section',
+      '#workspace > div > div > section',
     ].join(', ');
 
     static #primaryNavSelector = [
@@ -3246,7 +3246,7 @@
       // Style 1
       'aside.scaffold-layout__sidebar',
       // Style 2
-      '#workspace > div div > aside:has(+ section)',
+      '#workspace > div > div > aside:has(+ section)',
     ].join(', ');
 
     /**
