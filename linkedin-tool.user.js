@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     45
+// @version     46
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -213,12 +213,6 @@
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
     ish(
-      '327',
-      'Style-2 pages need new <code>readySelector</code>s.',
-      '2026-05-15'
-    ),
-    ish('328', 'Update layout selectors for Style-2 pages', '2026-05-15'),
-    ish(
       '329',
       '<code>focusOnTree()</code> can select a disabled element',
       '2026-05-21'
@@ -233,13 +227,32 @@
     ish('343',
       '<code>#addError</code>: Handle objects better',
       '2026-06-10'),
+    ish('346',
+      '<strong>My Network</strong>: Navigation is failing',
+      '2026-06-14'),
   ];
 
   const globalNewsContent = [
     {
+      date: '2026-06-14',
+      issues: ['302'],
+      subject: 'Factor out <em>Featured</em> into a secondary config',
+    },
+    {
+      date: '2026-06-14',
+      issues: ['346'],
+      subject: 'Revert "Fine tune the Style-2 body selectors."',
+    },
+    {
+      date: '2026-06-14',
+      issues: ['240'],
+      subject: 'Refactor all <code>Scroller</code> configs out of' +
+        ' <code>constructor()</code>',
+    },
+    {
       date: '2026-06-12',
       issues: ['302'],
-      subject: 'Factor out <em></em>Services<em></em> into a' +
+      subject: 'Factor out <em>Services</em> into a' +
         ' secondary config',
     },
     {
@@ -564,28 +577,6 @@
       issues: ['302'],
       subject: 'Support the <code>Activity</code> -> <code>Articles</code>' +
         ' subsection',
-    },
-    {
-      date: '2026-05-15',
-      issues: ['240'],
-      subject: 'Migrate <code>Feed</code> to a page-specific CSS class' +
-        ' for <code>Scroller</code>s',
-    },
-    {
-      date: '2026-05-15',
-      issues: ['302'],
-      subject: 'Handle the case where a post link may not have search params',
-    },
-    {
-      date: '2026-05-15',
-      issues: ['302'],
-      subject: 'Handle deeper links to posts separately',
-    },
-    {
-      date: '2026-05-15',
-      issues: ['328'],
-      subject: 'Update <code>Scroller</code> selectors for a couple of' +
-        ' different pages',
     },
   ];
 
