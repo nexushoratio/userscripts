@@ -5286,25 +5286,13 @@
     constructor(spa) {
       super({spa: spa, ...Feed.#details});
 
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#postScroller = new Scroller(
-        this.ctor.#postsWhat, this.ctor.#postsHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#postScroller);
-      this.#postScroller.dispatcher
-        .on('activate', this.#onPostActivate)
-        .on('change', this.#onPostChange)
-        .on('out-of-range', this.spa.details.focusOnSidebar);
-
-      this.#lastScroller = this.#postScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -5733,6 +5721,22 @@
     #lastScroller
     #postScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#postScroller = new Scroller(
+        this.ctor.#postsWhat, this.ctor.#postsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#postScroller);
+      this.#postScroller.dispatcher
+        .on('activate', this.#onPostActivate)
+        .on('change', this.#onPostChange)
+        .on('out-of-range', this.spa.details.focusOnSidebar);
+
+      this.#lastScroller = this.#postScroller;
+    }
+
     /** @returns {HTMLElement} - Header container for current post. */
     #getPostHeader = () => {
       const me = this.#getPostHeader.name;
@@ -6030,23 +6034,13 @@
     constructor(spa) {
       super({spa: spa, ...MyNetwork.#details});
 
-      this.addService(ScrollerStyleService, MyNetwork.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
-        MyNetwork.#collectionsHow);
-      this.addService(ScrollerService)
-        .setScroller(this.#collectionScroller);
-      this.#collectionScroller.dispatcher
-        .on('change', this.#onCollectionChange)
-        .on('out-of-range', this.spa.details.focusOnSidebar);
-
-      this.#lastScroller = this.#collectionScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -6361,6 +6355,20 @@
     #individualScroller
     #lastScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
+        MyNetwork.#collectionsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#collectionScroller);
+      this.#collectionScroller.dispatcher
+        .on('change', this.#onCollectionChange)
+        .on('out-of-range', this.spa.details.focusOnSidebar);
+
+      this.#lastScroller = this.#collectionScroller;
+    }
+
     #resetIndividuals = () => {
       if (this.#individualScroller) {
         this.#individualScroller.destroy();
@@ -6407,23 +6415,13 @@
     constructor(spa) {
       super({spa: spa, ...InvitationManager.#details});
 
-      this.addService(ScrollerStyleService,
-        InvitationManager.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#inviteScroller = new Scroller(
-        InvitationManager.#invitesWhat,
-        InvitationManager.#invitesHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#inviteScroller);
-      this.#inviteScroller.dispatcher
-        .on('out-of-range', this.spa.details.focusOnAside);
+      this.#initScrollers();
     }
 
     /**
@@ -6656,6 +6654,19 @@
 
     #inviteScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#inviteScroller = new Scroller(
+        InvitationManager.#invitesWhat,
+        InvitationManager.#invitesHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#inviteScroller);
+      this.#inviteScroller.dispatcher
+        .on('out-of-range', this.spa.details.focusOnAside);
+    }
+
   }
 
   /**
@@ -6672,23 +6683,13 @@
     constructor(spa) {
       super({spa: spa, ...Jobs.#details});
 
-      this.addService(ScrollerStyleService, Jobs.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
-        Jobs.#sectionsHow);
-      this.addService(ScrollerService)
-        .setScroller(this.#sectionScroller);
-      this.#sectionScroller.dispatcher
-        .on('change', this.#onSectionChange)
-        .on('out-of-range', this.spa.details.focusOnSidebar);
-
-      this.#lastScroller = this.#sectionScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -6970,6 +6971,20 @@
     #jobScroller
     #lastScroller
     #sectionScroller
+
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
+        Jobs.#sectionsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#sectionScroller);
+      this.#sectionScroller.dispatcher
+        .on('change', this.#onSectionChange)
+        .on('out-of-range', this.spa.details.focusOnSidebar);
+
+      this.#lastScroller = this.#sectionScroller;
+    }
 
     /** Reset the jobs scroller. */
     #resetJobs = () => {
@@ -7598,22 +7613,13 @@
     constructor(spa) {
       super({spa: spa, ...JobsView.#details});
 
-      this.addService(ScrollerStyleService, JobsView.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#cardScroller = new Scroller(
-        JobsView.#cardsWhat, JobsView.#cardsHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#cardScroller);
-      this.#cardScroller.dispatcher
-        .on('change', this.#onCardChange);
-      this.#lastScroller = this.#cardScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -7878,6 +7884,19 @@
     #entryScroller
     #lastScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#cardScroller = new Scroller(
+        JobsView.#cardsWhat, JobsView.#cardsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#cardScroller);
+      this.#cardScroller.dispatcher
+        .on('change', this.#onCardChange);
+      this.#lastScroller = this.#cardScroller;
+    }
+
     #onCardChange = () => {
       this.#resetEntries();
       this.#lastScroller = this.cards;
@@ -7914,13 +7933,7 @@
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
-        Messaging.#convoCardsHow);
-      this.addService(ScrollerService)
-        .setScroller(this.#convoCardScroller);
-      this.#convoCardScroller.dispatcher
-        .on('activate', this.#onConvoCardActivate)
-        .on('change', this.#onConvoCardChange);
+      this.#initScrollers();
     }
 
     /**
@@ -8234,6 +8247,16 @@
     #lastScroller
     #messageScroller
 
+    #initScrollers = () => {
+      this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
+        Messaging.#convoCardsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#convoCardScroller);
+      this.#convoCardScroller.dispatcher
+        .on('activate', this.#onConvoCardActivate)
+        .on('change', this.#onConvoCardChange);
+    }
+
     /**
      * @typedef {object} Point
      * @property {number} x - Horizontal location in pixels.
@@ -8379,22 +8402,13 @@
     constructor(spa) {
       super({spa: spa, ...Notifications.#details});
 
-      this.addService(ScrollerStyleService,
-        Notifications.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#notificationScroller = new Scroller(
-        Notifications.#notificationsWhat, Notifications.#notificationsHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#notificationScroller);
-      this.#notificationScroller.dispatcher
-        .on('out-of-range', this.spa.details.focusOnSidebar);
+      this.#initScrollers();
     }
 
     /**
@@ -8677,6 +8691,18 @@
 
     #notificationScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#notificationScroller = new Scroller(
+        Notifications.#notificationsWhat, Notifications.#notificationsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#notificationScroller);
+      this.#notificationScroller.dispatcher
+        .on('out-of-range', this.spa.details.focusOnSidebar);
+    }
+
   }
 
   /** Class for handling the Profile page. */
@@ -8685,10 +8711,6 @@
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
       super({spa: spa, ...Profile.#details});
-
-      // TODO(#240): This needs a better solution for this page.
-      this.addService(ScrollerStyleService,
-        Profile.#scrollerStyleConfig);
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -8699,14 +8721,7 @@
       this.dispatcher
         .on('activate', this.#onActivate);
 
-      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
-        Profile.#sectionsHow);
-      this.addService(ScrollerService)
-        .setScroller(this.#sectionScroller);
-      this.#sectionScroller.dispatcher
-        .on('change', this.#onSectionChange);
-
-      this.#lastScroller = this.#sectionScroller;
+      this.#initScrollers();
     }
 
     static UidMode = Object.freeze({
@@ -9451,6 +9466,20 @@
     #lastScroller
     #sectionScroller
 
+    #initScrollers = () => {
+      // TODO(#240): This needs a better solution for this page.
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
+        Profile.#sectionsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#sectionScroller);
+      this.#sectionScroller.dispatcher
+        .on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.#sectionScroller;
+    }
+
     #resetEntries = () => {
       if (this.#entryScroller) {
         this.#entryScroller.destroy();
@@ -9532,22 +9561,13 @@
     constructor(spa) {
       super({spa: spa, ...Events.#details});
 
-      this.addService(ScrollerStyleService, Events.#scrollerStyleConfig);
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#collectionScroller = new Scroller(
-        Events.#collectionsWhat, Events.#collectionsHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#collectionScroller);
-
-      this.#collectionScroller.dispatcher
-        .on('change', this.#onCollectionChange);
+      this.#initScrollers();
     }
 
     /**
@@ -9777,6 +9797,19 @@
     #eventScroller
     #lastScroller
 
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#collectionScroller = new Scroller(
+        Events.#collectionsWhat, Events.#collectionsHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#collectionScroller);
+
+      this.#collectionScroller.dispatcher
+        .on('change', this.#onCollectionChange);
+    }
+
     #resetEvents = () => {
       this.#eventScroller?.destroy();
       this.#eventScroller = null;
@@ -9809,34 +9842,13 @@
     constructor(spa) {
       super({spa: spa, ...SearchResultsPeople.#details});
 
-      this.addService(
-        ScrollerStyleService, SearchResultsPeople.#scrollerStyleConfig
-      );
-
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
 
-      this.#paginationScroller = new Scroller(
-        SearchResultsPeople.#paginationWhat,
-        SearchResultsPeople.#paginationHow
-      );
-      this.addService(ScrollerService)
-        .setScroller(this.#paginationScroller);
-      this.#paginationScroller.dispatcher
-        .on('activate', this.#onPaginationActivate)
-        .on('change', this.#onPaginationChange);
-
-      this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
-        SearchResultsPeople.#resultsHow);
-      this.addService(ScrollerService)
-        .setScroller(this.#resultScroller);
-      this.#resultScroller.dispatcher
-        .on('change', this.#onResultChange);
-
-      this.#lastScroller = this.#resultScroller;
+      this.#initScrollers();
     }
 
     /**
@@ -10039,6 +10051,28 @@
     #lastScroller
     #paginationScroller
     #resultScroller
+    #initScrollers = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+
+      this.#paginationScroller = new Scroller(
+        SearchResultsPeople.#paginationWhat,
+        SearchResultsPeople.#paginationHow
+      );
+      this.addService(ScrollerService)
+        .setScroller(this.#paginationScroller);
+      this.#paginationScroller.dispatcher
+        .on('activate', this.#onPaginationActivate)
+        .on('change', this.#onPaginationChange);
+
+      this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
+        SearchResultsPeople.#resultsHow);
+      this.addService(ScrollerService)
+        .setScroller(this.#resultScroller);
+      this.#resultScroller.dispatcher
+        .on('change', this.#onResultChange);
+
+      this.#lastScroller = this.#resultScroller;
+    }
 
     #onPaginationActivate = async () => {
       const me = 'onPaginationActivate';
