@@ -9059,6 +9059,11 @@
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
 
+    static #entriesFeaturedSelector = [
+      // Simple carousel
+      '[data-testid="carousel-child-container"] > * > *',
+    ].join(',');
+
     static #entriesHighlightsSelector = [
       // Simple layout
       `:scope > ${this.#div6}`,
@@ -9087,8 +9092,6 @@
 
     static #entriesSelectorDefault = [
       // Obvious by :scope selector.
-      `:scope[${CKEY}$="Featured"]` +
-        ' [data-testid="carousel-child-container"] > * > *',
       `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
 
       // Activity has different layouts by tab
@@ -9458,6 +9461,11 @@
           this.UidMode.ARIA_LABEL,
           this.UidMode.HREF,
         ],
+      });
+      this.#entriesScrollerConfigs.set('Featured', {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [this.#entriesFeaturedSelector],
+        modes: [this.UidMode.ANCHOR],
       });
     }
 
