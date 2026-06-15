@@ -5225,7 +5225,7 @@
 
       for (const element of this.#elements.values()) {
         if (element) {
-          // . this.#resizeObserver.observe(element);
+          this.#resizeObserver.observe(element);
           for (const evt of this.#events) {
             this.logger.log('evt', evt);
             element.addEventListener(evt, this.#handler);
