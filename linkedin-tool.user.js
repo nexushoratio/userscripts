@@ -7472,7 +7472,7 @@
 
     /**
      * @implements {StyleService~ElementsProcessor}
-     * @param {Element[]} elements - Elements to examine.
+     * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
     #detailsElementsProcessor = (elements) => {
@@ -7511,7 +7511,7 @@
       return properties;
     }
 
-    /** @returns {Element[]} - Elements to monitor. */
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
     #detailsFinder = () => {
       const me = this.#detailsFinder.name;
       this.logger.entered(me);
