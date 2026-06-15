@@ -299,6 +299,7 @@ ElementAdapterTestCase
 ElementFinder
 elementHeight
 ElementMap
+elementsHeightProcessor
 elementsProcessor
 ElementsProcessor
 enableAlertOldNews
@@ -1364,7 +1365,6 @@ toggleStar
 toJSON
 toLowerCase
 ToMyLou
-toolbarElement
 toolButtonHandler
 topButton
 topCard

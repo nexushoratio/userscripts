@@ -4568,6 +4568,37 @@
       return this.constructor;
     }
 
+    /**
+     * A useful processor for many LIT pages.
+     *
+     * It just sums up height of the matched elements to set a top margin.
+     *
+     * @implements {StyleService~ElementsProcessor}
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    elementsHeightProcessor = (elements) => {
+      const me = this.elementsHeightProcessor.name;
+      this.logger.entered(me, elements);
+
+      let height = 0;
+      const properties = new Map();
+
+      for (const value of elements.values()) {
+        if (value) {
+          const header = getComputedStyle(value);
+          if (header.visibility === 'visible') {
+            height += value.offsetHeight;
+          }
+        }
+      }
+
+      properties.set('scroll-margin-top', `${height}px`);
+
+      this.logger.leaving(me, properties);
+      return properties;
+    }
+
     #klass
 
   }
@@ -5683,10 +5714,6 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    }
-
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
     static #uidCommentRE =
@@ -5694,26 +5721,18 @@
 
     static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      // We want the element with the listener, which happens to be the one
-      // with the "aria-expanded".
-      const ret = document.querySelector('#chevron-down-medium')
-        ?.closest('[aria-expanded]');
-      return ret;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-    }
-
     #commentScroller
     #lastScroller
     #postScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+
+      this.addService(StyleService, styleConfig);
 
       this.#postScroller = new Scroller(
         this.ctor.#postsWhat, this.ctor.#postsHow
@@ -5726,6 +5745,22 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+
+      // We want the element with the listener, which happens to be the one
+      // with the "aria-expanded".
+      elements.set('chevron', document.querySelector('#chevron-down-medium')
+        ?.closest('[aria-expanded]'));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
     /** @returns {HTMLElement} - Header container for current post. */
