@@ -9362,6 +9362,9 @@
             ? '-hr'
             : '';
           results.set(mode, pathname + extra);
+          if (document.location.pathname === pathname) {
+            scroller.logger.log('points to self', mode.description);
+          }
         }
       }
 
