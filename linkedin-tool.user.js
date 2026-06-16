@@ -9349,7 +9349,9 @@
               ?.getAttribute('data-testid');
             break;
           default:
-            NH.base.issues.post('Unsupported mode:', mode.description);
+            NH.base.issues.post(
+              'Unsupported profile entry mode:', mode.description
+            );
         }
         if (content) {
           results.set(mode, content);
