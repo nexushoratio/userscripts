@@ -6356,29 +6356,20 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    };
-
     static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector(this.#tablistSelector);
-      return ret;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-    }
 
     #collectionScroller
     #individualScroller
     #lastScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+
+      this.addService(StyleService, styleConfig);
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
@@ -6389,6 +6380,19 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#collectionScroller;
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('tablist',
+        document.querySelector(this.ctor.#tablistSelector));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
     #resetIndividuals = () => {
