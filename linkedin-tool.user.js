@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     46
+// @version     47
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -233,6 +233,43 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-17',
+      issues: ['302'],
+      subject: 'Factor out <em>Activity</em> into a secondary config',
+    },
+    {
+      date: '2026-06-17',
+      issues: ['302'],
+      subject: 'Prefer <em>dashReplyUrn</em> over <em>dashCommentUrn</em>' +
+        ' as a UID',
+    },
+    {
+      date: '2026-06-17',
+      issues: ['302'],
+      subject: 'Note when a URL points to the same page',
+    },
+    {
+      date: '2026-06-17',
+      issues: ['302'],
+      subject: 'Make an error message more precise',
+    },
+    {
+      date: '2026-06-15',
+      issues: ['240'],
+      subject: 'Migrate <strong>Feed</strong> from' +
+        ' <code>ScrollerStyleService</code> to <code>StyleService</code>',
+    },
+    {
+      date: '2026-06-15',
+      issues: ['240'],
+      subject: 'Fix a couple of docstrings post API changes',
+    },
+    {
+      date: '2026-06-15',
+      issues: ['240'],
+      subject: 'Accidentally left the resize observer unused',
+    },
     {
       date: '2026-06-14',
       issues: ['302'],
@@ -534,49 +571,6 @@
       issues: ['240'],
       subject: 'Migrate <code>MyNetwork</code> to the new' +
         ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-18',
-      issues: ['302'],
-      subject: 'Support the <code>Activity</code> ->' +
-        ' <code>Events</code> subsection',
-    },
-    {
-      date: '2026-05-18',
-      issues: ['240'],
-      subject: 'Factor out common code into a <code>Service</code>',
-    },
-    {
-      date: '2026-05-17',
-      issues: ['240'],
-      subject: 'Migrate <code>MyNetwork</code> to a page-specific CSS' +
-        ' class for <code>Scroller</code>s',
-    },
-    {
-      date: '2026-05-17',
-      issues: ['240'],
-      subject: 'Factor out a tablist selector for reuse',
-    },
-    {
-      date: '2026-05-17',
-      issues: ['240'],
-      subject: 'Factor out a <code>primaryContentSelector</code>',
-    },
-    {
-      date: '2026-05-16',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-05-16',
-      issues: ['302'],
-      subject: 'Identified a rare <code>People Similar to ...</code> section',
-    },
-    {
-      date: '2026-05-16',
-      issues: ['302'],
-      subject: 'Support the <code>Activity</code> -> <code>Articles</code>' +
-        ' subsection',
     },
   ];
 

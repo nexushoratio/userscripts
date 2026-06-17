@@ -279,6 +279,7 @@ divAnchorNoArrowRight
 DIVs
 doClassCleanups
 doCleanups
+docstrings
 docTabDefinition
 documentElement
 doObserve
@@ -1094,7 +1095,6 @@ strHash
 StringAdapter
 StringAdapterTestCase
 stringify
-stringifying
 strKey
 strs
 strValue
