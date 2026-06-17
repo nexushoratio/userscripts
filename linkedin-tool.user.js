@@ -1208,8 +1208,10 @@
               `the clickConfig selectorArray for ${this.name}`);
           }
         } else {
-          NH.base.issues.post(`Scroller.click() for "${this.name}" was ` +
-                            'called without a configuration');
+          NH.base.issues.post(
+            `Scroller.click() for "${this.name}" was called without` +
+              ' a configuration'
+          );
         }
       } else {
         document.activeElement.click();
@@ -2792,7 +2794,7 @@
       'then <kbd>Shift</kbd>+<kbd>a</kbd> then <kbd>ENTER</kbd></kbd>');
     }
 
-      static { this.register(); }
+    static { this.register(); }
 
   }
   /* eslint-enable */
@@ -4197,10 +4199,10 @@
     }
 
     /**
-    * Update News tab label as appropriate.
-    *
-    * @param {boolean} highlight - Whether to show the badge or not.
-    */
+     * Update News tab label as appropriate.
+     *
+     * @param {boolean} highlight - Whether to show the badge or not.
+     */
     #updateInfoNewsLabel = (highlight) => {
       const me = this.#updateInfoNewsLabel.name;
       this.logger.entered(me, highlight);
@@ -4974,7 +4976,7 @@
           // TODO(#266): Support *Company* Page
           '/company/',
         ];
-          /* eslint-enable */
+        /* eslint-enable */
 
         if (!knownUrlsTodo.some(x => pathname.match(x))) {
           NH.base.issues.post('Unsupported page:', window.location);
@@ -9344,8 +9346,8 @@
             break;
           case this.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
-            element.querySelector('[aria-label]')
-              ?.getAttribute('aria-label');
+              element.querySelector('[aria-label]')
+                ?.getAttribute('aria-label');
             break;
           case this.UidMode.COMMENT_URN:
             // The ?? is so there is always a valid URL
@@ -9371,8 +9373,8 @@
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid ||
-            element.querySelector('[data-testid]')
-              ?.getAttribute('data-testid');
+              element.querySelector('[data-testid]')
+                ?.getAttribute('data-testid');
             break;
           default:
             NH.base.issues.post(
