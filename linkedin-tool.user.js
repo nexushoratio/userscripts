@@ -10132,6 +10132,7 @@
     #lastScroller
     #paginationScroller
     #resultScroller
+
     #initScrollers = () => {
       this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
 
