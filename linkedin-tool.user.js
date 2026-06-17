@@ -11,6 +11,7 @@
 // @downloadURL https://github.com/nexushoratio/userscripts/raw/main/linkedin-tool.user.js
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
+// @require     https://cdn.jsdelivr.net/npm/commonmark@0.31.2
 // @require     https://update.greasyfork.org/scripts/478188/1846242/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1851518/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1846239/NH_userscript.js
@@ -24,7 +25,7 @@
 // @grant       window.onurlchange
 // ==/UserScript==
 
-/* global VM */
+/* global VM, commonmark */
 
 // eslint-disable-next-line max-lines-per-function
 (async () => {
@@ -3113,46 +3114,48 @@
 
       const {dates, knownIssues} = this.#preprocessKnownIssues();
 
+      const reader = new commonmark.Parser();
+      const writer = new commonmark.HtmlRenderer();
+
       const content = [
-        '<p>The contains a manually curated list of changes over the last' +
-          ' month or so that:</p>',
-        '<ul>',
-        '<li>Added new features like support for new pages or more' +
-          ' hotkeys</li>',
-        '<li>Explicitly fixed a bug</li>',
-        '<li>May cause a user noticeable change</li>',
-        '</ul>',
-        '<p></p>',
-        '<p>See the <b>About</b> tab for instructions on' +
-          ' finding all changes by release.</p>',
+        'This is a manually curated list of changes over the last' +
+          ' month or so that:',
+        '',
+        '* Added new features like support for new pages or more hotkeys',
+        '* Explicitly fixed a bug',
+        '* May cause a user noticeable change',
+        '',
+        'See the **About** tab for instructions on' +
+          ' finding all changes by release.',
         '<div>',
         ' <input type="checkbox" id="lit-news-read-toggle"/>',
         ' <label for="lit-news-read-toggle">Mark news as read.</label>',
         '</div>',
-        '<p></p>',
+        '',
+        '---',
       ];
 
-      const dateHeader = 'h3';
-      const issueHeader = 'h4';
+      const dateHeader = '###';
+      const issueHeader = '####';
 
       for (const [date, items] of dates) {
-        content.push(`<${dateHeader}>${date}</${dateHeader}>`);
+        content.push(`${dateHeader} ${date}`);
         for (const [issue, subjects] of items) {
           const ki = knownIssues.get(issue);
           content.push(
-            `<${issueHeader}>${ki.title}</${issueHeader}>`
+            `${issueHeader} ${ki.title}`
           );
-          content.push('<ul>');
           for (const subject of subjects) {
-            content.push(`<li>${subject}</li>`);
+            content.push(`* ${subject}`);
           }
-          content.push('</ul>');
+          content.push('');
         }
+        content.push('---');
       }
 
       const tab = {
         name: 'News',
-        content: content.join('\n'),
+        content: writer.render(reader.parse(content.join('\n'))),
       };
 
       this.logger.leaving(me);

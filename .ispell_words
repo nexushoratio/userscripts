@@ -179,6 +179,7 @@ commentScroller
 commentsHow
 commentsWhat
 commentUrn
+commonmark
 companyAnchor
 compareBadgeErrorStyle
 compareBadgeNewsStyle
@@ -499,6 +500,7 @@ HTMLDialogElement
 HTMLElement
 HTMLElements
 htmlFor
+HtmlRenderer
 HTMLStyleElement
 HTMLUnknownElement
 idName
@@ -560,7 +562,6 @@ issuesLink
 itemUid
 iu
 javascript
-jobCards
 jobCardScroller
 jobCardSelector
 jobCardsWhat
