@@ -3079,22 +3079,6 @@
       }
     }
 
-    /**
-     * Many classes have some static {Scroller~How} items that need to be
-     * fixed up after the page loads enough that the values are available.
-     * They do that by calling this method.
-     * @param {Scroller~How} how - Object to be fixed up.
-     */
-    navbarScrollerFixup(how) {
-      const me = this.navbarScrollerFixup.name;
-      this.logger.entered(me, how);
-
-      how.topMarginPixels = this.navbarHeightPixels;
-      how.topMarginCSS = this.navbarHeightCSS;
-
-      this.logger.leaving(me, how);
-    }
-
     /** Special processing to handle page transitions. */
     pageChanged() {
       const me = this.pageChanged.name;
