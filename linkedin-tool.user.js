@@ -8753,9 +8753,12 @@
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
+      COMMENT_URN: Symbol.for('commentUrn'),
       COMPANY_ANCHOR: Symbol.for('companyAnchor'),
       FALLBACK: Symbol.for('fallback'),
+      FEED_ANCHOR: Symbol.for('feedAnchor'),
       HREF: Symbol.for('href'),
+      IMG: Symbol.for('img'),
       ID: Symbol.for('id'),
       TEST_ID: Symbol.for('testId'),
     })
@@ -9074,6 +9077,30 @@
       `:scope > ${this.#div3}:has(> p) > *`,
     ].join(',');
 
+    // Articles, posts, documents, images, videos, or events will appear here.
+    static #entriesActivitySelector = [
+      // FEED_ANCHOR
+      `div[${CKEY}*="posts"]` +
+        ' [data-testid="carousel-child-container"] > * > *',
+      // HREF
+      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
+      // IMG
+      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
+      // Newsletters have both subscribe and posts subsections
+      // ANCHOR
+      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
+      // HREF
+      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
+      // HREF
+      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
+      // FEED_ANCHOR
+      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+    ].join(',');
+
     static #entriesAnalyticsSelector = [
       `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
         ` a${this.#arrowRightNot}`,
@@ -9119,21 +9146,6 @@
     static #entriesSelectorDefault = [
       // Obvious by :scope selector.
       `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
-
-      // Activity has different layouts by tab
-      `div[${CKEY}*="posts"]` +
-        ' [data-testid="carousel-child-container"] > * > *',
-      // Newsletters have both subscribe and posts subsections
-      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
-      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
-      // Documents
-      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
-      // Used by many tabs
-      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
-      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
-      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
-      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
-      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
     ].join(',')
 
     static #entriesSelectorFooter = [
@@ -9312,7 +9324,7 @@
      * @param {UidMode[]} modes - Computation modes to consider.
      * @returns {Map<UidMode, string>} - All computed values.
      */
-    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function
+    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.#entriesModeToUid.name;
       scroller.logger.entered(me, element, modes);
 
@@ -9323,6 +9335,7 @@
       let href = null;
 
       for (const mode of modes) {
+        let search = null;
         content = null;
         href = null;
         switch (mode) {
@@ -9334,14 +9347,27 @@
             element.querySelector('[aria-label]')
               ?.getAttribute('aria-label');
             break;
+          case this.UidMode.COMMENT_URN:
+            // The ?? is so there is always a valid URL
+            search = new URL(element.href ?? document.location)
+              .searchParams;
+            content = search.get('dashReplyUrn') ??
+              search.get('dashCommentUrn');
+            break;
           case this.UidMode.COMPANY_ANCHOR:
             href = element.querySelector('a[href*="/company/"]')?.href;
+            break;
+          case this.UidMode.FEED_ANCHOR:
+            href = element.querySelector('a[href*="/feed/"]')?.href;
             break;
           case this.UidMode.HREF:
             href = element.href;
             break;
           case this.UidMode.ID:
             content = element.querySelector('[id]')?.id;
+            break;
+          case this.UidMode.IMG:
+            href = element.querySelector(':scope:is(a) img')?.src;
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid ||
@@ -9363,7 +9389,12 @@
             : '';
           results.set(mode, pathname + extra);
           if (document.location.pathname === pathname) {
-            scroller.logger.log('points to self', mode.description);
+            if (mode === this.UidMode.HREF) {
+              scroller.logger.log('ignoring self href');
+              results.delete(mode);
+            } else {
+              scroller.logger.log('points to self', mode.description);
+            }
           }
         }
       }
@@ -9497,6 +9528,21 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesFeaturedSelector],
         modes: [this.UidMode.ANCHOR],
+      });
+      this.#entriesScrollerConfigs.set('Activity', {
+        uidCallback: this.#entriesUidFromModes,
+        uidCallback1: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesActivitySelector,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.UidMode.FEED_ANCHOR,
+          this.UidMode.COMMENT_URN,
+          this.UidMode.HREF,
+          this.UidMode.IMG,
+          this.UidMode.ANCHOR,
+        ],
       });
     }
 

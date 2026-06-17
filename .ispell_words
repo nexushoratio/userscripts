@@ -178,6 +178,7 @@ commentOnItem
 commentScroller
 commentsHow
 commentsWhat
+commentUrn
 companyAnchor
 compareBadgeErrorStyle
 compareBadgeNewsStyle
@@ -313,6 +314,7 @@ ensureMenuStyle
 EnsureTestCase
 ent
 entriesAboutSelector
+entriesActivitySelector
 entriesAnalyticsSelector
 entriesCurrentModes
 entriesCurrentUid
@@ -560,7 +562,6 @@ javascript
 jobCards
 jobCardScroller
 jobCardSelector
-jobCardsHow
 jobCardsWhat
 JobDetailsSimilarJobsSlot
 jobId
