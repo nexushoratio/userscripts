@@ -9527,7 +9527,6 @@
       });
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
-        uidCallback1: this.uniqueEntryIdentifier,
         selectors: [
           this.#entriesActivitySelector,
           this.#entriesSelectorFooter,
@@ -9550,6 +9549,141 @@
           this.UidMode.PROFILE_ANCHOR,
           this.UidMode.HREF,
         ],
+      });
+      this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('CertificationTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Projects', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Skills', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Patents', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('HonorsTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('LanguageTopLevel', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Organizations', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Interests', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
+      });
+      this.#entriesScrollerConfigs.set('Causes', {
+        uidCallback0: this.#entriesUidFromModes,
+        uidCallback: this.uniqueEntryIdentifier,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [],
       });
     }
 
