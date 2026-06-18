@@ -9506,7 +9506,7 @@
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesAboutSelector],
-        modes: [this.UidMode.ANCHOR],
+        modes: [this.UidMode.ANCHOR_PROFILE],
       });
       this.#entriesScrollerConfigs.set('Services', {
         uidCallback: this.#entriesUidFromModes,
@@ -9523,7 +9523,10 @@
       this.#entriesScrollerConfigs.set('Featured', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesFeaturedSelector],
-        modes: [this.UidMode.ANCHOR],
+        modes: [
+          this.UidMode.ANCHOR_FEED,
+          this.UidMode.ANCHOR_PROFILE,
+        ],
       });
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
