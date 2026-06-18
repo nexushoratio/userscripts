@@ -8739,15 +8739,15 @@
 
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
+      ANCHOR_COMPANY: Symbol.for('anchorCompany'),
+      ANCHOR_FEED: Symbol.for('anchorFeed'),
+      ANCHOR_PROFILE: Symbol.for('anchorProfile'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
       COMMENT_URN: Symbol.for('commentUrn'),
-      COMPANY_ANCHOR: Symbol.for('companyAnchor'),
       FALLBACK: Symbol.for('fallback'),
-      FEED_ANCHOR: Symbol.for('feedAnchor'),
       HREF: Symbol.for('href'),
-      IMG: Symbol.for('img'),
       ID: Symbol.for('id'),
-      PROFILE_ANCHOR: Symbol.for('profileAnchor'),
+      IMG: Symbol.for('img'),
       TEST_ID: Symbol.for('testId'),
     })
 
@@ -9067,7 +9067,7 @@
 
     // Articles, posts, documents, images, videos, or events will appear here.
     static #entriesActivitySelector = [
-      // FEED_ANCHOR
+      // ANCHOR_FEED
       `div[${CKEY}*="posts"]` +
         ' [data-testid="carousel-child-container"] > * > *',
       // HREF
@@ -9085,7 +9085,7 @@
       `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
       // HREF
       `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
-      // FEED_ANCHOR
+      // ANCHOR_FEED
       `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
     ].join(',');
 
@@ -9335,6 +9335,15 @@
           case this.UidMode.ANCHOR:
             href = element.querySelector('a')?.href;
             break;
+          case this.UidMode.ANCHOR_COMPANY:
+            href = element.querySelector('a[href*="/company/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_FEED:
+            href = element.querySelector('a[href*="/feed/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_PROFILE:
+            href = element.querySelector('a[href*="/in/"]')?.href;
+            break;
           case this.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
               element.querySelector('[aria-label]')
@@ -9347,12 +9356,6 @@
             content = search.get('dashReplyUrn') ??
               search.get('dashCommentUrn');
             break;
-          case this.UidMode.COMPANY_ANCHOR:
-            href = element.querySelector('a[href*="/company/"]')?.href;
-            break;
-          case this.UidMode.FEED_ANCHOR:
-            href = element.querySelector('a[href*="/feed/"]')?.href;
-            break;
           case this.UidMode.HREF:
             href = element.href;
             break;
@@ -9361,9 +9364,6 @@
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
-            break;
-          case this.UidMode.PROFILE_ANCHOR:
-            href = element.querySelector('a[href*="/in/"]')?.href;
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid ||
@@ -9491,7 +9491,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesHighlightsSelector],
         modes: [
-          this.UidMode.COMPANY_ANCHOR,
+          this.UidMode.ANCHOR_COMPANY,
           this.UidMode.ID,
         ],
       });
@@ -9499,7 +9499,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesHighlightsSelector],
         modes: [
-          this.UidMode.COMPANY_ANCHOR,
+          this.UidMode.ANCHOR_COMPANY,
           this.UidMode.ID,
         ],
       });
@@ -9532,7 +9532,7 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
-          this.UidMode.FEED_ANCHOR,
+          this.UidMode.ANCHOR_FEED,
           this.UidMode.COMMENT_URN,
           this.UidMode.HREF,
           this.UidMode.IMG,
@@ -9546,7 +9546,7 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
-          this.UidMode.PROFILE_ANCHOR,
+          this.UidMode.ANCHOR_PROFILE,
           this.UidMode.HREF,
         ],
       });

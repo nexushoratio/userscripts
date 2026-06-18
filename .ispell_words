@@ -44,6 +44,9 @@ alnum
 AlreadySet
 alsoNotATest
 amet
+anchorCompany
+anchorFeed
+anchorProfile
 AnOverridePage
 AnUPPERWord
 apg
@@ -323,7 +326,6 @@ entriesCurrentUid
 entriesExperienceSelector
 entriesFeaturedSelector
 entriesHighlightsSelector
-entriesHighlightsUid
 entriesHow
 entriesMentionUidPossibilities
 entriesModeToUid
