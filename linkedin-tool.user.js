@@ -4991,7 +4991,7 @@
      * @param {string} item - Text on the button to look for.
      */
     #gotoNavButton = (item) => {
-      const me = 'gotoNavButton';
+      const me = this.#gotoNavButton.name;
       this.logger.entered(me, item);
 
       Array.from(
@@ -5961,7 +5961,7 @@
     }
 
     #onPostActivate = () => {
-      const me = 'onPostActivate';
+      const me = this.#onPostActivate.name;
       this.logger.entered(me);
 
       /**
@@ -6020,7 +6020,7 @@
 
     /** Resets the comments {@link Scroller}. */
     #onPostChange = () => {
-      const me = 'onPostChange';
+      const me = this.#onPostChange.name;
       this.logger.entered(me, this.posts.item);
 
       this.#resetComments();
