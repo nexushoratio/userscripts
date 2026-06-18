@@ -9333,7 +9333,12 @@
         href = null;
         switch (mode) {
           case this.UidMode.ANCHOR:
-            href = element.querySelector('a')?.href;
+            href = element.querySelector(
+              'a' +
+                ':not([href*="/company/"])' +
+                ':not([href*="/feed/"])' +
+                ':not([href*="/in/"])'
+            )?.href;
             break;
           case this.UidMode.ANCHOR_COMPANY:
             href = element.querySelector('a[href*="/company/"]')?.href;
