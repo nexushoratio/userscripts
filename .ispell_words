@@ -320,6 +320,7 @@ entriesActivitySelector
 entriesAnalyticsSelector
 entriesCurrentModes
 entriesCurrentUid
+entriesExperienceSelector
 entriesFeaturedSelector
 entriesHighlightsSelector
 entriesHighlightsUid
@@ -373,7 +374,6 @@ EventTypeError
 eventTypes
 eventUrn
 evt
-ExceptionTestCase
 ExperienceTopLevelSection
 extractTestMethods
 FactoryTypeError
@@ -920,6 +920,7 @@ prevTab
 primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
+profileAnchor
 ProfilePostConnectDrawer
 PublicationTopLevelSection
 px

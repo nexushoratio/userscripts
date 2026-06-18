@@ -8747,6 +8747,7 @@
       HREF: Symbol.for('href'),
       IMG: Symbol.for('img'),
       ID: Symbol.for('id'),
+      PROFILE_ANCHOR: Symbol.for('profileAnchor'),
       TEST_ID: Symbol.for('testId'),
     })
 
@@ -9099,6 +9100,11 @@
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
 
+    static #entriesExperienceSelector = [
+      // Fairly simple layout
+      `:scope > ${this.#div4}`,
+    ].join(',');
+
     static #entriesFeaturedSelector = [
       // Simple carousel
       '[data-testid="carousel-child-container"] > * > *',
@@ -9131,8 +9137,8 @@
     static #entriesScrollerConfigs = new Map();
 
     static #entriesSelectorDefault = [
-      // Obvious by :scope selector.
-      `:scope[${CKEY}$="ExperienceTopLevelSection"] > ${this.#div4}`,
+      // Default catches the edit button on own page.
+      `:scope > ${this.#div4}`,
     ].join(',')
 
     static #entriesSelectorFooter = [
@@ -9311,7 +9317,7 @@
      * @param {UidMode[]} modes - Computation modes to consider.
      * @returns {Map<UidMode, string>} - All computed values.
      */
-    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements
+    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements, complexity
       const me = this.#entriesModeToUid.name;
       scroller.logger.entered(me, element, modes);
 
@@ -9355,6 +9361,9 @@
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
+            break;
+          case this.UidMode.PROFILE_ANCHOR:
+            href = element.querySelector('a[href*="/in/"]')?.href;
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid ||
@@ -9529,6 +9538,17 @@
           this.UidMode.HREF,
           this.UidMode.IMG,
           this.UidMode.ANCHOR,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [
+          this.#entriesExperienceSelector,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.UidMode.PROFILE_ANCHOR,
+          this.UidMode.HREF,
         ],
       });
     }
