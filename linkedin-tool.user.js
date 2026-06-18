@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     47
+// @version     48
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -178,13 +178,9 @@
       '<code>userscript</code>: Explore <code>addValueChangeListener</code>',
       '2026-06-10'
     ),
-    ish('209', 'Support <b>SearchResultsPeople</b> view', '2026-06-09'),
-    ish('236', 'Support <b>Events</b> page', '2026-05-10'),
-    ish(
-      '240',
-      'Update top margin for <code>Scroller</code>s dynamically',
-      '2026-04-30'
-    ),
+    ish('209', 'Support **SearchResultsPeople** view', '2026-06-09'),
+    ish('236', 'Support **Events** page', '2026-05-10'),
+    ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
@@ -228,12 +224,39 @@
     ish('343',
       '<code>#addError</code>: Handle objects better',
       '2026-06-10'),
+    ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
     ish('346',
       '<strong>My Network</strong>: Navigation is failing',
       '2026-06-14'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-18',
+      issues: ['302'],
+      subject: 'Filter out certain anchor paths that have their own modes',
+    },
+    {
+      date: '2026-06-18',
+      issues: ['302'],
+      subject: 'Make `UidMode`s more precise for a couple of sections',
+    },
+    {
+      date: '2026-06-18',
+      issues: ['302'],
+      subject: 'Factor out *Experience* into a secondary config',
+    },
+    {
+      date: '2026-06-17',
+      issues: ['345'],
+      subject: 'Introduce "commonmark" support for release notes',
+    },
+    {
+      date: '2026-06-17',
+      issues: ['240'],
+      subject: 'Migrate `MyNetwork` from `ScrollerStyleService`' +
+        ' to `StyleService`',
+    },
     {
       date: '2026-06-17',
       issues: ['302'],
@@ -544,34 +567,6 @@
       issues: ['302'],
       subject: 'Factor out a common CSS selector for' +
         ' <code>Activity</code> tabs',
-    },
-    {
-      date: '2026-05-19',
-      issues: ['240'],
-      subject: 'Migrate <code>InvitationManager</code> to' +
-        ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-19',
-      issues: ['334'],
-      subject: 'Focus on Aside when scrolling out of range in' +
-        ' Invitation Manager',
-    },
-    {
-      date: '2026-05-19',
-      issues: ['329'],
-      subject: 'Update to latest version of <code>lib/web.js</code>',
-    },
-    {
-      date: '2026-05-19',
-      issues: ['302'],
-      subject: 'Factor out a common CSS selector',
-    },
-    {
-      date: '2026-05-19',
-      issues: ['240'],
-      subject: 'Migrate <code>MyNetwork</code> to the new' +
-        ' <code>ScrollerStyleService</code>',
     },
   ];
 

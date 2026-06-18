@@ -343,6 +343,7 @@ entriesUidShim
 entriesWhat
 entryScroller
 enum
+enums
 environmentData
 equalArray
 equalC
@@ -1226,7 +1227,6 @@ testEqualRegExp
 testEqualSet
 testEqualString
 testError
-TestException
 TestExecution
 testExpectMismatchedGroup
 testExplicitTitle
@@ -1243,7 +1243,6 @@ testGroupDefaults
 testHideShow
 testid
 testId
-testInheritance
 testInitialValues
 testInstanceCleanups
 testInstanceCleanupsWithError
