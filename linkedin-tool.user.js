@@ -6645,25 +6645,16 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    };
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector('#workspace [data-sdui-screen] nav');
-      return ret;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-    }
-
     #inviteScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+
+      this.addService(StyleService, styleConfig);
 
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat,
@@ -6673,6 +6664,19 @@
         .setScroller(this.#inviteScroller);
       this.#inviteScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnAside);
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('nav',
+        document.querySelector('#workspace [data-sdui-screen] nav'));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
   }
