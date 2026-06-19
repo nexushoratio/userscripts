@@ -915,6 +915,7 @@
      * Function that generates a, preferably, reproducible unique identifier
      * for an Element.
      * @callback uidCallback
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
@@ -5289,10 +5290,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniquePostIdentifier(element) {
+    static uniquePostIdentifier(scroller, element) {
       const me = Feed.uniquePostIdentifier.name;
       this.logger.entered(me, element);
 
@@ -5307,7 +5309,7 @@
         content = groups.body;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -5316,10 +5318,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueCommentIdentifier(element) {
+    static uniqueCommentIdentifier(scroller, element) {
       const me = Feed.uniqueCommentIdentifier.name;
       this.logger.entered(me, element);
 
@@ -5334,7 +5337,7 @@
         content = groups.body;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6041,10 +6044,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueCollectionIdentifier(element) {
+    static uniqueCollectionIdentifier(scroller, element) {
       const me = MyNetwork.uniqueCollectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -6061,7 +6065,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6070,10 +6074,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueIndividualsIdentifier(element) {
+    static uniqueIndividualsIdentifier(scroller, element) {
       const me = MyNetwork.uniqueIndividualsIdentifier.name;
       this.logger.entered(me, element);
 
@@ -6090,7 +6095,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6426,10 +6431,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueInvitationIdentifier(element) {
+    static uniqueInvitationIdentifier(scroller, element) {
       const me = InvitationManager.uniqueInvitationIdentifier.name;
       this.logger.entered(me, element);
 
@@ -6440,7 +6446,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6699,10 +6705,11 @@
     /**
      * Complicated because there are so many variations.
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueJobIdentifier(element) {
+    static uniqueJobIdentifier(scroller, element) {
       const me = Jobs.uniqueJobIdentifier.name;
       this.logger.entered(me, element);
 
@@ -6713,7 +6720,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -6722,10 +6729,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueSectionIdentifier(element) {
+    static uniqueSectionIdentifier(scroller, element) {
       const me = Jobs.uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -6736,7 +6744,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7072,10 +7080,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueDetailsIdentifier(element) {
+    static uniqueDetailsIdentifier(scroller, element) {
       const me = JobsCollections.uniqueDetailsIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7117,7 +7126,7 @@
         content = id;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7126,10 +7135,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueJobIdentifier(element) {
+    static uniqueJobIdentifier(scroller, element) {
       const me = JobsCollections.uniqueJobIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7140,7 +7150,7 @@
         content = jobId;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7149,10 +7159,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniquePaginationIdentifier(element) {
+    static uniquePaginationIdentifier(scroller, element) {
       const me = JobsCollections.uniquePaginationIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7163,7 +7174,7 @@
         content = label;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7628,10 +7639,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueCardIdentifier(element) {
+    static uniqueCardIdentifier(scroller, element) {
       const me = JobsView.uniqueCardIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7652,7 +7664,7 @@
         content = key;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7661,10 +7673,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueEntryIdentifier(element) {
+    static uniqueEntryIdentifier(scroller, element) {
       const me = JobsView.uniqueEntryIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7675,7 +7688,7 @@
         content = new URL(href).searchParams.get('currentJobId');
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -7942,10 +7955,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueConvoCardsIdentifier(element) {
+    static uniqueConvoCardsIdentifier(scroller, element) {
       const me = Messaging.uniqueConvoCardsIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7955,7 +7969,7 @@
       // but not really.  It is possible to have multiple cards for the
       // person, making using the URL unsuitable.  And some folks do not have
       // photos, so get the same placeholder data: scheme.
-      const content = this.defaultUid(element);
+      const content = scroller.defaultUid(element);
 
       this.logger.leaving(me);
       return content;
@@ -7963,10 +7977,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueMessageIdentifier(element) {
+    static uniqueMessageIdentifier(scroller, element) {
       const me = Messaging.uniqueMessageIdentifier.name;
       this.logger.entered(me, element);
 
@@ -7977,7 +7992,7 @@
         content = urn;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -8417,10 +8432,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueNotificationIdentifier(element) {
+    static uniqueNotificationIdentifier(scroller, element) {
       const me = Notifications.uniqueNotificationIdentifier.name;
       this.logger.entered(me, element);
 
@@ -8435,7 +8451,7 @@
         content = cardIndex;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -8745,10 +8761,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueSectionIdentifier(element) {  // eslint-disable-line max-statements, max-lines-per-function
+    static uniqueSectionIdentifier(scroller, element) {  // eslint-disable-line max-statements, max-lines-per-function
       const me = Profile.uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -8790,7 +8807,7 @@
         viaH2 = false;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
         viaH2 = false;
       }
 
@@ -8914,11 +8931,12 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static entriesUidShim(element) {
-      const [mode, content] = Profile.#entriesCurrentUid(this, element);
+    static entriesUidShim(scroller, element) {
+      const [mode, content] = Profile.#entriesCurrentUid(scroller, element);
       // TODO(#302): Transitioning from String to Symbol.
       return [mode.description ?? mode, content].join('-');
     }
@@ -9818,10 +9836,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueCollectionIdentifier(element) {
+    static uniqueCollectionIdentifier(scroller, element) {
       const me = Events.uniqueCollectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -9836,7 +9855,7 @@
         content = h1;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -9845,10 +9864,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueEventIdentifier(element) {
+    static uniqueEventIdentifier(scroller, element) {
       const me = Events.uniqueEventIdentifier.name;
       this.logger.entered(me, element);
 
@@ -9859,7 +9879,7 @@
         content = new URL(anchor.href).pathname;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
@@ -10099,14 +10119,15 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniquePaginationIdentifier(element) {
+    static uniquePaginationIdentifier(scroller, element) {
       const me = SearchResultsPeople.uniquePaginationIdentifier.name;
       this.logger.entered(me, element);
 
-      const content = this.defaultUid(element);
+      const content = scroller.defaultUid(element);
 
       this.logger.leaving(me, content);
       return content;
@@ -10114,10 +10135,11 @@
 
     /**
      * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} - A value unique to this element.
      */
-    static uniqueResultIdentifier(element) {
+    static uniqueResultIdentifier(scroller, element) {
       const me = SearchResultsPeople.uniqueResultIdentifier.name;
       this.logger.entered(me, element);
 
@@ -10128,7 +10150,7 @@
         content = new URL(href).pathname;
       }
       if (!content) {
-        content = this.defaultUid(element);
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
