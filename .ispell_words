@@ -449,6 +449,7 @@ getWithArguments
 gfUrl
 gh
 ghIj
+ghIssue
 ghUrl
 github
 GitHubIssue
@@ -888,7 +889,6 @@ pathnameRE
 pojo
 populateBuilt
 portalSelector
-postActivateHook
 postHook
 postInfoAboutElement
 postProcessItems
@@ -1184,7 +1184,6 @@ TestCases
 TestCaseTestCase
 testChaining
 testChangingDefaultEqual
-testChangingDefaultRepr
 TestClass
 testClassIsFrozen
 testCollectTests

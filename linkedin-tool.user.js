@@ -2867,7 +2867,7 @@
      */
     static aboutTab() {
       const issuesLink = this.#ghUrl('labels/linkedin-tool');
-      const newIssueLink = this.#ghUrl('issues/new/choose');
+      const newIssueLink = this.#ghIssue('new/choose');
       const newGfIssueLink = this.#gfUrl('feedback');
       const releaseNotesLink = this.#gfUrl('versions');
 
@@ -3085,7 +3085,7 @@
     /**
      * @returns {TabbedUI~TabDefinition} - News information.
      */
-    newsTab() {  // eslint-disable-line max-lines-per-function
+    newsTab() {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.newsTab.name;
       this.logger.entered(me);
 
@@ -3119,8 +3119,13 @@
         content.push(`${dateHeader} ${date}`);
         for (const [issue, subjects] of items) {
           const ki = knownIssues.get(issue);
+          let title = ki.title;
+          if (issue) {
+            const link = this.constructor.#ghIssue(issue);
+            title = `[${title}](${link})`;
+          }
           content.push(
-            `${issueHeader} ${ki.title}`
+            `${issueHeader} ${title}`
           );
           for (const subject of subjects) {
             content.push(`* ${subject}`);
@@ -3235,6 +3240,17 @@
     static #ghUrl = (path) => {
       const base = 'https://github.com/nexushoratio/userscripts';
       const url = `${base}/${path}`;
+      return url;
+    }
+
+    /**
+     * Create a GitHub issue URL.
+     *
+     * @param {string} issue - Issue portion of the URL.
+     * @returns {string} - Full URL.
+     */
+    static #ghIssue = (issue) => {
+      const url = this.#ghUrl(`issues/${issue}`);
       return url;
     }
 
