@@ -3026,11 +3026,6 @@
       return this.#navbar;
     }
 
-    /** @type {NH.base.Dispatcher} */
-    get navbarDispatcher() {
-      return this.#navbarDispatcher;
-    }
-
     /** @type {string} - The height of the navbar as CSS string. */
     get navbarHeightCSS() {
       return `${this.#navbarHeightPixels}px`;
@@ -3257,7 +3252,6 @@
     #licenseElement
     #licenseState = LinkedIn.#FetchState.EMPTY;
     #navbar
-    #navbarDispatcher = new NH.base.Dispatcher('resize');
     #navbarHeightPixels = 0;
     #navbarMutationObserver
     #navbarResizeObserver
@@ -4307,8 +4301,6 @@
 
         this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
         this.navbarHeightPixels = this.#navbar.clientHeight + margin;
-
-        this.#navbarDispatcher.fire('resize', this);
       }
 
       this.logger.leaving(me);
