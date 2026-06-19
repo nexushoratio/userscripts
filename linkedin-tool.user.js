@@ -8747,6 +8747,7 @@
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
       IMG: Symbol.for('img'),
+      SCHOOL: Symbol.for('school'),
       TEST_ID: Symbol.for('testId'),
     })
 
@@ -9099,6 +9100,12 @@
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
 
+    static #entriesEducationSelector = [
+      // Sections with footers are one div deeper.
+      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
+      `:scope > ${this.#div5} > div[${CKEY}]`,
+    ].join(',');
+
     static #entriesExperienceSelector = [
       // Fairly simple layout
       `:scope > ${this.#div4}`,
@@ -9336,7 +9343,8 @@
               'a' +
                 ':not([href*="/company/"])' +
                 ':not([href*="/feed/"])' +
-                ':not([href*="/in/"])'
+                ':not([href*="/in/"])' +
+                ':not([href*="/school/"])'
             )?.href;
             break;
           case this.UidMode.ANCHOR_COMPANY:
@@ -9368,6 +9376,15 @@
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
+            break;
+          case this.UidMode.SCHOOL:
+            scratch = element.querySelector('a[href*="/school/"]')
+              ?.href;
+            if (scratch) {
+              // The same school may be referenced more than once.
+              content = new URL(scratch).pathname +
+                scroller.defaultUid(element);
+            }
             break;
           case this.UidMode.TEST_ID:
             content = element.dataset.testid ||
@@ -9558,13 +9575,17 @@
         ],
       });
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesEducationSelector,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.SCHOOL,
+          this.UidMode.HREF,
+          // For "skill association" pop-up with unlisted schools.
+          this.UidMode.ANCHOR_PROFILE,
+        ],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback0: this.#entriesUidFromModes,

@@ -323,6 +323,7 @@ entriesActivitySelector
 entriesAnalyticsSelector
 entriesCurrentModes
 entriesCurrentUid
+entriesEducationSelector
 entriesExperienceSelector
 entriesFeaturedSelector
 entriesHighlightsSelector
@@ -443,7 +444,6 @@ getPrototypeOf
 getReprFunc
 getTabControls
 getType
-GetTypeTestCase
 getValue
 getWithArguments
 gfUrl
@@ -677,7 +677,6 @@ messagingOptionsSelector
 methodName
 MethodResult
 minVersion
-MinVersionError
 MissingField
 missingFirst
 MissingLabel
