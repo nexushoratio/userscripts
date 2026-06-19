@@ -9327,7 +9327,7 @@
       let href = null;
 
       for (const mode of modes) {
-        let search = null;
+        let scratch = null;
         content = null;
         href = null;
         switch (mode) {
@@ -9355,10 +9355,10 @@
             break;
           case this.UidMode.COMMENT_URN:
             // The ?? is so there is always a valid URL
-            search = new URL(element.href ?? document.location)
+            scratch = new URL(element.href ?? document.location)
               .searchParams;
-            content = search.get('dashReplyUrn') ??
-              search.get('dashCommentUrn');
+            content = scratch.get('dashReplyUrn') ??
+              scratch.get('dashCommentUrn');
             break;
           case this.UidMode.HREF:
             href = element.href;
