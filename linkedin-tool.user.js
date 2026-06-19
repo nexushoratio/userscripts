@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     49
+// @version     50
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -1615,7 +1615,7 @@
       let uid = null;
       if (element) {
         if (!element.dataset.scrollerId) {
-          element.dataset.scrollerId = this.#uidCallback(element);
+          element.dataset.scrollerId = this.#uidCallback(this, element);
         }
         uid = element.dataset.scrollerId;
       }
