@@ -4383,7 +4383,9 @@
      */
     #reportIssueProblems = (unknown, unused, old) => {
       for (const item of unknown) {
-        NH.base.issues.post('Unknown issue detected:', item);
+        NH.base.issues.post(
+          'Unknown issue detected:', item, this.constructor.#ghIssue(item)
+        );
       }
 
       for (const item of old) {
@@ -4391,7 +4393,11 @@
       }
 
       for (const item of unused.values()) {
-        NH.base.issues.post('Unused issue detected:', item);
+        NH.base.issues.post(
+          'Unused issue detected:',
+          item,
+          this.constructor.#ghIssue(item.issueId)
+        );
       }
     }
 
