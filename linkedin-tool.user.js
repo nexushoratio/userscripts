@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     48
+// @version     49
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -184,10 +184,6 @@
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
     ),
-    ish('253', 'Support <b>My Network Events</b> page', '2026-06-03'),
-    ish('255', 'Support <b>Search appearances</b> page', '2026-06-07'),
-    ish('256', 'Support <b>Verify</b> page', '2026-06-08'),
-    ish('257', 'Support <b>Analytics & tools</b> page', '2026-06-09'),
     ish(
       '295',
       'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
@@ -198,23 +194,10 @@
       '<code>VM.shortcut</code> is swallowing and ignoring exceptions',
       '2026-06-08'
     ),
-    ish(
-      '300',
-      '<code>Scroller</code>: The <b>JobsCollections</b> pagination' +
-        ' scroller gets out of sync',
-      '2026-06-09'
-    ),
-    ish('301', '<b>JobsView</b>: Entries need tuning', '2026-06-13'),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-05-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
-    ish(
-      '329',
-      '<code>focusOnTree()</code> can select a disabled element',
-      '2026-05-21'
-    ),
-    ish('334', '<b>InvitationManager</b>: Focus on aside', '2026-05-21'),
     ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
     ish(
       '342',
@@ -228,9 +211,34 @@
     ish('346',
       '<strong>My Network</strong>: Navigation is failing',
       '2026-06-14'),
+    ish(
+      '350',
+      '`Scroller`: Add `this` as an argument to `uidCallback()`',
+      '2026-06-19'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-19',
+      issues: ['350'],
+      subject: 'Add `this` as the first argument to `uidCallback()`',
+    },
+    {
+      date: '2026-06-19',
+      issues: ['302'],
+      subject: 'Support the *Education* section',
+    },
+    {
+      date: '2026-06-19',
+      issues: ['302'],
+      subject: 'Rename a variable',
+    },
+    {
+      date: '2026-06-18',
+      issues: ['240'],
+      subject: 'Migrate `InvitationManager` to `StyleService`',
+    },
     {
       date: '2026-06-18',
       issues: ['302'],
@@ -561,12 +569,6 @@
       issues: ['240'],
       subject: 'Migrate <code>Notifications</code> to' +
         ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-20',
-      issues: ['302'],
-      subject: 'Factor out a common CSS selector for' +
-        ' <code>Activity</code> tabs',
     },
   ];
 
