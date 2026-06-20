@@ -5287,10 +5287,10 @@
         style.push(`  ${key}: ${value};`);
       }
 
-      style.concat([
+      style.push(
         '}',
         '',
-      ]);
+      );
       this.#style.textContent = style.join('\n');
     }
 
