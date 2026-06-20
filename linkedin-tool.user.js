@@ -6965,37 +6965,18 @@
       ],
     };
 
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector('main > div');
-      return ret;
-    }
-
-    /**
-     * @implements {ValueExtractor}
-     * @param {Element} element - Element to examine.
-     * @returns {Values} - Extracted values.
-     */
-    static #scrollerValueExtractor = (element) => {
-      const style = getComputedStyle(element);
-      const values = {
-        top: style.marginTop,
-      };
-      return values;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
-    }
-
     #jobScroller
     #lastScroller
     #sectionScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.#scrollerElementsProcessor,
+      };
+
+      this.addService(StyleService, styleConfig);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
@@ -7006,6 +6987,48 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#sectionScroller;
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('div', document.querySelector('main > div'));
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * @implements {StyleService~ElementsProcessor}
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    #scrollerElementsProcessor = (elements) => {
+      const me = this.#scrollerElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'div':
+            if (value) {
+              const style = getComputedStyle(value);
+              properties.set('scroll-margin-top', style.marginTop);
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      this.logger.leaving(me, properties);
+      return properties;
     }
 
     /** Reset the jobs scroller. */

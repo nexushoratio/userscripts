@@ -20,7 +20,6 @@ addErrorMarker
 addEventListener
 addFailure
 addHeader
-addHows
 addInfoTabs
 addInfoTabsHandlers
 addInstance
@@ -1009,6 +1008,7 @@ scrollBy
 scroller
 scrollerClassName
 ScrollerConfig
+scrollerElementsProcessor
 scrollerFinder
 scrollerHows
 scrollerId
@@ -1447,7 +1447,6 @@ valueExtractor
 ValueExtractor
 valueOf
 vclId
-VerificationError
 VERYComplicated
 viaH
 viewBox
