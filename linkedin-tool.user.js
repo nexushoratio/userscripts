@@ -7516,6 +7516,7 @@
       let height = 0;
       let padding = '0px';
       const properties = new Map();
+
       for (const [key, value] of elements.entries()) {
         switch (key) {
           case 'container':
