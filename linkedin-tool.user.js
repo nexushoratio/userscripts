@@ -5477,41 +5477,27 @@
     loadMorePosts = new Shortcut(
       'l',
       'Load more posts (if the <button>New Posts</button> button ' +
-        'is available, load those)', () => {  // eslint-disable-line max-lines-per-function
+        'is available)', () => {
         const me = this.loadMorePosts.name;
         this.logger.entered(me);
 
-        const savedScrollTop = document.documentElement.scrollTop;
-        let first = false;
         const posts = this.posts;
 
         /** Trigger function for {@link NH.web.otrot2}. */
         function trigger() {
-          // The topButton only shows up when the app detects new posts.  In
-          // that case, going back to the first post is appropriate.
+          // The topButton only shows up when the web app detects new posts.
           const topButton = document.querySelector(
-            'main [data-testid="mainFeed"] > div:nth-of-type(3) button'
+            'button:has([id="arrow-up-small"])'
           );
           if (topButton?.checkVisibility()) {
             topButton.click();
-            first = true;
-          } else {
-            // If there is not top button, there should always be a button at
-            // the bottom to click.
-            const botButton =
-                  'main [data-testid="mainFeed"] > div:last-child button';
-            NH.web.clickElement(document, [botButton]);
           }
         }
 
         /** Action function for {@link NH.web.otrot2}. */
         function action() {
-          if (first) {
-            if (posts.item) {
-              posts.first();
-            }
-          } else {
-            document.documentElement.scrollTop = savedScrollTop;
+          if (posts.item) {
+            posts.first();
           }
         }
 
