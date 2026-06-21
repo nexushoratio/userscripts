@@ -7935,27 +7935,17 @@
 
     static #jobCardSelector = `${JobsView.#cardsContainer} > div:first-child`;
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    }
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector('[role="toolbar"]');
-      return ret;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-    }
-
     #cardScroller
     #entryScroller
     #lastScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+      this.addService(StyleService, styleConfig);
 
       this.#cardScroller = new Scroller(
         JobsView.#cardsWhat, JobsView.#cardsHow
@@ -7965,6 +7955,19 @@
       this.#cardScroller.dispatcher
         .on('change', this.#onCardChange);
       this.#lastScroller = this.#cardScroller;
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+
+      elements.set('toolbar', document.querySelector('[role="toolbar"]'));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
     #onCardChange = () => {
