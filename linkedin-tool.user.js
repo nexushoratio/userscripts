@@ -3051,8 +3051,6 @@
     focusOnSidebar = () => {
       const sidebar = document.querySelector(LinkedIn.sidebarSelector);
       if (sidebar) {
-        sidebar.style.scrollMarginTop = this.navbarHeightCSS;
-        sidebar.scrollIntoView();
         NH.web.focusOnTree(sidebar);
       }
     }
@@ -3064,8 +3062,6 @@
     focusOnAside = () => {
       const aside = document.querySelector(LinkedIn.asideSelector);
       if (aside) {
-        aside.style.scrollMarginTop = this.navbarHeightCSS;
-        aside.scrollIntoView();
         NH.web.focusOnTree(aside);
       }
     }
