@@ -9410,6 +9410,9 @@
             content = scratch.get('dashReplyUrn') ??
               scratch.get('dashCommentUrn');
             break;
+          case this.UidMode.FALLBACK:
+            // No-op
+            break;
           case this.UidMode.HREF:
             href = element.href;
             break;
@@ -9502,6 +9505,14 @@
 
       const suggestions = [];
 
+      const results = this.#entriesModeToUid(
+        scroller, element, Object.values(this.UidMode)
+      );
+      for (const [key, value] of results.entries()) {
+        suggestions.push(key);
+        scroller.logger.log(key.description, value);
+      }
+
       const page = new URL(document.location);
       const anchors = new Set(element.querySelectorAll('a')
         .values()
@@ -9509,12 +9520,12 @@
         .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
       const ids = element.querySelectorAll('[id]');
 
-      if (anchors.size) {
+      if (anchors.size > 1) {
         suggestions.push('anchors');
         scroller.logger.log('Anchors to consider:', anchors);
       }
 
-      if (ids.length) {
+      if (ids.length > 1) {
         suggestions.push('ids');
         scroller.logger.log('IDs to consider:', ids);
       }
