@@ -1574,11 +1574,11 @@
       const me = this.#postProcessItems.name;
       this.logger.starting(me, `count: ${items.length}`);
 
+      const filtered = items.filter(Scroller.#isItemViewable);
+
       const uids = new NH.base.DefaultMap(Array);
-      for (const item of items) {
-        this.logger.log(
-          'item:', item, `isItemViewable: ${Scroller.#isItemViewable(item)}`
-        );
+      for (const item of filtered) {
+        this.logger.log('item:', item);
         const uid = this.#uid(item);
         uids.get(uid)
           .push(item);
@@ -1595,8 +1595,6 @@
           }
         }
       }
-
-      const filtered = items.filter(Scroller.#isItemViewable);
 
       this.logger.finished(me, `count: ${filtered.length}`);
       return filtered;
