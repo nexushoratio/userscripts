@@ -99,7 +99,6 @@ bigint
 BigInt
 bitness
 bobInfo
-botButton
 BothLabelledbyAndLabel
 bottomHalf
 bottomMargin
@@ -626,6 +625,7 @@ LinkedIn
 LinkedIn's
 LinkedInStyleService
 LinkedInToolbarService
+Linkify
 listitem
 litLabel
 litOptions
@@ -1010,7 +1010,6 @@ scrollerClassName
 ScrollerConfig
 scrollerElementsProcessor
 scrollerFinder
-scrollerHows
 scrollerId
 scrollerPrimaryClassName
 scrollers

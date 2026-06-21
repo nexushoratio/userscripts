@@ -4,7 +4,7 @@
 // @match       https://www.linkedin.com/*
 // @inject-into content
 // @noframes
-// @version     50
+// @version     51
 // @author      Mike Castle
 // @description Minor enhancements to LinkedIn. Mostly just hotkeys.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -182,7 +182,7 @@
     ish('236', 'Support **Events** page', '2026-05-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
-      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-05-22'
+      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-06-22'
     ),
     ish(
       '295',
@@ -195,7 +195,7 @@
       '2026-06-08'
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
-    ish('303', 'Keys are captured while editing text', '2026-05-21'),
+    ish('303', 'Keys are captured while editing text', '2026-06-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
     ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
@@ -211,14 +211,61 @@
     ish('346',
       '<strong>My Network</strong>: Navigation is failing',
       '2026-06-14'),
+    ish('349', '`LinkedIn`: Remove navbar margin support', '2026-06-20'),
     ish(
       '350',
       '`Scroller`: Add `this` as an argument to `uidCallback()`',
       '2026-06-19'
     ),
+    ish('351', '**Feed**: load more feature no longer works', '2026-06-20'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-20',
+      issues: ['349'],
+      subject: 'Stop scrolling the sidebars into view',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['302'],
+      subject: 'Suggest any implemented `UidMode` solutions that work',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['302'],
+      subject: 'Change suggested anchors to a `Set` to remove duplicates',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['240'],
+      subject: 'Migrate `Jobs` from `ScrollerStyleService` to `StyleService`',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['240'],
+      subject: 'Insert a blank line for consistency',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['240'],
+      subject: 'Fix how the closing `}` is added to the CSS Style',
+    },
+    {
+      date: '2026-06-20',
+      issues: ['351'],
+      subject: 'Rework how **Feeds**\'s "load most posts" feature works',
+    },
+    {
+      date: '2026-06-19',
+      issues: [''],
+      subject: 'Add links to GitHub issues for certain debug alerts',
+    },
+    {
+      date: '2026-06-19',
+      issues: [''],
+      subject: 'Linkify release notes to the associated issue',
+    },
     {
       date: '2026-06-19',
       issues: ['350'],
@@ -551,23 +598,6 @@
       date: '2026-05-24',
       issues: ['240'],
       subject: 'Migrate <code>Profile</code> to' +
-        ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-22',
-      issues: ['302'],
-      subject: 'Support the <em>Experience</em> section',
-    },
-    {
-      date: '2026-05-22',
-      issues: ['240'],
-      subject: 'Create class names for <code>Scroller</code>s' +
-        ' programmatically',
-    },
-    {
-      date: '2026-05-22',
-      issues: ['240'],
-      subject: 'Migrate <code>Notifications</code> to' +
         ' <code>ScrollerStyleService</code>',
     },
   ];
