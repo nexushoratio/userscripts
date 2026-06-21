@@ -9503,14 +9503,13 @@
       const suggestions = [];
 
       const page = new URL(document.location);
-      const anchors = element.querySelectorAll('a')
+      const anchors = new Set(element.querySelectorAll('a')
         .values()
         .map(x => x.href)
-        .filter(x => !['/', page.pathname].includes(new URL(x).pathname))
-        .toArray();
+        .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
       const ids = element.querySelectorAll('[id]');
 
-      if (anchors.length) {
+      if (anchors.size) {
         suggestions.push('anchors');
         scroller.logger.log('Anchors to consider:', anchors);
       }
