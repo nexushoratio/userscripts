@@ -5738,7 +5738,6 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-
       this.addService(StyleService, styleConfig);
 
       this.#postScroller = new Scroller(
@@ -6381,7 +6380,6 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-
       this.addService(StyleService, styleConfig);
 
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
@@ -6685,7 +6683,6 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-
       this.addService(StyleService, styleConfig);
 
       this.#inviteScroller = new Scroller(
@@ -6999,7 +6996,6 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
-
       this.addService(StyleService, styleConfig);
 
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
@@ -7519,7 +7515,6 @@
         elementsProcessor: this.#detailsElementsProcessor,
         events: ['transitionend'],
       };
-
       this.addService(StyleService, styleConfig);
 
       this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
