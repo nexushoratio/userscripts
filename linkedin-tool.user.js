@@ -9230,71 +9230,11 @@
     }
     /* eslint-enable */
 
-    static #entriesAboutSelector = [
-      // Fairly simple layout
-      `:scope > ${this.#div3}:has(> p) > *`,
-    ].join(',');
-
-    // Articles, posts, documents, images, videos, or events will appear here.
-    static #entriesActivitySelector = [
-      // ANCHOR_FEED
-      `div[${CKEY}*="posts"]` +
-        ' [data-testid="carousel-child-container"] > * > *',
-      // HREF
-      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
-      // HREF
-      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
-      // IMG
-      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
-      // HREF
-      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
-      // Newsletters have both subscribe and posts subsections
-      // ANCHOR
-      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
-      // HREF
-      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
-      // HREF
-      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
-      // ANCHOR_FEED
-      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
-    ].join(',');
-
-    static #entriesAnalyticsSelector = [
-      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
-        ` a${this.#arrowRightNot}`,
-    ].join(',');
-
-    static #entriesCertificationSelector = [
-      // While simple, this depth is needed to work w/ and w/o footers.
-      `:scope > ${this.#div6}`,
-    ].join(',');
-
     /** @type {UidMode[]} */
     static #entriesCurrentModes
 
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
-
-    static #entriesEducationSelector = [
-      // Sections with footers are one div deeper.
-      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
-      `:scope > ${this.#div5} > div[${CKEY}]`,
-    ].join(',');
-
-    static #entriesExperienceSelector = [
-      // Fairly simple layout
-      `:scope > ${this.#div4}`,
-    ].join(',');
-
-    static #entriesFeaturedSelector = [
-      // Simple carousel
-      '[data-testid="carousel-child-container"] > * > *',
-    ].join(',');
-
-    static #entriesHighlightsSelector = [
-      // Simple layout
-      `:scope > ${this.#div6}`,
-    ].join(',');
 
     /** @type {Scroller~How} */
     static #entriesHow = {
@@ -9317,35 +9257,90 @@
     /** @type {Map<string, ScrollerConfig>} */
     static #entriesScrollerConfigs = new Map();
 
+    static #entriesSelectorAbout = [
+      // Fairly simple layout
+      `:scope > ${this.#div3}:has(> p) > *`,
+    ].join(',');
+
+    // Articles, posts, documents, images, videos, or events will appear here.
+    static #entriesSelectorActivity = [
+      // ANCHOR_FEED
+      `div[${CKEY}*="posts"]` +
+        ' [data-testid="carousel-child-container"] > * > *',
+      // HREF
+      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
+      // IMG
+      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
+      // Newsletters have both subscribe and posts subsections
+      // ANCHOR
+      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
+      // HREF
+      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
+      // HREF
+      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
+      // ANCHOR_FEED
+      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+    ].join(',');
+
+    static #entriesSelectorAnalytics = [
+      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
+        ` a${this.#arrowRightNot}`,
+    ].join(',');
+
+    static #entriesSelectorCertification = [
+      // While simple, this depth is needed to work w/ and w/o footers.
+      `:scope > ${this.#div6}`,
+    ].join(',');
+
     static #entriesSelectorDefault = [
       // Default catches the edit button on own page.
       `:scope > ${this.#div4}`,
     ].join(',')
+
+    static #entriesSelectorEducation = [
+      // Sections with footers are one div deeper.
+      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
+      `:scope > ${this.#div5} > div[${CKEY}]`,
+    ].join(',');
+
+    static #entriesSelectorExperience = [
+      // Fairly simple layout
+      `:scope > ${this.#div4}`,
+    ].join(',');
+
+    static #entriesSelectorFeatured = [
+      // Simple carousel
+      '[data-testid="carousel-child-container"] > * > *',
+    ].join(',');
 
     static #entriesSelectorFooter = [
       // "Show all" buttons
       `hr ~ div > a${this.#arrowRight}`,
     ].join(',');
 
-    static #entriesSelectorsWhat = [
-      this.#entriesSelectorDefault,
-      this.#entriesSelectorFooter,
-    ];
+    static #entriesSelectorHighlights = [
+      // Simple layout
+      `:scope > ${this.#div6}`,
+    ].join(',');
 
-    static #entriesServicesSelector = [
+    static #entriesSelectorServices = [
       `:scope > ${this.#div5}` +
         ':not([data-testid="carousel-viewport-container"])' +
         ' > *',
       ':scope [data-testid="carousel-child-container"] > *',
     ].join(',');
 
-    static #entriesSuggestedForYouSelector = [
+    static #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
       ':scope [data-testid="carousel-child-container"] > *',
       `:scope > ${this.#div4}:not(:has(> svg))`,
     ].join(',');
 
-    static #entriesTopcardSelector = [
+    static #entriesSelectorTopcard = [
       // Most items
       `:scope > ${this.#div5}` +
       // Premium badge
@@ -9363,6 +9358,11 @@
       // Buttons for Premium background carousel
       ':scope [data-testid="pagination-controls-list"]',
     ].join(',');
+
+    static #entriesSelectorsWhat = [
+      this.#entriesSelectorDefault,
+      this.#entriesSelectorFooter,
+    ];
 
     /** @type {Scroller~What} */
     static #entriesWhat = {
@@ -9688,7 +9688,7 @@
 
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesTopcardSelector],
+        selectors: [this.#entriesSelectorTopcard],
         modes: [
           this.UidMode.HREF,
           this.UidMode.TEST_ID,
@@ -9697,13 +9697,13 @@
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSuggestedForYouSelector],
+        selectors: [this.#entriesSelectorSuggestedForYou],
         modes: [],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesAnalyticsSelector,
+          this.#entriesSelectorAnalytics,
           this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.HREF],
@@ -9711,7 +9711,7 @@
       // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
       this.#entriesScrollerConfigs.set('Highlights', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesHighlightsSelector],
+        selectors: [this.#entriesSelectorHighlights],
         modes: [
           this.UidMode.COMPANY,
           this.UidMode.ID,
@@ -9719,7 +9719,7 @@
       });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesHighlightsSelector],
+        selectors: [this.#entriesSelectorHighlights],
         modes: [
           this.UidMode.COMPANY,
           this.UidMode.ID,
@@ -9727,13 +9727,13 @@
       });
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesAboutSelector],
+        selectors: [this.#entriesSelectorAbout],
         modes: [this.UidMode.ANCHOR_PROFILE],
       });
       this.#entriesScrollerConfigs.set('Services', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesServicesSelector,
+          this.#entriesSelectorServices,
           this.#entriesSelectorFooter,
         ],
         modes: [
@@ -9744,7 +9744,7 @@
       });
       this.#entriesScrollerConfigs.set('Featured', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesFeaturedSelector],
+        selectors: [this.#entriesSelectorFeatured],
         modes: [
           this.UidMode.ANCHOR_FEED,
           this.UidMode.ANCHOR_PROFILE,
@@ -9753,7 +9753,7 @@
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesActivitySelector,
+          this.#entriesSelectorActivity,
           this.#entriesSelectorFooter,
         ],
         modes: [
@@ -9767,7 +9767,7 @@
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesExperienceSelector,
+          this.#entriesSelectorExperience,
           this.#entriesSelectorFooter,
         ],
         modes: [
@@ -9778,7 +9778,7 @@
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesEducationSelector,
+          this.#entriesSelectorEducation,
           this.#entriesSelectorFooter,
         ],
         modes: [
@@ -9791,7 +9791,7 @@
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesCertificationSelector,
+          this.#entriesSelectorCertification,
           this.#entriesSelectorFooter,
         ],
         modes: [

@@ -101,7 +101,6 @@ bitness
 bobInfo
 BothLabelledbyAndLabel
 bottomHalf
-bottomMargin
 browserName
 browserVersion
 buildHeader
@@ -330,9 +329,20 @@ entriesMentionUidPossibilities
 entriesModeToUid
 entriesScrollerConfigDefault
 entriesScrollerConfigs
+entriesSelectorAbout
+entriesSelectorActivity
+entriesSelectorAnalytics
+entriesSelectorCertification
 entriesSelectorDefault
+entriesSelectorEducation
+entriesSelectorExperience
+entriesSelectorFeatured
 entriesSelectorFooter
+entriesSelectorHighlights
+entriesSelectorServices
+entriesSelectorSuggestedForYou
 entriesSelectorsWhat
+entriesSelectorTopcard
 entriesServicesSelector
 entriesSuggestedForYouSelector
 entriesSuggestedForYouUid
@@ -719,7 +729,6 @@ navbarHeightCSS
 navbarHeightPixels
 navbarMutationObserver
 navbarResizeObserver
-navbarScrollerFixup
 navMe
 navSpacer
 ndid
@@ -728,7 +737,6 @@ nestedId
 newCallback
 NewClass
 newGfIssueLink
-newHeight
 newIssueLink
 newK
 newMain
@@ -1168,7 +1176,6 @@ testBadHandler
 testBadInputs
 testBadRenderFunc
 testBadRowClasses
-testBase
 testBaseIsElement
 testBaseNeedsSelector
 testBaseWithSelectorIsFine
