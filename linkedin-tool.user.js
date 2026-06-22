@@ -8802,11 +8802,11 @@
 
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
-      ANCHOR_COMPANY: Symbol.for('anchorCompany'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
       ANCHOR_PROFILE: Symbol.for('anchorProfile'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
       COMMENT_URN: Symbol.for('commentUrn'),
+      COMPANY: Symbol.for('company'),
       FALLBACK: Symbol.for('fallback'),
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
@@ -9413,9 +9413,6 @@
                 ':not([href*="/school/"])'
             )?.href;
             break;
-          case this.UidMode.ANCHOR_COMPANY:
-            href = element.querySelector('a[href*="/company/"]')?.href;
-            break;
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
             break;
@@ -9433,6 +9430,15 @@
               .searchParams;
             content = scratch.get('dashReplyUrn') ??
               scratch.get('dashCommentUrn');
+            break;
+          case this.UidMode.COMPANY:
+            scratch = element.querySelector('a[href*="/company/"]')
+              ?.href;
+            if (scratch) {
+              // The same company may be referenced more than once.
+              content = new URL(scratch).pathname +
+                scroller.defaultUid(element);
+            }
             break;
           case this.UidMode.FALLBACK:
             // No-op
@@ -9588,7 +9594,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesHighlightsSelector],
         modes: [
-          this.UidMode.ANCHOR_COMPANY,
+          this.UidMode.COMPANY,
           this.UidMode.ID,
         ],
       });
@@ -9596,7 +9602,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesHighlightsSelector],
         modes: [
-          this.UidMode.ANCHOR_COMPANY,
+          this.UidMode.COMPANY,
           this.UidMode.ID,
         ],
       });
