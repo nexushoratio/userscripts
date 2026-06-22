@@ -5728,13 +5728,20 @@
     #postScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initPostScroller();
+    }
+
+    #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.ctor.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initPostScroller = () => {
       this.#postScroller = new Scroller(
         this.ctor.#postsWhat, this.ctor.#postsHow
       );
@@ -6370,13 +6377,20 @@
     #lastScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initCollectionScroller();
+    }
+
+    #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.ctor.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initCollectionScroller = () => {
       this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
         MyNetwork.#collectionsHow);
       this.addService(ScrollerService)
@@ -6673,13 +6687,20 @@
     #inviteScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initInviteScroller();
+    }
+
+    #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.ctor.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initInviteScroller = () => {
       this.#inviteScroller = new Scroller(
         InvitationManager.#invitesWhat,
         InvitationManager.#invitesHow
@@ -6986,13 +7007,20 @@
     #sectionScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initSectionScroller();
+    }
+
+    #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.ctor.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initSectionScroller = () => {
       this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
         Jobs.#sectionsHow);
       this.addService(ScrollerService)
@@ -7501,6 +7529,11 @@
     #paginationScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initCardsScroller();
+    }
+
+    #initScrollerStyleService = () => {
       this.#detailsContainerClassName = this.ctor.cssClassName(
         ['details', 'container']
       );
@@ -7511,7 +7544,9 @@
         events: ['transitionend'],
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initCardsScroller = () => {
       this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
         JobsCollections.#cardsHow);
 
@@ -7935,13 +7970,20 @@
     #lastScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initCardsScroller();
+    }
+
+    #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.ctor.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
       this.addService(StyleService, styleConfig);
+    }
 
+    #initCardsScroller = () => {
       this.#cardScroller = new Scroller(
         JobsView.#cardsWhat, JobsView.#cardsHow
       );
@@ -8318,6 +8360,10 @@
     #messageScroller
 
     #initScrollers = () => {
+      this.#initCardsScroller();
+    }
+
+    #initCardsScroller = () => {
       this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
         Messaging.#convoCardsHow);
       this.addService(ScrollerService)
@@ -8763,8 +8809,15 @@
     #notificationScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      this.#initScrollerStyleService();
+      this.#initNotificationScroller();
+    }
 
+    #initScrollerStyleService = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+    }
+
+    #initNotificationScroller = () => {
       this.#notificationScroller = new Scroller(
         Notifications.#notificationsWhat, Notifications.#notificationsHow
       );
@@ -9822,9 +9875,16 @@
     #sectionScroller
 
     #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initSectionScroller();
+    }
+
+    #initScrollerStyleService = () => {
       // TODO(#240): This needs a better solution for this page.
       this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+    }
 
+    #initSectionScroller = () => {
       this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
         Profile.#sectionsHow);
       this.addService(ScrollerService)
@@ -10155,8 +10215,15 @@
     #lastScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      this.#initScrollerStyleService();
+      this.#initCollectionScroller();
+    }
 
+    #initScrollerStyleService = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+    }
+
+    #initCollectionScroller = () => {
       this.#collectionScroller = new Scroller(
         Events.#collectionsWhat, Events.#collectionsHow
       );
@@ -10412,8 +10479,16 @@
     #resultScroller
 
     #initScrollers = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      this.#initScrollerStyleService();
+      this.#initPaginationScroller();
+      this.#initResultScroller();
+    }
 
+    #initScrollerStyleService = () => {
+      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+    }
+
+    #initPaginationScroller= () => {
       this.#paginationScroller = new Scroller(
         SearchResultsPeople.#paginationWhat,
         SearchResultsPeople.#paginationHow
@@ -10423,7 +10498,9 @@
       this.#paginationScroller.dispatcher
         .on('activate', this.#onPaginationActivate)
         .on('change', this.#onPaginationChange);
+    }
 
+    #initResultScroller = () => {
       this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
         SearchResultsPeople.#resultsHow);
       this.addService(ScrollerService)
