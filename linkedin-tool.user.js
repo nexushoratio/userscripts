@@ -8811,6 +8811,7 @@
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
       IMG: Symbol.for('img'),
+      SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
       TEST_ID: Symbol.for('testId'),
     })
@@ -9160,6 +9161,11 @@
         ` a${this.#arrowRightNot}`,
     ].join(',');
 
+    static #entriesCertificationSelector = [
+      // While simple, this depth is needed to work w/ and w/o footers.
+      `:scope > ${this.#div6}`,
+    ].join(',');
+
     /** @type {UidMode[]} */
     static #entriesCurrentModes
 
@@ -9410,6 +9416,7 @@
                 ':not([href*="/company/"])' +
                 ':not([href*="/feed/"])' +
                 ':not([href*="/in/"])' +
+                ':not([href*="/safety/"])' +
                 ':not([href*="/school/"])'
             )?.href;
             break;
@@ -9451,6 +9458,15 @@
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
+            break;
+          case this.UidMode.SAFETY:
+            scratch = element.querySelector('a[href*="/safety/"]')
+              ?.href;
+            if (scratch) {
+              content = new URL(scratch).searchParams.get('urlhash');
+              scroller.logger.log('safety details',
+                new URL(scratch).searchParams);
+            }
             break;
           case this.UidMode.SCHOOL:
             scratch = element.querySelector('a[href*="/school/"]')
@@ -9670,13 +9686,21 @@
         ],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesCertificationSelector,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          // /safety/go links often go to other certification sites.
+          this.UidMode.SAFETY,
+          this.UidMode.ANCHOR,
+          // For "skill association" pop-up for unlisted programs.
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.COMPANY,
+          this.UidMode.SCHOOL,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('Projects', {
         uidCallback0: this.#entriesUidFromModes,

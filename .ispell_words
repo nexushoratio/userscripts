@@ -319,6 +319,7 @@ ent
 entriesAboutSelector
 entriesActivitySelector
 entriesAnalyticsSelector
+entriesCertificationSelector
 entriesCurrentModes
 entriesCurrentUid
 entriesEducationSelector
@@ -372,7 +373,6 @@ eventScroller
 eventsHow
 eventsWhat
 eventType
-EventTypeError
 eventTypes
 eventUrn
 evt
@@ -526,7 +526,6 @@ infoName
 infoTabs
 infoWidget
 inheritdoc
-inInput
 initialHeight
 initialWidth
 initMain
