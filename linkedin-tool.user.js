@@ -5397,20 +5397,10 @@
 
     /** @type {Scroller} */
     get comments() {
-      const me = 'get comments';
-      this.logger.entered(me, this.#commentScroller, this.posts.item);
-
       if (!this.#commentScroller && this.posts.item) {
-        this.#commentScroller = new Scroller(
-          {base: this.posts.item, ...this.ctor.#commentsWhat},
-          this.ctor.#commentsHow
-        );
-        this.#commentScroller.dispatcher
-          .on('change', this.#onCommentChange)
-          .on('out-of-range', this.#returnToPost);
+        this.#initCommentScroller();
       }
 
-      this.logger.leaving(me, this.#commentScroller);
       return this.#commentScroller;
     }
 
@@ -5761,6 +5751,16 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
+    }
+
+    #initCommentScroller = () => {
+      this.#commentScroller = new Scroller(
+        {base: this.posts.item, ...this.ctor.#commentsWhat},
+        this.ctor.#commentsHow
+      );
+      this.#commentScroller.dispatcher
+        .on('change', this.#onCommentChange)
+        .on('out-of-range', this.#returnToPost);
     }
 
     /** @returns {StyleService~ElementMap} - Elements to monitor. */
@@ -6153,15 +6153,9 @@
     /** @type {Scroller} */
     get individuals() {
       if (!this.#individualScroller && this.collections.item) {
-        this.#individualScroller = new Scroller(
-          {base: this.collections.item, ...MyNetwork.#individualsWhat},
-          MyNetwork.#individualsHow
-        );
-        this.#individualScroller.dispatcher
-          .on('change', this.#onIndividualChange)
-          .on('focus', this.#onIndividualFocus)
-          .on('out-of-range', this.#returnToCollection);
+        this.#initIndividualScroller();
       }
+
       return this.#individualScroller;
     }
 
@@ -6408,6 +6402,17 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#collectionScroller;
+    }
+
+    #initIndividualScroller = () => {
+      this.#individualScroller = new Scroller(
+        {base: this.collections.item, ...MyNetwork.#individualsWhat},
+        MyNetwork.#individualsHow
+      );
+      this.#individualScroller.dispatcher
+        .on('change', this.#onIndividualChange)
+        .on('focus', this.#onIndividualFocus)
+        .on('out-of-range', this.#returnToCollection);
     }
 
     /** @returns {StyleService~ElementMap} - Elements to monitor. */
@@ -6808,20 +6813,10 @@
 
     /** @type {Scroller} */
     get jobs() {
-      const me = 'get jobs';
-      this.logger.entered(me, this.#jobScroller);
-
       if (!this.#jobScroller && this.sections.item) {
-        this.#jobScroller = new Scroller(
-          {base: this.sections.item, ...Jobs.#jobsWhat},
-          Jobs.#jobsHow
-        );
-        this.#jobScroller.dispatcher
-          .on('change', this.#onJobChange)
-          .on('out-of-range', this.#returnToSection);
+        this.#initJobScroller();
       }
 
-      this.logger.leaving(me, this.#jobScroller);
       return this.#jobScroller;
     }
 
@@ -7038,6 +7033,16 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#sectionScroller;
+    }
+
+    #initJobScroller = () => {
+      this.#jobScroller = new Scroller(
+        {base: this.sections.item, ...Jobs.#jobsWhat},
+        Jobs.#jobsHow
+      );
+      this.#jobScroller.dispatcher
+        .on('change', this.#onJobChange)
+        .on('out-of-range', this.#returnToSection);
     }
 
     /** @returns {Element?} - Element to monitor. */
@@ -7800,14 +7805,9 @@
     /** @type {Scroller} */
     get entries() {
       if (!this.#entryScroller && this.cards.item) {
-        this.#entryScroller = new Scroller(
-          {base: this.cards.item, ...JobsView.#entriesWhat},
-          JobsView.#entriesHow
-        );
-        this.#entryScroller.dispatcher
-          .on('change', this.#onEntryChange)
-          .on('out-of-range', this.#returnToCard);
+        this.#initEntryScroller();
       }
+
       return this.#entryScroller;
     }
 
@@ -8009,6 +8009,16 @@
       this.#lastScroller = this.#cardScroller;
     }
 
+    #initEntryScroller = () => {
+      this.#entryScroller = new Scroller(
+        {base: this.cards.item, ...JobsView.#entriesWhat},
+        JobsView.#entriesHow
+      );
+      this.#entryScroller.dispatcher
+        .on('change', this.#onEntryChange)
+        .on('out-of-range', this.#returnToCard);
+    }
+
     /** @returns {StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -8114,18 +8124,10 @@
 
     /** @type {Scroller} */
     get messages() {
-      const me = 'get messages';
-      this.logger.entered(me, this.convoCards.item);
-
       if (!this.#messageScroller && this.convoCards.item) {
-        this.#messageScroller = new Scroller(
-          Messaging.#messagesWhat, Messaging.#messagesHow
-        );
-        this.#messageScroller.dispatcher
-          .on('change', this.#onMessageChange);
+        this.#initMessageScroller();
       }
 
-      this.logger.leaving(me, this.#messageScroller);
       return this.#messageScroller;
     }
 
@@ -8386,6 +8388,14 @@
       this.#convoCardScroller.dispatcher
         .on('activate', this.#onConvoCardActivate)
         .on('change', this.#onConvoCardChange);
+    }
+
+    #initMessageScroller = () => {
+      this.#messageScroller = new Scroller(
+        Messaging.#messagesWhat, Messaging.#messagesHow
+      );
+      this.#messageScroller.dispatcher
+        .on('change', this.#onMessageChange);
     }
 
     /**
@@ -9091,23 +9101,9 @@
     /** @type {Scroller} */
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
-        this.logger.log('current section', this.sections.itemUid);
-        const config = Profile.#entriesScrollerConfigs.get(
-          this.sections.itemUid
-        ) ?? Profile.#entriesScrollerConfigDefault;
-
-        Profile.#entriesCurrentUid = config.uidCallback;
-        Profile.#entriesWhat.selectors = config.selectors;
-        Profile.#entriesCurrentModes = config.modes;
-
-        this.#entryScroller = new Scroller(
-          {base: this.sections.item, ...Profile.#entriesWhat},
-          Profile.#entriesHow
-        );
-        this.#entryScroller.dispatcher
-          .on('change', this.#onEntryChange)
-          .on('out-of-range', this.#returnToSection);
+        this.#initEntryScroller();
       }
+
       return this.#entryScroller;
     }
 
@@ -9937,6 +9933,25 @@
       this.#lastScroller = this.#sectionScroller;
     }
 
+    #initEntryScroller = () => {
+      this.logger.log('current section', this.sections.itemUid);
+      const config = Profile.#entriesScrollerConfigs.get(
+        this.sections.itemUid
+      ) ?? Profile.#entriesScrollerConfigDefault;
+
+      Profile.#entriesCurrentUid = config.uidCallback;
+      Profile.#entriesWhat.selectors = config.selectors;
+      Profile.#entriesCurrentModes = config.modes;
+
+      this.#entryScroller = new Scroller(
+        {base: this.sections.item, ...Profile.#entriesWhat},
+        Profile.#entriesHow
+      );
+      this.#entryScroller.dispatcher
+        .on('change', this.#onEntryChange)
+        .on('out-of-range', this.#returnToSection);
+    }
+
     #resetEntries = () => {
       if (this.#entryScroller) {
         this.#entryScroller.destroy();
@@ -10087,14 +10102,9 @@
     /** @type {Scroller} */
     get events() {
       if (!this.#eventScroller && this.collections.item) {
-        this.#eventScroller = new Scroller(
-          {base: this.collections.item, ...Events.#eventsWhat},
-          Events.#eventsHow
-        );
-        this.#eventScroller.dispatcher
-          .on('change', this.#onEventChange)
-          .on('out-of-range', this.#returnToCollection);
+        this.#initEventScroller();
       }
+
       return this.#eventScroller;
     }
 
@@ -10274,6 +10284,16 @@
 
       this.#collectionScroller.dispatcher
         .on('change', this.#onCollectionChange);
+    }
+
+    #initEventScroller = () => {
+      this.#eventScroller = new Scroller(
+        {base: this.collections.item, ...Events.#eventsWhat},
+        Events.#eventsHow
+      );
+      this.#eventScroller.dispatcher
+        .on('change', this.#onEventChange)
+        .on('out-of-range', this.#returnToCollection);
     }
 
     #resetEvents = () => {

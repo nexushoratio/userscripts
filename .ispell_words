@@ -538,11 +538,17 @@ infoWidget
 inheritdoc
 initCardsScroller
 initCollectionScroller
+initCommentScroller
 initDetailsScroller
+initEntryScroller
+initEventScroller
 initialHeight
 initialWidth
+initIndividualScroller
 initInviteScroller
+initJobScroller
 initMain
+initMessageScroller
 initNotificationScroller
 initPaginationScroller
 initPostScroller
