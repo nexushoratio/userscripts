@@ -538,6 +538,7 @@ infoWidget
 inheritdoc
 initCardsScroller
 initCollectionScroller
+initDetailsScroller
 initialHeight
 initialWidth
 initInviteScroller

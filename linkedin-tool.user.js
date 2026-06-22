@@ -7539,6 +7539,8 @@
     #initScrollers = () => {
       this.#initScrollerStyleService();
       this.#initCardsScroller();
+      this.#initPaginationScroller();
+      this.#initDetailsScroller();
     }
 
     #initScrollerStyleService = () => {
@@ -7564,6 +7566,10 @@
         .on('activate', this.#onCardActivate)
         .on('change', this.#onCardChange);
 
+      this.#lastScroller = this.#cardsScroller;
+    }
+
+    #initPaginationScroller = () => {
       this.#paginationScroller = new Scroller(
         JobsCollections.#paginationWhat, JobsCollections.#paginationHow
       );
@@ -7572,7 +7578,9 @@
       this.#paginationScroller.dispatcher
         .on('activate', this.#onPaginationActivate)
         .on('change', this.#onPaginationChange);
+    }
 
+    #initDetailsScroller = () => {
       this.#detailsScroller = new Scroller(
         JobsCollections.#detailsWhat, JobsCollections.#detailsHow
       );
@@ -7580,8 +7588,6 @@
         .setScroller(this.#detailsScroller);
       this.#detailsScroller.dispatcher
         .on('change', this.#onDetailsChange);
-
-      this.#lastScroller = this.#cardsScroller;
     }
 
     /**
