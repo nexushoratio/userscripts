@@ -218,9 +218,37 @@
       '2026-06-19'
     ),
     ish('351', '**Feed**: load more feature no longer works', '2026-06-20'),
+    ish(
+      '352',
+      'Migrate `Scroller` configurations from static to instance' +
+        ' properties and functions',
+      '2026-06-21'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-21',
+      issues: ['352'],
+      subject: 'Refactor all `#initScrollers()` methods even more',
+    },
+    {
+      date: '2026-06-21',
+      issues: ['302'],
+      subject: 'Rename `#entriesMentionUidPossibilities` to' +
+        ' `#entriesSuggestUids`',
+    },
+    {
+      date: '2026-06-21',
+      issues: ['302'],
+      subject: 'Support the *Certifications* section',
+    },
+    {
+      date: '2026-06-21',
+      issues: ['240'],
+      subject: 'Migrate `JobsView` from `ScrollerStyleService` to' +
+        ' `StyleService`',
+    },
     {
       date: '2026-06-20',
       issues: ['349'],
