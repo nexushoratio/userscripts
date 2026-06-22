@@ -7076,7 +7076,7 @@
 
     /** Reset the jobs scroller. */
     #resetJobs = () => {
-      const me = 'resetJobs';
+      const me = this.#resetJobs.name;
       this.logger.entered(me, this.#jobScroller);
 
       if (this.#jobScroller) {
@@ -7105,7 +7105,7 @@
      * {@link Scroller}.
      */
     #onSectionChange = () => {
-      const me = 'onSectionChange';
+      const me = this.#onSectionChange.name;
       this.logger.entered(me);
 
       this.#resetJobs();
@@ -7119,7 +7119,7 @@
      * @param {number} topScroll - Where to scroll to.
      */
     #resetScroll = (topScroll) => {
-      const me = 'resetScroll';
+      const me = this.#resetScroll.name;
       this.logger.entered(me, topScroll);
 
       // Explicitly setting jobs.item below will cause it to scroll to that
@@ -7677,7 +7677,7 @@
     }
 
     #onPaginationActivate = async () => {
-      const me = 'onPaginationActivate';
+      const me = this.#onPaginationActivate.name;
       this.logger.entered(me);
 
       try {
