@@ -337,6 +337,7 @@ entriesSelectorsWhat
 entriesServicesSelector
 entriesSuggestedForYouSelector
 entriesSuggestedForYouUid
+entriesSuggestUids
 entriesTopcardSelector
 entriesUidFromModes
 entriesUidShim
@@ -563,7 +564,6 @@ issuesLink
 itemUid
 iu
 javascript
-jobCardScroller
 jobCardSelector
 jobCardsWhat
 JobDetailsSimilarJobsSlot
@@ -719,7 +719,6 @@ ndiff
 nestedId
 newCallback
 NewClass
-newCSS
 newGfIssueLink
 newHeight
 newIssueLink

@@ -8977,7 +8977,7 @@
         }
       }
       if (!content) {
-        this.#entriesMentionUidPossibilities(scroller, element);
+        this.#entriesSuggestUids(scroller, element);
         mode = 'default';
         content = scroller.defaultUid(element);
       }
@@ -9527,7 +9527,7 @@
       );
 
       if (results.size === 0) {
-        this.#entriesMentionUidPossibilities(scroller, element);
+        this.#entriesSuggestUids(scroller, element);
         results.set(this.UidMode.FALLBACK, scroller.defaultUid(element));
       }
 
@@ -9540,13 +9540,13 @@
     }
 
     /**
-     * Mention things that might have been missed during development.
+     * Suggest UID sources.
      *
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
      */
-    static #entriesMentionUidPossibilities = (scroller, element) => {
-      const me = this.#entriesMentionUidPossibilities.name;
+    static #entriesSuggestUids = (scroller, element) => {
+      const me = this.#entriesSuggestUids.name;
       scroller.logger.entered(me, element);
 
       const suggestions = [];
