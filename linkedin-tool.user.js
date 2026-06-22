@@ -8005,6 +8005,7 @@
         .setScroller(this.#cardScroller);
       this.#cardScroller.dispatcher
         .on('change', this.#onCardChange);
+
       this.#lastScroller = this.#cardScroller;
     }
 
@@ -10529,7 +10530,7 @@
       this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
     }
 
-    #initPaginationScroller= () => {
+    #initPaginationScroller = () => {
       this.#paginationScroller = new Scroller(
         SearchResultsPeople.#paginationWhat,
         SearchResultsPeople.#paginationHow
