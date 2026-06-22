@@ -8191,7 +8191,7 @@
       'l',
       'Load more conversations',
       () => {
-        const me = 'loadMoreConversations';
+        const me = this.loadMoreConversations.name;
         this.logger.entered(me);
 
         // This button has no distinguishing features, but seems to be the
@@ -8222,7 +8222,7 @@
       's',
       'Go to Search messages',
       () => {
-        const me = 'searchMessages';
+        const me = this.searchMessages.name;
         this.logger.entered(me);
 
         NH.web.focusOnElement(
@@ -8290,7 +8290,7 @@
       'N',
       'Compose a new message',
       () => {
-        const me = 'newMessage';
+        const me = this.newMessage.name;
         this.logger.entered(me);
 
         // Composing a new message changes the URL, triggering page
@@ -8472,7 +8472,7 @@
      * @returns {number} - Distance between the points in pixels.
      */
     #distanceBetweenPoints = (one, two) => {
-      const me = 'distanceBetweenPoints';
+      const me = this.#distanceBetweenPoints.name;
       this.logger.entered(me, one, two);
 
       const xd = one.x - two.x;
@@ -8484,7 +8484,7 @@
     }
 
     #onConvoCardActivate = async () => {
-      const me = 'onConvoCardActivate';
+      const me = this.#onConvoCardActivate.name;
       this.logger.entered(me);
 
       await this.#findActiveConvo();
