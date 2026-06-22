@@ -8805,35 +8805,6 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    }
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector('aside > div');
-      return ret;
-    }
-
-    /**
-     * @implements {ValueExtractor}
-     * @param {Element} element - Element to examine.
-     * @returns {Values} - Extracted values.
-     */
-    static #scrollerValueExtractor = (element) => {
-      const rect = element.getBoundingClientRect();
-      const values = {
-        top: `${rect.top}px`,
-      };
-      return values;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
-    }
-
     #notificationScroller
 
     #initScrollers = () => {
@@ -8842,7 +8813,12 @@
     }
 
     #initScrollerStyleService = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.#scrollerElementsProcessor,
+      };
+      this.addService(StyleService, styleConfig);
     }
 
     #initNotificationScroller = () => {
@@ -8853,6 +8829,57 @@
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnSidebar);
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('aside', document.querySelector('aside > div'));
+      elements.set('pill', document.querySelector('#notification-nt-pill'));
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * @implements {StyleService~ElementsProcessor}
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    #scrollerElementsProcessor = (elements) => {
+      const me = this.#scrollerElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      let marginTop = 0;
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'aside':
+            if (value) {
+              const rect = value.getBoundingClientRect();
+              marginTop += rect.top;
+            }
+            break;
+          case 'pill':
+            if (value) {
+              marginTop += value.offsetHeight;
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      properties.set('scroll-margin-top', `${marginTop}px`);
+
+      this.logger.leaving(me, properties);
+      return properties;
     }
 
   }
