@@ -228,6 +228,21 @@
 
   const globalNewsContent = [
     {
+      date: '2026-06-22',
+      issues: ['352'],
+      subject: 'Factor out transient `Scroller` initialization',
+    },
+    {
+      date: '2026-06-22',
+      issues: ['352'],
+      subject: 'Split a function missed in b1f9649',
+    },
+    {
+      date: '2026-06-22',
+      issues: ['240'],
+      subject: 'Migrate `Notifications` to `StyleService`',
+    },
+    {
       date: '2026-06-21',
       issues: ['352'],
       subject: 'Refactor all `#initScrollers()` methods even more',
