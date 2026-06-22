@@ -2865,10 +2865,6 @@
       this.#licenseElement = document.createElement('p');
       this.#licenseElement.innerHTML = '<i>Loading license...</i>';
 
-      // TODO(#240): Due to changes in start up, this value is no longer set
-      // before Pages are registered.
-      this.navbarHeightPixels = 16;
-
       // The default reprString wraps in double-quotes.
       this.#typeTool.addReprFunc('String', x => x);
 
@@ -3083,16 +3079,6 @@
     /** @type {HTMLElement} */
     get navbar() {
       return this.#navbar;
-    }
-
-    /** @type {number} - The height of the navbar in pixels. */
-    get navbarHeightPixels() {
-      return this.#navbarHeightPixels;
-    }
-
-    /** @param {number} val - Set height of the navbar in pixels. */
-    set navbarHeightPixels(val) {
-      this.#navbarHeightPixels = val;
     }
 
     /** @type {LinkedIn.Style} */
@@ -3318,7 +3304,6 @@
     #licenseElement
     #licenseState = LinkedIn.#FetchState.EMPTY;
     #navbar
-    #navbarHeightPixels = 0;
     #navbarMutationObserver
     #navbarResizeObserver
     #newsQueue = new NH.base.MessageQueue();
@@ -4357,16 +4342,11 @@
       const me = this.#navbarHandler.name;
       this.logger.entered(me);
 
-      const margin = 4;
-
       this.#findNavbar();
 
       if (this.#navbar) {
         this.#ensureMenuStyle1();
         this.#ensureMenuStyle2();
-
-        this.logger.log('Raw navbar height is', this.#navbar.clientHeight);
-        this.navbarHeightPixels = this.#navbar.clientHeight + margin;
       }
 
       this.logger.leaving(me);
