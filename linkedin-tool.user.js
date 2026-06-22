@@ -3057,11 +3057,6 @@
       return this.#navbar;
     }
 
-    /** @type {string} - The height of the navbar as CSS string. */
-    get navbarHeightCSS() {
-      return `${this.#navbarHeightPixels}px`;
-    }
-
     /** @type {number} - The height of the navbar in pixels. */
     get navbarHeightPixels() {
       return this.#navbarHeightPixels;
