@@ -228,6 +228,42 @@
 
   const globalNewsContent = [
     {
+      date: '2026-06-23',
+      issues: ['352'],
+      subject: 'Update how `Feed`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['349'],
+      subject: 'Consistently use `this.#navbar` vs `this.navbar`',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['302'],
+      subject: 'Support the *Connected apps* section',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['240'],
+      subject: 'Migrate `Profile` from `ScrollerStyleService` to' +
+        ' `StyleService`',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['240'],
+      subject: 'Remove a class variable missed in a recent change',
+    },
+    {
+      date: '2026-06-23',
+      issues: ['240'],
+      subject: 'Fix a couple of docstrings missed in recent changes',
+    },
+    {
       date: '2026-06-22',
       issues: ['352'],
       subject: 'Factor out transient `Scroller` initialization',
@@ -636,12 +672,6 @@
       date: '2026-05-25',
       issues: ['236'],
       subject: 'Remove the <code>artdeco-card</code> class from events',
-    },
-    {
-      date: '2026-05-24',
-      issues: ['240'],
-      subject: 'Migrate <code>Profile</code> to' +
-        ' <code>ScrollerStyleService</code>',
     },
   ];
 
