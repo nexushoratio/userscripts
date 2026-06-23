@@ -7060,7 +7060,7 @@
         .on('out-of-range', this.#returnToSection);
     }
 
-    /** @returns {Element?} - Element to monitor. */
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -8843,7 +8843,7 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
-    /** @returns {Element?} - Element to monitor. */
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
