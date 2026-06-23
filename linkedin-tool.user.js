@@ -9290,6 +9290,11 @@
       `:scope > ${this.#div6}`,
     ].join(',');
 
+    static #entriesSelectorConnectedAccounts = [
+      // Skip the bit in the header.
+      `:scope > ${this.#div5}:not(:has(> h2)) > *`,
+    ].join(',');
+
     static #entriesSelectorDefault = [
       // Default catches the edit button on own page.
       `:scope > ${this.#div4}`,
@@ -9770,6 +9775,12 @@
           // For "skill association" pop-up with unlisted schools.
           this.UidMode.ANCHOR_PROFILE,
         ],
+      });
+      this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
+        // Dismissible section with little support here.
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [this.#entriesSelectorConnectedAccounts],
+        modes: [this.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback: this.#entriesUidFromModes,

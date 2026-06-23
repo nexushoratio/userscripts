@@ -334,6 +334,7 @@ entriesSelectorAbout
 entriesSelectorActivity
 entriesSelectorAnalytics
 entriesSelectorCertification
+entriesSelectorConnectedAccounts
 entriesSelectorDefault
 entriesSelectorEducation
 entriesSelectorExperience
@@ -354,7 +355,6 @@ entriesUidShim
 entriesWhat
 entryScroller
 enum
-enums
 environmentData
 equalArray
 equalC
