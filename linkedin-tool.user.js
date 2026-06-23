@@ -10192,7 +10192,7 @@
       'S',
       'Share the current item, if available',
       () => {
-        const me = 'shareItem';
+        const me = this.shareItem.name;
         const item = this.events?.item;
         this.logger.entered(me, item);
 
@@ -10598,7 +10598,7 @@
     }
 
     #onPaginationActivate = async () => {
-      const me = 'onPaginationActivate';
+      const me = this.#onPaginationActivate.name;
       this.logger.entered(me);
 
       try {
