@@ -6990,10 +6990,6 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    };
-
     static #sectionsContainer =
       '[data-testid="JobsHomeFeedModuleListCollection"]';
 
