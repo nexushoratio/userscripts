@@ -9370,10 +9370,6 @@
       };
     }
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    }
-
     /** @type {Scroller~How} */
     static #sectionsHow = {
       uidCallback: Profile.uniqueSectionIdentifier,
@@ -9479,12 +9475,6 @@
     };
 
     static #uidSectionPrefix
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector('[role="toolbar"]');
-      return ret;
-    }
 
     /**
      * Compute all UIDs for the requested modes.
@@ -9678,10 +9668,7 @@
       scroller.logger.leaving(me, 'Suggested:', suggestions);
     }
 
-    // Work around picky style checker.
     static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorTopcard],
@@ -9931,8 +9918,12 @@
     }
 
     #initScrollerStyleService = () => {
-      // TODO(#240): This needs a better solution for this page.
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+      this.addService(StyleService, styleConfig);
     }
 
     #initSectionScroller = () => {
@@ -9963,6 +9954,18 @@
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
         .on('out-of-range', this.#returnToSection);
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('toolbar', document.querySelector('[role="toolbar"]'));
+
+      this.logger.leaving(me, elements);
+      return elements;
     }
 
     #resetEntries = () => {
