@@ -4113,7 +4113,7 @@
 
       if (this.#navbar) {
         if (!menuItem.isConnected) {
-          this.logger.log('Will connect menu item to', this.navbar);
+          this.logger.log('Will connect menu item to', this.#navbar);
 
           const navMe = this.#navbar.querySelector(selector)
             ?.closest('li');
@@ -4163,7 +4163,7 @@
           this.#badgeErrorStyle2?.isConnected) {
         this.logger.log('checking error badge', this.#badgeErrorStyle2);
         // Some badges are bad examples, so skip them using :not().
-        const badges = this.navbar
+        const badges = this.#navbar
           .querySelectorAll('svg:not([id^="home"]) + span');
         if (badges.length > NH.base.ONE_ITEM) {
           const ignore = new Set([
@@ -4198,7 +4198,7 @@
       if (!this.#badgeNewsResultsStyle2 &&
           this.#badgeNewsStyle2?.isConnected) {
         this.logger.log('checking error badge', this.#badgeNewsStyle2);
-        const badge = this.navbar
+        const badge = this.#navbar
           .querySelector('svg[id^="home"] + span');
         if (badge) {
           const ignore = new Set([
