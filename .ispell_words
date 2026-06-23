@@ -195,6 +195,7 @@ ConfigMutationHandler
 ConfigMutationRecord
 configs
 configSaver
+ConnectedAccountsTopLevel
 connectMenuItem
 connectSuggestion
 consectetur
@@ -590,7 +591,6 @@ itemUid
 iu
 javascript
 jobCardSelector
-jobCardsWhat
 JobDetailsSimilarJobsSlot
 jobId
 JobsCollections
@@ -851,7 +851,6 @@ onHybridActivate
 onIndividualChange
 onIndividualFocus
 onInit
-onJobCardActivate
 onJobChange
 onLoggerConfig
 onMessageChange
