@@ -5354,62 +5354,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniquePostIdentifier(scroller, element) {
-      const me = Feed.uniquePostIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const groups = Feed.#uidPostRE.exec(key)?.groups;
-
-      if (key) {
-        content = key;
-      }
-      if (groups) {
-        content = groups.body;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueCommentIdentifier(scroller, element) {
-      const me = Feed.uniqueCommentIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const groups = Feed.#uidCommentRE.exec(key)?.groups;
-
-      if (key) {
-        content = key;
-      }
-      if (groups) {
-        content = groups.body;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get comments() {
       if (!this.#commentScroller && this.posts.item) {
@@ -5679,25 +5623,6 @@
       }
     );
 
-    /** @type {Scroller~How} */
-    static #commentsHow = {
-      uidCallback: Feed.uniqueCommentIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #commentsWhat = {
-      name: `${this.name} comments`,
-      selectors: [
-        [
-          // Regular
-          `[data-component-type] > div > div > [${CKEY}*=":comment:"]`,
-        ].join(','),
-      ],
-    };
-
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -5706,39 +5631,15 @@
       readySelector: '#linkedin-logo-xxsmall',
     };
 
-    /** @type {Scroller~How} */
-    static #postsHow = {
-      uidCallback: Feed.uniquePostIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #postsWhat = {
-      name: `${this.name} posts`,
-      containerItems: [
-        {
-          container: 'main [data-testid="mainFeed"]',
-          items: [
-            // Regular items
-            '[role="listitem"]',
-            // Dismissed item placeholders
-            `div[${CKEY}^="collapsed"]`,
-          ].join(','),
-        },
-      ],
-    };
-
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
-
-    static #uidCommentRE =
-    /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
-
-    static #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
     #commentScroller
     #lastScroller
     #postScroller
+    #uidCommentRE =
+    /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
+
+    #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -5755,9 +5656,31 @@
     }
 
     #initPostScroller = () => {
-      this.#postScroller = new Scroller(
-        this.ctor.#postsWhat, this.ctor.#postsHow
-      );
+      const what = {
+        name: `${this.name} posts`,
+        containerItems: [
+          {
+            container: 'main [data-testid="mainFeed"]',
+            items: [
+              // Regular items
+              '[role="listitem"]',
+              // Dismissed item placeholders
+              `div[${CKEY}^="collapsed"]`,
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniquePostIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#postScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#postScroller);
       this.#postScroller.dispatcher
@@ -5769,10 +5692,28 @@
     }
 
     #initCommentScroller = () => {
-      this.#commentScroller = new Scroller(
-        {base: this.posts.item, ...this.ctor.#commentsWhat},
-        this.ctor.#commentsHow
-      );
+      const what = {
+        name: `${this.name} comments`,
+        base: this.posts.item,
+        selectors: [
+          [
+            // Regular
+            `[data-component-type] > div > div > [${CKEY}*=":comment:"]`,
+          ].join(','),
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueCommentIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#commentScroller = new Scroller(what, how);
       this.#commentScroller.dispatcher
         .on('change', this.#onCommentChange)
         .on('out-of-range', this.#returnToPost);
@@ -5792,6 +5733,62 @@
 
       this.logger.leaving(me, elements);
       return elements;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniquePostIdentifier = (scroller, element) => {
+      const me = this.#uniquePostIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const groups = this.#uidPostRE.exec(key)?.groups;
+
+      if (key) {
+        content = key;
+      }
+      if (groups) {
+        content = groups.body;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueCommentIdentifier = (scroller, element) => {
+      const me = this.#uniqueCommentIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const groups = this.#uidCommentRE.exec(key)?.groups;
+
+      if (key) {
+        content = key;
+      }
+      if (groups) {
+        content = groups.body;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @returns {HTMLElement} - Header container for current post. */
