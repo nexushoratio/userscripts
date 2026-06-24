@@ -10285,37 +10285,6 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    }
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector(this.#collectionsContainer)
-        ?.parentElement;
-      return ret;
-    }
-
-    /**
-     * @implements {ValueExtractor}
-     * @param {Element} element - Element to examine.
-     * @returns {Values} - Extracted values.
-     */
-    static #scrollerValueExtractor = (element) => {
-      const navbar = document.querySelector('#global-nav')?.offsetHeight ?? 0;
-      const style = getComputedStyle(element);
-      const values = {
-        top: `calc(${navbar}px + ${style.marginTop})`,
-      };
-      return values;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
-    }
-
     #collectionScroller
     #eventScroller
     #lastScroller
@@ -10326,7 +10295,12 @@
     }
 
     #initScrollerStyleService = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.#scrollerElementsProcessor,
+      };
+      this.addService(StyleService, styleConfig);
     }
 
     #initCollectionScroller = () => {
@@ -10348,6 +10322,62 @@
       this.#eventScroller.dispatcher
         .on('change', this.#onEventChange)
         .on('out-of-range', this.#returnToCollection);
+    }
+
+    /** @returns {Element?} - Element to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('navbar', document.querySelector('#global-nav'));
+      elements.set(
+        'main',
+        document.querySelector(this.ctor.#collectionsContainer)?.parentElement
+      );
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * @implements {StyleService~ElementsProcessor}
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    #scrollerElementsProcessor = (elements) => {
+      const me = this.#scrollerElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      const tops = [];
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'navbar':
+            if (value) {
+              tops.push(`${value.offsetHeight}px`);
+            }
+            break;
+          case 'main':
+            if (value) {
+              tops.push(getComputedStyle(value).marginTop);
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      if (tops.length) {
+        const plus = tops.join(' + ');
+        properties.set('scroll-margin-top', `calc(${plus})`);
+      }
+
+      this.logger.leaving(me, properties);
+      return properties;
     }
 
     #resetEvents = () => {
