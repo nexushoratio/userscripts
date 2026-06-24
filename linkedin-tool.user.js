@@ -6127,66 +6127,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueCollectionIdentifier(scroller, element) {
-      const me = MyNetwork.uniqueCollectionIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const childKey = LinkedIn.ckeyIdentifier(
-        element.querySelector(`[${CKEY}]`)
-      );
-
-      if (childKey) {
-        content = childKey;
-      }
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueIndividualsIdentifier(scroller, element) {
-      const me = MyNetwork.uniqueIndividualsIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const childKey = LinkedIn.ckeyIdentifier(
-        element.querySelector(`[${CKEY}]`)
-      );
-
-      if (childKey) {
-        content = childKey;
-      }
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get collections() {
       return this.#collectionScroller;
@@ -6350,68 +6290,12 @@
       }
     );
 
-    /** @type {Scroller~How} */
-    static #collectionsHow = {
-      uidCallback: MyNetwork.uniqueCollectionIdentifier,
-      classes: [
-        LinkedIn.scrollerPrimaryClassName,
-        this.scrollerClassName,
-      ],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #collectionsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: LinkedIn.primaryContentSelector,
-          items: [
-            // Most "Grow" cards
-            ':scope > div > div > div > div > section',
-            ':scope > div > div > div > div > div > section',
-            // "Catch up"
-            ':scope > div > div > section',
-          ].join(','),
-        },
-      ],
-    };
-
     /** @type {Page~PageDetails} */
     static #details = {
       name: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
       pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
       readySelector: '#linkedin-logo-xxsmall',
-    };
-
-    /** @type {Scroller~How} */
-    static #individualsHow = {
-      uidCallback: MyNetwork.uniqueIndividualsIdentifier,
-      classes: [
-        LinkedIn.scrollerSecondaryClassName,
-        this.scrollerClassName,
-      ],
-      autoActivate: true,
-      snapToTop: false,
-      clickConfig: {
-        selectorArray: ['a', 'button'],
-        matchSelf: true,
-      },
-    };
-
-    /** @type {Scroller~What} */
-    static #individualsWhat = {
-      name: `${this.name} individual`,
-      selectors: [
-        [
-          // Carousel cards (different variations)
-          '[data-testid="carousel-child-container"] > div > a',
-          '[data-testid="carousel-child-container"] > div:has(> div)',
-          // Most cards with followable entities in them
-          '[role="listitem"]',
-        ].join(','),
-      ],
     };
 
     static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
@@ -6435,8 +6319,32 @@
     }
 
     #initCollectionScroller = () => {
-      this.#collectionScroller = new Scroller(MyNetwork.#collectionsWhat,
-        MyNetwork.#collectionsHow);
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: LinkedIn.primaryContentSelector,
+            items: [
+              // Most "Grow" cards
+              ':scope > div > div > div > div > section',
+              ':scope > div > div > div > div > div > section',
+              // "Catch up"
+              ':scope > div > div > section',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueCollectionIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#collectionScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher
@@ -6447,14 +6355,99 @@
     }
 
     #initIndividualScroller = () => {
-      this.#individualScroller = new Scroller(
-        {base: this.collections.item, ...MyNetwork.#individualsWhat},
-        MyNetwork.#individualsHow
-      );
+      const what = {
+        name: `${this.name} individual`,
+        base: this.collections.item,
+        selectors: [
+          [
+          // Carousel cards (different variations)
+            '[data-testid="carousel-child-container"] > div > a',
+            '[data-testid="carousel-child-container"] > div:has(> div)',
+            // Most cards with followable entities in them
+            '[role="listitem"]',
+          ].join(','),
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueIndividualsIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+        clickConfig: {
+          selectorArray: ['a', 'button'],
+          matchSelf: true,
+        },
+      };
+
+      this.#individualScroller = new Scroller(what, how);
       this.#individualScroller.dispatcher
         .on('change', this.#onIndividualChange)
         .on('focus', this.#onIndividualFocus)
         .on('out-of-range', this.#returnToCollection);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueCollectionIdentifier = (scroller, element) => {
+      const me = this.#uniqueCollectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const childKey = LinkedIn.ckeyIdentifier(
+        element.querySelector(`[${CKEY}]`)
+      );
+
+      if (childKey) {
+        content = childKey;
+      }
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueIndividualsIdentifier = (scroller, element) => {
+      const me = this.#uniqueIndividualsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const childKey = LinkedIn.ckeyIdentifier(
+        element.querySelector(`[${CKEY}]`)
+      );
+
+      if (childKey) {
+        content = childKey;
+      }
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /** @returns {StyleService~ElementMap} - Elements to monitor. */
