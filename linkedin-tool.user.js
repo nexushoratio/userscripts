@@ -1095,10 +1095,7 @@
      * (useful if the uid depends on attributes).
      * @property {boolean} [snapToTop=false] - Whether items should snap to
      * the top of the window when coming into view.
-     * @property {number} [topMarginPixels=0] - Used to determine if scrolling
      * should happen when {snapToTop} is false.
-     * @property {string} [topMarginCSS='0'] - CSS applied to
-     * `scrollMarginTop`.
      * @property {number} [waitForItemTimeout=3000] - Time to wait, in
      * milliseconds, for existing item to reappear upon reactivation.
      * @property {number} [containerTimeout=0] - Time to wait, in
@@ -1132,8 +1129,6 @@
         observeAttributes: this.#observeAttributes =
         Scroller.#defaults.OBSERVE_ATTRIBUTES,
         snapToTop: this.#snapToTop = false,
-        topMarginPixels: this.#topMarginPixels = 0,
-        topMarginCSS: this.#topMarginCSS = '0',
         waitForItemTimeout: this.#waitForItemTimeout =
         Scroller.#defaults.WAIT_FOR_ITEM,
         containerTimeout: this.#containerTimeout = 0,
@@ -1258,25 +1253,6 @@
 
       this.logger.leaving(me, content);
       return content;
-    }
-
-    /**
-     * @param {number} [pixels=0] - Used to determine if scrolling should
-     * happen when {snapToTop} is false.
-     * @returns {Scroller} - This instance, for chaining.
-     */
-    topMarginPixels(pixels = 0) {
-      this.#topMarginPixels = pixels;
-      return this;
-    }
-
-    /**
-     * @param {string} [css='0'] - CSS applied to `scrollMarginTop`.
-     * @returns {Scroller} - This instance, for chaining.
-     */
-    topMarginCSS(css = '0') {
-      this.#topMarginCSS = css;
-      return this;
     }
 
     /** Click either the current item OR document.activeElement. */
@@ -1519,8 +1495,6 @@
     #selectors
     #snapToTop
     #stackTrace
-    #topMarginCSS
-    #topMarginPixels
     #uidCallback
     #waitForItemTimeout
     #watchForClicks
@@ -1757,7 +1731,7 @@
         item.scrollIntoView(false);
       }
       rect = item.getBoundingClientRect();
-      if (rect.top < this.#topMarginPixels) {
+      if (rect.top < 0) {
         this.logger.log('scrolling down onto page');
         item.scrollIntoView(true);
       }
@@ -1786,11 +1760,6 @@
       const item = this.item;
 
       if (item) {
-        if (this.#topMarginPixels) {
-          item.style.scrollMarginTop = this.#topMarginCSS;
-        } else {
-          delete item.style.scrollMarginTop;
-        }
         if (this.#snapToTop) {
           this.logger.log('snapping to top');
           item.scrollIntoView(true);
