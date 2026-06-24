@@ -172,14 +172,14 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvement', '9999'),
-    ish('167', 'Refactor into libraries', '2026-05-25'),
+    ish('167', 'Refactor into libraries', '2026-06-25'),
     ish(
       '196',
       '<code>userscript</code>: Explore <code>addValueChangeListener</code>',
       '2026-06-10'
     ),
     ish('209', 'Support **SearchResultsPeople** view', '2026-06-09'),
-    ish('236', 'Support **Events** page', '2026-05-10'),
+    ish('236', 'Support **Events** page', '2026-06-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-06-22'
@@ -227,6 +227,32 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-24',
+      issues: ['322'],
+      subject: 'Remove margin support from `Scroller`',
+    },
+    {
+      date: '2026-06-24',
+      issues: ['352'],
+      subject: 'Update how `MyNetwork`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-24',
+      issues: ['302'],
+      subject: 'Support the *Projects* section',
+    },
+    {
+      date: '2026-06-24',
+      issues: ['302'],
+      subject: 'Add `TEST_ID` as another UID source for *About*',
+    },
+    {
+      date: '2026-06-24',
+      issues: ['240'],
+      subject: 'Migrate `Events` from `ScrollerStyleService` to' +
+        ' `StyleService`',
+    },
     {
       date: '2026-06-23',
       issues: ['352'],
@@ -661,17 +687,6 @@
       issues: ['240'],
       subject: 'Initialize <code>Profile</code>\'s primary' +
         ' <code>Scroller</code> during construction',
-    },
-    {
-      date: '2026-05-25',
-      issues: ['240'],
-      subject: 'Migrate <code>Events</code> to' +
-        ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-25',
-      issues: ['236'],
-      subject: 'Remove the <code>artdeco-card</code> class from events',
     },
   ];
 
