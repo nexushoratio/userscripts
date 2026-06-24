@@ -9353,6 +9353,11 @@
       `:scope > ${this.#div6}`,
     ].join(',');
 
+    static #entriesSelectorProjects = [
+      // Default catches the edit button on own page.
+      `:scope > ${this.#div5}`,
+    ].join(',')
+
     static #entriesSelectorServices = [
       `:scope > ${this.#div5}` +
         ':not([data-testid="carousel-viewport-container"])' +
@@ -9830,13 +9835,18 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Projects', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorProjects,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.SAFETY,
+          // For "skill association" pop-up.
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.HREF,
+          this.UidMode.TEST_ID,
+        ],
       });
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
         uidCallback0: this.#entriesUidFromModes,

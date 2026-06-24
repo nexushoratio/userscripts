@@ -43,7 +43,6 @@ alnum
 AlreadySet
 alsoNotATest
 amet
-anchorCompany
 anchorFeed
 anchorProfile
 AnOverridePage
@@ -341,6 +340,7 @@ entriesSelectorExperience
 entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
+entriesSelectorProjects
 entriesSelectorServices
 entriesSelectorSuggestedForYou
 entriesSelectorsWhat
@@ -730,7 +730,6 @@ MyNetwork
 nameElement
 NaN
 navbar
-navbarDispatcher
 navbarHandler
 navbarHeightCSS
 navbarHeightPixels
