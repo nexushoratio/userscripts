@@ -3134,16 +3134,6 @@
       }
     }
 
-    /** Special processing to handle page transitions. */
-    pageChanged() {
-      const me = this.pageChanged.name;
-      this.logger.entered(me);
-
-      this.#navbarHandler();
-
-      this.logger.leaving(me);
-    }
-
     /**
      * @returns {TabbedUI~TabDefinition} - News information.
      */
@@ -4984,12 +4974,6 @@
         this.spa.details.focusOnAside();
       }
     );
-
-    /** Called on every page activation to reset observers. */
-    async activate() {
-      await super.activate();
-      this.spa.details.pageChanged();
-    }
 
     #onActivateUnsupportedPageCheck = () => {
       const me = this.#onActivateUnsupportedPageCheck.name;
