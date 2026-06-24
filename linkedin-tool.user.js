@@ -9743,7 +9743,10 @@
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorAbout],
-        modes: [this.UidMode.ANCHOR_PROFILE],
+        modes: [
+          this.UidMode.TEST_ID,
+          this.UidMode.ANCHOR_PROFILE,
+        ],
       });
       this.#entriesScrollerConfigs.set('Services', {
         uidCallback: this.#entriesUidFromModes,
