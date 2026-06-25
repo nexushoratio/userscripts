@@ -6486,30 +6486,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueInvitationIdentifier(scroller, element) {
-      const me = InvitationManager.uniqueInvitationIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get invites() {
       return this.#inviteScroller;
@@ -6675,31 +6651,6 @@
       readySelector: '#linkedin-logo-xxsmall',
     };
 
-    static #invitesHow = {
-      uidCallback: InvitationManager.uniqueInvitationIdentifier,
-      classes: [
-        LinkedIn.scrollerPrimaryClassName,
-        this.scrollerClassName,
-      ],
-    };
-
-    /** @type {Scroller~What} */
-    static #invitesWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: `${LinkedIn.primaryContentSelector}` +
-            ' [data-testid="lazy-column"]',
-          items: [
-            // Standard invites
-            `:scope > div[${CKEY}]`,
-            // Suggestions for you
-            'h3 ~ div > a',
-          ].join(','),
-        },
-      ],
-    };
-
     #inviteScroller
 
     #initScrollers = () => {
@@ -6717,10 +6668,32 @@
     }
 
     #initInviteScroller = () => {
-      this.#inviteScroller = new Scroller(
-        InvitationManager.#invitesWhat,
-        InvitationManager.#invitesHow
-      );
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: `${LinkedIn.primaryContentSelector}` +
+            ' [data-testid="lazy-column"]',
+            items: [
+            // Standard invites
+              `:scope > div[${CKEY}]`,
+              // Suggestions for you
+              'h3 ~ div > a',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueInvitationIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#inviteScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#inviteScroller);
       this.#inviteScroller.dispatcher
@@ -6738,6 +6711,30 @@
 
       this.logger.leaving(me, elements);
       return elements;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueInvitationIdentifier = (scroller, element) => {
+      const me = this.#uniqueInvitationIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
   }
