@@ -9755,6 +9755,7 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
+          this.UidMode.COMPANY,
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.HREF,
         ],
