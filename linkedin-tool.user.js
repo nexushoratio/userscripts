@@ -5095,7 +5095,7 @@
   }
 
   /** Update a style element every time a particular element changes size. */
-  class ScrollerStyleService extends NH.base.Service {
+  class ScrollerStyleService extends NH.base.Service {  // eslint-disable-line no-unused-vars
 
     /**
      * Function that finds a DOM element.
@@ -10563,37 +10563,6 @@
       ],
     };
 
-    static #scrollerStyleConfig = {
-      className: this.scrollerClassName,
-    };
-
-    /** @returns {Element?} - Element to monitor. */
-    static #scrollerFinder = () => {
-      const ret = document.querySelector(LinkedIn.primaryContentSelector)
-        ?.parentElement
-        ?.parentElement;
-      return ret;
-    }
-
-    /**
-     * @implements {ValueExtractor}
-     * @param {Element} element - Element to examine.
-     * @returns {Values} - Extracted values.
-     */
-    static #scrollerValueExtractor = (element) => {
-      const style = getComputedStyle(element);
-      const values = {
-        top: style.marginTop,
-      };
-      return values;
-    }
-
-    // Work around picky style checker.
-    static {
-      this.#scrollerStyleConfig.finder = this.#scrollerFinder;
-      this.#scrollerStyleConfig.valueExtractor = this.#scrollerValueExtractor;
-    }
-
     #lastScroller
     #paginationScroller
     #resultScroller
@@ -10605,7 +10574,12 @@
     }
 
     #initScrollerStyleService = () => {
-      this.addService(ScrollerStyleService, this.ctor.#scrollerStyleConfig);
+      const styleConfig = {
+        className: this.ctor.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.#scrollerElementsProcessor,
+      };
+      this.addService(StyleService, styleConfig);
     }
 
     #initPaginationScroller = () => {
@@ -10629,6 +10603,53 @@
         .on('change', this.#onResultChange);
 
       this.#lastScroller = this.#resultScroller;
+    }
+
+    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set(
+        'primary',
+        document.querySelector(LinkedIn.primaryContentSelector)
+          ?.parentElement
+          ?.parentElement
+      );
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * @implements {StyleService~ElementsProcessor}
+     * @param {ElementMap} elements - Elements to examine.
+     * @returns {StyleProperties} - Style properties for to contribute.
+     */
+    #scrollerElementsProcessor = (elements) => {
+      const me = this.#scrollerElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'primary':
+            if (value) {
+              const style = getComputedStyle(value);
+              properties.set('scroll-margin-top', style.marginTop);
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      this.logger.leaving(me, properties);
+      return properties;
     }
 
     #onPaginationActivate = async () => {
