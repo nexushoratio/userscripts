@@ -8902,6 +8902,7 @@
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
+      ANCHOR_OVERLAY: Symbol.for('anchorOverlay'),
       ANCHOR_PROFILE: Symbol.for('anchorProfile'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
       COMMENT_URN: Symbol.for('commentUrn'),
@@ -9510,6 +9511,18 @@
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
             break;
+          case this.UidMode.ANCHOR_OVERLAY:
+            scratch = element.querySelector('a[href*="/in/"]')
+              ?.href;
+            if (scratch) {
+              // eslint-disable-next-line prefer-regex-literals
+              const re = RegExp('^/in/[^/]*/overlay/', 'u');
+              const path = new URL(scratch).pathname;
+              if (re.test(path)) {
+                href = scratch;
+              }
+            }
+            break;
           case this.UidMode.ANCHOR_PROFILE:
             href = element.querySelector('a[href*="/in/"]')?.href;
             break;
@@ -9755,8 +9768,8 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
+          this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.COMPANY,
-          this.UidMode.ANCHOR_PROFILE,
           this.UidMode.HREF,
         ],
       });

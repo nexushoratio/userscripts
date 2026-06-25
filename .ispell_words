@@ -44,6 +44,7 @@ AlreadySet
 alsoNotATest
 amet
 anchorFeed
+anchorOverlay
 anchorProfile
 AnOverridePage
 AnUPPERWord
@@ -322,7 +323,6 @@ entriesCurrentModes
 entriesCurrentUid
 entriesEducationSelector
 entriesExperienceSelector
-entriesFeaturedSelector
 entriesHighlightsSelector
 entriesHow
 entriesMentionUidPossibilities
@@ -731,7 +731,6 @@ nameElement
 NaN
 navbar
 navbarHandler
-navbarHeightCSS
 navbarHeightPixels
 navbarMutationObserver
 navbarResizeObserver
