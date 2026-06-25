@@ -10020,7 +10020,7 @@
           this.sections.next();
           const right = this.sections.itemUid;
           const pair = `${left}, ${right}`;
-          if (!Profile.#sectionsPartialOrder.has(pair)) {
+          if (left && right && !Profile.#sectionsPartialOrder.has(pair)) {
             Profile.#sectionsPartialOrder.add(pair);
             NH.base.issues.post('Missing Profile pairing', `'${pair}',`);
           }
