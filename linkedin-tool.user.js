@@ -9293,6 +9293,7 @@
       'CertificationTopLevel, Skills',
       'CertificationTopLevel, VolunteerExperienceTopLevel',
       'ConnectedAccountsTopLevel, CertificationTopLevel',
+      'CourseTopLevelSection, Causes',
       'CourseTopLevelSection, HonorsTopLevel',
       'CourseTopLevelSection, Interests',
       'CourseTopLevelSection, LanguageTopLevel',
@@ -9319,6 +9320,7 @@
       'Interests, Causes',
       'LanguageTopLevel, Interests',
       'LanguageTopLevel, Organizations',
+      'Organizations, Causes',
       'Organizations, Interests',
       'Patents, CourseTopLevelSection',
       'Patents, HonorsTopLevel',
@@ -9359,6 +9361,7 @@
       'Topcard, SalesInsightsOrHighlights',
       'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
+      'VolunteerExperienceTopLevel, Interests',
       'VolunteerExperienceTopLevel, RecommendationsTopLevel',
       'VolunteerExperienceTopLevel, Skills',
 
