@@ -2,7 +2,7 @@
 
 Common patterns for working with the [WEB API](https://developer.mozilla.org/en-US/docs/Web/API).
 
-## Exported properties (as of version 12)
+## Exported properties (as of version 16)
 * version - Bumped per release.
 * clickElement - Run querySelector to get an element, then click it.
 * focusOnElement - Move the browser's focus onto element.
@@ -13,5 +13,6 @@ Common patterns for working with the [WEB API](https://developer.mozilla.org/en-
 * otrot - One time resize observer with timeout.
 * otrot2 - One time resize observer with action callback and duration.
 * waitForSelector - Wait for selector to match using querySelector.
+* StyleService - Update a style element every time monitored elements change.
 
 More details are in [web.js](web.js) as JSDoc.

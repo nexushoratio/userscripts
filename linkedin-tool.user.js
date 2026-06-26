@@ -5115,7 +5115,7 @@
 
   }
 
-  // TODO(#240): Move to web.js after a couple of uses.
+  // TODO(#240): Moving to web.js.
   /** Update a style element every time monitored elements change. */
   class StyleService extends NH.base.Service {
 
