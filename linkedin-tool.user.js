@@ -9135,6 +9135,7 @@
     static #entriesIgnoreIDs = [
       // IDs to ignore.
       'company-accent-4',
+      'school-accent-4',
     ].map(x => `:not([id="${x}"])`)
       .join('');
 
@@ -9262,6 +9263,11 @@
       // Buttons for Premium background carousel
       ':scope [data-testid="pagination-controls-list"]',
     ].join(',');
+
+    static #entriesSelectorVolunteering = [
+      // WIP.
+      `:scope > ${this.#div6} > div`,
+    ].join(',')
 
     static #entriesSelectorsWhat = [
       this.#entriesSelectorDefault,
@@ -9740,13 +9746,16 @@
         ],
       });
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorVolunteering,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.COMPANY,
+          this.UidMode.HREF,
+          this.UidMode.TEST_ID,
+        ],
       });
       this.#entriesScrollerConfigs.set('Skills', {
         uidCallback0: this.#entriesUidFromModes,
