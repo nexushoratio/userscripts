@@ -228,6 +228,27 @@
 
   const globalNewsContent = [
     {
+      date: '2026-06-25',
+      issues: ['352'],
+      subject: 'Update how `InvitationManager`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-25',
+      issues: ['302'],
+      subject: 'Create `ANCHOR_OVERLAY` as an alternative to' +
+        ' `ANCHOR_PROFILE`',
+    },
+    {
+      date: '2026-06-25',
+      issues: ['302'],
+      subject: 'Add `COMPANY` as another UID source for *Experience*',
+    },
+    {
+      date: '2026-06-25',
+      issues: ['240'],
+      subject: 'Migrate `SearchResultsPeople` to `StyleService`',
+    },
+    {
       date: '2026-06-24',
       issues: ['322'],
       subject: 'Remove margin support from `Scroller`',
