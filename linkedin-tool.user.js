@@ -9132,6 +9132,12 @@
       snapToTop: false,
     };
 
+    static #entriesIgnoreIDs = [
+      // IDs to ignore.
+      'company-accent-4',
+    ].map(x => `:not([id="${x}"])`)
+      .join('');
+
     /**
      * @typedef {object} ScrollerConfig
      * @property {Scroller~uidCallback} uidCallback - Callback to generate a
@@ -9462,7 +9468,9 @@
             href = element.href;
             break;
           case this.UidMode.ID:
-            content = element.querySelector('[id]')?.id;
+            content = element.querySelector(
+              `[id]${this.#entriesIgnoreIDs}`
+            )?.id;
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
@@ -9572,7 +9580,7 @@
         .values()
         .map(x => x.href)
         .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
-      const ids = element.querySelectorAll('[id]');
+      const ids = element.querySelectorAll(`[id]${this.#entriesIgnoreIDs}`);
 
       if (anchors.size > 1) {
         suggestions.push('anchors');

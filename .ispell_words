@@ -176,7 +176,6 @@ collectionsWhat
 ColumnClassesFunc
 commentOnItem
 commentScroller
-commentsHow
 commentsWhat
 commentUrn
 commonmark
@@ -300,7 +299,6 @@ EducationTopLevelSection
 ElementAdapter
 ElementAdapterTestCase
 ElementFinder
-elementHeight
 ElementMap
 elementsHeightProcessor
 elementsProcessor
@@ -325,6 +323,7 @@ entriesEducationSelector
 entriesExperienceSelector
 entriesHighlightsSelector
 entriesHow
+entriesIgnoreIDs
 entriesMentionUidPossibilities
 entriesModeToUid
 entriesScrollerConfigDefault
