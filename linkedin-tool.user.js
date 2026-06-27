@@ -198,6 +198,7 @@
     ish('303', 'Keys are captured while editing text', '2026-06-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
+    ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
     ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
     ish(
       '342',
@@ -224,9 +225,49 @@
         ' properties and functions',
       '2026-06-21'
     ),
+    ish(
+      '353',
+      '`SPA`: Replace excessive activation with an external listener',
+      '2026-06-27'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-27',
+      issues: ['332', '353'],
+      subject: 'Update to latest `lib/spa`',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['352'],
+      subject: 'Update how `Jobs`\' `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['302'],
+      subject: 'Support the *Volunteering* section',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['302'],
+      subject: 'Ignore certain IDs in `UidMode.ID`',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['240'],
+      subject: 'Copy `StyleService` to `lib/web`',
+    },
+    {
+      date: '2026-06-26',
+      issues: ['240'],
+      subject: 'Retire `ScrollerStyleService`',
+    },
     {
       date: '2026-06-25',
       issues: ['352'],
@@ -702,12 +743,6 @@
       date: '2026-05-29',
       issues: [''],
       subject: 'Update selector for <strong>Feed</strong> comments',
-    },
-    {
-      date: '2026-05-28',
-      issues: ['240'],
-      subject: 'Initialize <code>Profile</code>\'s primary' +
-        ' <code>Scroller</code> during construction',
     },
   ];
 
