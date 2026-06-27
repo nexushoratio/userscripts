@@ -343,7 +343,6 @@ entriesSelectorsWhat
 entriesSelectorTopcard
 entriesSelectorVolunteering
 entriesSuggestedForYouSelector
-entriesSuggestedForYouUid
 entriesSuggestUids
 entriesTopcardSelector
 entriesUidFromModes
@@ -521,6 +520,7 @@ idx
 iframe
 iframeDoc
 ignoredExtras
+ignoredPathname
 ignoreInvite
 ignoreList
 img
@@ -730,7 +730,6 @@ nameElement
 NaN
 navbar
 navbarHandler
-navbarHeightPixels
 navbarMutationObserver
 navbarResizeObserver
 navMe

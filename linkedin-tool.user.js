@@ -2954,6 +2954,10 @@
       this.#typeTool.addReprFunc('String', x => x);
 
       this.dispatcher.on('initialize', this.#onInit);
+
+      if (litOptions.enableAlertUnsupportedPages) {
+        this.dispatcher.on('activated', this.#onActivateUnsupportedPageCheck);
+      }
     }
 
     static Style = {
@@ -3401,6 +3405,28 @@
 
       VMKeyboardService.condition = '!inputFocus && !inDialog';
       VMKeyboardService.start();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {NH.spa.Page~Pages} pages - Updated pages information.
+     */
+    #onActivateUnsupportedPageCheck = (type, pages) => {
+      const me = this.#onActivateUnsupportedPageCheck.name;
+      this.logger.entered(me, type);
+
+      const ignoredPathname = (/.*/u).toString();
+      const filtered = pages.active.values()
+        .filter(x => x.pathname.toString() !== ignoredPathname)
+        .map(x => x.pathname)
+        .toArray();
+
+      if (!filtered.length) {
+        NH.base.issues.post('Unsupported page:', window.location);
+      }
 
       this.logger.leaving(me);
     }
