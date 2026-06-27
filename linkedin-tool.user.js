@@ -4670,7 +4670,7 @@
      *
      * It just sums up height of the matched elements to set a top margin.
      *
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
@@ -5150,9 +5150,9 @@
 
   }
 
-  // TODO(#240): Moving to web.js.
+  // TODO(#240): Moved to lib/web.js.
   /** Update a style element every time monitored elements change. */
-  class StyleService extends NH.base.Service {
+  class StyleService extends NH.base.Service {  // eslint-disable-line no-unused-vars
 
     /**
      * @typedef {Map<string, Element>} ElementMap
@@ -5593,7 +5593,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initPostScroller = () => {
@@ -5660,7 +5660,7 @@
         .on('out-of-range', this.#returnToPost);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6226,7 +6226,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initCollectionScroller = () => {
@@ -6361,7 +6361,7 @@
       return content;
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6607,7 +6607,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initInviteScroller = () => {
@@ -6643,7 +6643,7 @@
         .on('out-of-range', this.spa.details.focusOnAside);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6854,7 +6854,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initSectionScroller = () => {
@@ -6933,7 +6933,7 @@
         .on('out-of-range', this.#returnToSection);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6946,7 +6946,7 @@
     }
 
     /**
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
@@ -7495,7 +7495,7 @@
         elementsProcessor: this.#detailsElementsProcessor,
         events: ['transitionend'],
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initCardsScroller = () => {
@@ -7533,7 +7533,7 @@
     }
 
     /**
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
@@ -7574,7 +7574,7 @@
       return properties;
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #detailsFinder = () => {
       const me = this.#detailsFinder.name;
       this.logger.entered(me);
@@ -7931,7 +7931,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initCardsScroller = () => {
@@ -7956,7 +7956,7 @@
         .on('out-of-range', this.#returnToCard);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -8752,7 +8752,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initNotificationScroller = () => {
@@ -8765,7 +8765,7 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -8779,7 +8779,7 @@
     }
 
     /**
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
@@ -9907,7 +9907,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initSectionScroller = () => {
@@ -9940,7 +9940,7 @@
         .on('out-of-range', this.#returnToSection);
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10246,7 +10246,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initCollectionScroller = () => {
@@ -10287,7 +10287,7 @@
     }
 
     /**
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
@@ -10551,7 +10551,7 @@
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
-      this.addService(StyleService, styleConfig);
+      this.addService(NH.web.StyleService, styleConfig);
     }
 
     #initPaginationScroller = () => {
@@ -10577,7 +10577,7 @@
       this.#lastScroller = this.#resultScroller;
     }
 
-    /** @returns {StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10595,7 +10595,7 @@
     }
 
     /**
-     * @implements {StyleService~ElementsProcessor}
+     * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} - Style properties for to contribute.
      */
