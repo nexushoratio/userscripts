@@ -6670,55 +6670,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * Complicated because there are so many variations.
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueJobIdentifier(scroller, element) {
-      const me = Jobs.uniqueJobIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueSectionIdentifier(scroller, element) {
-      const me = Jobs.uniqueSectionIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get jobs() {
       if (!this.#jobScroller && this.sections.item) {
@@ -6827,7 +6778,7 @@
       'l',
       'Load more sections',
       () => {
-        const base = document.querySelector(Jobs.#sectionsContainer);
+        const base = document.querySelector(this.#sectionsContainer);
         NH.web.clickElement(base,
           [':scope > div:last-of-type > button']);
       }
@@ -6851,67 +6802,11 @@
       readySelector: '#linkedin-logo-xxsmall',
     };
 
-    /** @type {Scroller~How} */
-    static #jobsHow = {
-      uidCallback: Jobs.uniqueJobIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
-      autoActivate: true,
-      snapToTop: false,
-      clickConfig: {
-        selectorArray: ['[role="button"]', 'a', 'button'],
-        matchSelf: true,
-      },
-    };
-
-    /** @type {Scroller~What} */
-    static #jobsWhat = {
-      name: `${this.name} entries`,
-      selectors: [
-        [
-          // Match your profile - Show all button
-          ':scope > * > a',
-          // Most job entries
-          ':scope > * > * > a',
-          // Carousels
-          '[data-testid="carousel-child-container"] a',
-          // Job collections tabs
-          '[role="button"]',
-          // Job collections entries
-          `[${CKEY}^="JobsHomeModuleTabbed"] > * > a`,
-          `[${CKEY}^="JobsHomeModuleTabbed"] > * > * > a`,
-        ].join(','),
-      ],
-    };
-
-    static #sectionsContainer =
-      '[data-testid="JobsHomeFeedModuleListCollection"]';
-
-    /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: Jobs.uniqueSectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #sectionsWhat = {
-      name: `${this.name} sections`,
-      containerItems: [
-        {
-          container: Jobs.#sectionsContainer,
-          items: [
-            // Premium "top applicant"
-            `:scope > [${CKEY}^="Jobs"] > * > [${CKEY}^="Jobs"]`,
-            // Everything else
-            `:scope > div > div[${CKEY}]`,
-          ].join(','),
-        },
-      ],
-    };
-
     #jobScroller
     #lastScroller
     #sectionScroller
+    #sectionsContainer =
+      '[data-testid="JobsHomeFeedModuleListCollection"]';
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -6928,8 +6823,31 @@
     }
 
     #initSectionScroller = () => {
-      this.#sectionScroller = new Scroller(Jobs.#sectionsWhat,
-        Jobs.#sectionsHow);
+      const what = {
+        name: `${this.name} sections`,
+        containerItems: [
+          {
+            container: this.#sectionsContainer,
+            items: [
+            // Premium "top applicant"
+              `:scope > [${CKEY}^="Jobs"] > * > [${CKEY}^="Jobs"]`,
+              // Everything else
+              `:scope > div > div[${CKEY}]`,
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueSectionIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#sectionScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
@@ -6940,10 +6858,41 @@
     }
 
     #initJobScroller = () => {
-      this.#jobScroller = new Scroller(
-        {base: this.sections.item, ...Jobs.#jobsWhat},
-        Jobs.#jobsHow
-      );
+      const what = {
+        name: `${this.name} entries`,
+        base: this.sections.item,
+        selectors: [
+          [
+          // Match your profile - Show all button
+            ':scope > * > a',
+            // Most job entries
+            ':scope > * > * > a',
+            // Carousels
+            '[data-testid="carousel-child-container"] a',
+            // Job collections tabs
+            '[role="button"]',
+            // Job collections entries
+            `[${CKEY}^="JobsHomeModuleTabbed"] > * > a`,
+            `[${CKEY}^="JobsHomeModuleTabbed"] > * > * > a`,
+          ].join(','),
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueJobIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+        clickConfig: {
+          selectorArray: ['[role="button"]', 'a', 'button'],
+          matchSelf: true,
+        },
+      };
+
+      this.#jobScroller = new Scroller(what, how);
       this.#jobScroller.dispatcher
         .on('change', this.#onJobChange)
         .on('out-of-range', this.#returnToSection);
@@ -6991,6 +6940,55 @@
       return properties;
     }
 
+    /**
+     * Complicated because there are so many variations.
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueJobIdentifier = (scroller, element) => {
+      const me = this.#uniqueJobIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueSectionIdentifier = (scroller, element) => {
+      const me = this.#uniqueSectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     /** Reset the jobs scroller. */
     #resetJobs = () => {
       const me = this.#resetJobs.name;
@@ -7006,7 +7004,7 @@
     }
 
     /**
-     * Reselects current section, triggering same actions as initial
+     * Reselects current section, triggering some actions as initial
      * selection.
      */
     #returnToSection = () => {
