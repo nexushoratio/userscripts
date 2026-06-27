@@ -5035,7 +5035,7 @@
       const me = this.#onActivateUnsupportedPageCheck.name;
       this.logger.entered(me, this.spa);
 
-      // TODO(#322): optional chaining because the API is unsupported.
+      // TODO(#332): optional chaining because the API is unsupported.
       if (this.spa.activePages?.size === NH.base.ONE_ITEM) {
         const pathname = window.location.pathname;
         /* eslint-disable prefer-regex-literals */
