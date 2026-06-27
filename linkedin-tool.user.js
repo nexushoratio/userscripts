@@ -15,7 +15,7 @@
 // @require     https://update.greasyfork.org/scripts/478188/1846242/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1855560/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1846239/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1826302/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1862017/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1848076/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1860607/NH_spa.js
 // @grant       GM.addValueChangeListener
@@ -35,7 +35,7 @@
     {name: 'xunit', minVersion: 62},
     {name: 'base', minVersion: 69},
     {name: 'userscript', minVersion: 17},
-    {name: 'web', minVersion: 15},
+    {name: 'web', minVersion: 16},
     {name: 'widget', minVersion: 50},
     {name: 'spa', minVersion: 13},
   ]);
