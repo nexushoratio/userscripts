@@ -7104,109 +7104,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueDetailsIdentifier(scroller, element) {
-      const me = JobsCollections.uniqueDetailsIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const id = element.id;
-      const nestedId = element.querySelector(
-        '[id]:not([id^="ember"]):not([id^="artdeco"])'
-      )?.id;
-      const h2 = LinkedIn.h2(element);
-      const classes = new Set(
-        element.querySelectorAll('*:not(h2,svg)')
-          .values()
-          .map(x => [...x.classList])
-          .toArray()
-          .flat()
-          .sort()
-      );
-      const klass = new Set(
-        classes
-          .values()
-          .map(x => JobsCollections.#uidDetailsClassRE.exec(x)?.groups.class)
-          .filter(x => x)
-      )
-        .values()
-        .toArray()
-        .sort()
-        .join('-_-');
-
-      if (h2) {
-        content = h2;
-      }
-      if (klass) {
-        content = klass;
-      }
-      if (nestedId) {
-        content = nestedId;
-      }
-      if (id) {
-        content = id;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueJobIdentifier(scroller, element) {
-      const me = JobsCollections.uniqueJobIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const jobId = element.dataset.occludableJobId;
-
-      if (jobId) {
-        content = jobId;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniquePaginationIdentifier(scroller, element) {
-      const me = JobsCollections.uniquePaginationIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const label = element.getAttribute('aria-label');
-
-      if (label) {
-        content = label;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get cards() {
       return this.#cardsScroller;
@@ -7404,25 +7301,6 @@
       }
     );
 
-    /** @type {Scroller~How} */
-    static #cardsHow = {
-      uidCallback: JobsCollections.uniqueJobIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #cardsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: 'div.scaffold-layout__list > div > ul',
-          // This selector is also used in #onCardActivate.
-          items: ':scope > li',
-        },
-      ],
-    };
-
     /** @type {Page~PageDetails} */
     static #details = {
       name: 'Jobs Collections (various listings)',
@@ -7431,52 +7309,12 @@
       readySelector: 'footer.global-footer-compact',
     };
 
-    /** @type {Scroller~How} */
-    static #detailsHow = {
-      uidCallback: JobsCollections.uniqueDetailsIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #detailsWhat = {
-      name: `${this.name} details`,
-      containerItems: [
-        {
-          container: 'div.jobs-details__main-content',
-          items: ':scope > div, :scope > section',
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #paginationHow = {
-      uidCallback: JobsCollections.uniquePaginationIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
-      snapToTop: false,
-      containerTimeout: 1000,
-      observeAttributes: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #paginationWhat = {
-      name: `${this.name} pagination`,
-      containerItems: [
-        {
-          container: 'div.jobs-search-results-list__pagination > ul',
-          // This selector is also used in #onPaginationActivate.
-          items: ':scope > li > button',
-        },
-      ],
-    };
-
-    static #uidDetailsClassRE = /^(?:job-details|jobs)-(?<class>[^_]*)__/u;
-
     #cardsScroller
     #detailsContainerClassName
     #detailsScroller
     #lastScroller
     #paginationScroller
+    #uidDetailsClassRE = /^(?:job-details|jobs)-(?<class>[^_]*)__/u;
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -7499,9 +7337,24 @@
     }
 
     #initCardsScroller = () => {
-      this.#cardsScroller = new Scroller(JobsCollections.#cardsWhat,
-        JobsCollections.#cardsHow);
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: 'div.scaffold-layout__list > div > ul',
+            // This selector is also used in #onCardActivate.
+            items: ':scope > li',
+          },
+        ],
+      };
 
+      const how = {
+        uidCallback: this.#uniqueJobIdentifier,
+        classes: [LinkedIn.scrollerPrimaryClassName],
+        snapToTop: true,
+      };
+
+      this.#cardsScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#cardsScroller);
       this.#cardsScroller.dispatcher
@@ -7512,9 +7365,26 @@
     }
 
     #initPaginationScroller = () => {
-      this.#paginationScroller = new Scroller(
-        JobsCollections.#paginationWhat, JobsCollections.#paginationHow
-      );
+      const what = {
+        name: `${this.name} pagination`,
+        containerItems: [
+          {
+            container: 'div.jobs-search-results-list__pagination > ul',
+            // This selector is also used in #onPaginationActivate.
+            items: ':scope > li > button',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniquePaginationIdentifier,
+        classes: [LinkedIn.scrollerSecondaryClassName],
+        snapToTop: false,
+        containerTimeout: 1000,
+        observeAttributes: true,
+      };
+
+      this.#paginationScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
@@ -7523,9 +7393,23 @@
     }
 
     #initDetailsScroller = () => {
-      this.#detailsScroller = new Scroller(
-        JobsCollections.#detailsWhat, JobsCollections.#detailsHow
-      );
+      const what = {
+        name: `${this.name} details`,
+        containerItems: [
+          {
+            container: 'div.jobs-details__main-content',
+            items: ':scope > div, :scope > section',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueDetailsIdentifier,
+        classes: [LinkedIn.scrollerSecondaryClassName],
+        snapToTop: true,
+      };
+
+      this.#detailsScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#detailsScroller);
       this.#detailsScroller.dispatcher
@@ -7592,6 +7476,109 @@
       return elements;
     }
 
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueDetailsIdentifier = (scroller, element) => {
+      const me = this.#uniqueDetailsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const id = element.id;
+      const nestedId = element.querySelector(
+        '[id]:not([id^="ember"]):not([id^="artdeco"])'
+      )?.id;
+      const h2 = LinkedIn.h2(element);
+      const classes = new Set(
+        element.querySelectorAll('*:not(h2,svg)')
+          .values()
+          .map(x => [...x.classList])
+          .toArray()
+          .flat()
+          .sort()
+      );
+      const klass = new Set(
+        classes
+          .values()
+          .map(x => this.#uidDetailsClassRE.exec(x)?.groups.class)
+          .filter(x => x)
+      )
+        .values()
+        .toArray()
+        .sort()
+        .join('-_-');
+
+      if (h2) {
+        content = h2;
+      }
+      if (klass) {
+        content = klass;
+      }
+      if (nestedId) {
+        content = nestedId;
+      }
+      if (id) {
+        content = id;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueJobIdentifier = (scroller, element) => {
+      const me = this.#uniqueJobIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const jobId = element.dataset.occludableJobId;
+
+      if (jobId) {
+        content = jobId;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniquePaginationIdentifier = (scroller, element) => {
+      const me = this.#uniquePaginationIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const label = element.getAttribute('aria-label');
+
+      if (label) {
+        content = label;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     #onCardActivate = async () => {
       const me = this.#onCardActivate.name;
       this.logger.entered(me);
@@ -7612,7 +7599,7 @@
           timeout
         );
         this.logger.log('Found', item);
-        this.cards.gotoUid(JobsCollections.uniqueJobIdentifier(item));
+        this.cards.gotoUid(this.#uniqueJobIdentifier(item));
         this.logger.log('and went to it');
       } catch (e) {
         this.logger.log('Job card matching URL not found, staying put');
