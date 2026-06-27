@@ -176,10 +176,8 @@ collectionsWhat
 ColumnClassesFunc
 commentOnItem
 commentScroller
-commentsWhat
 commentUrn
 commonmark
-companyAnchor
 compareBadgeErrorStyle
 compareBadgeNewsStyle
 compareBadgesStyle
@@ -350,6 +348,8 @@ entriesSuggestedForYouUid
 entriesSuggestUids
 entriesTopcardSelector
 entriesUidFromModes
+entriesUidSelectorTestId
+entriesUidSelectorTestIdPart
 entriesUidShim
 entriesWhat
 entryScroller
@@ -596,7 +596,6 @@ JobsCollections
 jobScroller
 JobsHomeFeedModuleListCollection
 JobsHomeModuleTabbed
-jobsHow
 JobsView
 jobsWhat
 jsdelivr

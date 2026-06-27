@@ -9307,6 +9307,20 @@
       this.#entriesSelectorFooter,
     ];
 
+    static #entriesUidSelectorTestId
+    static #entriesUidSelectorTestIdPart1 = '[data-testid]';
+    static #entriesUidSelectorTestIdPart2 = [
+      // Ignore list.
+      'expandable-text-box',
+      'expandable-text-button',
+    ].map(x => `:not([data-testid="${x}"]`)
+      .join('');
+
+    static {
+      this.#entriesUidSelectorTestId = this.#entriesUidSelectorTestIdPart1 +
+        this.#entriesUidSelectorTestIdPart2;
+    }
+
     /** @type {Scroller~What} */
     static #entriesWhat = {
       name: `${this.name} entries`,
@@ -9533,9 +9547,10 @@
             }
             break;
           case this.UidMode.TEST_ID:
-            content = element.dataset.testid ||
-              element.querySelector('[data-testid]')
-                ?.getAttribute('data-testid');
+            scratch = element.matches(this.#entriesUidSelectorTestId)
+              ? element
+              : element.querySelector(this.#entriesUidSelectorTestId);
+            content = scratch?.dataset.testid;
             break;
           default:
             NH.base.issues.post(
