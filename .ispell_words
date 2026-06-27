@@ -342,12 +342,13 @@ entriesSelectorSuggestedForYou
 entriesSelectorsWhat
 entriesSelectorTopcard
 entriesSelectorVolunteering
-entriesServicesSelector
 entriesSuggestedForYouSelector
 entriesSuggestedForYouUid
 entriesSuggestUids
 entriesTopcardSelector
 entriesUidFromModes
+entriesUidSelectorId
+entriesUidSelectorIdPart
 entriesUidSelectorTestId
 entriesUidSelectorTestIdPart
 entriesUidShim
@@ -907,7 +908,6 @@ portalSelector
 postInfoAboutElement
 postProcessItems
 postScroller
-postsHow
 postsWhat
 preprocessKnownIssues
 prev
@@ -1456,7 +1456,6 @@ validateInstance
 validateWhat
 valueChangeListener
 valueExtractor
-ValueExtractor
 valueOf
 vclId
 VERYComplicated

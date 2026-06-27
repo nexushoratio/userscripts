@@ -9165,13 +9165,6 @@
       snapToTop: false,
     };
 
-    static #entriesIgnoreIDs = [
-      // IDs to ignore.
-      'company-accent-4',
-      'school-accent-4',
-    ].map(x => `:not([id="${x}"])`)
-      .join('');
-
     /**
      * @typedef {object} ScrollerConfig
      * @property {Scroller~uidCallback} uidCallback - Callback to generate a
@@ -9307,6 +9300,15 @@
       this.#entriesSelectorFooter,
     ];
 
+    static #entriesUidSelectorId
+    static #entriesUidSelectorIdPart1 = '[id]';
+    static #entriesUidSelectorIdPart2 = [
+      // IDs to ignore.
+      'company-accent-4',
+      'school-accent-4',
+    ].map(x => `:not([id="${x}"])`)
+      .join('');
+
     static #entriesUidSelectorTestId
     static #entriesUidSelectorTestIdPart1 = '[data-testid]';
     static #entriesUidSelectorTestIdPart2 = [
@@ -9317,6 +9319,8 @@
       .join('');
 
     static {
+      this.#entriesUidSelectorId = this.#entriesUidSelectorIdPart1 +
+        this.#entriesUidSelectorIdPart2;
       this.#entriesUidSelectorTestId = this.#entriesUidSelectorTestIdPart1 +
         this.#entriesUidSelectorTestIdPart2;
     }
@@ -9521,9 +9525,10 @@
             href = element.href;
             break;
           case this.UidMode.ID:
-            content = element.querySelector(
-              `[id]${this.#entriesIgnoreIDs}`
-            )?.id;
+            scratch = element.matches(this.#entriesUidSelectorId)
+              ? element
+              : element.querySelector(this.#entriesUidSelectorId);
+            content = scratch?.id;
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
@@ -9634,7 +9639,7 @@
         .values()
         .map(x => x.href)
         .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
-      const ids = element.querySelectorAll(`[id]${this.#entriesIgnoreIDs}`);
+      const ids = element.querySelectorAll(this.entriesUidSelectorId);
 
       if (anchors.size > 1) {
         suggestions.push('anchors');
