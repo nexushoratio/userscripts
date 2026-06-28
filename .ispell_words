@@ -138,7 +138,7 @@ checkVisibility
 childKey
 childList
 childNodes
-CKEY
+ckey
 ckeyIdentifier
 cksum
 classCalls
@@ -342,6 +342,7 @@ entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorProjects
 entriesSelectorServices
+entriesSelectorSkills
 entriesSelectorSuggestedForYou
 entriesSelectorsWhat
 entriesSelectorTopcard
@@ -1030,7 +1031,6 @@ scrollerPrimaryClassName
 scrollers
 scrollerSecondaryClassName
 ScrollerService
-scrollerStyleConfig
 ScrollerStyleService
 ScrollerTestCase
 scrollerValueExtractor
@@ -1460,7 +1460,6 @@ validateHow
 validateInstance
 validateWhat
 valueChangeListener
-valueExtractor
 valueOf
 vclId
 VERYComplicated

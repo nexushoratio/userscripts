@@ -8743,6 +8743,7 @@
       ANCHOR_OVERLAY: Symbol.for('anchorOverlay'),
       ANCHOR_PROFILE: Symbol.for('anchorProfile'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
+      CKEY: Symbol.for('ckey'),
       COMMENT_URN: Symbol.for('commentUrn'),
       COMPANY: Symbol.for('company'),
       FALLBACK: Symbol.for('fallback'),
@@ -9165,6 +9166,11 @@
       ':scope [data-testid="carousel-child-container"] > *',
     ].join(',');
 
+    static #entriesSelectorSkills = [
+      // We want div5 because not all div6 have a ckey
+      `:scope > ${this.#div5}:not(:has(> hr))`,
+    ].join(',')
+
     static #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
       ':scope [data-testid="carousel-child-container"] > *',
@@ -9401,6 +9407,10 @@
             content = element.ariaLabel ||
               element.querySelector('[aria-label]')
                 ?.getAttribute('aria-label');
+            break;
+          case this.UidMode.CKEY:
+            content = LinkedIn.ckeyIdentifier(element)
+              ?.replace('com.linkedin.sdui.profile.', '');
             break;
           case this.UidMode.COMMENT_URN:
             // The ?? is so there is always a valid URL
@@ -9711,13 +9721,17 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Skills', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
+        uidCallback1: this.uniqueEntryIdentifier,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorSkills,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          // These actually look stable.
+          this.UidMode.CKEY,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
         uidCallback0: this.#entriesUidFromModes,
