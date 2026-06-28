@@ -235,6 +235,38 @@
   const globalNewsContent = [
     {
       date: '2026-06-27',
+      issues: ['332'],
+      subject: 'Hook into the new *activated* type for monitoring' +
+        ' active pages',
+    },
+    {
+      date: '2026-06-27',
+      issues: ['352'],
+      subject: 'Update how `JobsCollections`\' `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-27',
+      issues: ['302'],
+      subject: 'Make how `UidMode.ID` is used consistent with' +
+        ' `UidMode.TEST_ID`',
+    },
+    {
+      date: '2026-06-27',
+      issues: ['302'],
+      subject: 'Make `UidMode.TEST_ID` more resistent to duplicates',
+    },
+    {
+      date: '2026-06-27',
+      issues: ['240'],
+      subject: 'Migrate all users of `StyleService` to `NH.web.StyleService`',
+    },
+    {
+      date: '2026-06-27',
+      issues: ['240'],
+      subject: 'Update to latest `lib/web`',
+    },
+    {
+      date: '2026-06-27',
       issues: ['332', '353'],
       subject: 'Update to latest `lib/spa`',
     },
@@ -727,22 +759,6 @@
       date: '2026-05-30',
       issues: ['240'],
       subject: 'Factor out computing values for the style',
-    },
-    {
-      date: '2026-05-29',
-      issues: [''],
-      subject: 'Update Style-2 primary nav selector',
-    },
-    {
-      date: '2026-05-29',
-      issues: ['240'],
-      subject: 'Remove <code>LinkedInToolbarService</code> from' +
-        ' <code>SearchResultsPeople</code>',
-    },
-    {
-      date: '2026-05-29',
-      issues: [''],
-      subject: 'Update selector for <strong>Feed</strong> comments',
     },
   ];
 
