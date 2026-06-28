@@ -230,9 +230,41 @@
       '`SPA`: Replace excessive activation with an external listener',
       '2026-06-27'
     ),
+    ish('356', '*News*: Change how latest news is tracked', '2026-06-28'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-28',
+      issues: ['356'],
+      subject: 'Update to latest `lib/base`',
+    },
+    {
+      date: '2026-06-28',
+      issues: ['352'],
+      subject: 'Update how `JobsView`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-28',
+      issues: ['332'],
+      subject: 'Add a check that pages are registered before reporting' +
+        ' unsupported',
+    },
+    {
+      date: '2026-06-28',
+      issues: ['302'],
+      subject: 'Support the *Skills* section',
+    },
+    {
+      date: '2026-06-28',
+      issues: ['302'],
+      subject: 'Update a couple of comments missed during a copy-and-paste',
+    },
+    {
+      date: '2026-06-28',
+      issues: ['240'],
+      subject: 'Retire the dev version of `StyleService`',
+    },
     {
       date: '2026-06-27',
       issues: ['332'],
