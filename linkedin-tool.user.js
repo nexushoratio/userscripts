@@ -9154,7 +9154,7 @@
     ].join(',');
 
     static #entriesSelectorProjects = [
-      // Default catches the edit button on own page.
+      // Simple layout
       `:scope > ${this.#div5}`,
     ].join(',')
 
@@ -9191,7 +9191,7 @@
     ].join(',');
 
     static #entriesSelectorVolunteering = [
-      // WIP.
+      // Simple layout
       `:scope > ${this.#div6} > div`,
     ].join(',')
 
