@@ -1,3 +1,4 @@
+aabda
 abcd
 ABCd
 aboutTab
@@ -35,6 +36,8 @@ addSuccess
 addTab
 addValueChangeListener
 ADefaultPage
+áÈî
+afbf
 aLert
 allowedBottom
 allowedStyles
@@ -236,6 +239,7 @@ dalgoda
 dashCommentUrn
 dashReplyUrn
 dateHeader
+dceed
 DebugKeys
 deduped
 defaultClassesFunc
@@ -292,6 +296,7 @@ dummyEventCallback
 DummyMethodTestCase
 DummyService
 dumpWatched
+edfd
 editItem
 EducationTopLevelSection
 ElementAdapter
@@ -313,7 +318,6 @@ EnsureTestCase
 ent
 entriesActivitySelector
 entriesAnalyticsSelector
-entriesCertificationSelector
 entriesCurrentModes
 entriesCurrentUid
 entriesEducationSelector
@@ -394,6 +398,7 @@ failMsg
 failMsgs
 fakeErrorRate
 falsy
+feaa
 feedAnchor
 FeedType
 FetchResult
@@ -529,7 +534,6 @@ includeStackTrace
 indexOf
 inDialog
 individualScroller
-individualsHow
 individualsWhat
 infoInstructions
 infoKeyboard
@@ -570,7 +574,6 @@ instanceName
 instanceof
 InvitationManager
 inviteScroller
-invitesHow
 invitesWhat
 ipsum
 isConnected
@@ -598,7 +601,6 @@ jobScroller
 JobsHomeFeedModuleListCollection
 JobsHomeModuleTabbed
 JobsView
-jobsWhat
 jsdelivr
 jsdoc
 JSDoc
@@ -884,7 +886,6 @@ OverrideDeets
 paddingTop
 padEnd
 padStart
-pageChanged
 PageDetails
 pageService
 pageStyle
@@ -1140,6 +1141,7 @@ tabSnippet
 TabsTestCase
 tagName
 Tampermonkey
+targetLength
 tbody
 td
 tearDown
@@ -1180,6 +1182,7 @@ testBadRowClasses
 testBaseIsElement
 testBaseNeedsSelector
 testBaseWithSelectorIsFine
+testBasic
 testBasicMath
 testBuildWithClasses
 testBuildWithData
@@ -1362,6 +1365,8 @@ testWithNumbers
 testWithSpaces
 textarea
 textContent
+textEncoder
+TextEncoder
 textNodes
 thead
 thirtyDays
@@ -1408,6 +1413,7 @@ uidPostRE
 uids
 UIDs
 uidSectionPrefix
+uint
 ul
 undef
 unicode
