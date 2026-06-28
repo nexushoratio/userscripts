@@ -323,7 +323,6 @@ entriesEducationSelector
 entriesExperienceSelector
 entriesHighlightsSelector
 entriesHow
-entriesIgnoreIDs
 entriesMentionUidPossibilities
 entriesModeToUid
 entriesScrollerConfigDefault
@@ -348,7 +347,6 @@ entriesSelectorTopcard
 entriesSelectorVolunteering
 entriesSuggestedForYouSelector
 entriesSuggestUids
-entriesTopcardSelector
 entriesUidFromModes
 entriesUidSelectorId
 entriesUidSelectorIdPart
@@ -903,6 +901,7 @@ parseSeq
 ParseSeqTestCase
 pathnameRE
 pojo
+popstate
 populateBuilt
 portalSelector
 postInfoAboutElement
