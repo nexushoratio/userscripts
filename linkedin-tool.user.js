@@ -7587,64 +7587,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueCardIdentifier(scroller, element) {
-      const me = JobsView.uniqueCardIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const label = element
-        .querySelector('[aria-label]')
-        ?.getAttribute('aria-label');
-      const h2 = LinkedIn.h2(element);
-
-      if (h2) {
-        content = h2;
-      }
-      if (label) {
-        content = label;
-      }
-      if (key) {
-        content = key;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueEntryIdentifier(scroller, element) {
-      const me = JobsView.uniqueEntryIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const href = element.href;
-
-      if (href) {
-        content = new URL(href).searchParams.get('currentJobId');
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get cards() {
       return this.#cardScroller;
@@ -7730,7 +7672,7 @@
       'A',
       'Apply to job',
       () => {
-        const el = document.querySelector(JobsView.#jobCardSelector);
+        const el = document.querySelector(this.#jobCardSelector);
         NH.web.clickElement(el, [
           // Matches both "link-external" and "linkedin-bug" icons
           '[aria-label]:has(> * > svg[id^="link"])',
@@ -7762,41 +7704,13 @@
       'S',
       'Toggle saving job',
       () => {
-        const el = document.querySelector(JobsView.#jobCardSelector);
+        const el = document.querySelector(this.#jobCardSelector);
         NH.web.clickElement(el, [
           // Fragile, as currently only button in the card without an icon.
           'button:not(:has(svg))',
         ]);
       }
     );
-
-    static #cardsContainer = '[data-testid="lazy-column"]';
-
-    /** @type {Scroller~How} */
-    static #cardsHow = {
-      uidCallback: JobsView.uniqueCardIdentifier,
-      classes: [
-        LinkedIn.scrollerPrimaryClassName,
-        this.scrollerClassName,
-      ],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #cardsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: JobsView.#cardsContainer,
-          items: [
-            // Main content
-            ':scope > :first-child',
-            // Rest
-            ':scope > :not(:first-child) > *',
-          ].join(','),
-        },
-      ],
-    };
 
     /** @type {Page~PageDetails} */
     static #details = {
@@ -7805,30 +7719,10 @@
       readySelector: '[data-sdui-component]',
     };
 
-    /** @type {Scroller~How} */
-    static #entriesHow = {
-      uidCallback: JobsView.uniqueEntryIdentifier,
-      classes: [
-        LinkedIn.scrollerSecondaryClassName,
-        this.scrollerClassName,
-      ],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #entriesWhat = {
-      name: `${this.name} entries`,
-      selectors: [
-        // More jobs - Matches grid and footer
-        `:scope[${CKEY}^="JobDetailsSimilarJobsSlot"] a`,
-      ],
-    };
-
-    static #jobCardSelector = `${JobsView.#cardsContainer} > div:first-child`;
-
     #cardScroller
+    #cardsContainer = '[data-testid="lazy-column"]';
     #entryScroller
+    #jobCardSelector = `${this.#cardsContainer} > div:first-child`;
     #lastScroller
 
     #initScrollers = () => {
@@ -7846,9 +7740,31 @@
     }
 
     #initCardsScroller = () => {
-      this.#cardScroller = new Scroller(
-        JobsView.#cardsWhat, JobsView.#cardsHow
-      );
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: this.#cardsContainer,
+            items: [
+            // Main content
+              ':scope > :first-child',
+              // Rest
+              ':scope > :not(:first-child) > *',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueCardIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#cardScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#cardScroller);
       this.#cardScroller.dispatcher
@@ -7858,10 +7774,26 @@
     }
 
     #initEntryScroller = () => {
-      this.#entryScroller = new Scroller(
-        {base: this.cards.item, ...JobsView.#entriesWhat},
-        JobsView.#entriesHow
-      );
+      const what = {
+        name: `${this.name} entries`,
+        base: this.cards.item,
+        selectors: [
+          // More jobs - Matches grid and footer
+          `:scope[${CKEY}^="JobDetailsSimilarJobsSlot"] a`,
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueEntryIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
         .on('out-of-range', this.#returnToCard);
@@ -7878,6 +7810,64 @@
 
       this.logger.leaving(me, elements);
       return elements;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueCardIdentifier = (scroller, element) => {
+      const me = this.#uniqueCardIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const label = element
+        .querySelector('[aria-label]')
+        ?.getAttribute('aria-label');
+      const h2 = LinkedIn.h2(element);
+
+      if (h2) {
+        content = h2;
+      }
+      if (label) {
+        content = label;
+      }
+      if (key) {
+        content = key;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueEntryIdentifier = (scroller, element) => {
+      const me = this.#uniqueEntryIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const href = element.href;
+
+      if (href) {
+        content = new URL(href).searchParams.get('currentJobId');
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     #onCardChange = () => {
