@@ -317,7 +317,6 @@ ensureMenuStyle
 EnsureTestCase
 ent
 entriesActivitySelector
-entriesAnalyticsSelector
 entriesCurrentModes
 entriesCurrentUid
 entriesEducationSelector
@@ -952,6 +951,7 @@ rebuildShortcuts
 RecommendationsTopLevel
 refreshErrors
 RegExp
+registrationComplete
 releaseNotesLink
 removeAttribute
 removedNodes

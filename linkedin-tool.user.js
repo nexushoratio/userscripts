@@ -3191,6 +3191,16 @@
       return this.#pageStyle;
     }
 
+    /** @type {boolean} */
+    get registrationComplete() {
+      return this.#registrationComplete;
+    }
+
+    /** @param {boolean} val - Set once all {@link Page}s are registered. */
+    set registrationComplete(val) {
+      this.#registrationComplete = Boolean(val);
+    }
+
     /** Scroll common sidebar into view and move focus to it. */
     focusOnSidebar = () => {
       const sidebar = document.querySelector(LinkedIn.sidebarSelector);
@@ -3406,6 +3416,7 @@
     #ourMenuItemStyle1
     #ourMenuItemStyle2
     #pageStyle
+    #registrationComplete = false;
     #shortcutsWidget
     #typeTool = new NH.xunit.TypeTool();
 
@@ -3440,7 +3451,7 @@
         .map(x => x.pathname)
         .toArray();
 
-      if (!filtered.length) {
+      if (!filtered.length && this.registrationComplete) {
         NH.base.issues.post('Unsupported page:', window.location);
       }
 
@@ -10608,7 +10619,6 @@
   if (litOptions.enableWatchPage) {
     spa.register(NH.spa.WatchPage);
   }
-  spa.register(Global);
   spa.register(Feed);
   spa.register(MyNetwork);
   spa.register(InvitationManager);
@@ -10620,6 +10630,11 @@
   spa.register(Profile);
   spa.register(Events);
   spa.register(SearchResultsPeople);
+
+  // Registering Global last ensures we check for an unsupported page at least
+  // once.
+  linkedIn.registrationComplete = true;
+  spa.register(Global);
 
   log.log('Initialization successful.');
 
