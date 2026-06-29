@@ -263,7 +263,6 @@ describedby
 detailsContainerClassName
 detailsElementsProcessor
 detailsFinder
-detailsHow
 detailsPane
 detailsScroller
 DetailsTestCase
@@ -339,6 +338,7 @@ entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorProjects
+entriesSelectorRecommendations
 entriesSelectorServices
 entriesSelectorSkills
 entriesSelectorSuggestedForYou
@@ -1388,7 +1388,6 @@ topButton
 topCard
 Topcard
 topleftmainrightbottom
-topMarginCSS
 toPojo
 topScroll
 toString

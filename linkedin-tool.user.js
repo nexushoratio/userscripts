@@ -9192,6 +9192,11 @@
       `:scope > ${this.#div5}`,
     ].join(',')
 
+    static #entriesSelectorRecommendations = [
+      // Skip the selection filter
+      `:scope > ${this.#div6}:not(:has(> div > input))`,
+    ].join(',')
+
     static #entriesSelectorServices = [
       `:scope > ${this.#div5}` +
         ':not([data-testid="carousel-viewport-container"])' +
@@ -9766,13 +9771,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorRecommendations,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
         uidCallback0: this.#entriesUidFromModes,
