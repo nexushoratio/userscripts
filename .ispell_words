@@ -132,6 +132,7 @@ CertificationTopLevel
 charCodeAt
 checkAssertionCounts
 checkForNewRelease
+checkForNews
 checkingPartialOrder
 checkPartialOrder
 checkVisibility
@@ -318,7 +319,6 @@ ent
 entriesActivitySelector
 entriesCurrentModes
 entriesCurrentUid
-entriesEducationSelector
 entriesExperienceSelector
 entriesHighlightsSelector
 entriesHow
@@ -743,7 +743,6 @@ newK
 newMain
 newMessage
 newMessages
-newPages
 newProp
 newsHandlerBadgeStyle
 newsListener

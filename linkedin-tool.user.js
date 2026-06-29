@@ -3456,7 +3456,7 @@
       const me = this.#onInit.name;
       this.logger.entered(me);
 
-      this.#checkForNewRelease();
+      this.#checkForNews();
 
       this.#infoTabs.tabs
         .get('License').panel
@@ -3490,7 +3490,10 @@
       this.logger.leaving(me);
     }
 
-    #checkForNewRelease = () => {
+    #checkForNews = () => {
+      const me = this.#checkForNews.name;
+      this.logger.entered(me);
+
       const curr = parseFloat(GM.info.script.version);
       let prev = parseFloat(litOptions.latestNewsRead);
 
@@ -3501,6 +3504,8 @@
       const news = curr > prev;
       this.#newsQueue.post(news);
       this.#newsReadToggle.checked = !news;
+
+      this.logger.leaving(me);
     }
 
     /**
@@ -4278,7 +4283,7 @@
             );
           }
           this.#refreshErrors();
-          this.#checkForNewRelease();
+          this.#checkForNews();
         }
       }
 
