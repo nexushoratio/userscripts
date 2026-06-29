@@ -4206,7 +4206,9 @@
       this.#badgeErrorStyle2 = document.createElement('span');
       this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
       this.#badgeNewsStyle2 = document.createElement('span');
-      this.#badgeNewsStyle2.classList.add('lit-menu-badge-news-style2');
+      this.#badgeNewsStyle2.classList.add(
+        'lit-menu-badge-news-style2', 'lit-menu-badge-hide'
+      );
       element.append(this.#badgeErrorStyle2, this.#badgeNewsStyle2);
     }
 
