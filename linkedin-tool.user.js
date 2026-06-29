@@ -7892,52 +7892,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueConvoCardsIdentifier(scroller, element) {
-      const me = Messaging.uniqueConvoCardsIdentifier.name;
-      this.logger.entered(me, element);
-
-      // XXX: As of 2026-04-14, there are no distinguishing features in the
-      // cards.  Unlike the similar UI for JobsCollections, there is no easy
-      // mapping between the URL and the card.  The img.src looks interesting,
-      // but not really.  It is possible to have multiple cards for the
-      // person, making using the URL unsuitable.  And some folks do not have
-      // photos, so get the same placeholder data: scheme.
-      const content = scroller.defaultUid(element);
-
-      this.logger.leaving(me);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueMessageIdentifier(scroller, element) {
-      const me = Messaging.uniqueMessageIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const urn = element.dataset.eventUrn;
-
-      if (urn) {
-        content = urn;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get convoCards() {
       return this.#convoCardScroller;
@@ -8018,7 +7972,7 @@
         // This button has no distinguishing features, but seems to be the
         // last item in this list, and only one immediately a list item.
         NH.web.clickElement(document,
-          [`${Messaging.#convoCardsList} > li > button`]);
+          [`${this.#convoCardsList} > li > button`]);
 
         this.logger.leaving(me);
       }
@@ -8134,27 +8088,6 @@
       }
     );
 
-    /** @type {Scroller~How} */
-    static #convoCardsHow = {
-      uidCallback: Messaging.uniqueConvoCardsIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName],
-      snapToTop: false,
-    };
-
-    static #convoCardsList =
-      'main ul.msg-conversations-container__conversations-list';
-
-    /** @type {Scroller~What} */
-    static #convoCardsWhat = {
-      name: `${this.name} conversations`,
-      containerItems: [
-        {
-          container: Messaging.#convoCardsList,
-          items: ':scope > li.msg-conversations-container__pillar',
-        },
-      ],
-    };
-
     /** @type {Page~PageDetails} */
     static #details = {
       // eslint-disable-next-line prefer-regex-literals
@@ -8163,26 +8096,6 @@
     };
 
     static #messageBoxSelector = 'main div.msg-form__contenteditable';
-
-    /** @type {Scroller~How} */
-    static #messagesHow = {
-      uidCallback: Messaging.uniqueMessageIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
-      autoActivate: true,
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #messagesWhat = {
-      name: `${this.name} messages`,
-      containerItems: [
-        {
-          container: 'ul.msg-s-message-list-content',
-          items:
-          ':scope > li.msg-s-message-list__event > div[data-event-urn]',
-        },
-      ],
-    };
 
     static #messagingFilterSelector =
       '.msg-cross-pillar-inbox-filters-v3__container';
@@ -8194,6 +8107,9 @@
 
     #activator
     #convoCardScroller
+    #convoCardsList = 'main' +
+      ' ul.msg-conversations-container__conversations-list';
+
     #lastScroller
     #messageScroller
 
@@ -8202,8 +8118,23 @@
     }
 
     #initCardsScroller = () => {
-      this.#convoCardScroller = new Scroller(Messaging.#convoCardsWhat,
-        Messaging.#convoCardsHow);
+      const what = {
+        name: `${this.name} conversations`,
+        containerItems: [
+          {
+            container: this.#convoCardsList,
+            items: ':scope > li.msg-conversations-container__pillar',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueConvoCardsIdentifier,
+        classes: [LinkedIn.scrollerPrimaryClassName],
+        snapToTop: true,
+      };
+
+      this.#convoCardScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#convoCardScroller);
       this.#convoCardScroller.dispatcher
@@ -8212,11 +8143,73 @@
     }
 
     #initMessageScroller = () => {
-      this.#messageScroller = new Scroller(
-        Messaging.#messagesWhat, Messaging.#messagesHow
-      );
+      const what = {
+        name: `${this.name} messages`,
+        containerItems: [
+          {
+            container: 'ul.msg-s-message-list-content',
+            items:
+          ':scope > li.msg-s-message-list__event > div[data-event-urn]',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueMessageIdentifier,
+        classes: [LinkedIn.scrollerSecondaryClassName],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#messageScroller = new Scroller(what, how);
       this.#messageScroller.dispatcher
         .on('change', this.#onMessageChange);
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueConvoCardsIdentifier = (scroller, element) => {
+      const me = this.#uniqueConvoCardsIdentifier.name;
+      this.logger.entered(me, element);
+
+      // XXX: As of 2026-04-14, there are no distinguishing features in the
+      // cards.  Unlike the similar UI for JobsCollections, there is no easy
+      // mapping between the URL and the card.  The img.src looks interesting,
+      // but not really.  It is possible to have multiple cards for the
+      // person, making using the URL unsuitable.  And some folks do not have
+      // photos, so get the same placeholder data: scheme.
+      const content = scroller.defaultUid(element);
+
+      this.logger.leaving(me);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueMessageIdentifier = (scroller, element) => {
+      const me = this.#uniqueMessageIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const urn = element.dataset.eventUrn;
+
+      if (urn) {
+        content = urn;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     /**
