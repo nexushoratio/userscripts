@@ -9755,7 +9755,6 @@
       });
       this.#entriesScrollerConfigs.set('Skills', {
         uidCallback: this.#entriesUidFromModes,
-        uidCallback1: this.uniqueEntryIdentifier,
         selectors: [
           this.#entriesSelectorSkills,
           this.#entriesSelectorFooter,
