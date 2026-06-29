@@ -4967,11 +4967,6 @@
       if (litOptions.enableDevMode) {
         keyboardService.addInstance(new DebugKeys());
       }
-
-      if (litOptions.enableAlertUnsupportedPages) {
-        this.addService(NH.spa.Page.Service)
-          .on('activate', this.#onActivateUnsupportedPageCheck);
-      }
     }
 
     info = new Shortcut(
@@ -5115,50 +5110,6 @@
         this.spa.details.focusOnAside();
       }
     );
-
-    #onActivateUnsupportedPageCheck = () => {
-      const me = this.#onActivateUnsupportedPageCheck.name;
-      this.logger.entered(me, this.spa);
-
-      // TODO(#332): optional chaining because the API is unsupported.
-      if (this.spa.activePages?.size === NH.base.ONE_ITEM) {
-        const pathname = window.location.pathname;
-        /* eslint-disable prefer-regex-literals */
-        const knownUrlsTodo = [
-          // TODO(#237): Support *SpecificEvent* pages
-          RegExp('^/events/.*/(?:about|comments)/.*', 'u'),
-          // TODO(#253): Support *My Network Events* page
-          '/mynetwork/network-manager/events/',
-          // TODO(#255): Support *Search appearances* page
-          '/analytics/search-appearances/',
-          // TODO(#256): Support *Verify* page
-          RegExp('/verify/?.*', 'u'),
-          // TODO(#257): Support *Analytics & tools* page
-          '/dashboard/',
-          // TODO(#260): Support *My Jobs* page
-          RegExp('^/my-items/saved-jobs/.*', 'u'),
-          // TODO(#261): Support *Follow Page* Page
-          '/suggested-for-you/follow-page/',
-          // TODO(#262): Support *Analytics Posts* Page
-          '/analytics/creator/content/',
-          // TODO(#263): Support *Feed update* Page
-          '/feed/update/',
-          // TODO(#264): Support *Saved Posts* Page
-          '/my-items/saved-posts/',
-          // TODO(#265): Support *Post analytics* Page
-          '/analytics/post-summary/',
-          // TODO(#266): Support *Company* Page
-          '/company/',
-        ];
-        /* eslint-enable */
-
-        if (!knownUrlsTodo.some(x => pathname.match(x))) {
-          NH.base.issues.post('Unsupported page:', window.location);
-        }
-      }
-
-      this.logger.leaving(me);
-    }
 
     /**
      * Click on the requested link in the global nav bar.
@@ -10636,6 +10587,44 @@
 
   }
 
+  /** Class for tracking pages to support. */
+  class PagesToDo extends Page {
+
+    /** @param {SPA} spa - SPA instance that manages this Page. */
+    constructor(spa) {
+      const URLs = [
+        // TODO(#253): Support *My Network Events* page
+        '/mynetwork/network-manager/events/',
+        // TODO(#255): Support *Search appearances* page
+        '/analytics/search-appearances/',
+        // TODO(#256): Support *Verify* page
+        '/verify/',
+        // TODO(#257): Support *Analytics & tools* page
+        '/dashboard/',
+        // TODO(#260): Support *My Jobs* page
+        '/my-items/saved-jobs/.*',
+        // TODO(#261): Support *Follow Page* Page
+        '/suggested-for-you/follow-page/',
+        // TODO(#262): Support *Analytics Posts* Page
+        '/analytics/creator/content/',
+        // TODO(#263): Support *Feed update* Page
+        '/feed/update/',
+        // TODO(#264): Support *Saved Posts* Page
+        '/my-items/saved-posts/',
+        // TODO(#265): Support *Post analytics* Page
+        '/analytics/post-summary/',
+        // TODO(#266): Support *Company* Page
+        '/company/',
+      ].map(x => `(${x})`)
+        .join('|');
+      super({
+        spa: spa,
+        pathname: RegExp(`^${URLs}$`, 'u'),
+      });
+    }
+
+  }
+
   NH.xunit.testing.run();
 
   const linkedIn = new LinkedIn();
@@ -10658,6 +10647,7 @@
   spa.register(Profile);
   spa.register(Events);
   spa.register(SearchResultsPeople);
+  spa.register(PagesToDo);
 
   // Registering Global last ensures we check for an unsupported page at least
   // once.

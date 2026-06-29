@@ -345,7 +345,6 @@ entriesSelectorSuggestedForYou
 entriesSelectorsWhat
 entriesSelectorTopcard
 entriesSelectorVolunteering
-entriesSuggestedForYouSelector
 entriesSuggestUids
 entriesUidFromModes
 entriesUidSelectorId
@@ -572,7 +571,6 @@ instanceName
 instanceof
 InvitationManager
 inviteScroller
-invitesWhat
 ipsum
 isConnected
 isContentEditable
@@ -886,6 +884,7 @@ padEnd
 padStart
 PageDetails
 pageService
+PagesToDo
 pageStyle
 PageTestCase
 paginationHow
