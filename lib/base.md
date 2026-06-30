@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of `console` (and apparently `crypto`).
 
-## Exported properties (as of version 70)
+## Exported properties (as of version 71)
 * version - Bumped per release.
 * NOT_FOUND - Returned by some APIs like `findIndex()`.
 * ONE_ITEM - Useful for testing length of an array.
@@ -16,8 +16,8 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff
 * Logger - Fancy-ish log messages (likely over engineered).
 * uuId - Create a UUID-like string with a base.
 * safeId - Normalize a string to be safe to use as an HTML element id.
-* strHash - Equivalent (for now) of Java's hashCode (do not store externally) (deprecated).
-* sha256 - Compute the SHA-256 digest of a string.
+* strHash - Jenkins [one at a time](https://en.wikipedia.org/wiki/Jenkins_hash_function#one_at_a_time) hash.
+* sha256 - Compute the SHA-256 digest of a string (deprecated).
 * simpleParseWords - Separate a string of concatenated words along transitions.
 * Service - Base class for building services that can be turned on and off.
 

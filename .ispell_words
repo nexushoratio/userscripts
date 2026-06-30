@@ -122,10 +122,11 @@ cardIndex
 cardItemToClick
 cardsContainer
 cardScroller
-cardsHow
 cardsScroller
 cardsWhat
 caseSensitive
+ccc
+cdfc
 cdn
 centerOfElement
 CertificationTopLevel
@@ -268,6 +269,7 @@ detailsPane
 detailsScroller
 DetailsTestCase
 detailsWhat
+dff
 differentMethod
 dismissId
 dismissIndividual
@@ -296,6 +298,7 @@ dummyEventCallback
 DummyMethodTestCase
 DummyService
 dumpWatched
+edc
 edfd
 editItem
 EducationTopLevelSection
@@ -395,7 +398,9 @@ failMsg
 failMsgs
 fakeErrorRate
 falsy
+fd
 feaa
+fecd
 feedAnchor
 FeedType
 FetchResult
@@ -1030,7 +1035,6 @@ scrollerSecondaryClassName
 ScrollerService
 ScrollerStyleService
 ScrollerTestCase
-scrollerValueExtractor
 scrollIntoView
 scrollMarginBottom
 scrollMarginTop
@@ -1107,6 +1111,7 @@ stopUrlMonitor
 stopUserscriptManagerUrlMonitor
 strBase
 strHash
+StrHashTestCase
 StringAdapter
 StringAdapterTestCase
 stringify
