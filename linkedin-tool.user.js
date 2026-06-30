@@ -205,13 +205,14 @@
       '<strong>Messaging</strong>: Causing browser slow down',
       '2026-06-08'
     ),
-    ish('343',
-      '<code>#addError</code>: Handle objects better',
-      '2026-06-10'),
+    ish('343', '`#addError`: Handle objects better', '2026-06-10'),
     ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
-    ish('346',
-      '<strong>My Network</strong>: Navigation is failing',
-      '2026-06-14'),
+    ish('346', '**My Network**: Navigation is failing', '2026-06-14'),
+    ish(
+      '347',
+      '`SPA`: Fails to detect some URL changes when using `MutationObserver`',
+      '2026-06-30'
+    ),
     ish('349', '`LinkedIn`: Remove navbar margin support', '2026-06-20'),
     ish(
       '350',
@@ -234,6 +235,36 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-06-29',
+      issues: ['356'],
+      subject: 'Rename `#checkForNewRelease()` to `#checkForNews()`',
+    },
+    {
+      date: '2026-06-29',
+      issues: ['356'],
+      subject: 'Install the news badge in a hidden mode',
+    },
+    {
+      date: '2026-06-29',
+      issues: ['352'],
+      subject: 'Update how `Messaging`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-06-29',
+      issues: ['347'],
+      subject: 'Update to latest `lib/spa`',
+    },
+    {
+      date: '2026-06-29',
+      issues: ['332'],
+      subject: 'Replace tracking list with a tracking `Page`',
+    },
+    {
+      date: '2026-06-29',
+      issues: ['302'],
+      subject: 'Support the *Recommendations* section',
+    },
     {
       date: '2026-06-28',
       issues: ['356'],
@@ -762,35 +793,6 @@
       issues: ['240'],
       subject: 'Migrate <code>Jobs</code> to' +
         ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-05-31',
-      issues: ['302'],
-      subject: 'Refactor helper code into' +
-        ' <code>#entriesMentionUidPossibilities()</code>',
-    },
-    {
-      date: '2026-05-31',
-      issues: ['302'],
-      subject: 'Factor out the <strong>Analytics</strong> section' +
-        ' into a secondary config',
-    },
-    {
-      date: '2026-05-31',
-      issues: ['240'],
-      subject: 'Make <code>ScrollerStyleService</code> value' +
-        ' extractor configurable',
-    },
-    {
-      date: '2026-05-30',
-      issues: ['302'],
-      subject: 'Factor out the <strong>Topcard</strong> section into' +
-        ' secondary config',
-    },
-    {
-      date: '2026-05-30',
-      issues: ['240'],
-      subject: 'Factor out computing values for the style',
     },
   ];
 
