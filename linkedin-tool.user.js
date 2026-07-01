@@ -236,6 +236,21 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-01',
+      issues: ['356'],
+      subject: 'Update to latest `lib/base`',
+    },
+    {
+      date: '2026-07-01',
+      issues: ['352'],
+      subject: 'Update how `Notifications`\' `Scroller`s are configured',
+    },
+    {
+      date: '2026-07-01',
+      issues: ['302'],
+      subject: 'Support the *Publications* sections',
+    },
+    {
       date: '2026-06-29',
       issues: ['356'],
       subject: 'Rename `#checkForNewRelease()` to `#checkForNews()`',
@@ -775,24 +790,6 @@
       issues: ['302'],
       subject: 'Initial support for the' +
         ' <strong>SuggestedForYou</strong> section',
-    },
-    {
-      date: '2026-06-01',
-      issues: ['302'],
-      subject: 'Factor out the <strong>Highlights</strong> section into' +
-        ' a secondary config',
-    },
-    {
-      date: '2026-06-01',
-      issues: ['302'],
-      subject: 'Add <code>id</code> as a suggestion, and log suggestions' +
-        ' on the way out',
-    },
-    {
-      date: '2026-06-01',
-      issues: ['240'],
-      subject: 'Migrate <code>Jobs</code> to' +
-        ' <code>ScrollerStyleService</code>',
     },
   ];
 
