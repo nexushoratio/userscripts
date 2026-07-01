@@ -8375,61 +8375,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueNotificationIdentifier(scroller, element) {
-      const me = Notifications.uniqueNotificationIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const hotKey = element.parentElement.dataset.finiteScrollHotkeyItem;
-      const cardIndex = element.dataset.ntCardIndex;
-
-      if (hotKey) {
-        content = hotKey;
-      }
-      if (cardIndex) {
-        content = cardIndex;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * Given a notification card, find the correct item inside of it to click.
-     *
-     * @implements {Scroller~ElementFinder}
-     * @param {HTMLElement} element - Element to examine.
-     * @returns {HTMLElement} - Found element.
-     */
-    static cardItemToClick(element) {
-      let found = null;
-
-      if (element) {
-        const elements = element.querySelectorAll(
-          '.nt-card__headline'
-        );
-        if (elements.length === NH.base.ONE_ITEM) {
-          found = elements[0];
-        } else {
-          const ba = element.querySelectorAll('button,a');
-          if (ba.length === NH.base.ONE_ITEM) {
-            found = ba[0];
-          }
-        }
-      }
-
-      return found;
-    }
-
     /** @type {Scroller} */
     get notifications() {
       return this.#notificationScroller;
@@ -8480,7 +8425,7 @@
         if (litOptions.enableIssue241ClickMethod) {
           this.notifications.click();
         } else {
-          const element = Notifications.cardItemToClick(
+          const element = this.#cardItemToClick(
             this.notifications.item
           );
           if (element) {
@@ -8601,30 +8546,6 @@
       readySelector: 'footer.global-footer-compact',
     };
 
-    /** @type {Scroller~How} */
-    static #notificationsHow = {
-      uidCallback: Notifications.uniqueNotificationIdentifier,
-      classes: [
-        LinkedIn.scrollerPrimaryClassName,
-        this.scrollerClassName,
-      ],
-      snapToTop: true,
-      clickConfig: {
-        finder: Notifications.cardItemToClick,
-      },
-    };
-
-    /** @type {Scroller~What} */
-    static #notificationsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: 'main section div.nt-card-list',
-          items: 'article',
-        },
-      ],
-    };
-
     #notificationScroller
 
     #initScrollers = () => {
@@ -8642,9 +8563,29 @@
     }
 
     #initNotificationScroller = () => {
-      this.#notificationScroller = new Scroller(
-        Notifications.#notificationsWhat, Notifications.#notificationsHow
-      );
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: 'main section div.nt-card-list',
+            items: 'article',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueNotificationIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+        clickConfig: {
+          finder: this.#cardItemToClick,
+        },
+      };
+
+      this.#notificationScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
@@ -8700,6 +8641,61 @@
 
       this.logger.leaving(me, properties);
       return properties;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueNotificationIdentifier = (scroller, element) => {
+      const me = this.#uniqueNotificationIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const hotKey = element.parentElement.dataset.finiteScrollHotkeyItem;
+      const cardIndex = element.dataset.ntCardIndex;
+
+      if (hotKey) {
+        content = hotKey;
+      }
+      if (cardIndex) {
+        content = cardIndex;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * Given a notification card, find the correct item inside of it to click.
+     *
+     * @implements {Scroller~ElementFinder}
+     * @param {HTMLElement} element - Element to examine.
+     * @returns {HTMLElement} - Found element.
+     */
+    #cardItemToClick = (element) => {
+      let found = null;
+
+      if (element) {
+        const elements = element.querySelectorAll(
+          '.nt-card__headline'
+        );
+        if (elements.length === NH.base.ONE_ITEM) {
+          found = elements[0];
+        } else {
+          const ba = element.querySelectorAll('button,a');
+          if (ba.length === NH.base.ONE_ITEM) {
+            found = ba[0];
+          }
+        }
+      }
+
+      return found;
     }
 
   }
