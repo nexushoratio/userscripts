@@ -9145,6 +9145,14 @@
       `:scope > ${this.#div5}`,
     ].join(',')
 
+    static #entriesSelectorPublications = [
+      // Users with more than two publications have a different depth.  And
+      // publications with more than one author also have tricky depths.  This
+      // likely does not yet capture everything.
+      `:scope > ${this.#div5}:has(> div > p)`,
+      `:scope > ${this.#div5}:has(> hr) > div`,
+    ].join(',')
+
     static #entriesSelectorRecommendations = [
       // Skip the selection filter
       `:scope > ${this.#div6}:not(:has(> div > input))`,
@@ -9738,7 +9746,7 @@
         uidCallback0: this.#entriesUidFromModes,
         uidCallback: this.uniqueEntryIdentifier,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorPublications,
           this.#entriesSelectorFooter,
         ],
         modes: [],

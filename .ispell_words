@@ -214,7 +214,6 @@ convoCards
 convoCardScroller
 convoCardsHow
 convoCardsList
-convoCardsWhat
 countAsserts
 CourseTopLevelSection
 createElement
@@ -341,6 +340,7 @@ entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorProjects
+entriesSelectorPublications
 entriesSelectorRecommendations
 entriesSelectorServices
 entriesSelectorSkills
@@ -1093,7 +1093,6 @@ sourceforge
 spaInstance
 SPATestCase
 spdx
-SpecificEvent
 src
 srcdoc
 stackTrace
