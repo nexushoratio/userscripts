@@ -75,7 +75,7 @@
       enableIssue241ClickMethod: false,
       enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
-      latestNewsRead: 0,
+      latestNewsRead: '',
     };
     const savedOptions = await NH.userscript.getValue(OPTIONS, {});
     const options = {
@@ -3309,6 +3309,8 @@
         content: writer.render(reader.parse(content.join('\n'))),
       };
 
+      this.#newsHash = NH.base.strHash(tab.content);
+
       this.logger.leaving(me);
       return tab;
     }
@@ -3442,6 +3444,7 @@
     #navbar
     #navbarMutationObserver
     #navbarResizeObserver
+    #newsHash
     #newsQueue = new NH.base.MessageQueue();
     #newsReadToggle
     #ourMenuItemStyle1
@@ -3493,16 +3496,13 @@
       const me = this.#checkForNews.name;
       this.logger.entered(me);
 
-      const curr = parseFloat(GM.info.script.version);
-      let prev = parseFloat(litOptions.latestNewsRead);
+      if (this.#newsHash) {
+        const prev = litOptions.latestNewsRead;
+        const news = this.#newsHash !== prev;
 
-      if (isNaN(prev)) {
-        prev = 0;
+        this.#newsQueue.post(news);
+        this.#newsReadToggle.checked = !news;
       }
-
-      const news = curr > prev;
-      this.#newsQueue.post(news);
-      this.#newsReadToggle.checked = !news;
 
       this.logger.leaving(me);
     }
@@ -3569,9 +3569,9 @@
 
       this.#newsQueue.post(!newsRead);
       if (newsRead) {
-        litOptions.latestNewsRead = parseFloat(GM.info.script.version);
+        litOptions.latestNewsRead = this.#newsHash;
       } else {
-        litOptions.latestNewsRead = 0;
+        litOptions.latestNewsRead = 'marked-unread';
       }
       saveOptions(litOptions);
 
