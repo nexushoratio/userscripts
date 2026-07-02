@@ -9972,58 +9972,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueCollectionIdentifier(scroller, element) {
-      const me = Events.uniqueCollectionIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const h1 = LinkedIn.h1(element);
-      const h2 = LinkedIn.h2(element);
-
-      if (h2) {
-        content = h2;
-      }
-      if (h1) {
-        content = h1;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueEventIdentifier(scroller, element) {
-      const me = Events.uniqueEventIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const anchor = element.querySelector('a');
-
-      if (anchor?.href) {
-        content = new URL(anchor.href).pathname;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get collections() {
       return this.#collectionScroller;
@@ -10111,57 +10059,13 @@
       }
     );
 
-    static #collectionsContainer = 'main:has(> section)'
-
-    /** @type {Scroller~How} */
-    static #collectionsHow = {
-      uidCallback: Events.uniqueCollectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #collectionsWhat = {
-      name: `${this.name} collections`,
-      containerItems: [
-        {
-          container: this.#collectionsContainer,
-          items: [
-            // Major collections
-            ':scope > section',
-          ].join(','),
-        },
-      ],
-    };
-
     static #details = {
       pathname: '/events/',
       readySelector: '#share-linkedin-small',
     };
 
-    /** @type {Scroller~How} */
-    static #eventsHow = {
-      uidCallback: Events.uniqueEventIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
-      snapToTop: false,
-    };
-
-    /** @type {Scroller~What} */
-    static #eventsWhat = {
-      name: `${this.name} events`,
-      selectors: [
-        // Your events collection
-        ':scope > section > div',
-        // Most event collections
-        ':scope > main > div > section',
-        // Exclusive for Premium
-        ':scope > main > div > div > section',
-        // Show more
-        ':scope > footer',
-      ],
-    };
-
     #collectionScroller
+    #collectionsContainer = 'main:has(> section)'
     #eventScroller
     #lastScroller
 
@@ -10180,9 +10084,29 @@
     }
 
     #initCollectionScroller = () => {
-      this.#collectionScroller = new Scroller(
-        Events.#collectionsWhat, Events.#collectionsHow
-      );
+      const what = {
+        name: `${this.name} collections`,
+        containerItems: [
+          {
+            container: this.#collectionsContainer,
+            items: [
+              // Major collections
+              ':scope > section',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueCollectionIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#collectionScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#collectionScroller);
 
@@ -10191,10 +10115,31 @@
     }
 
     #initEventScroller = () => {
-      this.#eventScroller = new Scroller(
-        {base: this.collections.item, ...Events.#eventsWhat},
-        Events.#eventsHow
-      );
+      const what = {
+        name: `${this.name} events`,
+        base: this.collections.item,
+        selectors: [
+          // Your events collection
+          ':scope > section > div',
+          // Most event collections
+          ':scope > main > div > section',
+          // Exclusive for Premium
+          ':scope > main > div > div > section',
+          // Show more
+          ':scope > footer',
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueEventIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: false,
+      };
+
+      this.#eventScroller = new Scroller(what, how);
       this.#eventScroller.dispatcher
         .on('change', this.#onEventChange)
         .on('out-of-range', this.#returnToCollection);
@@ -10209,7 +10154,7 @@
       elements.set('navbar', document.querySelector('#global-nav'));
       elements.set(
         'main',
-        document.querySelector(this.ctor.#collectionsContainer)?.parentElement
+        document.querySelector(this.#collectionsContainer)?.parentElement
       );
 
       this.logger.leaving(me, elements);
@@ -10254,6 +10199,58 @@
 
       this.logger.leaving(me, properties);
       return properties;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueCollectionIdentifier = (scroller, element) => {
+      const me = this.#uniqueCollectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const h1 = LinkedIn.h1(element);
+      const h2 = LinkedIn.h2(element);
+
+      if (h2) {
+        content = h2;
+      }
+      if (h1) {
+        content = h1;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueEventIdentifier = (scroller, element) => {
+      const me = this.#uniqueEventIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const anchor = element.querySelector('a');
+
+      if (anchor?.href) {
+        content = new URL(anchor.href).pathname;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     #resetEvents = () => {
