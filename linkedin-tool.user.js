@@ -2849,6 +2849,11 @@
       const me = this.#isInput.name;
       log.entered(me, element);
 
+      const knownTypes = [
+        // We know how to treat these types.
+        'text',
+      ];
+
       let tagName = '';
       if ('tagName' in element) {
         tagName = element.tagName.toLowerCase();
@@ -2860,15 +2865,14 @@
         if (element.type === 'checkbox') {
           textContent = false;
         }
-        if (textContent) {
-          const group = 'attributes';
-          log.starting(group, element);
-
+        if (textContent &&
+            litOptions.enableDevMode &&
+            !knownTypes.includes(element.type)) {
+          const attributes = [];
           for (const attr of element.attributes) {
-            log.log('attr', attr);
+            attributes.push(`${attr.name}: ${attr.value}`);
           }
-
-          log.finished(group);
+          NH.base.issues.post('Issue #325 attr:', ...attributes);
         }
       }
       // eslint-disable-next-line no-extra-parens

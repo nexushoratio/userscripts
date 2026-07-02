@@ -266,7 +266,6 @@ detailsFinder
 detailsPane
 detailsScroller
 DetailsTestCase
-detailsWhat
 dff
 differentMethod
 dismissId
@@ -582,7 +581,6 @@ IShortcutKey
 IShortcutOptions
 isInput
 isItemViewable
-isNaN
 isSameNode
 issueHeader
 issueId
@@ -615,6 +613,7 @@ keyMap
 klass
 knownEvents
 knownIssues
+knownTypes
 labelClassesFunc
 LabelClassesFunc
 LabelClassesNotFunction
