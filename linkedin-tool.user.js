@@ -9213,7 +9213,7 @@
       // Ignore list.
       'expandable-text-box',
       'expandable-text-button',
-    ].map(x => `:not([data-testid="${x}"]`)
+    ].map(x => `:not([data-testid="${x}"])`)
       .join('');
 
     static {
