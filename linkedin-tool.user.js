@@ -236,6 +236,32 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-02',
+      issues: ['325'],
+      subject: 'Increase visibility of `isInput()` feedback',
+    },
+    {
+      date: '2026-07-02',
+      issues: ['356'],
+      subject: 'Change the value of `latestNewsRead` to be a hash of the' +
+        ' content',
+    },
+    {
+      date: '2026-07-02',
+      issues: ['352'],
+      subject: 'Update how `Events`\' `Scroller`s are configured',
+    },
+    {
+      date: '2026-07-02',
+      issues: ['302'],
+      subject: 'Finish support the *Publications* sections',
+    },
+    {
+      date: '2026-07-02',
+      issues: ['302'],
+      subject: 'Add missing closing paren for a CSS selector',
+    },
+    {
       date: '2026-07-01',
       issues: ['356'],
       subject: 'Update to latest `lib/base`',
