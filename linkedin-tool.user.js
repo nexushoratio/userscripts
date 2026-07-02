@@ -9143,7 +9143,7 @@
       // publications with more than one author also have tricky depths.  This
       // likely does not yet capture everything.
       `:scope > ${this.#div5}:has(> div > p)`,
-      `:scope > ${this.#div5}:has(> hr) > div`,
+      `:scope > ${this.#div5}:has(> hr) > div:has(> div > p)`,
     ].join(',')
 
     static #entriesSelectorRecommendations = [
@@ -9203,6 +9203,7 @@
     static #entriesUidSelectorIdPart2 = [
       // IDs to ignore.
       'company-accent-4',
+      'link-external-small',
       'school-accent-4',
     ].map(x => `:not([id="${x}"])`)
       .join('');
@@ -9736,13 +9737,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorPublications,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.SAFETY,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('Patents', {
         uidCallback0: this.#entriesUidFromModes,
