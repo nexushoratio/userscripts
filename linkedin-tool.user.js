@@ -6148,7 +6148,7 @@
     static #details = {
       name: 'My Network (Grow, Catch up)',
       // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/mynetwork/(?:grow/|catch-up/.*)', 'u'),
+      pathname: RegExp('^/mynetwork(?:/(?:grow/|catch-up/.*)|$)', 'u'),
       readySelector: '#linkedin-logo-xxsmall',
     };
 
