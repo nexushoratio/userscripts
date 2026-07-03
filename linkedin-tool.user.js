@@ -10333,46 +10333,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniquePaginationIdentifier(scroller, element) {
-      const me = SearchResultsPeople.uniquePaginationIdentifier.name;
-      this.logger.entered(me, element);
-
-      const content = scroller.defaultUid(element);
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueResultIdentifier(scroller, element) {
-      const me = SearchResultsPeople.uniqueResultIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      const href = element.href;
-
-      if (href) {
-        content = new URL(href).pathname;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-      }
-
-      this.logger.leaving(me, content);
-      return content;
-    }
-
     /** @type {Scroller} */
     get paginator() {
       return this.#paginationScroller;
@@ -10463,44 +10423,6 @@
       readySelector: '#linkedin-logo-xxsmall',
     };
 
-    /** @type {Scroller~How} */
-    static #paginationHow = {
-      uidCallback: SearchResultsPeople.uniquePaginationIdentifier,
-      classes: [LinkedIn.scrollerSecondaryClassName],
-      snapToTop: false,
-      containerTimeout: 1000,
-    };
-
-    /** @type {Scroller~What} */
-    static #paginationWhat = {
-      name: `${this.name} pagination`,
-      containerItems: [
-        {
-          // This selector is also used in #onPaginationActivate.
-          container: 'main ul[data-testid="pagination-controls-list"]',
-          items: ':scope > li',
-        },
-      ],
-    };
-
-    /** @type {Scroller~How} */
-    static #resultsHow = {
-      uidCallback: SearchResultsPeople.uniqueResultIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
-      snapToTop: true,
-    };
-
-    /** @type {Scroller~What} */
-    static #resultsWhat = {
-      name: `${this.name} cards`,
-      containerItems: [
-        {
-          container: '[data-testid="lazy-column"]',
-          items: `a[${CKEY}]:not([aria-label])`,
-        },
-      ],
-    };
-
     #lastScroller
     #paginationScroller
     #resultScroller
@@ -10521,10 +10443,25 @@
     }
 
     #initPaginationScroller = () => {
-      this.#paginationScroller = new Scroller(
-        SearchResultsPeople.#paginationWhat,
-        SearchResultsPeople.#paginationHow
-      );
+      const what = {
+        name: `${this.name} pagination`,
+        containerItems: [
+          {
+          // This selector is also used in #onPaginationActivate.
+            container: 'main ul[data-testid="pagination-controls-list"]',
+            items: ':scope > li',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniquePaginationIdentifier,
+        classes: [LinkedIn.scrollerSecondaryClassName],
+        snapToTop: false,
+        containerTimeout: 1000,
+      };
+
+      this.#paginationScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
@@ -10533,8 +10470,26 @@
     }
 
     #initResultScroller = () => {
-      this.#resultScroller = new Scroller(SearchResultsPeople.#resultsWhat,
-        SearchResultsPeople.#resultsHow);
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: '[data-testid="lazy-column"]',
+            items: `a[${CKEY}]:not([aria-label])`,
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueResultIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#resultScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#resultScroller);
       this.#resultScroller.dispatcher
@@ -10588,6 +10543,46 @@
 
       this.logger.leaving(me, properties);
       return properties;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniquePaginationIdentifier = (scroller, element) => {
+      const me = this.#uniquePaginationIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = scroller.defaultUid(element);
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueResultIdentifier = (scroller, element) => {
+      const me = this.#uniqueResultIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const href = element.href;
+
+      if (href) {
+        content = new URL(href).pathname;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
     #onPaginationActivate = async () => {
