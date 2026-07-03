@@ -232,9 +232,37 @@
       '2026-06-27'
     ),
     ish('356', '*News*: Change how latest news is tracked', '2026-06-28'),
+    ish('241', '`Scroller`: Add `click()` feature', '2026-07-03'),
+    ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-03',
+      issues: ['241'],
+      subject: 'Utilize `Scroller`\'s `click()` method',
+    },
+    {
+      date: '2026-07-03',
+      issues: ['352'],
+      subject: 'Update how `SearchResultsPeople`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-03',
+      issues: ['360'],
+      subject: 'Acknowledge **SearchResultsAll** page',
+    },
+    {
+      date: '2026-07-03',
+      issues: ['302'],
+      subject: 'Support the *Patents* sections',
+    },
+    {
+      date: '2026-07-02',
+      issues: ['332'],
+      subject: 'Fine-tune the `pathname` for **My Network**',
+    },
     {
       date: '2026-07-02',
       issues: ['325'],
