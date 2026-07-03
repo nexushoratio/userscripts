@@ -316,7 +316,6 @@ engageIndividual
 ensureMenuStyle
 EnsureTestCase
 ent
-entriesActivitySelector
 entriesCurrentModes
 entriesCurrentUid
 entriesExperienceSelector
@@ -337,6 +336,7 @@ entriesSelectorExperience
 entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
+entriesSelectorPatents
 entriesSelectorProjects
 entriesSelectorPublications
 entriesSelectorRecommendations
@@ -693,7 +693,6 @@ MessageQueue
 MessageQueueTestCase
 messageScroller
 messagesHow
-messagesWhat
 messagingFilterSelector
 messagingOptions
 messagingOptionsSelector

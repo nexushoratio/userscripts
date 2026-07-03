@@ -9163,6 +9163,13 @@
       `:scope > ${this.#div6}`,
     ].join(',');
 
+    static #entriesSelectorPatents = [
+      // Users with more than two patents have a different depth.  This likely
+      // does not yet capture everything.
+      `:scope > ${this.#div5}:has(> div > p)`,
+      `:scope > ${this.#div6}:has(> div > p)`,
+    ].join(',')
+
     static #entriesSelectorProjects = [
       // Simple layout
       `:scope > ${this.#div5}`,
@@ -9778,13 +9785,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Patents', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorPatents,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.SAFETY,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
         uidCallback0: this.#entriesUidFromModes,
