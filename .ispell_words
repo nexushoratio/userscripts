@@ -692,7 +692,6 @@ messageInviter
 MessageQueue
 MessageQueueTestCase
 messageScroller
-messagesHow
 messagingFilterSelector
 messagingOptions
 messagingOptionsSelector
@@ -896,7 +895,6 @@ panelName
 params
 parentElement
 parsedName
-parseFloat
 parseSeq
 ParseSeqTestCase
 pathnameRE
@@ -1041,6 +1039,7 @@ sdui
 searchMessages
 searchParams
 SearchResults
+SearchResultsAll
 SearchResultsFilterBar
 SearchResultsPeople
 SearchTyahInputRef

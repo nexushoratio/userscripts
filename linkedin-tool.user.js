@@ -10657,6 +10657,8 @@
         '/analytics/post-summary/',
         // TODO(#266): Support *Company* Page
         '/company/',
+        // TODO(#360): Support *SearchResultsAll* page
+        '/search/results/all/.*',
       ].map(x => `(${x})`)
         .join('|');
       super({
