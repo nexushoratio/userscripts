@@ -1648,9 +1648,9 @@
      *
      * XXX: This was originally intended to clear scrollerId before
      * duplications were detected.  But such detection happens inside {@link
-     * #getItems()}.  So this does not help with that.  But, still, might be
-     * useful in cases where the uid depends on attributes, even if duplicates
-     * are not involved.
+     * #getItems()}, so this does not help with that.  Still, might be useful
+     * in cases where the uid depends on attributes, even if duplicates are
+     * not involved.
      *
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} type - Event type.
