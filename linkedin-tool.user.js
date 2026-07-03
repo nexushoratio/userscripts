@@ -72,7 +72,6 @@
       enableAlertUnsupportedPages: false,
       enableAlertUnknownProfileSections: false,
       enableWatchPage: false,
-      enableIssue241ClickMethod: false,
       enableIssue289Monitoring: false,
       enableIssue341Monitoring: false,
       fakeErrorRate: 0.8,
@@ -6069,18 +6068,7 @@
       'Enter',
       'View the current item',
       () => {
-        if (litOptions.enableIssue241ClickMethod) {
-          this.individuals?.click();
-        } else {
-          const individual = this.individuals?.item;
-          if (individual) {
-            if (!NH.web.clickElement(individual, ['a', 'button'], true)) {
-              NH.web.postInfoAboutElement(individual, 'network individual');
-            }
-          } else {
-            document.activeElement.click();
-          }
-        }
+        this.individuals?.click();
       }
     );
 
@@ -6736,24 +6724,7 @@
       'Enter',
       'Activate the current item (click on it)',
       () => {
-        if (litOptions.enableIssue241ClickMethod) {
-          this.jobs?.click();
-        } else {
-          const el = this.jobs?.item;
-          if (el) {
-            if (!NH.web.clickElement(el,
-              [
-                '[role="button"]',
-                'a',
-                'button',
-              ], true)) {
-              NH.web.postInfoAboutElement(el, 'el');
-            }
-          } else {
-            // Again, because we use Enter as the hotkey for this action.
-            document.activeElement.click();
-          }
-        }
+        this.jobs?.click();
       }
     );
 
@@ -8463,19 +8434,7 @@
       'Enter',
       'Activate the current notification (click on it)',
       () => {
-        if (litOptions.enableIssue241ClickMethod) {
-          this.notifications.click();
-        } else {
-          const element = this.#cardItemToClick(
-            this.notifications.item
-          );
-          if (element) {
-            element.click();
-          } else {
-            // Again, because we use Enter as the hotkey for this action.
-            document.activeElement.click();
-          }
-        }
+        this.notifications.click();
       }
     );
 
