@@ -74,6 +74,7 @@
       enableWatchPage: false,
       enableIssue241ClickMethod: false,
       enableIssue289Monitoring: false,
+      enableIssue341Monitoring: false,
       fakeErrorRate: 0.8,
       latestNewsRead: '',
     };
@@ -1615,6 +1616,7 @@
 
     #autoActivate
     #base
+    #cache341
     #classes
     #clickConfig
     #clickOptions = {capture: true};
@@ -1639,6 +1641,7 @@
     #selectors
     #snapToTop
     #stackTrace
+    #typeTool = new NH.xunit.TypeTool();
     #uidCallback
     #waitForItemTimeout
     #watchForClicks
@@ -1729,6 +1732,7 @@
       }
 
       for (const [type, items] of types) {
+        this.#cache341 = null;
         this.#mutationDispatcher.fire(type, items);
       }
 
@@ -1780,6 +1784,16 @@
         }
       }
       const filtered = this.#postProcessItems(items);
+
+      if (litOptions.enableIssue341Monitoring) {
+        const cache = new Map(filtered.map(x => [x.dataset.scrollerId, x]));
+        if (this.#cache341 &&
+            this.#typeTool.repr(cache) !==
+            this.#typeTool.repr(this.#cache341)) {
+          NH.base.issues.post('Issue 341:', 'cache failed');
+        }
+        this.#cache341 = cache;
+      }
 
       this.logger.leaving(me, filtered.length);
       return filtered;
