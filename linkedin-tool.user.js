@@ -5268,7 +5268,13 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Feed.#details});
+      super({
+        spa: spa,
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/feed/?', 'u'),
+        // Sort by: X button (yes, the svg)
+        readySelector: '#linkedin-logo-xxsmall',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -5547,14 +5553,6 @@
         this.prevPost();
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/feed/?', 'u'),
-      // Sort by: X button (yes, the svg)
-      readySelector: '#linkedin-logo-xxsmall',
-    };
 
     static #tabSnippet = VMKeyboardService.parseSeq('tab');
 
