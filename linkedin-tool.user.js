@@ -1813,7 +1813,7 @@
       const filtered = this.#postProcessItems(items);
 
       if (litOptions.enableIssue341Monitoring) {
-        const cache = new Map(filtered.map(x => [x.dataset.scrollerId, x]));
+        const cache = new Map(filtered.map(x => [this.#uid(x), x]));
         if (this.#cache341 &&
             this.#typeTool.repr(cache) !==
             this.#typeTool.repr(this.#cache341)) {
