@@ -238,6 +238,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-04',
+      issues: ['302'],
+      subject: 'Support the *Courses* sections',
+    },
+    {
       date: '2026-07-03',
       issues: ['241'],
       subject: 'Utilize `Scroller`\'s `click()` method',
@@ -826,24 +831,6 @@
       date: '2026-06-05',
       issues: ['338'],
       subject: 'Make license fetching a bit more robust',
-    },
-    {
-      date: '2026-06-04',
-      issues: ['240'],
-      subject: 'Normalize how <code>ScrollerStyleService</code> is' +
-        ' configured',
-    },
-    {
-      date: '2026-06-04',
-      issues: ['302'],
-      subject: 'Factor out the <strong>About</strong> section into' +
-        ' a secondary config',
-    },
-    {
-      date: '2026-06-04',
-      issues: ['302'],
-      subject: 'Initial support for the' +
-        ' <strong>SuggestedForYou</strong> section',
     },
   ];
 
