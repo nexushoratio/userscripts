@@ -9133,6 +9133,11 @@
       `:scope > ${this.#div5}:not(:has(> h2)) > *`,
     ].join(',');
 
+    static #entriesSelectorCourses = [
+      // Fairly simple layout
+      `:scope > ${this.#div5}`,
+    ].join(',')
+
     static #entriesSelectorDefault = [
       // Default catches the edit button on own page.
       `:scope > ${this.#div4}`,
@@ -9797,13 +9802,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorCourses,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          // Not many details, so just use HREF for footer
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
         uidCallback0: this.#entriesUidFromModes,

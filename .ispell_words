@@ -175,7 +175,6 @@ ColClassesFunc
 ColClassesNotFunction
 collectionsContainer
 collectionScroller
-collectionsHow
 collectionsWhat
 ColumnClassesFunc
 commentOnItem
@@ -330,6 +329,7 @@ entriesSelectorActivity
 entriesSelectorAnalytics
 entriesSelectorCertification
 entriesSelectorConnectedAccounts
+entriesSelectorCourses
 entriesSelectorDefault
 entriesSelectorEducation
 entriesSelectorExperience
@@ -933,7 +933,6 @@ prevTab
 primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
-profileAnchor
 ProfilePostConnectDrawer
 PublicationTopLevelSection
 px
