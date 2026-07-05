@@ -175,7 +175,6 @@ ColClassesFunc
 ColClassesNotFunction
 collectionsContainer
 collectionScroller
-collectionsWhat
 ColumnClassesFunc
 commentOnItem
 commentScroller
@@ -383,7 +382,6 @@ errorTextHandler
 eslint
 eslintrc
 eventScroller
-eventsHow
 eventType
 eventTypes
 eventUrn
@@ -702,6 +700,7 @@ MissingField
 missingFirst
 MissingLabel
 MissingLabelledbyOrLabel
+MissingName
 missingSecond
 moCallback
 ModalTestCase
@@ -904,7 +903,6 @@ portalSelector
 postInfoAboutElement
 postProcessItems
 postScroller
-postsWhat
 preprocessKnownIssues
 prev
 prevButton
@@ -1272,6 +1270,7 @@ testMissing
 testMixed
 testNameOnly
 testNeedsBaseOrContainerItems
+testNeedsName
 testNoArgument
 testNoClasses
 testNoFactory

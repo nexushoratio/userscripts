@@ -1273,7 +1273,7 @@
      */
     constructor(what, how) {
       ({
-        name: this.#name = 'Unnamed scroller',
+        name: this.#name,
         base: this.#base,
         selectors: this.#selectors,
         containerItems: this.#containerItems = [],
@@ -2041,6 +2041,12 @@
         },
       };
 
+      if (!this.#name) {
+        msg = 'Scroller requires a name';
+        opts.cause.reason = 'MissingName';
+        throw new Error(msg, opts);
+      }
+
       if (this.#base && this.#containerItems.length) {
         msg = 'Cannot have both base AND containerItems';
         opts.cause.reason = 'BaseAndContainerItems';
@@ -2251,9 +2257,44 @@
   /* eslint-disable max-lines-per-function */
   /* eslint-disable no-empty-function */
   /* eslint-disable no-new */
+  /* eslint-disable no-undefined */
   /* eslint-disable no-unused-vars */
   /* eslint-disable require-jsdoc */
   class ScrollerTestCase extends NH.xunit.TestCase {
+
+    testNeedsName() {
+      const what = {
+      };
+      const how = {
+      };
+
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'MissingName',
+          scroller: undefined,
+        },
+        () => {
+          new Scroller(what, how);
+        },
+        'undefined'
+      );
+
+      this.assertRaisesCause(
+        Error,
+        {
+          code: NH.base.Code.INVALID_ARGUMENT,
+          reason: 'MissingName',
+          scroller: '',
+        },
+        () => {
+          what.name = '';
+          new Scroller(what, how);
+        },
+        'empty string'
+      );
+    }
 
     testNeedsBaseOrContainerItems() {
       const what = {
