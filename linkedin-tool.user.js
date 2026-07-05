@@ -9121,7 +9121,7 @@
     ].join(',');
 
     static #entriesSelectorCourses = [
-      // Fairly simple layout
+      // Simple layout
       `:scope > ${this.#div5}`,
     ].join(',')
 
@@ -9137,7 +9137,7 @@
     ].join(',');
 
     static #entriesSelectorExperience = [
-      // Fairly simple layout
+      // Simple layout
       `:scope > ${this.#div4}`,
     ].join(',');
 
