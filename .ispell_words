@@ -336,6 +336,7 @@ entriesSelectorExperience
 entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
+entriesSelectorHonors
 entriesSelectorPatents
 entriesSelectorProjects
 entriesSelectorPublications
@@ -383,7 +384,6 @@ eslint
 eslintrc
 eventScroller
 eventsHow
-eventsWhat
 eventType
 eventTypes
 eventUrn
@@ -815,7 +815,6 @@ offConfig
 offsetHeight
 oldestAllowedDate
 oldItems
-oldPages
 oldUrl
 oldValue
 onActivate

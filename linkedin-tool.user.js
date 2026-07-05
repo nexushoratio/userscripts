@@ -9156,6 +9156,11 @@
       `:scope > ${this.#div6}`,
     ].join(',');
 
+    static #entriesSelectorHonors = [
+      // Simple layout
+      `:scope > ${this.#div6}`,
+    ].join(',')
+
     static #entriesSelectorPatents = [
       // Users with more than two patents have a different depth.  This likely
       // does not yet capture everything.
@@ -9800,13 +9805,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorHonors,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
         uidCallback0: this.#entriesUidFromModes,
