@@ -9035,6 +9035,7 @@
     static #div4
     static #div5
     static #div6
+    static #div7
 
     static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
 
@@ -9044,6 +9045,7 @@
       this.#div4 = this.div(4);
       this.#div5 = this.div(5);
       this.#div6 = this.div(6);
+      this.#div7 = this.div(7);
     }
     /* eslint-enable */
 
@@ -9218,7 +9220,7 @@
 
     static #entriesSelectorVolunteering = [
       // Simple layout
-      `:scope > ${this.#div6} > div`,
+      `:scope > ${this.#div7}`,
     ].join(',')
 
     static #entriesSelectorsWhat = [
