@@ -6037,7 +6037,13 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...MyNetwork.#details});
+      super({
+        spa: spa,
+        name: 'My Network (Grow, Catch up)',
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/mynetwork(?:/(?:grow/|catch-up/.*)|$)', 'u'),
+        readySelector: '#linkedin-logo-xxsmall',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -6199,14 +6205,6 @@
         ]);
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      name: 'My Network (Grow, Catch up)',
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/mynetwork(?:/(?:grow/|catch-up/.*)|$)', 'u'),
-      readySelector: '#linkedin-logo-xxsmall',
-    };
 
     static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
 
@@ -6417,7 +6415,12 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page.     */
     constructor(spa) {
-      super({spa: spa, ...InvitationManager.#details});
+      super({
+        spa: spa,
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
+        readySelector: '#linkedin-logo-xxsmall',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -6586,13 +6589,6 @@
       }
     );
 
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
-      readySelector: '#linkedin-logo-xxsmall',
-    };
-
     #inviteScroller
 
     #initScrollers = () => {
@@ -6693,7 +6689,11 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Jobs.#details});
+      super({
+        spa: spa,
+        pathname: '/jobs/',
+        readySelector: '#linkedin-logo-xxsmall',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -6812,12 +6812,6 @@
         ]);
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/jobs/',
-      readySelector: '#linkedin-logo-xxsmall',
-    };
 
     #jobScroller
     #lastScroller
@@ -7075,7 +7069,13 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...JobsCollections.#details});
+      super({
+        spa: spa,
+        name: 'Jobs Collections (various listings)',
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
+        readySelector: 'footer.global-footer-compact',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
@@ -7282,14 +7282,6 @@
           ['main .jobs-search-create-alert__artdeco-toggle']);
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      name: 'Jobs Collections (various listings)',
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-      readySelector: 'footer.global-footer-compact',
-    };
 
     #cardsScroller
     #detailsContainerClassName
@@ -7634,7 +7626,12 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...JobsView.#details});
+      super({
+        spa: spa,
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
+        readySelector: '[data-sdui-component]',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -7769,13 +7766,6 @@
         ]);
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-      readySelector: '[data-sdui-component]',
-    };
 
     #cardScroller
     #cardsContainer = '[data-testid="lazy-column"]';
@@ -7956,7 +7946,12 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Messaging.#details});
+      super({
+        spa: spa,
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/messaging/.*', 'u'),
+        readySelector: LinkedIn.asideSelector,
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
@@ -8162,13 +8157,6 @@
         NH.web.clickElement(document, ['button.msg-thread__star-icon']);
       }
     );
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/messaging/.*', 'u'),
-      readySelector: LinkedIn.asideSelector,
-    };
 
     static #messageBoxSelector = 'main div.msg-form__contenteditable';
 
@@ -8430,7 +8418,11 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Notifications.#details});
+      super({
+        spa: spa,
+        pathname: '/notifications/',
+        readySelector: 'footer.global-footer-compact',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
@@ -8594,12 +8586,6 @@
       }
     );
 
-    /** @type {Page~PageDetails} */
-    static #details = {
-      pathname: '/notifications/',
-      readySelector: 'footer.global-footer-compact',
-    };
-
     #notificationScroller
 
     #initScrollers = () => {
@@ -8759,7 +8745,12 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Profile.#details});
+      super({
+        spa: spa,
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/in/.*', 'u'),
+        readySelector: '[data-sdui-component]',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -9064,13 +9055,6 @@
 
     static #arrowRight = ':has(svg[id^="arrow-right"])';
     static #arrowRightNot = `:not(${this.#arrowRight})`;
-
-    /** @type {Page~PageDetails} */
-    static #details = {
-      // eslint-disable-next-line prefer-regex-literals
-      pathname: RegExp('^/in/.*', 'u'),
-      readySelector: '[data-sdui-component]',
-    };
 
     static #div3
     static #div4
@@ -10043,7 +10027,11 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Events.#details});
+      super({
+        spa: spa,
+        pathname: '/events/',
+        readySelector: '#share-linkedin-small',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE);
@@ -10140,11 +10128,6 @@
         this.logger.leaving(me);
       }
     );
-
-    static #details = {
-      pathname: '/events/',
-      readySelector: '#share-linkedin-small',
-    };
 
     #collectionScroller
     #collectionsContainer = 'main:has(> section)'
@@ -10365,7 +10348,11 @@
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...SearchResultsPeople.#details});
+      super({
+        spa: spa,
+        pathname: '/search/results/people/',
+        readySelector: '#linkedin-logo-xxsmall',
+      });
 
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.TWO);
@@ -10460,11 +10447,6 @@
         NH.web.focusOnElement(element);
       }
     );
-
-    static #details = {
-      pathname: '/search/results/people/',
-      readySelector: '#linkedin-logo-xxsmall',
-    };
 
     #lastScroller
     #paginationScroller
