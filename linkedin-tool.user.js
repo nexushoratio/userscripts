@@ -186,8 +186,8 @@
     ),
     ish(
       '295',
-      'Navigating from <b>Style-2</b> page to <b>Style-1</b> page breaks LIT',
-      '2026-06-06'
+      'Navigating from *Style-2* page to *Style-1* page breaks LIT',
+      '2026-07-06'
     ),
     ish(
       '299',
@@ -197,9 +197,8 @@
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-06-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
-    ish('325', '<code>isInput()</code> is overly broad', '2026-06-13'),
+    ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
-    ish('338', '<b>License</b> tab fallback is not working', '2026-06-05'),
     ish(
       '342',
       '<strong>Messaging</strong>: Causing browser slow down',
@@ -237,6 +236,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-05',
+      issues: ['360'],
+      subject: 'Tweak regex to catch the interstitial URL',
+    },
+    {
+      date: '2026-07-05',
+      issues: ['302'],
+      subject: 'Support the *Honors* section',
+    },
     {
       date: '2026-07-04',
       issues: ['302'],
@@ -815,22 +824,6 @@
       issues: ['240'],
       subject: 'Migrate <code>JobsView</code> to' +
         ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-06-06',
-      issues: ['302'],
-      subject: 'Make <strong>Topcard</strong> UID computation table-driven',
-    },
-    {
-      date: '2026-06-05',
-      issues: ['302'],
-      subject: 'Fix <code>uidCallback</code> for the' +
-        ' <b>SuggestedForYou</b> section',
-    },
-    {
-      date: '2026-06-05',
-      issues: ['338'],
-      subject: 'Make license fetching a bit more robust',
     },
   ];
 
