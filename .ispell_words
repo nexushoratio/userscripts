@@ -316,7 +316,6 @@ ent
 entriesCurrentModes
 entriesCurrentUid
 entriesExperienceSelector
-entriesHighlightsSelector
 entriesHow
 entriesMentionUidPossibilities
 entriesModeToUid
@@ -532,7 +531,6 @@ includeStackTrace
 indexOf
 inDialog
 individualScroller
-individualsWhat
 infoInstructions
 infoKeyboard
 infoName
@@ -1057,6 +1055,7 @@ setAutoManageLoggerConfigs
 setContext
 setKeyboardContext
 setScroller
+setShortName
 setStyle
 setTimeout
 setTitle
