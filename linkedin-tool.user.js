@@ -9222,6 +9222,11 @@
       `:scope > ${this.#div4}:not(:has(> svg))`,
     ].join(',');
 
+    static #entriesSelectorTestScores = [
+      // Simple layout
+      `:scope > ${this.#div5}`,
+    ].join(',')
+
     static #entriesSelectorTopcard = [
       // Most items
       `:scope > ${this.#div5}` +
@@ -9834,13 +9839,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorTestScores,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          // Not many details, so just use HREF for footer
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
         uidCallback0: this.#entriesUidFromModes,

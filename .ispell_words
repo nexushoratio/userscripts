@@ -165,7 +165,6 @@ ClickConfigFinderWrongSignature
 ClickConfigSelectorArrayAndFinderFunction
 ClickConfigSelectorNotArray
 clickElement
-ClickMethod
 clickOptions
 clientHeight
 clientWidth
@@ -344,6 +343,7 @@ entriesSelectorServices
 entriesSelectorSkills
 entriesSelectorSuggestedForYou
 entriesSelectorsWhat
+entriesSelectorTestScores
 entriesSelectorTopcard
 entriesSelectorVolunteering
 entriesSuggestUids
@@ -792,7 +792,6 @@ normalizeSequence
 notATest
 notequal
 notificationScroller
-notificationsHow
 notificationsWhat
 NotLoaded
 NotMinimumVersion
