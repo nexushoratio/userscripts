@@ -1696,7 +1696,9 @@
       for (const item of this.#getItems()) {
         if (item.contains(evt.target)) {
           this.logger.log('found:', item);
-          if (item !== this.item) {
+          if (item === this.item) {
+            this.focus();
+          } else {
             this.item = item;
           }
         }
