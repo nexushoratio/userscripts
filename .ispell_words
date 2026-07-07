@@ -334,6 +334,7 @@ entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorHonors
+entriesSelectorLanguages
 entriesSelectorPatents
 entriesSelectorProjects
 entriesSelectorPublications
@@ -790,7 +791,6 @@ normalizeSequence
 notATest
 notequal
 notificationScroller
-notificationsWhat
 NotLoaded
 NotMinimumVersion
 NotPage
@@ -987,7 +987,6 @@ ResizeObserverEntry
 restoreConfigs
 resultScroller
 resultsHow
-resultsWhat
 returnToCard
 returnToCollection
 returnToPost
