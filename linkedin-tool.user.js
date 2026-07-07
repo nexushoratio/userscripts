@@ -238,9 +238,36 @@
       '`Scroller`: Clicking on an item does not trigger focus',
       '2026-07-06'
     ),
+    ish(
+      '366',
+      '**Messaging**: On a page reload, the current item does not' +
+        ' scroll into view',
+      '2026-07-07'
+    ),
+    ish(
+      '129',
+      '**Info**: *Shortcuts* Consider a way to implement subsections in' +
+        ' keystroke menu',
+      '2026-07-07'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-07',
+      issues: ['366'],
+      subject: 'Focus on the current item again on an initial page load',
+    },
+    {
+      date: '2026-07-07',
+      issues: ['302'],
+      subject: 'Support the *Languages* section',
+    },
+    {
+      date: '2026-07-07',
+      issues: ['129'],
+      subject: 'Update to latest `lib/base`',
+    },
     {
       date: '2026-07-06',
       issues: ['363'],
