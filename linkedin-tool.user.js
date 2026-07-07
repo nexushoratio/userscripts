@@ -8404,6 +8404,11 @@
           '.msg-conversations-container__convo-item-link--active', timeout
         );
         this.convoCards.goto(item.closest('li'));
+        // Page loading could still be happening, preventing the previous
+        // goto() from doing anything useful.  Try again on the next loop.
+        setTimeout(() => {
+          this.convoCards.focus();
+        }, 0);
       } catch (e) {
         this.logger.log('Active conversation card not found, staying put');
       }
