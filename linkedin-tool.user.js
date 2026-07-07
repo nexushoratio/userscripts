@@ -1598,16 +1598,12 @@
       this.logger.leaving(me);
     }
 
-    static #defaults = {};
-
-    static {
-      Scroller.#defaults.MAX_UID_LENGTH = 20;
-      Scroller.#defaults.OBSERVE_ATTRIBUTES = false;
-      Scroller.#defaults.WAIT_FOR_ITEM = 3000;
-      Scroller.#defaults.WATCH_FOR_CLICKS = true;
-
-      Object.freeze(Scroller.#defaults);
-    }
+    static #defaults = Object.freeze({
+      MAX_UID_LENGTH: 20,
+      OBSERVE_ATTRIBUTES: false,
+      WAIT_FOR_ITEM: 3000,
+      WATCH_FOR_CLICKS: true,
+    });
 
     /**
      * Determines if the item can be viewed.  Usually this means the content
