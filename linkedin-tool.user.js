@@ -233,9 +233,24 @@
     ish('356', '*News*: Change how latest news is tracked', '2026-06-28'),
     ish('241', '`Scroller`: Add `click()` feature', '2026-07-03'),
     ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
+    ish(
+      '363',
+      '`Scroller`: Clicking on an item does not trigger focus',
+      '2026-07-06'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-06',
+      issues: ['363'],
+      subject: 'Call `focus()` if user clicks on the current item',
+    },
+    {
+      date: '2026-07-06',
+      issues: ['302'],
+      subject: 'Support the *Test Scores* section',
+    },
     {
       date: '2026-07-05',
       issues: ['360'],
@@ -818,12 +833,6 @@
       issues: ['302'],
       subject: 'Fix the order of arguments to' +
         ' <code>.#entriesModeToUid()</code>',
-    },
-    {
-      date: '2026-06-07',
-      issues: ['240'],
-      subject: 'Migrate <code>JobsView</code> to' +
-        ' <code>ScrollerStyleService</code>',
     },
   ];
 
