@@ -8211,8 +8211,8 @@
         containerItems: [
           {
             container: 'ul.msg-s-message-list-content',
-            items:
-          ':scope > li.msg-s-message-list__event > div[data-event-urn]',
+            items: ':scope' +
+              ' > li.msg-s-message-list__event > div[data-event-urn]',
           },
         ],
       };
