@@ -5094,10 +5094,12 @@
       this.addService(LinkedInStyleService)
         .addStyles(LinkedIn.Style.ONE, LinkedIn.Style.TWO);
 
-      const keyboardService = this.addService(VMKeyboardService)
+      this.addService(VMKeyboardService)
         .addInstance(this);
       if (litOptions.enableDevMode) {
-        keyboardService.addInstance(new DebugKeys());
+        this.addService(VMKeyboardService)
+          .setShortName(DebugKeys.name)
+          .addInstance(new DebugKeys());
       }
     }
 
