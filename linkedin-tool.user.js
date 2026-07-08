@@ -45,7 +45,6 @@
   const OPTIONS = 'Options';
   const APP_SHORT = APP_LONG.split(' ')
     .at(NH.base.LAST_ITEM);
-  const TOP_CARD = 'Topcard';
 
   /**
    * Save options to storage.
@@ -10048,6 +10047,7 @@
       const me = this.#onActivate.name;
       this.logger.entered(me);
 
+      const TOP_CARD = 'Topcard';
       // Grab the per-user prefix for the current profile that is used for
       // many `section` identifiers.
       const topCard = document.querySelector(
