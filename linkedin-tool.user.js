@@ -1207,6 +1207,16 @@
     /**
      * Function that generates a, preferably, reproducible unique identifier
      * for an Element.
+     *
+     * The method {@link defaultUid} exists to both provide an example and
+     * fallback implementation.  However, it may not always be reproducible
+     * (consider items that consist of counts for reads and likes).  It may
+     * also not be unique within a particular instance.
+     *
+     * It is a good practice to verify the stability and uniqueness of
+     * callbacks across page reloads.  Built in logging will identify
+     * duplicates.
+     *
      * @callback uidCallback
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
