@@ -9189,7 +9189,7 @@
     ].join(',');
 
     static #entriesSelectorCertification = [
-      // While simple, this depth is needed to work w/ and w/o footers.
+      // Simple layout
       `:scope > ${this.#div6}`,
     ].join(',');
 
