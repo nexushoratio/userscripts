@@ -9788,8 +9788,7 @@
         modes: [
           this.UidMode.SCHOOL,
           this.UidMode.HREF,
-          // For "skill association" pop-up with unlisted schools.
-          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.ANCHOR_OVERLAY,
         ],
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
