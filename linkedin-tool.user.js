@@ -171,7 +171,7 @@
   }
 
   const globalIssues = [
-    ish('', 'Minor internal improvement', '9999'),
+    ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-06-25'),
     ish(
       '196',
@@ -199,11 +199,6 @@
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
-    ish(
-      '342',
-      '<strong>Messaging</strong>: Causing browser slow down',
-      '2026-06-08'
-    ),
     ish('343', '`#addError`: Handle objects better', '2026-06-10'),
     ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
     ish('346', '**My Network**: Navigation is failing', '2026-06-14'),
@@ -253,6 +248,32 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-08',
+      issues: ['352'],
+      subject: 'Partially update how `Profile`\'s `Scroller`s are configured',
+    },
+    {
+      date: '2026-07-08',
+      issues: ['302'],
+      subject: 'Migrate *Education* from using `ANCHOR_PROFILE` to' +
+        ' `ANCHOR_OVERLAY`',
+    },
+    {
+      date: '2026-07-08',
+      issues: ['302'],
+      subject: 'Support the *Organizations* section',
+    },
+    {
+      date: '2026-07-08',
+      issues: [''],
+      subject: 'Add a debug key for resetting `Scroller` IDs',
+    },
+    {
+      date: '2026-07-08',
+      issues: ['129'],
+      subject: 'Give `DebugKeys` their own section in the shortcut list',
+    },
     {
       date: '2026-07-07',
       issues: ['366'],
@@ -844,22 +865,6 @@
       issues: ['240'],
       subject: 'Update <strong>Notification</strong>\'s use of' +
         ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-06-08',
-      issues: ['342'],
-      subject: 'Turn off reactivation for all <code>ScrollerService</code>s',
-    },
-    {
-      date: '2026-06-08',
-      issues: ['299'],
-      subject: 'Capture exceptions that happen in <code>Shortcut</code>',
-    },
-    {
-      date: '2026-06-08',
-      issues: ['302'],
-      subject: 'Fix the order of arguments to' +
-        ' <code>.#entriesModeToUid()</code>',
     },
   ];
 
