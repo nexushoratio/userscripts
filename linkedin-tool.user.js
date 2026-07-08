@@ -8836,69 +8836,6 @@
     })
 
     /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static uniqueSectionIdentifier(scroller, element) {  // eslint-disable-line max-statements, max-lines-per-function
-      const me = Profile.uniqueSectionIdentifier.name;
-      this.logger.entered(me, element);
-
-      let content = '';
-      let cardId = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const h2 = LinkedIn.h2(element);
-      let viaH2 = false;
-      const activity = element.closest(`[${CKEY}$="Activity"]`);
-      const similarTo = element.closest(
-        `[${CKEY}^="ProfilePostConnectDrawer"]`
-      );
-      const analytics = element.querySelector('a[href$="/dashboard/"]');
-
-      if (key) {
-        content = key;
-        if (key.startsWith(Profile.#uidSectionPrefix)) {
-          cardId = key.slice(Profile.#uidSectionPrefix.length);
-        }
-      }
-      if (h2) {
-        content = h2;
-        viaH2 = true;
-      }
-      if (activity) {
-        content = 'Activity';
-        viaH2 = false;
-      }
-      if (similarTo) {
-        content = 'SimilarTo';
-        viaH2 = false;
-      }
-      if (analytics) {
-        content = 'Analytics';
-        viaH2 = false;
-      }
-      if (cardId) {
-        content = cardId;
-        viaH2 = false;
-      }
-      if (!content) {
-        content = scroller.defaultUid(element);
-        viaH2 = false;
-      }
-
-      // Monitor names derived from H2 elements for a bit
-      if (viaH2 && !['Highlights', 'Interests'].includes(h2)) {
-        this.logger.log('used via H2', h2);
-        if (litOptions.enableAlertUnknownProfileSections) {
-          NH.base.issues.post('used via H2', h2);
-        }
-      }
-      this.logger.leaving(me, content);
-      return content;
-    }
-
-    /**
      * Create a CSS child combinator selector of DIVs.
      *
      * @param {number} n - The number of DIVs in the selector.
@@ -9364,13 +9301,6 @@
       };
     }
 
-    /** @type {Scroller~How} */
-    static #sectionsHow = {
-      uidCallback: Profile.uniqueSectionIdentifier,
-      classes: [LinkedIn.scrollerPrimaryClassName, this.scrollerClassName],
-      snapToTop: true,
-    };
-
     // Known sections in "curr next" pairs, suitable for tsort.
     static #sectionsPartialOrder = new Set([
 
@@ -9456,20 +9386,6 @@
       'VolunteerExperienceTopLevel, Skills',
 
     ]);
-
-    /** @type {Scroller~What} */
-    static #sectionsWhat = {
-      name: `${this.name} sections`,
-      containerItems: [
-        {
-          container: '[data-testid="lazy-column"]',
-          items: [
-            // Sections of interest.
-            'section:not([aria-roledescription="carousel"])',
-          ].join(','),
-        },
-      ],
-    };
 
     static #uidSectionPrefix
 
@@ -9980,8 +9896,29 @@
     }
 
     #initSectionScroller = () => {
-      this.#sectionScroller = new Scroller(Profile.#sectionsWhat,
-        Profile.#sectionsHow);
+      const what = {
+        name: `${this.name} sections`,
+        containerItems: [
+          {
+            container: '[data-testid="lazy-column"]',
+            items: [
+              // Sections of interest.
+              'section:not([aria-roledescription="carousel"])',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueSectionIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#sectionScroller = new Scroller(what, how);
       this.addService(ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
@@ -10019,6 +9956,69 @@
 
       this.logger.leaving(me, elements);
       return elements;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #uniqueSectionIdentifier = (scroller, element) => {  // eslint-disable-line max-statements, max-lines-per-function
+      const me = this.#uniqueSectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      let cardId = '';
+      const key = LinkedIn.ckeyIdentifier(element);
+      const h2 = LinkedIn.h2(element);
+      let viaH2 = false;
+      const activity = element.closest(`[${CKEY}$="Activity"]`);
+      const similarTo = element.closest(
+        `[${CKEY}^="ProfilePostConnectDrawer"]`
+      );
+      const analytics = element.querySelector('a[href$="/dashboard/"]');
+
+      if (key) {
+        content = key;
+        if (key.startsWith(Profile.#uidSectionPrefix)) {
+          cardId = key.slice(Profile.#uidSectionPrefix.length);
+        }
+      }
+      if (h2) {
+        content = h2;
+        viaH2 = true;
+      }
+      if (activity) {
+        content = 'Activity';
+        viaH2 = false;
+      }
+      if (similarTo) {
+        content = 'SimilarTo';
+        viaH2 = false;
+      }
+      if (analytics) {
+        content = 'Analytics';
+        viaH2 = false;
+      }
+      if (cardId) {
+        content = cardId;
+        viaH2 = false;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+        viaH2 = false;
+      }
+
+      // Monitor names derived from H2 elements for a bit
+      if (viaH2 && !['Highlights', 'Interests'].includes(h2)) {
+        this.logger.log('used via H2', h2);
+        if (litOptions.enableAlertUnknownProfileSections) {
+          NH.base.issues.post('used via H2', h2);
+        }
+      }
+      this.logger.leaving(me, content);
+      return content;
     }
 
     #resetEntries = () => {
