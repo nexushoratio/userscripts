@@ -129,7 +129,6 @@ cdfc
 cdn
 centerOfElement
 CertificationTopLevel
-charCodeAt
 checkAssertionCounts
 checkForNewRelease
 checkForNews
@@ -334,6 +333,7 @@ entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorHonors
 entriesSelectorLanguages
+entriesSelectorOrganizations
 entriesSelectorPatents
 entriesSelectorProjects
 entriesSelectorPublications
@@ -602,7 +602,6 @@ json
 jumpToEndItem
 kbd
 KeyboardEvent
-keyboardService
 KeyboardService
 keydown
 keyMap

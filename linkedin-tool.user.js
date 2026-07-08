@@ -9244,6 +9244,11 @@
       `:scope > ${this.#div6}`,
     ].join(',')
 
+    static #entriesSelectorOrganizations = [
+      // Simple layout
+      `:scope > ${this.#div6}`,
+    ].join(',')
+
     static #entriesSelectorPatents = [
       // Users with more than two patents have a different depth.  This likely
       // does not yet capture everything.
@@ -9926,13 +9931,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorOrganizations,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          // Not many details, so just use HREF for footer
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback0: this.#entriesUidFromModes,
