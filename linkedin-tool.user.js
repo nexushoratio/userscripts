@@ -5073,6 +5073,25 @@
       }
     );
 
+    resetScrollers = new Shortcut(
+      'c-c c-s',
+      'Reset all Scroller IDs',
+      () => {
+        const me = this.resetScrollers.name;
+        this.#logger.entered(me);
+
+        let count = 0;
+        for (const item of document.querySelectorAll('[data-scroller-id]')) {
+          delete item.dataset.scrollerId;
+          count += 1;
+        }
+
+        this.#logger.log('items reset:', count);
+
+        this.#logger.leaving(me);
+      }
+    );
+
     #logger
 
   }

@@ -315,7 +315,6 @@ EnsureTestCase
 ent
 entriesCurrentModes
 entriesCurrentUid
-entriesExperienceSelector
 entriesHow
 entriesMentionUidPossibilities
 entriesModeToUid
@@ -884,7 +883,6 @@ pageStyle
 PageTestCase
 paginationHow
 paginationScroller
-paginationWhat
 paginator
 panelName
 params
@@ -980,6 +978,7 @@ resetJobs
 resetLoggerConfigs
 resetMessages
 resetScroll
+resetScrollers
 ResizeAction
 resizeObserver
 ResizeObserver
