@@ -177,7 +177,7 @@
       '<code>userscript</code>: Explore <code>addValueChangeListener</code>',
       '2026-06-10'
     ),
-    ish('209', 'Support **SearchResultsPeople** view', '2026-06-09'),
+    ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
     ish('236', 'Support **Events** page', '2026-06-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
@@ -247,6 +247,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-09',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-09',
+      issues: ['302'],
+      subject: 'Support the *Interests* section',
+    },
     {
       date: '2026-07-08',
       issues: ['352'],
@@ -831,39 +842,6 @@
       date: '2026-06-10',
       issues: ['196'],
       subject: 'Enable the Value Change Listener API',
-    },
-    {
-      date: '2026-06-09',
-      issues: ['302'],
-      subject: 'Make <strong>Analytics</strong> UID computation table-driven',
-    },
-    {
-      date: '2026-06-09',
-      issues: ['302'],
-      subject: 'Make <strong>SuggestedForYou</strong> UID computation' +
-        ' table-driven',
-    },
-    {
-      date: '2026-06-09',
-      issues: ['240'],
-      subject: 'Retire <code>LinkedInToolbarService</code>',
-    },
-    {
-      date: '2026-06-09',
-      issues: ['240'],
-      subject: 'Update <strong>Event</strong>\'s use of' +
-        ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-06-09',
-      issues: [''],
-      subject: 'Give <code>DebugKeys</code> its own <code>Logger</code>',
-    },
-    {
-      date: '2026-06-09',
-      issues: ['240'],
-      subject: 'Update <strong>Notification</strong>\'s use of' +
-        ' <code>ScrollerStyleService</code>',
     },
   ];
 
