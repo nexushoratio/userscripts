@@ -9190,6 +9190,11 @@
       `:scope > ${this.#div6}`,
     ].join(',')
 
+    static #entriesSelectorInterests = [
+      // Simple layout, but deep due to multiple tab panels.
+      `:scope > ${this.#div6} > ${this.#div3}`,
+    ].join(',')
+
     static #entriesSelectorLanguages = [
       // Simple layout
       `:scope > ${this.#div6}`,
@@ -9871,13 +9876,18 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Interests', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
+          this.#entriesSelectorInterests,
           this.#entriesSelectorFooter,
         ],
-        modes: [],
+        modes: [
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.COMPANY,
+          this.UidMode.SCHOOL,
+          this.UidMode.ANCHOR,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
         uidCallback0: this.#entriesUidFromModes,

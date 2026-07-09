@@ -332,6 +332,7 @@ entriesSelectorFeatured
 entriesSelectorFooter
 entriesSelectorHighlights
 entriesSelectorHonors
+entriesSelectorInterests
 entriesSelectorLanguages
 entriesSelectorOrganizations
 entriesSelectorPatents
@@ -500,7 +501,6 @@ groupStack
 grp
 guessPageStyle
 handleEvent
-hashCode
 hasOwn
 helpTabDefinition
 historicalIdToIndex
@@ -984,7 +984,6 @@ ResizeObserver
 ResizeObserverEntry
 restoreConfigs
 resultScroller
-resultsHow
 returnToCard
 returnToCollection
 returnToPost
