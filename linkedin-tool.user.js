@@ -8956,18 +8956,6 @@
       return [mode, content];
     }
 
-    /**
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
-     */
-    static entriesUidShim(scroller, element) {
-      const [mode, content] = Profile.#entriesCurrentUid(scroller, element);
-      // TODO(#302): Transitioning from String to Symbol.
-      return [mode.description ?? mode, content].join('-');
-    }
-
     /** @type {Scroller} */
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
@@ -9083,14 +9071,6 @@
 
     /** @type {Scroller~uidCallback} */
     static #entriesCurrentUid
-
-    /** @type {Scroller~How} */
-    static #entriesHow = {
-      uidCallback: this.entriesUidShim,
-      classes: [LinkedIn.scrollerSecondaryClassName, this.scrollerClassName],
-      autoActivate: true,
-      snapToTop: false,
-    };
 
     /**
      * @typedef {object} ScrollerConfig
@@ -9307,11 +9287,6 @@
       this.#entriesUidSelectorTestId = this.#entriesUidSelectorTestIdPart1 +
         this.#entriesUidSelectorTestIdPart2;
     }
-
-    /** @type {Scroller~What} */
-    static #entriesWhat = {
-      name: `${this.name} entries`,
-    };
 
     static {
       this.#entriesScrollerConfigDefault = {
@@ -9957,14 +9932,26 @@
         this.sections.itemUid
       ) ?? Profile.#entriesScrollerConfigDefault;
 
+      const what = {
+        name: `${this.name} entries`,
+        base: this.sections.item,
+        selectors: config.selectors,
+      };
+
+      const how = {
+        uidCallback: this.#entriesUidShim,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.ctor.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
       Profile.#entriesCurrentUid = config.uidCallback;
-      Profile.#entriesWhat.selectors = config.selectors;
       Profile.#entriesCurrentModes = config.modes;
 
-      this.#entryScroller = new Scroller(
-        {base: this.sections.item, ...Profile.#entriesWhat},
-        Profile.#entriesHow
-      );
+      this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
         .on('out-of-range', this.#returnToSection);
@@ -10043,6 +10030,18 @@
       }
       this.logger.leaving(me, content);
       return content;
+    }
+
+    /**
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {Element} element - Element to examine.
+     * @returns {string} - A value unique to this element.
+     */
+    #entriesUidShim = (scroller, element) => {
+      const [mode, content] = Profile.#entriesCurrentUid(scroller, element);
+      // TODO(#302): Transitioning from String to Symbol.
+      return [mode.description ?? mode, content].join('-');
     }
 
     #resetEntries = () => {
