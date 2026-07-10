@@ -207,7 +207,6 @@ contentWrapper
 ContentWrapperTestCase
 convoCards
 convoCardScroller
-convoCardsHow
 convoCardsList
 countAsserts
 CourseTopLevelSection
@@ -322,6 +321,7 @@ entriesScrollerConfigs
 entriesSelectorAbout
 entriesSelectorActivity
 entriesSelectorAnalytics
+entriesSelectorCauses
 entriesSelectorCertification
 entriesSelectorConnectedAccounts
 entriesSelectorCourses
@@ -642,7 +642,6 @@ linkedIn
 LinkedIn
 LinkedIn's
 LinkedInStyleService
-LinkedInToolbarService
 Linkify
 listitem
 litLabel

@@ -8818,6 +8818,7 @@
       CKEY: Symbol.for('ckey'),
       COMMENT_URN: Symbol.for('commentUrn'),
       COMPANY: Symbol.for('company'),
+      DEFAULT: Symbol.for('default'),
       FALLBACK: Symbol.for('fallback'),
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
@@ -9096,6 +9097,11 @@
       `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
         ` a${this.#arrowRightNot}`,
     ].join(',');
+
+    static #entriesSelectorCauses = [
+      // Skip the header.
+      ':scope > div > div:not(:has(> h2))',
+    ].join(',')
 
     static #entriesSelectorCertification = [
       // Simple layout
@@ -9436,6 +9442,9 @@
               content = new URL(scratch).pathname +
                 scroller.defaultUid(element);
             }
+            break;
+          case this.UidMode.DEFAULT:
+            content = scroller.defaultUid(element);
             break;
           case this.UidMode.FALLBACK:
             // No-op
@@ -9843,13 +9852,15 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
-        uidCallback0: this.#entriesUidFromModes,
-        uidCallback: this.uniqueEntryIdentifier,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorDefault,
-          this.#entriesSelectorFooter,
+          // Small section
+          this.#entriesSelectorCauses,
         ],
-        modes: [],
+        modes: [
+          // Nothing better to use.
+          this.UidMode.DEFAULT,
+        ],
       });
     }
 
