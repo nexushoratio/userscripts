@@ -9365,8 +9365,6 @@
 
     ]);
 
-    static #uidSectionPrefix
-
     /**
      * Compute all UIDs for the requested modes.
      *
@@ -9868,6 +9866,7 @@
     #entryScroller
     #lastScroller
     #sectionScroller
+    #sectionUidPrefix
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -9981,8 +9980,8 @@
 
       if (key) {
         content = key;
-        if (key.startsWith(Profile.#uidSectionPrefix)) {
-          cardId = key.slice(Profile.#uidSectionPrefix.length);
+        if (key.startsWith(this.#sectionUidPrefix)) {
+          cardId = key.slice(this.#sectionUidPrefix.length);
         }
       }
       if (h2) {
@@ -10051,7 +10050,7 @@
       const topCard = document.querySelector(
         `[${CKEY}$="${TOP_CARD}"]`
       );
-      Profile.#uidSectionPrefix = topCard?.getAttribute(CKEY)
+      this.#sectionUidPrefix = topCard?.getAttribute(CKEY)
         ?.slice(0, -TOP_CARD.length);
 
       this.logger.leaving(me);

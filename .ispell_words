@@ -1020,7 +1020,6 @@ ScrollerStyleService
 ScrollerTestCase
 scrollIntoView
 scrollMarginBottom
-scrollMarginTop
 scrollToCurrentItem
 scrollTop
 sdui
@@ -1036,6 +1035,7 @@ sectionScroller
 sectionsHow
 sectionsPartialOrder
 sectionsWhat
+sectionUidPrefix
 seeMore
 selectCurrentResultsPage
 selectorArray
@@ -1398,7 +1398,6 @@ UidMode
 uidPostRE
 uids
 UIDs
-uidSectionPrefix
 uint
 ul
 undef
