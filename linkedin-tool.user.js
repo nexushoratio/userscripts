@@ -172,13 +172,8 @@
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-06-25'),
-    ish(
-      '196',
-      '<code>userscript</code>: Explore <code>addValueChangeListener</code>',
-      '2026-06-10'
-    ),
     ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
-    ish('236', 'Support **Events** page', '2026-06-10'),
+    ish('236', 'Support **Events** page', '2026-07-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
       '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-06-22'
@@ -198,7 +193,6 @@
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
-    ish('343', '`#addError`: Handle objects better', '2026-06-10'),
     ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
     ish('346', '**My Network**: Navigation is failing', '2026-06-14'),
     ish(
@@ -247,6 +241,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-10',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-10',
+      issues: ['302'],
+      subject: 'Support the *Causes* section',
+    },
     {
       date: '2026-07-09',
       issues: ['352'],
@@ -804,44 +809,6 @@
       issues: ['240'],
       subject: 'Refactor a <code>constructor()</code> that is about a' +
         ' grow a bit',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['302'],
-      subject: 'A new partial ordering pair',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['343'],
-      subject: 'Have <code>#addError()</code> run everything through' +
-        ' <code>TypeTool.repr()</code>',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['302'],
-      subject: 'Make <strong>About</strong> UID computation table-driven',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['302'],
-      subject: 'Make <strong>Highlights</strong> UID computation' +
-        ' table-driven',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['240'],
-      subject: 'Migrate <code>SearchResultsPeople</code> to' +
-        ' <code>ScrollerStyleService</code>',
-    },
-    {
-      date: '2026-06-10',
-      issues: [''],
-      subject: 'Fine tune the Style-2 body selectors',
-    },
-    {
-      date: '2026-06-10',
-      issues: ['196'],
-      subject: 'Enable the Value Change Listener API',
     },
   ];
 
