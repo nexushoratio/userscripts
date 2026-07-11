@@ -8807,101 +8807,6 @@
       return a.join(' > ');
     }
 
-    /**
-     * With so much variation in items, this is overly long.
-     *
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {[string, string]} - A [mode, value] unique to this element.
-     */
-    static uniqueEntryIdentifier = (scroller, element) => {  // eslint-disable-line max-lines-per-function, max-statements
-      const me = Profile.uniqueEntryIdentifier.name;
-      scroller.logger.entered(me, element);
-
-      let mode = 'unknown';
-      let content = '';
-      let pathname = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const href = element.href;
-      const img = element.querySelector(':scope:is(a) img')?.src;
-      const anchor = element.querySelector(
-        'a' +
-          ':not([href*="/company/"])' +
-          ':not([href*="/feed/"])' +
-          ':not([href*="/safety/"])'
-      )?.href;
-      const feedAnchor = element.querySelector('a[href*="/feed/"')?.href;
-      const safetyAnchor = element.querySelector('a[href*="/safety/"')?.href;
-      const ariaLabel = element.ariaLabel ||
-            element.querySelector('[aria-label]')
-              ?.getAttribute('aria-label');
-
-      const page = new URL(document.location);
-      // Aria-label may point to the same company logo more than once.
-      if (ariaLabel) {
-        mode = 'ariaLabel';
-        content = ariaLabel;
-      }
-      if (key) {
-        mode = 'key';
-        content = key;
-      }
-      if (safetyAnchor) {
-        mode = 'safetyAnchor';
-        content = new URL(safetyAnchor).searchParams.get('urlhash');
-      }
-      if (feedAnchor) {
-        mode = 'feedAnchor';
-        content = new URL(feedAnchor).pathname;
-      }
-      if (anchor) {
-        pathname = new URL(anchor).pathname;
-        if (!['/', page.pathname].includes(pathname)) {
-          mode = 'anchor';
-          content = pathname;
-        }
-      }
-      if (href) {
-        const url = new URL(href);
-        pathname = url.pathname;
-        if (pathname.startsWith('/feed/update/')) {
-          pathname = url.searchParams.get('dashReplyUrn') ||
-            url.searchParams.get('dashCommentUrn') ||
-            pathname;
-        }
-        // The Activity > Images grid all link to the Profile.
-        if (img && ['/', page.pathname].includes(pathname)) {
-          // There are lots of options to choose from here.  With minimal
-          // testing, so far this seems to be both unique and stable.
-          mode = 'href,img';
-          content = new URL(img)
-            .pathname
-            .split('/')
-            .at(NH.base.LAST_ITEM);
-        } else {
-          // Some sections have a responsive mode where the same information
-          // is listed twice, in two different layouts.  And the active layout
-          // is determined by page size.  So far, they seem to follow this
-          // similar pattern.
-          const extra = element.parentElement.matches(':has(hr)')
-            ? '-hr'
-            : '';
-
-          mode = 'href';
-          content = pathname + extra;
-        }
-      }
-      if (!content) {
-        this.#entriesSuggestUids(scroller, element);
-        mode = 'default';
-        content = scroller.defaultUid(element);
-      }
-
-      scroller.logger.leaving(me, mode, content);
-      return [mode, content];
-    }
-
     /** @type {Scroller} */
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
@@ -9239,13 +9144,6 @@
         this.#entriesUidSelectorTestIdPart2;
     }
 
-    static {
-      this.#entriesScrollerConfigDefault = {
-        uidCallback: this.uniqueEntryIdentifier,
-        selectors: this.#entriesSelectorsWhat,
-      };
-    }
-
     // Known sections in "curr next" pairs, suitable for tsort.
     static #sectionsPartialOrder = new Set([
 
@@ -9548,6 +9446,11 @@
     }
 
     static {
+      this.#entriesScrollerConfigDefault = {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: this.#entriesSelectorsWhat,
+        modes: [this.UidMode.HREF],
+      };
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorTopcard],
