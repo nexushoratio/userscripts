@@ -353,7 +353,6 @@ entriesUidSelectorIdPart
 entriesUidSelectorTestId
 entriesUidSelectorTestIdPart
 entriesUidShim
-entriesWhat
 entryScroller
 enum
 environmentData
@@ -879,7 +878,6 @@ pageService
 PagesToDo
 pageStyle
 PageTestCase
-paginationHow
 paginationScroller
 paginator
 panelName
@@ -1125,6 +1123,7 @@ tabList
 tablistSelector
 tabSnippet
 TabsTestCase
+TabTestCase
 tagName
 Tampermonkey
 targetLength
