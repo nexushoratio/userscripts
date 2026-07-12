@@ -1,0 +1,16 @@
+{
+  "opts": {
+    "private": true
+  },
+  "source": {
+    "include": ["test.user.js"]
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "name": "Nexus Horatio's Userscripts",
+    "footerText": "Nexus Horatio's Userscripts",
+    "logo": {
+      "height": "0"
+    }
+  }
+}
