@@ -1,0 +1,77 @@
+# Assemble and deploy to GitHub Pages.
+#
+# This using Jekyll to process Markdown to static HTML and JSDoc for the code.
+
+name: Pages
+
+on: push
+
+env:
+  REL_JK: jk
+  ABS_JK: ${{ github.workspace }}/jk
+  ABS_JSDOC: ${{ github.workspace }}/out
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tools
+        run: |
+          npm install -g jsdoc tui-jsdoc-template taffydb
+
+      # Jekyll runs as a Docker image and the output directories end up being
+      # owned by root.  So we store them in a temp directory and later copy
+      # the results over.
+      - name: Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: main/pages
+          destination: ${{ env.REL_JK }}
+
+      # Yes, two branches: main (stable) and jsdoc (preview)
+      # See https://github.com/nexushoratio/userscripts/issues/367
+      - name: Checkout (main)
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          path: main
+
+      - name: Checkout (jsdoc)
+        uses: actions/checkout@v7
+        with:
+          ref: jsdoc
+          path: jsdoc
+
+      # We currently build API from two branches, one as a preview.
+      - name: JSDoc
+        run: |
+          pushd main
+          jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+          popd
+          pushd jsdoc
+          jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/preview -t $(npm root -g)/tui-jsdoc-template
+          popd
+
+      - name: Merge document trees
+        run: |
+          pushd ${{ env.ABS_JK }}
+          find -depth | cpio -pdmv ${{ env.ABS_JSDOC }}
+          popd
+
+      - name: Save
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ env.ABS_JSDOC }}
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pages
+        uses: actions/deploy-pages@v5
