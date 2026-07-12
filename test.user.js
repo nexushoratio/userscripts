@@ -20,6 +20,12 @@
 // @grant       window.onurlchange
 // ==/UserScript==
 
+/**
+ * @file This exists to run library tests and serve as a demonstration
+ * infrastructure.
+ * @module test
+ */
+
 // eslint-disable-next-line max-lines-per-function
 (async () => {
   'use strict';
@@ -35,6 +41,10 @@
   NH.xunit.testing.enabled = true;
 
   await NH.userscript.setAutoManageLoggerConfigs(true);
+
+  /**
+   * @const {NH.base.Logger} logger - Default logger for the module.
+   */
   const logger = new NH.base.Logger('Testing');
   logger.log('starting');
 
@@ -48,9 +58,16 @@
 
   logger.log('finished');
 
+  /**
+   * @const {NH.base.Logger} issueLogger - Logger specifically for posted
+   * issues.
+   */
   const issueLogger = new NH.base.Logger('Issues');
 
-  /** @param {...*} items - Posted issues. */
+  /**
+   * @function issueListener
+   * @param {...*} items - Posted issues.
+   */
   function issueListener(...issues) {
     for (const issue of issues) {
       issueLogger.log('item:', issue);
@@ -60,9 +77,13 @@
 
   NH.base.issues.listen(issueListener);
 
-  /* eslint-disable max-lines-per-function */
-  /* eslint-disable require-jsdoc */
-  function demoGrid() {
+  /**
+   * Demonstrate a populated grid widget.
+   *
+   * @function demoGrid
+   */
+  function demoGrid() {  // eslint-disable-line max-lines-per-function
+    /* eslint-disable require-jsdoc */
     function renderInt(record, field) {
       return `${record[field]}`;
     }
@@ -74,6 +95,7 @@
     function rowClassesFunc(record) {
       return [record.species, record.stage];
     }
+    /* eslint-enable */
 
     const data = [
       {id: 1, name: 'Sally', species: 'human', stage: 'juvenile'},
@@ -115,8 +137,10 @@
     document.body.append(w.container);
   }
 
+  /** Boring details for a boring demo. */
   class DemoDetails extends NH.spa.Details {}
 
+  /** Class for the whole test site. */
   class Global extends NH.spa.Page {
 
     /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
@@ -137,45 +161,51 @@
 
   }
 
+  /** Class for just the root page. */
   class Slash extends NH.spa.Page {
 
     /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Slash.#details});
+      super({
+        spa: spa,
+        pathname: '/',
+      });
+
       this.dispatcher.on('activate', this.#onActivate);
     }
 
-    /** @type {NH.spa.Page~PageDetails} */
-    static #details = {
-      pathname: '/',
-    };
-
+    /** @method */
     #onActivate = () => {
       this.logger.log('world');
     }
 
   }
 
-  // Localhost:8000 happens to point to my local copy of this git workspace.
+  /** Class for handling the lib directory. */
   class Libby extends NH.spa.Page {
 
     /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Libby.#details});
+      super({
+        spa: spa,
+        pathname: '/lib/',
+      });
+
       this.dispatcher.on('activate', this.#onActivate);
     }
 
-    /** @type {NH.spa.Page~PageDetails} */
-    static #details = {
-      pathname: '/lib/',
-    };
-
+    /** @method */
     #onActivate = () => {
       this.logger.log('libby');
     }
 
   }
 
+  /**
+   * Demonstrate using SPA for multiple pages.
+   *
+   * @function demoSpa
+   */
   function demoSpa() {
     const deets = new DemoDetails();
     const spa = new NH.spa.SPA(deets);
@@ -187,7 +217,6 @@
     logger.log('deets', deets);
     logger.log('spa', spa);
   }
-  /* eslint-enable */
 
   const demos = [
     {enabled: false, demo: demoGrid},
