@@ -183,11 +183,6 @@
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
       '2026-07-06'
     ),
-    ish(
-      '299',
-      '<code>VM.shortcut</code> is swallowing and ignoring exceptions',
-      '2026-06-08'
-    ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-06-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
@@ -241,6 +236,12 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-11',
+      issues: ['302'],
+      subject: 'Retire `uniqueEntryIdentifier` in favor of' +
+        ' `#entriesUidFromModes`',
+    },
     {
       date: '2026-07-10',
       issues: ['352'],
@@ -787,28 +788,6 @@
       issues: ['240'],
       subject: 'Refactor all <code>Scroller</code> configs out of' +
         ' <code>constructor()</code>',
-    },
-    {
-      date: '2026-06-12',
-      issues: ['302'],
-      subject: 'Factor out <em>Services</em> into a' +
-        ' secondary config',
-    },
-    {
-      date: '2026-06-12',
-      issues: ['240'],
-      subject: 'Initial implementation of <code>StyleService</code>',
-    },
-    {
-      date: '2026-06-11',
-      issues: ['299'],
-      subject: 'Use optional chaining in more shortcuts',
-    },
-    {
-      date: '2026-06-11',
-      issues: ['240'],
-      subject: 'Refactor a <code>constructor()</code> that is about a' +
-        ' grow a bit',
     },
   ];
 
