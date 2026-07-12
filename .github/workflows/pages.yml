@@ -19,15 +19,6 @@ jobs:
         run: |
           npm install -g jsdoc tui-jsdoc-template taffydb
 
-      # Jekyll runs as a Docker image and the output directories end up being
-      # owned by root.  So we store them in a temp directory and later copy
-      # the results over.
-      - name: Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: main/pages
-          destination: ${{ env.REL_JK }}
-
       # Yes, two branches: main (stable) and jsdoc (preview)
       # See https://github.com/nexushoratio/userscripts/issues/367
       - name: Checkout (main)
@@ -41,6 +32,15 @@ jobs:
         with:
           ref: jsdoc
           path: jsdoc
+
+      # Jekyll runs as a Docker image and the output directories end up being
+      # owned by root.  So we store them in a temp directory and later copy
+      # the results over.
+      - name: Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: main/pages
+          destination: ${{ env.REL_JK }}
 
       # We currently build API from two branches, one as a preview.
       - name: JSDoc
