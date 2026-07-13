@@ -8900,9 +8900,6 @@
     /** @type {UidMode[]} */
     static #entriesCurrentModes
 
-    /** @type {Scroller~uidCallback} */
-    static #entriesCurrentUid
-
     /**
      * @typedef {object} ScrollerConfig
      * @property {Scroller~uidCallback} uidCallback - Callback to generate a
@@ -9725,6 +9722,7 @@
     }
 
     #checkingPartialOrder = false
+    #entriesCurrentUid
     #entryScroller
     #lastScroller
     #sectionScroller
@@ -9798,7 +9796,7 @@
         snapToTop: false,
       };
 
-      Profile.#entriesCurrentUid = config.uidCallback;
+      this.#entriesCurrentUid = config.uidCallback;
       Profile.#entriesCurrentModes = config.modes;
 
       this.#entryScroller = new Scroller(what, how);
@@ -9889,7 +9887,7 @@
      * @returns {string} - A value unique to this element.
      */
     #entriesUidShim = (scroller, element) => {
-      const [mode, content] = Profile.#entriesCurrentUid(scroller, element);
+      const [mode, content] = this.#entriesCurrentUid(scroller, element);
       // TODO(#302): Transitioning from String to Symbol.
       return [mode.description ?? mode, content].join('-');
     }
