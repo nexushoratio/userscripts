@@ -9,6 +9,12 @@ set -u
 
 echo 'Starting commit-msg hook.'
 
+branch=$(git branch --show-current)
+if [[ ${branch} == jsdoc ]]; then
+  echo "Ignoring branch: ${branch}"
+  exit
+fi
+
 filename=$1
 workfile=$(mktemp)
 

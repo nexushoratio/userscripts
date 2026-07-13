@@ -3,6 +3,14 @@
 
 set -u
 
+echo 'Starting pre-push hook'
+
+branch=$(git branch --show-current)
+if [[ ${branch} == jsdoc ]]; then
+  echo "Ignoring branch: ${branch}"
+  exit
+fi
+
 messages=()
 while read -r _ local_oid _ remote_oid; do
   range="${remote_oid}..${local_oid}"
@@ -51,3 +59,4 @@ while read -r _ local_oid _ remote_oid; do
     exit 1
   fi
 done
+echo 'Pre-push hook success!'
