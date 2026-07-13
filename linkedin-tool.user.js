@@ -237,6 +237,38 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-13',
+      issues: ['302'],
+      subject: 'Move the default configuration into the map with a symbol' +
+        ' key',
+    },
+    {
+      date: '2026-07-13',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-13',
+      issues: ['302'],
+      subject: 'Create `FOOTER` as an alternative to `HREF`',
+    },
+    {
+      date: '2026-07-13',
+      issues: ['302'],
+      subject: 'Simplify how the default config is initialized',
+    },
+    {
+      date: '2026-07-13',
+      issues: ['302'],
+      subject: 'Ignore another common element `id`',
+    },
+    {
+      date: '2026-07-13',
+      issues: ['302'],
+      subject: 'Update the *Suggested for you* section\'s selector',
+    },
+    {
       date: '2026-07-11',
       issues: ['302'],
       subject: 'Retire `uniqueEntryIdentifier` in favor of' +
