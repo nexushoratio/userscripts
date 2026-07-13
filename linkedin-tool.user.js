@@ -9060,7 +9060,9 @@
     static #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
       ':scope [data-testid="carousel-child-container"] > *',
-      `:scope > ${this.#div4}:not(:has(> svg))`,
+      `:scope > ${this.#div4}` +
+        ':not(:has(> svg))' +
+        ':not(:has([data-testid="carousel-container]))',
     ].join(',');
 
     static #entriesSelectorTestScores = [
