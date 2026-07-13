@@ -9094,11 +9094,6 @@
       `:scope > ${this.#div7}`,
     ].join(',')
 
-    static #entriesSelectorsWhat = [
-      this.#entriesSelectorDefault,
-      this.#entriesSelectorFooter,
-    ];
-
     static #entriesUidSelectorId
     static #entriesUidSelectorIdPart1 = '[id]';
     static #entriesUidSelectorIdPart2 = [
@@ -9430,7 +9425,10 @@
     static {
       this.#entriesScrollerConfigDefault = {
         uidCallback: this.#entriesUidFromModes,
-        selectors: this.#entriesSelectorsWhat,
+        selectors: [
+          this.#entriesSelectorDefault,
+          this.#entriesSelectorFooter,
+        ],
         modes: [this.UidMode.HREF],
       };
       this.#entriesScrollerConfigs.set('Topcard', {
