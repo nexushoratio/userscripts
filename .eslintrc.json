@@ -266,7 +266,7 @@
         "preferType": {
           "Boolean": "boolean",
           "Number": "number",
-          "Object": "error",
+          "Object": "object",
           "String": "string"
         },
         "requireReturn": false,
