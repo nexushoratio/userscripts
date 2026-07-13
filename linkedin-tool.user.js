@@ -9103,6 +9103,7 @@
     static #entriesUidSelectorIdPart1 = '[id]';
     static #entriesUidSelectorIdPart2 = [
       // IDs to ignore.
+      'calendar-small',
       'company-accent-4',
       'link-external-small',
       'school-accent-4',
