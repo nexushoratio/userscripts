@@ -8766,6 +8766,7 @@
       COMPANY: Symbol.for('company'),
       DEFAULT: Symbol.for('default'),
       FALLBACK: Symbol.for('fallback'),
+      FOOTER: Symbol.for('footer'),
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
       IMG: Symbol.for('img'),
@@ -9289,8 +9290,17 @@
           case this.UidMode.FALLBACK:
             // No-op
             break;
+          case this.UidMode.FOOTER:
+            scratch = element.matches(this.#entriesSelectorFooter);
+            if (scratch) {
+              href = element.href;
+            }
+            break;
           case this.UidMode.HREF:
-            href = element.href;
+            scratch = element.matches(this.#entriesSelectorFooter);
+            if (!scratch) {
+              href = element.href;
+            }
             break;
           case this.UidMode.ID:
             scratch = element.matches(this.#entriesUidSelectorId)
@@ -9429,7 +9439,7 @@
           this.#entriesSelectorDefault,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.HREF],
+        modes: [this.UidMode.FOOTER],
       };
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
@@ -9451,7 +9461,10 @@
           this.#entriesSelectorAnalytics,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.HREF],
+        modes: [
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
+        ],
       });
       // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
       this.#entriesScrollerConfigs.set('Highlights', {
@@ -9510,6 +9523,7 @@
           this.UidMode.HREF,
           this.UidMode.IMG,
           this.UidMode.ANCHOR,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
@@ -9522,6 +9536,7 @@
           this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.COMPANY,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
@@ -9534,6 +9549,7 @@
           this.UidMode.SCHOOL,
           this.UidMode.HREF,
           this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
@@ -9556,7 +9572,7 @@
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.COMPANY,
           this.UidMode.SCHOOL,
-          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Projects', {
@@ -9571,6 +9587,7 @@
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.HREF,
           this.UidMode.TEST_ID,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
@@ -9583,6 +9600,7 @@
           this.UidMode.COMPANY,
           this.UidMode.HREF,
           this.UidMode.TEST_ID,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Skills', {
@@ -9595,6 +9613,7 @@
           // These actually look stable.
           this.UidMode.CKEY,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
@@ -9606,6 +9625,7 @@
         modes: [
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
@@ -9617,6 +9637,7 @@
         modes: [
           this.UidMode.SAFETY,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Patents', {
@@ -9628,6 +9649,7 @@
         modes: [
           this.UidMode.SAFETY,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
@@ -9636,10 +9658,7 @@
           this.#entriesSelectorCourses,
           this.#entriesSelectorFooter,
         ],
-        modes: [
-          // Not many details, so just use HREF for footer
-          this.UidMode.HREF,
-        ],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
@@ -9650,6 +9669,7 @@
         modes: [
           this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
@@ -9658,10 +9678,7 @@
           this.#entriesSelectorTestScores,
           this.#entriesSelectorFooter,
         ],
-        modes: [
-          // Not many details, so just use HREF for footer
-          this.UidMode.HREF,
-        ],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
         uidCallback: this.#entriesUidFromModes,
@@ -9669,10 +9686,7 @@
           this.#entriesSelectorLanguages,
           this.#entriesSelectorFooter,
         ],
-        modes: [
-          // Not many details, so just use HREF for footer
-          this.UidMode.HREF,
-        ],
+        modes: [this.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
         uidCallback: this.#entriesUidFromModes,
@@ -9680,10 +9694,7 @@
           this.#entriesSelectorOrganizations,
           this.#entriesSelectorFooter,
         ],
-        modes: [
-          // Not many details, so just use HREF for footer
-          this.UidMode.HREF,
-        ],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
@@ -9697,6 +9708,7 @@
           this.UidMode.SCHOOL,
           this.UidMode.ANCHOR,
           this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
