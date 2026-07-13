@@ -8899,6 +8899,7 @@
 
     /** @type {UidMode[]} */
     static #entriesCurrentModes
+    static #entriesScrollerConfigDefault = Symbol('default');
 
     /**
      * @typedef {object} ScrollerConfig
@@ -8906,9 +8907,6 @@
      * uid.
      * @property {string[]} selectors - Array of CSS selectors to find
      */
-
-    /** @type {ScrollerConfig} */
-    static #entriesScrollerConfigDefault
 
     /** @type {Map<string, ScrollerConfig>} */
     static #entriesScrollerConfigs = new Map();
@@ -9430,14 +9428,14 @@
     }
 
     static {
-      this.#entriesScrollerConfigDefault = {
+      this.#entriesScrollerConfigs.set(this.#entriesScrollerConfigDefault, {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorDefault,
           this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
-      };
+      });
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorTopcard],
@@ -9778,7 +9776,9 @@
       this.logger.log('current section', this.sections.itemUid);
       const config = Profile.#entriesScrollerConfigs.get(
         this.sections.itemUid
-      ) ?? Profile.#entriesScrollerConfigDefault;
+      ) ?? Profile.#entriesScrollerConfigs.get(
+        Profile.#entriesScrollerConfigDefault
+      );
 
       const what = {
         name: `${this.name} entries`,
