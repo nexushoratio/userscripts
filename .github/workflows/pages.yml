@@ -21,36 +21,39 @@ jobs:
 
       # Yes, two branches: main (stable) and jsdoc (preview)
       # See https://github.com/nexushoratio/userscripts/issues/367
-      - name: Checkout (main)
-        uses: actions/checkout@v7
-        with:
-          ref: main
-          path: main
+      - parallel:
+        - name: Checkout (main)
+          uses: actions/checkout@v7
+          with:
+            ref: main
+            path: main
 
-      - name: Checkout (jsdoc)
-        uses: actions/checkout@v7
-        with:
-          ref: jsdoc
-          path: jsdoc
+        - name: Checkout (jsdoc)
+          uses: actions/checkout@v7
+          with:
+            ref: jsdoc
+            path: jsdoc
 
-      # Jekyll runs as a Docker image and the output directories end up being
-      # owned by root.  So we store them in a temp directory and later copy
-      # the results over.
-      - name: Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: main/pages
-          destination: ${{ env.REL_JK }}
+      - parallel:
+        # Jekyll runs as a Docker image and the output directories end up being
+        # owned by root.  So we store them in a temp directory and later copy
+        # the results over.
+        - name: Jekyll
+          uses: actions/jekyll-build-pages@v1
+          with:
+            source: main/pages
+            destination: ${{ env.REL_JK }}
 
-      # We currently build API from two branches, one as a preview.
-      - name: JSDoc
-        run: |
-          pushd main
-          jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
-          popd
-          pushd jsdoc
-          jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/preview -t $(npm root -g)/tui-jsdoc-template
-          popd
+        # We currently build API from two branches, one as a preview.
+        - name: JSDoc (stable)
+          run: |
+            pushd main
+            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+
+        - name: JSDoc (preview)
+          run: |
+            pushd jsdoc
+            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/preview -t $(npm root -g)/tui-jsdoc-template
 
       - name: Merge document trees
         run: |
