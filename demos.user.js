@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name        Test
+// @name        Demos
 // @namespace   https://github.com/nexushoratio/userscripts
 // @match       http://localhost:8000/*
 // @noframes
-// @version     15
+// @version     1
 // @author      Mike Castle
-// @description Just for running tests.
+// @description Demos and testing.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
 // @require     https://greasyfork.org/scripts/478188-nh-xunit/code/NH_xunit.js
 // @require     https://greasyfork.org/scripts/477290-nh-base/code/NH_base.js
@@ -23,7 +23,7 @@
 /**
  * @file This exists to run library tests and serve as a demonstration
  * infrastructure.
- * @module test
+ * @module demos
  */
 
 // eslint-disable-next-line max-lines-per-function

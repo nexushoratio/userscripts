@@ -3,7 +3,7 @@
     "private": true
   },
   "source": {
-    "include": ["test.user.js"]
+    "include": ["demos.user.js"]
   },
   "plugins": ["plugins/markdown"],
   "markdown": {
