@@ -6,6 +6,9 @@
     "include": ["test.user.js"]
   },
   "plugins": ["plugins/markdown"],
+  "markdown": {
+    "tags": ["todo"]
+  },
   "templates": {
     "name": "Nexus Horatio's Userscripts",
     "footerText": "Nexus Horatio's Userscripts",
