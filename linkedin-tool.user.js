@@ -9264,6 +9264,7 @@
                 ':not([href*="/company/"])' +
                 ':not([href*="/feed/"])' +
                 ':not([href*="/in/"])' +
+                ':not([href$="#"])' +
                 ':not([href*="/safety/"])' +
                 ':not([href*="/school/"])'
             )?.href;
@@ -9272,14 +9273,17 @@
             href = element.querySelector('a[href*="/feed/"]')?.href;
             break;
           case this.UidMode.ANCHOR_OVERLAY:
-            scratch = element.querySelector('a[href*="/in/"]')
-              ?.href;
+            scratch = element.querySelector('a')?.href;
             if (scratch) {
               // eslint-disable-next-line prefer-regex-literals
               const re = RegExp('^/in/[^/]*/overlay/', 'u');
-              const path = new URL(scratch).pathname;
-              if (re.test(path)) {
+              const overlayUrl = new URL(scratch);
+              const suffix = '/#';
+              if (re.test(overlayUrl.pathname)) {
                 href = scratch;
+              } else if (overlayUrl.href.endsWith(suffix)) {
+                // Using content because we know this will match /in/ later.
+                content = overlayUrl.pathname + suffix;
               }
             }
             break;

@@ -308,13 +308,13 @@ enableAlertUnsupportedPages
 enableDevMode
 enableIssue
 enableWatchPage
+endsWith
 engageIndividual
 ensureMenuStyle
 EnsureTestCase
 ent
 entriesCurrentModes
 entriesCurrentUid
-entriesHow
 entriesMentionUidPossibilities
 entriesModeToUid
 entriesScrollerConfigDefault
@@ -870,6 +870,7 @@ OtrotWhat
 ourMenuItemStyle
 outerHTML
 Outros
+overlayUrl
 OverrideDeets
 paddingTop
 padEnd
@@ -1035,7 +1036,6 @@ sectionsContainer
 sectionScroller
 sectionsHow
 sectionsPartialOrder
-sectionsWhat
 sectionUidPrefix
 seeMore
 selectCurrentResultsPage
@@ -1119,7 +1119,6 @@ TabbedUI
 TabContent
 TabDefinition
 TabEntry
-TabEntryTestCase
 tabindex
 tablist
 tabList
