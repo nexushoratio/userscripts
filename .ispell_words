@@ -210,6 +210,7 @@ convoCardScroller
 convoCardsList
 countAsserts
 CourseTopLevelSection
+cpio
 createElement
 createInfoWidget
 createInput
@@ -396,7 +397,6 @@ falsy
 fd
 feaa
 fecd
-feedAnchor
 FeedType
 FetchResult
 FetchState
@@ -586,6 +586,7 @@ issuesLink
 itemUid
 iu
 javascript
+jk
 jobCardSelector
 JobDetailsSimilarJobsSlot
 jobId
@@ -887,6 +888,7 @@ parsedName
 parseSeq
 ParseSeqTestCase
 pathnameRE
+pdmv
 pojo
 popstate
 populateBuilt
@@ -923,6 +925,7 @@ primaryNavLinksComponentRef
 primaryNavSelector
 ProfilePostConnectDrawer
 PublicationTopLevelSection
+pushd
 px
 qqq
 querySelector
@@ -1124,6 +1127,7 @@ tablistSelector
 tabSnippet
 TabsTestCase
 TabTestCase
+taffydb
 tagName
 Tampermonkey
 targetLength

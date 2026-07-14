@@ -15,7 +15,8 @@ fi
 messages=()
 # These are the tests we want to run.
 spelling_errors=$(mktemp)
-find . -type f \( -name '*.js' -o -name '*.md' \) -exec cat {} + |
+find . -type f \( -name '*.js' -o -name '*.md' -o -name '*.yml' \) \
+  -exec cat {} + |
   ispell -o -l > "${spelling_errors}"
 
 if [[ -s ${spelling_errors} ]]; then
