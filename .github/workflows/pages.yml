@@ -10,6 +10,7 @@ env:
   REL_JK: jk
   ABS_JK: ${{ github.workspace }}/jk
   ABS_JSDOC: ${{ github.workspace }}/out
+  README_MD: ${{ github.workspace }}/README.md
 
 jobs:
   build:
@@ -34,6 +35,10 @@ jobs:
             ref: scratch
             path: scratch
 
+        - name: Readme
+          run: |
+            echo "Generated at: $(date -Imin)" > ${{ env.README_MD }}
+
       - parallel:
         # Jekyll runs as a Docker image and the output directories end up being
         # owned by root.  So we store them in a temp directory and later copy
@@ -48,12 +53,12 @@ jobs:
         - name: JSDoc (stable)
           run: |
             pushd main
-            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+            jsdoc -R ${{ env.README_MD }) -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
 
         - name: JSDoc (scratch)
           run: |
             pushd scratch
-            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
+            jsdoc -R ${{ env.README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
 
       - name: Merge document trees
         run: |
