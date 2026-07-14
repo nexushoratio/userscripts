@@ -189,7 +189,6 @@
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
     ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
-    ish('346', '**My Network**: Navigation is failing', '2026-06-14'),
     ish(
       '347',
       '`SPA`: Fails to detect some URL changes when using `MutationObserver`',
@@ -236,6 +235,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-14',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-14',
+      issues: ['302'],
+      subject: 'Treat `<a href="#">` as an `ANCHOR_OVERLAY`',
+    },
     {
       date: '2026-07-13',
       issues: ['302'],
@@ -804,22 +814,6 @@
       date: '2026-06-15',
       issues: ['240'],
       subject: 'Accidentally left the resize observer unused',
-    },
-    {
-      date: '2026-06-14',
-      issues: ['302'],
-      subject: 'Factor out <em>Featured</em> into a secondary config',
-    },
-    {
-      date: '2026-06-14',
-      issues: ['346'],
-      subject: 'Revert "Fine tune the Style-2 body selectors."',
-    },
-    {
-      date: '2026-06-14',
-      issues: ['240'],
-      subject: 'Refactor all <code>Scroller</code> configs out of' +
-        ' <code>constructor()</code>',
     },
   ];
 
