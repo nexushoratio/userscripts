@@ -19,7 +19,7 @@ jobs:
         run: |
           npm install -g jsdoc tui-jsdoc-template taffydb
 
-      # Yes, two branches: main (stable) and jsdoc (preview)
+      # Yes, two branches: main (stable) and scratch (scratch)
       # See https://github.com/nexushoratio/userscripts/issues/367
       - parallel:
         - name: Checkout (main)
@@ -28,11 +28,11 @@ jobs:
             ref: main
             path: main
 
-        - name: Checkout (jsdoc)
+        - name: Checkout (scratch)
           uses: actions/checkout@v7
           with:
-            ref: jsdoc
-            path: jsdoc
+            ref: scratch
+            path: scratch
 
       - parallel:
         # Jekyll runs as a Docker image and the output directories end up being
@@ -44,16 +44,16 @@ jobs:
             source: main/pages
             destination: ${{ env.REL_JK }}
 
-        # We currently build API from two branches, one as a preview.
+        # We currently build API from two branches, one as a WIP.
         - name: JSDoc (stable)
           run: |
             pushd main
             jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
 
-        - name: JSDoc (preview)
+        - name: JSDoc (scratch)
           run: |
-            pushd jsdoc
-            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/preview -t $(npm root -g)/tui-jsdoc-template
+            pushd scratch
+            jsdoc -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
 
       - name: Merge document trees
         run: |

@@ -5,4 +5,4 @@ While JSDoc has been used through out the code, it has never been used to genera
 While this is being worked on, there will be two variations of the docs:
 
 * [stable](stable)
-* [preview](preview)
+* [scratch](scratch)
