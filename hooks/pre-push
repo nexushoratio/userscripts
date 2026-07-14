@@ -6,7 +6,7 @@ set -u
 echo 'Starting pre-push hook'
 
 branch=$(git branch --show-current)
-if [[ ${branch} == jsdoc ]]; then
+if [[ ${branch} == scratch ]]; then
   echo "Ignoring branch: ${branch}"
   exit
 fi
