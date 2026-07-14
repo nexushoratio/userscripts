@@ -59,7 +59,6 @@ jobs:
         run: |
           pushd ${{ env.ABS_JK }}
           find -depth | cpio -pdmv ${{ env.ABS_JSDOC }}
-          popd
 
       - name: Save
         uses: actions/upload-pages-artifact@v5
