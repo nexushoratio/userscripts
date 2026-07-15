@@ -12,6 +12,7 @@
   "templates": {
     "name": "Nexus Horatio's Userscripts",
     "footerText": "Nexus Horatio's Userscripts",
+    "cleverLinks": true,
     "logo": {
       "height": "0"
     }
