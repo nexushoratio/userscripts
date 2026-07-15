@@ -9105,6 +9105,8 @@
       `:scope > ${this.#div3} > a > div`,
       // Edit intro and connections
       `:scope > ${this.#div4} > a`,
+      // Links to external websites
+      `:scope > ${this.#div3} > p`,
       // Carousels (private edit footer)
       ':scope' +
         ' [data-testid="carousel-child-container"]' +
@@ -9389,6 +9391,7 @@
           this.UidMode.HREF,
           this.UidMode.TEST_ID,
           this.UidMode.ARIA_LABEL,
+          this.UidMode.SAFETY,
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
