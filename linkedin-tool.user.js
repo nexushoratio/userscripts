@@ -232,9 +232,32 @@
         ' keystroke menu',
       '2026-07-07'
     ),
+    ish(
+      '370', 'Menu attaching on *Style-2* pages stopped working', '2026-07-15'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-15',
+      issues: ['370'],
+      subject: 'Update the *Style-2* navbar hint',
+    },
+    {
+      date: '2026-07-15',
+      issues: ['352'],
+      subject: 'Turn a static block into a static function',
+    },
+    {
+      date: '2026-07-15',
+      issues: ['302'],
+      subject: 'Support a common external link seen in the *Topcard* section',
+    },
+    {
+      date: '2026-07-15',
+      issues: ['302'],
+      subject: 'Exclude the premium footer from the *Topcard* section',
+    },
     {
       date: '2026-07-14',
       issues: ['352'],
@@ -798,22 +821,6 @@
       date: '2026-06-17',
       issues: ['302'],
       subject: 'Make an error message more precise',
-    },
-    {
-      date: '2026-06-15',
-      issues: ['240'],
-      subject: 'Migrate <strong>Feed</strong> from' +
-        ' <code>ScrollerStyleService</code> to <code>StyleService</code>',
-    },
-    {
-      date: '2026-06-15',
-      issues: ['240'],
-      subject: 'Fix a couple of docstrings post API changes',
-    },
-    {
-      date: '2026-06-15',
-      issues: ['240'],
-      subject: 'Accidentally left the resize observer unused',
     },
   ];
 
