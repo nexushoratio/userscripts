@@ -37,7 +37,11 @@ jobs:
 
         - name: Readme
           run: |
-            echo "Generated at: $(date -Imin)" > ${{ env.README_MD }}
+            cat << EOF > ${{ env.README_MD }}
+            ${{ github.workflow }} gen:${{ github.run_number }}
+
+            Generated at: $(date -Imin)
+            EOF
 
       - parallel:
         # Jekyll runs as a Docker image and the output directories end up being
