@@ -9096,7 +9096,9 @@
       // Most items
       `:scope > ${this.#div5}` +
       // Premium badge
-      ':not(:has(> a))' +
+      ':not(:has(> div > svg))' +
+      // Premium footer
+      ':not(:has(> svg))' +
       // Skip carousels
       ':not([data-testid="carousel-viewport-container"])',
       // Profile photo
