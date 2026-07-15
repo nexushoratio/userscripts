@@ -9375,7 +9375,7 @@
       scroller.logger.leaving(me, 'Suggested:', suggestions);
     }
 
-    static {
+    static #initEntryScrollerConfigs = () => {  // eslint-disable-line max-lines-per-function, max-statements
       this.#entriesScrollerConfigs.set(this.#entriesScrollerConfigDefault, {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
@@ -9762,6 +9762,7 @@
     ]);
 
     #initScrollers = () => {
+      this.ctor.#initEntryScrollerConfigs();
       this.#initScrollerStyleService();
       this.#initSectionScroller();
     }

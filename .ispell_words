@@ -343,7 +343,6 @@ entriesSelectorRecommendations
 entriesSelectorServices
 entriesSelectorSkills
 entriesSelectorSuggestedForYou
-entriesSelectorsWhat
 entriesSelectorTestScores
 entriesSelectorTopcard
 entriesSelectorVolunteering
@@ -542,6 +541,7 @@ initCollectionScroller
 initCommentScroller
 initDetailsScroller
 initEntryScroller
+initEntryScrollerConfigs
 initEventScroller
 initialHeight
 initialWidth
@@ -1035,7 +1035,6 @@ SearchResultsPeople
 SearchTyahInputRef
 sectionsContainer
 sectionScroller
-sectionsHow
 sectionsPartialOrder
 sectionUidPrefix
 seeMore
