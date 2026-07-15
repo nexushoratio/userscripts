@@ -53,7 +53,7 @@ jobs:
         - name: JSDoc (stable)
           run: |
             pushd main
-            jsdoc -R ${{ env.README_MD }) -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+            jsdoc -R ${{ env.README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
 
         - name: JSDoc (scratch)
           run: |
