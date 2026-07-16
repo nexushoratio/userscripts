@@ -9199,7 +9199,7 @@
             scratch = element.querySelector('a')?.href;
             if (scratch) {
               // eslint-disable-next-line prefer-regex-literals
-              const re = RegExp('^/in/[^/]*/overlay/', 'u');
+              const re = RegExp('^/in/[^/]*/(?:overlay|edit)/', 'u');
               const overlayUrl = new URL(scratch);
               const suffix = '/#';
               if (re.test(overlayUrl.pathname)) {
@@ -9408,7 +9408,7 @@
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorSuggestedForYou],
-        modes: [],
+        modes: [this.UidMode.ANCHOR_OVERLAY],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesUidFromModes,
