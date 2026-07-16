@@ -501,6 +501,7 @@ guessPageStyle
 handleEvent
 hasOwn
 helpTabDefinition
+hideconstructor
 historicalIdToIndex
 hN
 homepageURL
@@ -679,6 +680,7 @@ matchSelf
 maxCountLength
 maxFieldLength
 maxUidLength
+memberof
 menuItem
 messageBox
 messageBoxSelector
@@ -1363,7 +1365,7 @@ thirtyDays
 timeoutID
 toArray
 toCallback
-TODO
+todo
 toggleAlert
 toggleCenter
 toggleDismissJob

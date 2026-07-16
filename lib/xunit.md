@@ -4,7 +4,7 @@ Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUni
 
 ## Exported properties (as of version 62)
 * version - Bumped per release.
-* TypeTool - Allow working with arbitrary types.
+* TypeTool - Facilitate working with arbitrary types.
 * testing - Default testing support.
 * TestCase - An xUnit style test framework.
 * runTests - Run registered TestCases.
