@@ -1626,7 +1626,6 @@
 
     #autoActivate
     #base
-    #cache341
     #classes
     #clickConfig
     #clickOptions = {capture: true};
@@ -1641,6 +1640,7 @@
     );
 
     #historicalIdToIndex = new Map();
+    #itemCache
     #logger
     #maxUidLength
     #mutationDispatcher = new NH.base.Dispatcher('attributes', 'childList');
@@ -1744,7 +1744,7 @@
       }
 
       for (const [type, items] of types) {
-        this.#cache341 = null;
+        this.#itemCache = null;
         this.#mutationDispatcher.fire(type, items);
       }
 
@@ -1799,12 +1799,12 @@
 
       if (litOptions.enableIssue341Monitoring) {
         const cache = new Map(filtered.map(x => [this.#uid(x), x]));
-        if (this.#cache341 &&
+        if (this.#itemCache &&
             this.#typeTool.repr(cache) !==
-            this.#typeTool.repr(this.#cache341)) {
+            this.#typeTool.repr(this.#itemCache)) {
           NH.base.issues.post('Issue 341:', 'cache failed');
         }
-        this.#cache341 = cache;
+        this.#itemCache = cache;
       }
 
       this.logger.leaving(me, filtered.length);
