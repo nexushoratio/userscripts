@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [xUnit](https://en.wikipedia.org/wiki/XUnit) style test framework.
 
-## Exported properties (as of version 62)
+## Exported properties (as of version 63)
 * version - Bumped per release.
 * TypeTool - Facilitate working with arbitrary types.
 * testing - Default testing support.
