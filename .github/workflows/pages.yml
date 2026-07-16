@@ -10,7 +10,10 @@ env:
   REL_JK: jk
   ABS_JK: ${{ github.workspace }}/jk
   ABS_JSDOC: ${{ github.workspace }}/out
-  README_MD: ${{ github.workspace }}/README.md
+  API_README_MD: ${{ github.workspace }}/api.md
+  REL_README_DIR: proj
+  ABS_README_DIR: ${{ github.workspace }}/proj
+  PROJ_README_MD: ${{ github.workspace }}/proj/index.md
 
 jobs:
   build:
@@ -35,13 +38,18 @@ jobs:
             ref: scratch
             path: scratch
 
-        - name: Readme
-          run: |
-            cat << EOF > ${{ env.README_MD }}
-            ${{ github.workflow }} gen:${{ github.run_number }}
+      - name: Readme
+        run: |
+          mkdir -p ${{ env.ABS_README_DIR }}/_layouts/
+          cp -v "${GITHUB_REF_NAME}/pages/_layouts/"* ${{ env.ABS_README_DIR }}/_layouts
+          cat "${GITHUB_REF_NAME}/README.md" "${GITHUB_REF_NAME}/pages/"*.md > ${{ env.PROJ_README_MD }}
+          cat << EOF > ${{ env.API_README_MD }}
+          [userscript docs](..)
 
-            Generated at: $(date -Imin)
-            EOF
+          ${{ github.workflow }} generation:${{ github.run_number }}
+
+          Generated at: $(date -Imin)
+          EOF
 
       - parallel:
         # Jekyll runs as a Docker image and the output directories end up being
@@ -50,19 +58,19 @@ jobs:
         - name: Jekyll
           uses: actions/jekyll-build-pages@v1
           with:
-            source: main/pages
+            source: ${{ env.REL_README_DIR }}
             destination: ${{ env.REL_JK }}
 
         # We currently build API from two branches, one as a WIP.
         - name: JSDoc (stable)
           run: |
             pushd main
-            jsdoc -R ${{ env.README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
 
         - name: JSDoc (scratch)
           run: |
             pushd scratch
-            jsdoc -R ${{ env.README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
 
       - name: Merge document trees
         run: |

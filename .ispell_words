@@ -52,6 +52,7 @@ anchorProfile
 AnOverridePage
 AnUPPERWord
 apg
+api
 applyToJob
 args
 ariaLabel
@@ -702,6 +703,7 @@ MissingLabel
 MissingLabelledbyOrLabel
 MissingName
 missingSecond
+mkdir
 moCallback
 ModalTestCase
 modeName
@@ -930,6 +932,7 @@ primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
 ProfilePostConnectDrawer
+proj
 PublicationTopLevelSection
 pushd
 px
