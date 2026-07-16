@@ -239,6 +239,22 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-16',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-16',
+      issues: ['302'],
+      subject: 'Create `MULTI_IMG` for elements of mostly `img`s',
+    },
+    {
+      date: '2026-07-16',
+      issues: ['302'],
+      subject: 'Add a `UidMode` for the *Suggested for you* section',
+    },
+    {
       date: '2026-07-15',
       issues: ['370'],
       subject: 'Update the *Style-2* navbar hint',
