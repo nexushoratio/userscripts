@@ -8807,6 +8807,7 @@
       HREF: Symbol.for('href'),
       ID: Symbol.for('id'),
       IMG: Symbol.for('img'),
+      MULTI_IMG: Symbol.for('multiImg'),
       SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
       TEST_ID: Symbol.for('testId'),
@@ -9265,6 +9266,13 @@
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
             break;
+          case this.UidMode.MULTI_IMG:
+            scratch = [];
+            for (const img of element.querySelectorAll('img')) {
+              scratch.push(new URL(img.src).pathname);
+            }
+            content = scratch.join('|');
+            break;
           case this.UidMode.SAFETY:
             scratch = element.querySelector('a[href*="/safety/"]')
               ?.href;
@@ -9403,6 +9411,7 @@
           this.UidMode.TEST_ID,
           this.UidMode.ARIA_LABEL,
           this.UidMode.SAFETY,
+          this.UidMode.MULTI_IMG,
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {

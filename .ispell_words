@@ -710,6 +710,7 @@ moreWork
 mozilla
 mq
 msgs
+multiImg
 mutationDispatcher
 mutationHandler
 mutationObserver
@@ -999,7 +1000,6 @@ rpc
 runTests
 safeId
 SafeIdTestCase
-safetyAnchor
 SalesInsightsOrHighlights
 savedConfigs
 savedJob
