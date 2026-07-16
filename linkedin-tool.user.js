@@ -8946,9 +8946,6 @@
      * @property {string[]} selectors - Array of CSS selectors to find
      */
 
-    /** @type {Map<string, ScrollerConfig>} */
-    static #entriesScrollerConfigs = new Map();
-
     static #entriesSelectorAbout = [
       // Fairly simple layout
       `:scope > ${this.#div3}:has(> p) > *`,
@@ -9394,302 +9391,9 @@
       scroller.logger.leaving(me, 'Suggested:', suggestions);
     }
 
-    static #initEntryScrollerConfigs = () => {  // eslint-disable-line max-lines-per-function, max-statements
-      this.#entriesScrollerConfigs.set(this.#entriesScrollerConfigDefault, {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorDefault,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [this.UidMode.FOOTER],
-      });
-      this.#entriesScrollerConfigs.set('Topcard', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorTopcard],
-        modes: [
-          this.UidMode.HREF,
-          this.UidMode.TEST_ID,
-          this.UidMode.ARIA_LABEL,
-          this.UidMode.SAFETY,
-          this.UidMode.MULTI_IMG,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('SuggestedForYou', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorSuggestedForYou],
-        modes: [this.UidMode.ANCHOR_OVERLAY],
-      });
-      this.#entriesScrollerConfigs.set('Analytics', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorAnalytics,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
-      this.#entriesScrollerConfigs.set('Highlights', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorHighlights],
-        modes: [
-          this.UidMode.COMPANY,
-          this.UidMode.ID,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorHighlights],
-        modes: [
-          this.UidMode.COMPANY,
-          this.UidMode.ID,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('About', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorAbout],
-        modes: [
-          this.UidMode.TEST_ID,
-          this.UidMode.ANCHOR_PROFILE,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Services', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorServices,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.TEST_ID,
-          this.UidMode.ARIA_LABEL,
-          this.UidMode.HREF,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Featured', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorFeatured],
-        modes: [
-          this.UidMode.ANCHOR_FEED,
-          this.UidMode.ANCHOR_PROFILE,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Activity', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorActivity,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.ANCHOR_FEED,
-          this.UidMode.COMMENT_URN,
-          this.UidMode.HREF,
-          this.UidMode.IMG,
-          this.UidMode.ANCHOR,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorExperience,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.ANCHOR_OVERLAY,
-          this.UidMode.COMPANY,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorEducation,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.SCHOOL,
-          this.UidMode.HREF,
-          this.UidMode.ANCHOR_OVERLAY,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
-        // Dismissible section with little support here.
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [this.#entriesSelectorConnectedAccounts],
-        modes: [this.UidMode.HREF],
-      });
-      this.#entriesScrollerConfigs.set('CertificationTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorCertification,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          // /safety/go links often go to other certification sites.
-          this.UidMode.SAFETY,
-          this.UidMode.ANCHOR,
-          // For "skill association" pop-up for unlisted programs.
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.COMPANY,
-          this.UidMode.SCHOOL,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Projects', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorProjects,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.SAFETY,
-          // For "skill association" pop-up.
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.HREF,
-          this.UidMode.TEST_ID,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorVolunteering,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.COMPANY,
-          this.UidMode.HREF,
-          this.UidMode.TEST_ID,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Skills', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorSkills,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          // These actually look stable.
-          this.UidMode.CKEY,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorRecommendations,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorPublications,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.SAFETY,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Patents', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorPatents,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.SAFETY,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorCourses,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [this.UidMode.FOOTER],
-      });
-      this.#entriesScrollerConfigs.set('HonorsTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorHonors,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.ANCHOR_OVERLAY,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorTestScores,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [this.UidMode.FOOTER],
-      });
-      this.#entriesScrollerConfigs.set('LanguageTopLevel', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorLanguages,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [this.UidMode.HREF],
-      });
-      this.#entriesScrollerConfigs.set('Organizations', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorOrganizations,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [this.UidMode.FOOTER],
-      });
-      this.#entriesScrollerConfigs.set('Interests', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorInterests,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.COMPANY,
-          this.UidMode.SCHOOL,
-          this.UidMode.ANCHOR,
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
-      this.#entriesScrollerConfigs.set('Causes', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          // Small section
-          this.#entriesSelectorCauses,
-        ],
-        modes: [
-          // Nothing better to use.
-          this.UidMode.DEFAULT,
-        ],
-      });
-    }
-
     #checkingPartialOrder = false
     #entriesCurrentUid
+    #entriesScrollerConfigs = new Map();
     #entryScroller
     #lastScroller
     #sectionScroller
@@ -9782,7 +9486,7 @@
     ]);
 
     #initScrollers = () => {
-      this.ctor.#initEntryScrollerConfigs();
+      this.#initEntryScrollerConfigs();
       this.#initScrollerStyleService();
       this.#initSectionScroller();
     }
@@ -9828,11 +9532,307 @@
       this.#lastScroller = this.#sectionScroller;
     }
 
+    #initEntryScrollerConfigs = () => {  // eslint-disable-line max-lines-per-function, max-statements
+      this.#entriesScrollerConfigs.set(
+        this.ctor.#entriesScrollerConfigDefault, {
+          uidCallback: this.ctor.#entriesUidFromModes,
+          selectors: [
+            this.ctor.#entriesSelectorDefault,
+            this.ctor.#entriesSelectorFooter,
+          ],
+          modes: [this.ctor.UidMode.FOOTER],
+        }
+      );
+      this.#entriesScrollerConfigs.set('Topcard', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorTopcard],
+        modes: [
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.TEST_ID,
+          this.ctor.UidMode.ARIA_LABEL,
+          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.MULTI_IMG,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('SuggestedForYou', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorSuggestedForYou],
+        modes: [this.ctor.UidMode.ANCHOR_OVERLAY],
+      });
+      this.#entriesScrollerConfigs.set('Analytics', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorAnalytics,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
+      this.#entriesScrollerConfigs.set('Highlights', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorHighlights],
+        modes: [
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.ID,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorHighlights],
+        modes: [
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.ID,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('About', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorAbout],
+        modes: [
+          this.ctor.UidMode.TEST_ID,
+          this.ctor.UidMode.ANCHOR_PROFILE,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Services', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorServices,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.TEST_ID,
+          this.ctor.UidMode.ARIA_LABEL,
+          this.ctor.UidMode.HREF,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Featured', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorFeatured],
+        modes: [
+          this.ctor.UidMode.ANCHOR_FEED,
+          this.ctor.UidMode.ANCHOR_PROFILE,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Activity', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorActivity,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.ANCHOR_FEED,
+          this.ctor.UidMode.COMMENT_URN,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.IMG,
+          this.ctor.UidMode.ANCHOR,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorExperience,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorEducation,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.SCHOOL,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
+        // Dismissible section with little support here.
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [this.ctor.#entriesSelectorConnectedAccounts],
+        modes: [this.ctor.UidMode.HREF],
+      });
+      this.#entriesScrollerConfigs.set('CertificationTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorCertification,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          // /safety/go links often go to other certification sites.
+          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.ANCHOR,
+          // For "skill association" pop-up for unlisted programs.
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.SCHOOL,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Projects', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorProjects,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.SAFETY,
+          // For "skill association" pop-up.
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.TEST_ID,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorVolunteering,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.TEST_ID,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Skills', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorSkills,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          // These actually look stable.
+          this.ctor.UidMode.CKEY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorRecommendations,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorPublications,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Patents', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorPatents,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorCourses,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [this.ctor.UidMode.FOOTER],
+      });
+      this.#entriesScrollerConfigs.set('HonorsTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorHonors,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorTestScores,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [this.ctor.UidMode.FOOTER],
+      });
+      this.#entriesScrollerConfigs.set('LanguageTopLevel', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorLanguages,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [this.ctor.UidMode.HREF],
+      });
+      this.#entriesScrollerConfigs.set('Organizations', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorOrganizations,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [this.ctor.UidMode.FOOTER],
+      });
+      this.#entriesScrollerConfigs.set('Interests', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          this.ctor.#entriesSelectorInterests,
+          this.ctor.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.COMPANY,
+          this.ctor.UidMode.SCHOOL,
+          this.ctor.UidMode.ANCHOR,
+          this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Causes', {
+        uidCallback: this.ctor.#entriesUidFromModes,
+        selectors: [
+          // Small section
+          this.ctor.#entriesSelectorCauses,
+        ],
+        modes: [
+          // Nothing better to use.
+          this.ctor.UidMode.DEFAULT,
+        ],
+      });
+    }
+
     #initEntryScroller = () => {
       this.logger.log('current section', this.sections.itemUid);
-      const config = Profile.#entriesScrollerConfigs.get(
+      const config = this.#entriesScrollerConfigs.get(
         this.sections.itemUid
-      ) ?? Profile.#entriesScrollerConfigs.get(
+      ) ?? this.#entriesScrollerConfigs.get(
         Profile.#entriesScrollerConfigDefault
       );
 
