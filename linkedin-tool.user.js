@@ -9465,6 +9465,7 @@
       'Patents, CourseTopLevelSection',
       'Patents, HonorsTopLevel',
       'Patents, Interests',
+      'Projects, Interests',
       'Projects, Skills',
       'Projects, VolunteerExperienceTopLevel',
       'PublicationTopLevelSection, CourseTopLevelSection',
