@@ -9213,7 +9213,9 @@
             scratch = element.querySelector('a')?.href;
             if (scratch) {
               // eslint-disable-next-line prefer-regex-literals
-              const re = RegExp('^/in/[^/]*/(?:overlay|edit)/', 'u');
+              const re = RegExp(
+                '^/in/[^/]*/(?:overlay|edit|opportunities)/', 'u'
+              );
               const overlayUrl = new URL(scratch);
               const suffix = '/#';
               if (re.test(overlayUrl.pathname)) {
