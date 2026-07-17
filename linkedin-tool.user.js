@@ -72,7 +72,6 @@
       enableAlertUnknownProfileSections: false,
       enableWatchPage: false,
       enableIssue289Monitoring: false,
-      enableIssue341Monitoring: false,
       fakeErrorRate: 0.8,
       latestNewsRead: '',
     };
@@ -1796,35 +1795,27 @@
       const me = this.#getItems.name;
       this.logger.entered(me);
 
-      const items = [];
-      if (this.#base) {
-        for (const selector of this.#selectors) {
-          this.logger.log(`considering ${selector}`);
-          items.push(...this.#base.querySelectorAll(selector));
-        }
-      } else {
-        for (const {container, items: selector} of this.#containerItems) {
-          this.logger.log(`considering ${container} with ${selector}`);
-          const base = document.querySelector(container);
-          if (base) {
-            items.push(...base.querySelectorAll(selector));
+      if (!this.#itemCache) {
+        const items = [];
+        if (this.#base) {
+          for (const selector of this.#selectors) {
+            this.logger.log(`considering ${selector}`);
+            items.push(...this.#base.querySelectorAll(selector));
+          }
+        } else {
+          for (const {container, items: selector} of this.#containerItems) {
+            this.logger.log(`considering ${container} with ${selector}`);
+            const base = document.querySelector(container);
+            if (base) {
+              items.push(...base.querySelectorAll(selector));
+            }
           }
         }
-      }
-      const filtered = this.#postProcessItems(items);
-
-      if (litOptions.enableIssue341Monitoring) {
-        const cache = new Map(filtered.map(x => [this.#uid(x), x]));
-        if (this.#itemCache &&
-            this.#typeTool.repr(cache) !==
-            this.#typeTool.repr(this.#itemCache)) {
-          NH.base.issues.post('Issue 341:', 'cache failed');
-        }
-        this.#itemCache = cache;
+        this.#itemCache = this.#postProcessItems(items);
       }
 
-      this.logger.leaving(me, filtered.length);
-      return filtered;
+      this.logger.leaving(me, this.#itemCache.length);
+      return this.#itemCache;
     }
 
     /**
