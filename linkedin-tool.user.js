@@ -12,7 +12,7 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://cdn.jsdelivr.net/npm/commonmark@0.31.2
-// @require     https://update.greasyfork.org/scripts/478188/1846242/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/478188/1877646/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1869418/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1846239/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1862017/NH_web.js
@@ -32,7 +32,7 @@
   'use strict';
 
   const NH = window.NexusHoratio.base.ensure([
-    {name: 'xunit', minVersion: 62},
+    {name: 'xunit', minVersion: 63},
     {name: 'base', minVersion: 72},
     {name: 'userscript', minVersion: 17},
     {name: 'web', minVersion: 16},
