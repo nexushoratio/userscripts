@@ -9569,11 +9569,14 @@
         uidCallback: this.ctor.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorTopcard],
         modes: [
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.TEST_ID,
           this.ctor.UidMode.ARIA_LABEL,
-          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.ANCHOR,
           this.ctor.UidMode.MULTI_IMG,
+          this.ctor.UidMode.SAFETY,
+          this.ctor.UidMode.HREF,
+          // Hopefully only triggered by "Open to Work"
+          this.ctor.UidMode.ANCHOR_PROFILE,
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
