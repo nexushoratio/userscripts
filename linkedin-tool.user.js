@@ -9320,19 +9320,23 @@
         if (content) {
           results.set(mode, content);
         } else if (href) {
-          const url = new URL(href);
-          const pathname = url.pathname;
-          const extra = element.parentElement.matches(':has(hr)')
-            ? '-hr'
-            : '';
-          results.set(mode, pathname + extra);
-          if (document.location.pathname === pathname) {
-            if (mode === this.UidMode.HREF) {
-              scroller.logger.log('ignoring self href');
-              results.delete(mode);
-            } else {
-              scroller.logger.log('points to self', mode.description);
+          try {
+            const url = new URL(href);
+            const pathname = url.pathname;
+            const extra = element.parentElement.matches(':has(hr)')
+              ? '-hr'
+              : '';
+            results.set(mode, pathname + extra);
+            if (document.location.pathname === pathname) {
+              if (mode === this.UidMode.HREF) {
+                scroller.logger.log('ignoring self href');
+                results.delete(mode);
+              } else {
+                scroller.logger.log('points to self', mode.description);
+              }
             }
+          } catch (e) {
+            scroller.logger.log('caught while examining href:', e);
           }
         }
       }
