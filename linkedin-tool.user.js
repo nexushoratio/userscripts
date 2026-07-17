@@ -8944,7 +8944,6 @@
 
     /** @type {UidMode[]} */
     static #entriesCurrentModes
-    static #entriesScrollerConfigDefault = Symbol('default');
 
     /**
      * @typedef {object} ScrollerConfig
@@ -9406,6 +9405,7 @@
 
     #checkingPartialOrder = false
     #entriesCurrentUid
+    #entriesScrollerConfigDefault = Symbol('default');
     #entriesScrollerConfigs = new Map();
     #entryScroller
     #lastScroller
@@ -9548,7 +9548,7 @@
 
     #initEntryScrollerConfigs = () => {  // eslint-disable-line max-lines-per-function, max-statements
       this.#entriesScrollerConfigs.set(
-        this.ctor.#entriesScrollerConfigDefault, {
+        this.#entriesScrollerConfigDefault, {
           uidCallback: this.ctor.#entriesUidFromModes,
           selectors: [
             this.ctor.#entriesSelectorDefault,
@@ -9850,7 +9850,7 @@
       const config = this.#entriesScrollerConfigs.get(
         this.sections.itemUid
       ) ?? this.#entriesScrollerConfigs.get(
-        Profile.#entriesScrollerConfigDefault
+        this.#entriesScrollerConfigDefault
       );
 
       const what = {
@@ -9870,7 +9870,7 @@
       };
 
       this.#entriesCurrentUid = config.uidCallback;
-      Profile.#entriesCurrentModes = config.modes;
+      this.ctor.#entriesCurrentModes = config.modes;
 
       this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
