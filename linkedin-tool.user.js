@@ -238,6 +238,32 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-17',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-17',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
+    {
+      date: '2026-07-17',
+      issues: ['302'],
+      subject: 'Updated `UidMode`s for the *Topcard* section',
+    },
+    {
+      date: '2026-07-17',
+      issues: ['302'],
+      subject: 'Wrap a particular `new URL(...)` call with a `try`/`except`',
+    },
+    {
+      date: '2026-07-17',
+      issues: ['302'],
+      subject: 'Treat `/in/opportunities/` as an `ANCHOR_OVERLAY`',
+    },
+    {
       date: '2026-07-16',
       issues: ['352'],
       subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
@@ -804,38 +830,6 @@
       date: '2026-06-18',
       issues: ['302'],
       subject: 'Factor out *Experience* into a secondary config',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['345'],
-      subject: 'Introduce "commonmark" support for release notes',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['240'],
-      subject: 'Migrate `MyNetwork` from `ScrollerStyleService`' +
-        ' to `StyleService`',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['302'],
-      subject: 'Factor out <em>Activity</em> into a secondary config',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['302'],
-      subject: 'Prefer <em>dashReplyUrn</em> over <em>dashCommentUrn</em>' +
-        ' as a UID',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['302'],
-      subject: 'Note when a URL points to the same page',
-    },
-    {
-      date: '2026-06-17',
-      issues: ['302'],
-      subject: 'Make an error message more precise',
     },
   ];
 
