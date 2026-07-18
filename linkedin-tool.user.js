@@ -9028,7 +9028,7 @@
 
     static #entriesSelectorHighlights = [
       // Simple layout
-      `:scope > ${this.#div6}`,
+      `:scope > ${this.#div7}`,
     ].join(',');
 
     static #entriesSelectorHonors = [
@@ -9584,18 +9584,26 @@
       // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
       this.#entriesScrollerConfigs.set('Highlights', {
         uidCallback: this.ctor.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorHighlights],
+        selectors: [
+          this.ctor.#entriesSelectorHighlights,
+          this.ctor.#entriesSelectorFooter,
+        ],
         modes: [
           this.ctor.UidMode.COMPANY,
           this.ctor.UidMode.ID,
+          this.ctor.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
         uidCallback: this.ctor.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorHighlights],
+        selectors: [
+          this.ctor.#entriesSelectorHighlights,
+          this.ctor.#entriesSelectorFooter,
+        ],
         modes: [
           this.ctor.UidMode.COMPANY,
           this.ctor.UidMode.ID,
+          this.ctor.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('About', {
