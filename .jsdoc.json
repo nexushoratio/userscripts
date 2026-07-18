@@ -1,6 +1,6 @@
 {
   "opts": {
-    "private": true
+    "private": false
   },
   "source": {
     "include": ["demos.user.js", "lib/xunit.js"]
