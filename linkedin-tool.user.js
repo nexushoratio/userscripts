@@ -187,7 +187,6 @@
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
-    ish('345', 'Support minimal markdown for release notes', '2026-06-18'),
     ish(
       '347',
       '`SPA`: Fails to detect some URL changes when using `MutationObserver`',
@@ -237,6 +236,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-18',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-18',
+      issues: ['302'],
+      subject: 'Add footer support for the *Highlights* section',
+    },
     {
       date: '2026-07-17',
       issues: ['352'],
@@ -810,26 +820,6 @@
       date: '2026-06-19',
       issues: ['302'],
       subject: 'Rename a variable',
-    },
-    {
-      date: '2026-06-18',
-      issues: ['240'],
-      subject: 'Migrate `InvitationManager` to `StyleService`',
-    },
-    {
-      date: '2026-06-18',
-      issues: ['302'],
-      subject: 'Filter out certain anchor paths that have their own modes',
-    },
-    {
-      date: '2026-06-18',
-      issues: ['302'],
-      subject: 'Make `UidMode`s more precise for a couple of sections',
-    },
-    {
-      date: '2026-06-18',
-      issues: ['302'],
-      subject: 'Factor out *Experience* into a secondary config',
     },
   ];
 
