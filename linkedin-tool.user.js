@@ -9330,34 +9330,6 @@
     }
 
     /**
-     * Return the first UID computed from supported modes.
-     *
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @returns {[UidMode, string]} - How the UID was computed, and value.
-     */
-    static #entriesUidFromModes = (scroller, element) => {
-      const me = this.#entriesUidFromModes.name;
-      scroller.logger.entered(me, element);
-
-      const results = this.#entriesModeToUid(
-        scroller, element, this.#entriesCurrentModes
-      );
-
-      if (results.size === 0) {
-        this.#entriesSuggestUids(scroller, element);
-        results.set(this.UidMode.FALLBACK, scroller.defaultUid(element));
-      }
-
-      const [mode, uid] = results
-        .entries()
-        .next().value;
-
-      scroller.logger.leaving(me, mode, uid);
-      return [mode, uid];
-    }
-
-    /**
      * Suggest UID sources.
      *
      * @param {Scroller} scroller - Scroller instance.
@@ -9543,7 +9515,7 @@
     #initEntryScrollerConfigs = () => {  // eslint-disable-line max-lines-per-function, max-statements
       this.#entriesScrollerConfigs.set(
         this.#entriesScrollerConfigDefault, {
-          uidCallback: this.ctor.#entriesUidFromModes,
+          uidCallback: this.#entriesUidFromModes,
           selectors: [
             this.ctor.#entriesSelectorDefault,
             this.ctor.#entriesSelectorFooter,
@@ -9552,7 +9524,7 @@
         }
       );
       this.#entriesScrollerConfigs.set('Topcard', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorTopcard],
         modes: [
           this.ctor.UidMode.ARIA_LABEL,
@@ -9566,12 +9538,12 @@
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorSuggestedForYou],
         modes: [this.ctor.UidMode.ANCHOR_OVERLAY],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorAnalytics,
           this.ctor.#entriesSelectorFooter,
@@ -9583,7 +9555,7 @@
       });
       // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
       this.#entriesScrollerConfigs.set('Highlights', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorHighlights,
           this.ctor.#entriesSelectorFooter,
@@ -9595,7 +9567,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorHighlights,
           this.ctor.#entriesSelectorFooter,
@@ -9607,7 +9579,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('About', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorAbout],
         modes: [
           this.ctor.UidMode.TEST_ID,
@@ -9615,7 +9587,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Services', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorServices,
           this.ctor.#entriesSelectorFooter,
@@ -9627,7 +9599,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Featured', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorFeatured],
         modes: [
           this.ctor.UidMode.ANCHOR_FEED,
@@ -9635,7 +9607,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Activity', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorActivity,
           this.ctor.#entriesSelectorFooter,
@@ -9650,7 +9622,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorExperience,
           this.ctor.#entriesSelectorFooter,
@@ -9663,7 +9635,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorEducation,
           this.ctor.#entriesSelectorFooter,
@@ -9677,12 +9649,12 @@
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
         // Dismissible section with little support here.
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorConnectedAccounts],
         modes: [this.ctor.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorCertification,
           this.ctor.#entriesSelectorFooter,
@@ -9699,7 +9671,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Projects', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorProjects,
           this.ctor.#entriesSelectorFooter,
@@ -9714,7 +9686,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorVolunteering,
           this.ctor.#entriesSelectorFooter,
@@ -9727,7 +9699,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Skills', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorSkills,
           this.ctor.#entriesSelectorFooter,
@@ -9740,7 +9712,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorRecommendations,
           this.ctor.#entriesSelectorFooter,
@@ -9752,7 +9724,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorPublications,
           this.ctor.#entriesSelectorFooter,
@@ -9764,7 +9736,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Patents', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorPatents,
           this.ctor.#entriesSelectorFooter,
@@ -9776,7 +9748,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorCourses,
           this.ctor.#entriesSelectorFooter,
@@ -9784,7 +9756,7 @@
         modes: [this.ctor.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorHonors,
           this.ctor.#entriesSelectorFooter,
@@ -9796,7 +9768,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorTestScores,
           this.ctor.#entriesSelectorFooter,
@@ -9804,7 +9776,7 @@
         modes: [this.ctor.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorLanguages,
           this.ctor.#entriesSelectorFooter,
@@ -9812,7 +9784,7 @@
         modes: [this.ctor.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorOrganizations,
           this.ctor.#entriesSelectorFooter,
@@ -9820,7 +9792,7 @@
         modes: [this.ctor.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('Interests', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.ctor.#entriesSelectorInterests,
           this.ctor.#entriesSelectorFooter,
@@ -9835,7 +9807,7 @@
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
-        uidCallback: this.ctor.#entriesUidFromModes,
+        uidCallback: this.#entriesUidFromModes,
         selectors: [
           // Small section
           this.ctor.#entriesSelectorCauses,
@@ -9878,6 +9850,34 @@
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
         .on('out-of-range', this.#returnToSection);
+    }
+
+    /**
+     * Return the first UID computed from supported modes.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @returns {[UidMode, string]} - How the UID was computed, and value.
+     */
+    #entriesUidFromModes = (scroller, element) => {
+      const me = this.#entriesUidFromModes.name;
+      scroller.logger.entered(me, element);
+
+      const results = this.ctor.#entriesModeToUid(
+        scroller, element, this.ctor.#entriesCurrentModes
+      );
+
+      if (results.size === 0) {
+        this.ctor.#entriesSuggestUids(scroller, element);
+        results.set(this.ctor.UidMode.FALLBACK, scroller.defaultUid(element));
+      }
+
+      const [mode, uid] = results
+        .entries()
+        .next().value;
+
+      scroller.logger.leaving(me, mode, uid);
+      return [mode, uid];
     }
 
     /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
