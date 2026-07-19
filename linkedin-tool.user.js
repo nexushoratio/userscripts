@@ -7199,15 +7199,6 @@
       }
     );
 
-    selectCurrentResultsPage = new Shortcut(
-      'c',
-      'Select current results page',
-      () => {
-        this.paginator.dull();
-        NH.web.clickElement(this.paginator.item, ['button'], true);
-      }
-    );
-
     tabList = new Shortcut(
       'l',
       'Focus on discovery tab list (has native scrolling using arrows)',
@@ -10415,14 +10406,6 @@
       'Previous results page',
       () => {
         this.paginator.prev();
-      }
-    );
-
-    selectCurrentResultsPage = new Shortcut(
-      'c',
-      'Select current results page',
-      () => {
-        NH.web.clickElement(this.paginator.item, ['button']);
       }
     );
 
