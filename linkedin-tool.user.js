@@ -193,11 +193,6 @@
       '2026-06-30'
     ),
     ish('349', '`LinkedIn`: Remove navbar margin support', '2026-06-20'),
-    ish(
-      '350',
-      '`Scroller`: Add `this` as an argument to `uidCallback()`',
-      '2026-06-19'
-    ),
     ish('351', '**Feed**: load more feature no longer works', '2026-06-20'),
     ish(
       '352',
@@ -233,9 +228,66 @@
     ish(
       '370', 'Menu attaching on *Style-2* pages stopped working', '2026-07-15'
     ),
+    ish(
+      '373',
+      'Remove "Select current results page" from all pages with pagination',
+      '2026-07-19'
+    ),
+    ish(
+      '372',
+      '`Scroller`: New item cache fails on at least one page',
+      '2026-07-19'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-19',
+      issues: ['373'],
+      subject: 'Remove the explicit shortcut for selecting the next page' +
+        ' of results',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['372'],
+      subject: 'Temporarily disable the item cache',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['372'],
+      subject: 'Remove an old logging statement',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['372'],
+      subject: 'Rename some internal symbols',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['372'],
+      subject: 'Remove unnecessary intermediate array',
+    },
+    {
+      date: '2026-07-19',
+      issues: [''],
+      subject: 'Fix a couple of comments',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['302'],
+      subject: 'Updated `UidMode`s for the *Highlights* section',
+    },
+    {
+      date: '2026-07-19',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
     {
       date: '2026-07-18',
       issues: ['352'],
@@ -795,31 +847,6 @@
       date: '2026-06-20',
       issues: ['351'],
       subject: 'Rework how **Feeds**\'s "load most posts" feature works',
-    },
-    {
-      date: '2026-06-19',
-      issues: [''],
-      subject: 'Add links to GitHub issues for certain debug alerts',
-    },
-    {
-      date: '2026-06-19',
-      issues: [''],
-      subject: 'Linkify release notes to the associated issue',
-    },
-    {
-      date: '2026-06-19',
-      issues: ['350'],
-      subject: 'Add `this` as the first argument to `uidCallback()`',
-    },
-    {
-      date: '2026-06-19',
-      issues: ['302'],
-      subject: 'Support the *Education* section',
-    },
-    {
-      date: '2026-06-19',
-      issues: ['302'],
-      subject: 'Rename a variable',
     },
   ];
 
