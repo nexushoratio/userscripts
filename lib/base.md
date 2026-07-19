@@ -2,7 +2,7 @@
 
 Pure [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) stuff.  Nothing here should be [WEB API](https://developer.mozilla.org/en-US/docs/Web/API) aware, except `Logger`'s use of `console` (and apparently `crypto`).
 
-## Exported properties (as of version 71)
+## Exported properties (as of version 73)
 * version - Bumped per release.
 * NOT_FOUND - Returned by some APIs like `findIndex()`.
 * ONE_ITEM - Useful for testing length of an array.
