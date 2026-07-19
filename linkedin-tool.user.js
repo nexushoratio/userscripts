@@ -1778,6 +1778,9 @@
       const me = this.#getItems.name;
       this.logger.entered(me);
 
+      // TODO(#372): Reenable the cache
+      this.#itemCache = null;
+
       if (!this.#itemCache) {
         const items = [];
         if (this.#base) {
