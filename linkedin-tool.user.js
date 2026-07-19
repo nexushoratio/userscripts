@@ -1540,10 +1540,7 @@
       const me = this.activate.name;
       this.logger.entered(me);
 
-      const containers = new Set(
-        Array.from(await this.#waitForContainers())
-          .filter(x => x)
-      );
+      const containers = new Set(await this.#waitForContainers());
       if (this.#base) {
         containers.add(this.#base);
       }
