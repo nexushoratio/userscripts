@@ -9553,7 +9553,8 @@
         ],
         modes: [
           this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.ID,
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.ARIA_LABEL,
           this.ctor.UidMode.FOOTER,
         ],
       });
@@ -9565,7 +9566,8 @@
         ],
         modes: [
           this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.ID,
+          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.ARIA_LABEL,
           this.ctor.UidMode.FOOTER,
         ],
       });
