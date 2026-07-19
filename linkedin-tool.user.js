@@ -9852,7 +9852,7 @@
      */
     #entriesUidFromModes = (scroller, element) => {
       const me = this.#entriesUidFromModes.name;
-      scroller.logger.entered(me, element);
+      this.logger.entered(me, element);
 
       const results = this.ctor.#entriesModeToUid(
         scroller, element, this.#entriesCurrentModes
@@ -9867,7 +9867,7 @@
         .entries()
         .next().value;
 
-      scroller.logger.leaving(me, mode, uid);
+      this.logger.leaving(me, mode, uid);
       return [mode, uid];
     }
 
