@@ -201,6 +201,8 @@ contactTabDefinition
 containerItems
 ContainerItemsSelector
 ContainerItemsSelectors
+containersMutationHandler
+containersMutationObserver
 containerTimeout
 contentDocument
 contenteditable
@@ -681,7 +683,6 @@ matchSelf
 maxCountLength
 maxFieldLength
 maxUidLength
-memberof
 menuItem
 messageBox
 messageBoxSelector
@@ -932,7 +933,6 @@ primaryContentSelector
 primaryNavLinksComponentRef
 primaryNavSelector
 ProfilePostConnectDrawer
-proj
 PublicationTopLevelSection
 pushd
 px

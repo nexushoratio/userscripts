@@ -1295,7 +1295,9 @@
 
       this.#validateInstance();
 
-      this.#mutationObserver = new MutationObserver(this.#mutationHandler);
+      this.#containersMutationObserver = new MutationObserver(
+        this.#containersMutationHandler
+      );
 
       this.#logger = new NH.base.Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
@@ -1560,7 +1562,7 @@
             this.#clickOptions);
         }
         this.logger.log('observing with', container, observeOptions);
-        this.#mutationObserver.observe(container, observeOptions);
+        this.#containersMutationObserver.observe(container, observeOptions);
       }
 
       this.logger.log('watcher:', await watcher);
@@ -1579,7 +1581,7 @@
     deactivate() {
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
-      this.#mutationObserver.disconnect();
+      this.#containersMutationObserver.disconnect();
       for (const container of this.#onClickElements) {
         container.removeEventListener('click',
           this.#onClick,
@@ -1627,6 +1629,7 @@
     #clickOptions = {capture: true};
     #containerItems
     #containerTimeout
+    #containersMutationObserver
     #currentItem = null;
     #currentItemId = null;
     #destroyed = false;
@@ -1640,7 +1643,6 @@
     #logger
     #maxUidLength
     #mutationDispatcher = new NH.base.Dispatcher('attributes', 'childList');
-    #mutationObserver
     #name
     #observeAttributes
     #onClickElements = new Set();
@@ -1728,8 +1730,8 @@
      * @param {MutationRecord[]} records - Standard mutation records.
      * @fires 'childList'
      */
-    #mutationHandler = (records) => {
-      const me = this.#mutationHandler.name;
+    #containersMutationHandler = (records) => {
+      const me = this.#containersMutationHandler.name;
       this.logger.entered(me, `records: ${records.length}`);
 
       const types = new NH.base.DefaultMap(Array);
