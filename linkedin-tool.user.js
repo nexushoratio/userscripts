@@ -2130,7 +2130,7 @@
       const results = [];
 
       /**
-       * Simply eats any exception throw by the Promise.
+       * Simply eats any exception thrown by the Promise.
        * @param {Promise} prom - Whatever Promise we are wrapping.
        * @param {string} note - Put into log on error.
        * @returns {Promise} - Resolved promise.
@@ -10483,7 +10483,7 @@
         name: `${this.name} pagination`,
         containerItems: [
           {
-          // This selector is also used in #onPaginationActivate.
+            // This selector is also used in #onPaginationActivate.
             container: 'main ul[data-testid="pagination-controls-list"]',
             items: ':scope > li',
           },
