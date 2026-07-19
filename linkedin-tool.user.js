@@ -8926,9 +8926,6 @@
     }
     /* eslint-enable */
 
-    /** @type {UidMode[]} */
-    static #entriesCurrentModes
-
     /**
      * @typedef {object} ScrollerConfig
      * @property {Scroller~uidCallback} uidCallback - Callback to generate a
@@ -9360,6 +9357,7 @@
     }
 
     #checkingPartialOrder = false
+    #entriesCurrentModes
     #entriesCurrentUid
     #entriesScrollerConfigDefault = Symbol('default');
     #entriesScrollerConfigs = new Map();
@@ -9837,7 +9835,7 @@
       };
 
       this.#entriesCurrentUid = config.uidCallback;
-      this.ctor.#entriesCurrentModes = config.modes;
+      this.#entriesCurrentModes = config.modes;
 
       this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
@@ -9857,7 +9855,7 @@
       scroller.logger.entered(me, element);
 
       const results = this.ctor.#entriesModeToUid(
-        scroller, element, this.ctor.#entriesCurrentModes
+        scroller, element, this.#entriesCurrentModes
       );
 
       if (results.size === 0) {
