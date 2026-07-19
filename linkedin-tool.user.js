@@ -9380,6 +9380,7 @@
       'CertificationTopLevel, Skills',
       'CertificationTopLevel, VolunteerExperienceTopLevel',
       'ConnectedAccountsTopLevel, CertificationTopLevel',
+      'ConnectedAccountsTopLevel, Skills',
       'CourseTopLevelSection, Causes',
       'CourseTopLevelSection, HonorsTopLevel',
       'CourseTopLevelSection, Interests',
