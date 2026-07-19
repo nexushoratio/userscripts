@@ -1565,7 +1565,7 @@
         this.#containersMutationObserver.observe(container, observeOptions);
       }
 
-      this.logger.log('watcher:', await watcher);
+      await watcher;
       this.#mutationDispatcher.on('attributes', this.#attributesHandler);
       this.#mutationDispatcher.on('childList', this.#monitorConnectedness);
 
