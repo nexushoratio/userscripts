@@ -9336,46 +9336,6 @@
       return results;
     }
 
-    /**
-     * Suggest UID sources.
-     *
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     */
-    static #entriesSuggestUids = (scroller, element) => {
-      const me = this.#entriesSuggestUids.name;
-      scroller.logger.entered(me, element);
-
-      const suggestions = [];
-
-      const results = this.#entriesModeToUid(
-        scroller, element, Object.values(this.UidMode)
-      );
-      for (const [key, value] of results.entries()) {
-        suggestions.push(key);
-        scroller.logger.log(key.description, value);
-      }
-
-      const page = new URL(document.location);
-      const anchors = new Set(element.querySelectorAll('a')
-        .values()
-        .map(x => x.href)
-        .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
-      const ids = element.querySelectorAll(this.entriesUidSelectorId);
-
-      if (anchors.size > 1) {
-        suggestions.push('anchors');
-        scroller.logger.log('Anchors to consider:', anchors);
-      }
-
-      if (ids.length > 1) {
-        suggestions.push('ids');
-        scroller.logger.log('IDs to consider:', ids);
-      }
-
-      scroller.logger.leaving(me, 'Suggested:', suggestions);
-    }
-
     #checkingPartialOrder = false
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9866,6 +9826,46 @@
     }
 
     /**
+     * Suggest UID sources.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     */
+    #entriesSuggestUids = (scroller, element) => {
+      const me = this.#entriesSuggestUids.name;
+      this.logger.entered(me, element);
+
+      const suggestions = [];
+
+      const results = this.ctor.#entriesModeToUid(
+        scroller, element, Object.values(this.ctor.UidMode)
+      );
+      for (const [key, value] of results.entries()) {
+        suggestions.push(key);
+        this.logger.log(key.description, value);
+      }
+
+      const page = new URL(document.location);
+      const anchors = new Set(element.querySelectorAll('a')
+        .values()
+        .map(x => x.href)
+        .filter(x => !['/', page.pathname].includes(new URL(x).pathname)));
+      const ids = element.querySelectorAll(this.entriesUidSelectorId);
+
+      if (anchors.size > 1) {
+        suggestions.push('anchors');
+        this.logger.log('Anchors to consider:', anchors);
+      }
+
+      if (ids.length > 1) {
+        suggestions.push('ids');
+        this.logger.log('IDs to consider:', ids);
+      }
+
+      this.logger.leaving(me, 'Suggested:', suggestions);
+    }
+
+    /**
      * Return the first UID computed from supported modes.
      *
      * @param {Scroller} scroller - Scroller instance.
@@ -9881,7 +9881,7 @@
       );
 
       if (results.size === 0) {
-        this.ctor.#entriesSuggestUids(scroller, element);
+        this.#entriesSuggestUids(scroller, element);
         results.set(this.ctor.UidMode.FALLBACK, scroller.defaultUid(element));
       }
 
