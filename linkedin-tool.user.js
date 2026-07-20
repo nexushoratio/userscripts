@@ -9604,9 +9604,11 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.TEST_ID,
-          this.ctor.UidMode.ARIA_LABEL,
+          this.ctor.UidMode.MULTI_IMG,
           this.ctor.UidMode.HREF,
+          this.ctor.UidMode.FOOTER,
+          // ID goes after FOOTER because it may match the right arrow.
+          this.ctor.UidMode.ID,
         ],
       });
       this.#entriesScrollerConfigs.set('Featured', {
