@@ -648,7 +648,6 @@ linkedIn
 LinkedIn
 LinkedIn's
 LinkedInStyleService
-Linkify
 listitem
 litLabel
 litOptions
@@ -719,7 +718,6 @@ msgs
 multiImg
 mutationDispatcher
 mutationHandler
-mutationObserver
 MutationObserver
 MutationRecord
 MutationRecords
@@ -1044,7 +1042,6 @@ sectionScroller
 sectionsPartialOrder
 sectionUidPrefix
 seeMore
-selectCurrentResultsPage
 selectorArray
 SelectorsWithoutBase
 SemVer
@@ -1088,6 +1085,7 @@ spdx
 src
 srcdoc
 stackTrace
+startContainers
 startItem
 startMutationObserverUrlMonitor
 startsWith
@@ -1096,6 +1094,7 @@ startUrlMonitor
 startUserscriptManagerUrlMonitor
 StatusBar
 statusText
+stopContainers
 stopMutationObserverUrlMonitor
 stopTest
 stopUrlMonitor

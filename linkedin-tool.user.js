@@ -1569,30 +1569,8 @@
       const me = this.activate.name;
       this.logger.entered(me);
 
-      const containers = new Set(await this.#waitForContainers());
-      if (this.#base) {
-        containers.add(this.#base);
-      }
-
-      const watcher = this.#currentItemWatcher();
-      const observeOptions = {
-        childList: true,
-        subtree: true,
-        attributes: this.#observeAttributes,
-      };
-
-      for (const container of containers) {
-        if (this.#watchForClicks) {
-          this.#onClickElements.add(container);
-          container.addEventListener('click',
-            this.#onClick,
-            this.#clickOptions);
-        }
-        this.logger.log('observing with', container, observeOptions);
-        this.#containersMutationObserver.observe(container, observeOptions);
-      }
-
-      await watcher;
+      await this.#startContainers();
+      await this.#currentItemWatcher();
       this.#mutationDispatcher.on('attributes', this.#attributesHandler);
       this.#mutationDispatcher.on('childList', this.#monitorConnectedness);
 
@@ -1608,13 +1586,8 @@
     deactivate() {
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
-      this.#containersMutationObserver.disconnect();
-      for (const container of this.#onClickElements) {
-        container.removeEventListener('click',
-          this.#onClick,
-          this.#clickOptions);
-      }
-      this.#onClickElements.clear();
+      this.#stopContainers();
+
       this.dispatcher.fire('deactivate', null);
     }
 
@@ -1711,6 +1684,45 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    #startContainers = async () => {
+      const me = this.#startContainers.name;
+      this.logger.entered(me);
+
+      this.#stopContainers();
+      const containers = new Set(await this.#waitForContainers());
+      if (this.#base) {
+        containers.add(this.#base);
+      }
+      const observeOptions = {
+        childList: true,
+        subtree: true,
+        attributes: this.#observeAttributes,
+      };
+
+      for (const container of containers) {
+        if (this.#watchForClicks) {
+          this.#onClickElements.add(container);
+          container.addEventListener('click',
+            this.#onClick,
+            this.#clickOptions);
+        }
+        this.logger.log('observing with', container, observeOptions);
+        this.#containersMutationObserver.observe(container, observeOptions);
+      }
+
+      this.logger.leaving(me);
+    }
+
+    #stopContainers = () => {
+      this.#containersMutationObserver.disconnect();
+      for (const container of this.#onClickElements) {
+        container.removeEventListener('click',
+          this.#onClick,
+          this.#clickOptions);
+      }
+      this.#onClickElements.clear();
     }
 
     /**
