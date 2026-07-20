@@ -9593,8 +9593,8 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorAbout],
         modes: [
-          this.ctor.UidMode.TEST_ID,
-          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.DEFAULT,
         ],
       });
       this.#entriesScrollerConfigs.set('Services', {
