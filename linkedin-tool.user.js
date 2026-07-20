@@ -193,7 +193,6 @@
       '2026-06-30'
     ),
     ish('349', '`LinkedIn`: Remove navbar margin support', '2026-06-20'),
-    ish('351', '**Feed**: load more feature no longer works', '2026-06-20'),
     ish(
       '352',
       'Migrate `Scroller` configurations from static to instance' +
@@ -241,6 +240,26 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-20',
+      issues: ['372'],
+      subject: 'Factor out starting/stopping container monitoring',
+    },
+    {
+      date: '2026-07-20',
+      issues: ['352'],
+      subject: 'Make `#entriesSuggestUids` an instance method',
+    },
+    {
+      date: '2026-07-20',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Services* section',
+    },
+    {
+      date: '2026-07-20',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *About* section',
+    },
     {
       date: '2026-07-19',
       issues: ['373'],
@@ -812,41 +831,6 @@
       issues: ['240'],
       subject: 'Migrate `JobsView` from `ScrollerStyleService` to' +
         ' `StyleService`',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['349'],
-      subject: 'Stop scrolling the sidebars into view',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['302'],
-      subject: 'Suggest any implemented `UidMode` solutions that work',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['302'],
-      subject: 'Change suggested anchors to a `Set` to remove duplicates',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['240'],
-      subject: 'Migrate `Jobs` from `ScrollerStyleService` to `StyleService`',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['240'],
-      subject: 'Insert a blank line for consistency',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['240'],
-      subject: 'Fix how the closing `}` is added to the CSS Style',
-    },
-    {
-      date: '2026-06-20',
-      issues: ['351'],
-      subject: 'Rework how **Feeds**\'s "load most posts" feature works',
     },
   ];
 
