@@ -289,6 +289,7 @@ doSetUpClass
 doTestCases
 downloadURL
 dps
+duckData
 dummyArgs
 dummyEventCallback
 DummyMethodTestCase
@@ -385,6 +386,7 @@ eslint
 eslintrc
 eventScroller
 eventType
+EventType
 eventTypes
 eventUrn
 evt
@@ -501,7 +503,10 @@ groupName
 groupStack
 grp
 guessPageStyle
+handleDuck
+handleDucked
 handleEvent
+handleRunJump
 hasOwn
 helpTabDefinition
 hideconstructor
@@ -605,6 +610,7 @@ jsdelivr
 jsdoc
 JSDoc
 json
+jumpData
 jumpToEndItem
 kbd
 KeyboardEvent
