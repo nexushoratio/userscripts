@@ -1613,6 +1613,7 @@
     #clickOptions = {capture: true};
     #containerItems
     #containerTimeout
+    #containers = new Set();
     #containersMutationObserver
     #currentItem = null;
     #currentItemId = null;
@@ -1675,9 +1676,10 @@
       this.logger.entered(me);
 
       this.#stopContainers();
-      const containers = new Set(await this.#waitForContainers());
+      const found = await this.#waitForContainers();
+      found.map(x => this.#containers.add(x));
       if (this.#base) {
-        containers.add(this.#base);
+        this.#containers.add(this.#base);
       }
       const observeOptions = {
         childList: true,
@@ -1685,7 +1687,7 @@
         attributes: this.#observeAttributes,
       };
 
-      for (const container of containers) {
+      for (const container of this.#containers) {
         if (this.#watchForClicks) {
           this.#onClickElements.add(container);
           container.addEventListener('click',
@@ -1708,6 +1710,7 @@
       }
       this.#onClickElements.clear();
       this.#itemCache = null;
+      this.#containers.clear();
     }
 
     /**
@@ -1806,6 +1809,7 @@
       this.#itemCache = null;
 
       if (!this.#itemCache) {
+        // This needs to be ordered, so does not use #containers.
         const items = [];
         if (this.#base) {
           for (const selector of this.#selectors) {
