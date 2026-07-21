@@ -1707,6 +1707,7 @@
           this.#clickOptions);
       }
       this.#onClickElements.clear();
+      this.#itemCache = null;
     }
 
     /**
