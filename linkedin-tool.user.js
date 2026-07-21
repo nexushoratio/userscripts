@@ -3984,6 +3984,7 @@
           ' font-size: 1.2rem;' +
           ' font-weight: 600;' +
           ' height: 1.6rem;' +
+          ' inset-block-end: 1.8rem;' +
           ' inset-block-start: -0.2rem;' +
           ' inset-inline-start: 100%;' +
           ' justify-content: center;' +
