@@ -9162,191 +9162,6 @@
         this.#entriesUidSelectorTestIdPart2;
     }
 
-    /**
-     * Compute all UIDs for the requested modes.
-     *
-     * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
-     * @param {UidMode[]} modes - Computation modes to consider.
-     * @returns {Map<UidMode, string>} - All computed values.
-     */
-    static #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements, complexity
-      const me = this.#entriesModeToUid.name;
-      scroller.logger.entered(me, element, modes);
-
-      const results = new Map();
-
-      // Different types may get additional post-processing.
-      let content = null;
-      let href = null;
-
-      for (const mode of modes) {
-        let scratch = null;
-        content = null;
-        href = null;
-        switch (mode) {
-          case this.UidMode.ANCHOR:
-            href = element.querySelector(
-              'a' +
-                ':not([href*="/company/"])' +
-                ':not([href*="/feed/"])' +
-                ':not([href*="/in/"])' +
-                ':not([href$="#"])' +
-                ':not([href*="/learning/"])' +
-                ':not([href*="/newsletters/"])' +
-                ':not([href*="/pulse/"])' +
-                ':not([href*="/safety/"])' +
-                ':not([href*="/school/"])'
-            )?.href;
-            break;
-          case this.UidMode.ANCHOR_FEED:
-            href = element.querySelector('a[href*="/feed/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_LEARNING:
-            href = element.querySelector('a[href*="/learning/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_NEWSLETTERS:
-            href = element.querySelector('a[href*="/newsletters/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_OVERLAY:
-            scratch = element.querySelector('a')?.href;
-            if (scratch) {
-              // eslint-disable-next-line prefer-regex-literals
-              const re = RegExp(
-                '^/in/[^/]*/(?:overlay|edit|opportunities)/', 'u'
-              );
-              const overlayUrl = new URL(scratch);
-              const suffix = '/#';
-              if (re.test(overlayUrl.pathname)) {
-                href = scratch;
-              } else if (overlayUrl.href.endsWith(suffix)) {
-                // Using content because we know this will match /in/ later.
-                content = overlayUrl.pathname + suffix;
-              }
-            }
-            break;
-          case this.UidMode.ANCHOR_PROFILE:
-            href = element.querySelector('a[href*="/in/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_PULSE:
-            href = element.querySelector('a[href*="/pulse/"]')?.href;
-            break;
-          case this.UidMode.ARIA_LABEL:
-            content = element.ariaLabel ||
-              element.querySelector('[aria-label]')
-                ?.getAttribute('aria-label');
-            break;
-          case this.UidMode.CKEY:
-            content = LinkedIn.ckeyIdentifier(element)
-              ?.replace('com.linkedin.sdui.profile.', '');
-            break;
-          case this.UidMode.COMMENT_URN:
-            // The ?? is so there is always a valid URL
-            scratch = new URL(element.href ?? document.location)
-              .searchParams;
-            content = scratch.get('dashReplyUrn') ??
-              scratch.get('dashCommentUrn');
-            break;
-          case this.UidMode.COMPANY:
-            scratch = element.querySelector('a[href*="/company/"]')
-              ?.href;
-            if (scratch) {
-              // The same company may be referenced more than once.
-              content = new URL(scratch).pathname +
-                scroller.defaultUid(element);
-            }
-            break;
-          case this.UidMode.DEFAULT:
-            content = scroller.defaultUid(element);
-            break;
-          case this.UidMode.FALLBACK:
-            // No-op
-            break;
-          case this.UidMode.FOOTER:
-            scratch = element.matches(this.#entriesSelectorFooter);
-            if (scratch) {
-              href = element.href;
-            }
-            break;
-          case this.UidMode.HREF:
-            scratch = element.matches(this.#entriesSelectorFooter);
-            if (!scratch) {
-              href = element.href;
-            }
-            break;
-          case this.UidMode.ID:
-            scratch = element.matches(this.#entriesUidSelectorId)
-              ? element
-              : element.querySelector(this.#entriesUidSelectorId);
-            content = scratch?.id;
-            break;
-          case this.UidMode.IMG:
-            href = element.querySelector(':scope:is(a) img')?.src;
-            break;
-          case this.UidMode.MULTI_IMG:
-            scratch = [];
-            for (const img of element.querySelectorAll('img')) {
-              scratch.push(new URL(img.src).pathname);
-            }
-            content = scratch.join('|');
-            break;
-          case this.UidMode.SAFETY:
-            scratch = element.querySelector('a[href*="/safety/"]')
-              ?.href;
-            if (scratch) {
-              content = new URL(scratch).searchParams.get('urlhash');
-              scroller.logger.log('safety details',
-                new URL(scratch).searchParams);
-            }
-            break;
-          case this.UidMode.SCHOOL:
-            scratch = element.querySelector('a[href*="/school/"]')
-              ?.href;
-            if (scratch) {
-              // The same school may be referenced more than once.
-              content = new URL(scratch).pathname +
-                scroller.defaultUid(element);
-            }
-            break;
-          case this.UidMode.TEST_ID:
-            scratch = element.matches(this.#entriesUidSelectorTestId)
-              ? element
-              : element.querySelector(this.#entriesUidSelectorTestId);
-            content = scratch?.dataset.testid;
-            break;
-          default:
-            NH.base.issues.post(
-              'Unsupported profile entry mode:', mode.description
-            );
-        }
-        if (content) {
-          results.set(mode, content);
-        } else if (href) {
-          try {
-            const url = new URL(href);
-            const pathname = url.pathname;
-            const extra = element.parentElement.matches(':has(hr)')
-              ? '-hr'
-              : '';
-            results.set(mode, pathname + extra);
-            if (document.location.pathname === pathname) {
-              if (mode === this.UidMode.HREF) {
-                scroller.logger.log('ignoring self href');
-                results.delete(mode);
-              } else {
-                scroller.logger.log('points to self', mode.description);
-              }
-            }
-          } catch (e) {
-            scroller.logger.log('caught while examining href:', e);
-          }
-        }
-      }
-
-      scroller.logger.leaving(me, results);
-      return results;
-    }
-
     #checkingPartialOrder = false
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9842,6 +9657,191 @@
     }
 
     /**
+     * Compute all UIDs for the requested modes.
+     *
+     * @param {Scroller} scroller - Scroller instance.
+     * @param {Element} element - Element to examine.
+     * @param {UidMode[]} modes - Computation modes to consider.
+     * @returns {Map<UidMode, string>} - All computed values.
+     */
+    #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements, complexity
+      const me = this.#entriesModeToUid.name;
+      this.logger.entered(me, element, modes);
+
+      const results = new Map();
+
+      // Different types may get additional post-processing.
+      let content = null;
+      let href = null;
+
+      for (const mode of modes) {
+        let scratch = null;
+        content = null;
+        href = null;
+        switch (mode) {
+          case this.ctor.UidMode.ANCHOR:
+            href = element.querySelector(
+              'a' +
+                ':not([href*="/company/"])' +
+                ':not([href*="/feed/"])' +
+                ':not([href*="/in/"])' +
+                ':not([href$="#"])' +
+                ':not([href*="/learning/"])' +
+                ':not([href*="/newsletters/"])' +
+                ':not([href*="/pulse/"])' +
+                ':not([href*="/safety/"])' +
+                ':not([href*="/school/"])'
+            )?.href;
+            break;
+          case this.ctor.UidMode.ANCHOR_FEED:
+            href = element.querySelector('a[href*="/feed/"]')?.href;
+            break;
+          case this.ctor.UidMode.ANCHOR_LEARNING:
+            href = element.querySelector('a[href*="/learning/"]')?.href;
+            break;
+          case this.ctor.UidMode.ANCHOR_NEWSLETTERS:
+            href = element.querySelector('a[href*="/newsletters/"]')?.href;
+            break;
+          case this.ctor.UidMode.ANCHOR_OVERLAY:
+            scratch = element.querySelector('a')?.href;
+            if (scratch) {
+              // eslint-disable-next-line prefer-regex-literals
+              const re = RegExp(
+                '^/in/[^/]*/(?:overlay|edit|opportunities)/', 'u'
+              );
+              const overlayUrl = new URL(scratch);
+              const suffix = '/#';
+              if (re.test(overlayUrl.pathname)) {
+                href = scratch;
+              } else if (overlayUrl.href.endsWith(suffix)) {
+                // Using content because we know this will match /in/ later.
+                content = overlayUrl.pathname + suffix;
+              }
+            }
+            break;
+          case this.ctor.UidMode.ANCHOR_PROFILE:
+            href = element.querySelector('a[href*="/in/"]')?.href;
+            break;
+          case this.ctor.UidMode.ANCHOR_PULSE:
+            href = element.querySelector('a[href*="/pulse/"]')?.href;
+            break;
+          case this.ctor.UidMode.ARIA_LABEL:
+            content = element.ariaLabel ||
+              element.querySelector('[aria-label]')
+                ?.getAttribute('aria-label');
+            break;
+          case this.ctor.UidMode.CKEY:
+            content = LinkedIn.ckeyIdentifier(element)
+              ?.replace('com.linkedin.sdui.profile.', '');
+            break;
+          case this.ctor.UidMode.COMMENT_URN:
+            // The ?? is so there is always a valid URL
+            scratch = new URL(element.href ?? document.location)
+              .searchParams;
+            content = scratch.get('dashReplyUrn') ??
+              scratch.get('dashCommentUrn');
+            break;
+          case this.ctor.UidMode.COMPANY:
+            scratch = element.querySelector('a[href*="/company/"]')
+              ?.href;
+            if (scratch) {
+              // The same company may be referenced more than once.
+              content = new URL(scratch).pathname +
+                scroller.defaultUid(element);
+            }
+            break;
+          case this.ctor.UidMode.DEFAULT:
+            content = scroller.defaultUid(element);
+            break;
+          case this.ctor.UidMode.FALLBACK:
+            // No-op
+            break;
+          case this.ctor.UidMode.FOOTER:
+            scratch = element.matches(this.ctor.#entriesSelectorFooter);
+            if (scratch) {
+              href = element.href;
+            }
+            break;
+          case this.ctor.UidMode.HREF:
+            scratch = element.matches(this.ctor.#entriesSelectorFooter);
+            if (!scratch) {
+              href = element.href;
+            }
+            break;
+          case this.ctor.UidMode.ID:
+            scratch = element.matches(this.ctor.#entriesUidSelectorId)
+              ? element
+              : element.querySelector(this.ctor.#entriesUidSelectorId);
+            content = scratch?.id;
+            break;
+          case this.ctor.UidMode.IMG:
+            href = element.querySelector(':scope:is(a) img')?.src;
+            break;
+          case this.ctor.UidMode.MULTI_IMG:
+            scratch = [];
+            for (const img of element.querySelectorAll('img')) {
+              scratch.push(new URL(img.src).pathname);
+            }
+            content = scratch.join('|');
+            break;
+          case this.ctor.UidMode.SAFETY:
+            scratch = element.querySelector('a[href*="/safety/"]')
+              ?.href;
+            if (scratch) {
+              content = new URL(scratch).searchParams.get('urlhash');
+              this.logger.log('safety details',
+                new URL(scratch).searchParams);
+            }
+            break;
+          case this.ctor.UidMode.SCHOOL:
+            scratch = element.querySelector('a[href*="/school/"]')
+              ?.href;
+            if (scratch) {
+              // The same school may be referenced more than once.
+              content = new URL(scratch).pathname +
+                scroller.defaultUid(element);
+            }
+            break;
+          case this.ctor.UidMode.TEST_ID:
+            scratch = element.matches(this.ctor.#entriesUidSelectorTestId)
+              ? element
+              : element.querySelector(this.ctor.#entriesUidSelectorTestId);
+            content = scratch?.dataset.testid;
+            break;
+          default:
+            NH.base.issues.post(
+              'Unsupported profile entry mode:', mode.description
+            );
+        }
+        if (content) {
+          results.set(mode, content);
+        } else if (href) {
+          try {
+            const url = new URL(href);
+            const pathname = url.pathname;
+            const extra = element.parentElement.matches(':has(hr)')
+              ? '-hr'
+              : '';
+            results.set(mode, pathname + extra);
+            if (document.location.pathname === pathname) {
+              if (mode === this.ctor.UidMode.HREF) {
+                this.logger.log('ignoring self href');
+                results.delete(mode);
+              } else {
+                this.logger.log('points to self', mode.description);
+              }
+            }
+          } catch (e) {
+            this.logger.log('caught while examining href:', e);
+          }
+        }
+      }
+
+      this.logger.leaving(me, results);
+      return results;
+    }
+
+    /**
      * Suggest UID sources.
      *
      * @param {Scroller} scroller - Scroller instance.
@@ -9853,7 +9853,7 @@
 
       const suggestions = [];
 
-      const results = this.ctor.#entriesModeToUid(
+      const results = this.#entriesModeToUid(
         scroller, element, Object.values(this.ctor.UidMode)
       );
       for (const [key, value] of results.entries()) {
@@ -9892,7 +9892,7 @@
       const me = this.#entriesUidFromModes.name;
       this.logger.entered(me, element);
 
-      const results = this.ctor.#entriesModeToUid(
+      const results = this.#entriesModeToUid(
         scroller, element, this.#entriesCurrentModes
       );
 
