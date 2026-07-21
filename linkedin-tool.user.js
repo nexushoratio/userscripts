@@ -183,7 +183,7 @@
       '2026-07-06'
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
-    ish('303', 'Keys are captured while editing text', '2026-06-21'),
+    ish('303', 'Keys are captured while editing text', '2026-07-21'),
     ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
@@ -240,6 +240,32 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-21',
+      issues: [''],
+      subject: 'Update CSS in response to site change',
+    },
+    {
+      date: '2026-07-21',
+      issues: ['372'],
+      subject: 'Keep the containers around for later reuse',
+    },
+    {
+      date: '2026-07-21',
+      issues: ['372'],
+      subject: 'Explicitly clear the item cache when stopping container' +
+        ' monitoring',
+    },
+    {
+      date: '2026-07-21',
+      issues: ['352'],
+      subject: 'Make `#entriesModeToUid` an instance method',
+    },
+    {
+      date: '2026-07-21',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Featured* section',
+    },
     {
       date: '2026-07-20',
       issues: ['372'],
@@ -809,28 +835,6 @@
       date: '2026-06-22',
       issues: ['240'],
       subject: 'Migrate `Notifications` to `StyleService`',
-    },
-    {
-      date: '2026-06-21',
-      issues: ['352'],
-      subject: 'Refactor all `#initScrollers()` methods even more',
-    },
-    {
-      date: '2026-06-21',
-      issues: ['302'],
-      subject: 'Rename `#entriesMentionUidPossibilities` to' +
-        ' `#entriesSuggestUids`',
-    },
-    {
-      date: '2026-06-21',
-      issues: ['302'],
-      subject: 'Support the *Certifications* section',
-    },
-    {
-      date: '2026-06-21',
-      issues: ['240'],
-      subject: 'Migrate `JobsView` from `ScrollerStyleService` to' +
-        ' `StyleService`',
     },
   ];
 
