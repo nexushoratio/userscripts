@@ -8802,8 +8802,11 @@
     static UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
+      ANCHOR_LEARNING: Symbol.for('anchorLearning'),
+      ANCHOR_NEWSLETTERS: Symbol.for('anchorNewsletters'),
       ANCHOR_OVERLAY: Symbol.for('anchorOverlay'),
       ANCHOR_PROFILE: Symbol.for('anchorProfile'),
+      ANCHOR_PULSE: Symbol.for('anchorPulse'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
       CKEY: Symbol.for('ckey'),
       COMMENT_URN: Symbol.for('commentUrn'),
@@ -9189,12 +9192,21 @@
                 ':not([href*="/feed/"])' +
                 ':not([href*="/in/"])' +
                 ':not([href$="#"])' +
+                ':not([href*="/learning/"])' +
+                ':not([href*="/newsletters/"])' +
+                ':not([href*="/pulse/"])' +
                 ':not([href*="/safety/"])' +
                 ':not([href*="/school/"])'
             )?.href;
             break;
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_LEARNING:
+            href = element.querySelector('a[href*="/learning/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_NEWSLETTERS:
+            href = element.querySelector('a[href*="/newsletters/"]')?.href;
             break;
           case this.UidMode.ANCHOR_OVERLAY:
             scratch = element.querySelector('a')?.href;
@@ -9215,6 +9227,9 @@
             break;
           case this.UidMode.ANCHOR_PROFILE:
             href = element.querySelector('a[href*="/in/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_PULSE:
+            href = element.querySelector('a[href*="/pulse/"]')?.href;
             break;
           case this.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
@@ -9571,7 +9586,12 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorFeatured],
         modes: [
+          this.ctor.UidMode.SAFETY,
           this.ctor.UidMode.ANCHOR_FEED,
+          this.ctor.UidMode.ANCHOR_LEARNING,
+          this.ctor.UidMode.ANCHOR_NEWSLETTERS,
+          this.ctor.UidMode.ANCHOR_OVERLAY,
+          this.ctor.UidMode.ANCHOR_PULSE,
           this.ctor.UidMode.ANCHOR_PROFILE,
         ],
       });
