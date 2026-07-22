@@ -1,4 +1,3 @@
-aabda
 abcd
 ABCd
 aboutTab
@@ -322,7 +321,6 @@ EnsureTestCase
 ent
 entriesCurrentModes
 entriesCurrentUid
-entriesMentionUidPossibilities
 entriesModeToUid
 entriesScrollerConfigDefault
 entriesScrollerConfigs
@@ -402,8 +400,6 @@ failMsgs
 fakeErrorRate
 falsy
 fd
-feaa
-fecd
 FeedType
 FetchResult
 FetchState
@@ -744,6 +740,7 @@ navMe
 navSpacer
 ndid
 ndiff
+needsConnection
 nestedId
 newCallback
 NewClass
@@ -891,6 +888,8 @@ paddingTop
 padEnd
 padStart
 PageDetails
+pageMutationHandler
+pageMutationObserver
 pageService
 PagesToDo
 pageStyle

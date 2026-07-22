@@ -1313,6 +1313,9 @@
       this.#containersMutationObserver = new MutationObserver(
         this.#containersMutationHandler
       );
+      this.#pageMutationObserver = new MutationObserver(
+        this.#pageMutationHandler
+      );
 
       this.#logger = new NH.base.Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
@@ -1557,6 +1560,9 @@
       const me = this.activate.name;
       this.logger.entered(me);
 
+      this.#pageMutationObserver.observe(
+        document.body, {childList: true, subtree: true}
+      );
       await this.#startContainers();
       // The logging statement is useful for debugging.  Keep it.
       this.logger.log('watcher:', await this.#currentItemWatcher());
@@ -1573,6 +1579,7 @@
      * @fires 'deactivate'
      */
     deactivate() {
+      this.#pageMutationObserver.disconnect();
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#stopContainers();
@@ -1636,6 +1643,7 @@
     #name
     #observeAttributes
     #onClickElements = new Set();
+    #pageMutationObserver
     #selectors
     #snapToTop
     #stackTrace
@@ -1758,6 +1766,21 @@
       return height;
     }
 
+    #pageMutationHandler = async () => {
+      const me = this.#pageMutationHandler.name;
+      this.logger.entered(me, this.#containers);
+
+      const needsConnection = this.#containers.values()
+        .some(x => !x.isConnected);
+      if (needsConnection) {
+        this.logger.log('restarting containers');
+        await this.activate();
+        this.logger.log('containers restarted');
+      }
+
+      this.logger.leaving(me);
+    }
+
     /**
      * @param {MutationRecord[]} records - Standard mutation records.
      * @fires 'childList'
@@ -1809,9 +1832,6 @@
     #getItems = () => {
       const me = this.#getItems.name;
       this.logger.entered(me);
-
-      // TODO(#372): Reenable the cache
-      this.#itemCache = null;
 
       if (!this.#itemCache) {
         // This needs to be ordered, so does not use #containers.
