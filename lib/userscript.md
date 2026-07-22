@@ -2,7 +2,7 @@
 
 Wrappers for dealing with variations in userscript managers.
 
-## Exported properties (as of version 14)
+## Exported properties (as of version 18)
 * version - Bumped per release.
 * licenseData - License data extracted from the userscript header.
 * environmentData - Raw text about the current environment.
