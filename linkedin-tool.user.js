@@ -8809,7 +8809,19 @@
       this.#initScrollers();
     }
 
-    static UidMode = Object.freeze({
+    /**
+     * Create a CSS child combinator selector of DIVs.
+     *
+     * @param {number} n - The number of DIVs in the selector.
+     * @returns {string} - N divs like "div > div > ... > div".
+     */
+    static div(n) {
+      const a = Array(n)
+        .fill('div');
+      return a.join(' > ');
+    }
+
+    UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
       ANCHOR_LEARNING: Symbol.for('anchorLearning'),
@@ -8832,18 +8844,6 @@
       SCHOOL: Symbol.for('school'),
       TEST_ID: Symbol.for('testId'),
     })
-
-    /**
-     * Create a CSS child combinator selector of DIVs.
-     *
-     * @param {number} n - The number of DIVs in the selector.
-     * @returns {string} - N divs like "div > div > ... > div".
-     */
-    static div(n) {
-      const a = Array(n)
-        .fill('div');
-      return a.join(' > ');
-    }
 
     /** @type {Scroller} */
     get entries() {
@@ -9325,27 +9325,27 @@
             this.ctor.#entriesSelectorDefault,
             this.ctor.#entriesSelectorFooter,
           ],
-          modes: [this.ctor.UidMode.FOOTER],
+          modes: [this.UidMode.FOOTER],
         }
       );
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorTopcard],
         modes: [
-          this.ctor.UidMode.ARIA_LABEL,
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.ANCHOR,
-          this.ctor.UidMode.MULTI_IMG,
-          this.ctor.UidMode.SAFETY,
-          this.ctor.UidMode.HREF,
+          this.UidMode.ARIA_LABEL,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.ANCHOR,
+          this.UidMode.MULTI_IMG,
+          this.UidMode.SAFETY,
+          this.UidMode.HREF,
           // Hopefully only triggered by "Open to Work"
-          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.UidMode.ANCHOR_PROFILE,
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorSuggestedForYou],
-        modes: [this.ctor.UidMode.ANCHOR_OVERLAY],
+        modes: [this.UidMode.ANCHOR_OVERLAY],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesUidFromModes,
@@ -9354,8 +9354,8 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
@@ -9366,10 +9366,10 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.ARIA_LABEL,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.COMPANY,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.ARIA_LABEL,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
@@ -9379,18 +9379,18 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.ARIA_LABEL,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.COMPANY,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.ARIA_LABEL,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorAbout],
         modes: [
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.DEFAULT,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.DEFAULT,
         ],
       });
       this.#entriesScrollerConfigs.set('Services', {
@@ -9400,24 +9400,24 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.MULTI_IMG,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.MULTI_IMG,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
           // ID goes after FOOTER because it may match the right arrow.
-          this.ctor.UidMode.ID,
+          this.UidMode.ID,
         ],
       });
       this.#entriesScrollerConfigs.set('Featured', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorFeatured],
         modes: [
-          this.ctor.UidMode.SAFETY,
-          this.ctor.UidMode.ANCHOR_FEED,
-          this.ctor.UidMode.ANCHOR_LEARNING,
-          this.ctor.UidMode.ANCHOR_NEWSLETTERS,
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.ANCHOR_PULSE,
-          this.ctor.UidMode.ANCHOR_PROFILE,
+          this.UidMode.SAFETY,
+          this.UidMode.ANCHOR_FEED,
+          this.UidMode.ANCHOR_LEARNING,
+          this.UidMode.ANCHOR_NEWSLETTERS,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.ANCHOR_PULSE,
+          this.UidMode.ANCHOR_PROFILE,
         ],
       });
       this.#entriesScrollerConfigs.set('Activity', {
@@ -9427,12 +9427,12 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.ANCHOR_FEED,
-          this.ctor.UidMode.COMMENT_URN,
-          this.ctor.UidMode.MULTI_IMG,
-          this.ctor.UidMode.ANCHOR_PULSE,
-          this.ctor.UidMode.ANCHOR_NEWSLETTERS,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_FEED,
+          this.UidMode.COMMENT_URN,
+          this.UidMode.MULTI_IMG,
+          this.UidMode.ANCHOR_PULSE,
+          this.UidMode.ANCHOR_NEWSLETTERS,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
@@ -9442,10 +9442,10 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.COMPANY,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
@@ -9455,17 +9455,17 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.SCHOOL,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.SCHOOL,
+          this.UidMode.HREF,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
         // Dismissible section with little support here.
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorConnectedAccounts],
-        modes: [this.ctor.UidMode.HREF],
+        modes: [this.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback: this.#entriesUidFromModes,
@@ -9475,13 +9475,13 @@
         ],
         modes: [
           // /safety/go links often go to other certification sites.
-          this.ctor.UidMode.SAFETY,
-          this.ctor.UidMode.ANCHOR,
+          this.UidMode.SAFETY,
+          this.UidMode.ANCHOR,
           // For "skill association" pop-up for unlisted programs.
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.SCHOOL,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.COMPANY,
+          this.UidMode.SCHOOL,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Projects', {
@@ -9491,12 +9491,12 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.SAFETY,
+          this.UidMode.SAFETY,
           // For "skill association" pop-up.
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.TEST_ID,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.HREF,
+          this.UidMode.TEST_ID,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
@@ -9506,10 +9506,10 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.TEST_ID,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.COMPANY,
+          this.UidMode.HREF,
+          this.UidMode.TEST_ID,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Skills', {
@@ -9520,9 +9520,9 @@
         ],
         modes: [
           // These actually look stable.
-          this.ctor.UidMode.CKEY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.CKEY,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
@@ -9532,9 +9532,9 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
@@ -9544,9 +9544,9 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.SAFETY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.SAFETY,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Patents', {
@@ -9556,9 +9556,9 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.SAFETY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.SAFETY,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
@@ -9567,7 +9567,7 @@
           this.ctor.#entriesSelectorCourses,
           this.ctor.#entriesSelectorFooter,
         ],
-        modes: [this.ctor.UidMode.FOOTER],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
@@ -9576,9 +9576,9 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.ANCHOR_OVERLAY,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
@@ -9587,7 +9587,7 @@
           this.ctor.#entriesSelectorTestScores,
           this.ctor.#entriesSelectorFooter,
         ],
-        modes: [this.ctor.UidMode.FOOTER],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
         uidCallback: this.#entriesUidFromModes,
@@ -9595,7 +9595,7 @@
           this.ctor.#entriesSelectorLanguages,
           this.ctor.#entriesSelectorFooter,
         ],
-        modes: [this.ctor.UidMode.HREF],
+        modes: [this.UidMode.HREF],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
         uidCallback: this.#entriesUidFromModes,
@@ -9603,7 +9603,7 @@
           this.ctor.#entriesSelectorOrganizations,
           this.ctor.#entriesSelectorFooter,
         ],
-        modes: [this.ctor.UidMode.FOOTER],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
@@ -9612,12 +9612,12 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          this.ctor.UidMode.ANCHOR_PROFILE,
-          this.ctor.UidMode.COMPANY,
-          this.ctor.UidMode.SCHOOL,
-          this.ctor.UidMode.ANCHOR,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.FOOTER,
+          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.COMPANY,
+          this.UidMode.SCHOOL,
+          this.UidMode.ANCHOR,
+          this.UidMode.HREF,
+          this.UidMode.FOOTER,
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
@@ -9628,7 +9628,7 @@
         ],
         modes: [
           // Nothing better to use.
-          this.ctor.UidMode.DEFAULT,
+          this.UidMode.DEFAULT,
         ],
       });
     }
@@ -9689,7 +9689,7 @@
         content = null;
         href = null;
         switch (mode) {
-          case this.ctor.UidMode.ANCHOR:
+          case this.UidMode.ANCHOR:
             href = element.querySelector(
               'a' +
                 ':not([href*="/company/"])' +
@@ -9703,16 +9703,16 @@
                 ':not([href*="/school/"])'
             )?.href;
             break;
-          case this.ctor.UidMode.ANCHOR_FEED:
+          case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
             break;
-          case this.ctor.UidMode.ANCHOR_LEARNING:
+          case this.UidMode.ANCHOR_LEARNING:
             href = element.querySelector('a[href*="/learning/"]')?.href;
             break;
-          case this.ctor.UidMode.ANCHOR_NEWSLETTERS:
+          case this.UidMode.ANCHOR_NEWSLETTERS:
             href = element.querySelector('a[href*="/newsletters/"]')?.href;
             break;
-          case this.ctor.UidMode.ANCHOR_OVERLAY:
+          case this.UidMode.ANCHOR_OVERLAY:
             scratch = element.querySelector('a')?.href;
             if (scratch) {
               // eslint-disable-next-line prefer-regex-literals
@@ -9729,32 +9729,32 @@
               }
             }
             break;
-          case this.ctor.UidMode.ANCHOR_PROFILE:
+          case this.UidMode.ANCHOR_PROFILE:
             href = element.querySelector('a[href*="/in/"]')?.href;
             break;
-          case this.ctor.UidMode.ANCHOR_PULSE:
+          case this.UidMode.ANCHOR_PULSE:
             scratch = element.matches('a[href *= "/pulse/"]')
               ? element
               : element.querySelector('a[href *= "/pulse/"]');
             href = scratch?.href;
             break;
-          case this.ctor.UidMode.ARIA_LABEL:
+          case this.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
               element.querySelector('[aria-label]')
                 ?.getAttribute('aria-label');
             break;
-          case this.ctor.UidMode.CKEY:
+          case this.UidMode.CKEY:
             content = LinkedIn.ckeyIdentifier(element)
               ?.replace('com.linkedin.sdui.profile.', '');
             break;
-          case this.ctor.UidMode.COMMENT_URN:
+          case this.UidMode.COMMENT_URN:
             // The ?? is so there is always a valid URL
             scratch = new URL(element.href ?? document.location)
               .searchParams;
             content = scratch.get('dashReplyUrn') ??
               scratch.get('dashCommentUrn');
             break;
-          case this.ctor.UidMode.COMPANY:
+          case this.UidMode.COMPANY:
             scratch = element.querySelector('a[href*="/company/"]')
               ?.href;
             if (scratch) {
@@ -9763,41 +9763,41 @@
                 scroller.defaultUid(element);
             }
             break;
-          case this.ctor.UidMode.DEFAULT:
+          case this.UidMode.DEFAULT:
             content = scroller.defaultUid(element);
             break;
-          case this.ctor.UidMode.FALLBACK:
+          case this.UidMode.FALLBACK:
             // No-op
             break;
-          case this.ctor.UidMode.FOOTER:
+          case this.UidMode.FOOTER:
             scratch = element.matches(this.ctor.#entriesSelectorFooter);
             if (scratch) {
               href = element.href;
             }
             break;
-          case this.ctor.UidMode.HREF:
+          case this.UidMode.HREF:
             scratch = element.matches(this.ctor.#entriesSelectorFooter);
             if (!scratch) {
               href = element.href;
             }
             break;
-          case this.ctor.UidMode.ID:
+          case this.UidMode.ID:
             scratch = element.matches(this.ctor.#entriesUidSelectorId)
               ? element
               : element.querySelector(this.ctor.#entriesUidSelectorId);
             content = scratch?.id;
             break;
-          case this.ctor.UidMode.IMG:
+          case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
             break;
-          case this.ctor.UidMode.MULTI_IMG:
+          case this.UidMode.MULTI_IMG:
             scratch = [];
             for (const img of element.querySelectorAll('img')) {
               scratch.push(new URL(img.src).pathname);
             }
             content = scratch.join('|');
             break;
-          case this.ctor.UidMode.SAFETY:
+          case this.UidMode.SAFETY:
             scratch = element.querySelector('a[href*="/safety/"]')
               ?.href;
             if (scratch) {
@@ -9806,7 +9806,7 @@
                 new URL(scratch).searchParams);
             }
             break;
-          case this.ctor.UidMode.SCHOOL:
+          case this.UidMode.SCHOOL:
             scratch = element.querySelector('a[href*="/school/"]')
               ?.href;
             if (scratch) {
@@ -9815,7 +9815,7 @@
                 scroller.defaultUid(element);
             }
             break;
-          case this.ctor.UidMode.TEST_ID:
+          case this.UidMode.TEST_ID:
             scratch = element.matches(this.ctor.#entriesUidSelectorTestId)
               ? element
               : element.querySelector(this.ctor.#entriesUidSelectorTestId);
@@ -9837,7 +9837,7 @@
               : '';
             results.set(mode, pathname + extra);
             if (document.location.pathname === pathname) {
-              if (mode === this.ctor.UidMode.HREF) {
+              if (mode === this.UidMode.HREF) {
                 this.logger.log('ignoring self href');
                 results.delete(mode);
               } else {
@@ -9867,7 +9867,7 @@
       const suggestions = [];
 
       const results = this.#entriesModeToUid(
-        scroller, element, Object.values(this.ctor.UidMode)
+        scroller, element, Object.values(this.UidMode)
       );
       for (const [key, value] of results.entries()) {
         suggestions.push(key);
@@ -9911,7 +9911,7 @@
 
       if (results.size === 0) {
         this.#entriesSuggestUids(scroller, element);
-        results.set(this.ctor.UidMode.FALLBACK, scroller.defaultUid(element));
+        results.set(this.UidMode.FALLBACK, scroller.defaultUid(element));
       }
 
       const [mode, uid] = results
