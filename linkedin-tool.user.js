@@ -9429,9 +9429,9 @@
         modes: [
           this.ctor.UidMode.ANCHOR_FEED,
           this.ctor.UidMode.COMMENT_URN,
-          this.ctor.UidMode.HREF,
-          this.ctor.UidMode.IMG,
-          this.ctor.UidMode.ANCHOR,
+          this.ctor.UidMode.MULTI_IMG,
+          this.ctor.UidMode.ANCHOR_PULSE,
+          this.ctor.UidMode.ANCHOR_NEWSLETTERS,
           this.ctor.UidMode.FOOTER,
         ],
       });
@@ -9733,7 +9733,10 @@
             href = element.querySelector('a[href*="/in/"]')?.href;
             break;
           case this.ctor.UidMode.ANCHOR_PULSE:
-            href = element.querySelector('a[href*="/pulse/"]')?.href;
+            scratch = element.matches('a[href *= "/pulse/"]')
+              ? element
+              : element.querySelector('a[href *= "/pulse/"]');
+            href = scratch?.href;
             break;
           case this.ctor.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
