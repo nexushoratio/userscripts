@@ -175,9 +175,6 @@
     ish('236', 'Support **Events** page', '2026-07-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
-      '251', 'Normalize the `uniqueFooIdentifier()` functions', '2026-06-22'
-    ),
-    ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
       '2026-07-06'
@@ -240,6 +237,37 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-22',
+      issues: ['372'],
+      subject: 'Additional monitoring for containers and enable the item' +
+        ' cache',
+    },
+    {
+      date: '2026-07-22',
+      issues: ['209'],
+      subject: 'Update the current page navigation selector',
+    },
+    {
+      date: '2026-07-22',
+      issues: ['372'],
+      subject: 'Replace a one line log with intro/outro',
+    },
+    {
+      date: '2026-07-22',
+      issues: ['372'],
+      subject: 'Bring back a recently deleted logging statement',
+    },
+    {
+      date: '2026-07-22',
+      issues: ['352'],
+      subject: 'Make `UidMode` an instance variable',
+    },
+    {
+      date: '2026-07-22',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Activity* section',
+    },
     {
       date: '2026-07-21',
       issues: [''],
@@ -820,21 +848,6 @@
       date: '2026-06-23',
       issues: ['240'],
       subject: 'Fix a couple of docstrings missed in recent changes',
-    },
-    {
-      date: '2026-06-22',
-      issues: ['352'],
-      subject: 'Factor out transient `Scroller` initialization',
-    },
-    {
-      date: '2026-06-22',
-      issues: ['352'],
-      subject: 'Split a function missed in b1f9649',
-    },
-    {
-      date: '2026-06-22',
-      issues: ['240'],
-      subject: 'Migrate `Notifications` to `StyleService`',
     },
   ];
 
