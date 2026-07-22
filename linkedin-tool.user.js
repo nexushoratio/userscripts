@@ -1558,7 +1558,8 @@
       this.logger.entered(me);
 
       await this.#startContainers();
-      await this.#currentItemWatcher();
+      // The logging statement is useful for debugging.  Keep it.
+      this.logger.log('watcher:', await this.#currentItemWatcher());
       this.#mutationDispatcher.on('attributes', this.#attributesHandler);
       this.#mutationDispatcher.on('childList', this.#monitorConnectedness);
 
