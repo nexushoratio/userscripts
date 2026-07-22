@@ -10676,7 +10676,8 @@
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
-          'div.artdeco-pagination > ul > li.selected',
+          '[data-testid="pagination-controls-list"] > li' +
+            ' > [aria-current="true"]',
           timeout
         );
         this.paginator.goto(item);
