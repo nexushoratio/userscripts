@@ -2213,7 +2213,9 @@
 
           /** Dispatcher monitor. */
           const moCallback = () => {
-            this.logger.log('moCallback');
+            const monMe = moCallback.name;
+            this.logger.entered(monMe);
+
             if (this.gotoUid(uid)) {
               this.logger.log('item is present', this.item);
               if (Scroller.#isItemViewable(this.item)) {
@@ -2227,6 +2229,8 @@
             } else {
               this.logger.log('not ready yet');
             }
+
+            this.logger.leaving(monMe);
           };
 
           /** Standard setTimeout callback. */
