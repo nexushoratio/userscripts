@@ -3,7 +3,12 @@
     "private": false
   },
   "source": {
-    "include": ["demos.user.js", "lib/xunit.js", "lib/base.js"]
+    "include": [
+      "demos.user.js",
+      "lib/xunit.js",
+      "lib/base.js",
+      "lib/userscript.js"
+    ]
   },
   "plugins": ["plugins/markdown"],
   "markdown": {
