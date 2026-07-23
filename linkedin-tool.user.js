@@ -9188,33 +9188,6 @@
       `:scope > ${this.#div7}`,
     ].join(',')
 
-    static #entriesUidSelectorId
-    static #entriesUidSelectorIdPart1 = '[id]';
-    static #entriesUidSelectorIdPart2 = [
-      // IDs to ignore.
-      'calendar-small',
-      'company-accent-4',
-      'link-external-small',
-      'school-accent-4',
-    ].map(x => `:not([id="${x}"])`)
-      .join('');
-
-    static #entriesUidSelectorTestId
-    static #entriesUidSelectorTestIdPart1 = '[data-testid]';
-    static #entriesUidSelectorTestIdPart2 = [
-      // Ignore list.
-      'expandable-text-box',
-      'expandable-text-button',
-    ].map(x => `:not([data-testid="${x}"])`)
-      .join('');
-
-    static {
-      this.#entriesUidSelectorId = this.#entriesUidSelectorIdPart1 +
-        this.#entriesUidSelectorIdPart2;
-      this.#entriesUidSelectorTestId = this.#entriesUidSelectorTestIdPart1 +
-        this.#entriesUidSelectorTestIdPart2;
-    }
-
     #checkingPartialOrder = false
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9222,6 +9195,8 @@
     #entriesScrollerConfigs = new Map();
     #entryScroller
     #lastScroller
+    #modeUidSelectorId
+    #modeUidSelectorTestId
     #sectionScroller
     #sectionUidPrefix
 
@@ -9314,9 +9289,43 @@
     ]);
 
     #initScrollers = () => {
+      this.#initModeToUidHelpers();
       this.#initEntryScrollerConfigs();
       this.#initScrollerStyleService();
       this.#initSectionScroller();
+    }
+
+    /**
+     * Create a CSS attribute selector with an ignore list.
+     *
+     * @example
+     * [x]:not([[x]="foo"]):not([x]="bar")
+     *
+     * @param {string} attr - Attribute.
+     * @param {string[]} ignore - Values to ignore.
+     * @returns {string} CSS selector.
+     */
+    #modeAttrHelperSelector = (attr, ignore) => {
+      const positive = `[${attr}]`;
+      const negative = ignore.map(x => `:not([${attr}="${x}"])`)
+        .join('');
+      const ret = positive + negative;
+      return ret;
+    }
+
+    #initModeToUidHelpers = () => {
+      this.#modeUidSelectorId = this.#modeAttrHelperSelector('id', [
+        'calendar-small',
+        'company-accent-4',
+        'link-external-small',
+        'school-accent-4',
+      ]);
+      this.#modeUidSelectorTestId = this.#modeAttrHelperSelector(
+        'data-testid', [
+          'expandable-text-box',
+          'expandable-text-button',
+        ]
+      );
     }
 
     #initScrollerStyleService = () => {
@@ -9828,9 +9837,9 @@
             }
             break;
           case this.UidMode.ID:
-            scratch = element.matches(this.ctor.#entriesUidSelectorId)
+            scratch = element.matches(this.#modeUidSelectorId)
               ? element
-              : element.querySelector(this.ctor.#entriesUidSelectorId);
+              : element.querySelector(this.#modeUidSelectorId);
             content = scratch?.id;
             break;
           case this.UidMode.IMG:
@@ -9862,9 +9871,9 @@
             }
             break;
           case this.UidMode.TEST_ID:
-            scratch = element.matches(this.ctor.#entriesUidSelectorTestId)
+            scratch = element.matches(this.#modeUidSelectorTestId)
               ? element
-              : element.querySelector(this.ctor.#entriesUidSelectorTestId);
+              : element.querySelector(this.#modeUidSelectorTestId);
             content = scratch?.dataset.testid;
             break;
           default:

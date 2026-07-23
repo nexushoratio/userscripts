@@ -239,7 +239,6 @@ dalgoda
 dashCommentUrn
 dashReplyUrn
 dateHeader
-dceed
 DebugKeys
 deduped
 defaultClassesFunc
@@ -266,7 +265,6 @@ detailsFinder
 detailsPane
 detailsScroller
 DetailsTestCase
-dff
 differentMethod
 dismissId
 dismissIndividual
@@ -354,9 +352,7 @@ entriesSelectorVolunteering
 entriesSuggestUids
 entriesUidFromModes
 entriesUidSelectorId
-entriesUidSelectorIdPart
 entriesUidSelectorTestId
-entriesUidSelectorTestIdPart
 entriesUidShim
 entryScroller
 enum
@@ -557,6 +553,7 @@ initInviteScroller
 initJobScroller
 initMain
 initMessageScroller
+initModeToUidHelpers
 initNotificationScroller
 initPaginationScroller
 initPostScroller
@@ -710,7 +707,10 @@ missingSecond
 mkdir
 moCallback
 ModalTestCase
+modeAttrHelperSelector
 modeName
+modeUidSelectorId
+modeUidSelectorTestId
 modifierState
 monitorConnectedness
 monitorImpl
@@ -1142,7 +1142,6 @@ TabTestCase
 taffydb
 tagName
 Tampermonkey
-targetLength
 tbody
 td
 tearDown
