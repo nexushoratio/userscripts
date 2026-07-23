@@ -24,6 +24,8 @@
  * @file This exists to run library tests and serve as a demonstration
  * infrastructure.
  * @module demos
+ * @version 1
+ * @license [GPL-3.0-or-later]{@link https://www.gnu.org/licenses/gpl-3.0-standalone.html}
  */
 
 // eslint-disable-next-line max-lines-per-function
