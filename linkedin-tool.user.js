@@ -9482,8 +9482,11 @@
         modes: [
           this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.COMPANY,
-          this.UidMode.HREF,
+          this.UidMode.SCHOOL,
           this.UidMode.FOOTER,
+          // CKEY actually looks stable here.
+          this.UidMode.CKEY,
+          this.UidMode.ANCHOR_PROFILE,
         ],
       });
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
@@ -9557,7 +9560,7 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          // These actually look stable.
+          // CKEY actually looks stable here.
           this.UidMode.CKEY,
           this.UidMode.HREF,
           this.UidMode.FOOTER,
