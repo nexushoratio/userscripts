@@ -189,7 +189,6 @@
       '`SPA`: Fails to detect some URL changes when using `MutationObserver`',
       '2026-06-30'
     ),
-    ish('349', '`LinkedIn`: Remove navbar margin support', '2026-06-20'),
     ish(
       '352',
       'Migrate `Scroller` configurations from static to instance' +
@@ -237,6 +236,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-23',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-23',
+      issues: ['325'],
+      subject: 'Rework a bit to treat input types consistently',
+    },
+    {
+      date: '2026-07-23',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Experience* section',
+    },
     {
       date: '2026-07-22',
       issues: ['372'],
@@ -812,42 +827,6 @@
       issues: ['240'],
       subject: 'Migrate `Events` from `ScrollerStyleService` to' +
         ' `StyleService`',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['352'],
-      subject: 'Update how `Feed`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['349'],
-      subject: 'Consistently use `this.#navbar` vs `this.navbar`',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['302'],
-      subject: 'Support the *Connected apps* section',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['240'],
-      subject: 'Migrate `Profile` from `ScrollerStyleService` to' +
-        ' `StyleService`',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['240'],
-      subject: 'Remove a class variable missed in a recent change',
-    },
-    {
-      date: '2026-06-23',
-      issues: ['240'],
-      subject: 'Fix a couple of docstrings missed in recent changes',
     },
   ];
 
