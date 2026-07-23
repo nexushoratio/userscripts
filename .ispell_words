@@ -128,7 +128,6 @@ cardScroller
 cardsScroller
 caseSensitive
 ccc
-cdfc
 cdn
 centerOfElement
 CertificationTopLevel
@@ -300,6 +299,7 @@ dumpWatched
 edc
 edfd
 editItem
+editTypes
 EducationTopLevelSection
 ElementAdapter
 ElementAdapterTestCase
@@ -399,7 +399,6 @@ failMsg
 failMsgs
 fakeErrorRate
 falsy
-fd
 FeedType
 FetchResult
 FetchState
@@ -1085,6 +1084,7 @@ SimpleCamelCase
 SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
+skipTypes
 snapToTop
 sourceforge
 spaInstance
@@ -1425,7 +1425,6 @@ uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
 uniqueEntryIdentifier
 uniqueEventIdentifier
-uniqueFooIdentifier
 uniqueIndividualsIdentifier
 uniqueInvitationIdentifier
 uniqueJobIdentifier

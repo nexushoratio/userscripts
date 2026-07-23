@@ -3005,10 +3005,15 @@
       const me = this.#isInput.name;
       log.entered(me, element);
 
-      const knownTypes = [
-        // We know how to treat these types.
+      const editTypes = new Set([
+        // We know these generally need full keyboard access.
         'text',
-      ];
+      ]);
+
+      const skipTypes = new Set([
+        // Skip these types.
+        'checkbox',
+      ]);
 
       let tagName = '';
       if ('tagName' in element) {
@@ -3018,12 +3023,12 @@
       let textContent = false;
       if (tagName === 'input') {
         textContent = true;
-        if (element.type === 'checkbox') {
+        if (skipTypes.has(element.type)) {
           textContent = false;
         }
         if (textContent &&
             litOptions.enableDevMode &&
-            !knownTypes.includes(element.type)) {
+            !editTypes.has(element.type)) {
           const attributes = [];
           for (const attr of element.attributes) {
             attributes.push(`${attr.name}: ${attr.value}`);
