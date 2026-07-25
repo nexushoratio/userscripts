@@ -1,6 +1,6 @@
 #!/bin/bash
 # Checks to run.
-# Usuable from both `pre-commit` and the commandline.
+# Usable from both `pre-commit` and the commandline.
 
 set -u
 
@@ -25,8 +25,8 @@ if [[ -s ${spelling_errors} ]]; then
   messages+=('spell checking failed')
 fi
 
-eslint "${eslint_flags[@]}" . || messages+=('eslint failed')
 hooks/style_linter.py || messages+=('style linter failed')
+eslint "${eslint_flags[@]}" . || messages+=('eslint failed')
 
 cnt=${#messages[*]}
 
