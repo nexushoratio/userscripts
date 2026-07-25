@@ -8977,13 +8977,6 @@
     }
     /* eslint-enable */
 
-    /**
-     * @typedef {object} ScrollerConfig
-     * @property {Scroller~uidCallback} uidCallback - Callback to generate a
-     * uid.
-     * @property {string[]} selectors - Array of CSS selectors to find
-     */
-
     static #entriesSelectorAbout = [
       // Fairly simple layout
       `:scope > ${this.#div3}:has(> p) > *`,
