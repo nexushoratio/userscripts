@@ -9490,7 +9490,6 @@
         ],
         modes: [
           this.UidMode.SCHOOL,
-          this.UidMode.HREF,
           this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.FOOTER,
         ],
