@@ -8959,23 +8959,15 @@
     static #arrowRight = ':has(svg[id^="arrow-right"])';
     static #arrowRightNot = `:not(${this.#arrowRight})`;
 
-    static #div3
-    static #div4
-    static #div5
-    static #div6
-    static #div7
+    /* eslint-disable no-magic-numbers */
+    static #div3 = this.div(3);
+    static #div4 = this.div(4);
+    static #div5 = this.div(5);
+    static #div6 = this.div(6);
+    static #div7 = this.div(7);
+    /* eslint-enable */
 
     static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
-
-    /* eslint-disable no-magic-numbers */
-    static {
-      this.#div3 = this.div(3);
-      this.#div4 = this.div(4);
-      this.#div5 = this.div(5);
-      this.#div6 = this.div(6);
-      this.#div7 = this.div(7);
-    }
-    /* eslint-enable */
 
     static #entriesSelectorAbout = [
       // Fairly simple layout
