@@ -170,7 +170,7 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
-    ish('167', 'Refactor into libraries', '2026-06-25'),
+    ish('167', 'Refactor into libraries', '2026-07-25'),
     ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
     ish('236', 'Support **Events** page', '2026-07-10'),
     ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
@@ -181,7 +181,6 @@
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-07-21'),
-    ish('322', '<code>Scroller</code>: Remove margin support', '2026-06-13'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
     ish(
@@ -236,6 +235,26 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-25',
+      issues: ['352'],
+      subject: 'Remove now unnecessary static block',
+    },
+    {
+      date: '2026-07-25',
+      issues: ['352'],
+      subject: 'Remove now unused `@typedef`',
+    },
+    {
+      date: '2026-07-25',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
+    {
+      date: '2026-07-25',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Education* section',
+    },
     {
       date: '2026-07-23',
       issues: ['352'],
@@ -780,53 +799,6 @@
       date: '2026-06-26',
       issues: ['240'],
       subject: 'Retire `ScrollerStyleService`',
-    },
-    {
-      date: '2026-06-25',
-      issues: ['352'],
-      subject: 'Update how `InvitationManager`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-25',
-      issues: ['302'],
-      subject: 'Create `ANCHOR_OVERLAY` as an alternative to' +
-        ' `ANCHOR_PROFILE`',
-    },
-    {
-      date: '2026-06-25',
-      issues: ['302'],
-      subject: 'Add `COMPANY` as another UID source for *Experience*',
-    },
-    {
-      date: '2026-06-25',
-      issues: ['240'],
-      subject: 'Migrate `SearchResultsPeople` to `StyleService`',
-    },
-    {
-      date: '2026-06-24',
-      issues: ['322'],
-      subject: 'Remove margin support from `Scroller`',
-    },
-    {
-      date: '2026-06-24',
-      issues: ['352'],
-      subject: 'Update how `MyNetwork`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-24',
-      issues: ['302'],
-      subject: 'Support the *Projects* section',
-    },
-    {
-      date: '2026-06-24',
-      issues: ['302'],
-      subject: 'Add `TEST_ID` as another UID source for *About*',
-    },
-    {
-      date: '2026-06-24',
-      issues: ['240'],
-      subject: 'Migrate `Events` from `ScrollerStyleService` to' +
-        ' `StyleService`',
     },
   ];
 
