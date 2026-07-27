@@ -8941,69 +8941,6 @@
 
     static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
 
-    static #entriesSelectorAbout = [
-      // Fairly simple layout
-      `:scope > ${this.#div3}:has(> p) > *`,
-    ].join(',');
-
-    // Articles, posts, documents, images, videos, or events will appear here.
-    static #entriesSelectorActivity = [
-      // ANCHOR_FEED
-      `div[${CKEY}*="posts"]` +
-        ' [data-testid="carousel-child-container"] > * > *',
-      // HREF
-      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
-      // HREF
-      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
-      // IMG
-      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
-      // HREF
-      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
-      // Newsletters have both subscribe and posts subsections
-      // ANCHOR
-      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
-      // HREF
-      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
-      // HREF
-      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
-      // ANCHOR_FEED
-      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
-    ].join(',');
-
-    static #entriesSelectorAnalytics = [
-      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
-        ` a${this.#arrowRightNot}`,
-    ].join(',');
-
-    static #entriesSelectorCauses = [
-      // Skip the header.
-      ':scope > div > div:not(:has(> h2))',
-    ].join(',')
-
-    static #entriesSelectorCertification = [
-      // Simple layout
-      `:scope > ${this.#div6}`,
-    ].join(',');
-
-    static #entriesSelectorConnectedAccounts = [
-      // Two layouts discovered so far:
-      // * End users
-      // * Self promotion
-      `:scope > ${this.#div3} > a`,
-      `:scope > ${this.#div7}`,
-      `:scope > ${this.#div5} > a`,
-    ].join(',');
-
-    static #entriesSelectorCourses = [
-      // Simple layout
-      `:scope > ${this.#div5}`,
-    ].join(',')
-
-    static #entriesSelectorDefault = [
-      // Default catches the edit button on own page.
-      `:scope > ${this.#div4}`,
-    ].join(',')
-
     static #entriesSelectorEducation = [
       // Sections with footers are one div deeper.
       `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
@@ -9133,6 +9070,68 @@
     #entriesCurrentUid
     #entriesScrollerConfigDefault = Symbol('default');
     #entriesScrollerConfigs = new Map();
+    #entriesSelectorAbout = [
+      // Fairly simple layout
+      `:scope > ${this.ctor.#div3}:has(> p) > *`,
+    ].join(',');
+
+    #entriesSelectorActivity = [
+      // ANCHOR_FEED
+      `div[${CKEY}*="posts"]` +
+        ' [data-testid="carousel-child-container"] > * > *',
+      // HREF
+      `div[${CKEY}*="comments"] ${this.ctor.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="videos"] ${this.ctor.#divAnchorNoArrowRight}`,
+      // IMG
+      `div[${CKEY}*="images"] ${this.ctor.#divAnchorNoArrowRight}`,
+      // HREF
+      `div[${CKEY}*="articles"] ${this.ctor.#divAnchorNoArrowRight}`,
+      // Newsletters have both subscribe and posts subsections
+      // ANCHOR
+      `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
+      // HREF
+      `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
+      // HREF
+      `div[${CKEY}*="events"] ${this.ctor.#divAnchorNoArrowRight}`,
+      // ANCHOR_FEED
+      `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
+    ].join(',');
+
+    #entriesSelectorAnalytics = [
+      `:scope:has(> ${this.ctor.#div3} > a[href$="/dashboard/"])` +
+        ` a${this.ctor.#arrowRightNot}`,
+    ].join(',');
+
+    #entriesSelectorCauses = [
+      // Skip the header.
+      ':scope > div > div:not(:has(> h2))',
+    ].join(',')
+
+    #entriesSelectorCertification = [
+      // Simple layout
+      `:scope > ${this.ctor.#div6}`,
+    ].join(',');
+
+    #entriesSelectorConnectedAccounts = [
+      // Two layouts discovered so far:
+      // * End users
+      // * Self promotion
+      `:scope > ${this.ctor.#div3} > a`,
+      `:scope > ${this.ctor.#div7}`,
+      `:scope > ${this.ctor.#div5} > a`,
+    ].join(',');
+
+    #entriesSelectorCourses = [
+      // Simple layout
+      `:scope > ${this.ctor.#div5}`,
+    ].join(',')
+
+    #entriesSelectorDefault = [
+      // Default catches the edit button on own page.
+      `:scope > ${this.ctor.#div4}`,
+    ].join(',')
+
     #entryScroller
     #lastScroller
     #modeUidSelectorId
@@ -9316,7 +9315,7 @@
         this.#entriesScrollerConfigDefault, {
           uidCallback: this.#entriesUidFromModes,
           selectors: [
-            this.ctor.#entriesSelectorDefault,
+            this.#entriesSelectorDefault,
             this.ctor.#entriesSelectorFooter,
           ],
           modes: [this.UidMode.FOOTER],
@@ -9344,7 +9343,7 @@
       this.#entriesScrollerConfigs.set('Analytics', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorAnalytics,
+          this.#entriesSelectorAnalytics,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9381,7 +9380,7 @@
       });
       this.#entriesScrollerConfigs.set('About', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorAbout],
+        selectors: [this.#entriesSelectorAbout],
         modes: [
           this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.DEFAULT,
@@ -9417,7 +9416,7 @@
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorActivity,
+          this.#entriesSelectorActivity,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9459,7 +9458,7 @@
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorConnectedAccounts],
+        selectors: [this.#entriesSelectorConnectedAccounts],
         modes: [
           this.UidMode.MULTI_IMG,
           this.UidMode.HREF,
@@ -9468,7 +9467,7 @@
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorCertification,
+          this.#entriesSelectorCertification,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9562,7 +9561,7 @@
       this.#entriesScrollerConfigs.set('CourseTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorCourses,
+          this.#entriesSelectorCourses,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
@@ -9622,7 +9621,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           // Small section
-          this.ctor.#entriesSelectorCauses,
+          this.#entriesSelectorCauses,
         ],
         modes: [
           // Nothing better to use.
