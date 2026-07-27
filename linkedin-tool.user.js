@@ -9166,6 +9166,7 @@
       'EducationTopLevelSection, RecommendationsTopLevel',
       'EducationTopLevelSection, Skills',
       'EducationTopLevelSection, VolunteerExperienceTopLevel',
+      'ExperienceTopLevelSection, CertificationTopLevel',
       'ExperienceTopLevelSection, EducationTopLevelSection',
       'ExperienceTopLevelSection, Interests',
       'ExperienceTopLevelSection, Skills',
