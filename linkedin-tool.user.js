@@ -194,11 +194,6 @@
         ' properties and functions',
       '2026-06-21'
     ),
-    ish(
-      '353',
-      '`SPA`: Replace excessive activation with an external listener',
-      '2026-06-27'
-    ),
     ish('356', '*News*: Change how latest news is tracked', '2026-06-28'),
     ish('241', '`Scroller`: Add `click()` feature', '2026-07-03'),
     ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
@@ -235,6 +230,27 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-27',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-27',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
+    {
+      date: '2026-07-27',
+      issues: ['302'],
+      subject: 'Update the *Connected apps* section',
+    },
+    {
+      date: '2026-07-25',
+      issues: ['372'],
+      subject: 'Include more information in the timeout alert',
+    },
     {
       date: '2026-07-25',
       issues: ['352'],
@@ -732,73 +748,6 @@
       date: '2026-06-28',
       issues: ['240'],
       subject: 'Retire the dev version of `StyleService`',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['332'],
-      subject: 'Hook into the new *activated* type for monitoring' +
-        ' active pages',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['352'],
-      subject: 'Update how `JobsCollections`\' `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['302'],
-      subject: 'Make how `UidMode.ID` is used consistent with' +
-        ' `UidMode.TEST_ID`',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['302'],
-      subject: 'Make `UidMode.TEST_ID` more resistent to duplicates',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['240'],
-      subject: 'Migrate all users of `StyleService` to `NH.web.StyleService`',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['240'],
-      subject: 'Update to latest `lib/web`',
-    },
-    {
-      date: '2026-06-27',
-      issues: ['332', '353'],
-      subject: 'Update to latest `lib/spa`',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['352'],
-      subject: 'Update how `Jobs`\' `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['302'],
-      subject: 'Support the *Volunteering* section',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['302'],
-      subject: 'Ignore certain IDs in `UidMode.ID`',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['240'],
-      subject: 'Copy `StyleService` to `lib/web`',
-    },
-    {
-      date: '2026-06-26',
-      issues: ['240'],
-      subject: 'Retire `ScrollerStyleService`',
     },
   ];
 
