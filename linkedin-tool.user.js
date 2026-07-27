@@ -8986,8 +8986,12 @@
     ].join(',');
 
     static #entriesSelectorConnectedAccounts = [
-      // Skip the bit in the header.
-      `:scope > ${this.#div5}:not(:has(> h2)) > *`,
+      // Two layouts discovered so far:
+      // * End users
+      // * Self promotion
+      `:scope > ${this.#div3} > a`,
+      `:scope > ${this.#div7}`,
+      `:scope > ${this.#div5} > a`,
     ].join(',');
 
     static #entriesSelectorCourses = [
@@ -9453,10 +9457,12 @@
         ],
       });
       this.#entriesScrollerConfigs.set('ConnectedAccountsTopLevel', {
-        // Dismissible section with little support here.
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.ctor.#entriesSelectorConnectedAccounts],
-        modes: [this.UidMode.HREF],
+        modes: [
+          this.UidMode.MULTI_IMG,
+          this.UidMode.HREF,
+        ],
       });
       this.#entriesScrollerConfigs.set('CertificationTopLevel', {
         uidCallback: this.#entriesUidFromModes,
