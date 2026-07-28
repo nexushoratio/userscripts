@@ -9092,9 +9092,11 @@
     #sectionsPartialOrder = new Set([
 
       'About, Activity',
+      'About, ExperienceTopLevelSection',
       'About, Featured',
       'About, Services',
       'Activity, ExperienceTopLevelSection',
+      'Activity, Skills',
       'Analytics, About',
       'CertificationTopLevel, Projects',
       'CertificationTopLevel, Skills',
@@ -9163,6 +9165,7 @@
       'Skills, PublicationTopLevelSection',
       'Skills, RecommendationsTopLevel',
       'SuggestedForYou, Analytics',
+      'TestScoresTopLevel, Causes',
       'TestScoresTopLevel, LanguageTopLevel',
       'Topcard, About',
       'Topcard, Activity',
