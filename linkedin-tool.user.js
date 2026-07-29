@@ -173,7 +173,6 @@
     ish('167', 'Refactor into libraries', '2026-07-25'),
     ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
     ish('236', 'Support **Events** page', '2026-07-10'),
-    ish('240', 'Update top margin for `Scroller`s dynamically', '2026-04-30'),
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
@@ -230,6 +229,27 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-29',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-29',
+      issues: ['302'],
+      subject: 'Update the *Licenses & certifications* section',
+    },
+    {
+      date: '2026-07-29',
+      issues: ['302'],
+      subject: 'Tweak the selector for `ANCHOR_OVERLAY`',
+    },
+    {
+      date: '2026-07-29',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
     {
       date: '2026-07-27',
       issues: ['352'],
@@ -687,67 +707,6 @@
       date: '2026-07-01',
       issues: ['302'],
       subject: 'Support the *Publications* sections',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['356'],
-      subject: 'Rename `#checkForNewRelease()` to `#checkForNews()`',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['356'],
-      subject: 'Install the news badge in a hidden mode',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['352'],
-      subject: 'Update how `Messaging`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['347'],
-      subject: 'Update to latest `lib/spa`',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['332'],
-      subject: 'Replace tracking list with a tracking `Page`',
-    },
-    {
-      date: '2026-06-29',
-      issues: ['302'],
-      subject: 'Support the *Recommendations* section',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['356'],
-      subject: 'Update to latest `lib/base`',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['352'],
-      subject: 'Update how `JobsView`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['332'],
-      subject: 'Add a check that pages are registered before reporting' +
-        ' unsupported',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['302'],
-      subject: 'Support the *Skills* section',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['302'],
-      subject: 'Update a couple of comments missed during a copy-and-paste',
-    },
-    {
-      date: '2026-06-28',
-      issues: ['240'],
-      subject: 'Retire the dev version of `StyleService`',
     },
   ];
 
