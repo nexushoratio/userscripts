@@ -9423,11 +9423,9 @@
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
-          // /safety/go links often go to other certification sites.
+          // /safety/go links often go to external certification sites.
           this.UidMode.SAFETY,
-          this.UidMode.ANCHOR,
-          // For "skill association" pop-up for unlisted programs.
-          this.UidMode.ANCHOR_PROFILE,
+          this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.COMPANY,
           this.UidMode.SCHOOL,
           this.UidMode.FOOTER,
