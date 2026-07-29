@@ -8890,22 +8890,6 @@
 
     static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
 
-    static #entriesSelectorEducation = [
-      // Sections with footers are one div deeper.
-      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
-      `:scope > ${this.#div5} > div[${CKEY}]`,
-    ].join(',');
-
-    static #entriesSelectorExperience = [
-      // Simple layout
-      `:scope > ${this.#div4}`,
-    ].join(',');
-
-    static #entriesSelectorFeatured = [
-      // Simple carousel
-      '[data-testid="carousel-child-container"] > * > *',
-    ].join(',');
-
     static #entriesSelectorFooter = [
       // "Show all" buttons
       `hr ~ div > a${this.#arrowRight}`,
@@ -9080,6 +9064,22 @@
       // Default catches the edit button on own page.
       `:scope > ${this.ctor.#div4}`,
     ].join(',')
+
+    #entriesSelectorEducation = [
+      // Sections with footers are one div deeper.
+      `:scope > ${this.ctor.#div4}:not(:has(> svg)) > div[${CKEY}]`,
+      `:scope > ${this.ctor.#div5} > div[${CKEY}]`,
+    ].join(',');
+
+    #entriesSelectorExperience = [
+      // Simple layout
+      `:scope > ${this.ctor.#div4}`,
+    ].join(',');
+
+    #entriesSelectorFeatured = [
+      // Simple carousel
+      '[data-testid="carousel-child-container"] > * > *',
+    ].join(',');
 
     #entryScroller
     #lastScroller
@@ -9354,7 +9354,7 @@
       });
       this.#entriesScrollerConfigs.set('Featured', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorFeatured],
+        selectors: [this.#entriesSelectorFeatured],
         modes: [
           this.UidMode.SAFETY,
           this.UidMode.ANCHOR_FEED,
@@ -9383,7 +9383,7 @@
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorExperience,
+          this.#entriesSelectorExperience,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9399,7 +9399,7 @@
       this.#entriesScrollerConfigs.set('EducationTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorEducation,
+          this.#entriesSelectorEducation,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
