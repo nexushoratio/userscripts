@@ -9662,7 +9662,7 @@
             href = element.querySelector('a[href*="/newsletters/"]')?.href;
             break;
           case this.UidMode.ANCHOR_OVERLAY:
-            scratch = element.querySelector('a')?.href;
+            scratch = element.querySelector('a[href*="/in/"]')?.href;
             if (scratch) {
               // eslint-disable-next-line prefer-regex-literals
               const re = RegExp(
