@@ -23,7 +23,7 @@ sed -e '/-- >8 --/q' "${filename}" |
 if git diff --cached --name-only | grep -q '\.js$'; then
   echo 'info: Adding separator to commit message for Greasy Fork.'
   echo >> "${workfile}"
-  echo '␄' >> "${workfile}"
+  echo '---' >> "${workfile}"
 fi
 
 skip_issue=$(git config --type bool --get skip.issue || echo false)
