@@ -183,11 +183,6 @@
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
     ish(
-      '347',
-      '`SPA`: Fails to detect some URL changes when using `MutationObserver`',
-      '2026-06-30'
-    ),
-    ish(
       '352',
       'Migrate `Scroller` configurations from static to instance' +
         ' properties and functions',
@@ -229,6 +224,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-07-30',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-30',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
     {
       date: '2026-07-29',
       issues: ['352'],
