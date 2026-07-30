@@ -8854,31 +8854,6 @@
       `hr ~ div > a${this.#arrowRight}`,
     ].join(',');
 
-    static #entriesSelectorHighlights = [
-      // Simple layout
-      `:scope > ${this.#div7}`,
-    ].join(',');
-
-    static #entriesSelectorHonors = [
-      // Simple layout
-      `:scope > ${this.#div6}`,
-    ].join(',')
-
-    static #entriesSelectorInterests = [
-      // Simple layout, but deep due to multiple tab panels.
-      `:scope > ${this.#div6} > ${this.#div3}`,
-    ].join(',')
-
-    static #entriesSelectorLanguages = [
-      // Simple layout
-      `:scope > ${this.#div6}`,
-    ].join(',')
-
-    static #entriesSelectorOrganizations = [
-      // Simple layout
-      `:scope > ${this.#div6}`,
-    ].join(',')
-
     static #entriesSelectorPatents = [
       // Users with more than two patents have a different depth.  This likely
       // does not yet capture everything.
@@ -9039,6 +9014,31 @@
       // Simple carousel
       '[data-testid="carousel-child-container"] > * > *',
     ].join(',');
+
+    #entriesSelectorHighlights = [
+      // Simple layout
+      `:scope > ${this.ctor.#div7}`,
+    ].join(',');
+
+    #entriesSelectorHonors = [
+      // Simple layout
+      `:scope > ${this.ctor.#div6}`,
+    ].join(',')
+
+    #entriesSelectorInterests = [
+      // Simple layout, but deep due to multiple tab panels.
+      `:scope > ${this.ctor.#div6} > ${this.ctor.#div3}`,
+    ].join(',')
+
+    #entriesSelectorLanguages = [
+      // Simple layout
+      `:scope > ${this.ctor.#div6}`,
+    ].join(',')
+
+    #entriesSelectorOrganizations = [
+      // Simple layout
+      `:scope > ${this.ctor.#div6}`,
+    ].join(',')
 
     #entryScroller
     #lastScroller
@@ -9267,7 +9267,7 @@
       this.#entriesScrollerConfigs.set('Highlights', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorHighlights,
+          this.#entriesSelectorHighlights,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9280,7 +9280,7 @@
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorHighlights,
+          this.#entriesSelectorHighlights,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9479,7 +9479,7 @@
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorHonors,
+          this.#entriesSelectorHonors,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9499,7 +9499,7 @@
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorLanguages,
+          this.#entriesSelectorLanguages,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.HREF],
@@ -9507,7 +9507,7 @@
       this.#entriesScrollerConfigs.set('Organizations', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorOrganizations,
+          this.#entriesSelectorOrganizations,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
@@ -9515,7 +9515,7 @@
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorInterests,
+          this.#entriesSelectorInterests,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
