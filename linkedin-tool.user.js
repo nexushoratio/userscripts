@@ -9058,6 +9058,7 @@
       'Activity, Skills',
       'Analytics, About',
       'CertificationTopLevel, Projects',
+      'CertificationTopLevel, RecommendationsTopLevel',
       'CertificationTopLevel, Skills',
       'CertificationTopLevel, VolunteerExperienceTopLevel',
       'ConnectedAccountsTopLevel, CertificationTopLevel',
