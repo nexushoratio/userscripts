@@ -225,6 +225,22 @@
 
   const globalNewsContent = [
     {
+      date: '2026-07-31',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-07-31',
+      issues: ['302'],
+      subject: 'Another partial ordering pair',
+    },
+    {
+      date: '2026-07-31',
+      issues: ['302'],
+      subject: 'Update the *Projects* section',
+    },
+    {
       date: '2026-07-30',
       issues: ['352'],
       subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
@@ -698,21 +714,6 @@
       date: '2026-07-02',
       issues: ['302'],
       subject: 'Add missing closing paren for a CSS selector',
-    },
-    {
-      date: '2026-07-01',
-      issues: ['356'],
-      subject: 'Update to latest `lib/base`',
-    },
-    {
-      date: '2026-07-01',
-      issues: ['352'],
-      subject: 'Update how `Notifications`\' `Scroller`s are configured',
-    },
-    {
-      date: '2026-07-01',
-      issues: ['302'],
-      subject: 'Support the *Publications* sections',
     },
   ];
 
