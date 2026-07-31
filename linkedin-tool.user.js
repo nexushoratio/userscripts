@@ -12,12 +12,12 @@
 // @supportURL  https://github.com/nexushoratio/userscripts/blob/main/linkedin-tool.md
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://cdn.jsdelivr.net/npm/commonmark@0.31.2
-// @require     https://update.greasyfork.org/scripts/478188/1883116/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1883114/NH_base.js
-// @require     https://update.greasyfork.org/scripts/478349/1846239/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1862017/NH_web.js
-// @require     https://update.greasyfork.org/scripts/478676/1848076/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1862773/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/478188/1884975/NH_xunit.js
+// @require     https://update.greasyfork.org/scripts/477290/1885316/NH_base.js
+// @require     https://update.greasyfork.org/scripts/478349/1884974/NH_userscript.js
+// @require     https://update.greasyfork.org/scripts/478440/1885317/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478676/1887725/NH_widget.js
+// @require     https://update.greasyfork.org/scripts/570146/1889447/NH_spa.js
 // @grant       GM.addValueChangeListener
 // @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
@@ -34,9 +34,9 @@
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 63},
     {name: 'base', minVersion: 74},
-    {name: 'userscript', minVersion: 17},
+    {name: 'userscript', minVersion: 18},
     {name: 'web', minVersion: 16},
-    {name: 'widget', minVersion: 50},
+    {name: 'widget', minVersion: 51},
     {name: 'spa', minVersion: 14},
   ]);
 
