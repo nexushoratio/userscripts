@@ -8860,51 +8860,6 @@
       `hr ~ div > a${this.#arrowRight}`,
     ].join(',');
 
-    static #entriesSelectorPatents = [
-      // Users with more than two patents have a different depth.  This likely
-      // does not yet capture everything.
-      `:scope > ${this.#div5}:has(> div > p)`,
-      `:scope > ${this.#div6}:has(> div > p)`,
-    ].join(',')
-
-    static #entriesSelectorProjects = [
-      // Simple layout
-      `:scope > ${this.#div5}`,
-    ].join(',')
-
-    static #entriesSelectorPublications = [
-      // Users with more than two publications have a different depth.  And
-      // publications with more than one author also have tricky depths.  This
-      // likely does not yet capture everything.
-      `:scope > ${this.#div5}:has(> div > p)`,
-      `:scope > ${this.#div5}:has(> hr) > div:has(> div > p)`,
-    ].join(',')
-
-    static #entriesSelectorRecommendations = [
-      // Skip the selection filter
-      `:scope > ${this.#div6}:not(:has(> div > input))`,
-    ].join(',')
-
-    static #entriesSelectorServices = [
-      `:scope > ${this.#div5}` +
-        ':not([data-testid="carousel-viewport-container"])' +
-        ' > *',
-      ':scope [data-testid="carousel-child-container"] > *',
-    ].join(',');
-
-    static #entriesSelectorSkills = [
-      // We want div5 because not all div6 have a ckey
-      `:scope > ${this.#div5}:not(:has(> hr))`,
-    ].join(',')
-
-    static #entriesSelectorSuggestedForYou = [
-      // May or may not be a list/carousel
-      ':scope [data-testid="carousel-child-container"] > *',
-      `:scope > ${this.#div4}` +
-        ':not(:has(> svg))' +
-        ':not(:has([data-testid="carousel-container]))',
-    ].join(',');
-
     static #entriesSelectorTestScores = [
       // Simple layout
       `:scope > ${this.#div5}`,
@@ -9045,6 +9000,51 @@
       // Simple layout
       `:scope > ${this.ctor.#div6}`,
     ].join(',')
+
+    #entriesSelectorPatents = [
+      // Users with more than two patents have a different depth.  This likely
+      // does not yet capture everything.
+      `:scope > ${this.ctor.#div5}:has(> div > p)`,
+      `:scope > ${this.ctor.#div6}:has(> div > p)`,
+    ].join(',')
+
+    #entriesSelectorProjects = [
+      // Simple layout
+      `:scope > ${this.ctor.#div5}`,
+    ].join(',')
+
+    #entriesSelectorPublications = [
+      // Users with more than two publications have a different depth.  And
+      // publications with more than one author also have tricky depths.  This
+      // likely does not yet capture everything.
+      `:scope > ${this.ctor.#div5}:has(> div > p)`,
+      `:scope > ${this.ctor.#div5}:has(> hr) > div:has(> div > p)`,
+    ].join(',')
+
+    #entriesSelectorRecommendations = [
+      // Skip the selection filter
+      `:scope > ${this.ctor.#div6}:not(:has(> div > input))`,
+    ].join(',')
+
+    #entriesSelectorServices = [
+      `:scope > ${this.ctor.#div5}` +
+        ':not([data-testid="carousel-viewport-container"])' +
+        ' > *',
+      ':scope [data-testid="carousel-child-container"] > *',
+    ].join(',');
+
+    #entriesSelectorSkills = [
+      // We want div5 because not all div6 have a ckey
+      `:scope > ${this.ctor.#div5}:not(:has(> hr))`,
+    ].join(',')
+
+    #entriesSelectorSuggestedForYou = [
+      // May or may not be a list/carousel
+      ':scope [data-testid="carousel-child-container"] > *',
+      `:scope > ${this.ctor.#div4}` +
+        ':not(:has(> svg))' +
+        ':not(:has([data-testid="carousel-container]))',
+    ].join(',');
 
     #entryScroller
     #lastScroller
@@ -9256,7 +9256,7 @@
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorSuggestedForYou],
+        selectors: [this.#entriesSelectorSuggestedForYou],
         modes: [this.UidMode.ANCHOR_OVERLAY],
       });
       this.#entriesScrollerConfigs.set('Analytics', {
@@ -9308,7 +9308,7 @@
       this.#entriesScrollerConfigs.set('Services', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorServices,
+          this.#entriesSelectorServices,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9401,7 +9401,7 @@
       this.#entriesScrollerConfigs.set('Projects', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorProjects,
+          this.#entriesSelectorProjects,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9426,7 +9426,7 @@
       this.#entriesScrollerConfigs.set('Skills', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorSkills,
+          this.#entriesSelectorSkills,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9439,7 +9439,7 @@
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorRecommendations,
+          this.#entriesSelectorRecommendations,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9451,7 +9451,7 @@
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorPublications,
+          this.#entriesSelectorPublications,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9463,7 +9463,7 @@
       this.#entriesScrollerConfigs.set('Patents', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorPatents,
+          this.#entriesSelectorPatents,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
