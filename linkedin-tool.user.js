@@ -9405,10 +9405,7 @@
         ],
         modes: [
           this.UidMode.SAFETY,
-          // For "skill association" pop-up.
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.HREF,
-          this.UidMode.TEST_ID,
+          this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.FOOTER,
         ],
       });
