@@ -8861,39 +8861,6 @@
       `hr ~ div > a${this.#arrowRight}`,
     ].join(',');
 
-    static #entriesSelectorTestScores = [
-      // Simple layout
-      `:scope > ${this.#div5}`,
-    ].join(',')
-
-    static #entriesSelectorTopcard = [
-      // Most items
-      `:scope > ${this.#div5}` +
-      // Premium badge
-      ':not(:has(> div > svg))' +
-      // Premium footer
-      ':not(:has(> svg))' +
-      // Skip carousels
-      ':not([data-testid="carousel-viewport-container"])',
-      // Profile photo
-      `:scope > ${this.#div3} > a > div`,
-      // Edit intro and connections
-      `:scope > ${this.#div4} > a`,
-      // Links to external websites
-      `:scope > ${this.#div3} > p`,
-      // Carousels (private edit footer)
-      ':scope' +
-        ' [data-testid="carousel-child-container"]' +
-        ' div:has(> a[href*="/in/"])',
-      // Buttons for Premium background carousel
-      ':scope [data-testid="pagination-controls-list"]',
-    ].join(',');
-
-    static #entriesSelectorVolunteering = [
-      // Simple layout
-      ':scope [role="listitem"]',
-    ].join(',')
-
     #checkingPartialOrder = false
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9046,6 +9013,39 @@
         ':not(:has(> svg))' +
         ':not(:has([data-testid="carousel-container]))',
     ].join(',');
+
+    #entriesSelectorTestScores = [
+      // Simple layout
+      `:scope > ${this.ctor.#div5}`,
+    ].join(',')
+
+    #entriesSelectorTopcard = [
+      // Most items
+      `:scope > ${this.ctor.#div5}` +
+      // Premium badge
+      ':not(:has(> div > svg))' +
+      // Premium footer
+      ':not(:has(> svg))' +
+      // Skip carousels
+      ':not([data-testid="carousel-viewport-container"])',
+      // Profile photo
+      `:scope > ${this.ctor.#div3} > a > div`,
+      // Edit intro and connections
+      `:scope > ${this.ctor.#div4} > a`,
+      // Links to external websites
+      `:scope > ${this.ctor.#div3} > p`,
+      // Carousels (private edit footer)
+      ':scope' +
+        ' [data-testid="carousel-child-container"]' +
+        ' div:has(> a[href*="/in/"])',
+      // Buttons for Premium background carousel
+      ':scope [data-testid="pagination-controls-list"]',
+    ].join(',');
+
+    #entriesSelectorVolunteering = [
+      // Simple layout
+      ':scope [role="listitem"]',
+    ].join(',')
 
     #entryScroller
     #lastScroller
@@ -9243,7 +9243,7 @@
       );
       this.#entriesScrollerConfigs.set('Topcard', {
         uidCallback: this.#entriesUidFromModes,
-        selectors: [this.ctor.#entriesSelectorTopcard],
+        selectors: [this.#entriesSelectorTopcard],
         modes: [
           this.UidMode.ARIA_LABEL,
           this.UidMode.ANCHOR_OVERLAY,
@@ -9414,7 +9414,7 @@
       this.#entriesScrollerConfigs.set('VolunteerExperienceTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorVolunteering,
+          this.#entriesSelectorVolunteering,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [
@@ -9494,7 +9494,7 @@
       this.#entriesScrollerConfigs.set('TestScoresTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.ctor.#entriesSelectorTestScores,
+          this.#entriesSelectorTestScores,
           this.ctor.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
