@@ -8891,7 +8891,7 @@
 
     static #entriesSelectorVolunteering = [
       // Simple layout
-      `:scope > ${this.#div7}`,
+      ':scope [role="listitem"]',
     ].join(',')
 
     #checkingPartialOrder = false
@@ -9419,8 +9419,6 @@
         ],
         modes: [
           this.UidMode.COMPANY,
-          this.UidMode.HREF,
-          this.UidMode.TEST_ID,
           this.UidMode.FOOTER,
         ],
       });
