@@ -181,14 +181,12 @@
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-07-21'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
-    ish('332', 'Unsupported pages monitoring is broken', '2026-06-27'),
     ish(
       '352',
       'Migrate `Scroller` configurations from static to instance' +
         ' properties and functions',
       '2026-06-21'
     ),
-    ish('356', '*News*: Change how latest news is tracked', '2026-06-28'),
     ish('241', '`Scroller`: Add `click()` feature', '2026-07-03'),
     ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
     ish(
@@ -221,9 +219,30 @@
       '`Scroller`: New item cache fails on at least one page',
       '2026-07-19'
     ),
+    ish(
+      '375',
+      '`Layout`: Replace `Panel` *enum* with something a bit more standard',
+      '2026-08-01'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-01',
+      issues: ['375'],
+      subject: 'Update to latest `lib/widget`',
+    },
+    {
+      date: '2026-08-01',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-08-01',
+      issues: ['302'],
+      subject: 'Update the *Volunteering* section',
+    },
     {
       date: '2026-07-31',
       issues: ['352'],
@@ -683,37 +702,6 @@
       date: '2026-07-03',
       issues: ['302'],
       subject: 'Support the *Patents* sections',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['332'],
-      subject: 'Fine-tune the `pathname` for **My Network**',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['325'],
-      subject: 'Increase visibility of `isInput()` feedback',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['356'],
-      subject: 'Change the value of `latestNewsRead` to be a hash of the' +
-        ' content',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['352'],
-      subject: 'Update how `Events`\' `Scroller`s are configured',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['302'],
-      subject: 'Finish support the *Publications* sections',
-    },
-    {
-      date: '2026-07-02',
-      issues: ['302'],
-      subject: 'Add missing closing paren for a CSS selector',
     },
   ];
 
