@@ -8844,11 +8844,6 @@
 
     static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
 
-    static #entriesSelectorFooter = [
-      // "Show all" buttons
-      `hr ~ div > a${this.#arrowRight}`,
-    ].join(',');
-
     #checkingPartialOrder = false
     #entriesCurrentModes
     #entriesCurrentUid
@@ -8930,6 +8925,11 @@
     #entriesSelectorFeatured = [
       // Simple carousel
       '[data-testid="carousel-child-container"] > * > *',
+    ].join(',');
+
+    #entriesSelectorFooter = [
+      // "Show all" buttons
+      `hr ~ div > a${this.ctor.#arrowRight}`,
     ].join(',');
 
     #entriesSelectorHighlights = [
@@ -9224,7 +9224,7 @@
           uidCallback: this.#entriesUidFromModes,
           selectors: [
             this.#entriesSelectorDefault,
-            this.ctor.#entriesSelectorFooter,
+            this.#entriesSelectorFooter,
           ],
           modes: [this.UidMode.FOOTER],
         }
@@ -9252,7 +9252,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorAnalytics,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.HREF,
@@ -9264,7 +9264,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorHighlights,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.COMPANY,
@@ -9277,7 +9277,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorHighlights,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.COMPANY,
@@ -9298,7 +9298,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorServices,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.MULTI_IMG,
@@ -9325,7 +9325,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorActivity,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_FEED,
@@ -9340,7 +9340,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorExperience,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_OVERLAY,
@@ -9356,7 +9356,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorEducation,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.SCHOOL,
@@ -9376,7 +9376,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorCertification,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           // /safety/go links often go to external certification sites.
@@ -9391,7 +9391,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorProjects,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.SAFETY,
@@ -9403,7 +9403,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorVolunteering,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.COMPANY,
@@ -9414,7 +9414,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorSkills,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           // CKEY actually looks stable here.
@@ -9426,7 +9426,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorRecommendations,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_PROFILE,
@@ -9438,7 +9438,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorPublications,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.SAFETY,
@@ -9450,7 +9450,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorPatents,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.SAFETY,
@@ -9462,7 +9462,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorCourses,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
       });
@@ -9470,7 +9470,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorHonors,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_OVERLAY,
@@ -9482,7 +9482,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorTestScores,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
       });
@@ -9490,7 +9490,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorLanguages,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.HREF],
       });
@@ -9498,7 +9498,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorOrganizations,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [this.UidMode.FOOTER],
       });
@@ -9506,7 +9506,7 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [
           this.#entriesSelectorInterests,
-          this.ctor.#entriesSelectorFooter,
+          this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_PROFILE,
@@ -9667,13 +9667,13 @@
             // No-op
             break;
           case this.UidMode.FOOTER:
-            scratch = element.matches(this.ctor.#entriesSelectorFooter);
+            scratch = element.matches(this.#entriesSelectorFooter);
             if (scratch) {
               href = element.href;
             }
             break;
           case this.UidMode.HREF:
-            scratch = element.matches(this.ctor.#entriesSelectorFooter);
+            scratch = element.matches(this.#entriesSelectorFooter);
             if (!scratch) {
               href = element.href;
             }
