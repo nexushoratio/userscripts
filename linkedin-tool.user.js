@@ -3541,10 +3541,6 @@
         case 'global-nav':
           pageStyle = LinkedIn.Style.ONE;
           break;
-        case 'root':
-          NH.base.issues.post('Issue #370', 'root is still used');
-          pageStyle = LinkedIn.Style.TWO;
-          break;
         case 'primaryNavLinksComponentRef':
           pageStyle = LinkedIn.Style.TWO;
           break;
