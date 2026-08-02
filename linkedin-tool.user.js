@@ -9419,7 +9419,6 @@
         modes: [
           // CKEY actually looks stable here.
           this.UidMode.CKEY,
-          this.UidMode.HREF,
           this.UidMode.FOOTER,
         ],
       });
