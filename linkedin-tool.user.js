@@ -194,7 +194,6 @@
         ' properties and functions',
       '2026-06-21'
     ),
-    ish('241', '`Scroller`: Add `click()` feature', '2026-07-03'),
     ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
     ish(
       '363',
@@ -234,6 +233,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-02',
+      issues: ['370'],
+      subject: 'Retire old *Style-2* detection code',
+    },
+    {
+      date: '2026-08-02',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-08-02',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Skills* section',
+    },
     {
       date: '2026-08-01',
       issues: ['375'],
@@ -688,27 +703,6 @@
       date: '2026-07-04',
       issues: ['302'],
       subject: 'Support the *Courses* sections',
-    },
-    {
-      date: '2026-07-03',
-      issues: ['241'],
-      subject: 'Utilize `Scroller`\'s `click()` method',
-    },
-    {
-      date: '2026-07-03',
-      issues: ['352'],
-      subject: 'Update how `SearchResultsPeople`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-03',
-      issues: ['360'],
-      subject: 'Acknowledge **SearchResultsAll** page',
-    },
-    {
-      date: '2026-07-03',
-      issues: ['302'],
-      subject: 'Support the *Patents* sections',
     },
   ];
 
