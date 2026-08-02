@@ -16,15 +16,26 @@ while read -r _ local_oid _ remote_oid; do
   range="${remote_oid}..${local_oid}"
   while read -r filename; do
     echo "examining: ${filename}"
-    at_ver=''
+    us_ver=''
+    doc_ver=''
     lib_ver=''
 
     case ${filename} in
       *.js)
-        at_ver=$(git diff "${range}" "${filename}" |
+        us_ver=$(git diff "${range}" "${filename}" |
           awk '/^\+\/\/ @version/ {print $NF}')
 
-        [[ -z ${at_ver} ]] && messages+=("${filename} needs a @version bump.")
+        [[ -z ${us_ver} ]] && messages+=("${filename} needs a UserScript bump.")
+        ;;
+      *) ;;
+    esac
+
+    case ${filename} in
+      *.js)
+        doc_ver=$(git diff "${range}" "${filename}" |
+          awk '/^\+ \* @version/ {print $NF}')
+
+        [[ -z ${doc_ver} ]] && messages+=("${filename} needs a JSDoc bump.")
         ;;
       *) ;;
     esac
@@ -38,14 +49,28 @@ while read -r _ local_oid _ remote_oid; do
                       print $NF
                     }')
         if [[ -z ${lib_ver} ]]; then
-          messages+=("${filename} needs an internal version update.")
-        fi
-        if [[ "${at_ver}" != "${lib_ver}" ]]; then
-          messages+=("${filename} versions do not match: ${at_ver} ${lib_ver}")
+          messages+=("${filename} needs an internal version bump.")
         fi
         ;;
       *) ;;
     esac
+
+    case ${filename} in
+      *.user.js) ;;
+      *.js)
+        if [[ "${us_ver}" != "${lib_ver}" ]]; then
+          messages+=("${filename} versions do not match: US:${us_ver} LIB:${lib_ver}")
+        fi
+        if [[ "${doc_ver}" != "${lib_ver}" ]]; then
+          messages+=("${filename} versions do not match: DOC:${doc_ver} LIB:${lib_ver}")
+        fi
+        ;;
+      *) ;;
+    esac
+
+    if [[ "${us_ver}" != "${doc_ver}" ]]; then
+      messages+=("${filename} versions do not match: US:${us_ver} DOC:${doc_ver}")
+    fi
 
   done < <(git diff --name-only "${range}")
 
