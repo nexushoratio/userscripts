@@ -25,6 +25,13 @@
 // @grant       window.onurlchange
 // ==/UserScript==
 
+/**
+ * @file LinkedIn Tool
+ * @module linkedin-tool
+ * @version 88
+ * @license [GPL-3.0-or-later]{@link https://www.gnu.org/licenses/gpl-3.0-standalone.html}
+ */
+
 /* global VM, commonmark */
 
 // eslint-disable-next-line max-lines-per-function
