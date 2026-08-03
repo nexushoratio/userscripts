@@ -8828,9 +8828,6 @@
       }
     );
 
-    static #arrowRight = ':has(svg[id^="arrow-right"])';
-    static #arrowRightNot = `:not(${this.#arrowRight})`;
-
     /* eslint-disable no-magic-numbers */
     static #div3 = this.div(3);
     static #div4 = this.div(4);
@@ -8839,9 +8836,10 @@
     static #div7 = this.div(7);
     /* eslint-enable */
 
-    static #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
-
+    #arrowRight = ':has(svg[id^="arrow-right"])';
+    #arrowRightNot = `:not(${this.#arrowRight})`;
     #checkingPartialOrder = false
+    #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
     #entriesCurrentModes
     #entriesCurrentUid
     #entriesScrollerConfigDefault = Symbol('default');
@@ -8856,27 +8854,27 @@
       `div[${CKEY}*="posts"]` +
         ' [data-testid="carousel-child-container"] > * > *',
       // HREF
-      `div[${CKEY}*="comments"] ${this.ctor.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="comments"] ${this.#divAnchorNoArrowRight}`,
       // HREF
-      `div[${CKEY}*="videos"] ${this.ctor.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="videos"] ${this.#divAnchorNoArrowRight}`,
       // IMG
-      `div[${CKEY}*="images"] ${this.ctor.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="images"] ${this.#divAnchorNoArrowRight}`,
       // HREF
-      `div[${CKEY}*="articles"] ${this.ctor.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="articles"] ${this.#divAnchorNoArrowRight}`,
       // Newsletters have both subscribe and posts subsections
       // ANCHOR
       `div[${CKEY}*="newsletters"] div:has(> a[href*="/newsletters/"])`,
       // HREF
       `div[${CKEY}*="newsletters"] div > a[href*="/pulse/"]`,
       // HREF
-      `div[${CKEY}*="events"] ${this.ctor.#divAnchorNoArrowRight}`,
+      `div[${CKEY}*="events"] ${this.#divAnchorNoArrowRight}`,
       // ANCHOR_FEED
       `div[${CKEY}*="documents"] > div > div > div:not(:has(> a > span))`,
     ].join(',');
 
     #entriesSelectorAnalytics = [
       `:scope:has(> ${this.ctor.#div3} > a[href$="/dashboard/"])` +
-        ` a${this.ctor.#arrowRightNot}`,
+        ` a${this.#arrowRightNot}`,
     ].join(',');
 
     #entriesSelectorCauses = [
@@ -8926,7 +8924,7 @@
 
     #entriesSelectorFooter = [
       // "Show all" buttons
-      `hr ~ div > a${this.ctor.#arrowRight}`,
+      `hr ~ div > a${this.#arrowRight}`,
     ].join(',');
 
     #entriesSelectorHighlights = [
