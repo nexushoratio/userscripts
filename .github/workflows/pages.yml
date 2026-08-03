@@ -69,12 +69,14 @@ jobs:
         - name: JSDoc (stable)
           run: |
             pushd main
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable -t $(npm root -g)/tui-jsdoc-template
+            ln -s $(npm root -g)
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable
 
         - name: JSDoc (scratch)
           run: |
             pushd scratch
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch -t $(npm root -g)/tui-jsdoc-template
+            ln -s $(npm root -g)
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch
 
       - name: Merge document trees
         run: |
