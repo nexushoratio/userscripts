@@ -234,6 +234,17 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-03',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-08-03',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Recommendations* section',
+    },
+    {
       date: '2026-08-02',
       issues: ['370'],
       subject: 'Retire old *Style-2* detection code',
@@ -698,11 +709,6 @@
       date: '2026-07-05',
       issues: ['302'],
       subject: 'Support the *Honors* section',
-    },
-    {
-      date: '2026-07-04',
-      issues: ['302'],
-      subject: 'Support the *Courses* sections',
     },
   ];
 
