@@ -9427,7 +9427,6 @@
         ],
         modes: [
           this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.HREF,
           this.UidMode.FOOTER,
         ],
       });
