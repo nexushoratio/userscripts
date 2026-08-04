@@ -1,10 +1,10 @@
-// TODO(376): Splitting into variants.
 {
   "opts": {
     "template": "node_modules/tui-jsdoc-template",
-    "private": false
+    "private": true
   },
   "source": {
+    // Change this to ["."] once LIT builds
     "include": ["demos.user.js", "lib"]
   },
   "plugins": ["plugins/markdown"],
@@ -15,8 +15,8 @@
     ]
   },
   "templates": {
-    "name": "Nexus Horatio's Userscripts",
-    "footerText": "Nexus Horatio's Userscripts",
+    "name": "Nexus Horatio's Userscripts (Developers)",
+    "footerText": "Nexus Horatio's Userscripts (Developers)",
     "cleverLinks": true,
     "logo": {
       "height": "0"

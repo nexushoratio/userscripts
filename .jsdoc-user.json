@@ -1,4 +1,3 @@
-// TODO(376): Splitting into variants.
 {
   "opts": {
     "template": "node_modules/tui-jsdoc-template",
@@ -15,8 +14,8 @@
     ]
   },
   "templates": {
-    "name": "Nexus Horatio's Userscripts",
-    "footerText": "Nexus Horatio's Userscripts",
+    "name": "Nexus Horatio's Userscripts (Users)",
+    "footerText": "Nexus Horatio's Userscripts (Users)",
     "cleverLinks": true,
     "logo": {
       "height": "0"
