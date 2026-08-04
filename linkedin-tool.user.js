@@ -194,7 +194,7 @@
         ' properties and functions',
       '2026-06-21'
     ),
-    ish('360', 'Support **SearchResultsAll** page', '2026-07-03'),
+    ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
     ish(
       '363',
       '`Scroller`: Clicking on an item does not trigger focus',
@@ -233,6 +233,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-04',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-08-04',
+      issues: ['302'],
+      subject: 'More partial ordering pairs',
+    },
+    {
+      date: '2026-08-04',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Publications* section',
+    },
     {
       date: '2026-08-03',
       issues: ['352'],
@@ -699,16 +715,6 @@
       date: '2026-07-06',
       issues: ['302'],
       subject: 'Support the *Test Scores* section',
-    },
-    {
-      date: '2026-07-05',
-      issues: ['360'],
-      subject: 'Tweak regex to catch the interstitial URL',
-    },
-    {
-      date: '2026-07-05',
-      issues: ['302'],
-      subject: 'Support the *Honors* section',
     },
   ];
 
