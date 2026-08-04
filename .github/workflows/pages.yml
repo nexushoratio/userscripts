@@ -37,23 +37,34 @@ jobs:
             ref: scratch
             path: scratch
 
-      - name: Assemble Markdown
-        run: |
-          mkdir -p ${{ env.ABS_MARKDOWN_DIR }}/_layouts/
-          cp -v "${GITHUB_REF_NAME}/pages/_layouts/"* ${{ env.ABS_MARKDOWN_DIR }}/_layouts
-          cp -v "${GITHUB_REF_NAME}/"*.md ${{ env.ABS_MARKDOWN_DIR }}/
-          for md in "${GITHUB_REF_NAME}/pages/"*.md; do
-            echo >> ${{ env.ABS_MARKDOWN_DIR }}/README.md
-            cat "${md}" >> ${{ env.ABS_MARKDOWN_DIR }}/README.md
-          done
+      - parallel:
+        - name: Assemble Markdown
+          run: |
+            mkdir -p ${{ env.ABS_MARKDOWN_DIR }}/_layouts/
+            cp -v "${GITHUB_REF_NAME}/pages/_layouts/"* ${{ env.ABS_MARKDOWN_DIR }}/_layouts
+            cp -v "${GITHUB_REF_NAME}/"*.md ${{ env.ABS_MARKDOWN_DIR }}/
+            for md in "${GITHUB_REF_NAME}/pages/"*.md; do
+              echo >> ${{ env.ABS_MARKDOWN_DIR }}/README.md
+              cat "${md}" >> ${{ env.ABS_MARKDOWN_DIR }}/README.md
+            done
 
-          cat << EOF > ${{ env.API_README_MD }}
-          [userscript docs](..)
+            cat << EOF > ${{ env.API_README_MD }}
+            [userscript docs](..)
 
-          ${{ github.workflow }} generation:${{ github.run_number }}
+            ${{ github.workflow }} generation:${{ github.run_number }}
 
-          Generated at: $(date -Imin) (via ${GITHUB_REF_NAME})
-          EOF
+            Generated at: $(date -Imin) (via ${GITHUB_REF_NAME})
+            EOF
+
+        - name: Prep workspace (main)
+          run: |
+            pushd main
+            ln -s $(npm root -g)
+
+        - name: Prep workspace (scratch)
+          run: |
+            pushd scratch
+            ln -s $(npm root -g)
 
       - parallel:
         # Jekyll runs as a Docker image and the output directories end up being
@@ -65,18 +76,21 @@ jobs:
             source: ${{ env.REL_MARKDOWN_DIR }}
             destination: ${{ env.REL_JK }}
 
-        # We currently build API from two branches, one as a WIP.
-        - name: JSDoc (stable)
+        # We build multiple variations from different branches.
+        - name: JSDoc (user)
           run: |
             pushd main
-            ln -s $(npm root -g)
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/stable
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/user
+
+        - name: JSDoc (user)
+          run: |
+            pushd main
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/dev
 
         - name: JSDoc (scratch)
           run: |
             pushd scratch
-            ln -s $(npm root -g)
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/scratch
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/scratch
 
       - name: Merge document trees
         run: |
