@@ -8834,17 +8834,18 @@
       }
     );
 
-    /* eslint-disable no-magic-numbers */
-    static #div3 = this.div(3);
-    static #div4 = this.div(4);
-    static #div5 = this.div(5);
-    static #div6 = this.div(6);
-    static #div7 = this.div(7);
-    /* eslint-enable */
-
     #arrowRight = ':has(svg[id^="arrow-right"])';
     #arrowRightNot = `:not(${this.#arrowRight})`;
     #checkingPartialOrder = false
+
+    /* eslint-disable no-magic-numbers */
+    #div3 = this.ctor.div(3);
+    #div4 = this.ctor.div(4);
+    #div5 = this.ctor.div(5);
+    #div6 = this.ctor.div(6);
+    #div7 = this.ctor.div(7);
+    /* eslint-enable */
+
     #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
     #entriesCurrentModes
     #entriesCurrentUid
@@ -8852,7 +8853,7 @@
     #entriesScrollerConfigs = new Map();
     #entriesSelectorAbout = [
       // Fairly simple layout
-      `:scope > ${this.ctor.#div3}:has(> p) > *`,
+      `:scope > ${this.#div3}:has(> p) > *`,
     ].join(',');
 
     #entriesSelectorActivity = [
@@ -8879,7 +8880,7 @@
     ].join(',');
 
     #entriesSelectorAnalytics = [
-      `:scope:has(> ${this.ctor.#div3} > a[href$="/dashboard/"])` +
+      `:scope:has(> ${this.#div3} > a[href$="/dashboard/"])` +
         ` a${this.#arrowRightNot}`,
     ].join(',');
 
@@ -8890,37 +8891,37 @@
 
     #entriesSelectorCertification = [
       // Simple layout
-      `:scope > ${this.ctor.#div6}`,
+      `:scope > ${this.#div6}`,
     ].join(',');
 
     #entriesSelectorConnectedAccounts = [
       // Two layouts discovered so far:
       // * End users
       // * Self promotion
-      `:scope > ${this.ctor.#div3} > a`,
-      `:scope > ${this.ctor.#div7}`,
-      `:scope > ${this.ctor.#div5} > a`,
+      `:scope > ${this.#div3} > a`,
+      `:scope > ${this.#div7}`,
+      `:scope > ${this.#div5} > a`,
     ].join(',');
 
     #entriesSelectorCourses = [
       // Simple layout
-      `:scope > ${this.ctor.#div5}`,
+      `:scope > ${this.#div5}`,
     ].join(',')
 
     #entriesSelectorDefault = [
       // Default catches the edit button on own page.
-      `:scope > ${this.ctor.#div4}`,
+      `:scope > ${this.#div4}`,
     ].join(',')
 
     #entriesSelectorEducation = [
       // Sections with footers are one div deeper.
-      `:scope > ${this.ctor.#div4}:not(:has(> svg)) > div[${CKEY}]`,
-      `:scope > ${this.ctor.#div5} > div[${CKEY}]`,
+      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
+      `:scope > ${this.#div5} > div[${CKEY}]`,
     ].join(',');
 
     #entriesSelectorExperience = [
       // Simple layout
-      `:scope > ${this.ctor.#div4}`,
+      `:scope > ${this.#div4}`,
     ].join(',');
 
     #entriesSelectorFeatured = [
@@ -8935,56 +8936,56 @@
 
     #entriesSelectorHighlights = [
       // Simple layout
-      `:scope > ${this.ctor.#div7}`,
+      `:scope > ${this.#div7}`,
     ].join(',');
 
     #entriesSelectorHonors = [
       // Simple layout
-      `:scope > ${this.ctor.#div6}`,
+      `:scope > ${this.#div6}`,
     ].join(',')
 
     #entriesSelectorInterests = [
       // Simple layout, but deep due to multiple tab panels.
-      `:scope > ${this.ctor.#div6} > ${this.ctor.#div3}`,
+      `:scope > ${this.#div6} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorLanguages = [
       // Simple layout
-      `:scope > ${this.ctor.#div6}`,
+      `:scope > ${this.#div6}`,
     ].join(',')
 
     #entriesSelectorOrganizations = [
       // Simple layout
-      `:scope > ${this.ctor.#div6}`,
+      `:scope > ${this.#div6}`,
     ].join(',')
 
     #entriesSelectorPatents = [
       // Users with more than two patents have a different depth.  This likely
       // does not yet capture everything.
-      `:scope > ${this.ctor.#div5}:has(> div > p)`,
-      `:scope > ${this.ctor.#div6}:has(> div > p)`,
+      `:scope > ${this.#div5}:has(> div > p)`,
+      `:scope > ${this.#div6}:has(> div > p)`,
     ].join(',')
 
     #entriesSelectorProjects = [
       // Simple layout
-      `:scope > ${this.ctor.#div5}`,
+      `:scope > ${this.#div5}`,
     ].join(',')
 
     #entriesSelectorPublications = [
       // Users with more than two publications have a different depth.  And
       // publications with more than one author also have tricky depths.  This
       // likely does not yet capture everything.
-      `:scope > ${this.ctor.#div5}:has(> div > p)`,
-      `:scope > ${this.ctor.#div5}:has(> hr) > div:has(> div > p)`,
+      `:scope > ${this.#div5}:has(> div > p)`,
+      `:scope > ${this.#div5}:has(> hr) > div:has(> div > p)`,
     ].join(',')
 
     #entriesSelectorRecommendations = [
       // Skip the selection filter
-      `:scope > ${this.ctor.#div6}:not(:has(> div > input))`,
+      `:scope > ${this.#div6}:not(:has(> div > input))`,
     ].join(',')
 
     #entriesSelectorServices = [
-      `:scope > ${this.ctor.#div5}` +
+      `:scope > ${this.#div5}` +
         ':not([data-testid="carousel-viewport-container"])' +
         ' > *',
       ':scope [data-testid="carousel-child-container"] > *',
@@ -8992,25 +8993,25 @@
 
     #entriesSelectorSkills = [
       // We want div5 because not all div6 have a ckey
-      `:scope > ${this.ctor.#div5}:not(:has(> hr))`,
+      `:scope > ${this.#div5}:not(:has(> hr))`,
     ].join(',')
 
     #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
       ':scope [data-testid="carousel-child-container"] > *',
-      `:scope > ${this.ctor.#div4}` +
+      `:scope > ${this.#div4}` +
         ':not(:has(> svg))' +
         ':not(:has([data-testid="carousel-container]))',
     ].join(',');
 
     #entriesSelectorTestScores = [
       // Simple layout
-      `:scope > ${this.ctor.#div5}`,
+      `:scope > ${this.#div5}`,
     ].join(',')
 
     #entriesSelectorTopcard = [
       // Most items
-      `:scope > ${this.ctor.#div5}` +
+      `:scope > ${this.#div5}` +
       // Premium badge
       ':not(:has(> div > svg))' +
       // Premium footer
@@ -9018,11 +9019,11 @@
       // Skip carousels
       ':not([data-testid="carousel-viewport-container"])',
       // Profile photo
-      `:scope > ${this.ctor.#div3} > a > div`,
+      `:scope > ${this.#div3} > a > div`,
       // Edit intro and connections
-      `:scope > ${this.ctor.#div4} > a`,
+      `:scope > ${this.#div4} > a`,
       // Links to external websites
-      `:scope > ${this.ctor.#div3} > p`,
+      `:scope > ${this.#div3} > p`,
       // Carousels (private edit footer)
       ':scope' +
         ' [data-testid="carousel-child-container"]' +
