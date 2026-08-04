@@ -9096,6 +9096,7 @@
       'Projects, Interests',
       'Projects, Skills',
       'Projects, VolunteerExperienceTopLevel',
+      'PublicationTopLevelSection, Causes',
       'PublicationTopLevelSection, CourseTopLevelSection',
       'PublicationTopLevelSection, HonorsTopLevel',
       'PublicationTopLevelSection, Interests',
@@ -9133,6 +9134,7 @@
       'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
       'VolunteerExperienceTopLevel, Interests',
+      'VolunteerExperienceTopLevel, PublicationTopLevelSection',
       'VolunteerExperienceTopLevel, RecommendationsTopLevel',
       'VolunteerExperienceTopLevel, Skills',
 
