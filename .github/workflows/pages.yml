@@ -80,12 +80,12 @@ jobs:
         - name: JSDoc (user)
           run: |
             pushd main
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/user
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc-user.json -d ${{ env.ABS_JSDOC }}/user
 
-        - name: JSDoc (user)
+        - name: JSDoc (dev)
           run: |
             pushd main
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc.json -d ${{ env.ABS_JSDOC }}/dev
+            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/dev
 
         - name: JSDoc (scratch)
           run: |
