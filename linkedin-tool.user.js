@@ -183,7 +183,7 @@
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
-      '2026-07-06'
+      '2026-08-06'
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-07-21'),
@@ -195,11 +195,6 @@
       '2026-06-21'
     ),
     ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
-    ish(
-      '363',
-      '`Scroller`: Clicking on an item does not trigger focus',
-      '2026-07-06'
-    ),
     ish(
       '366',
       '**Messaging**: On a page reload, the current item does not' +
@@ -233,6 +228,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-05',
+      issues: ['352'],
+      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
+        ' configured',
+    },
+    {
+      date: '2026-08-05',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Patents* section',
+    },
     {
       date: '2026-08-04',
       issues: ['352'],
@@ -705,16 +711,6 @@
       date: '2026-07-07',
       issues: ['129'],
       subject: 'Update to latest `lib/base`',
-    },
-    {
-      date: '2026-07-06',
-      issues: ['363'],
-      subject: 'Call `focus()` if user clicks on the current item',
-    },
-    {
-      date: '2026-07-06',
-      issues: ['302'],
-      subject: 'Support the *Test Scores* section',
     },
   ];
 
