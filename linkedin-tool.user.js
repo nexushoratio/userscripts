@@ -8715,18 +8715,6 @@
       this.#initScrollers();
     }
 
-    /**
-     * Create a CSS child combinator selector of DIVs.
-     *
-     * @param {number} n - The number of DIVs in the selector.
-     * @returns {string} - N divs like "div > div > ... > div".
-     */
-    static div(n) {
-      const a = Array(n)
-        .fill('div');
-      return a.join(' > ');
-    }
-
     UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
@@ -8840,16 +8828,28 @@
       }
     );
 
+    /**
+     * Create a CSS child combinator selector of DIVs.
+     *
+     * @param {number} n - The number of DIVs in the selector.
+     * @returns {string} - N divs like "div > div > ... > div".
+     */
+    div = (n) => {
+      const a = Array(n)
+        .fill('div');
+      return a.join(' > ');
+    }
+
     #arrowRight = ':has(svg[id^="arrow-right"])';
     #arrowRightNot = `:not(${this.#arrowRight})`;
     #checkingPartialOrder = false
 
     /* eslint-disable no-magic-numbers */
-    #div3 = this.ctor.div(3);
-    #div4 = this.ctor.div(4);
-    #div5 = this.ctor.div(5);
-    #div6 = this.ctor.div(6);
-    #div7 = this.ctor.div(7);
+    #div3 = this.div(3);
+    #div4 = this.div(4);
+    #div5 = this.div(5);
+    #div6 = this.div(6);
+    #div7 = this.div(7);
     /* eslint-enable */
 
     #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
