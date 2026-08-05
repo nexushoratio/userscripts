@@ -9463,7 +9463,7 @@
         ],
         modes: [
           this.UidMode.SAFETY,
-          this.UidMode.HREF,
+          this.UidMode.ANCHOR_OVERLAY,
           this.UidMode.FOOTER,
         ],
       });
