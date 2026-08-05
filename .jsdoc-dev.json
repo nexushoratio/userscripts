@@ -4,8 +4,7 @@
     "private": true
   },
   "source": {
-    // Change this to ["."] once LIT builds
-    "include": ["demos.user.js", "lib"]
+    "include": ["."]
   },
   "plugins": ["plugins/markdown"],
   "markdown": {
