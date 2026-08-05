@@ -1736,8 +1736,8 @@
     /**
      * Log items and do any fixups on them.
      *
-     * @param {[Element]} items - Elements in the Scroller.
-     * @returns {[Element]} - Post processed items.
+     * @param {Element[]} items - Elements in the Scroller.
+     * @returns {Element[]} - Post processed items.
      */
     #postProcessItems = (items) => {
       const me = this.#postProcessItems.name;
@@ -4013,7 +4013,7 @@
      * @param {Element} el2 - The second element.
      * @param {Set<string>} ignore - A collection of style properties to
      * ignore.
-     * @returns {[string]} - Style properties present in the first, but not
+     * @returns {string[]} - Style properties present in the first, but not
      * the second element, formatted to add to this source file.
      */
     #findMissingStyleProperties = (el1, el2, ignore) => {
@@ -4828,6 +4828,7 @@
 
     static CtorPage = class extends Page {
 
+      /** @alias CtorPage */
       constructor() {
         super();
 
@@ -9801,7 +9802,8 @@
      *
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
-     * @returns {[UidMode, string]} - How the UID was computed, and value.
+     * @returns {{0: UidMode, 1: string}} - How the UID was computed, and
+     * value.
      */
     #entriesUidFromModes = (scroller, element) => {
       const me = this.#entriesUidFromModes.name;
