@@ -196,12 +196,6 @@
     ),
     ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
     ish(
-      '366',
-      '**Messaging**: On a page reload, the current item does not' +
-        ' scroll into view',
-      '2026-07-07'
-    ),
-    ish(
       '129',
       '**Info**: *Shortcuts* Consider a way to implement subsections in' +
         ' keystroke menu',
@@ -228,6 +222,17 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-06',
+      issues: ['352'],
+      subject: 'Make `cssClassName()` and `scrollerClassName` instance' +
+        ' properties',
+    },
+    {
+      date: '2026-08-06',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Courses* section',
+    },
     {
       date: '2026-08-05',
       issues: ['352'],
@@ -696,21 +701,6 @@
       date: '2026-07-08',
       issues: ['129'],
       subject: 'Give `DebugKeys` their own section in the shortcut list',
-    },
-    {
-      date: '2026-07-07',
-      issues: ['366'],
-      subject: 'Focus on the current item again on an initial page load',
-    },
-    {
-      date: '2026-07-07',
-      issues: ['302'],
-      subject: 'Support the *Languages* section',
-    },
-    {
-      date: '2026-07-07',
-      issues: ['129'],
-      subject: 'Update to latest `lib/base`',
     },
   ];
 
