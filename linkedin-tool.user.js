@@ -4760,8 +4760,13 @@
       this.logger.log('Adapter page constructed', this);
     }
 
+    /** @type {Page} - Equivalent of this.constructor */
+    get ctor() {
+      return this.constructor;
+    }
+
     /** @returns {string} - Useful default for CSS class name. */
-    static get scrollerClassName() {
+    get scrollerClassName() {
       return this.cssClassName(['scroller']);
     }
 
@@ -4771,18 +4776,13 @@
      * @param {string[]} extras - Extract strings to add to the class name.
      * @returns {string} - A CSS className.
      */
-    static cssClassName(extras = []) {
+    cssClassName = (extras = []) => {
       const split = NH.base.simpleParseWords(this.name)
         .map(x => x.toLowerCase());
       const className = ['lit'].concat(split)
         .concat(extras)
         .join('-');
       return className;
-    }
-
-    /** @type {Page} - Equivalent of this.constructor */
-    get ctor() {
-      return this.constructor;
     }
 
     /**
@@ -4858,29 +4858,33 @@
     }
 
     testScrollerClassName() {
+      const page = new LitPageTestCase.TestPage();
+
       this.assertEqual(
-        LitPageTestCase.TestPage.scrollerClassName, 'lit-test-page-scroller'
+        page.scrollerClassName, 'lit-test-page-scroller'
       );
     }
 
     testCssClassName() {
+      const page = new LitPageTestCase.TestPage();
+
       this.assertEqual(
-        LitPageTestCase.TestPage.cssClassName(),
+        page.cssClassName(),
         'lit-test-page',
         'no arguments'
       );
       this.assertEqual(
-        LitPageTestCase.TestPage.cssClassName([]),
+        page.cssClassName([]),
         'lit-test-page',
         'empty array'
       );
       this.assertEqual(
-        LitPageTestCase.TestPage.cssClassName(['single']),
+        page.cssClassName(['single']),
         'lit-test-page-single',
         'single item'
       );
       this.assertEqual(
-        LitPageTestCase.TestPage.cssClassName(
+        page.cssClassName(
           ['multiple', 'items', 'here']
         ),
         'lit-test-page-multiple-items-here',
@@ -5551,7 +5555,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
@@ -5578,7 +5582,7 @@
         uidCallback: this.#uniquePostIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -5610,7 +5614,7 @@
         uidCallback: this.#uniqueCommentIdentifier,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         autoActivate: true,
         snapToTop: false,
@@ -6171,7 +6175,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
@@ -6199,7 +6203,7 @@
         uidCallback: this.#uniqueCollectionIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -6233,7 +6237,7 @@
         uidCallback: this.#uniqueIndividualsIdentifier,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         autoActivate: true,
         snapToTop: false,
@@ -6550,7 +6554,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
@@ -6578,7 +6582,7 @@
         uidCallback: this.#uniqueInvitationIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -6778,7 +6782,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
@@ -6805,7 +6809,7 @@
         uidCallback: this.#uniqueSectionIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -6845,7 +6849,7 @@
         uidCallback: this.#uniqueJobIdentifier,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         autoActivate: true,
         snapToTop: false,
@@ -7241,7 +7245,7 @@
     }
 
     #initScrollerStyleService = () => {
-      this.#detailsContainerClassName = this.ctor.cssClassName(
+      this.#detailsContainerClassName = this.cssClassName(
         ['details', 'container']
       );
       const styleConfig = {
@@ -7723,7 +7727,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
@@ -7750,7 +7754,7 @@
         uidCallback: this.#uniqueCardIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -7778,7 +7782,7 @@
         uidCallback: this.#uniqueEntryIdentifier,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         autoActivate: true,
         snapToTop: false,
@@ -8543,7 +8547,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
@@ -8565,7 +8569,7 @@
         uidCallback: this.#uniqueNotificationIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
         clickConfig: {
@@ -9186,7 +9190,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
       };
@@ -9211,7 +9215,7 @@
         uidCallback: this.#uniqueSectionIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -9557,7 +9561,7 @@
         uidCallback: this.#entriesUidShim,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         autoActivate: true,
         snapToTop: false,
@@ -10110,7 +10114,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
@@ -10135,7 +10139,7 @@
         uidCallback: this.#uniqueCollectionIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
@@ -10421,7 +10425,7 @@
 
     #initScrollerStyleService = () => {
       const styleConfig = {
-        className: this.ctor.scrollerClassName,
+        className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.#scrollerElementsProcessor,
       };
@@ -10470,7 +10474,7 @@
         uidCallback: this.#uniqueResultIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
-          this.ctor.scrollerClassName,
+          this.scrollerClassName,
         ],
         snapToTop: true,
       };
