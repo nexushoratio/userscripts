@@ -9470,7 +9470,10 @@
           this.#entriesSelectorCourses,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.FOOTER],
+        modes: [
+          this.UidMode.MULTI_IMG,
+          this.UidMode.FOOTER,
+        ],
       });
       this.#entriesScrollerConfigs.set('HonorsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
