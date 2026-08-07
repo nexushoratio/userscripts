@@ -9570,8 +9570,8 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
+          // MULTI_IMG has caused duplicates
           this.UidMode.ANCHOR_OVERLAY,
-          this.UidMode.HREF,
           this.UidMode.FOOTER,
         ],
       });
