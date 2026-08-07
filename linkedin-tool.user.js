@@ -739,6 +739,7 @@
 
     /**
      * @typedef {object} TabEntry
+     * @memberof module:linkedin-tool~TabbedUI~
      * @property {string} name - Tab name.
      * @property {Element} label - Tab label, so CSS can be applied.
      * @property {Element} panel - Tab panel, so content can be updated.
@@ -763,10 +764,12 @@
     /**
      * A string of HTML or a prebuilt Element.
      * @typedef {(string|Element)} TabContent
+     * @memberof module:linkedin-tool~TabbedUI~
      */
 
     /**
      * @typedef {object} TabDefinition
+     * @memberof module:linkedin-tool~TabbedUI~
      * @property {string} name - Tab name.
      * @property {TabContent} content - Initial content.
      */
