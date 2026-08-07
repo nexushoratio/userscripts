@@ -4,7 +4,7 @@
     "private": true
   },
   "source": {
-    "include": ["."]
+    "include": [".", "lib"]
   },
   "plugins": ["plugins/markdown"],
   "markdown": {
