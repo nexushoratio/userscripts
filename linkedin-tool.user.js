@@ -3310,6 +3310,7 @@
 
     /**
      * @typedef {object} LicenseData
+     * @memberof module:linkedin-tool~LinkedIn~
      * @property {string} id - SPDX id for the license.
      * @property {string} url - License URL.
      * @property {string?} content - Fallback content.
@@ -3717,6 +3718,7 @@
 
     /**
      * @typedef {object} FetchResult
+     * @memberof module:linkedin-tool~LinkedIn~
      * @property {boolean} fetched - Indicates if a useful result was
      * generated; all right to retry if false.
      * @property {string} spdx - The SPDX id.
@@ -8373,6 +8375,7 @@
 
     /**
      * @typedef {object} Point
+     * @memberof module:linkedin-tool~JobsView~
      * @property {number} x - Horizontal location in pixels.
      * @property {number} y - Vertical location in pixels.
      * @property {HTMLElement} element - Associated element.
