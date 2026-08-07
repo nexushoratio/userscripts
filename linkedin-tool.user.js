@@ -9581,7 +9581,10 @@
           this.#entriesSelectorTestScores,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.FOOTER],
+        modes: [
+          // MULTI_IMG has caused duplicates
+          this.UidMode.FOOTER,
+        ],
       });
       this.#entriesScrollerConfigs.set('LanguageTopLevel', {
         uidCallback: this.#entriesUidFromModes,
