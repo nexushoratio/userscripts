@@ -847,7 +847,11 @@
     #prevButton
     #style
 
-    /** Installs basic CSS styles for the UI. */
+    /**
+     * Installs basic CSS styles for the UI.
+     *
+     * @method
+     */
     #installStyle = () => {
       this.#style = document.createElement('style');
       this.#style.id = `${this.#id}-style`;
@@ -883,6 +887,8 @@
 
     /**
      * Get the tab controls currently in the container.
+     *
+     * @method
      * @returns {Element[]} Control elements for the tabs.
      */
     #getTabControls = () => {
@@ -894,6 +900,8 @@
 
     /**
      * Switch to an adjacent tab.
+     *
+     * @method
      * @param {number} direction - Either 1 or -1.
      * @fires Event#change
      */
@@ -915,6 +923,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @returns {Element} Input portion of the tab.
@@ -935,6 +944,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {Element} input - Input element associated with this label.
      * @param {string} idName - Normalized to be CSS class friendly.
@@ -955,6 +965,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @param {TabContent} content - Initial content.
@@ -981,6 +992,8 @@
     /**
      * Event handler for change events.  When the active tab changes, this
      * will resend an 'expose' event to the associated panel.
+     *
+     * @method
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#expose
@@ -994,7 +1007,11 @@
       this.#log.leaving(me);
     }
 
-    /** Installs navigational control elements. */
+    /**
+     * Installs navigational control elements.
+     *
+     * @method
+     */
     #installControls = () => {
       this.#nav = document.createElement('nav');
       this.#nav.id = `${this.#id}-controls`;
@@ -1465,6 +1482,7 @@
      * Determines if the item can be viewed.  Usually this means the content
      * is being loaded lazily and is not ready yet.
      *
+     * @method
      * @param {Element} item - The item to inspect.
      * @returns {boolean} Whether the item has viewable content.
      */
