@@ -739,6 +739,7 @@
 
     /**
      * @typedef {object} TabEntry
+     * @memberof module:linkedin-tool~TabbedUI~
      * @property {string} name - Tab name.
      * @property {Element} label - Tab label, so CSS can be applied.
      * @property {Element} panel - Tab panel, so content can be updated.
@@ -763,10 +764,12 @@
     /**
      * A string of HTML or a prebuilt Element.
      * @typedef {(string|Element)} TabContent
+     * @memberof module:linkedin-tool~TabbedUI~
      */
 
     /**
      * @typedef {object} TabDefinition
+     * @memberof module:linkedin-tool~TabbedUI~
      * @property {string} name - Tab name.
      * @property {TabContent} content - Initial content.
      */
@@ -847,7 +850,11 @@
     #prevButton
     #style
 
-    /** Installs basic CSS styles for the UI. */
+    /**
+     * Installs basic CSS styles for the UI.
+     *
+     * @method
+     */
     #installStyle = () => {
       this.#style = document.createElement('style');
       this.#style.id = `${this.#id}-style`;
@@ -883,6 +890,8 @@
 
     /**
      * Get the tab controls currently in the container.
+     *
+     * @method
      * @returns {Element[]} Control elements for the tabs.
      */
     #getTabControls = () => {
@@ -894,6 +903,8 @@
 
     /**
      * Switch to an adjacent tab.
+     *
+     * @method
      * @param {number} direction - Either 1 or -1.
      * @fires Event#change
      */
@@ -915,6 +926,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @returns {Element} Input portion of the tab.
@@ -935,6 +947,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {Element} input - Input element associated with this label.
      * @param {string} idName - Normalized to be CSS class friendly.
@@ -955,6 +968,7 @@
     }
 
     /**
+     * @method
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @param {TabContent} content - Initial content.
@@ -981,6 +995,8 @@
     /**
      * Event handler for change events.  When the active tab changes, this
      * will resend an 'expose' event to the associated panel.
+     *
+     * @method
      * @param {Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#expose
@@ -994,7 +1010,11 @@
       this.#log.leaving(me);
     }
 
-    /** Installs navigational control elements. */
+    /**
+     * Installs navigational control elements.
+     *
+     * @method
+     */
     #installControls = () => {
       this.#nav = document.createElement('nav');
       this.#nav.id = `${this.#id}-controls`;
@@ -1048,6 +1068,7 @@
      * duplicates.
      *
      * @callback uidCallback
+     * @memberof module:linkedin-tool~Scroller~
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} A value unique to this element.
@@ -1057,6 +1078,7 @@
      * Contains CSS selectors to first find a base element, then items that it
      * contains.
      * @typedef {object} ContainerItemsSelector
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string} container - CSS selector to find the container
      * element.
      * @property {string} items - CSS selector to find the items inside the
@@ -1068,6 +1090,7 @@
      *
      * Useful for cases where CSS selectors are not sufficient.
      * @callback ElementFinder
+     * @memberof module:linkedin-tool~Scroller~
      * @param {HTMLElement} element - Starting point.
      * @returns {HTMLElement} Found element.
      */
@@ -1078,6 +1101,7 @@
      * Use only one of selectorArray or finder.
      *
      * @typedef {object} ClickConfig
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string[]} [selectorArray] - CSS selectors to use to find an
      * element, passed to {@link NH.web.clickElement}.
      * @property {boolean} [matchSelf=false] - If a CSS selector would match
@@ -1099,6 +1123,7 @@
      *   automatically wait for all container elements to exist during
      *   activation.
      * @typedef {object} What
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string} name - Name for this Scroller, used for logging.
      * @property {Element} base - The container to use as a base for selecting
      * elements.
@@ -1110,6 +1135,7 @@
 
     /**
      * @typedef {object} How
+     * @memberof module:linkedin-tool~Scroller~
      * @property {uidCallback} uidCallback - Callback to generate a uid.
      * @property {number} [maxUidLength=20] - Max length for default uid text.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
@@ -1465,6 +1491,7 @@
      * Determines if the item can be viewed.  Usually this means the content
      * is being loaded lazily and is not ready yet.
      *
+     * @method
      * @param {Element} item - The item to inspect.
      * @returns {boolean} Whether the item has viewable content.
      */
@@ -1584,6 +1611,8 @@
 
     /**
      * If an item is clicked, switch to it.
+     *
+     * @method
      * @param {Event} evt - Standard 'click' event.
      */
     #onClick = (evt) => {
@@ -1609,6 +1638,7 @@
      *
      * The usual element.clientHeight is too unpredictable.
      *
+     * @method
      * @param {Element} element - Element to examine.
      * @returns {number} The height of the element.
      */
@@ -1638,6 +1668,7 @@
     }
 
     /**
+     * @method
      * @param {MutationRecord[]} records - Standard mutation records.
      * @fires 'childList'
      */
@@ -1663,6 +1694,8 @@
     /**
      * Since the getter will try to validate the current item (since it could
      * have changed out from under us), it too can update information.
+     *
+     * @method
      * @param {Element} val - Element to make current.
      * @fires 'change'
      */
@@ -1683,6 +1716,8 @@
 
     /**
      * Builds the list of elements using the registered CSS selectors.
+     *
+     * @method
      * @returns {Elements[]} Items to scroll through.
      */
     #getItems = () => {
@@ -1716,6 +1751,7 @@
     /**
      * Log items and do any fixups on them.
      *
+     * @method
      * @param {Element[]} items - Elements in the Scroller.
      * @returns {Element[]} Post processed items.
      */
@@ -1752,6 +1788,8 @@
     /**
      * Returns the uid for the current element.  Will use the registered
      * uidCallback function for this.
+     *
+     * @method
      * @param {Element} element - Element to identify.
      * @returns {string} Computed uid for element.
      */
@@ -1774,6 +1812,8 @@
     /**
      * Checks if the element is the current one.  Useful as a callback to
      * Array.find.
+     *
+     * @method
      * @param {Element} element - Element to check.
      * @returns {boolean} Whether or not element is the current one.
      */
@@ -1789,6 +1829,8 @@
 
     /**
      * If necessary, scroll the bottom into view, then same for top.
+     *
+     * @method
      * @param {HTMLElement} item - The item to scroll into view.
      */
     #gentlyScrollIntoView = (item) => {
@@ -1824,6 +1866,8 @@
      * Scroll the current item into the view port.  Depending on the instance
      * configuration, this could snap to the top, snap to the bottom, or be a
      * no-op.
+     *
+     * @method
      */
     #scrollToCurrentItem = () => {
       const me = this.#scrollToCurrentItem.name;
@@ -1845,6 +1889,8 @@
 
     /**
      * Jump an item on an end of the collection.
+     *
+     * @method
      * @param {boolean} first - If true, the first item in the collection,
      * else, the last.
      */
@@ -1879,6 +1925,8 @@
 
     /**
      * Move forward or backwards in the collection by at least n.
+     *
+     * @method
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
      */
@@ -1891,6 +1939,7 @@
        *
        * The current item may not yet be viewable after a reload, but give it
        * a chance.
+       *
        * @param {HTMLElement} item - Item to check.
        * @fires 'out-of-range'
        * @returns {boolean} Whether to keep or not.
@@ -1925,13 +1974,19 @@
       this.logger.leaving(me);
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateInstance = () => {
       this.#validateWhat();
       this.#validateHow();
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateWhat = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
@@ -1978,7 +2033,10 @@
       }
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateHow = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
@@ -2032,6 +2090,8 @@
 
     /**
      * The page may still be loading, so wait for many things to settle.
+     *
+     * @method
      * @returns {Promise<Element[]>} All the new base elements.
      */
     #waitForContainers = () => {
@@ -2071,6 +2131,7 @@
      *
      * Used during activation to deal with items still being loaded.
      *
+     * @method
      * @returns {Promise<string>} Wait on this to finish with something
      * useful to log.
      */
@@ -2502,6 +2563,7 @@
      *
      * If not value is passed, any existing instance will be removed.
      *
+     * @method
      * @param {Scroller} [scroller] - The instance to manage.
      * @returns {ScrollerService} This instance, for chaining.
      */
@@ -3248,6 +3310,7 @@
 
     /**
      * @typedef {object} LicenseData
+     * @memberof module:linkedin-tool~LinkedIn~
      * @property {string} id - SPDX id for the license.
      * @property {string} url - License URL.
      * @property {string?} content - Fallback content.
@@ -3655,6 +3718,7 @@
 
     /**
      * @typedef {object} FetchResult
+     * @memberof module:linkedin-tool~LinkedIn~
      * @property {boolean} fetched - Indicates if a useful result was
      * generated; all right to retry if false.
      * @property {string} spdx - The SPDX id.
@@ -8311,6 +8375,7 @@
 
     /**
      * @typedef {object} Point
+     * @memberof module:linkedin-tool~JobsView~
      * @property {number} x - Horizontal location in pixels.
      * @property {number} y - Vertical location in pixels.
      * @property {HTMLElement} element - Associated element.
