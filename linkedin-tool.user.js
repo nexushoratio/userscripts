@@ -2711,12 +2711,14 @@
 
     /** Add listener. */
     static start() {
-      document.addEventListener('focus', this.#onFocus, this.#focusOption);
+      this.#listenForFocus(document);
     }
 
     /** Remove listener. */
     static stop() {
-      document.removeEventListener('focus', this.#onFocus, this.#focusOption);
+      for (const el of this.#listenForFocusElements.values()) {
+        el.removeEventListener('focus', this.#onFocus, this.#focusOption);
+      }
     }
 
     /**
@@ -2844,8 +2846,8 @@
       capture: true,
     };
 
-    static #lastFocusedElement = null
-
+    static #lastFocusedElement = null;
+    static #listenForFocusElements = new Set();
     static #services = new Set();
 
     /**
@@ -2910,19 +2912,33 @@
       return ret;
     }
 
+    /** @param {external:Element} element - Element that gets a listener. */
+    static #listenForFocus = (element) => {
+      this.#listenForFocusElements.add(element);
+      element.addEventListener('focus', this.#onFocus, this.#focusOption);
+    }
+
     /**
      * Handle focus event to determine if shortcuts should be disabled.
      * @param {Event} evt - Standard 'focus' event.
      */
     static #onFocus = (evt) => {
+      let target = evt.target;
+      for (
+        let shadow = null;
+        (shadow = target.shadowRoot ?? null) !== null;
+      ) {
+        this.#listenForFocus(shadow);
+        target = shadow.activeElement;
+      }
       if (this.#lastFocusedElement &&
-          evt.target !== this.#lastFocusedElement) {
+          target !== this.#lastFocusedElement) {
         this.#lastFocusedElement = null;
         this.setKeyboardContext('inputFocus', false);
       }
-      if (this.#isInput(evt.target)) {
+      if (this.#isInput(target)) {
         this.setKeyboardContext('inputFocus', true);
-        this.#lastFocusedElement = evt.target;
+        this.#lastFocusedElement = target;
       }
     }
 
