@@ -196,12 +196,6 @@
     ),
     ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
     ish(
-      '129',
-      '**Info**: *Shortcuts* Consider a way to implement subsections in' +
-        ' keystroke menu',
-      '2026-07-07'
-    ),
-    ish(
       '370', 'Menu attaching on *Style-2* pages stopped working', '2026-07-15'
     ),
     ish(
@@ -222,6 +216,27 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-07',
+      issues: ['325'],
+      subject: 'Enhance focus event listening to take shadow doms into' +
+        ' account',
+    },
+    {
+      date: '2026-08-07',
+      issues: ['325'],
+      subject: 'Detect if `activeElement` is actually in a shadow dom',
+    },
+    {
+      date: '2026-08-07',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Test scores* section',
+    },
+    {
+      date: '2026-08-07',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Honors & awards* section',
+    },
     {
       date: '2026-08-06',
       issues: ['352'],
@@ -675,32 +690,6 @@
       date: '2026-07-09',
       issues: ['302'],
       subject: 'Support the *Interests* section',
-    },
-    {
-      date: '2026-07-08',
-      issues: ['352'],
-      subject: 'Partially update how `Profile`\'s `Scroller`s are configured',
-    },
-    {
-      date: '2026-07-08',
-      issues: ['302'],
-      subject: 'Migrate *Education* from using `ANCHOR_PROFILE` to' +
-        ' `ANCHOR_OVERLAY`',
-    },
-    {
-      date: '2026-07-08',
-      issues: ['302'],
-      subject: 'Support the *Organizations* section',
-    },
-    {
-      date: '2026-07-08',
-      issues: [''],
-      subject: 'Add a debug key for resetting `Scroller` IDs',
-    },
-    {
-      date: '2026-07-08',
-      issues: ['129'],
-      subject: 'Give `DebugKeys` their own section in the shortcut list',
     },
   ];
 
