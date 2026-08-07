@@ -1095,6 +1095,7 @@
      * Use only one of selectorArray or finder.
      *
      * @typedef {object} ClickConfig
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string[]} [selectorArray] - CSS selectors to use to find an
      * element, passed to {@link NH.web.clickElement}.
      * @property {boolean} [matchSelf=false] - If a CSS selector would match
@@ -1602,6 +1603,8 @@
 
     /**
      * If an item is clicked, switch to it.
+     *
+     * @method
      * @param {Event} evt - Standard 'click' event.
      */
     #onClick = (evt) => {
@@ -1627,6 +1630,7 @@
      *
      * The usual element.clientHeight is too unpredictable.
      *
+     * @method
      * @param {Element} element - Element to examine.
      * @returns {number} The height of the element.
      */
@@ -1656,6 +1660,7 @@
     }
 
     /**
+     * @method
      * @param {MutationRecord[]} records - Standard mutation records.
      * @fires 'childList'
      */
@@ -1681,6 +1686,8 @@
     /**
      * Since the getter will try to validate the current item (since it could
      * have changed out from under us), it too can update information.
+     *
+     * @method
      * @param {Element} val - Element to make current.
      * @fires 'change'
      */
@@ -1701,6 +1708,8 @@
 
     /**
      * Builds the list of elements using the registered CSS selectors.
+     *
+     * @method
      * @returns {Elements[]} Items to scroll through.
      */
     #getItems = () => {
@@ -1734,6 +1743,7 @@
     /**
      * Log items and do any fixups on them.
      *
+     * @method
      * @param {Element[]} items - Elements in the Scroller.
      * @returns {Element[]} Post processed items.
      */
@@ -1770,6 +1780,8 @@
     /**
      * Returns the uid for the current element.  Will use the registered
      * uidCallback function for this.
+     *
+     * @method
      * @param {Element} element - Element to identify.
      * @returns {string} Computed uid for element.
      */
@@ -1792,6 +1804,8 @@
     /**
      * Checks if the element is the current one.  Useful as a callback to
      * Array.find.
+     *
+     * @method
      * @param {Element} element - Element to check.
      * @returns {boolean} Whether or not element is the current one.
      */
@@ -1807,6 +1821,8 @@
 
     /**
      * If necessary, scroll the bottom into view, then same for top.
+     *
+     * @method
      * @param {HTMLElement} item - The item to scroll into view.
      */
     #gentlyScrollIntoView = (item) => {
@@ -1842,6 +1858,8 @@
      * Scroll the current item into the view port.  Depending on the instance
      * configuration, this could snap to the top, snap to the bottom, or be a
      * no-op.
+     *
+     * @method
      */
     #scrollToCurrentItem = () => {
       const me = this.#scrollToCurrentItem.name;
@@ -1863,6 +1881,8 @@
 
     /**
      * Jump an item on an end of the collection.
+     *
+     * @method
      * @param {boolean} first - If true, the first item in the collection,
      * else, the last.
      */
@@ -1897,6 +1917,8 @@
 
     /**
      * Move forward or backwards in the collection by at least n.
+     *
+     * @method
      * @param {number} n - How many items to move and the intended direction.
      * @fires 'out-of-range'
      */
@@ -1909,6 +1931,7 @@
        *
        * The current item may not yet be viewable after a reload, but give it
        * a chance.
+       *
        * @param {HTMLElement} item - Item to check.
        * @fires 'out-of-range'
        * @returns {boolean} Whether to keep or not.
@@ -1943,13 +1966,19 @@
       this.logger.leaving(me);
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateInstance = () => {
       this.#validateWhat();
       this.#validateHow();
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateWhat = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
@@ -1996,7 +2025,10 @@
       }
     }
 
-    /** @throws {Error} On many validation issues. */
+    /**
+     * @method
+     * @throws {Error} On many validation issues.
+     */
     #validateHow = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
