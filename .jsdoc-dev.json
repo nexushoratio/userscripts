@@ -1,5 +1,6 @@
 {
   "opts": {
+    "pedantic": true,
     "template": "node_modules/tui-jsdoc-template",
     "private": true
   },
