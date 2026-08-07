@@ -170,7 +170,6 @@ clientHeight
 clientWidth
 cloneNode
 colClassesFunc
-ColClassesFunc
 ColClassesNotFunction
 collectionsContainer
 collectionScroller
@@ -1068,6 +1067,7 @@ setUp
 setUpClass
 setUpClassCleanups
 setValue
+shadowRoot
 shareItem
 shortcutOptions
 shortcutsTab
@@ -1120,7 +1120,6 @@ StyleProperties
 StyleService
 subItem
 SuggestedForYou
-supportedEvents
 supportURL
 svg
 svgParent

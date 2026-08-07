@@ -4982,7 +4982,13 @@
       'c-c c-a',
       'Log the active element',
       () => {
-        this.#logger.log('activeElement', document.activeElement);
+        let shadow = '';
+        let target = document.activeElement;
+        while (target.shadowRoot) {
+          shadow = ' (shadow-dom)';
+          target = target.shadowRoot.activeElement;
+        }
+        this.#logger.log(`activeElement${shadow}`, target);
       }
     );
 
