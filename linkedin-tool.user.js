@@ -69,7 +69,7 @@
    * building an edit widget.
    *
    * Saved options will be augmented by any new defaults and resaved.
-   * @returns {object} - Options key/value pairs.
+   * @returns {object} Options key/value pairs.
    */
   async function loadOptions() {
     const defaultOptions = {
@@ -114,7 +114,7 @@
 
   const issuesForLinkedIn = new NH.base.MessageQueue();
 
-  /** @param {...*} items - Posted issues. */
+  /** @param {...object} items - Posted issues. */
   function issueListener(...issues) {
     issuesForLinkedIn.post(...issues);
   }
@@ -153,7 +153,7 @@
       return this.#title;
     }
 
-    /** @returns {string} - Human readable information. */
+    /** @returns {string} Human readable information. */
     toString() {
       return `${this.issueId}: ${this.title}`;
     }
@@ -169,7 +169,7 @@
    * @param {string} title - The GitHub issue title.
    * @param {string} date - A Date parsable string of the last time the
    * issue was verified opened
-   * @returns {GitHubIssue} - New object.
+   * @returns {GitHubIssue} New object.
    */
   function ish(issueId, title, date) {
     return new GitHubIssue(issueId, title, date);
@@ -894,7 +894,7 @@
 
     /**
      * Get the tab controls currently in the container.
-     * @returns {Element[]} - Control elements for the tabs.
+     * @returns {Element[]} Control elements for the tabs.
      */
     #getTabControls = () => {
       const controls = Array.from(this.container.querySelectorAll(
@@ -928,7 +928,7 @@
     /**
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @returns {Element} - Input portion of the tab.
+     * @returns {Element} Input portion of the tab.
      */
     #createInput = (name, idName) => {
       const me = 'createInput';
@@ -949,7 +949,7 @@
      * @param {string} name - Human readable name for tab.
      * @param {Element} input - Input element associated with this label.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @returns {Element} - Label portion of the tab.
+     * @returns {Element} Label portion of the tab.
      */
     #createLabel = (name, input, idName) => {
       const me = 'createLabel';
@@ -969,7 +969,7 @@
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @param {TabContent} content - Initial content.
-     * @returns {Element} - Panel portion of the tab.
+     * @returns {Element} Panel portion of the tab.
      */
     #createPanel = (name, idName, content) => {
       const me = 'createPanel';
@@ -1061,7 +1061,7 @@
      * @callback uidCallback
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
 
     /**
@@ -1080,7 +1080,7 @@
      * Useful for cases where CSS selectors are not sufficient.
      * @callback ElementFinder
      * @param {HTMLElement} element - Starting point.
-     * @returns {HTMLElement} - Found element.
+     * @returns {HTMLElement} Found element.
      */
 
     /**
@@ -1149,7 +1149,7 @@
     /**
      * @param {What} what - What we want to scroll.
      * @param {How} how - How we want to scroll.
-     * @throws {Error} - On many construction problems.
+     * @throws {Error} On many construction problems.
      */
     constructor(what, how) {
       ({
@@ -1196,7 +1196,7 @@
       return this.#dispatcher;
     }
 
-    /** @type {Element} - Represents the current item. */
+    /** @type {Element} */
     get item() {
       const me = 'get item';
       this.logger.entered(me);
@@ -1228,7 +1228,7 @@
       return item;
     }
 
-    /** @param {Element} val - Set the current item. */
+    // eslint-disable-next-line require-jsdoc
     set item(val) {
       const me = 'set item';
       this.logger.entered(me, val);
@@ -1239,7 +1239,7 @@
       this.logger.leaving(me);
     }
 
-    /** @type {string} - Current item's uid. */
+    /** @type {string} */
     get itemUid() {
       return this.#currentItemId;
     }
@@ -1260,7 +1260,7 @@
      * Like HTMLElement.innerText, but cleaner and mostly deduped.
      *
      * @param {HTMLElement} element - Element to examine.
-     * @returns {string} - The normalized text.
+     * @returns {string} The normalized text.
      */
     defaultUid(element) {
       const me = this.defaultUid.name;
@@ -1367,7 +1367,7 @@
     /**
      * Move to a specific item if possible, by uid.
      * @param {string} uid - The uid of a specific item.
-     * @returns {boolean} - Was able to goto the item.
+     * @returns {boolean} Was able to goto the item.
      */
     gotoUid(uid) {
       const me = this.gotoUid.name;
@@ -1477,7 +1477,7 @@
      * is being loaded lazily and is not ready yet.
      *
      * @param {Element} item - The item to inspect.
-     * @returns {boolean} - Whether the item has viewable content.
+     * @returns {boolean} Whether the item has viewable content.
      */
     static #isItemViewable = (item) => {
       const result = Boolean(item.clientHeight);
@@ -1527,6 +1527,7 @@
      * in cases where the uid depends on attributes, even if duplicates are
      * not involved.
      *
+     * @method
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} type - Event type.
      * @param {MutationRecords[]} records - Standard MutationRecords.
@@ -1620,7 +1621,7 @@
      * The usual element.clientHeight is too unpredictable.
      *
      * @param {Element} element - Element to examine.
-     * @returns {number} - The height of the element.
+     * @returns {number} The height of the element.
      */
     #realHeight = (element) => {
       const me = this.#realHeight.name;
@@ -1693,7 +1694,7 @@
 
     /**
      * Builds the list of elements using the registered CSS selectors.
-     * @returns {Elements[]} - Items to scroll through.
+     * @returns {Elements[]} Items to scroll through.
      */
     #getItems = () => {
       const me = this.#getItems.name;
@@ -1727,7 +1728,7 @@
      * Log items and do any fixups on them.
      *
      * @param {Element[]} items - Elements in the Scroller.
-     * @returns {Element[]} - Post processed items.
+     * @returns {Element[]} Post processed items.
      */
     #postProcessItems = (items) => {
       const me = this.#postProcessItems.name;
@@ -1763,7 +1764,7 @@
      * Returns the uid for the current element.  Will use the registered
      * uidCallback function for this.
      * @param {Element} element - Element to identify.
-     * @returns {string} - Computed uid for element.
+     * @returns {string} Computed uid for element.
      */
     #uid = (element) => {
       const me = this.#uid.name;
@@ -1785,7 +1786,7 @@
      * Checks if the element is the current one.  Useful as a callback to
      * Array.find.
      * @param {Element} element - Element to check.
-     * @returns {boolean} - Whether or not element is the current one.
+     * @returns {boolean} Whether or not element is the current one.
      */
     #matchItem = (element) => {
       const me = this.#matchItem.name;
@@ -1903,7 +1904,7 @@
        * a chance.
        * @param {HTMLElement} item - Item to check.
        * @fires 'out-of-range'
-       * @returns {boolean} - Whether to keep or not.
+       * @returns {boolean} Whether to keep or not.
        */
       const filterItem = (item) => {
         if (Scroller.#isItemViewable(item)) {
@@ -1935,13 +1936,13 @@
       this.logger.leaving(me);
     }
 
-    /** @throws {Error} - On many validation issues. */
+    /** @throws {Error} On many validation issues. */
     #validateInstance = () => {
       this.#validateWhat();
       this.#validateHow();
     }
 
-    /** @throws {Error} - On many validation issues. */
+    /** @throws {Error} On many validation issues. */
     #validateWhat = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
@@ -1988,7 +1989,7 @@
       }
     }
 
-    /** @throws {Error} - On many validation issues. */
+    /** @throws {Error} On many validation issues. */
     #validateHow = () => {  // eslint-disable-line max-statements
       let msg = '';
       const opts = {
@@ -2042,7 +2043,7 @@
 
     /**
      * The page may still be loading, so wait for many things to settle.
-     * @returns {Promise<Element[]>} - All the new base elements.
+     * @returns {Promise<Element[]>} All the new base elements.
      */
     #waitForContainers = () => {
       const me = this.#waitForContainers.name;
@@ -2054,7 +2055,7 @@
        * Simply eats any exception thrown by the Promise.
        * @param {Promise} prom - Whatever Promise we are wrapping.
        * @param {string} note - Put into log on error.
-       * @returns {Promise} - Resolved promise.
+       * @returns {Promise} Resolved promise.
        */
       const wrapper = async (prom, note) => {
         this.logger.log('wrapping', prom);
@@ -2081,7 +2082,7 @@
      *
      * Used during activation to deal with items still being loaded.
      *
-     * @returns {Promise<string>} - Wait on this to finish with something
+     * @returns {Promise<string>} Wait on this to finish with something
      * useful to log.
      */
     #currentItemWatcher = () => {  // eslint-disable-line max-lines-per-function
@@ -2489,7 +2490,11 @@
   }
   /* eslint-enable */
 
-  /** Manage a {Scroller} as a {NH.base.Service}. */
+  /**
+   * Manage a {Scroller} as a {NH.base.Service}.
+   *
+   * @extends NexusHoratio.base.Service
+   */
   class ScrollerService extends NH.base.Service {
 
     /**
@@ -2509,7 +2514,7 @@
      * If not value is passed, any existing instance will be removed.
      *
      * @param {Scroller} [scroller] - The instance to manage.
-     * @returns {ScrollerService} - This instance, for chaining.
+     * @returns {ScrollerService} This instance, for chaining.
      */
     setScroller(scroller = null) {
       this.#scroller = scroller;
@@ -2528,7 +2533,11 @@
 
   }
 
-  /** A table with collapsible sections. */
+  /**
+   * A table with collapsible sections.
+   *
+   * @extends NexusHoratio.widget.Widget
+   */
   class AccordionTableWidget extends NH.widget.Widget {
 
     /** @param {string} instanceName - Name for this instance. */
@@ -2540,7 +2549,7 @@
     /**
      * This becomes the current section.
      * @param {string} section - Name of the new section.
-     * @returns {Element} - The new section.
+     * @returns {Element} The new section.
      */
     addSection(section) {
       this.#currentSection = document.createElement('tbody');
@@ -2606,6 +2615,7 @@
    *   }
    * }
    * ... Send keys off to service ...
+   * @extends Function
    */
   class Shortcut extends Function {
 
@@ -2669,6 +2679,8 @@
    *
    * @example
    * VMKeyboardService.start();
+   *
+   * @extends NexusHoratio.base.Service
    */
   class VMKeyboardService extends NH.base.Service {
 
@@ -2687,12 +2699,12 @@
       ['DOWN', '↓'],
     ]);
 
-    /** @param {string} val - New condition. */
+    // eslint-disable-next-line require-jsdoc
     static set condition(val) {
       this.#shortcutOptions.condition = val;
     }
 
-    /** @type {Set<VMKeyboardService>} - Instantiated services. */
+    /** @type {Set<VMKeyboardService>} */
     static get services() {
       return new Set(this.#services.values());
     }
@@ -2726,14 +2738,14 @@
      * 'a c-b' ->
      *   '<kbd><kbd>a</kbd> then <kbd>Ctrl</kbd> + <kbd>b</kbd></kbd>'
      * @param {Shortcut.seq} seq - Keystroke sequence.
-     * @returns {string} - Appropriately wrapped HTML.
+     * @returns {string} Appropriately wrapped HTML.
      */
     static parseSeq(seq) {
 
       /**
        * Convert a VM.shortcut style into an HTML snippet.
        * @param {IShortcutKey} key - A particular key press.
-       * @returns {string} - HTML snippet.
+       * @returns {string} HTML snippet.
        */
       function reprKey(key) {
         if (key.base.length === NH.base.ONE_ITEM) {
@@ -2773,14 +2785,14 @@
       return this.#active;
     }
 
-    /** @type {Shortcut[]} - Well, seq and desc properties only. */
+    /** @type {Shortcut[]} */
     get shortcuts() {
       return this.#shortcuts;
     }
 
     /**
-     * @param {*} instance - Object with {Shortcut} properties.
-     * @returns {VMKeyboardService} - This instance, for chaining.
+     * @param {object} instance - Object with {Shortcut} properties.
+     * @returns {VMKeyboardService} This instance, for chaining.
      */
     addInstance(instance) {
       const me = this.addInstance.name;
@@ -2808,8 +2820,8 @@
     }
 
     /**
-     * @param {*} instance - Object with {Shortcut} properties.
-     * @returns {VMKeyboardService} - This instance, for chaining.
+     * @param {object} instance - Object with {Shortcut} properties.
+     * @returns {VMKeyboardService} This instance, for chaining.
      */
     removeInstance(instance) {
       const me = this.removeInstance.name;
@@ -2837,8 +2849,9 @@
     static #services = new Set();
 
     /**
-     * @type {VM.shortcut.IShortcutOptions} - Initial options for all
-     * shortcuts.
+     * Initial options for all shortcuts.
+     *
+     * @type {VM.shortcut.IShortcutOptions}
      */
     static #shortcutOptions = {
       condition: '!inputFocus',
@@ -2851,7 +2864,7 @@
      * TODO(#325): Remove and update lib/web when fixed.
      *
      * @param {Element} element - HTML Element to examine.
-     * @returns {boolean} - Indicating whether the element accepts keyboard
+     * @returns {boolean} Indicating whether the element accepts keyboard
      * input.
      */
     static #isInput = (element) => {
@@ -2998,10 +3011,14 @@
   }
   /* eslint-enable */
 
-  /** LinkedIn specific information. */
+  /**
+   * LinkedIn specific information.
+   *
+   * @extends NexusHoratio.spa.Details
+   */
   class LinkedIn extends NH.spa.Details {
 
-    /** @inheritdoc */
+    /** @hideconstructor */
     constructor() {
       super();
       this.#navbarMutationObserver = new MutationObserver(
@@ -3037,38 +3054,62 @@
 
     static errorMarker = '---';
 
-    /** @type {string} - LinkedIn's common aside used in many layouts. */
+    /**
+     * LinkedIn's common aside used in many layouts.
+     *
+     * @type {string}
+     */
     static get asideSelector() {
       return this.#asideSelector;
     }
 
-    /** @type {string} - LinkedIn's primary content for many layouts. */
+    /**
+     * LinkedIn's primary content for many layouts.
+     *
+     * @type {string}
+     */
     static get primaryContentSelector() {
       return this.#primaryContentSelector;
     }
 
-    /** @type {string} - LinkedIn's common navigation bar. */
+    /**
+     * LinkedIn's common navigation bar.
+     *
+     * @type {string}
+     */
     static get primaryNavSelector() {
       return this.#primaryNavSelector;
     }
 
-    /** @type {string} - CSS class name common for primary scrollers. */
+    /**
+     * CSS class name common for primary scrollers.
+     *
+     * @type {string}
+     */
     static get scrollerPrimaryClassName() {
       return this.#scrollerPrimaryClassName;
     }
 
-    /** @type {string} - CSS class name common for secondary scrollers. */
+    /**
+     * CSS class name common for secondary scrollers.
+     *
+     * @type {string}
+     */
     static get scrollerSecondaryClassName() {
       return this.#scrollerSecondaryClassName;
     }
 
-    /** @type {string} - LinkedIn's common sidebar used in many layouts. */
+    /**
+     * LinkedIn's common sidebar used in many layouts.
+     *
+     * @type {string}
+     */
     static get sidebarSelector() {
       return this.#sidebarSelector;
     }
 
     /**
-     * @returns {TabbedUI~TabDefinition} - Where to find documentation and
+     * @returns {TabbedUI~TabDefinition} Where to find documentation and
      * file bugs.
      */
     static aboutTab() {
@@ -3105,7 +3146,7 @@
 
     /**
      * @param {string} variant - Migration text, one of `spa` or `lit`.
-     * @returns {TabbedUI~TabDefinition} - Initial placeholder for error
+     * @returns {TabbedUI~TabDefinition} Initial placeholder for error
      * logging.
      */
     static errorTab(variant) {
@@ -3129,7 +3170,7 @@
     /**
      * @implements {Scroller~uidCallback}
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     static ckeyIdentifier(element) {
       const me = LinkedIn.ckeyIdentifier.name;
@@ -3144,7 +3185,7 @@
     /**
      * Generate information about the current environment useful in bug
      * reports.
-     * @returns {string} - Text with some wrapped in a `pre` element.
+     * @returns {string} Text with some wrapped in a `pre` element.
      */
     static errorPlatformInfo() {
       const header = 'Please consider including some of the following ' +
@@ -3161,7 +3202,7 @@
      *
      * @param {Element} element - Element to examine.
      * @param {number} level - Header level to use.
-     * @returns {string} - Combined header text.
+     * @returns {string} Combined header text.
      */
     static hN(element, level) {
       return element.querySelectorAll(`h${level}`)
@@ -3175,7 +3216,7 @@
      * Combine text from child headers.
      *
      * @param {Element} element - Element to examine.
-     * @returns {string} - Combined header text.
+     * @returns {string} Combined header text.
      */
     static h1(element) {
       const level = 1;
@@ -3186,7 +3227,7 @@
      * Combine text from child headers.
      *
      * @param {Element} element - Element to examine.
-     * @returns {string} - Combined header text.
+     * @returns {string} Combined header text.
      */
     static h2(element) {
       const level = 2;
@@ -3245,7 +3286,7 @@
       return this.#registrationComplete;
     }
 
-    /** @param {boolean} val - Set once all {@link Page}s are registered. */
+    // eslint-disable-next-line require-jsdoc
     set registrationComplete(val) {
       this.#registrationComplete = Boolean(val);
     }
@@ -3270,7 +3311,7 @@
     }
 
     /**
-     * @returns {TabbedUI~TabDefinition} - News information.
+     * @returns {TabbedUI~TabDefinition} News information.
      */
     newsTab() {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.newsTab.name;
@@ -3334,7 +3375,7 @@
     }
 
     /**
-     * @returns {TabbedUI~TabDefinition} - License information.
+     * @returns {TabbedUI~TabDefinition} License information.
      */
     licenseTab() {
       const me = this.licenseTab.name;
@@ -3413,7 +3454,7 @@
     /**
      * Create a Greasy Fork project URL.
      * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
+     * @returns {string} Full URL.
      */
     static #gfUrl = (path) => {
       const base = 'https://greasyfork.org/en/scripts/472097-linkedin-tool';
@@ -3424,7 +3465,7 @@
     /**
      * Create a GitHub project URL.
      * @param {string} path - Portion of the URL.
-     * @returns {string} - Full URL.
+     * @returns {string} Full URL.
      */
     static #ghUrl = (path) => {
       const base = 'https://github.com/nexushoratio/userscripts';
@@ -3436,7 +3477,7 @@
      * Create a GitHub issue URL.
      *
      * @param {string} issue - Issue portion of the URL.
-     * @returns {string} - Full URL.
+     * @returns {string} Full URL.
      */
     static #ghIssue = (issue) => {
       const url = this.#ghUrl(`issues/${issue}`);
@@ -3527,7 +3568,7 @@
 
     /**
      * @param {HTMLElement} element - Starting element to avoid another query.
-     * @returns {LinkedIn.Style} - Guessed style.
+     * @returns {LinkedIn.Style} Guessed style.
      */
     #guessPageStyle = (element) => {
       const me = this.#guessPageStyle.name;
@@ -3615,7 +3656,7 @@
      * @property {string} content - HTML content to be rendered.
      */
 
-    /** @returns {FetchResult} - Summary of the fetch. */
+    /** @returns {FetchResult} Summary of the fetch. */
     #licenseFetch = async () => {
       const url = this.licenseData.url;
       const result = {
@@ -3702,7 +3743,7 @@
 
     /**
      * @param {string} dismissId - Element #id to give dismiss button.
-     * @returns {Element} - For the info widget name header.
+     * @returns {Element} For the info widget name header.
      */
     #infoName = (dismissId) => {
       const nameElement = document.createElement('div');
@@ -3714,7 +3755,7 @@
       return nameElement;
     }
 
-    /** @returns {Element} - Instructions for navigating the info widget. */
+    /** @returns {Element} Instructions for navigating the info widget. */
     #infoInstructions = () => {
       const instructions = document.createElement('div');
       instructions.classList.add('lit-justify');
@@ -3750,7 +3791,11 @@
       this.logger.log('info closed');
     }
 
-    /** Create CSS styles for stuff specific to LinkedIn Tool. */
+    /**
+     * Create CSS styles for stuff specific to LinkedIn Tool.
+     *
+     * @method
+     */
     #addLitStyle = () => {  // eslint-disable-line max-lines-per-function
       const style = document.createElement('style');
       style.id = `${this.id}-style`;
@@ -4003,7 +4048,7 @@
      * @param {Element} el2 - The second element.
      * @param {Set<string>} ignore - A collection of style properties to
      * ignore.
-     * @returns {string[]} - Style properties present in the first, but not
+     * @returns {string[]} Style properties present in the first, but not
      * the second element, formatted to add to this source file.
      */
     #findMissingStyleProperties = (el1, el2, ignore) => {
@@ -4090,7 +4135,10 @@
         .setAttribute('type', APP_SHORT.toLowerCase());
     }
 
-    /** @param {Element} element - Element that will hold the badges. */
+    /**
+     * @method
+     * @param {Element} element - Element that will hold the badges.
+     */
     #assembleBadgesStyle1 = (element) => {
       this.#badgeErrorStyle1 = element.querySelector(
         '.notification-badge'
@@ -4224,7 +4272,10 @@
       textNodes[0].innerText = APP_SHORT;
     }
 
-    /** @param {Element} element - Element that will hold the badges. */
+    /**
+     * @method
+     * @param {Element} element - Element that will hold the badges.
+     */
     #assembleBadgesStyle2 = (element) => {
       this.#badgeErrorStyle2 = document.createElement('span');
       this.#badgeErrorStyle2.classList.add('lit-menu-badge-error');
@@ -4274,6 +4325,7 @@
      *
      * This supports both Styles 1 and 2.
      *
+     * @method
      * @param {HTMLElement} menuItem - The menu item to connect.
      * @param {string} selector - The CSS selector for "Me".
      */
@@ -4538,7 +4590,7 @@
     }
 
     /**
-     * @returns {TabbedUI~TabDefinition} - Keyboard shortcuts listing.
+     * @returns {TabbedUI~TabDefinition} Keyboard shortcuts listing.
      */
     #shortcutsTab = () => {
       this.#shortcutsWidget = new AccordionTableWidget('Shortcuts');
@@ -4613,7 +4665,7 @@
       }
     }
 
-    /** @returns {obj} - dates and known issues. */
+    /** @returns {obj} dates and known issues. */
     #preprocessKnownIssues = () => {
       const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
       const oldestAllowedDate = litOptions.enableAlertOldNews
@@ -4665,6 +4717,8 @@
 
     /**
      * Add content to the Errors tab so the user can use it to file feedback.
+     *
+     * @method
      * @param {string} content - Information to add.
      */
     #addError = (content) => {
@@ -4679,6 +4733,8 @@
     /**
      * Add a marker to the Errors tab so the user can see where different
      * issues happened.
+     *
+     * @method
      */
     #addErrorMarker = () => {
       this.#addError(LinkedIn.errorMarker);
@@ -4710,7 +4766,7 @@
 
     /**
      * @param {...LinkedIn.Style} styles - Styles allowed for the page.
-     * @returns {LinkedInStyleService} - This instance, for chaining.
+     * @returns {LinkedInStyleService} This instance, for chaining.
      */
     addStyles(...styles) {
       for (const style of styles) {
@@ -4737,6 +4793,8 @@
 
   /**
    * Adapt the new NH.spa.Page to the older implementation.
+   *
+   * @extends NexusHoratio.spa.Page
    */
   class Page extends NH.spa.Page {
 
@@ -4750,12 +4808,16 @@
       this.logger.log('Adapter page constructed', this);
     }
 
-    /** @type {Page} - Equivalent of this.constructor */
+    /**
+     * Equivalent of this.constructor.
+     *
+     * @type {Page}
+     */
     get ctor() {
       return this.constructor;
     }
 
-    /** @returns {string} - Useful default for CSS class name. */
+    /** @returns {string} Useful default for CSS class name. */
     get scrollerClassName() {
       return this.cssClassName(['scroller']);
     }
@@ -4764,7 +4826,7 @@
      * Derive a CSS className from the name of the subclass.
      *
      * @param {string[]} extras - Extract strings to add to the class name.
-     * @returns {string} - A CSS className.
+     * @returns {string} A CSS className.
      */
     cssClassName = (extras = []) => {
       const split = NH.base.simpleParseWords(this.name)
@@ -4782,7 +4844,7 @@
      *
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     elementsHeightProcessor = (elements) => {
       const me = this.elementsHeightProcessor.name;
@@ -4903,7 +4965,7 @@
   /** Class for holding keystrokes that simplify debugging. */
   class DebugKeys {
 
-    /** Initialize DebugKeys. */
+    /** @hideconstructor */
     constructor() {
       this.#logger = new NH.base.Logger(`[${this.constructor.name}]`);
     }
@@ -4998,6 +5060,8 @@
    * Class for handling aspects common across LinkedIn.
    *
    * This includes things like the global nav bar, information view, etc.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class Global extends Page {
 
@@ -5237,7 +5301,11 @@
 
   }
 
-  /** Class for handling the Posts feed. */
+  /**
+   * Class for handling the Posts feed.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class Feed extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -5616,7 +5684,7 @@
         .on('out-of-range', this.#returnToPost);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -5636,7 +5704,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniquePostIdentifier = (scroller, element) => {
       const me = this.#uniquePostIdentifier.name;
@@ -5664,7 +5732,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueCommentIdentifier = (scroller, element) => {
       const me = this.#uniqueCommentIdentifier.name;
@@ -5688,7 +5756,7 @@
       return content;
     }
 
-    /** @returns {HTMLElement} - Header container for current post. */
+    /** @returns {HTMLElement} Header container for current post. */
     #getPostHeader = () => {
       const me = this.#getPostHeader.name;
       this.logger.entered(me);
@@ -5704,7 +5772,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - Header container for current comment. */
+    /** @returns {HTMLElement} Header container for current comment. */
     #getCommentHeader = () => {
       const me = this.#getCommentHeader.name;
       this.logger.entered(me);
@@ -5716,7 +5784,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - Header container for current item. */
+    /** @returns {HTMLElement} Header container for current item. */
     #getItemHeader = () => {
       const me = this.#getItemHeader.name;
       this.logger.entered(me);
@@ -5727,7 +5795,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - Footer container for current post. */
+    /** @returns {HTMLElement} Footer container for current post. */
     #getPostFooter = () => {
       const me = this.#getPostFooter.name;
       this.logger.entered(me);
@@ -5739,7 +5807,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - Footer container for current comment. */
+    /** @returns {HTMLElement} Footer container for current comment. */
     #getCommentFooter = () => {
       const me = this.#getCommentFooter.name;
       this.logger.entered(me);
@@ -5752,7 +5820,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - Footer container for current item. */
+    /** @returns {HTMLElement} Footer container for current item. */
     #getItemFooter = () => {
       const me = this.#getItemFooter.name;
       this.logger.entered(me);
@@ -5763,7 +5831,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - StatusBar container for current post. */
+    /** @returns {HTMLElement} StatusBar container for current post. */
     #getPostStatusBar = () => {
       const me = this.#getPostStatusBar.name;
       this.logger.entered(me);
@@ -5775,7 +5843,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - StatusBar container for current comment. */
+    /** @returns {HTMLElement} StatusBar container for current comment. */
     #getCommentStatusBar = () => {
       const me = this.#getCommentStatusBar.name;
       this.logger.entered(me);
@@ -5788,7 +5856,7 @@
       return el;
     }
 
-    /** @returns {HTMLElement} - StatusBar container for current item. */
+    /** @returns {HTMLElement} StatusBar container for current item. */
     #getItemStatusBar = () => {
       const me = this.#getItemStatusBar.name;
       this.logger.entered(me);
@@ -5804,7 +5872,7 @@
      *
      * Comments and ads require invoking a popup menu (portal).
      *
-     * @returns {HTMLElement} - The element to click.
+     * @returns {HTMLElement} The element to click.
      */
     #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.#getDismissElement.name;
@@ -5869,14 +5937,14 @@
      *
      * @param {string} selector - CSS selector.
      * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
-     * @returns {Promise<NH.web.Continuation.results>} - Basically, something
+     * @returns {Promise<NH.web.Continuation.results>} Basically, something
      * to await on.
      */
     #waitForSelectorToBeGone = (selector, timeout = 0) => {
 
       /**
        * @implements {Monitor}
-       * @returns {Continuation} - Indicate whether done monitoring.
+       * @returns {Continuation} Indicate whether done monitoring.
        */
       const monitor = () => {
         const element = document.querySelector(selector);
@@ -5909,7 +5977,7 @@
       /**
        * Wait for the post to be reloaded.
        * @implements {NH.web.Monitor}
-       * @returns {NH.web.Continuation} - Indicate whether done monitoring.
+       * @returns {NH.web.Continuation} Indicate whether done monitoring.
        */
       const monitor = () => {
         this.logger.log('monitor item classes:', this.posts.item.classList);
@@ -5978,6 +6046,8 @@
    *
    * This page takes 3-4 seconds to load every time.  Revisits are
    * likely to take a while.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class MyNetwork extends Page {
 
@@ -6248,7 +6318,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueCollectionIdentifier = (scroller, element) => {
       const me = this.#uniqueCollectionIdentifier.name;
@@ -6278,7 +6348,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueIndividualsIdentifier = (scroller, element) => {
       const me = this.#uniqueIndividualsIdentifier.name;
@@ -6304,7 +6374,7 @@
       return content;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6356,6 +6426,8 @@
    * Suggestions for you), the latter is enclosed by the former.  There is no
    * way to highlight the former without including the latter.  So just treat
    * the page as one big long list.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class InvitationManager extends Page {
 
@@ -6584,7 +6656,7 @@
         .on('out-of-range', this.spa.details.focusOnAside);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6601,7 +6673,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueInvitationIdentifier = (scroller, element) => {
       const me = this.#uniqueInvitationIdentifier.name;
@@ -6630,6 +6702,8 @@
    * pages, this one will destroy and recreate HTML elements, often with the
    * exact same content, every time something interesting happens.  Like
    * loading more sections or jobs, or toggling state of a job.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class Jobs extends Page {
 
@@ -6855,7 +6929,7 @@
         .on('out-of-range', this.#returnToSection);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6870,7 +6944,7 @@
     /**
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -6902,7 +6976,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueJobIdentifier = (scroller, element) => {
       const me = this.#uniqueJobIdentifier.name;
@@ -6926,7 +7000,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueSectionIdentifier = (scroller, element) => {
       const me = this.#uniqueSectionIdentifier.name;
@@ -7010,7 +7084,11 @@
 
   }
 
-  /** Class for handling Jobs collections. */
+  /**
+   * Class for handling Jobs collections.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class JobsCollections extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -7330,7 +7408,7 @@
     /**
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     #detailsElementsProcessor = (elements) => {
       const me = this.#detailsElementsProcessor.name;
@@ -7369,7 +7447,7 @@
       return properties;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #detailsFinder = () => {
       const me = this.#detailsFinder.name;
       this.logger.entered(me);
@@ -7391,7 +7469,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueDetailsIdentifier = (scroller, element) => {
       const me = this.#uniqueDetailsIdentifier.name;
@@ -7446,7 +7524,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueJobIdentifier = (scroller, element) => {
       const me = this.#uniqueJobIdentifier.name;
@@ -7470,7 +7548,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniquePaginationIdentifier = (scroller, element) => {
       const me = this.#uniquePaginationIdentifier.name;
@@ -7558,7 +7636,11 @@
 
   }
 
-  /** Class for handling the direct Jobs view. */
+  /**
+   * Class for handling the direct Jobs view.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class JobsView extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -7784,7 +7866,7 @@
         .on('out-of-range', this.#returnToCard);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -7801,7 +7883,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueCardIdentifier = (scroller, element) => {
       const me = this.#uniqueCardIdentifier.name;
@@ -7835,7 +7917,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueEntryIdentifier = (scroller, element) => {
       const me = this.#uniqueEntryIdentifier.name;
@@ -7878,7 +7960,11 @@
 
   }
 
-  /** Class for handling the Messaging page. */
+  /**
+   * Class for handling the Messaging page.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class Messaging extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -8170,7 +8256,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueConvoCardsIdentifier = (scroller, element) => {
       const me = this.#uniqueConvoCardsIdentifier.name;
@@ -8192,7 +8278,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueMessageIdentifier = (scroller, element) => {
       const me = this.#uniqueMessageIdentifier.name;
@@ -8221,7 +8307,7 @@
 
     /**
      * @param {HTMLElement} element - Element to examine.
-     * @returns {Point} - Center of the element.
+     * @returns {Point} Center of the element.
      */
     #centerOfElement = (element) => {
       const TWO = 2;
@@ -8283,7 +8369,7 @@
     /**
      * @param {Point} one - First point.
      * @param {Point} two - Second point.
-     * @returns {number} - Distance between the points in pixels.
+     * @returns {number} Distance between the points in pixels.
      */
     #distanceBetweenPoints = (one, two) => {
       const me = this.#distanceBetweenPoints.name;
@@ -8355,7 +8441,11 @@
 
   }
 
-  /** Class for handling the Notifications page. */
+  /**
+   * Class for handling the Notifications page.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class Notifications extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -8574,7 +8664,7 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -8590,7 +8680,7 @@
     /**
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -8629,7 +8719,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueNotificationIdentifier = (scroller, element) => {
       const me = this.#uniqueNotificationIdentifier.name;
@@ -8658,7 +8748,7 @@
      *
      * @implements {Scroller~ElementFinder}
      * @param {HTMLElement} element - Element to examine.
-     * @returns {HTMLElement} - Found element.
+     * @returns {HTMLElement} Found element.
      */
     #cardItemToClick = (element) => {
       let found = null;
@@ -8682,7 +8772,11 @@
 
   }
 
-  /** Class for handling the Profile page. */
+  /**
+   * Class for handling the Profile page.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class Profile extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
@@ -8823,7 +8917,7 @@
      * Create a CSS child combinator selector of DIVs.
      *
      * @param {number} n - The number of DIVs in the selector.
-     * @returns {string} - N divs like "div > div > ... > div".
+     * @returns {string} N divs like "div > div > ... > div".
      */
     div = (n) => {
       const a = Array(n)
@@ -9572,7 +9666,7 @@
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
      * @param {UidMode[]} modes - Computation modes to consider.
-     * @returns {Map<UidMode, string>} - All computed values.
+     * @returns {Map<UidMode, string>} All computed values.
      */
     #entriesModeToUid = (scroller, element, modes) => {  // eslint-disable-line max-lines-per-function, max-statements, complexity
       const me = this.#entriesModeToUid.name;
@@ -9799,7 +9893,7 @@
      *
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
-     * @returns {{0: UidMode, 1: string}} - How the UID was computed, and
+     * @returns {{0: UidMode, 1: string}} How the UID was computed, and
      * value.
      */
     #entriesUidFromModes = (scroller, element) => {
@@ -9823,7 +9917,7 @@
       return [mode, uid];
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -9839,7 +9933,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueSectionIdentifier = (scroller, element) => {  // eslint-disable-line max-statements, max-lines-per-function
       const me = this.#uniqueSectionIdentifier.name;
@@ -9902,7 +9996,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #entriesUidShim = (scroller, element) => {
       const [mode, content] = this.#entriesCurrentUid(scroller, element);
@@ -9985,6 +10079,8 @@
    * TODO(#236): WIP.
    * - The `artdeco-card` style include `border: none !important` which
    *   overrides our normal border stuff.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class Events extends Page {
 
@@ -10173,7 +10269,7 @@
         .on('out-of-range', this.#returnToCollection);
     }
 
-    /** @returns {Element?} - Element to monitor. */
+    /** @returns {Element?} Element to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10192,7 +10288,7 @@
     /**
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -10233,7 +10329,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueCollectionIdentifier = (scroller, element) => {
       const me = this.#uniqueCollectionIdentifier.name;
@@ -10261,7 +10357,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueEventIdentifier = (scroller, element) => {
       const me = this.#uniqueEventIdentifier.name;
@@ -10306,6 +10402,8 @@
   /**
    * Class for handling the SearchResultsPeople page.
    * TODO(#209): WIP.
+   *
+   * @extends module:linkedin-tool~Page
    */
   class SearchResultsPeople extends Page {
 
@@ -10478,7 +10576,7 @@
       this.#lastScroller = this.#resultScroller;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} - Elements to monitor. */
+    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10498,7 +10596,7 @@
     /**
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} - Style properties for to contribute.
+     * @returns {StyleProperties} Style properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -10529,7 +10627,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniquePaginationIdentifier = (scroller, element) => {
       const me = this.#uniquePaginationIdentifier.name;
@@ -10545,7 +10643,7 @@
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
-     * @returns {string} - A value unique to this element.
+     * @returns {string} A value unique to this element.
      */
     #uniqueResultIdentifier = (scroller, element) => {
       const me = this.#uniqueResultIdentifier.name;
@@ -10605,7 +10703,11 @@
 
   }
 
-  /** Class for tracking pages to support. */
+  /**
+   * Class for tracking pages to support.
+   *
+   * @extends module:linkedin-tool~Page
+   */
   class PagesToDo extends Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
