@@ -1065,6 +1065,7 @@
      * duplicates.
      *
      * @callback uidCallback
+     * @memberof module:linkedin-tool~Scroller~
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
      * @returns {string} A value unique to this element.
@@ -1074,6 +1075,7 @@
      * Contains CSS selectors to first find a base element, then items that it
      * contains.
      * @typedef {object} ContainerItemsSelector
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string} container - CSS selector to find the container
      * element.
      * @property {string} items - CSS selector to find the items inside the
@@ -1085,6 +1087,7 @@
      *
      * Useful for cases where CSS selectors are not sufficient.
      * @callback ElementFinder
+     * @memberof module:linkedin-tool~Scroller~
      * @param {HTMLElement} element - Starting point.
      * @returns {HTMLElement} Found element.
      */
@@ -1117,6 +1120,7 @@
      *   automatically wait for all container elements to exist during
      *   activation.
      * @typedef {object} What
+     * @memberof module:linkedin-tool~Scroller~
      * @property {string} name - Name for this Scroller, used for logging.
      * @property {Element} base - The container to use as a base for selecting
      * elements.
@@ -1128,6 +1132,7 @@
 
     /**
      * @typedef {object} How
+     * @memberof module:linkedin-tool~Scroller~
      * @property {uidCallback} uidCallback - Callback to generate a uid.
      * @property {number} [maxUidLength=20] - Max length for default uid text.
      * @property {string[]} [classes=[]] - Array of CSS classes to add/remove
@@ -2082,6 +2087,8 @@
 
     /**
      * The page may still be loading, so wait for many things to settle.
+     *
+     * @method
      * @returns {Promise<Element[]>} All the new base elements.
      */
     #waitForContainers = () => {
@@ -2121,6 +2128,7 @@
      *
      * Used during activation to deal with items still being loaded.
      *
+     * @method
      * @returns {Promise<string>} Wait on this to finish with something
      * useful to log.
      */
@@ -2552,6 +2560,7 @@
      *
      * If not value is passed, any existing instance will be removed.
      *
+     * @method
      * @param {Scroller} [scroller] - The instance to manage.
      * @returns {ScrollerService} This instance, for chaining.
      */
