@@ -217,6 +217,16 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-08',
+      issues: ['325'],
+      subject: 'Retire the `isInput()` fork',
+    },
+    {
+      date: '2026-08-08',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Languages* section',
+    },
+    {
       date: '2026-08-07',
       issues: ['325'],
       subject: 'Enhance focus event listening to take shadow doms into' +
@@ -679,17 +689,6 @@
       date: '2026-07-10',
       issues: ['302'],
       subject: 'Support the *Causes* section',
-    },
-    {
-      date: '2026-07-09',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-09',
-      issues: ['302'],
-      subject: 'Support the *Interests* section',
     },
   ];
 
