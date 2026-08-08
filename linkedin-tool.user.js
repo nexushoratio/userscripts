@@ -9668,7 +9668,7 @@
           this.#entriesSelectorLanguages,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.HREF],
+        modes: [this.UidMode.FOOTER],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
         uidCallback: this.#entriesUidFromModes,
