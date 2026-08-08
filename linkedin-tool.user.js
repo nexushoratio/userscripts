@@ -2562,7 +2562,6 @@
      *
      * If not value is passed, any existing instance will be removed.
      *
-     * @method
      * @param {Scroller} [scroller] - The instance to manage.
      * @returns {ScrollerService} This instance, for chaining.
      */
@@ -2628,6 +2627,8 @@
 
     /**
      * Add a row to the current section.
+     *
+     * @method
      * @param {string} type - Cell type, typically 'td' or 'th'.
      * @param {...string} items - To make up the row cells.
      */
@@ -2910,7 +2911,10 @@
       caseSensitive: true,
     };
 
-    /** @param {external:Element} element - Element that gets a listener. */
+    /**
+     * @method
+     * @param {external:Element} element - Element that gets a listener.
+     */
     static #listenForFocus = (element) => {
       this.#listenForFocusElements.add(element);
       element.addEventListener('focus', this.#onFocus, this.#focusOption);
@@ -2918,6 +2922,8 @@
 
     /**
      * Handle focus event to determine if shortcuts should be disabled.
+     *
+     * @method
      * @param {Event} evt - Standard 'focus' event.
      */
     static #onFocus = (evt) => {
