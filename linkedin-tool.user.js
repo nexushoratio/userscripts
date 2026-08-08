@@ -2911,58 +2911,6 @@
       caseSensitive: true,
     };
 
-    /**
-     * Fork of NH.web.isInput for tracking down a bug.
-     *
-     * TODO(#325): Remove and update lib/web when fixed.
-     *
-     * @param {Element} element - HTML Element to examine.
-     * @returns {boolean} Indicating whether the element accepts keyboard
-     * input.
-     */
-    static #isInput = (element) => {
-      const me = this.#isInput.name;
-      log.entered(me, element);
-
-      const editTypes = new Set([
-        // We know these generally need full keyboard access.
-        'text',
-      ]);
-
-      const skipTypes = new Set([
-        // Skip these types.
-        'checkbox',
-      ]);
-
-      let tagName = '';
-      if ('tagName' in element) {
-        tagName = element.tagName.toLowerCase();
-      }
-
-      let textContent = false;
-      if (tagName === 'input') {
-        textContent = true;
-        if (skipTypes.has(element.type)) {
-          textContent = false;
-        }
-        if (textContent &&
-            litOptions.enableDevMode &&
-            !editTypes.has(element.type)) {
-          const attributes = [];
-          for (const attr of element.attributes) {
-            attributes.push(`${attr.name}: ${attr.value}`);
-          }
-          NH.base.issues.post('Issue #325 attr:', ...attributes);
-        }
-      }
-      // eslint-disable-next-line no-extra-parens
-      const ret = (
-        element.isContentEditable || textContent || tagName === 'textarea');
-
-      log.leaving(me, ret);
-      return ret;
-    }
-
     /** @param {external:Element} element - Element that gets a listener. */
     static #listenForFocus = (element) => {
       this.#listenForFocusElements.add(element);
@@ -2987,7 +2935,7 @@
         this.#lastFocusedElement = null;
         this.setKeyboardContext('inputFocus', false);
       }
-      if (this.#isInput(target)) {
+      if (NH.web.isInput(target)) {
         this.setKeyboardContext('inputFocus', true);
         this.#lastFocusedElement = target;
       }
