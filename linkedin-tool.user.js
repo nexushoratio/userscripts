@@ -217,6 +217,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-12',
+      issues: ['302'],
+      subject: 'Wait for the *Topcard* section to show up',
+    },
+    {
       date: '2026-08-11',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Interests* section',
