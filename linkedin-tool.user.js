@@ -179,7 +179,7 @@
     ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-07-25'),
     ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
-    ish('236', 'Support **Events** page', '2026-07-10'),
+    ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
@@ -216,6 +216,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-11',
+      issues: ['302'],
+      subject: 'Update `UidMode`s for the *Interests* section',
+    },
     {
       date: '2026-08-08',
       issues: ['325'],
@@ -640,55 +645,6 @@
       date: '2026-07-14',
       issues: ['302'],
       subject: 'Treat `<a href="#">` as an `ANCHOR_OVERLAY`',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['302'],
-      subject: 'Move the default configuration into the map with a symbol' +
-        ' key',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['302'],
-      subject: 'Create `FOOTER` as an alternative to `HREF`',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['302'],
-      subject: 'Simplify how the default config is initialized',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['302'],
-      subject: 'Ignore another common element `id`',
-    },
-    {
-      date: '2026-07-13',
-      issues: ['302'],
-      subject: 'Update the *Suggested for you* section\'s selector',
-    },
-    {
-      date: '2026-07-11',
-      issues: ['302'],
-      subject: 'Retire `uniqueEntryIdentifier` in favor of' +
-        ' `#entriesUidFromModes`',
-    },
-    {
-      date: '2026-07-10',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-10',
-      issues: ['302'],
-      subject: 'Support the *Causes* section',
     },
   ];
 
