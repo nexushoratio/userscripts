@@ -276,7 +276,6 @@ divAnchorNoArrowRight
 DIVs
 doClassCleanups
 doCleanups
-docstrings
 docTabDefinition
 documentElement
 doObserve
@@ -610,7 +609,6 @@ keydown
 keyMap
 klass
 knownIssues
-knownTypes
 labelClassesFunc
 LabelClassesFunc
 LabelClassesNotFunction
@@ -943,6 +941,7 @@ querySelector
 querySelectorAll
 randomUUID
 readySelector
+readySelectorTimeout
 realHeight
 RebeccaPurple
 rebuildShortcuts
