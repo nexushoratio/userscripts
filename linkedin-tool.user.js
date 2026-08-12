@@ -10084,20 +10084,27 @@
       this.entries;
     }
 
-    #onActivate = () => {
+    #onActivate = async () => {
       const me = this.#onActivate.name;
       this.logger.entered(me);
 
       const TOP_CARD = 'Topcard';
+      const selector = `[${CKEY}$="${TOP_CARD}"]`;
+      const timeout = 8000;
       // Grab the per-user prefix for the current profile that is used for
       // many `section` identifiers.
-      const topCard = document.querySelector(
-        `[${CKEY}$="${TOP_CARD}"]`
-      );
-      this.#sectionUidPrefix = topCard?.getAttribute(CKEY)
-        ?.slice(0, -TOP_CARD.length);
+      try {
+        const topCard = await NH.web.waitForSelector(selector, timeout);
+        this.#sectionUidPrefix = topCard?.getAttribute(CKEY)
+          ?.slice(0, -TOP_CARD.length);
+      } catch (e) {
+        NH.base.issues.post(
+          `${TOP_CARD} timed out`,
+          'See https://github.com/nexushoratio/userscripts/issues/302#issuecomment-5269123801'
+        );
+      }
 
-      this.logger.leaving(me);
+      this.logger.leaving(me, this.#sectionUidPrefix);
     }
 
     #checkPartialOrder = () => {

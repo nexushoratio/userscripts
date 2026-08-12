@@ -133,7 +133,6 @@ cdn
 centerOfElement
 CertificationTopLevel
 checkAssertionCounts
-checkForNewRelease
 checkForNews
 checkingPartialOrder
 checkPartialOrder
@@ -578,6 +577,7 @@ IShortcutOptions
 isInput
 isItemViewable
 isSameNode
+issuecomment
 issueHeader
 issueId
 issueListener
@@ -893,7 +893,6 @@ pageStyle
 PageTestCase
 paginationScroller
 paginator
-panelName
 params
 parentElement
 parsedName
