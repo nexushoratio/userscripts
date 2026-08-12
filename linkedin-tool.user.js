@@ -4867,7 +4867,11 @@
       return this.constructor;
     }
 
-    /** @returns {string} Useful default for CSS class name. */
+    /**
+     * Useful default for CSS class name.
+     *
+     * @type {string}
+     */
     get scrollerClassName() {
       return this.cssClassName(['scroller']);
     }
@@ -4875,6 +4879,7 @@
     /**
      * Derive a CSS className from the name of the subclass.
      *
+     * @method
      * @param {string[]} extras - Extract strings to add to the class name.
      * @returns {string} A CSS className.
      */
@@ -4892,6 +4897,7 @@
      *
      * It just sums up height of the matched elements to set a top margin.
      *
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -5284,6 +5290,8 @@
 
     /**
      * Click on the requested link in the global nav bar.
+     *
+     * @method
      * @param {string} item - Portion of the link to match.
      */
     #gotoNavLink = (item) => {
@@ -5303,6 +5311,8 @@
 
     /**
      * Click on the requested button in the global nav bar.
+     *
+     * @method
      * @param {string} item - Text on the button to look for.
      */
     #gotoNavButton = (item) => {
@@ -5322,6 +5332,8 @@
      * Click on the requested element in the Style-2 global nav bar.
      *
      * This uses the `aria-label`, which has the potential to be translated.
+     *
+     * @method
      * @param {string} item - The prefix for the target `aria-label`.
      */
     #gotoNavLabel = (item) => {
@@ -5340,7 +5352,11 @@
       this.logger.leaving(me);
     }
 
-    /** TODO(#295): This is a hack.  Find a more principled solution. */
+    /**
+     * TODO(#295): This is a hack.  Find a more principled solution.
+     *
+     * @method
+     */
     #onHybridActivate = () => {
       const me = this.#onHybridActivate.name;
       this.logger.entered(me, this.spa.details.pageStyle);
@@ -5740,7 +5756,10 @@
         .on('out-of-range', this.#returnToPost);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -5757,6 +5776,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -5785,6 +5805,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -5812,7 +5833,10 @@
       return content;
     }
 
-    /** @returns {HTMLElement} Header container for current post. */
+    /**
+     * @method
+     * @returns {HTMLElement} Header container for current post.
+     */
     #getPostHeader = () => {
       const me = this.#getPostHeader.name;
       this.logger.entered(me);
@@ -5828,7 +5852,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} Header container for current comment. */
+    /**
+     * @method
+     * @returns {HTMLElement} Header container for current comment.
+     */
     #getCommentHeader = () => {
       const me = this.#getCommentHeader.name;
       this.logger.entered(me);
@@ -5840,7 +5867,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} Header container for current item. */
+    /**
+     * @method
+     * @returns {HTMLElement} Header container for current item.
+     */
     #getItemHeader = () => {
       const me = this.#getItemHeader.name;
       this.logger.entered(me);
@@ -5851,7 +5881,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} Footer container for current post. */
+    /**
+     * @method
+     * @returns {HTMLElement} Footer container for current post.
+     */
     #getPostFooter = () => {
       const me = this.#getPostFooter.name;
       this.logger.entered(me);
@@ -5863,7 +5896,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} Footer container for current comment. */
+    /**
+     * @method
+     * @returns {HTMLElement} Footer container for current comment.
+     */
     #getCommentFooter = () => {
       const me = this.#getCommentFooter.name;
       this.logger.entered(me);
@@ -5876,7 +5912,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} Footer container for current item. */
+    /**
+     * @method
+     * @returns {HTMLElement} Footer container for current item.
+     */
     #getItemFooter = () => {
       const me = this.#getItemFooter.name;
       this.logger.entered(me);
@@ -5887,7 +5926,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} StatusBar container for current post. */
+    /**
+     * @method
+     * @returns {HTMLElement} StatusBar container for current post.
+     */
     #getPostStatusBar = () => {
       const me = this.#getPostStatusBar.name;
       this.logger.entered(me);
@@ -5899,7 +5941,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} StatusBar container for current comment. */
+    /**
+     * @method
+     * @returns {HTMLElement} StatusBar container for current comment.
+     */
     #getCommentStatusBar = () => {
       const me = this.#getCommentStatusBar.name;
       this.logger.entered(me);
@@ -5912,7 +5957,10 @@
       return el;
     }
 
-    /** @returns {HTMLElement} StatusBar container for current item. */
+    /**
+     * @method
+     * @returns {HTMLElement} StatusBar container for current item.
+     */
     #getItemStatusBar = () => {
       const me = this.#getItemStatusBar.name;
       this.logger.entered(me);
@@ -5928,6 +5976,7 @@
      *
      * Comments and ads require invoking a popup menu (portal).
      *
+     * @method
      * @returns {HTMLElement} The element to click.
      */
     #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function, max-statements
@@ -5991,6 +6040,7 @@
      *
      * This could probably be rolled into {@link NH.web.waitForSelector}.
      *
+     * @method
      * @param {string} selector - CSS selector.
      * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
      * @returns {Promise<NH.web.Continuation.results>} Basically, something
@@ -6032,6 +6082,7 @@
 
       /**
        * Wait for the post to be reloaded.
+       *
        * @implements {NH.web.Monitor}
        * @returns {NH.web.Continuation} Indicate whether done monitoring.
        */
@@ -6064,7 +6115,11 @@
       this.logger.leaving(me);
     }
 
-    /** Reset the comment scroller. */
+    /**
+     * Reset the comment scroller.
+     *
+     * @method
+     */
     #resetComments = () => {
       if (this.#commentScroller) {
         this.#commentScroller.destroy();
@@ -6079,12 +6134,18 @@
 
     /**
      * Reselects current post, triggering same actions as initial selection.
+     *
+     * @method
      */
     #returnToPost = () => {
       this.posts.item = this.posts.item;
     }
 
-    /** Resets the comments {@link Scroller}. */
+    /**
+     * Resets the comments {@link Scroller}.
+     *
+     * @method
+     */
     #onPostChange = () => {
       const me = this.#onPostChange.name;
       this.logger.entered(me, this.posts.item);
