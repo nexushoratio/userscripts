@@ -45,11 +45,13 @@ AlreadySet
 alsoNotATest
 amet
 anchorFeed
+anchorGroups
 anchorLearning
 anchorNewsletters
 anchorOverlay
 anchorProfile
 anchorPulse
+anchorShowcase
 AnOverridePage
 AnUPPERWord
 apg
@@ -607,7 +609,6 @@ KeyboardService
 keydown
 keyMap
 klass
-knownEvents
 knownIssues
 knownTypes
 labelClassesFunc
@@ -1027,7 +1028,6 @@ scrollerPrimaryClassName
 scrollers
 scrollerSecondaryClassName
 ScrollerService
-ScrollerStyleService
 ScrollerTestCase
 scrollIntoView
 scrollMarginBottom
@@ -1082,7 +1082,6 @@ SimpleCamelCase
 SimpleFunction
 simpleParseWords
 SimpleParseWordsTestCase
-skipTypes
 snapToTop
 sourceforge
 spaInstance

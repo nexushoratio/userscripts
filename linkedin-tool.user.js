@@ -8832,11 +8832,13 @@
     UidMode = Object.freeze({
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
+      ANCHOR_GROUPS: Symbol.for('anchorGroups'),
       ANCHOR_LEARNING: Symbol.for('anchorLearning'),
       ANCHOR_NEWSLETTERS: Symbol.for('anchorNewsletters'),
       ANCHOR_OVERLAY: Symbol.for('anchorOverlay'),
       ANCHOR_PROFILE: Symbol.for('anchorProfile'),
       ANCHOR_PULSE: Symbol.for('anchorPulse'),
+      ANCHOR_SHOWCASE: Symbol.for('anchorShowcase'),
       ARIA_LABEL: Symbol.for('ariaLabel'),
       CKEY: Symbol.for('ckey'),
       COMMENT_URN: Symbol.for('commentUrn'),
@@ -9638,11 +9640,12 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
+          this.UidMode.ANCHOR_NEWSLETTERS,
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.COMPANY,
+          this.UidMode.ANCHOR_SHOWCASE,
+          this.UidMode.ANCHOR_GROUPS,
           this.UidMode.SCHOOL,
-          this.UidMode.ANCHOR,
-          this.UidMode.HREF,
           this.UidMode.FOOTER,
         ],
       });
@@ -9720,17 +9723,25 @@
               'a' +
                 ':not([href*="/company/"])' +
                 ':not([href*="/feed/"])' +
+                ':not([href*="/groups/"])' +
                 ':not([href*="/in/"])' +
                 ':not([href$="#"])' +
                 ':not([href*="/learning/"])' +
                 ':not([href*="/newsletters/"])' +
                 ':not([href*="/pulse/"])' +
                 ':not([href*="/safety/"])' +
-                ':not([href*="/school/"])'
+                ':not([href*="/school/"])' +
+                ':not([href*="/showcase/"])'
             )?.href;
             break;
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
+            break;
+          case this.UidMode.ANCHOR_GROUPS:
+            scratch = element.matches('a[href *= "/groups/"]')
+              ? element
+              : element.querySelector('a[href *= "/groups/"]');
+            href = scratch?.href;
             break;
           case this.UidMode.ANCHOR_LEARNING:
             href = element.querySelector('a[href*="/learning/"]')?.href;
@@ -9762,6 +9773,12 @@
             scratch = element.matches('a[href *= "/pulse/"]')
               ? element
               : element.querySelector('a[href *= "/pulse/"]');
+            href = scratch?.href;
+            break;
+          case this.UidMode.ANCHOR_SHOWCASE:
+            scratch = element.matches('a[href *= "/showcase/"]')
+              ? element
+              : element.querySelector('a[href *= "/showcase/"]');
             href = scratch?.href;
             break;
           case this.UidMode.ARIA_LABEL:
