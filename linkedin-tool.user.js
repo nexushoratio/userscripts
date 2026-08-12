@@ -3268,7 +3268,11 @@
       this.#registrationComplete = Boolean(val);
     }
 
-    /** Scroll common sidebar into view and move focus to it. */
+    /**
+     * Scroll common sidebar into view and move focus to it.
+     *
+     * @method
+     */
     focusOnSidebar = () => {
       const sidebar = document.querySelector(LinkedIn.sidebarSelector);
       if (sidebar) {
@@ -3279,6 +3283,8 @@
     /**
      * Scroll common aside (right-hand sidebar) into view and move focus to
      * it.
+     *
+     * @method
      */
     focusOnAside = () => {
       const aside = document.querySelector(LinkedIn.asideSelector);
@@ -3287,9 +3293,7 @@
       }
     }
 
-    /**
-     * @returns {TabbedUI~TabDefinition} News information.
-     */
+    /** @returns {TabbedUI~TabDefinition} News information. */
     newsTab() {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.newsTab.name;
       this.logger.entered(me);
@@ -3430,6 +3434,8 @@
 
     /**
      * Create a Greasy Fork project URL.
+     *
+     * @method
      * @param {string} path - Portion of the URL.
      * @returns {string} Full URL.
      */
@@ -3441,6 +3447,8 @@
 
     /**
      * Create a GitHub project URL.
+     *
+     * @method
      * @param {string} path - Portion of the URL.
      * @returns {string} Full URL.
      */
@@ -3453,6 +3461,7 @@
     /**
      * Create a GitHub issue URL.
      *
+     * @method
      * @param {string} issue - Issue portion of the URL.
      * @returns {string} Full URL.
      */
@@ -3507,6 +3516,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} type - Event type.
      * @param {NH.spa.Page~Pages} pages - Updated pages information.
@@ -3544,6 +3554,7 @@
     }
 
     /**
+     * @method
      * @param {HTMLElement} element - Starting element to avoid another query.
      * @returns {LinkedIn.Style} Guessed style.
      */
@@ -3569,7 +3580,11 @@
       return pageStyle;
     }
 
-    /** Hang out until the navigation bar has stabilized. */
+    /**
+     * Hang out until the navigation bar has stabilized.
+     *
+     * @method
+     */
     #waitUntilPageLoadedEnough = async () => {
       const me = this.#waitUntilPageLoadedEnough.name;
       this.logger.entered(me);
@@ -3584,7 +3599,11 @@
       this.logger.leaving(me);
     }
 
-    /** Do the bits that were waiting on the page. */
+    /**
+     * Do the bits that were waiting on the page.
+     *
+     * @method
+     */
     #finishConstruction = () => {
       const me = this.#finishConstruction.name;
       this.logger.entered(me);
@@ -3634,7 +3653,10 @@
      * @property {string} content - HTML content to be rendered.
      */
 
-    /** @returns {FetchResult} Summary of the fetch. */
+    /**
+     * @method
+     * @returns {FetchResult} Summary of the fetch.
+     */
     #licenseFetch = async () => {
       const url = this.licenseData.url;
       const result = {
@@ -3669,6 +3691,8 @@
 
     /**
      * Lazily load license text when exposed.
+     *
+     * @method
      */
     #licenseHandler = async () => {
       const me = this.#licenseHandler.name;
@@ -3720,6 +3744,7 @@
     }
 
     /**
+     * @method
      * @param {string} dismissId - Element #id to give dismiss button.
      * @returns {Element} For the info widget name header.
      */
@@ -3733,7 +3758,10 @@
       return nameElement;
     }
 
-    /** @returns {Element} Instructions for navigating the info widget. */
+    /**
+     * @method
+     * @returns {Element} Instructions for navigating the info widget.
+     */
     #infoInstructions = () => {
       const instructions = document.createElement('div');
       instructions.classList.add('lit-justify');
@@ -3756,7 +3784,11 @@
       this.logger.log('info opened');
     }
 
-    /** Force any 'focus' handlers to run. */
+    /**
+     * Force any 'focus' handlers to run.
+     *
+     * @method
+     */
     #forceFocusEvent = () => {
       document.activeElement.dispatchEvent(new Event('focus'));
     }
@@ -3930,6 +3962,7 @@
     /**
      * Update Errors tab label based upon value.
      *
+     * @method
      * @param {number} count - Number of errors currently logged.
      */
     #updateInfoErrorsLabel = (count) => {
@@ -3947,7 +3980,10 @@
       this.logger.leaving(me);
     }
 
-    /** @param {Event} evt - The 'change' event. */
+    /**
+     * @method
+     * @param {Event} evt - The 'change' event.
+     */
     #errorTextHandler = (evt) => {
       const me = this.#errorTextHandler.name;
       this.logger.entered(me, evt);
@@ -4022,6 +4058,7 @@
     /**
      * Determine the style property differences between two elements.
      *
+     * @method
      * @param {Element} el1 - The first element.
      * @param {Element} el2 - The second element.
      * @param {Set<string>} ignore - A collection of style properties to
@@ -4056,13 +4093,14 @@
       return results.sort();
     }
 
-   /**
-    * Update news badge as appropriate.
-    *
-    * @implements {NH.base.Dispatcher~Handler}
-    * @param {string} eventType - Event type.
-    * @param {boolean} show - Whether to show the badge or not.
-    */
+    /**
+     * Update news badge as appropriate.
+     *
+     * @method
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {boolean} show - Whether to show the badge or not.
+     */
    #newsHandlerBadgeStyle1 = (eventType, show) => {
      const me = this.#newsHandlerBadgeStyle1.name;
      this.logger.entered(me, eventType, show);
@@ -4079,6 +4117,7 @@
     /**
      * Update error badge as appropriate.
      *
+     * @method
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
@@ -4102,6 +4141,7 @@
     /**
      * Tweak the internals of whatever random element we cloned.
      *
+     * @method
      * @param {HTMLElement} button - The newly created button.
      */
     #finishButtonStyle1 = (button) => {
@@ -4186,13 +4226,14 @@
       this.logger.leaving(me, this.#ourMenuItemStyle1);
     }
 
-   /**
-    * Update news badge as appropriate.
-    *
-    * @implements {NH.base.Dispatcher~Handler}
-    * @param {string} eventType - Event type.
-    * @param {boolean} show - Whether to show the badge or not.
-    */
+    /**
+     * Update news badge as appropriate.
+     *
+     * @method
+     * @implements {NH.base.Dispatcher~Handler}
+     * @param {string} eventType - Event type.
+     * @param {boolean} show - Whether to show the badge or not.
+     */
    #newsHandlerBadgeStyle2 = (eventType, show) => {
      const me = this.#newsHandlerBadgeStyle2.name;
      this.logger.entered(me, eventType, show, this.#badgeNewsStyle2);
@@ -4209,6 +4250,7 @@
     /**
      * Updates error badge as appropriate.
      *
+     * @method
      * @implements {NH.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
@@ -4232,6 +4274,7 @@
     /**
      * Tweak the internals of whatever random element we cloned.
      *
+     * @method
      * @param {HTMLElement} button - The newly created button.
      */
     #finishButtonStyle2 = (button) => {
@@ -4437,6 +4480,7 @@
     /**
      * Update News tab label as appropriate.
      *
+     * @method
      * @param {boolean} highlight - Whether to show the badge or not.
      */
     #updateInfoNewsLabel = (highlight) => {
@@ -4455,7 +4499,11 @@
       this.logger.leaving(me);
     }
 
-    /** Decisions about news could be made before the UI is available. */
+    /**
+     * Decisions about news could be made before the UI is available.
+     *
+     * @method
+     */
     #newsListener = (...msgs) => {
       const me = this.#newsListener.name;
       this.logger.entered(me, msgs);
@@ -4485,7 +4533,11 @@
       this.logger.leaving(me);
     }
 
-    /** Find the nav links and ensure observers. */
+    /**
+     * Find the nav links and ensure observers.
+     *
+     * @method
+     */
     #findNavbar = () => {
       const me = this.#findNavbar.name;
       this.logger.entered(me, this.#navbar?.isConnected);
@@ -4525,7 +4577,11 @@
       this.logger.leaving(me, this.#navbar);
     }
 
-    /** Reset observers for the navbar. */
+    /**
+     * Reset observers for the navbar.
+     *
+     * @method
+     */
     #observeNavbar = () => {
       const me = this.#observeNavbar.name;
       this.logger.entered(me, this.#navbar);
@@ -4551,6 +4607,8 @@
 
     /**
      * Recheck various items after a change to the navbar.
+     *
+     * @method
      * @fires 'resize'
      */
     #navbarHandler = () => {
@@ -4568,6 +4626,7 @@
     }
 
     /**
+     * @method
      * @returns {TabbedUI~TabDefinition} Keyboard shortcuts listing.
      */
     #shortcutsTab = () => {
@@ -4618,6 +4677,7 @@
     /**
      * Post problems about stale issues.
      *
+     * @method
      * @param {Set<string>} unknown - Issue ids referenced in news items but
      * not in {@link globalKnownIssues}.
      * @param {Set<string>} unused - Stale {@link globalKnownIssues} ids.
@@ -4643,7 +4703,10 @@
       }
     }
 
-    /** @returns {obj} dates and known issues. */
+    /**
+     * @method
+     * @returns {obj} dates and known issues.
+     */
     #preprocessKnownIssues = () => {
       const thirtyDays = 30 * 24 * 60 * 60 * 1000;  // eslint-disable-line no-magic-numbers
       const oldestAllowedDate = litOptions.enableAlertOldNews
@@ -4687,7 +4750,11 @@
       };
     }
 
-    /** Send `change` event to the errors text area. */
+    /**
+     * Send `change` event to the errors text area.
+     *
+     * @method
+     */
     #refreshErrors = () => {
       const evt = new Event('change');
       this.#errorText.dispatchEvent(evt);
