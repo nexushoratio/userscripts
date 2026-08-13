@@ -17,7 +17,7 @@
 // @require     https://update.greasyfork.org/scripts/478349/1884974/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1885317/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1890585/NH_widget.js
-// @require     https://update.greasyfork.org/scripts/570146/1889447/NH_spa.js
+// @require     https://update.greasyfork.org/scripts/570146/1900843/NH_spa.js
 // @grant       GM.addValueChangeListener
 // @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
@@ -44,7 +44,7 @@
     {name: 'userscript', minVersion: 18},
     {name: 'web', minVersion: 16},
     {name: 'widget', minVersion: 52},
-    {name: 'spa', minVersion: 14},
+    {name: 'spa', minVersion: 15},
   ]);
 
   const APP_LONG = GM.info.script.name;
@@ -8904,6 +8904,7 @@
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/in/.*', 'u'),
         readySelector: '[data-sdui-component]',
+        readySelectorTimeout: 5000,
       });
 
       this.addService(LinkedInStyleService)
