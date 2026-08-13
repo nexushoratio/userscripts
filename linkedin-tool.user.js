@@ -4854,7 +4854,7 @@
     }
 
     /**
-     * Equivalent of this.constructor.
+     * Alias for `this.constructor`.
      *
      * @type {Page}
      */
@@ -6427,6 +6427,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -6457,6 +6458,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -6788,6 +6790,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -7063,6 +7066,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -7093,7 +7097,7 @@
     }
 
     /**
-     * Complicated because there are so many variations.
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -7118,6 +7122,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -7141,7 +7146,6 @@
       return content;
     }
 
-    /** Reset the jobs scroller. */
     #resetJobs = () => {
       const me = this.#resetJobs.name;
       this.logger.entered(me, this.#jobScroller);
@@ -7158,6 +7162,8 @@
     /**
      * Reselects current section, triggering some actions as initial
      * selection.
+     *
+     * @method
      */
     #returnToSection = () => {
       this.sections.item = this.sections.item;
@@ -7170,6 +7176,8 @@
     /**
      * Updates {@link Jobs} specific watcher data and removes the jobs
      * {@link Scroller}.
+     *
+     * @method
      */
     #onSectionChange = () => {
       const me = this.#onSectionChange.name;
@@ -7183,6 +7191,8 @@
 
     /**
      * Recover scroll position after elements were recreated.
+     *
+     * @method
      * @param {number} topScroll - Where to scroll to.
      */
     #resetScroll = (topScroll) => {
