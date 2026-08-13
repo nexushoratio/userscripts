@@ -217,6 +217,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-13',
+      issues: ['302'],
+      subject: 'Update to latest `lib/spa` to use the new' +
+        ' `readySelectorTimeout`',
+    },
+    {
       date: '2026-08-12',
       issues: ['302'],
       subject: 'Wait for the *Topcard* section to show up',
@@ -639,17 +645,6 @@
       date: '2026-07-15',
       issues: ['302'],
       subject: 'Exclude the premium footer from the *Topcard* section',
-    },
-    {
-      date: '2026-07-14',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-14',
-      issues: ['302'],
-      subject: 'Treat `<a href="#">` as an `ANCHOR_OVERLAY`',
     },
   ];
 
