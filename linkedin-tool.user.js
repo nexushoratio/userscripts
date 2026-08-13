@@ -6486,7 +6486,10 @@
       return content;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -6768,7 +6771,10 @@
         .on('out-of-range', this.spa.details.focusOnAside);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -7041,7 +7047,10 @@
         .on('out-of-range', this.#returnToSection);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -7559,7 +7568,10 @@
       return properties;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #detailsFinder = () => {
       const me = this.#detailsFinder.name;
       this.logger.entered(me);
@@ -7978,7 +7990,10 @@
         .on('out-of-range', this.#returnToCard);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -8777,7 +8792,10 @@
         .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10051,7 +10069,10 @@
       return [mode, uid];
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10410,7 +10431,10 @@
         .on('out-of-range', this.#returnToCollection);
     }
 
-    /** @returns {Element?} Element to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
@@ -10717,7 +10741,10 @@
       this.#lastScroller = this.#resultScroller;
     }
 
-    /** @returns {NH.web.StyleService~ElementMap} Elements to monitor. */
+    /**
+     * @method
+     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
