@@ -7527,6 +7527,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -7590,6 +7591,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -7645,6 +7647,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -7669,6 +7672,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8007,6 +8011,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8041,6 +8046,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8380,6 +8386,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8402,6 +8409,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8809,6 +8817,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -8847,6 +8856,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -8877,6 +8887,7 @@
     /**
      * Given a notification card, find the correct item inside of it to click.
      *
+     * @method
      * @implements {Scroller~ElementFinder}
      * @param {HTMLElement} element - Element to examine.
      * @returns {HTMLElement} Found element.
@@ -10071,6 +10082,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -10134,6 +10146,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -10436,6 +10449,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -10476,6 +10490,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -10504,6 +10519,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -10747,6 +10763,7 @@
     }
 
     /**
+     * @method
      * @implements {NH.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
@@ -10777,6 +10794,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
@@ -10793,6 +10811,7 @@
     }
 
     /**
+     * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
      * @param {Element} element - Element to examine.
