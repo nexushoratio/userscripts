@@ -9498,20 +9498,6 @@
           this.UidMode.FOOTER,
         ],
       });
-      // TODO(#302): This looks to have renamed to SalesInsightsOrHighlights.
-      this.#entriesScrollerConfigs.set('Highlights', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorHighlights,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.COMPANY,
-          this.UidMode.ANCHOR_PROFILE,
-          this.UidMode.ARIA_LABEL,
-          this.UidMode.FOOTER,
-        ],
-      });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
