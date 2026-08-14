@@ -10151,8 +10151,7 @@
      */
     #entriesUidShim = (scroller, element) => {
       const [mode, content] = this.#entriesCurrentUid(scroller, element);
-      // TODO(#302): Transitioning from String to Symbol.
-      return [mode.description ?? mode, content].join('-');
+      return [mode.description, content].join('-');
     }
 
     #resetEntries = () => {
