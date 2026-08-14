@@ -217,6 +217,16 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-14',
+      issues: ['302'],
+      subject: 'Retire transition support shim',
+    },
+    {
+      date: '2026-08-14',
+      issues: ['302'],
+      subject: 'Retire old name for the *Highlights* section',
+    },
+    {
       date: '2026-08-13',
       issues: ['302'],
       subject: 'Update to latest `lib/spa` to use the new' +
@@ -625,26 +635,6 @@
       date: '2026-07-16',
       issues: ['302'],
       subject: 'Add a `UidMode` for the *Suggested for you* section',
-    },
-    {
-      date: '2026-07-15',
-      issues: ['370'],
-      subject: 'Update the *Style-2* navbar hint',
-    },
-    {
-      date: '2026-07-15',
-      issues: ['352'],
-      subject: 'Turn a static block into a static function',
-    },
-    {
-      date: '2026-07-15',
-      issues: ['302'],
-      subject: 'Support a common external link seen in the *Topcard* section',
-    },
-    {
-      date: '2026-07-15',
-      issues: ['302'],
-      subject: 'Exclude the premium footer from the *Topcard* section',
     },
   ];
 
