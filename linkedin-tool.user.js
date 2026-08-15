@@ -213,9 +213,19 @@
       '`Layout`: Replace `Panel` *enum* with something a bit more standard',
       '2026-08-01'
     ),
+    ish(
+      '379',
+      '**Profile**: Multiple failures when navigating between profiles',
+      '2026-08-15'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-15',
+      issues: ['379'],
+      subject: 'Update how section UID prefix is obtained',
+    },
     {
       date: '2026-08-14',
       issues: ['302'],
@@ -619,22 +629,6 @@
       date: '2026-07-17',
       issues: ['302'],
       subject: 'Treat `/in/opportunities/` as an `ANCHOR_OVERLAY`',
-    },
-    {
-      date: '2026-07-16',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-16',
-      issues: ['302'],
-      subject: 'Create `MULTI_IMG` for elements of mostly `img`s',
-    },
-    {
-      date: '2026-07-16',
-      issues: ['302'],
-      subject: 'Add a `UidMode` for the *Suggested for you* section',
     },
   ];
 
