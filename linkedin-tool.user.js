@@ -8436,6 +8436,7 @@
      */
 
     /**
+     * @method
      * @param {HTMLElement} element - Element to examine.
      * @returns {Point} Center of the element.
      */
@@ -8497,6 +8498,7 @@
     }
 
     /**
+     * @method
      * @param {Point} one - First point.
      * @param {Point} two - Second point.
      * @returns {number} Distance between the points in pixels.
@@ -9055,6 +9057,7 @@
     /**
      * Create a CSS child combinator selector of DIVs.
      *
+     * @method
      * @param {number} n - The number of DIVs in the selector.
      * @returns {string} N divs like "div > div > ... > div".
      */
@@ -9384,6 +9387,7 @@
      * @example
      * [x]:not([[x]="foo"]):not([x]="bar")
      *
+     * @method
      * @param {string} attr - Attribute.
      * @param {string[]} ignore - Values to ignore.
      * @returns {string} CSS selector.
@@ -9792,6 +9796,7 @@
     /**
      * Compute all UIDs for the requested modes.
      *
+     * @method
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
      * @param {UidMode[]} modes - Computation modes to consider.
@@ -9994,6 +9999,7 @@
     /**
      * Suggest UID sources.
      *
+     * @method
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
      */
@@ -10034,6 +10040,7 @@
     /**
      * Return the first UID computed from supported modes.
      *
+     * @method
      * @param {Scroller} scroller - Scroller instance.
      * @param {Element} element - Element to examine.
      * @returns {{0: UidMode, 1: string}} How the UID was computed, and
