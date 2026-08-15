@@ -293,7 +293,6 @@ DummyService
 dumpWatched
 edc
 editItem
-editTypes
 EducationTopLevelSection
 ElementAdapter
 ElementAdapterTestCase
@@ -855,6 +854,7 @@ onPostChange
 onResultChange
 onSectionChange
 onShow
+onSpaActivated
 onurlchange
 onUrlChange
 onVerify
@@ -1018,7 +1018,6 @@ scriptMetaStr
 scrollBy
 scroller
 scrollerClassName
-ScrollerConfig
 scrollerElementsProcessor
 scrollerFinder
 scrollerId
@@ -1043,6 +1042,7 @@ sectionsContainer
 sectionScroller
 sectionsPartialOrder
 sectionUidPrefix
+sectionUidPrefixes
 seeMore
 selectorArray
 SelectorsWithoutBase
