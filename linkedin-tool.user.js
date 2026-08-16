@@ -9762,7 +9762,9 @@
     }
 
     #initEntryScroller = () => {
-      this.logger.log('current section', this.sections.itemUid);
+      const me = this.#initEntryScroller.name;
+      this.logger.entered(me, 'current section', this.sections.itemUid);
+
       const config = this.#entriesScrollerConfigs.get(
         this.sections.itemUid
       ) ?? this.#entriesScrollerConfigs.get(
@@ -9792,6 +9794,8 @@
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
         .on('out-of-range', this.#returnToSection);
+
+      this.logger.leaving(me);
     }
 
     /**
