@@ -309,6 +309,7 @@ enableIssue
 enableWatchPage
 endsWith
 engageIndividual
+ensureConnections
 ensureMenuStyle
 EnsureTestCase
 ent
@@ -1041,7 +1042,6 @@ SearchTyahInputRef
 sectionsContainer
 sectionScroller
 sectionsPartialOrder
-sectionUidPrefix
 sectionUidPrefixes
 seeMore
 selectorArray
