@@ -222,6 +222,21 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-16',
+      issues: ['379'],
+      subject: 'Trigger the `StyleService` after the toolbar transitions',
+    },
+    {
+      date: '2026-08-16',
+      issues: ['379'],
+      subject: 'Move some logging around',
+    },
+    {
+      date: '2026-08-16',
+      issues: [''],
+      subject: 'Another **Profile** partial ordering pair',
+    },
+    {
       date: '2026-08-15',
       issues: ['379'],
       subject: 'Update how section UID prefix is obtained',
@@ -603,32 +618,6 @@
       date: '2026-07-18',
       issues: ['302'],
       subject: 'Add footer support for the *Highlights* section',
-    },
-    {
-      date: '2026-07-17',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-17',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-17',
-      issues: ['302'],
-      subject: 'Updated `UidMode`s for the *Topcard* section',
-    },
-    {
-      date: '2026-07-17',
-      issues: ['302'],
-      subject: 'Wrap a particular `new URL(...)` call with a `try`/`except`',
-    },
-    {
-      date: '2026-07-17',
-      issues: ['302'],
-      subject: 'Treat `/in/opportunities/` as an `ANCHOR_OVERLAY`',
     },
   ];
 
