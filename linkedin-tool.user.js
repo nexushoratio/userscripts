@@ -9367,6 +9367,7 @@
       'Topcard, SalesInsightsOrHighlights',
       'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
+      'VolunteerExperienceTopLevel, HonorsTopLevel',
       'VolunteerExperienceTopLevel, Interests',
       'VolunteerExperienceTopLevel, PublicationTopLevelSection',
       'VolunteerExperienceTopLevel, RecommendationsTopLevel',
