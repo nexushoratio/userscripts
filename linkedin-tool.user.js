@@ -9421,6 +9421,7 @@
         className: this.scrollerClassName,
         finder: this.#scrollerFinder,
         elementsProcessor: this.elementsHeightProcessor,
+        events: ['transitionend'],
       };
       this.addService(NH.web.StyleService, styleConfig);
     }
