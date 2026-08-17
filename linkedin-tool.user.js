@@ -15,7 +15,7 @@
 // @require     https://update.greasyfork.org/scripts/478188/1884975/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1885316/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1884974/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1885317/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1904784/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1890585/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1900843/NH_spa.js
 // @grant       GM.addValueChangeListener
@@ -42,7 +42,7 @@
     {name: 'xunit', minVersion: 63},
     {name: 'base', minVersion: 74},
     {name: 'userscript', minVersion: 18},
-    {name: 'web', minVersion: 16},
+    {name: 'web', minVersion: 17},
     {name: 'widget', minVersion: 52},
     {name: 'spa', minVersion: 15},
   ]);
@@ -10079,12 +10079,19 @@
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
-    #scrollerFinder = () => {
+    #scrollerFinder = async () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
 
+      const timeout = 4000;
       const elements = new Map();
-      elements.set('toolbar', document.querySelector('[role="toolbar"]'));
+      try {
+        elements.set(
+          'toolbar', await NH.web.waitForSelector('[role="toolbar"]', timeout)
+        );
+      } catch (e) {
+        NH.base.issues.post(`${this.name}.${me}: toolbar`, e);
+      }
 
       this.logger.leaving(me, elements);
       return elements;
