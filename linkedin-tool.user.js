@@ -660,7 +660,7 @@
       this.#log.log(`${this.#name} constructed`);
     }
 
-    /** @type {Element} */
+    /** @type {external:Element} */
     get container() {
       return this.#container;
     }
@@ -669,8 +669,9 @@
      * @typedef {object} TabEntry
      * @memberof module:linkedin-tool~TabbedUI~
      * @property {string} name - Tab name.
-     * @property {Element} label - Tab label, so CSS can be applied.
-     * @property {Element} panel - Tab panel, so content can be updated.
+     * @property {external:Element} label - Tab label, so CSS can be applied.
+     * @property {external:Element} panel - Tab panel, so content can be
+     * updated.
      */
 
     /** @type {Map<string,TabEntry>} */
@@ -857,7 +858,7 @@
      * @method
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @returns {Element} Input portion of the tab.
+     * @returns {external:Element} Input portion of the tab.
      */
     #createInput = (name, idName) => {
       const me = 'createInput';
@@ -877,9 +878,10 @@
     /**
      * @method
      * @param {string} name - Human readable name for tab.
-     * @param {Element} input - Input element associated with this label.
+     * @param {external:Element} input - Input element associated with this
+     * label.
      * @param {string} idName - Normalized to be CSS class friendly.
-     * @returns {Element} Label portion of the tab.
+     * @returns {external:Element} Label portion of the tab.
      */
     #createLabel = (name, input, idName) => {
       const me = 'createLabel';
@@ -900,7 +902,7 @@
      * @param {string} name - Human readable name for tab.
      * @param {string} idName - Normalized to be CSS class friendly.
      * @param {TabContent} content - Initial content.
-     * @returns {Element} Panel portion of the tab.
+     * @returns {external:Element} Panel portion of the tab.
      */
     #createPanel = (name, idName, content) => {
       const me = 'createPanel';
@@ -925,7 +927,7 @@
      * will resend an 'expose' event to the associated panel.
      *
      * @method
-     * @param {Element} panel - The panel associated with this tab.
+     * @param {external:Element} panel - The panel associated with this tab.
      * @param {Event} evt - The original change event.
      * @fires Event#expose
      */
@@ -998,7 +1000,7 @@
      * @callback uidCallback
      * @memberof module:linkedin-tool~Scroller~
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
 
@@ -1019,8 +1021,8 @@
      * Useful for cases where CSS selectors are not sufficient.
      * @callback ElementFinder
      * @memberof module:linkedin-tool~Scroller~
-     * @param {HTMLElement} element - Starting point.
-     * @returns {HTMLElement} Found element.
+     * @param {external:Element} element - Starting point.
+     * @returns {external:Element} Found element.
      */
 
     /**
@@ -1039,11 +1041,6 @@
      */
 
     /**
-     * @external MutationObserver
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver
-     */
-
-    /**
      * There are two ways to describe what elements go into a Scroller:
      * 1. An explicit container (base) element and selectors stemming from it.
      * 2. An array of ContainerItemsSelector that can allow for multiple
@@ -1053,8 +1050,8 @@
      * @typedef {object} What
      * @memberof module:linkedin-tool~Scroller~
      * @property {string} name - Name for this Scroller, used for logging.
-     * @property {Element} base - The container to use as a base for selecting
-     * elements.
+     * @property {external:Element} base - The container to use as a base for
+     * selecting elements.
      * @property {string[]} selectors - Array of CSS selectors to find
      * elements to collect, calling base.querySelectorAll().
      * @property {ContainerItemsSelector[]} containerItems - Array of
@@ -1139,7 +1136,7 @@
       return this.#dispatcher;
     }
 
-    /** @type {Element} */
+    /** @type {external:Element} */
     get item() {
       const me = 'get item';
       this.logger.entered(me);
@@ -1202,7 +1199,7 @@
      *
      * Like HTMLElement.innerText, but cleaner and mostly deduped.
      *
-     * @param {HTMLElement} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} The normalized text.
      */
     defaultUid(element) {
@@ -1301,7 +1298,7 @@
 
     /**
      * Move to a specific item if possible.
-     * @param {Element} item - Item to go to.
+     * @param {external:Element} item - Item to go to.
      */
     goto(item) {
       this.item = item;
@@ -1420,7 +1417,7 @@
      * is being loaded lazily and is not ready yet.
      *
      * @method
-     * @param {Element} item - The item to inspect.
+     * @param {external:Element} item - The item to inspect.
      * @returns {boolean} Whether the item has viewable content.
      */
     static #isItemViewable = (item) => {
@@ -1567,7 +1564,7 @@
      * The usual element.clientHeight is too unpredictable.
      *
      * @method
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {number} The height of the element.
      */
     #realHeight = (element) => {
@@ -1624,7 +1621,7 @@
      * have changed out from under us), it too can update information.
      *
      * @method
-     * @param {Element} val - Element to make current.
+     * @param {external:Element} val - Element to make current.
      * @fires 'change'
      */
     #bottomHalf = (val) => {
@@ -1718,7 +1715,7 @@
      * uidCallback function for this.
      *
      * @method
-     * @param {Element} element - Element to identify.
+     * @param {external:Element} element - Element to identify.
      * @returns {string} Computed uid for element.
      */
     #uid = (element) => {
@@ -1742,7 +1739,7 @@
      * Array.find.
      *
      * @method
-     * @param {Element} element - Element to check.
+     * @param {external:Element} element - Element to check.
      * @returns {boolean} Whether or not element is the current one.
      */
     #matchItem = (element) => {
@@ -1759,7 +1756,7 @@
      * If necessary, scroll the bottom into view, then same for top.
      *
      * @method
-     * @param {HTMLElement} item - The item to scroll into view.
+     * @param {external:Element} item - The item to scroll into view.
      */
     #gentlyScrollIntoView = (item) => {
       const me = this.#gentlyScrollIntoView.name;
@@ -1868,7 +1865,7 @@
        * The current item may not yet be viewable after a reload, but give it
        * a chance.
        *
-       * @param {HTMLElement} item - Item to check.
+       * @param {external:Element} item - Item to check.
        * @fires 'out-of-range'
        * @returns {boolean} Whether to keep or not.
        */
@@ -2527,7 +2524,7 @@
     /**
      * This becomes the current section.
      * @param {string} section - Name of the new section.
-     * @returns {Element} The new section.
+     * @returns {external:Element} The new section.
      */
     addSection(section) {
       this.#currentSection = document.createElement('tbody');
@@ -3118,7 +3115,7 @@
 
     /**
      * @implements {Scroller~uidCallback}
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     static ckeyIdentifier(element) {
@@ -3149,7 +3146,7 @@
     /**
      * Combine text from child headers.
      *
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @param {number} level - Header level to use.
      * @returns {string} Combined header text.
      */
@@ -3164,7 +3161,7 @@
     /**
      * Combine text from child headers.
      *
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} Combined header text.
      */
     static h1(element) {
@@ -3175,7 +3172,7 @@
     /**
      * Combine text from child headers.
      *
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} Combined header text.
      */
     static h2(element) {
@@ -3221,7 +3218,7 @@
       return this.#licenseData;
     }
 
-    /** @type {HTMLElement} */
+    /** @type {external:Element} */
     get navbar() {
       return this.#navbar;
     }
@@ -3528,7 +3525,8 @@
 
     /**
      * @method
-     * @param {HTMLElement} element - Starting element to avoid another query.
+     * @param {external:Element} element - Starting element to avoid another
+     * query.
      * @returns {LinkedIn.Style} Guessed style.
      */
     #guessPageStyle = (element) => {
@@ -3719,7 +3717,7 @@
     /**
      * @method
      * @param {string} dismissId - Element #id to give dismiss button.
-     * @returns {Element} For the info widget name header.
+     * @returns {external:Element} For the info widget name header.
      */
     #infoName = (dismissId) => {
       const nameElement = document.createElement('div');
@@ -3733,7 +3731,8 @@
 
     /**
      * @method
-     * @returns {Element} Instructions for navigating the info widget.
+     * @returns {external:Element} Instructions for navigating the info
+     * widget.
      */
     #infoInstructions = () => {
       const instructions = document.createElement('div');
@@ -4032,8 +4031,8 @@
      * Determine the style property differences between two elements.
      *
      * @method
-     * @param {Element} el1 - The first element.
-     * @param {Element} el2 - The second element.
+     * @param {external:Element} el1 - The first element.
+     * @param {external:Element} el2 - The second element.
      * @param {Set<string>} ignore - A collection of style properties to
      * ignore.
      * @returns {string[]} Style properties present in the first, but not
@@ -4115,7 +4114,7 @@
      * Tweak the internals of whatever random element we cloned.
      *
      * @method
-     * @param {HTMLElement} button - The newly created button.
+     * @param {external:Element} button - The newly created button.
      */
     #finishButtonStyle1 = (button) => {
       const title = button.querySelector('.global-nav__primary-link-text');
@@ -4128,7 +4127,7 @@
 
     /**
      * @method
-     * @param {Element} element - Element that will hold the badges.
+     * @param {external:Element} element - Element that will hold the badges.
      */
     #assembleBadgesStyle1 = (element) => {
       this.#badgeErrorStyle1 = element.querySelector(
@@ -4248,7 +4247,7 @@
      * Tweak the internals of whatever random element we cloned.
      *
      * @method
-     * @param {HTMLElement} button - The newly created button.
+     * @param {external:Element} button - The newly created button.
      */
     #finishButtonStyle2 = (button) => {
       // Grab the common obfuscated class names
@@ -4268,7 +4267,7 @@
 
     /**
      * @method
-     * @param {Element} element - Element that will hold the badges.
+     * @param {external:Element} element - Element that will hold the badges.
      */
     #assembleBadgesStyle2 = (element) => {
       this.#badgeErrorStyle2 = document.createElement('span');
@@ -4320,7 +4319,7 @@
      * This supports both Styles 1 and 2.
      *
      * @method
-     * @param {HTMLElement} menuItem - The menu item to connect.
+     * @param {external:Element} menuItem - The menu item to connect.
      * @param {string} selector - The CSS selector for "Me".
      */
     #connectMenuItem = (menuItem, selector) => {
@@ -4866,7 +4865,7 @@
      * It just sums up height of the matched elements to set a top margin.
      *
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -4904,7 +4903,10 @@
 
     static CtorPage = class extends Page {
 
-      /** @alias CtorPage */
+      /**
+       * @alias CtorPage
+       * @ignore
+       */
       constructor() {
         super();
 
@@ -5321,7 +5323,8 @@
     }
 
     /**
-     * TODO(#295): This is a hack.  Find a more principled solution.
+     * @todo [(#295)](https://github.com/nexushoratio/userscripts/issues/295)
+     * This is a hack.  Find a more principled solution.
      *
      * @method
      */
@@ -5726,7 +5729,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -5747,7 +5751,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniquePostIdentifier = (scroller, element) => {
@@ -5776,7 +5780,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueCommentIdentifier = (scroller, element) => {
@@ -5803,7 +5807,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Header container for current post.
+     * @returns {external:Element} Header container for current post.
      */
     #getPostHeader = () => {
       const me = this.#getPostHeader.name;
@@ -5822,7 +5826,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Header container for current comment.
+     * @returns {external:Element} Header container for current comment.
      */
     #getCommentHeader = () => {
       const me = this.#getCommentHeader.name;
@@ -5837,7 +5841,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Header container for current item.
+     * @returns {external:Element} Header container for current item.
      */
     #getItemHeader = () => {
       const me = this.#getItemHeader.name;
@@ -5851,7 +5855,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Footer container for current post.
+     * @returns {external:Element} Footer container for current post.
      */
     #getPostFooter = () => {
       const me = this.#getPostFooter.name;
@@ -5866,7 +5870,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Footer container for current comment.
+     * @returns {external:Element} Footer container for current comment.
      */
     #getCommentFooter = () => {
       const me = this.#getCommentFooter.name;
@@ -5882,7 +5886,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} Footer container for current item.
+     * @returns {external:Element} Footer container for current item.
      */
     #getItemFooter = () => {
       const me = this.#getItemFooter.name;
@@ -5896,7 +5900,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} StatusBar container for current post.
+     * @returns {external:Element} StatusBar container for current post.
      */
     #getPostStatusBar = () => {
       const me = this.#getPostStatusBar.name;
@@ -5911,7 +5915,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} StatusBar container for current comment.
+     * @returns {external:Element} StatusBar container for current comment.
      */
     #getCommentStatusBar = () => {
       const me = this.#getCommentStatusBar.name;
@@ -5927,7 +5931,7 @@
 
     /**
      * @method
-     * @returns {HTMLElement} StatusBar container for current item.
+     * @returns {external:Element} StatusBar container for current item.
      */
     #getItemStatusBar = () => {
       const me = this.#getItemStatusBar.name;
@@ -5945,7 +5949,7 @@
      * Comments and ads require invoking a popup menu (portal).
      *
      * @method
-     * @returns {HTMLElement} The element to click.
+     * @returns {external:Element} The element to click.
      */
     #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function, max-statements
       const me = this.#getDismissElement.name;
@@ -6006,13 +6010,14 @@
     /**
      * Wait for matching selector to disappear.
      *
-     * This could probably be rolled into {@link NH.web.waitForSelector}.
+     * This could probably be rolled into {@link
+     * NexusHoratio.web.waitForSelector}.
      *
      * @method
      * @param {string} selector - CSS selector.
      * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
-     * @returns {Promise<NH.web.Continuation.results>} Basically, something
-     * to await on.
+     * @returns {Promise<NexusHoratio.web~Results>} Basically, something to
+     * await on.
      */
     #waitForSelectorToBeGone = (selector, timeout = 0) => {
 
@@ -6051,8 +6056,9 @@
       /**
        * Wait for the post to be reloaded.
        *
-       * @implements {NH.web.Monitor}
-       * @returns {NH.web.Continuation} Indicate whether done monitoring.
+       * @implements {NexusHoratio.web.Monitor}
+       * @returns {NexusHoratio.web.Continuation} Indicate whether done
+       * monitoring.
        */
       const monitor = () => {
         this.logger.log('monitor item classes:', this.posts.item.classList);
@@ -6403,7 +6409,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueCollectionIdentifier = (scroller, element) => {
@@ -6434,7 +6440,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueIndividualsIdentifier = (scroller, element) => {
@@ -6463,7 +6469,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -6748,7 +6755,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -6766,7 +6774,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueInvitationIdentifier = (scroller, element) => {
@@ -7025,7 +7033,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -7040,7 +7049,7 @@
 
     /**
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -7073,7 +7082,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueJobIdentifier = (scroller, element) => {
@@ -7098,7 +7107,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueSectionIdentifier = (scroller, element) => {
@@ -7511,7 +7520,7 @@
 
     /**
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -7554,7 +7563,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #detailsFinder = () => {
       const me = this.#detailsFinder.name;
@@ -7577,7 +7587,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueDetailsIdentifier = (scroller, element) => {
@@ -7633,7 +7643,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueJobIdentifier = (scroller, element) => {
@@ -7658,7 +7668,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniquePaginationIdentifier = (scroller, element) => {
@@ -7979,7 +7989,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -7997,7 +8008,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueCardIdentifier = (scroller, element) => {
@@ -8032,7 +8043,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueEntryIdentifier = (scroller, element) => {
@@ -8372,7 +8383,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueConvoCardsIdentifier = (scroller, element) => {
@@ -8395,7 +8406,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueMessageIdentifier = (scroller, element) => {
@@ -8421,12 +8432,12 @@
      * @memberof module:linkedin-tool~JobsView~
      * @property {number} x - Horizontal location in pixels.
      * @property {number} y - Vertical location in pixels.
-     * @property {HTMLElement} element - Associated element.
+     * @property {external:Element} element - Associated element.
      */
 
     /**
      * @method
-     * @param {HTMLElement} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {Point} Center of the element.
      */
     #centerOfElement = (element) => {
@@ -8787,7 +8798,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -8803,7 +8815,7 @@
 
     /**
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -8844,7 +8856,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueNotificationIdentifier = (scroller, element) => {
@@ -8874,8 +8886,8 @@
      *
      * @method
      * @implements {Scroller~ElementFinder}
-     * @param {HTMLElement} element - Element to examine.
-     * @returns {HTMLElement} Found element.
+     * @param {external:Element} element - Element to examine.
+     * @returns {external:Element} Found element.
      */
     #cardItemToClick = (element) => {
       let found = null;
@@ -9793,7 +9805,7 @@
      *
      * @method
      * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @param {UidMode[]} modes - Computation modes to consider.
      * @returns {Map<UidMode, string>} All computed values.
      */
@@ -9996,7 +10008,7 @@
      *
      * @method
      * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      */
     #entriesSuggestUids = (scroller, element) => {
       const me = this.#entriesSuggestUids.name;
@@ -10037,7 +10049,7 @@
      *
      * @method
      * @param {Scroller} scroller - Scroller instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {{0: UidMode, 1: string}} How the UID was computed, and
      * value.
      */
@@ -10064,7 +10076,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -10081,7 +10094,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueSectionIdentifier = (scroller, element) => {  // eslint-disable-line max-statements, max-lines-per-function
@@ -10146,7 +10159,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #entriesUidShim = (scroller, element) => {
@@ -10243,7 +10256,8 @@
 
   /**
    * Class for handling the Events page.
-   * TODO(#236): WIP.
+   * @todo [(#236)](https://github.com/nexushoratio/userscripts/issues/236)
+   * WIP:
    * - The `artdeco-card` style include `border: none !important` which
    *   overrides our normal border stuff.
    *
@@ -10438,7 +10452,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -10457,7 +10472,7 @@
 
     /**
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -10500,7 +10515,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueCollectionIdentifier = (scroller, element) => {
@@ -10529,7 +10544,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueEventIdentifier = (scroller, element) => {
@@ -10751,7 +10766,8 @@
 
     /**
      * @method
-     * @returns {NH.web.StyleService~ElementMap} Elements to monitor.
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
      */
     #scrollerFinder = () => {
       const me = this.#scrollerFinder.name;
@@ -10771,7 +10787,7 @@
 
     /**
      * @method
-     * @implements {NH.web.StyleService~ElementsProcessor}
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
      * @param {ElementMap} elements - Elements to examine.
      * @returns {StyleProperties} Style properties for to contribute.
      */
@@ -10804,7 +10820,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniquePaginationIdentifier = (scroller, element) => {
@@ -10821,7 +10837,7 @@
      * @method
      * @implements {Scroller~uidCallback}
      * @param {Scroller} scroller - The calling {@link Scroller} instance.
-     * @param {Element} element - Element to examine.
+     * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
     #uniqueResultIdentifier = (scroller, element) => {
