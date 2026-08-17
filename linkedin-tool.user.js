@@ -222,6 +222,12 @@
 
   const globalNewsContent = [
     {
+      date: '2026-08-17',
+      issues: ['379'],
+      subject: 'Update to latest `lib/web` and make `#scrollerFinder()`' +
+        ' async',
+    },
+    {
       date: '2026-08-16',
       issues: ['379'],
       subject: 'Trigger the `StyleService` after the toolbar transitions',
@@ -607,17 +613,6 @@
       date: '2026-07-19',
       issues: ['302'],
       subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-18',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-18',
-      issues: ['302'],
-      subject: 'Add footer support for the *Highlights* section',
     },
   ];
 
