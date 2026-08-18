@@ -153,7 +153,7 @@
       return this.#title;
     }
 
-    /** @returns {string} Human readable information. */
+    /** @returns {string} A string representing this object. */
     toString() {
       return `${this.issueId}: ${this.title}`;
     }
@@ -1028,9 +1028,9 @@
      * @typedef {object} ClickConfig
      * @memberof module:linkedin-tool~Scroller~
      * @property {string[]} [selectorArray] - CSS selectors to use to find an
-     * element, passed to {@link NH.web.clickElement}.
+     * element, passed to {@link NexusHoratio.web.clickElement}.
      * @property {boolean} [matchSelf=false] - If a CSS selector would match
-     * base, then use it, {@link NH.web.clickElement}.
+     * base, then use it, {@link NexusHoratio.web.clickElement}.
      * @property {ElementFinder} [finder] - Function to find the appropriate
      * clickable element, when a selectorArray is too simplistic.
      */
@@ -1126,7 +1126,7 @@
       }
     }
 
-    /** @type {NH.base.Dispatcher} */
+    /** @type {NexusHoratio.base.Dispatcher} */
     get dispatcher() {
       return this.#dispatcher;
     }
@@ -1179,7 +1179,7 @@
       return this.#currentItemId;
     }
 
-    /** @type {NH.base.Logger} */
+    /** @type {NexusHoratio.base.Logger} */
     get logger() {
       return this.#logger;
     }
@@ -1464,7 +1464,7 @@
      * not involved.
      *
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} type - Event type.
      * @param {MutationRecords[]} records - Standard MutationRecords.
      */
@@ -2461,7 +2461,7 @@
   /* eslint-enable */
 
   /**
-   * Manage a {Scroller} as a {NH.base.Service}.
+   * Manage a {Scroller} as a {NexusHoratio.base.Service}.
    *
    * @extends NexusHoratio.base.Service
    */
@@ -2596,8 +2596,9 @@
      * @param {string} seq - Key sequence to activate this function.
      * @param {string} desc - Human readable documentation about this
      * function.
-     * @param {NH.web.SimpleFunction} func - Function to wrap, usually in the
-     * form of an arrow function.  Keep JS `this` magic in mind!
+     * @param {NexusHoratio.web~SimpleFunction} func - Function to wrap,
+     * usually in the form of an arrow function.  Keep JS `this` magic in
+     * mind!
      */
     constructor(seq, desc, func) {
       super('return this.wrapper();');
@@ -2631,20 +2632,18 @@
    */
 
   /**
-   * Integrates {@link external:VMShortcuts} with {@link Shortcut}s.
+   * Integrates {@link external:VMShortcuts} with {@link
+   * module:linkedin-tool~Shortcut Shortcut}s.
    *
-   * NB {Shortcut} was designed to work natively with {external:VMShortcuts},
-   * but there are no known technical reason preventing other implementations
-   * from being used.  Otherwise a different service would need to be written.
+   * Instances of classes that have {@link module:linkedin-tool~Shortcut
+   * Shortcut} properties on them can be added and removed to each instance of
+   * this service.  The shortcuts will be enabled/disabled as the service is
+   * activated/deactivated.  This can allow each service to have different
+   * groups of shortcuts present.
    *
-   * Instances of classes that have {@link Shortcut} properties on them can be
-   * added and removed to each instance of this service.  The shortcuts will
-   * be enabled/disabled as the service is activated/deactivated.  This can
-   * allow each service to have different groups of shortcuts present.
-   *
-   * All Shortcuts can react to VM.shortcut style conditions.  These
-   * conditions are added once during each call to addService(), and default
-   * to '!inputFocus'.
+   * All Shortcuts tie into {@link external:VMShortcuts}'s conditions.  These
+   * conditions are added once during instantiation and default to
+   * '!inputFocus'.
    *
    * The built in handler for browser `focus` events to update 'inputFocus'
    * can be enabled by executing:
@@ -2676,7 +2675,7 @@
       this.#shortcutOptions.condition = val;
     }
 
-    /** @type {Set<VMKeyboardService>} */
+    /** @type {Set<module:linkedin-tool~VMKeyboardService>} */
     static get services() {
       return new Set(this.#services.values());
     }
@@ -2695,6 +2694,7 @@
 
     /**
      * Set the keyboard context to a specific value.
+     *
      * @param {string} context - The name of the context.
      * @param {object} state - What the value should be.
      */
@@ -2707,17 +2707,20 @@
     }
 
     /**
-     * Parse a {@link Shortcut.seq} and wrap it in HTML.
+     * Parse a {@link module:linkedin-tool~Shortcut#seq Shortcut#seq} and wrap
+     * it in HTML.
+     *
      * @example
      * 'a c-b' ->
      *   '<kbd><kbd>a</kbd> then <kbd>Ctrl</kbd> + <kbd>b</kbd></kbd>'
-     * @param {Shortcut.seq} seq - Keystroke sequence.
+     * @param {module:linkedin-tool~Shortcut#seq} seq - Keystroke sequence.
      * @returns {string} Appropriately wrapped HTML.
      */
     static parseSeq(seq) {
 
       /**
        * Convert a VM.shortcut style into an HTML snippet.
+       *
        * @param {IShortcutKey} key - A particular key press.
        * @returns {string} HTML snippet.
        */
@@ -2759,14 +2762,16 @@
       return this.#active;
     }
 
-    /** @type {Shortcut[]} */
+    /** @type {module:linkedin-tool~Shortcut[]} */
     get shortcuts() {
       return this.#shortcuts;
     }
 
     /**
-     * @param {object} instance - Object with {Shortcut} properties.
-     * @returns {VMKeyboardService} This instance, for chaining.
+     * @param {object} instance - Object with {@link
+     * module:linkedin-tool~Shortcut Shortcut} properties.
+     * @returns {module:linkedin-tool~VMKeyboardService} This instance, for
+     * chaining.
      */
     addInstance(instance) {
       const me = this.addInstance.name;
@@ -2794,8 +2799,10 @@
     }
 
     /**
-     * @param {object} instance - Object with {Shortcut} properties.
-     * @returns {VMKeyboardService} This instance, for chaining.
+     * @param {object} instance - Object with {@link
+     * module:linkedin-tool~Shortcut Shortcut} properties.
+     * @returns {module:linkedin-tool~VMKeyboardService} This instance, for
+     * chaining.
      */
     removeInstance(instance) {
       const me = this.removeInstance.name;
@@ -2983,16 +2990,6 @@
       }
     }
 
-    static Style = {
-      UNKNOWN: Symbol.for('Style-0'),
-      ONE: Symbol.for('Style-1'),
-      TWO: Symbol.for('Style-2'),
-    }
-
-    static {
-      Object.freeze(LinkedIn.Style);
-    }
-
     static errorMarker = '---';
 
     /**
@@ -3177,7 +3174,7 @@
 
     urlChangeMonitorSelector = 'html';
 
-    /** @type {NH.base.Dispatcher} */
+    /** @type {NexusHoratio.base.Dispatcher} */
     get dispatcher2() {
       return this.#dispatcher;
     }
@@ -3190,7 +3187,7 @@
      * @property {string?} content - Fallback content.
      */
 
-    /** @type {LicenseData} */
+    /** @type {module:linkedin-tool~LinkedIn~LicenseData} */
     get licenseData() {
       const me = 'get licenseData';
       this.logger.entered(me);
@@ -3218,7 +3215,7 @@
       return this.#navbar;
     }
 
-    /** @type {LinkedIn.Style} */
+    /** @type {module:linkedin-tool~LinkedIn.Style} */
     get pageStyle() {
       return this.#pageStyle;
     }
@@ -3482,9 +3479,9 @@
 
     /**
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} type - Event type.
-     * @param {NH.spa.Page~Pages} pages - Updated pages information.
+     * @param {NexusHoratio.spa.Page~Pages} pages - Updated pages information.
      */
     #onActivateUnsupportedPageCheck = (type, pages) => {
       const me = this.#onActivateUnsupportedPageCheck.name;
@@ -3522,7 +3519,7 @@
      * @method
      * @param {external:Element} element - Starting element to avoid another
      * query.
-     * @returns {LinkedIn.Style} Guessed style.
+     * @returns {module:linkedin-tool~LinkedIn.Style} Guessed style.
      */
     #guessPageStyle = (element) => {
       const me = this.#guessPageStyle.name;
@@ -3621,7 +3618,8 @@
 
     /**
      * @method
-     * @returns {FetchResult} Summary of the fetch.
+     * @returns {module:linkedin-tool~LinkedIn~FetchResult} Summary of the
+     * fetch.
      */
     #licenseFetch = async () => {
       const url = this.licenseData.url;
@@ -4064,7 +4062,7 @@
      * Update news badge as appropriate.
      *
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {boolean} show - Whether to show the badge or not.
      */
@@ -4085,7 +4083,7 @@
      * Update error badge as appropriate.
      *
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
@@ -4197,7 +4195,7 @@
      * Update news badge as appropriate.
      *
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {boolean} show - Whether to show the badge or not.
      */
@@ -4218,7 +4216,7 @@
      * Updates error badge as appropriate.
      *
      * @method
-     * @implements {NH.base.Dispatcher~Handler}
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
      * @param {string} eventType - Event type.
      * @param {number} count - Number of errors currently logged.
      */
@@ -4762,7 +4760,21 @@
   }
 
   /**
-   * Verify a {Page} implementation and current site style match.
+   * Different implementation styles across LinkedIn over time.
+   * @readonly
+   * @enum {Symbol}
+   */
+  LinkedIn.Style = {
+    UNKNOWN: Symbol.for('Style-0'),
+    ONE: Symbol.for('Style-1'),
+    TWO: Symbol.for('Style-2'),
+  };
+
+  Object.freeze(LinkedIn.Style);
+
+  /**
+   * Verify a {@link NexusHoratio.spa.Page Page} implementation and current
+   * site style match.
    *
    * It will post a bug on mismatches.
    */
@@ -4777,8 +4789,10 @@
     }
 
     /**
-     * @param {...LinkedIn.Style} styles - Styles allowed for the page.
-     * @returns {LinkedInStyleService} This instance, for chaining.
+     * @param {...module:linkedin-tool~LinkedIn.Style} styles - Styles allowed
+     * for the page.
+     * @returns {module:linkedin-tool~LinkedInStyleService} This instance, for
+     * chaining.
      */
     addStyles(...styles) {
       for (const style of styles) {
@@ -4804,13 +4818,16 @@
   }
 
   /**
-   * Adapt the new NH.spa.Page to the older implementation.
+   * LinkedIn Tool enhancements for {@link NexusHoratio.spa.Page spa.Page}.
    *
    * @extends NexusHoratio.spa.Page
    */
   class Page extends NH.spa.Page {
 
-    /** @param {PageDetails} details - Details about the instance. */
+    /**
+     * @param {NexusHoratio.spa.Page~PageDetails} details - Details about the
+     * instance.
+     */
     constructor(details = {}) {
       if (new.target === Page) {
         throw new TypeError('Abstract class; do not instantiate directly.');
@@ -4823,7 +4840,7 @@
     /**
      * Alias for `this.constructor`.
      *
-     * @type {Page}
+     * @type {module:linkedin-tool~Page}
      */
     get ctor() {
       return this.constructor;
@@ -4861,8 +4878,10 @@
      *
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     elementsHeightProcessor = (elements) => {
       const me = this.elementsHeightProcessor.name;
@@ -5092,7 +5111,10 @@
    */
   class Global extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({spa: spa});
 
@@ -5346,7 +5368,10 @@
    */
   class Feed extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -5470,7 +5495,7 @@
 
         const posts = this.posts;
 
-        /** Trigger function for {@link NH.web.otrot2}. */
+        /** Trigger function for {@link NexusHoratio.web.otrot2}. */
         function trigger() {
           // The topButton only shows up when the web app detects new posts.
           const topButton = document.querySelector(
@@ -5481,7 +5506,7 @@
           }
         }
 
-        /** Action function for {@link NH.web.otrot2}. */
+        /** Action function for {@link NexusHoratio.web.otrot2}. */
         function action() {
           if (posts.item) {
             posts.first();
@@ -5593,7 +5618,7 @@
 
         const target = await this.#getDismissElement();
 
-        /** Trigger function for {@link NH.web.otrot}. */
+        /** Trigger function for {@link NexusHoratio.web.otrot}. */
         function trigger() {
           target.click();
         }
@@ -6137,7 +6162,10 @@
    */
   class MyNetwork extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -6523,7 +6551,10 @@
    */
   class InvitationManager extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page.     */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -6804,7 +6835,10 @@
    */
   class Jobs extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -7045,8 +7079,10 @@
     /**
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -7199,7 +7235,10 @@
    */
   class JobsCollections extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -7516,8 +7555,10 @@
     /**
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     #detailsElementsProcessor = (elements) => {
       const me = this.#detailsElementsProcessor.name;
@@ -7759,7 +7800,10 @@
    */
   class JobsView extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -8089,7 +8133,10 @@
    */
   class Messaging extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -8424,7 +8471,7 @@
 
     /**
      * @typedef {object} Point
-     * @memberof module:linkedin-tool~JobsView~
+     * @memberof module:linkedin-tool~Messaging~
      * @property {number} x - Horizontal location in pixels.
      * @property {number} y - Vertical location in pixels.
      * @property {external:Element} element - Associated element.
@@ -8433,7 +8480,7 @@
     /**
      * @method
      * @param {external:Element} element - Element to examine.
-     * @returns {Point} Center of the element.
+     * @returns {module:linkedin-tool~Messaging~Point} Center of the element.
      */
     #centerOfElement = (element) => {
       const TWO = 2;
@@ -8494,8 +8541,8 @@
 
     /**
      * @method
-     * @param {Point} one - First point.
-     * @param {Point} two - Second point.
+     * @param {module:linkedin-tool~Messaging~Point} one - First point.
+     * @param {module:linkedin-tool~Messaging~Point} two - Second point.
      * @returns {number} Distance between the points in pixels.
      */
     #distanceBetweenPoints = (one, two) => {
@@ -8575,7 +8622,10 @@
    */
   class Notifications extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -8654,7 +8704,7 @@
         let first = false;
         const notifications = this.notifications;
 
-        /** Trigger function for {@link NH.web.otrot2}. */
+        /** Trigger function for {@link NexusHoratio.web.otrot2}. */
         function trigger() {
           if (NH.web.clickElement(document,
             ['main button:has(> svg[data-test-icon^="arrow-up"]'])) {
@@ -8665,7 +8715,7 @@
           }
         }
 
-        /** Action function for {@link NH.web.otrot2}. */
+        /** Action function for {@link NexusHoratio.web.otrot2}. */
         const action = () => {
           if (first) {
             if (notifications.item) {
@@ -8722,7 +8772,7 @@
 
         const el = this.notifications.item;
 
-        /** Trigger function for {@link NH.web.otrot}. */
+        /** Trigger function for {@link NexusHoratio.web.otrot}. */
         function trigger() {
           NH.web.clickElement(el, [
             'button:has(svg[data-test-icon^="trash"])',
@@ -8811,8 +8861,10 @@
     /**
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -8913,7 +8965,10 @@
    */
   class Profile extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -8935,7 +8990,12 @@
       this.#initScrollers();
     }
 
-    UidMode = Object.freeze({
+    /**
+     * Different ways of computing UIDs for entry elements.
+     * @readonly
+     * @enum {Symbol}
+     */
+    UidMode = {
       ANCHOR: Symbol.for('anchor'),
       ANCHOR_FEED: Symbol.for('anchorFeed'),
       ANCHOR_GROUPS: Symbol.for('anchorGroups'),
@@ -8959,7 +9019,7 @@
       SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
       TEST_ID: Symbol.for('testId'),
-    })
+    };
 
     /** @type {Scroller} */
     get entries() {
@@ -10267,7 +10327,10 @@
    */
   class Events extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -10475,8 +10538,10 @@
     /**
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -10591,13 +10656,18 @@
 
   /**
    * Class for handling the SearchResultsPeople page.
-   * TODO(#209): WIP.
+   *
+   * @todo [(#209)](https://github.com/nexushoratio/userscripts/issues/209)
+   * WIP
    *
    * @extends module:linkedin-tool~Page
    */
   class SearchResultsPeople extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -10790,8 +10860,10 @@
     /**
      * @method
      * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {ElementMap} elements - Elements to examine.
-     * @returns {StyleProperties} Style properties for to contribute.
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
      */
     #scrollerElementsProcessor = (elements) => {
       const me = this.#scrollerElementsProcessor.name;
@@ -10907,7 +10979,10 @@
    */
   class PagesToDo extends Page {
 
-    /** @param {SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
     constructor(spa) {
       const URLs = [
         // TODO(#253): Support *My Network Events* page
