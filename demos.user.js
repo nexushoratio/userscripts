@@ -45,7 +45,7 @@
   await NH.userscript.setAutoManageLoggerConfigs(true);
 
   /**
-   * @const {NH.base.Logger} logger - Default logger for the module.
+   * @const {NexusHoratio.base.Logger} logger - Default logger for the module.
    */
   const logger = new NH.base.Logger('Testing');
   logger.log('starting');
@@ -61,8 +61,8 @@
   logger.log('finished');
 
   /**
-   * @const {NH.base.Logger} issueLogger - Logger specifically for posted
-   * issues.
+   * @const {NexusHoratio.base.Logger} issueLogger - Logger specifically for
+   * posted issues.
    */
   const issueLogger = new NH.base.Logger('Issues');
 
@@ -145,7 +145,10 @@
   /** Class for the whole test site. */
   class Global extends NH.spa.Page {
 
-    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * Page.
+     */
     constructor(spa) {
       super({spa: spa, ...Global.#details});
       this.dispatcher.on('activate', this.#onActivate);
@@ -166,7 +169,10 @@
   /** Class for just the root page. */
   class Slash extends NH.spa.Page {
 
-    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * Page.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -176,7 +182,6 @@
       this.dispatcher.on('activate', this.#onActivate);
     }
 
-    /** @method */
     #onActivate = () => {
       this.logger.log('world');
     }
@@ -186,7 +191,10 @@
   /** Class for handling the lib directory. */
   class Libby extends NH.spa.Page {
 
-    /** @param {NH.spa.SPA} spa - SPA instance that manages this Page. */
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * Page.
+     */
     constructor(spa) {
       super({
         spa: spa,
@@ -196,7 +204,6 @@
       this.dispatcher.on('activate', this.#onActivate);
     }
 
-    /** @method */
     #onActivate = () => {
       this.logger.log('libby');
     }
