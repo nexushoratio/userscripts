@@ -186,7 +186,7 @@
       '2026-08-06'
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
-    ish('303', 'Keys are captured while editing text', '2026-07-21'),
+    ish('303', 'Keys are captured while editing text', '2026-08-21'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish(
       '352',
@@ -197,11 +197,6 @@
     ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
     ish(
       '370', 'Menu attaching on *Style-2* pages stopped working', '2026-07-15'
-    ),
-    ish(
-      '373',
-      'Remove "Select current results page" from all pages with pagination',
-      '2026-07-19'
     ),
     ish(
       '372',
@@ -218,9 +213,25 @@
       '**Profile**: Multiple failures when navigating between profiles',
       '2026-08-15'
     ),
+    ish(
+      '382',
+      '**Info**: Give the *Errors* tab priority over *News*',
+      '2026-08-20'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-20',
+      issues: ['382'],
+      subject: 'Swap order of tab checks when the menu item is connected',
+    },
+    {
+      date: '2026-08-20',
+      issues: ['379'],
+      subject: 'Only look for the UID prefix when **Profile** is the' +
+        ' current page',
+    },
     {
       date: '2026-08-17',
       issues: ['379'],
@@ -520,99 +531,6 @@
       date: '2026-07-22',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Activity* section',
-    },
-    {
-      date: '2026-07-21',
-      issues: [''],
-      subject: 'Update CSS in response to site change',
-    },
-    {
-      date: '2026-07-21',
-      issues: ['372'],
-      subject: 'Keep the containers around for later reuse',
-    },
-    {
-      date: '2026-07-21',
-      issues: ['372'],
-      subject: 'Explicitly clear the item cache when stopping container' +
-        ' monitoring',
-    },
-    {
-      date: '2026-07-21',
-      issues: ['352'],
-      subject: 'Make `#entriesModeToUid` an instance method',
-    },
-    {
-      date: '2026-07-21',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Featured* section',
-    },
-    {
-      date: '2026-07-20',
-      issues: ['372'],
-      subject: 'Factor out starting/stopping container monitoring',
-    },
-    {
-      date: '2026-07-20',
-      issues: ['352'],
-      subject: 'Make `#entriesSuggestUids` an instance method',
-    },
-    {
-      date: '2026-07-20',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Services* section',
-    },
-    {
-      date: '2026-07-20',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *About* section',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['373'],
-      subject: 'Remove the explicit shortcut for selecting the next page' +
-        ' of results',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['372'],
-      subject: 'Temporarily disable the item cache',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['372'],
-      subject: 'Remove an old logging statement',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['372'],
-      subject: 'Rename some internal symbols',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['372'],
-      subject: 'Remove unnecessary intermediate array',
-    },
-    {
-      date: '2026-07-19',
-      issues: [''],
-      subject: 'Fix a couple of comments',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['302'],
-      subject: 'Updated `UidMode`s for the *Highlights* section',
-    },
-    {
-      date: '2026-07-19',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
     },
   ];
 
