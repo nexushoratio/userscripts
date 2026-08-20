@@ -4338,8 +4338,8 @@
               'LIT menu installed in non-standard location.'
             );
           }
-          this.#refreshErrors();
           this.#checkForNews();
+          this.#refreshErrors();
         }
       }
 
