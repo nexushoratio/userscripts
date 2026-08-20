@@ -10237,7 +10237,13 @@
       this.entries;
     }
 
-    #onSpaActivated = async () => {
+    /**
+     * @method
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {NexusHoratio.spa.Page~Pages} pages - Updated pages information.
+     */
+    #onSpaActivated = async (type, pages) => {
       const me = this.#onSpaActivated.name;
       this.logger.entered(me);
 
@@ -10248,7 +10254,7 @@
       // than getting the wrong one.
       const pathname = window.location.pathname;
       let prefix = this.#sectionUidPrefixes.get(pathname);
-      if (!prefix) {
+      if (pages.active.has(this) && !prefix) {
         const TOP_CARD = 'Topcard';
         const selector = `[${CKEY}$="${TOP_CARD}"]`;
         const timeout = 8000;
