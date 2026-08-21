@@ -2015,7 +2015,9 @@
             moCallback();
             resolve('we tried...');
             if (litOptions.enableIssue289Monitoring) {
-              NH.base.issues.post('Issue 289:', this.name, `${me} timed out`);
+              NH.base.issues.post(
+                'Issues 289/372:', this.name, `${me} timed out`
+              );
             }
           };
 
