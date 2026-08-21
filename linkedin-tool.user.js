@@ -5036,7 +5036,7 @@
     constructor(spa) {
       super({spa: spa});
 
-      this.addService(NH.spa.Page.Service)
+      spa.details.dispatcher
         .on('activate', this.#onHybridActivate);
 
       this.addService(LinkedInStyleService)
