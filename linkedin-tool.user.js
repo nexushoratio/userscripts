@@ -178,7 +178,7 @@
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-07-25'),
-    ish('209', 'Support **SearchResultsPeople** view', '2026-07-09'),
+    ish('209', 'Support **SearchResultsPeople** view', '2026-08-09'),
     ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
       '295',
@@ -218,9 +218,43 @@
       '**Info**: Give the *Errors* tab priority over *News*',
       '2026-08-20'
     ),
+    ish('253', 'Support **My Network Events** page', '2026-08-21'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-21',
+      issues: ['253'],
+      subject: 'Retire **Events** from `PagesToDo`',
+    },
+    {
+      date: '2026-08-21',
+      issues: ['372'],
+      subject: 'Update referenced bugs in a notification; the original is' +
+        ' closed',
+    },
+    {
+      date: '2026-08-21',
+      issues: ['253', '295'],
+      subject: 'Move `#onHybridActivate()` to trigger on the details' +
+        ' dispatcher',
+    },
+    {
+      date: '2026-08-21',
+      issues: ['253'],
+      subject: 'Change the LIT CSS styles to be appended rather than' +
+        ' prepended',
+    },
+    {
+      date: '2026-08-21',
+      issues: ['253'],
+      subject: 'Set `#lastScroller` on page initialization',
+    },
+    {
+      date: '2026-08-21',
+      issues: ['253'],
+      subject: 'Bump initial timeout to 4s',
+    },
     {
       date: '2026-08-20',
       issues: ['382'],
@@ -500,37 +534,6 @@
       date: '2026-07-23',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Experience* section',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['372'],
-      subject: 'Additional monitoring for containers and enable the item' +
-        ' cache',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['209'],
-      subject: 'Update the current page navigation selector',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['372'],
-      subject: 'Replace a one line log with intro/outro',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['372'],
-      subject: 'Bring back a recently deleted logging statement',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['352'],
-      subject: 'Make `UidMode` an instance variable',
-    },
-    {
-      date: '2026-07-22',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Activity* section',
     },
   ];
 
