@@ -10260,6 +10260,7 @@
         spa: spa,
         pathname: '/events/',
         readySelector: '#share-linkedin-small',
+        readySelectorTimeout: 4000,
       });
 
       this.addService(LinkedInStyleService)
