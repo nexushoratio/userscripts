@@ -10407,6 +10407,8 @@
 
       this.#collectionScroller.dispatcher
         .on('change', this.#onCollectionChange);
+
+      this.#lastScroller = this.#collectionScroller;
     }
 
     #initEventScroller = () => {
