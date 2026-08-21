@@ -3839,7 +3839,7 @@
           '}',
       ];
       style.textContent = styles.join('\n');
-      document.head.prepend(style);
+      document.head.append(style);
     }
 
     /**
@@ -10243,9 +10243,6 @@
   /**
    * Class for handling the Events page.
    * @todo [(#236)](https://github.com/nexushoratio/userscripts/issues/236)
-   * WIP:
-   * - The `artdeco-card` style include `border: none !important` which
-   *   overrides our normal border stuff.
    *
    * @extends module:linkedin-tool~Page
    */
