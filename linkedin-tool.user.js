@@ -65,7 +65,7 @@
   /**
    * Load options from storage.
    *
-   * TODO: Over engineer this into having a schema that could be used for
+   * @todo Over engineer this into having a schema that could be used for
    * building an edit widget.
    *
    * Saved options will be augmented by any new defaults and resaved.
@@ -107,7 +107,10 @@
 
   await NH.userscript.setAutoManageLoggerConfigs(true);
 
-  // TODO(#145): The if test is just here while developing.
+  /**
+   * @todo [(#145)](https://github.com/nexushoratio/userscripts/issues/145)
+   * The if test is just here while developing.
+   */
   if (!litOptions.enableDevMode) {
     NH.base.Logger.config('Default').enabled = true;
   }
@@ -10904,31 +10907,79 @@
      * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
      * {@link module:linkedin-tool~Page Page}.
      */
-    constructor(spa) {
+    constructor(spa) {  // eslint-disable-line max-lines-per-function
       const URLs = [
-        // TODO(#253): Support *My Network Events* page
+
+        /**
+         * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
+         * Support **My Network Events** page
+         */
         '/mynetwork/network-manager/events/',
-        // TODO(#255): Support *Search appearances* page
+
+        /**
+         * @todo [(#255)](https://github.com/nexushoratio/userscripts/issues/255)
+         * Support **Search appearances** page
+         */
         '/analytics/search-appearances/',
-        // TODO(#256): Support *Verify* page
+
+        /**
+         * @todo [(#256)](https://github.com/nexushoratio/userscripts/issues/256)
+         * Support **Verify** page
+         */
         '/verify/',
-        // TODO(#257): Support *Analytics & tools* page
+
+        /**
+         * @todo [(#257)](https://github.com/nexushoratio/userscripts/issues/257)
+         * Support **Analytics & tools** page
+         */
         '/dashboard/',
-        // TODO(#260): Support *My Jobs* page
+
+        /**
+         * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
+         * Support **My Jobs** page
+         */
         '/my-items/saved-jobs/.*',
-        // TODO(#261): Support *Follow Page* Page
+
+        /**
+         * @todo [(#261)](https://github.com/nexushoratio/userscripts/issues/261)
+         * Support **Follow Page** Page
+         */
         '/suggested-for-you/follow-page/',
-        // TODO(#262): Support *Analytics Posts* Page
+
+        /**
+         * @todo [(#262)](https://github.com/nexushoratio/userscripts/issues/262)
+         * Support **Analytics Posts** Page
+         */
         '/analytics/creator/content/',
-        // TODO(#263): Support *Feed update* Page
+
+        /**
+         * @todo [(#263)](https://github.com/nexushoratio/userscripts/issues/263)
+         * Support **Feed update** Page
+         */
         '/feed/update/',
-        // TODO(#264): Support *Saved Posts* Page
+
+        /**
+         * @todo [(#264)](https://github.com/nexushoratio/userscripts/issues/264)
+         * Support **Saved Posts** Page
+         */
         '/my-items/saved-posts/',
-        // TODO(#265): Support *Post analytics* Page
+
+        /**
+         * @todo [(#265)](https://github.com/nexushoratio/userscripts/issues/265)
+         * Support **Post analytics** Page
+         */
         '/analytics/post-summary/',
-        // TODO(#266): Support *Company* Page
+
+        /**
+         * @todo [(#266)](https://github.com/nexushoratio/userscripts/issues/266)
+         * Support **Company** Page
+         */
         '/company/',
-        // TODO(#360): Support *SearchResultsAll* page
+
+        /**
+         * @todo [(#360)](https://github.com/nexushoratio/userscripts/issues/360)
+         * Support **SearchResultsAll** page
+         */
         '/search/results/all(?:/.*)?',
       ].map(x => `(${x})`)
         .join('|');
