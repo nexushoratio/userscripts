@@ -222,9 +222,25 @@
       '2026-08-20'
     ),
     ish('253', 'Support **My Network Events** page', '2026-08-21'),
+    ish('237', 'Support **Events Specific** pages', '2026-08-23'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-23',
+      issues: ['236'],
+      subject: '**Events** is fully supported, retire the `@todo`',
+    },
+    {
+      date: '2026-08-23',
+      issues: ['237'],
+      subject: 'Acknowledge **Events Specific** page',
+    },
+    {
+      date: '2026-08-23',
+      issues: ['236', '253'],
+      subject: 'Conflated **My Network Events** with **Events**',
+    },
     {
       date: '2026-08-21',
       issues: ['253'],
@@ -521,22 +537,6 @@
       date: '2026-07-25',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Education* section',
-    },
-    {
-      date: '2026-07-23',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-23',
-      issues: ['325'],
-      subject: 'Rework a bit to treat input types consistently',
-    },
-    {
-      date: '2026-07-23',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Experience* section',
     },
   ];
 
