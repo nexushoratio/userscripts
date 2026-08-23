@@ -1690,14 +1690,6 @@
         this.logger.log('scrolling down onto page');
         item.scrollIntoView(true);
       }
-      // XXX: The following was added to support horizontal scrolling in
-      // carousels.  Nothing seemed to break.  TODO(#132): Did find a side
-      // effect though: it can cause an item being *left* to shift up if the
-      // scrollMarginBottom has been set.  This also makes the current `Jobs`
-      // *Recent job searches* secondary scroller a little wonky.  There are
-      // invisible items that take up space at the bottom of the list, and
-      // this causes the last visible one to scroll into the middle, leaving
-      // blank space at the bottom of the view.
       item.scrollIntoView({block: 'nearest', inline: 'nearest'});
 
       this.logger.leaving(me);
