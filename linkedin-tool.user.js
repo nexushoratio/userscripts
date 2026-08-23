@@ -10911,6 +10911,12 @@
       const URLs = [
 
         /**
+         * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
+         * Support **Events Specific** page
+         */
+        '/events/[^/]*/',
+
+        /**
          * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
          * Support **My Network Events** page
          */
