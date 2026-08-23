@@ -2384,7 +2384,7 @@
   /* eslint-enable */
 
   /**
-   * Manage a {Scroller} as a {NexusHoratio.base.Service}.
+   * Manage a {Scroller} as a {@link NexusHoratio.base.Service}.
    *
    * @extends NexusHoratio.base.Service
    */
