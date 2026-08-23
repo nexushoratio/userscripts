@@ -10914,6 +10914,8 @@
      */
     constructor(spa) {
       const URLs = [
+        // TODO(#253): Support *My Network Events* page
+        '/mynetwork/network-manager/events/',
         // TODO(#255): Support *Search appearances* page
         '/analytics/search-appearances/',
         // TODO(#256): Support *Verify* page
