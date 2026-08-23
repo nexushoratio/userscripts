@@ -10242,7 +10242,6 @@
 
   /**
    * Class for handling the Events page.
-   * @todo [(#236)](https://github.com/nexushoratio/userscripts/issues/236)
    *
    * @extends module:linkedin-tool~Page
    */
