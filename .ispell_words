@@ -377,6 +377,7 @@ errorTextHandler
 eslint
 eslintrc
 eventScroller
+EventsSpecific
 eventType
 EventType
 eventTypes
@@ -513,6 +514,7 @@ HtmlRenderer
 HTMLStyleElement
 HTMLUnknownElement
 idName
+idSelector
 idx
 iframe
 iframeDoc
@@ -555,6 +557,7 @@ initResultScroller
 initScrollers
 initScrollerStyleService
 initSectionScroller
+initSectionsScroller
 injectInto
 innerHTML
 innerText
@@ -1028,7 +1031,6 @@ scrollerSecondaryClassName
 ScrollerService
 ScrollerTestCase
 scrollIntoView
-scrollMarginBottom
 scrollToCurrentItem
 scrollTop
 sdui
@@ -1042,8 +1044,8 @@ SearchTyahInputRef
 sectionsContainer
 sectionScroller
 sectionsPartialOrder
+sectionsScroller
 sectionUidPrefixes
-seeMore
 selectorArray
 SelectorsWithoutBase
 SemVer

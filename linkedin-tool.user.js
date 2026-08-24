@@ -10580,6 +10580,254 @@
   }
 
   /**
+   * Class for handling the Specific Event pages.
+   *
+   * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
+   * WIP
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class EventsSpecific extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        name: 'Specific Event',
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/events/[^/]*/', 'u'),
+        readySelector: 'footer.global-footer-compact',
+      });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.ONE);
+
+      this.addService(VMKeyboardService)
+        .setShortName(this.name)
+        .addInstance(this);
+
+      this.#initScrollers();
+    }
+
+    /** @type {Scroller} */
+    get sections() {
+      return this.#sectionsScroller;
+    }
+
+    nextSection = new Shortcut(
+      'j',
+      'Next section',
+      () => {
+        this.sections.next();
+      }
+    );
+
+    prevSection = new Shortcut(
+      'k',
+      'Previous section',
+      () => {
+        this.sections.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first section or entry',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last section or entry',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        this.#lastScroller.focus();
+      }
+    );
+
+    showMore = new Shortcut(
+      'm',
+      'Show more of current item',
+      () => {
+        const el = this.#lastScroller.item;
+        NH.web.clickElement(el, ['a[class*="lt-line-clamp"]']);
+      }
+    );
+
+    #lastScroller
+    #sectionsContainer = 'main:has(> section)'
+    #sectionsScroller
+
+    #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initSectionsScroller();
+    }
+
+    #initScrollerStyleService = () => {
+      const styleConfig = {
+        className: this.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.#scrollerElementsProcessor,
+      };
+      this.addService(NH.web.StyleService, styleConfig);
+    }
+
+    /**
+     * @method
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
+     */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('navbar', document.querySelector('#global-nav'));
+      elements.set(
+        'main',
+        document.querySelector(this.#sectionsContainer)?.parentElement
+      );
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
+     */
+    #scrollerElementsProcessor = (elements) => {
+      const me = this.#scrollerElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      const tops = [];
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'navbar':
+            if (value) {
+              tops.push(`${value.offsetHeight}px`);
+            }
+            break;
+          case 'main':
+            if (value) {
+              tops.push(getComputedStyle(value).marginTop);
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      if (tops.length) {
+        const plus = tops.join(' + ');
+        properties.set('scroll-margin-top', `calc(${plus})`);
+      }
+
+      this.logger.leaving(me, properties);
+      return properties;
+    }
+
+    #initSectionsScroller = () => {
+      const what = {
+        name: `${this.name} sections`,
+        containerItems: [
+          {
+            container: this.#sectionsContainer,
+            items: [
+              // Topcard
+              ':scope > section',
+              // Details
+              ':scope > div > div > section',
+              // Comments
+              ':scope > div > div [role="article"]',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueSectionIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#sectionsScroller = new Scroller(what, how);
+      this.addService(ScrollerService)
+        .setScroller(this.#sectionsScroller);
+      this.#sectionsScroller.dispatcher
+        .on('change', this.#onSectionChange);
+
+      this.#lastScroller = this.sections;
+    }
+
+    /**
+     * @method
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueSectionIdentifier = (scroller, element) => {
+      const me = this.#uniqueSectionIdentifier.name;
+      this.logger.entered(me, element);
+
+      const idSelector = '[id]:not([id^="ember"])';
+
+      let content = '';
+      const id = element.matches(idSelector)
+        ? element
+        : element.querySelector(idSelector);
+      const header = element.querySelector('header');
+      const urn = element.dataset.urn;
+
+      if (id) {
+        content = id.id;
+      }
+      if (header) {
+        content = header.classList.values()
+          .find(x => x.startsWith('events'));
+      }
+      if (urn) {
+        content = urn;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    #onSectionChange = () => {
+      this.#lastScroller = this.sections;
+    }
+
+  }
+
+  /**
    * Class for handling the SearchResultsPeople page.
    *
    * @todo [(#209)](https://github.com/nexushoratio/userscripts/issues/209)
@@ -10912,12 +11160,6 @@
       const URLs = [
 
         /**
-         * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
-         * Support **Events Specific** page
-         */
-        '/events/[^/]*/',
-
-        /**
          * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
          * Support **Manage Events** page
          */
@@ -11019,6 +11261,7 @@
   spa.register(Notifications);
   spa.register(Profile);
   spa.register(Events);
+  spa.register(EventsSpecific);
   spa.register(SearchResultsPeople);
   spa.register(PagesToDo);
 
