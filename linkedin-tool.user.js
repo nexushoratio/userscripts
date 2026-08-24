@@ -6097,6 +6097,7 @@
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
+        .setShortName(this.name)
         .addInstance(this);
 
       this.#initScrollers();
@@ -7170,6 +7171,7 @@
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
+        .setShortName(this.name)
         .addInstance(this);
 
       this.#initScrollers();
