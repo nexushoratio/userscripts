@@ -5395,7 +5395,7 @@
       }
     );
 
-    seeMore = new Shortcut(
+    showMore = new Shortcut(
       'm',
       'Show more of current post or comment',
       () => {
@@ -6535,9 +6535,9 @@
       }
     );
 
-    seeMore = new Shortcut(
+    showMore = new Shortcut(
       'm',
-      'Toggle seeing more of current invite',
+      'Show more of current invite',
       () => {
         const el = this.invites.item;
         NH.web.clickElement(el, ['button[data-testid]']);
@@ -9009,7 +9009,7 @@
       }
     );
 
-    seeMore = new Shortcut(
+    showMore = new Shortcut(
       'm',
       'Show more of the current item',
       () => {
