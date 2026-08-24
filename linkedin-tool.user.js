@@ -8933,7 +8933,6 @@
       FALLBACK: Symbol.for('fallback'),
       FOOTER: Symbol.for('footer'),
       HREF: Symbol.for('href'),
-      ID: Symbol.for('id'),
       IMG: Symbol.for('img'),
       MULTI_IMG: Symbol.for('multiImg'),
       SAFETY: Symbol.for('safety'),
@@ -9513,8 +9512,6 @@
           this.UidMode.MULTI_IMG,
           this.UidMode.HREF,
           this.UidMode.FOOTER,
-          // ID goes after FOOTER because it may match the right arrow.
-          this.UidMode.ID,
         ],
       });
       this.#entriesScrollerConfigs.set('Featured', {
@@ -9911,12 +9908,6 @@
             if (!scratch) {
               href = element.href;
             }
-            break;
-          case this.UidMode.ID:
-            scratch = element.matches(this.#modeUidSelectorId)
-              ? element
-              : element.querySelector(this.#modeUidSelectorId);
-            content = scratch?.id;
             break;
           case this.UidMode.IMG:
             href = element.querySelector(':scope:is(a) img')?.src;
