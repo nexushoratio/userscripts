@@ -221,7 +221,7 @@
       '**Info**: Give the *Errors* tab priority over *News*',
       '2026-08-20'
     ),
-    ish('253', 'Support **My Network Events** page', '2026-08-21'),
+    ish('253', 'Support **Manage Events** page', '2026-08-21'),
     ish('237', 'Support **Events Specific** pages', '2026-08-23'),
   ];
 
@@ -10917,7 +10917,7 @@
 
         /**
          * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
-         * Support **My Network Events** page
+         * Support **Manage Events** page
          */
         '/mynetwork/network-manager/events/',
 
