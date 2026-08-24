@@ -180,7 +180,7 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
-    ish('167', 'Refactor into libraries', '2026-07-25'),
+    ish('167', 'Refactor into libraries', '2026-08-25'),
     ish('209', 'Support **SearchResultsPeople** view', '2026-08-09'),
     ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
@@ -223,9 +223,51 @@
     ),
     ish('253', 'Support **Manage Events** page', '2026-08-21'),
     ish('237', 'Support **Events Specific** pages', '2026-08-23'),
+    ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-08-24'),
+    ish(
+      '129',
+      '**Info**: *Shortcuts* Consider a way to implement subsections in' +
+        ' keystroke menu',
+      '2026-08-24'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-24',
+      issues: ['381'],
+      subject: 'Retire `UidMode.ID`',
+    },
+    {
+      date: '2026-08-24',
+      issues: [''],
+      subject: 'Partial ordering pair clean up for **Profile**',
+    },
+    {
+      date: '2026-08-24',
+      issues: [''],
+      subject: 'More partial ordering pairs for **Profile**',
+    },
+    {
+      date: '2026-08-24',
+      issues: ['237'],
+      subject: 'Initial support for **Specific Event** pages',
+    },
+    {
+      date: '2026-08-24',
+      issues: ['129'],
+      subject: 'Explicitly set `VMKeyboardService` short name for some pages',
+    },
+    {
+      date: '2026-08-24',
+      issues: [''],
+      subject: 'Make certain shortcuts consistent',
+    },
+    {
+      date: '2026-08-24',
+      issues: ['253'],
+      subject: 'Update name to match the title for the page',
+    },
     {
       date: '2026-08-23',
       issues: ['236'],
@@ -512,31 +554,6 @@
       date: '2026-07-27',
       issues: ['302'],
       subject: 'Update the *Connected apps* section',
-    },
-    {
-      date: '2026-07-25',
-      issues: ['372'],
-      subject: 'Include more information in the timeout alert',
-    },
-    {
-      date: '2026-07-25',
-      issues: ['352'],
-      subject: 'Remove now unnecessary static block',
-    },
-    {
-      date: '2026-07-25',
-      issues: ['352'],
-      subject: 'Remove now unused `@typedef`',
-    },
-    {
-      date: '2026-07-25',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-25',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Education* section',
     },
   ];
 
