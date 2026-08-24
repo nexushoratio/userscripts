@@ -9293,8 +9293,6 @@
       'ExperienceTopLevelSection, Skills',
       'ExperienceTopLevelSection, VolunteerExperienceTopLevel',
       'Featured, Activity',
-      'Highlights, About',
-      'Highlights, Activity',
       'HonorsTopLevel, Interests',
       'HonorsTopLevel, LanguageTopLevel',
       'HonorsTopLevel, Organizations',
@@ -9333,7 +9331,6 @@
       'SalesInsightsOrHighlights, Activity',
       'Services, Activity',
       'Services, Featured',
-      'SimilarTo, Highlights',
       'Skills, CourseTopLevelSection',
       'Skills, HonorsTopLevel',
       'Skills, Interests',
@@ -9348,7 +9345,6 @@
       'Topcard, Activity',
       'Topcard, Analytics',
       'Topcard, Featured',
-      'Topcard, Highlights',
       'Topcard, SalesInsightsOrHighlights',
       'Topcard, SimilarTo',
       'Topcard, SuggestedForYou',
@@ -9475,17 +9471,6 @@
         selectors: [this.#entriesSelectorSuggestedForYou],
         modes: [this.UidMode.ANCHOR_OVERLAY],
       });
-      this.#entriesScrollerConfigs.set('Analytics', {
-        uidCallback: this.#entriesUidFromModes,
-        selectors: [
-          this.#entriesSelectorAnalytics,
-          this.#entriesSelectorFooter,
-        ],
-        modes: [
-          this.UidMode.HREF,
-          this.UidMode.FOOTER,
-        ],
-      });
       this.#entriesScrollerConfigs.set('SalesInsightsOrHighlights', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
@@ -9496,6 +9481,17 @@
           this.UidMode.COMPANY,
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.ARIA_LABEL,
+          this.UidMode.FOOTER,
+        ],
+      });
+      this.#entriesScrollerConfigs.set('Analytics', {
+        uidCallback: this.#entriesUidFromModes,
+        selectors: [
+          this.#entriesSelectorAnalytics,
+          this.#entriesSelectorFooter,
+        ],
+        modes: [
+          this.UidMode.HREF,
           this.UidMode.FOOTER,
         ],
       });
