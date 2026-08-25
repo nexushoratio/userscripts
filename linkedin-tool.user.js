@@ -222,7 +222,7 @@
       '2026-08-20'
     ),
     ish('253', 'Support **Manage Events** page', '2026-08-21'),
-    ish('237', 'Support **Events Specific** pages', '2026-08-23'),
+    ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-08-24'),
     ish(
       '129',
@@ -233,6 +233,21 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-25',
+      issues: ['381'],
+      subject: 'Retire unused `UidMode.IMG`',
+    },
+    {
+      date: '2026-08-25',
+      issues: ['237'],
+      subject: 'Initial work on secondary scroller, just *Topcard*',
+    },
+    {
+      date: '2026-08-25',
+      issues: ['237'],
+      subject: 'Trim off cruft on the section UIDs',
+    },
     {
       date: '2026-08-24',
       issues: ['381'],
