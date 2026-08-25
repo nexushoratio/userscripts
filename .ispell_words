@@ -220,6 +220,7 @@ createLabel
 createMenuItemStyle
 createPanel
 css
+cssClass
 cssClassName
 ctor
 CtorPage
@@ -316,6 +317,7 @@ ent
 entriesCurrentModes
 entriesCurrentUid
 entriesModeToUid
+entriesScroller
 entriesScrollerConfigDefault
 entriesScrollerConfigs
 entriesSelectorAbout
@@ -539,6 +541,8 @@ initCardsScroller
 initCollectionScroller
 initCommentScroller
 initDetailsScroller
+initEntriesScroller
+initEntriesScrollerConfigs
 initEntryScroller
 initEntryScrollerConfigs
 initEventScroller
@@ -1002,6 +1006,7 @@ returnToCard
 returnToCollection
 returnToPost
 returnToSection
+returnToSections
 RoCallback
 roledescription
 rowClassesFunc
@@ -1418,6 +1423,8 @@ uniqueCollectionIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
+uniqueEntriesIdTbd
+uniqueEntriesIdTopcard
 uniqueEntryIdentifier
 uniqueEventIdentifier
 uniqueIndividualsIdentifier

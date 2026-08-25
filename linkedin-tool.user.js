@@ -10628,6 +10628,15 @@
     }
 
     /** @type {Scroller} */
+    get entries() {
+      if (!this.#entriesScroller && this.sections.item) {
+        this.#initEntriesScroller();
+      }
+
+      return this.#entriesScroller;
+    }
+
+    /** @type {Scroller} */
     get sections() {
       return this.#sectionsScroller;
     }
@@ -10645,6 +10654,22 @@
       'Previous section',
       () => {
         this.sections.prev();
+      }
+    );
+
+    nextEntry = new Shortcut(
+      'n',
+      'Next entry in a section',
+      () => {
+        this.entries?.next();
+      }
+    );
+
+    prevEntry = new Shortcut(
+      'p',
+      'Previous entry in a section',
+      () => {
+        this.entries?.prev();
       }
     );
 
@@ -10681,13 +10706,38 @@
       }
     );
 
+    #entriesScroller
+    #entriesScrollerConfigs = new Map();
     #lastScroller
     #sectionsContainer = 'main:has(> section)'
     #sectionsScroller
 
     #initScrollers = () => {
+      this.#initEntriesScrollerConfigs();
       this.#initScrollerStyleService();
       this.#initSectionsScroller();
+    }
+
+    #initEntriesScrollerConfigs = () => {
+      this.#entriesScrollerConfigs.set(
+        'top-card', {
+          uidCallback: this.#uniqueEntriesIdTopcard,
+          selectors: [':scope > div > div'],
+        }
+      );
+      this.#entriesScrollerConfigs.set(
+        'urn', {
+          uidCallback: this.#uniqueEntriesIdTbd,
+          selectors: [
+
+            /**
+             * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
+             * Placeholder during development.
+             */
+            ':scope > *',
+          ],
+        }
+      );
     }
 
     #initScrollerStyleService = () => {
@@ -10697,6 +10747,39 @@
         elementsProcessor: this.#scrollerElementsProcessor,
       };
       this.addService(NH.web.StyleService, styleConfig);
+    }
+
+    #initEntriesScroller = () => {
+      const me = this.#initEntriesScroller.name;
+      this.logger.entered(me, 'current section', this.sections.itemUid);
+
+      const config = this.#entriesScrollerConfigs.get(
+        this.sections.itemUid
+      ) ?? this.#entriesScrollerConfigs.get('urn');
+      this.logger.log('config', config);
+
+      const what = {
+        name: `${this.name} entries`,
+        base: this.sections.item,
+        selectors: config.selectors,
+      };
+
+      const how = {
+        uidCallback: config.uidCallback,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#entriesScroller = new Scroller(what, how);
+      this.#entriesScroller.dispatcher
+        .on('change', this.#onEntryChange)
+        .on('out-of-range', this.#returnToSections);
+
+      this.logger.leaving(me);
     }
 
     /**
@@ -10841,8 +10924,76 @@
       return content;
     }
 
+    /**
+     * @method
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueEntriesIdTbd = (scroller, element) => {
+      const me = this.#uniqueEntriesIdTbd.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @method
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueEntriesIdTopcard = (scroller, element) => {
+      const me = this.#uniqueEntriesIdTopcard.name;
+      this.logger.entered(me, element);
+
+      const prefix = 'events-';
+
+      let content = '';
+      const cssClass = element.classList.values()
+        .find(x => x.startsWith(prefix));
+
+      if (cssClass) {
+        content = cssClass;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      } else if (content.startsWith(prefix)) {
+        content = content
+          .slice(prefix.length)
+          .split('__')[0];
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     #onSectionChange = () => {
+      this.#resetEntries();
       this.#lastScroller = this.sections;
+    }
+
+    #resetEntries = () => {
+      this.#entriesScroller?.destroy();
+      this.#entriesScroller = null;
+      this.entries;
+    }
+
+    #onEntryChange = () => {
+      this.#lastScroller = this.entries;
+    }
+
+    #returnToSections = () => {
+      this.sections.item = this.sections.item;
     }
 
   }
