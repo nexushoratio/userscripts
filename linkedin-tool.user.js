@@ -10810,6 +10810,7 @@
       this.logger.entered(me, element);
 
       const idSelector = '[id]:not([id^="ember"])';
+      const prefix = 'events-';
 
       let content = '';
       const id = element.matches(idSelector)
@@ -10823,13 +10824,17 @@
       }
       if (header) {
         content = header.classList.values()
-          .find(x => x.startsWith('events'));
+          .find(x => x.startsWith(prefix));
       }
       if (urn) {
         content = urn;
       }
       if (!content) {
         content = scroller.defaultUid(element);
+      } else if (content.startsWith(prefix)) {
+        content = content
+          .slice(prefix.length)
+          .split('__')[0];
       }
 
       this.logger.leaving(me, content);
