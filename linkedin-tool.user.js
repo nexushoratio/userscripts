@@ -8950,7 +8950,6 @@
       FALLBACK: Symbol.for('fallback'),
       FOOTER: Symbol.for('footer'),
       HREF: Symbol.for('href'),
-      IMG: Symbol.for('img'),
       MULTI_IMG: Symbol.for('multiImg'),
       SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
@@ -9925,9 +9924,6 @@
             if (!scratch) {
               href = element.href;
             }
-            break;
-          case this.UidMode.IMG:
-            href = element.querySelector(':scope:is(a) img')?.src;
             break;
           case this.UidMode.MULTI_IMG:
             scratch = [];
