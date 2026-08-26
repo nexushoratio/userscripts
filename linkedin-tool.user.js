@@ -10737,6 +10737,13 @@
         }
       );
       this.#entriesScrollerConfigs.set(
+        'description', {
+          // This actually works well here.
+          uidCallback: this.#uniqueSectionIdentifier,
+          selectors: [':scope > div > div'],
+        }
+      );
+      this.#entriesScrollerConfigs.set(
         'urn', {
           uidCallback: this.#uniqueEntriesIdTbd,
           selectors: [
