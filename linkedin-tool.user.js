@@ -230,9 +230,20 @@
         ' keystroke menu',
       '2026-08-24'
     ),
+    ish('383', 'LIT Does not load', '2026-08-27'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-27',
+      issues: ['383'],
+      subject: 'Update the *Style-2* `#primaryNavSelector`',
+    },
+    {
+      date: '2026-08-26',
+      issues: ['237'],
+      subject: 'Support the *About* (aka "description") section',
+    },
     {
       date: '2026-08-25',
       issues: ['381'],
@@ -553,22 +564,6 @@
       date: '2026-07-29',
       issues: ['302'],
       subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-07-27',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-27',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-27',
-      issues: ['302'],
-      subject: 'Update the *Connected apps* section',
     },
   ];
 
