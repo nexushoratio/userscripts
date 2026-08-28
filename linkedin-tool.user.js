@@ -6700,7 +6700,7 @@
             container: `${LinkedIn.primaryContentSelector}` +
             ' [data-testid="lazy-column"]',
             items: [
-            // Standard invites
+              // Standard invites
               `:scope > div[${CKEY}]`,
               // Suggestions for you
               'h3 ~ div > a',
@@ -6937,7 +6937,7 @@
           {
             container: this.#sectionsContainer,
             items: [
-            // Premium "top applicant"
+              // Premium "top applicant"
               `:scope > [${CKEY}^="Jobs"] > * > [${CKEY}^="Jobs"]`,
               // Everything else
               `:scope > div > div[${CKEY}]`,
@@ -7920,7 +7920,7 @@
           {
             container: this.#cardsContainer,
             items: [
-            // Main content
+              // Main content
               ':scope > :first-child',
               // Rest
               ':scope > :not(:first-child) > *',
