@@ -1423,6 +1423,7 @@ uniqueCollectionIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
+uniqueEntriesIdSpeaker
 uniqueEntriesIdTbd
 uniqueEntriesIdTopcard
 uniqueEntryIdentifier

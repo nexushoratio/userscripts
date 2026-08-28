@@ -10739,6 +10739,13 @@
         }
       );
       this.#entriesScrollerConfigs.set(
+        'live-speaker-list', {
+          // This actually works well here.
+          uidCallback: this.#uniqueEntriesIdSpeaker,
+          selectors: [':scope > div > div > div'],
+        }
+      );
+      this.#entriesScrollerConfigs.set(
         'urn', {
           uidCallback: this.#uniqueEntriesIdTbd,
           selectors: [
@@ -10984,6 +10991,31 @@
         content = content
           .slice(prefix.length)
           .split('__')[0];
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @method
+     * @implements {Scroller~uidCallback}
+     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueEntriesIdSpeaker = (scroller, element) => {
+      const me = this.#uniqueEntriesIdSpeaker.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const anchor = element.querySelector('a')?.href;
+
+      if (anchor) {
+        content = new URL(anchor).pathname;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
       }
 
       this.logger.leaving(me, content);
