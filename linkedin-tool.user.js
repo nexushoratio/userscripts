@@ -10705,7 +10705,7 @@
 
     showMore = new Shortcut(
       'm',
-      'Show more of current item',
+      'Toggle showing more of current item',
       () => {
         const el = this.#lastScroller.item;
         NH.web.clickElement(el, ['a[class*="lt-line-clamp"]']);
