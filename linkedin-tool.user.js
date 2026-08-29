@@ -171,7 +171,7 @@
    * @param {string} issueId - Issue identifier, usually a GitHub number.
    * @param {string} title - The GitHub issue title.
    * @param {string} date - A Date parsable string of the last time the
-   * issue was verified opened
+   * issue was verified opened.
    * @returns {GitHubIssue} New object.
    */
   function ish(issueId, title, date) {
@@ -231,9 +231,34 @@
       '2026-08-24'
     ),
     ish('383', 'LIT Does not load', '2026-08-27'),
+    ish(
+      '384',
+      '**Profile**: Primary scroller uid method no longer works',
+      '2026-08-29'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-29',
+      issues: ['384'],
+      subject: 'Updates to **Profile**\'s primary scroller',
+    },
+    {
+      date: '2026-08-28',
+      issues: [''],
+      subject: 'Fix minor code formatting',
+    },
+    {
+      date: '2026-08-28',
+      issues: ['237'],
+      subject: 'Support the *Speakers* section',
+    },
+    {
+      date: '2026-08-28',
+      issues: ['237'],
+      subject: 'Tweak the `showMore` short cut description',
+    },
     {
       date: '2026-08-27',
       issues: ['383'],
@@ -532,38 +557,6 @@
       date: '2026-07-31',
       issues: ['302'],
       subject: 'Update the *Projects* section',
-    },
-    {
-      date: '2026-07-30',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-30',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-29',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-29',
-      issues: ['302'],
-      subject: 'Update the *Licenses & certifications* section',
-    },
-    {
-      date: '2026-07-29',
-      issues: ['302'],
-      subject: 'Tweak the selector for `ANCHOR_OVERLAY`',
-    },
-    {
-      date: '2026-07-29',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
     },
   ];
 
