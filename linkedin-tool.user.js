@@ -236,9 +236,40 @@
       '**Profile**: Primary scroller uid method no longer works',
       '2026-08-29'
     ),
+    ish(
+      '385',
+      'Capturing the `Enter` key causes as much harm as good.',
+      '2026-08-29'
+    ),
+    ish('386', 'Support **Games** pages', '2026-08-29'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-08-29',
+      issues: ['237'],
+      subject: 'Initial `A`ccept, `S`hare, and `=` (menu) support',
+    },
+    {
+      date: '2026-08-29',
+      issues: ['385'],
+      subject: 'Remove the `Enter` key shortcut from **My Network**',
+    },
+    {
+      date: '2026-08-29',
+      issues: ['386'],
+      subject: 'Acknowledge the **Games** pages',
+    },
+    {
+      date: '2026-08-29',
+      issues: ['384'],
+      subject: 'Replace `h2` UID method with an *Interests* specific one',
+    },
+    {
+      date: '2026-08-29',
+      issues: ['384'],
+      subject: 'Match the *Analytics* and *Interests* sections',
+    },
     {
       date: '2026-08-29',
       issues: ['384'],
