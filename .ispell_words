@@ -913,6 +913,8 @@ portalSelector
 postInfoAboutElement
 postProcessItems
 postScroller
+prefixMagic
+prefixUrl
 preprocessKnownIssues
 prev
 prevButton
@@ -1398,6 +1400,7 @@ toUpperCase
 tpe
 transitionend
 tsort
+twoBack
 TypeError
 typeof
 typeTool

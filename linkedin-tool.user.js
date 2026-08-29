@@ -9441,8 +9441,8 @@
           {
             container: '[data-testid="lazy-column"]',
             items: [
-              // Sections of interest.
-              'section:not([aria-roledescription="carousel"])',
+              // Most sections
+              `:scope div[${CKEY}^="com.linkedin.sdui.profile.card."]`,
             ].join(','),
           },
         ],
@@ -10104,13 +10104,24 @@
       const me = this.#uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
-      const prefix = this.#sectionUidPrefixes.get(window.location.pathname);
+      // There are two types of prefixes: One with a magic string, another
+      // with url.  We need both.
+      const prefixMagic = this.#sectionUidPrefixes.get(
+        window.location.pathname
+      );
+      const twoBack = -2;
+      const prefixUrl = [
+        prefixMagic.split('.ref')[0],
+        '.ref',
+        window.location.pathname.split('/')
+          .at(twoBack),
+      ].join('');
+
       let content = '';
       let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
       const h2 = LinkedIn.h2(element);
       let viaH2 = false;
-      const activity = element.closest(`[${CKEY}$="Activity"]`);
       const similarTo = element.closest(
         `[${CKEY}^="ProfilePostConnectDrawer"]`
       );
@@ -10118,17 +10129,15 @@
 
       if (key) {
         content = key;
-        if (key.startsWith(prefix)) {
-          cardId = key.slice(prefix.length);
+        if (key.startsWith(prefixMagic)) {
+          cardId = key.slice(prefixMagic.length);
+        } else if (key.startsWith(prefixUrl)) {
+          cardId = key.slice(prefixUrl.length);
         }
       }
       if (h2) {
         content = h2;
         viaH2 = true;
-      }
-      if (activity) {
-        content = 'Activity';
-        viaH2 = false;
       }
       if (similarTo) {
         content = 'SimilarTo';
