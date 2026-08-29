@@ -10701,6 +10701,33 @@
       }
     );
 
+    attend = new Shortcut(
+      'A',
+      'Attend the event',
+      () => {
+        NH.web.clickElement(document, ['button.artdeco-button--primary']);
+      }
+    );
+
+    openShareMenu = new Shortcut(
+      'S',
+      'Open share menu',
+      () => {
+        NH.web.clickElement(document, ['.social-share button']);
+      }
+    );
+
+    openMeatballMenu = new Shortcut(
+      '=',
+      'Open the <button>⋯</button> menu',
+      () => {
+        // Will need work as there are also menus in the post section.
+        const topCard = document.querySelector('main > section');
+        NH.web.clickElement(topCard,
+          ['button:has(> svg[data-test-icon^="overflow"]']);
+      }
+    );
+
     #entriesScroller
     #entriesScrollerConfigs = new Map();
     #lastScroller
