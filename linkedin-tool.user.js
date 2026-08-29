@@ -9436,6 +9436,14 @@
             items: [
               // Most sections
               `:scope div[${CKEY}^="com.linkedin.sdui.profile.card."]`,
+              // Analytics
+              ':scope > div > div' +
+                ` > div:not([${CKEY}^="com.linkedin.sdui.profile.card."])` +
+                ' > div > section',
+              // Interests
+              ':scope' +
+                ` > div:not([${CKEY}^="com.linkedin.sdui.profile.card."])` +
+                ' > div > div > section',
             ].join(','),
           },
         ],
