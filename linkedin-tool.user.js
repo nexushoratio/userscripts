@@ -6193,14 +6193,6 @@
       }
     );
 
-    viewItem = new Shortcut(
-      'Enter',
-      'View the current item',
-      () => {
-        this.individuals?.click();
-      }
-    );
-
     openMeatballMenu = new Shortcut(
       '=',
       'Open closest <button>⋯</button> menu',
