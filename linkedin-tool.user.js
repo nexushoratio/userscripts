@@ -11439,6 +11439,12 @@
         '/company/',
 
         /**
+         * @todo [(#386)](https://github.com/nexushoratio/userscripts/issues/386)
+         * Support **Games** pages
+         */
+        '/games/',
+
+        /**
          * @todo [(#360)](https://github.com/nexushoratio/userscripts/issues/360)
          * Support **SearchResultsAll** page
          */
