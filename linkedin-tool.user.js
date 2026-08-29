@@ -10121,12 +10121,11 @@
       let content = '';
       let cardId = '';
       const key = LinkedIn.ckeyIdentifier(element);
-      const h2 = LinkedIn.h2(element);
-      let viaH2 = false;
       const similarTo = element.closest(
         `[${CKEY}^="ProfilePostConnectDrawer"]`
       );
       const analytics = element.querySelector('a[href$="/dashboard/"]');
+      const interests = element.querySelector(`h2[${CKEY}$="_Interests`);
 
       if (key) {
         content = key;
@@ -10136,34 +10135,22 @@
           cardId = key.slice(prefixUrl.length);
         }
       }
-      if (h2) {
-        content = h2;
-        viaH2 = true;
-      }
       if (similarTo) {
         content = 'SimilarTo';
-        viaH2 = false;
       }
       if (analytics) {
         content = 'Analytics';
-        viaH2 = false;
+      }
+      if (interests) {
+        content = 'Interests';
       }
       if (cardId) {
         content = cardId;
-        viaH2 = false;
       }
       if (!content) {
         content = scroller.defaultUid(element);
-        viaH2 = false;
       }
 
-      // Monitor names derived from H2 elements for a bit
-      if (viaH2 && !['Highlights', 'Interests'].includes(h2)) {
-        this.logger.log('used via H2', h2);
-        if (litOptions.enableAlertUnknownProfileSections) {
-          NH.base.issues.post('used via H2', h2);
-        }
-      }
       this.logger.leaving(me, content);
       return content;
     }
