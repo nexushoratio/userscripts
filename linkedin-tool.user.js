@@ -10456,12 +10456,14 @@
         base: this.collections.item,
         selectors: [
           // Your events collection
-          ':scope > section > div',
+          ':scope > section > div > a',
+          // Your events footer
+          ':scope > div > a',
           // Most event collections
           ':scope > main > div > section',
           // Exclusive for Premium
           ':scope > main > div > div > section',
-          // Show more
+          // Show more (most of them)
           ':scope > footer',
         ],
       };
