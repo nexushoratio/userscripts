@@ -1355,12 +1355,17 @@
      * @fires 'deactivate'
      */
     deactivate() {
+      const me = this.deactivate.name;
+      this.logger.entered(me);
+
       this.#pageMutationObserver.disconnect();
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#stopContainers();
 
       this.dispatcher.fire('deactivate', null);
+
+      this.logger.leaving(me);
     }
 
     /** Mark instance as inactive and do any internal cleanup. */
