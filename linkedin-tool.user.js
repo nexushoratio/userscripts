@@ -1339,6 +1339,7 @@
       this.#pageMutationObserver.observe(
         document.body, {childList: true, subtree: true}
       );
+      this.#pageMutationObserver.observing = true;
       await this.#startContainers();
       // The logging statement is useful for debugging.  Keep it.
       this.logger.log('watcher:', await this.#currentItemWatcher());
@@ -1359,6 +1360,7 @@
       this.logger.entered(me);
 
       this.#pageMutationObserver.disconnect();
+      this.#pageMutationObserver.observing = false;
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#stopContainers();
@@ -2067,7 +2069,8 @@
             this.logger.log('one last try...');
             moCallback();
             resolve('we tried...');
-            if (litOptions.enableIssue289Monitoring) {
+            if (litOptions.enableIssue289Monitoring &&
+                this.#pageMutationObserver.observing) {
               NH.base.issues.post(
                 'Issues 289/372:', this.name, `${me} timed out`
               );
