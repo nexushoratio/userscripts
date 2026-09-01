@@ -1428,8 +1428,6 @@
     #pageMutationObserver
     #selectors
     #snapToTop
-    #stackTrace
-    #typeTool = new NH.xunit.TypeTool();
     #uidCallback
     #waitForItemTimeout
     #watchForClicks
