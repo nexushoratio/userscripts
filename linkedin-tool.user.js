@@ -11084,6 +11084,10 @@
 
     #onEntryChange = () => {
       this.#lastScroller = this.entries;
+      if (this.entries?.itemUid === 'navigation-container') {
+        this.entries.item.querySelector('[aria-selected="true"]')
+          ?.focus();
+      }
     }
 
     #returnToSections = () => {
