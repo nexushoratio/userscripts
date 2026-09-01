@@ -10208,29 +10208,32 @@
       const me = this.#onSpaActivated.name;
       this.logger.entered(me);
 
-      // When returning to the previous page, the URL change is detected first
-      // (triggering this method) before the page is updated.  In that
-      // situation, this can see the old Topcard.  By mapping pathname to
-      // prefix (which seems stable), this will use the previous value rather
-      // than getting the wrong one.
-      const pathname = window.location.pathname;
-      let prefix = this.#sectionUidPrefixes.get(pathname);
-      if (pages.active.has(this) && !prefix) {
-        const TOP_CARD = 'Topcard';
-        const selector = `[${CKEY}$="${TOP_CARD}"]`;
-        const timeout = 8000;
-        // Grab the per-user prefix for the current profile that is used for
-        // many `section` identifiers.
-        try {
-          const topCard = await NH.web.waitForSelector(selector, timeout);
-          prefix = topCard?.getAttribute(CKEY)
-            ?.slice(0, -TOP_CARD.length);
-          this.#sectionUidPrefixes.set(pathname, prefix);
-        } catch (e) {
-          NH.base.issues.post(
-            `${TOP_CARD} timed out`,
-            'See https://github.com/nexushoratio/userscripts/issues/302#issuecomment-5269123801'
-          );
+      let prefix = `Skipping as not a ${this.name} page`;
+      if (pages.active.has(this)) {
+        // When returning to the previous page, the URL change is detected
+        // first (triggering this method) before the page is updated.  In that
+        // situation, this can see the old Topcard.  By mapping pathname to
+        // prefix (which seems stable), this will use the previous value
+        // rather than getting the wrong one.
+        const pathname = window.location.pathname;
+        prefix = this.#sectionUidPrefixes.get(pathname);
+        if (!prefix) {
+          const TOP_CARD = 'Topcard';
+          const selector = `[${CKEY}$="${TOP_CARD}"]`;
+          const timeout = 8000;
+          // Grab the per-user prefix for the current profile that is used for
+          // many `section` identifiers.
+          try {
+            const topCard = await NH.web.waitForSelector(selector, timeout);
+            prefix = topCard?.getAttribute(CKEY)
+              ?.slice(0, -TOP_CARD.length);
+            this.#sectionUidPrefixes.set(pathname, prefix);
+          } catch (e) {
+            NH.base.issues.post(
+              `${TOP_CARD} timed out`,
+              'See https://github.com/nexushoratio/userscripts/issues/302#issuecomment-5269123801'
+            );
+          }
         }
       }
 
