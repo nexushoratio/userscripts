@@ -1473,7 +1473,8 @@
 
       this.#stopContainers();
       const found = await this.#waitForContainers();
-      found.map(x => this.#containers.add(x));
+      found.filter(x => x)
+        .map(x => this.#containers.add(x));
       if (this.#base) {
         this.#containers.add(this.#base);
       }
