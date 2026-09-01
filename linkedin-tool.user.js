@@ -199,17 +199,9 @@
     ),
     ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
     ish(
-      '370', 'Menu attaching on *Style-2* pages stopped working', '2026-07-15'
-    ),
-    ish(
       '372',
       '`Scroller`: New item cache fails on at least one page',
       '2026-07-19'
-    ),
-    ish(
-      '375',
-      '`Layout`: Replace `Panel` *enum* with something a bit more standard',
-      '2026-08-01'
     ),
     ish(
       '379',
@@ -233,7 +225,7 @@
     ish('383', 'LIT Does not load', '2026-08-27'),
     ish(
       '384',
-      '**Profile**: Primary scroller uid method no longer works',
+      '**Profile**: Layout updated and navigation fails',
       '2026-08-29'
     ),
     ish(
@@ -245,6 +237,36 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-01',
+      issues: ['372'],
+      subject: 'Only post the timeout if we are still observing',
+    },
+    {
+      date: '2026-09-01',
+      issues: ['372'],
+      subject: 'Filter out `undefined` containers',
+    },
+    {
+      date: '2026-09-01',
+      issues: ['372'],
+      subject: 'Add logging to `deactivate()`',
+    },
+    {
+      date: '2026-09-01',
+      issues: ['372'],
+      subject: 'Improve logging to reduce confusion',
+    },
+    {
+      date: '2026-09-01',
+      issues: ['237'],
+      subject: 'Focus on the current tab when tablist is selected',
+    },
+    {
+      date: '2026-08-31',
+      issues: ['236'],
+      subject: 'Improve support for the *Your events* section',
+    },
     {
       date: '2026-08-29',
       issues: ['237'],
@@ -540,54 +562,6 @@
       date: '2026-08-03',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Recommendations* section',
-    },
-    {
-      date: '2026-08-02',
-      issues: ['370'],
-      subject: 'Retire old *Style-2* detection code',
-    },
-    {
-      date: '2026-08-02',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-08-02',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Skills* section',
-    },
-    {
-      date: '2026-08-01',
-      issues: ['375'],
-      subject: 'Update to latest `lib/widget`',
-    },
-    {
-      date: '2026-08-01',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-08-01',
-      issues: ['302'],
-      subject: 'Update the *Volunteering* section',
-    },
-    {
-      date: '2026-07-31',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-07-31',
-      issues: ['302'],
-      subject: 'Another partial ordering pair',
-    },
-    {
-      date: '2026-07-31',
-      issues: ['302'],
-      subject: 'Update the *Projects* section',
     },
   ];
 
