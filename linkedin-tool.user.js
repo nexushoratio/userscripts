@@ -11432,9 +11432,9 @@
 
         /**
          * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
-         * Support **My Jobs** page
+         * Support **Job tracker** page
          */
-        '/my-items/saved-jobs/.*',
+        '/jobs-tracker/',
 
         /**
          * @todo [(#261)](https://github.com/nexushoratio/userscripts/issues/261)
