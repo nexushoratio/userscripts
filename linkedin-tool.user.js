@@ -197,7 +197,7 @@
         ' properties and functions',
       '2026-06-21'
     ),
-    ish('360', 'Support **SearchResultsAll** page', '2026-08-03'),
+    ish('360', 'Support **Search Results All** page', '2026-08-03'),
     ish(
       '372',
       '`Scroller`: New item cache fails on at least one page',
