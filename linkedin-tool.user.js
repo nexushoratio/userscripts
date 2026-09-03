@@ -9229,10 +9229,8 @@
 
     #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
-      ':scope [data-testid="carousel-child-container"] > *',
-      `:scope > ${this.#div4}` +
-        ':not(:has(> svg))' +
-        ':not(:has([data-testid="carousel-container]))',
+      `:scope > div > section > ${this.#div3}` +
+        ':not(:has(> h2)) > div',
     ].join(',');
 
     #entriesSelectorTestScores = [
