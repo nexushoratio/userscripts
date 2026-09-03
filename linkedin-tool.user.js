@@ -234,9 +234,44 @@
       '2026-08-29'
     ),
     ish('386', 'Support **Games** pages', '2026-08-29'),
+    ish(
+      '387', '`PagesToDo`: The generated `pathname` has issues', '2026-09-03'
+    ),
+    ish('260', 'Support **Job tracker** page', '2026-09-03'),
+    ish('388', '**Profile**: *Topcard* scroller is failing', '2026-09-03'),
+    ish(
+      '396',
+      '**Profile**: *Suggested for You* scroller is failing',
+      '2026-09-03'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-03',
+      issues: ['360'],
+      subject: 'Update issue note to match source title',
+    },
+    {
+      date: '2026-09-03',
+      issues: ['387'],
+      subject: 'Fix the `RegExp()` and update affected URLs',
+    },
+    {
+      date: '2026-09-03',
+      issues: ['260'],
+      subject: 'Update URL and name for **Job tracker**',
+    },
+    {
+      date: '2026-09-03',
+      issues: ['388'],
+      subject: 'Partial update for section *Topcard*',
+    },
+    {
+      date: '2026-09-03',
+      issues: ['396'],
+      subject: 'Partial update for section *Suggested for you*',
+    },
     {
       date: '2026-09-01',
       issues: ['372'],
@@ -535,33 +570,6 @@
       date: '2026-08-05',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Patents* section',
-    },
-    {
-      date: '2026-08-04',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-08-04',
-      issues: ['302'],
-      subject: 'More partial ordering pairs',
-    },
-    {
-      date: '2026-08-04',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Publications* section',
-    },
-    {
-      date: '2026-08-03',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-08-03',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Recommendations* section',
     },
   ];
 
