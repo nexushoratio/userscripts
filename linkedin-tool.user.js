@@ -1363,19 +1363,6 @@
       WATCH_FOR_CLICKS: true,
     });
 
-    /**
-     * Determines if the item can be viewed.  Usually this means the content
-     * is being loaded lazily and is not ready yet.
-     *
-     * @method
-     * @param {external:Element} item - The item to inspect.
-     * @returns {boolean} Whether the item has viewable content.
-     */
-    static #isItemViewable = (item) => {
-      const result = Boolean(item.clientHeight);
-      return result;
-    }
-
     #autoActivate
     #base
     #classes
@@ -1439,6 +1426,26 @@
       }
 
       this.logger.leaving(me);
+    }
+
+    /**
+     * Determine if the item can be viewed.
+     *
+     * Often this means the content is being loaded lazily and is not ready
+     * yet.
+     *
+     * @method
+     * @param {external:Element} item - The item to inspect.
+     * @returns {boolean} Whether the item has viewable content.
+     */
+    #isItemViewable = (item) => {
+      const me = this.#isItemViewable.name;
+      this.logger.entered(me, item);
+
+      const result = Boolean(item.clientHeight);
+
+      this.logger.leaving(me, result);
+      return result;
     }
 
     #startContainers = async () => {
@@ -1634,7 +1641,7 @@
       const me = this.#postProcessItems.name;
       this.logger.starting(me, `count: ${items.length}`);
 
-      const filtered = items.filter(Scroller.#isItemViewable);
+      const filtered = items.filter(this.#isItemViewable);
 
       const uids = new NH.base.DefaultMap(Array);
       for (const item of filtered) {
@@ -1778,7 +1785,7 @@
         // having no innerText yet.  So start at the end and work our way up
         // to the last one loaded.
         if (!first) {
-          while (!Scroller.#isItemViewable(item)) {
+          while (!this.#isItemViewable(item)) {
             this.logger.log('skipping item', item);
             idx -= NH.base.ONE_ITEM;
             item = items[idx];
@@ -1812,7 +1819,7 @@
        * @returns {boolean} Whether to keep or not.
        */
       const filterItem = (item) => {
-        if (Scroller.#isItemViewable(item)) {
+        if (this.#isItemViewable(item)) {
           return true;
         }
         if (this.#uid(item) === this.#currentItemId) {
@@ -2022,7 +2029,7 @@
 
             if (this.gotoUid(uid)) {
               this.logger.log('item is present', this.item);
-              if (Scroller.#isItemViewable(this.item)) {
+              if (this.#isItemViewable(this.item)) {
                 this.logger.log('and viewable');
                 this.#mutationDispatcher.off('childList', moCallback);
                 clearTimeout(timeoutID);
