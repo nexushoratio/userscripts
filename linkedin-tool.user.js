@@ -11464,30 +11464,31 @@
          * @todo [(#265)](https://github.com/nexushoratio/userscripts/issues/265)
          * Support **Post analytics** Page
          */
-        '/analytics/post-summary/',
+        '/analytics/post-summary/[^/]*/',
 
         /**
          * @todo [(#266)](https://github.com/nexushoratio/userscripts/issues/266)
          * Support **Company** Page
          */
-        '/company/',
-
-        /**
-         * @todo [(#386)](https://github.com/nexushoratio/userscripts/issues/386)
-         * Support **Games** pages
-         */
-        '/games/',
+        '/company/[^/]*/',
 
         /**
          * @todo [(#360)](https://github.com/nexushoratio/userscripts/issues/360)
          * Support **SearchResultsAll** page
          */
-        '/search/results/all(?:/.*)?',
+        '/search/results/all/?',
+        '/search/results/',
+
+        /**
+         * @todo [(#386)](https://github.com/nexushoratio/userscripts/issues/386)
+         * Support **Games** pages
+         */
+        '/games/.*/?',
       ].map(x => `(${x})`)
         .join('|');
       super({
         spa: spa,
-        pathname: RegExp(`^${URLs}$`, 'u'),
+        pathname: RegExp(`^(${URLs})$`, 'u'),
       });
     }
 
