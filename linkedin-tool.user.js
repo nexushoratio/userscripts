@@ -9085,6 +9085,7 @@
     /* eslint-enable */
 
     #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
+    #divSectionDiv3 = `div > section > ${this.#div3}`;
     #entriesCurrentModes
     #entriesCurrentUid
     #entriesScrollerConfigDefault = Symbol('default');
@@ -9236,7 +9237,7 @@
 
     #entriesSelectorSuggestedForYou = [
       // May or may not be a list/carousel
-      `:scope > div > section > ${this.#div3}` +
+      `:scope > ${this.#divSectionDiv3}` +
         ':not(:has(> h2)) > div',
     ].join(',');
 
@@ -9247,23 +9248,11 @@
 
     #entriesSelectorTopcard = [
       // Most items
-      `:scope > ${this.#div5}` +
-      // Premium badge
-      ':not(:has(> div > svg))' +
-      // Premium footer
-      ':not(:has(> svg))' +
-      // Skip carousels
-      ':not([data-testid="carousel-viewport-container"])',
-      // Profile photo
-      `:scope > ${this.#div3} > a > div`,
-      // Edit intro and connections
-      `:scope > ${this.#div4} > a`,
-      // Links to external websites
-      `:scope > ${this.#div3} > p`,
-      // Carousels (private edit footer)
-      ':scope' +
-        ' [data-testid="carousel-child-container"]' +
-        ' div:has(> a[href*="/in/"])',
+      `:scope > ${this.#divSectionDiv3} > * > *` +
+        // Skip premium badge
+        ':not(:has(> a > svg))' +
+        // Skip premium footer
+        ':not(:has(> svg))',
       // Buttons for Premium background carousel
       ':scope [data-testid="pagination-controls-list"]',
     ].join(',');

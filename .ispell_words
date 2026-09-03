@@ -276,6 +276,7 @@ displayIssueSeparator
 distanceBetweenPoints
 divAnchorNoArrowRight
 DIVs
+divSectionDiv
 doClassCleanups
 doCleanups
 docTabDefinition
@@ -1011,7 +1012,6 @@ returnToPost
 returnToSection
 returnToSections
 RoCallback
-roledescription
 rowClassesFunc
 RowClassesFunc
 RowClassesNotFunction
@@ -1472,7 +1472,6 @@ VERYComplicated
 viaH
 viewBox
 viewInviter
-viewItem
 viewReactions
 viewReposts
 viewTarget
