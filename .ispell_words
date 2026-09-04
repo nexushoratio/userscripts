@@ -411,6 +411,7 @@ finishConstruction
 finiteScrollHotkeyItem
 fireConfigChange
 firefox
+FireMonkey
 firstChild
 firstInvite
 firstItem
@@ -1025,6 +1026,7 @@ savedJob
 savedOptions
 savedScrollTop
 saveOptions
+ScriptCat
 scriptHandler
 scriptMetaStr
 scrollBy
@@ -1097,7 +1099,6 @@ SPATestCase
 spdx
 src
 srcdoc
-stackTrace
 startContainers
 startItem
 startMutationObserverUrlMonitor
@@ -1469,7 +1470,6 @@ valueChangeListener
 valueOf
 vclId
 VERYComplicated
-viaH
 viewBox
 viewInviter
 viewReactions
