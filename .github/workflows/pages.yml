@@ -49,11 +49,13 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            [userscript docs](..)
+            # This is an H1 in the API readme.
+
+            [All userscript doc variants](..)
 
             ${{ github.workflow }} generation:${{ github.run_number }}
 
-            Generated at: $(date -Imin) (via ${GITHUB_REF_NAME})
+            Generated at: $(date +'%F %R') (via ${GITHUB_REF_NAME})
             EOF
 
         - name: Prep workspace (main)
