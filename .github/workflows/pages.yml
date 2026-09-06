@@ -40,6 +40,9 @@ jobs:
       - parallel:
         - name: Assemble Markdown
           run: |
+            env
+            free -h
+            df -h
             mkdir -p ${{ env.ABS_MARKDOWN_DIR }}/_layouts/
             cp -v "${GITHUB_REF_NAME}/pages/_layouts/"* ${{ env.ABS_MARKDOWN_DIR }}/_layouts
             cp -v "${GITHUB_REF_NAME}/"*.md ${{ env.ABS_MARKDOWN_DIR }}/
@@ -49,13 +52,7 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            ## ${GITHUB_REF_NAME} variant
-
-            $(free -h)
-
-            $(df -h)
-
-            $(env)
+            ## Doc variant: ${GITHUB_REF_NAME}
 
             [All userscript doc variants](..)
 

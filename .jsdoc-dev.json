@@ -20,6 +20,7 @@
     "systemSummary": "A userscript library (developer docs)",
     "copyright": "",
     "dateFormat": "YYYY-MM-DD HH:mm",
-    "inlineNav": true
+    "inlineNav": true,
+    "showTableOfContents": false
   }
 }
