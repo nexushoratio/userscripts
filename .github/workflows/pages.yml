@@ -21,6 +21,9 @@ jobs:
       - name: Tools
         run: |
           npm install -g jsdoc kung-foodoc tui-jsdoc-template taffydb
+          dpkg -S $(which npm)
+          apt install inxi
+          inxi
 
       # Yes, two branches: main (stable) and scratch (scratch)
       # See https://github.com/nexushoratio/userscripts/issues/367
@@ -40,9 +43,6 @@ jobs:
       - parallel:
         - name: Assemble Markdown
           run: |
-            env
-            free -h
-            df -h
             mkdir -p ${{ env.ABS_MARKDOWN_DIR }}/_layouts/
             cp -v "${GITHUB_REF_NAME}/pages/_layouts/"* ${{ env.ABS_MARKDOWN_DIR }}/_layouts
             cp -v "${GITHUB_REF_NAME}/"*.md ${{ env.ABS_MARKDOWN_DIR }}/
@@ -56,7 +56,7 @@ jobs:
 
             [All userscript doc variants](..)
 
-            ${{ github.workflow }} generation:${{ github.run_number }}
+            GitHub ${{ github.workflow }} generation:${{ github.run_number }}
 
             Generated at: $(date +'%F %R') (via ${GITHUB_REF_NAME})
             EOF
