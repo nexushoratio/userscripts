@@ -1,7 +1,7 @@
 {
   "opts": {
     "pedantic": true,
-    "template": "node_modules/kung-foodoc",
+    "template": "node_modules/kung-foodoc/template",
     "private": true
   },
   "source": {
