@@ -1,7 +1,7 @@
 {
   "opts": {
     "pedantic": true,
-    "template": "node_modules/tui-jsdoc-template",
+    "template": "node_modules/kung-foodoc",
     "private": true
   },
   "source": {
@@ -15,11 +15,6 @@
     ]
   },
   "templates": {
-    "name": "Nexus Horatio's Userscripts (Developers)",
-    "footerText": "Nexus Horatio's Userscripts (Developers)",
-    "cleverLinks": true,
-    "logo": {
-      "height": "0"
-    }
+    "cleverLinks": true
   }
 }
