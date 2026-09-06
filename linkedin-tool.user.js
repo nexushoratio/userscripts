@@ -10808,9 +10808,9 @@
       const me = this.#initEntriesScroller.name;
       this.logger.entered(me, 'current section', this.sections.itemUid);
 
-      const config = this.#entriesScrollerConfigs.get(
-        this.sections.itemUid
-      ) ?? this.#entriesScrollerConfigs.get('urn');
+      const key = this.sections.itemUid;
+      const config = this.#entriesScrollerConfigs.get(key) ??
+            this.#entriesScrollerConfigs.get('urn');
       this.logger.log('config', config);
 
       const what = {
