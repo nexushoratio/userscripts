@@ -21,7 +21,7 @@ jobs:
       - name: Tools
         run: |
           npm install -g jsdoc kung-foodoc tui-jsdoc-template taffydb
-          dpkg -S $(which npm)
+          which -a npm
           apt install inxi
           inxi
 
