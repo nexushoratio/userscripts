@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Tools
         run: |
-          npm install -g jsdoc kung-foodoc
+          npm install -g jsdoc kung-foodoc tui-jsdoc-template taffydb
 
       # Yes, two branches: main (stable) and scratch (scratch)
       # See https://github.com/nexushoratio/userscripts/issues/367
