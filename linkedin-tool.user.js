@@ -10913,6 +10913,8 @@
               ':scope > div > div > section',
               // Comments
               ':scope > div > div [role="article"]',
+              // Networking
+              ':scope > div > section',
             ].join(','),
           },
         ],
@@ -10943,7 +10945,7 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueSectionIdentifier = (scroller, element) => {
+    #uniqueSectionIdentifier = (scroller, element) => {  // eslint-disable-line max-statements
       const me = this.#uniqueSectionIdentifier.name;
       this.logger.entered(me, element);
 
@@ -10955,6 +10957,7 @@
         ? element
         : element.querySelector(idSelector);
       const header = element.querySelector('header');
+      const cohorts = element.querySelector('.events-cohort-item');
       const urn = element.dataset.urn;
 
       if (id) {
@@ -10963,6 +10966,15 @@
       if (header) {
         content = header.classList.values()
           .find(x => x.startsWith(prefix));
+      }
+      if (cohorts) {
+        const scratch = ['cohorts'];
+        if (header) {
+          scratch.push(header.innerText);
+        } else {
+          scratch.push(scroller.defaultUid(element));
+        }
+        content = scratch.join('-');
       }
       if (urn) {
         content = urn;
