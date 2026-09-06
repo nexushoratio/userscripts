@@ -181,7 +181,7 @@
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-08-25'),
-    ish('209', 'Support **SearchResultsPeople** view', '2026-08-09'),
+    ish('209', 'Support **Search Results People** view', '2026-08-09'),
     ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
       '295',
@@ -191,12 +191,6 @@
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-08-21'),
     ish('325', '`isInput()` is overly broad', '2026-06-13'),
-    ish(
-      '352',
-      'Migrate `Scroller` configurations from static to instance' +
-        ' properties and functions',
-      '2026-06-21'
-    ),
     ish('360', 'Support **Search Results All** page', '2026-08-03'),
     ish(
       '372',
@@ -247,6 +241,22 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-06',
+      issues: ['237'],
+      subject: 'Introduce a temporary variable for `itemUid`',
+    },
+    {
+      date: '2026-09-06',
+      issues: ['209', '237'],
+      subject: 'Annotate that some pages are works-in-progress',
+    },
+    {
+      date: '2026-09-06',
+      issues: ['237'],
+      subject: 'Initial support for the *Networking* (a.k.a., cohorts)' +
+        ' sections',
+    },
     {
       date: '2026-09-03',
       issues: ['360'],
@@ -527,49 +537,6 @@
       date: '2026-08-08',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Languages* section',
-    },
-    {
-      date: '2026-08-07',
-      issues: ['325'],
-      subject: 'Enhance focus event listening to take shadow doms into' +
-        ' account',
-    },
-    {
-      date: '2026-08-07',
-      issues: ['325'],
-      subject: 'Detect if `activeElement` is actually in a shadow dom',
-    },
-    {
-      date: '2026-08-07',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Test scores* section',
-    },
-    {
-      date: '2026-08-07',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Honors & awards* section',
-    },
-    {
-      date: '2026-08-06',
-      issues: ['352'],
-      subject: 'Make `cssClassName()` and `scrollerClassName` instance' +
-        ' properties',
-    },
-    {
-      date: '2026-08-06',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Courses* section',
-    },
-    {
-      date: '2026-08-05',
-      issues: ['352'],
-      subject: 'Additional update on how `Profile`\'s `Scroller`s are' +
-        ' configured',
-    },
-    {
-      date: '2026-08-05',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Patents* section',
     },
   ];
 
