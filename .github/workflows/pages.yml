@@ -51,6 +51,8 @@ jobs:
             cat << EOF > ${{ env.API_README_MD }}
             # This is an H1 in the API readme.
 
+            $(free -h)
+
             [All userscript doc variants](..)
 
             ${{ github.workflow }} generation:${{ github.run_number }}

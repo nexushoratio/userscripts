@@ -17,7 +17,7 @@
   "templates": {
     "cleverLinks": true,
     "systemName": "NexusHoratio",
-    "systemSummary": "A userscript library",
+    "systemSummary": "A userscript library (developer variant docs)",
     "copyright": "",
     "dateFormat": "YYYY-MM-DD HH:mm",
     "inlineNav": true
