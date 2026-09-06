@@ -49,9 +49,13 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            # This is an H1 in the API readme.
+            ## ${GITHUB_REF_NAME} variant
 
             $(free -h)
+
+            $(df -h)
+
+            $(env)
 
             [All userscript doc variants](..)
 
