@@ -10625,7 +10625,7 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Specific Event',
+        name: 'Specific Event (WIP)',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/events/[^/]*/', 'u'),
         readySelector: 'footer.global-footer-compact',
@@ -11111,6 +11111,7 @@
     constructor(spa) {
       super({
         spa: spa,
+        name: 'Search Results People (WIP)',
         pathname: '/search/results/people/',
         readySelector: '#linkedin-logo-xxsmall',
       });
