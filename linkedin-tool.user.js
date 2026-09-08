@@ -9468,14 +9468,12 @@
         uidCallback: this.#entriesUidFromModes,
         selectors: [this.#entriesSelectorTopcard],
         modes: [
-          this.UidMode.ARIA_LABEL,
           this.UidMode.ANCHOR_OVERLAY,
+          this.UidMode.ARIA_LABEL,
           this.UidMode.ANCHOR,
           this.UidMode.MULTI_IMG,
           this.UidMode.SAFETY,
           this.UidMode.HREF,
-          // Hopefully only triggered by "Open to Work"
-          this.UidMode.ANCHOR_PROFILE,
         ],
       });
       this.#entriesScrollerConfigs.set('SuggestedForYou', {
