@@ -9232,6 +9232,8 @@
         ':not([data-testid="carousel-viewport-container"])',
       // Buttons for Premium background carousel
       ':scope [data-testid="pagination-controls-list"]',
+      // Links to external websites
+      `:scope > ${this.#divSectionDiv3} > p`,
       // Carousels (private edit footer, DIVs at different levels)
       ':scope' +
         ' [data-testid="carousel-child-container"]' +
