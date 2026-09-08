@@ -9223,7 +9223,7 @@
 
     #entriesSelectorTopcard = [
       // Most items
-      `:scope > ${this.#divSectionDiv3} > * > *` +
+      `:scope > ${this.#divSectionDiv3} > * > :is(div, a)` +
         // Skip premium badge
         ':not(:has(> a > svg))' +
         // Skip premium footer
