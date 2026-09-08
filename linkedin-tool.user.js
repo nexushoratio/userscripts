@@ -11483,6 +11483,12 @@
          * Support **Games** pages
          */
         '/games/.*/?',
+
+        /**
+         * @todo [(#408)](https://github.com/nexushoratio/userscripts/issues/408)
+         * Support **Connections** page
+         */
+        '/mynetwork/invite-connect/connections/?',
       ].map(x => `(${x})`)
         .join('|');
       super({
