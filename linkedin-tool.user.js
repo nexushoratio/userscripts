@@ -190,7 +190,6 @@
     ),
     ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-08-21'),
-    ish('325', '`isInput()` is overly broad', '2026-06-13'),
     ish('360', 'Support **Search Results All** page', '2026-08-03'),
     ish(
       '372',
@@ -238,9 +237,50 @@
       '**Profile**: *Suggested for You* scroller is failing',
       '2026-09-03'
     ),
+    ish('408', 'Support **Connections** pages', '2026-09-08'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-08',
+      issues: ['408'],
+      subject: 'Acknowledge **Connections** page',
+    },
+    {
+      date: '2026-09-08',
+      issues: ['388'],
+      subject: 'Update the `UidMode`\'s post layout update',
+    },
+    {
+      date: '2026-09-08',
+      issues: ['388'],
+      subject: 'Capture external links again',
+    },
+    {
+      date: '2026-09-08',
+      issues: ['388'],
+      subject: 'Fine tune the premium footer "ad" selector',
+    },
+    {
+      date: '2026-09-08',
+      issues: ['388'],
+      subject: 'Handle the private edit footer carousel again',
+    },
+    {
+      date: '2026-09-08',
+      issues: ['388'],
+      subject: 'Fine tune the common *Topcard* selector',
+    },
+    {
+      date: '2026-09-08',
+      issues: [''],
+      subject: 'More partial ordering pairs for **Profile**',
+    },
+    {
+      date: '2026-09-06',
+      issues: [''],
+      subject: 'More partial ordering pairs for **Profile**',
+    },
     {
       date: '2026-09-06',
       issues: ['237'],
@@ -527,16 +567,6 @@
       date: '2026-08-11',
       issues: ['302'],
       subject: 'Update `UidMode`s for the *Interests* section',
-    },
-    {
-      date: '2026-08-08',
-      issues: ['325'],
-      subject: 'Retire the `isInput()` fork',
-    },
-    {
-      date: '2026-08-08',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Languages* section',
     },
   ];
 
