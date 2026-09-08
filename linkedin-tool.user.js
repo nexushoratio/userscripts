@@ -9227,7 +9227,7 @@
         // Skip premium badge
         ':not(:has(> a > svg))' +
         // Skip premium footer
-        ':not(:has(> svg))' +
+        ':not(:has(> svg[id^="premium"]))' +
         // Skip carousels
         ':not([data-testid="carousel-viewport-container"])',
       // Buttons for Premium background carousel
