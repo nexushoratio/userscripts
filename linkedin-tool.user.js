@@ -9227,9 +9227,15 @@
         // Skip premium badge
         ':not(:has(> a > svg))' +
         // Skip premium footer
-        ':not(:has(> svg))',
+        ':not(:has(> svg))' +
+        // Skip carousels
+        ':not([data-testid="carousel-viewport-container"])',
       // Buttons for Premium background carousel
       ':scope [data-testid="pagination-controls-list"]',
+      // Carousels (private edit footer, DIVs at different levels)
+      ':scope' +
+        ' [data-testid="carousel-child-container"]' +
+        ' div:has(> a[href*="/in/"])',
     ].join(',');
 
     #entriesSelectorVolunteering = [
