@@ -1,6 +1,6 @@
 {
   "opts": {
-    "template": "node_modules/tui-jsdoc-template",
+    "template": "node_modules/kung-foodoc/template",
     "private": false
   },
   "source": {
@@ -14,11 +14,12 @@
     ]
   },
   "templates": {
-    "name": "Nexus Horatio's Userscripts (Users)",
-    "footerText": "Nexus Horatio's Userscripts (Users)",
     "cleverLinks": true,
-    "logo": {
-      "height": "0"
-    }
+    "systemName": "NexusHoratio",
+    "systemSummary": "A userscript library<br>(user docs)",
+    "copyright": "",
+    "dateFormat": "YYYY-MM-DD HH:mm",
+    "inlineNav": true,
+    "showTableOfContents": false
   }
 }

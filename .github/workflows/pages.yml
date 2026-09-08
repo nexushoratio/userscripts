@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Tools
         run: |
-          npm install -g jsdoc tui-jsdoc-template taffydb
+          npm install -g jsdoc kung-foodoc
 
       # Yes, two branches: main (stable) and scratch (scratch)
       # See https://github.com/nexushoratio/userscripts/issues/367
@@ -49,11 +49,11 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            [userscript docs](..)
+            ## Doc variant: ${GITHUB_REF_NAME}
 
-            ${{ github.workflow }} generation:${{ github.run_number }}
+            [All userscript doc variants](..)
 
-            Generated at: $(date -Imin) (via ${GITHUB_REF_NAME})
+            GitHub ${{ github.workflow }} generation:${{ github.run_number }}
             EOF
 
         - name: Prep workspace (main)
