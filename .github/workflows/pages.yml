@@ -49,8 +49,9 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            ## Trigger branch: ${GITHUB_REF_NAME}
-            ## Source branch: SOURCE_BRANCH
+            ## This doc tree variant:
+            - Source branch: SOURCE_BRANCH
+            - Trigger branch: ${GITHUB_REF_NAME}
 
             [All userscript doc variants](..)
 
@@ -87,12 +88,14 @@ jobs:
         - name: JSDoc (dev)
           run: |
             pushd main
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/dev
+            sed 's/SOURCE_BRANCH/main/' ${{ env.API_README_MD }} > ${{ env.API_README_MD }}.dev-main
+            jsdoc -R ${{ env.API_README_MD }}.dev-main -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/dev
 
         - name: JSDoc (scratch)
           run: |
             pushd scratch
-            jsdoc -R ${{ env.API_README_MD }} -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/scratch
+            sed 's/SOURCE_BRANCH/scratch/' ${{ env.API_README_MD }} > ${{ env.API_README_MD }}.dev-scratch
+            jsdoc -R ${{ env.API_README_MD }}.dev-scratch -c .jsdoc-dev.json -d ${{ env.ABS_JSDOC }}/scratch
 
       - name: Merge document trees
         run: |
