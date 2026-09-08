@@ -49,7 +49,7 @@ jobs:
             done
 
             cat << EOF > ${{ env.API_README_MD }}
-            ## Doc variant: ${GITHUB_REF_NAME}
+            ## Source branch: ${GITHUB_REF_NAME}
 
             [All userscript doc variants](..)
 
