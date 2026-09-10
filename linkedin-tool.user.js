@@ -49,6 +49,7 @@
 
   const APP_LONG = GM.info.script.name;
   const CKEY = 'componentkey';
+  const COHORTS = 'cohorts';
   const OPTIONS = 'Options';
   const APP_SHORT = APP_LONG.split(' ')
     .at(NH.base.LAST_ITEM);
@@ -10816,7 +10817,10 @@
       const me = this.#initEntriesScroller.name;
       this.logger.entered(me, 'current section', this.sections.itemUid);
 
-      const key = this.sections.itemUid;
+      let key = this.sections.itemUid;
+      if (key.startsWith(COHORTS)) {
+        key = COHORTS;
+      }
       const config = this.#entriesScrollerConfigs.get(key) ??
             this.#entriesScrollerConfigs.get('urn');
       this.logger.log('config', config);
@@ -10976,7 +10980,7 @@
           .find(x => x.startsWith(prefix));
       }
       if (cohorts) {
-        const scratch = ['cohorts'];
+        const scratch = [COHORTS];
         if (header) {
           scratch.push(header.innerText);
         } else {
