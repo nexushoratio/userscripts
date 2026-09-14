@@ -189,7 +189,6 @@
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
       '2026-08-06'
     ),
-    ish('302', '<b>Profile</b>: Entries need tuning', '2026-04-24'),
     ish('303', 'Keys are captured while editing text', '2026-08-21'),
     ish('360', 'Support **Search Results All** page', '2026-08-03'),
     ish(
@@ -242,6 +241,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-10',
+      issues: ['237'],
+      subject: 'Treat all *cohorts* sections equivalently',
+    },
     {
       date: '2026-09-08',
       issues: ['408'],
@@ -537,37 +541,6 @@
       date: '2026-08-16',
       issues: [''],
       subject: 'Another **Profile** partial ordering pair',
-    },
-    {
-      date: '2026-08-15',
-      issues: ['379'],
-      subject: 'Update how section UID prefix is obtained',
-    },
-    {
-      date: '2026-08-14',
-      issues: ['302'],
-      subject: 'Retire transition support shim',
-    },
-    {
-      date: '2026-08-14',
-      issues: ['302'],
-      subject: 'Retire old name for the *Highlights* section',
-    },
-    {
-      date: '2026-08-13',
-      issues: ['302'],
-      subject: 'Update to latest `lib/spa` to use the new' +
-        ' `readySelectorTimeout`',
-    },
-    {
-      date: '2026-08-12',
-      issues: ['302'],
-      subject: 'Wait for the *Topcard* section to show up',
-    },
-    {
-      date: '2026-08-11',
-      issues: ['302'],
-      subject: 'Update `UidMode`s for the *Interests* section',
     },
   ];
 
