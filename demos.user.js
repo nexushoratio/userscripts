@@ -32,6 +32,9 @@
 (async () => {
   'use strict';
 
+  document.body.append('Generated: ', new Date()
+    .toLocaleString('sv'));
+
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit'},
     {name: 'base'},

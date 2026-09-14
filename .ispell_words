@@ -529,7 +529,6 @@ ignoredPathname
 ignoreInvite
 ignoreList
 img
-Imin
 inCleanup
 includeStackTrace
 indexOf
@@ -1145,7 +1144,6 @@ tablistSelector
 tabSnippet
 TabsTestCase
 TabTestCase
-taffydb
 tagName
 Tampermonkey
 tbody
@@ -1389,6 +1387,7 @@ toggleItem
 toggleSaveJob
 toggleStar
 toJSON
+toLocaleString
 toLowerCase
 ToMyLou
 toolButtonHandler
