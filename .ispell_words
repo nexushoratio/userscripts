@@ -40,7 +40,6 @@ aLert
 allowedBottom
 allowedStyles
 allowReactivation
-alnum
 AlreadySet
 alsoNotATest
 amet
@@ -912,6 +911,7 @@ pdmv
 pojo
 popstate
 populateBuilt
+populateTabItems
 portalSelector
 postInfoAboutElement
 postProcessItems
@@ -1067,9 +1067,11 @@ setAttribute
 setAutoManageLoggerConfigs
 setContext
 setKeyboardContext
+setPanel
 setScroller
 setShortName
 setStyle
+setTab
 setTimeout
 setTitle
 setUp
@@ -1138,6 +1140,10 @@ TabContent
 TabDefinition
 TabEntry
 tabindex
+tabItem
+TabItem
+tabItems
+TabItemTestCase
 tablist
 tabList
 tablistSelector
@@ -1348,6 +1354,8 @@ testStrangeClassSetup
 testStringManipulation
 testStringObject
 testSummary
+testTab
+testTabItems
 testTemplateLiteral
 testTooManyOutros
 testToString
