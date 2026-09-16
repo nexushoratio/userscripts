@@ -10762,6 +10762,15 @@
         }
       );
       this.#entriesScrollerConfigs.set(
+        'cohorts', {
+          uidCallback: this.#uniqueEntriesIdPeople,
+          selectors: [
+            ':scope li',
+            ':scope > footer',
+          ],
+        }
+      );
+      this.#entriesScrollerConfigs.set(
         'urn', {
           uidCallback: this.#uniqueEntriesIdTbd,
           selectors: [
