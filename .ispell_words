@@ -620,7 +620,6 @@ klass
 knownIssues
 labelClassesFunc
 LabelClassesFunc
-LabelClassesNotFunction
 labelledby
 labelledBy
 LanguageTopLevel
@@ -1149,7 +1148,6 @@ tabList
 tablistSelector
 tabSnippet
 TabsTestCase
-TabTestCase
 tagName
 Tampermonkey
 tbody
@@ -1436,6 +1434,7 @@ uniqueCollectionIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
+uniqueEntriesIdPeople
 uniqueEntriesIdSpeaker
 uniqueEntriesIdTbd
 uniqueEntriesIdTopcard

@@ -10757,8 +10757,7 @@
       );
       this.#entriesScrollerConfigs.set(
         'live-speaker-list', {
-          // This actually works well here.
-          uidCallback: this.#uniqueEntriesIdSpeaker,
+          uidCallback: this.#uniqueEntriesIdPeople,
           selectors: [':scope > div > div > div'],
         }
       );
@@ -11036,8 +11035,8 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueEntriesIdSpeaker = (scroller, element) => {
-      const me = this.#uniqueEntriesIdSpeaker.name;
+    #uniqueEntriesIdPeople = (scroller, element) => {
+      const me = this.#uniqueEntriesIdPeople.name;
       this.logger.entered(me, element);
 
       let content = '';
