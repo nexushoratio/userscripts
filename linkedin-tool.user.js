@@ -242,6 +242,22 @@
 
   const globalNewsContent = [
     {
+      date: '2026-09-16',
+      issues: ['237'],
+      subject: 'Navigation support for *Networking* sections',
+    },
+    {
+      date: '2026-09-16',
+      issues: ['237'],
+      subject: 'Rename `*IdSpeaker` to `*IdPeople` as it will work else' +
+        ' where',
+    },
+    {
+      date: '2026-09-16',
+      issues: ['209'],
+      subject: 'Make trailing slash optional',
+    },
+    {
       date: '2026-09-10',
       issues: ['237'],
       subject: 'Treat all *cohorts* sections equivalently',
@@ -520,27 +536,6 @@
       issues: ['379'],
       subject: 'Only look for the UID prefix when **Profile** is the' +
         ' current page',
-    },
-    {
-      date: '2026-08-17',
-      issues: ['379'],
-      subject: 'Update to latest `lib/web` and make `#scrollerFinder()`' +
-        ' async',
-    },
-    {
-      date: '2026-08-16',
-      issues: ['379'],
-      subject: 'Trigger the `StyleService` after the toolbar transitions',
-    },
-    {
-      date: '2026-08-16',
-      issues: ['379'],
-      subject: 'Move some logging around',
-    },
-    {
-      date: '2026-08-16',
-      issues: [''],
-      subject: 'Another **Profile** partial ordering pair',
     },
   ];
 

@@ -519,7 +519,9 @@ HtmlRenderer
 HTMLStyleElement
 HTMLUnknownElement
 idName
+IdPeople
 idSelector
+IdSpeaker
 idx
 iframe
 iframeDoc
