@@ -11097,7 +11097,7 @@
       super({
         spa: spa,
         name: 'Search Results People (WIP)',
-        pathname: '/search/results/people/',
+        pathname: '/search/results/people/?',
         readySelector: '#linkedin-logo-xxsmall',
       });
 
