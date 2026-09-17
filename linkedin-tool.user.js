@@ -241,6 +241,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-09-17',
+      issues: ['372'],
+      subject: 'Rip out the `#itemCache` and associated monitoring',
+    },
+    {
       date: '2026-09-16',
       issues: ['237'],
       subject: 'Navigation support for *Networking* sections',
