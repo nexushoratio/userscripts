@@ -79,7 +79,6 @@
       enableAlertUnsupportedPages: false,
       enableAlertUnknownProfileSections: false,
       enableWatchPage: false,
-      enableIssue289Monitoring: false,
       fakeErrorRate: 0.8,
       latestNewsRead: '',
     };
@@ -1037,9 +1036,6 @@
       this.#containersMutationObserver = new MutationObserver(
         this.#containersMutationHandler
       );
-      this.#pageMutationObserver = new MutationObserver(
-        this.#pageMutationHandler
-      );
 
       this.#logger = new NH.base.Logger(`{${this.#name}}`);
       this.logger.log('Scroller constructed', this);
@@ -1284,10 +1280,6 @@
       const me = this.activate.name;
       this.logger.entered(me);
 
-      this.#pageMutationObserver.observe(
-        document.body, {childList: true, subtree: true}
-      );
-      this.#pageMutationObserver.observing = true;
       await this.#startContainers();
       // The logging statement is useful for debugging.  Keep it.
       this.logger.log('watcher:', await this.#currentItemWatcher());
@@ -1307,8 +1299,6 @@
       const me = this.deactivate.name;
       this.logger.entered(me);
 
-      this.#pageMutationObserver.disconnect();
-      this.#pageMutationObserver.observing = false;
       this.#mutationDispatcher.off('attributes', this.#attributesHandler);
       this.#mutationDispatcher.off('childList', this.#monitorConnectedness);
       this.#stopContainers();
@@ -1355,14 +1345,12 @@
     );
 
     #historicalIdToIndex = new Map();
-    #itemCache
     #logger
     #maxUidLength
     #mutationDispatcher = new NH.base.Dispatcher('attributes', 'childList');
     #name
     #observeAttributes
     #onClickElements = new Set();
-    #pageMutationObserver
     #selectors
     #snapToTop
     #uidCallback
@@ -1461,7 +1449,6 @@
           this.#clickOptions);
       }
       this.#onClickElements.clear();
-      this.#itemCache = null;
       this.#containers.clear();
     }
 
@@ -1508,21 +1495,6 @@
       return height;
     }
 
-    #pageMutationHandler = async () => {
-      const me = this.#pageMutationHandler.name;
-      this.logger.entered(me, this.#containers);
-
-      const needsConnection = this.#containers.values()
-        .some(x => !x.isConnected);
-      if (needsConnection) {
-        this.logger.log('restarting containers');
-        await this.activate();
-        this.logger.log('containers restarted');
-      }
-
-      this.logger.leaving(me);
-    }
-
     /**
      * @method
      * @param {MutationRecord[]} records - Standard mutation records.
@@ -1540,7 +1512,6 @@
       }
 
       for (const [type, items] of types) {
-        this.#itemCache = null;
         this.#mutationDispatcher.fire(type, items);
       }
 
@@ -1580,28 +1551,26 @@
       const me = this.#getItems.name;
       this.logger.entered(me);
 
-      if (!this.#itemCache) {
-        // This needs to be ordered, so does not use #containers.
-        const items = [];
-        if (this.#base) {
-          for (const selector of this.#selectors) {
-            this.logger.log(`considering ${selector}`);
-            items.push(...this.#base.querySelectorAll(selector));
-          }
-        } else {
-          for (const {container, items: selector} of this.#containerItems) {
-            this.logger.log(`considering ${container} with ${selector}`);
-            const base = document.querySelector(container);
-            if (base) {
-              items.push(...base.querySelectorAll(selector));
-            }
+      // This needs to be ordered, so does not use #containers.
+      const items = [];
+      if (this.#base) {
+        for (const selector of this.#selectors) {
+          this.logger.log(`considering ${selector}`);
+          items.push(...this.#base.querySelectorAll(selector));
+        }
+      } else {
+        for (const {container, items: selector} of this.#containerItems) {
+          this.logger.log(`considering ${container} with ${selector}`);
+          const base = document.querySelector(container);
+          if (base) {
+            items.push(...base.querySelectorAll(selector));
           }
         }
-        this.#itemCache = this.#postProcessItems(items);
       }
+      const results = this.#postProcessItems(items);
 
-      this.logger.leaving(me, this.#itemCache.length);
-      return this.#itemCache;
+      this.logger.leaving(me, results.length);
+      return results;
     }
 
     /**
@@ -2024,12 +1993,6 @@
             this.logger.log('one last try...');
             moCallback();
             resolve('we tried...');
-            if (litOptions.enableIssue289Monitoring &&
-                this.#pageMutationObserver.observing) {
-              NH.base.issues.post(
-                'Issues 289/372:', this.name, `${me} timed out`
-              );
-            }
           };
 
           this.#mutationDispatcher.on('childList', moCallback);
