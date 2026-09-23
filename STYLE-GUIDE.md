@@ -49,6 +49,15 @@ Skeleton for *lib/foo.js*:
 
 window.NexusHoratio ??= {};
 
+/**
+ * Foo library does Foo stuff.
+ *
+ * Depends on:
+ * - {@link NexusHoratio.base}
+ * @version N
+ * @license [GPL-3.0-or-later]{@link https://www.gnu.org/licenses/gpl-3.0-standalone.html}
+ * @namespace NexusHoratio.foo
+ */
 window.NexusHoratio.foo = (function foo() {
   'use strict';
 
@@ -60,6 +69,14 @@ window.NexusHoratio.foo = (function foo() {
     {name: 'base', minVersion: ver1},
   ]);
 
+  // Optional module level logger.
+  const logger = new NH.base.Logger('NHFoo);
+
+  /**
+   * Do something bar-like.
+   *
+   * @memberof NexusHoratio.foo
+   */
   function bar() {
     if (!right) {
       NH.base.issues.post('Something was not right with bar', 'Details ...');

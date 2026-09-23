@@ -706,7 +706,6 @@ MethodResult
 minVersion
 MissingField
 missingFirst
-MissingLabel
 MissingLabelledbyOrLabel
 MissingName
 missingSecond
@@ -795,6 +794,7 @@ nextTab
 nexushoratio
 NexusHoratio
 nh
+NHFoo
 NHWeb
 nodeType
 nodeValue
@@ -1437,7 +1437,6 @@ uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
 uniqueEntriesIdPeople
-uniqueEntriesIdSpeaker
 uniqueEntriesIdTbd
 uniqueEntriesIdTopcard
 uniqueEntryIdentifier
