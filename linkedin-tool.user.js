@@ -903,6 +903,9 @@
    * - 'deactivate' - The Scroller was deactivated.
    * - 'focus' - Before the focus is set.
    * - 'focused' - After the focus is set.
+   *
+   * @todo [(#293)](https://github.com/nexushoratio/userscripts/issues/293)
+   * Refactoring this into a separate library.
    */
   class Scroller {
 
