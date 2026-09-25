@@ -26,7 +26,7 @@
 // @require http://localhost:8000/userscripts/lib/userscript.js?0
 // @require http://localhost:8000/userscripts/lib/web.js?0
 // @require http://localhost:8000/userscripts/lib/widget.js?0
-// @require http://localhost:8000/userscripts/lib/nav.js?1489752962
+// @require http://localhost:8000/userscripts/lib/nav.js?483849308
 // ==/UserScript==
 
 /**
