@@ -10574,10 +10574,20 @@
       '=',
       'Open the <button>⋯</button> menu',
       () => {
-        // Will need work as there are also menus in the post section.
-        const topCard = document.querySelector('main > section');
-        NH.web.clickElement(topCard,
-          ['button:has(> svg[data-test-icon^="overflow"]']);
+        // This seems to match only the the menu buttons.
+        const selector = [
+          '.artdeco-button--1',
+          '.artdeco-button--circle',
+          '.artdeco-dropdown__trigger',
+        ].join('');
+        let el = this.#lastScroller.item;
+        const rc = NH.web.clickElement(el, [selector]);
+        // If either no active scroller OR in an item that does not have a
+        // menu, fall back to main.
+        if (!rc) {
+          el = document.querySelector('main');
+          NH.web.clickElement(el, [selector]);
+        }
       }
     );
 

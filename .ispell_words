@@ -288,6 +288,7 @@ doSetUpClass
 doTestCases
 downloadURL
 dps
+dropdown
 duckData
 dummyArgs
 dummyEventCallback
@@ -894,7 +895,6 @@ paddingTop
 padEnd
 padStart
 PageDetails
-pageMutationHandler
 pageService
 PagesToDo
 pageStyle
@@ -1372,7 +1372,6 @@ testWidget
 testWithContentBuilds
 testWithFieldName
 testWithIterable
-testWithLabel
 testWithNumbers
 testWithSpaces
 textarea
