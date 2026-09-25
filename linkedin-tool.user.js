@@ -10672,7 +10672,10 @@
       'A',
       'Attend the event',
       () => {
-        NH.web.clickElement(document, ['button.artdeco-button--primary']);
+        NH.web.clickElement(
+          document,
+          ['div.events-live-top-card__cta > button.artdeco-button--primary']
+        );
       }
     );
 
@@ -10680,7 +10683,7 @@
       'S',
       'Open share menu',
       () => {
-        NH.web.clickElement(document, ['.social-share button']);
+        NH.web.clickElement(document, ['.social-share > * > button']);
       }
     );
 

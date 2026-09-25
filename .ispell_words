@@ -222,6 +222,7 @@ createPanel
 css
 cssClass
 cssClassName
+cta
 ctor
 CtorPage
 currentColor
@@ -744,7 +745,6 @@ navMe
 navSpacer
 ndid
 ndiff
-needsConnection
 nestedId
 newCallback
 NewClass
@@ -895,7 +895,6 @@ padEnd
 padStart
 PageDetails
 pageMutationHandler
-pageMutationObserver
 pageService
 PagesToDo
 pageStyle
