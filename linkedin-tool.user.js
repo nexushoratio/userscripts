@@ -6161,7 +6161,7 @@
       };
 
       this.#collectionScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher
         .on('change', this.#onCollectionChange)
@@ -6551,7 +6551,7 @@
       };
 
       this.#inviteScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#inviteScroller);
       this.#inviteScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnAside);
@@ -6788,7 +6788,7 @@
       };
 
       this.#sectionScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
         .on('change', this.#onSectionChange)
@@ -7270,7 +7270,7 @@
       };
 
       this.#cardsScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#cardsScroller);
       this.#cardsScroller.dispatcher
         .on('activate', this.#onCardActivate)
@@ -7300,7 +7300,7 @@
       };
 
       this.#paginationScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
         .on('activate', this.#onPaginationActivate)
@@ -7325,7 +7325,7 @@
       };
 
       this.#detailsScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#detailsScroller);
       this.#detailsScroller.dispatcher
         .on('change', this.#onDetailsChange);
@@ -7771,7 +7771,7 @@
       };
 
       this.#cardScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#cardScroller);
       this.#cardScroller.dispatcher
         .on('change', this.#onCardChange);
@@ -8169,7 +8169,7 @@
       };
 
       this.#convoCardScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#convoCardScroller);
       this.#convoCardScroller.dispatcher
         .on('activate', this.#onConvoCardActivate)
@@ -8614,7 +8614,7 @@
       };
 
       this.#notificationScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnSidebar);
@@ -9298,7 +9298,7 @@
       };
 
       this.#sectionScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
         .on('change', this.#onSectionChange);
@@ -10258,7 +10258,7 @@
       };
 
       this.#collectionScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#collectionScroller);
 
       this.#collectionScroller.dispatcher
@@ -10775,7 +10775,7 @@
       };
 
       this.#sectionsScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionsScroller);
       this.#sectionsScroller.dispatcher
         .on('change', this.#onSectionChange);
@@ -11086,7 +11086,7 @@
       };
 
       this.#paginationScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
         .on('activate', this.#onPaginationActivate)
@@ -11114,7 +11114,7 @@
       };
 
       this.#resultScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#resultScroller);
       this.#resultScroller.dispatcher
         .on('change', this.#onResultChange);
