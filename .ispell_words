@@ -169,6 +169,7 @@ clickOptions
 clientHeight
 clientWidth
 cloneNode
+codePointAt
 colClassesFunc
 ColClassesNotFunction
 collectionsContainer
@@ -309,7 +310,6 @@ enableAlertOldNews
 enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
 enableDevMode
-enableIssue
 enableWatchPage
 endsWith
 engageIndividual
@@ -623,7 +623,6 @@ keyMap
 klass
 knownIssues
 labelClassesFunc
-LabelClassesFunc
 labelledby
 labelledBy
 LanguageTopLevel

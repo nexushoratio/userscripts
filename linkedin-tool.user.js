@@ -4648,11 +4648,22 @@
      * @returns {string} A CSS className.
      */
     cssClassName = (extras = []) => {
+      const hex = 16;
       const split = NH.base.simpleParseWords(this.name)
         .map(x => x.toLowerCase());
+
+      /**
+       * @todo
+       * [(#411)](https://github.com/nexushoratio/userscripts/issues/411)
+       * Testing a potential enhancement.
+       */
       const className = ['lit'].concat(split)
         .concat(extras)
-        .join('-');
+        .join('-')
+        .replace(/[^\w .]/gu, c => `x${c.codePointAt(0)
+          .toString(hex)}`)
+        .replaceAll(' ', '-')
+        .replaceAll('.', '_');
       return className;
     }
 
