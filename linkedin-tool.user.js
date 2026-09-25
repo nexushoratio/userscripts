@@ -180,40 +180,24 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
-    ish('167', 'Refactor into libraries', '2026-08-25'),
+    ish('167', 'Refactor into libraries', '2026-09-25'),
     ish('209', 'Support **Search Results People** view', '2026-08-09'),
     ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
-      '2026-08-06'
+      '2026-09-06'
     ),
-    ish('303', 'Keys are captured while editing text', '2026-08-21'),
+    ish('303', 'Keys are captured while editing text', '2026-09-21'),
     ish('360', 'Support **Search Results All** page', '2026-08-03'),
     ish(
       '372',
       '`Scroller`: New item cache fails on at least one page',
       '2026-07-19'
     ),
-    ish(
-      '379',
-      '**Profile**: Multiple failures when navigating between profiles',
-      '2026-08-15'
-    ),
-    ish(
-      '382',
-      '**Info**: Give the *Errors* tab priority over *News*',
-      '2026-08-20'
-    ),
-    ish('253', 'Support **Manage Events** page', '2026-08-21'),
+    ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
-    ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-08-24'),
-    ish(
-      '129',
-      '**Info**: *Shortcuts* Consider a way to implement subsections in' +
-        ' keystroke menu',
-      '2026-08-24'
-    ),
+    ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish('383', 'LIT Does not load', '2026-08-27'),
     ish(
       '384',
@@ -237,9 +221,20 @@
       '2026-09-03'
     ),
     ish('408', 'Support **Connections** pages', '2026-09-08'),
+    ish('293', '`Navigation` library', '2026-09-24'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-24',
+      issues: ['237'],
+      subject: 'Make selectors for `A`ttend and `S`hare more precise',
+    },
+    {
+      date: '2026-09-23',
+      issues: ['293'],
+      subject: 'Initial refactoring of `Scroller` and friends',
+    },
     {
       date: '2026-09-17',
       issues: ['372'],
@@ -426,120 +421,6 @@
       date: '2026-08-27',
       issues: ['383'],
       subject: 'Update the *Style-2* `#primaryNavSelector`',
-    },
-    {
-      date: '2026-08-26',
-      issues: ['237'],
-      subject: 'Support the *About* (aka "description") section',
-    },
-    {
-      date: '2026-08-25',
-      issues: ['381'],
-      subject: 'Retire unused `UidMode.IMG`',
-    },
-    {
-      date: '2026-08-25',
-      issues: ['237'],
-      subject: 'Initial work on secondary scroller, just *Topcard*',
-    },
-    {
-      date: '2026-08-25',
-      issues: ['237'],
-      subject: 'Trim off cruft on the section UIDs',
-    },
-    {
-      date: '2026-08-24',
-      issues: ['381'],
-      subject: 'Retire `UidMode.ID`',
-    },
-    {
-      date: '2026-08-24',
-      issues: [''],
-      subject: 'Partial ordering pair clean up for **Profile**',
-    },
-    {
-      date: '2026-08-24',
-      issues: [''],
-      subject: 'More partial ordering pairs for **Profile**',
-    },
-    {
-      date: '2026-08-24',
-      issues: ['237'],
-      subject: 'Initial support for **Specific Event** pages',
-    },
-    {
-      date: '2026-08-24',
-      issues: ['129'],
-      subject: 'Explicitly set `VMKeyboardService` short name for some pages',
-    },
-    {
-      date: '2026-08-24',
-      issues: [''],
-      subject: 'Make certain shortcuts consistent',
-    },
-    {
-      date: '2026-08-24',
-      issues: ['253'],
-      subject: 'Update name to match the title for the page',
-    },
-    {
-      date: '2026-08-23',
-      issues: ['236'],
-      subject: '**Events** is fully supported, retire the `@todo`',
-    },
-    {
-      date: '2026-08-23',
-      issues: ['237'],
-      subject: 'Acknowledge **Events Specific** page',
-    },
-    {
-      date: '2026-08-23',
-      issues: ['236', '253'],
-      subject: 'Conflated **My Network Events** with **Events**',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['253'],
-      subject: 'Retire **Events** from `PagesToDo`',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['372'],
-      subject: 'Update referenced bugs in a notification; the original is' +
-        ' closed',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['253', '295'],
-      subject: 'Move `#onHybridActivate()` to trigger on the details' +
-        ' dispatcher',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['253'],
-      subject: 'Change the LIT CSS styles to be appended rather than' +
-        ' prepended',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['253'],
-      subject: 'Set `#lastScroller` on page initialization',
-    },
-    {
-      date: '2026-08-21',
-      issues: ['253'],
-      subject: 'Bump initial timeout to 4s',
-    },
-    {
-      date: '2026-08-20',
-      issues: ['382'],
-      subject: 'Swap order of tab checks when the menu item is connected',
-    },
-    {
-      date: '2026-08-20',
-      issues: ['379'],
-      subject: 'Only look for the UID prefix when **Profile** is the' +
-        ' current page',
     },
   ];
 
