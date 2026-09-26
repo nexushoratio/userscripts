@@ -200,7 +200,6 @@
     ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
-    ish('383', 'LIT Does not load', '2026-08-27'),
     ish(
       '384',
       '**Profile**: Layout updated and navigation fails',
@@ -224,9 +223,32 @@
     ),
     ish('408', 'Support **Connections** pages', '2026-09-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
+    ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
+    ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-25',
+      issues: ['410', '411'],
+      subject: 'Testing a potential improvement for `safeId()`',
+    },
+    {
+      date: '2026-09-25',
+      issues: ['237'],
+      subject: 'More precisely match the various `⋯` (menu) buttons',
+    },
+    {
+      date: '2026-09-25',
+      issues: ['293'],
+      subject: 'Migrate most users of `ScrollerService` to the refactored' +
+        ' version',
+    },
+    {
+      date: '2026-09-25',
+      issues: ['293'],
+      subject: 'Add dependency to the new `lib/nav`',
+    },
     {
       date: '2026-09-24',
       issues: ['237'],
@@ -418,11 +440,6 @@
       date: '2026-08-28',
       issues: ['237'],
       subject: 'Tweak the `showMore` short cut description',
-    },
-    {
-      date: '2026-08-27',
-      issues: ['383'],
-      subject: 'Update the *Style-2* `#primaryNavSelector`',
     },
   ];
 
