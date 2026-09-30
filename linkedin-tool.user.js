@@ -10598,6 +10598,18 @@
       }
     );
 
+    engageIndividual = new Shortcut(
+      'E',
+      'Engage with an individual in the Networking view' +
+        ' (Message, Follow, Connect)',
+      () => {
+        // All Networking view items are `li`.
+        if (this.entries?.item?.tagName === 'LI') {
+          NH.web.clickElement(this.entries.item, ['button']);
+        }
+      }
+    );
+
     openMeatballMenu = new Shortcut(
       '=',
       'Open the <button>⋯</button> menu',
