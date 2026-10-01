@@ -18,7 +18,7 @@
 // @require     https://update.greasyfork.org/scripts/478440/1904784/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1890585/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1900843/NH_spa.js
-// @require     https://update.greasyfork.org/scripts/597326/1942493/NH_nav.js
+// @require     https://update.greasyfork.org/scripts/597326/1947579/NH_nav.js
 // @grant       GM.addValueChangeListener
 // @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
