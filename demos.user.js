@@ -166,7 +166,12 @@
     }
 
     #onActivate = () => {
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
       this.logger.log('hello');
+
+      this.logger.leaving(me);
     }
 
   }
@@ -188,7 +193,12 @@
     }
 
     #onActivate = () => {
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
       this.logger.log('world');
+
+      this.logger.leaving(me);
     }
 
   }
@@ -210,7 +220,14 @@
     }
 
     #onActivate = () => {
-      this.logger.log('libby');
+      const me = this.#onActivate.name;
+      this.logger.entered(me);
+
+      this.logger.log(
+        'Libby\'s, Libby\'s, Libby\'s on the label, label, label'
+      );
+
+      this.logger.leaving(me);
     }
 
   }
