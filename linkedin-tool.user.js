@@ -184,7 +184,6 @@
     ish('', 'Minor internal improvements', '9999'),
     ish('167', 'Refactor into libraries', '2026-09-25'),
     ish('209', 'Support **Search Results People** view', '2026-08-09'),
-    ish('236', 'Support **Events** page', '2026-08-10'),
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
@@ -203,14 +202,14 @@
     ish(
       '384',
       '**Profile**: Layout updated and navigation fails',
-      '2026-08-29'
+      '2026-09-29'
     ),
     ish(
       '385',
       'Capturing the `Enter` key causes as much harm as good.',
-      '2026-08-29'
+      '2026-09-29'
     ),
-    ish('386', 'Support **Games** pages', '2026-08-29'),
+    ish('386', 'Support **Games** pages', '2026-09-29'),
     ish(
       '387', '`PagesToDo`: The generated `pathname` has issues', '2026-09-03'
     ),
@@ -225,9 +224,21 @@
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
+    ish('389', '**Profile**: *About* scroller is failing', '2026-09-30'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-09-30',
+      issues: ['389'],
+      subject: 'Update the entries selector for the *About* section',
+    },
+    {
+      date: '2026-09-30',
+      issues: ['237'],
+      subject: 'Add `E`ngage as a way to interact with the current' +
+        ' individual',
+    },
     {
       date: '2026-09-25',
       issues: ['410', '411'],
@@ -365,81 +376,6 @@
       date: '2026-09-03',
       issues: ['396'],
       subject: 'Partial update for section *Suggested for you*',
-    },
-    {
-      date: '2026-09-01',
-      issues: ['372'],
-      subject: 'Only post the timeout if we are still observing',
-    },
-    {
-      date: '2026-09-01',
-      issues: ['372'],
-      subject: 'Filter out `undefined` containers',
-    },
-    {
-      date: '2026-09-01',
-      issues: ['372'],
-      subject: 'Add logging to `deactivate()`',
-    },
-    {
-      date: '2026-09-01',
-      issues: ['372'],
-      subject: 'Improve logging to reduce confusion',
-    },
-    {
-      date: '2026-09-01',
-      issues: ['237'],
-      subject: 'Focus on the current tab when tablist is selected',
-    },
-    {
-      date: '2026-08-31',
-      issues: ['236'],
-      subject: 'Improve support for the *Your events* section',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['237'],
-      subject: 'Initial `A`ccept, `S`hare, and `=` (menu) support',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['385'],
-      subject: 'Remove the `Enter` key shortcut from **My Network**',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['386'],
-      subject: 'Acknowledge the **Games** pages',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['384'],
-      subject: 'Replace `h2` UID method with an *Interests* specific one',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['384'],
-      subject: 'Match the *Analytics* and *Interests* sections',
-    },
-    {
-      date: '2026-08-29',
-      issues: ['384'],
-      subject: 'Updates to **Profile**\'s primary scroller',
-    },
-    {
-      date: '2026-08-28',
-      issues: [''],
-      subject: 'Fix minor code formatting',
-    },
-    {
-      date: '2026-08-28',
-      issues: ['237'],
-      subject: 'Support the *Speakers* section',
-    },
-    {
-      date: '2026-08-28',
-      issues: ['237'],
-      subject: 'Tweak the `showMore` short cut description',
     },
   ];
 
