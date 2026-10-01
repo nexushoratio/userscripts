@@ -8948,7 +8948,7 @@
     #entriesScrollerConfigs = new Map();
     #entriesSelectorAbout = [
       // Fairly simple layout
-      `:scope > ${this.#div3}:has(> p) > *`,
+      `:scope > ${this.#divSectionDiv3}:has(> p) > *`,
     ].join(',');
 
     #entriesSelectorActivity = [
