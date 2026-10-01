@@ -203,7 +203,7 @@
     constructor(spa) {
       super({
         spa: spa,
-        pathname: '/lib/',
+        pathname: '/userscripts/lib/',
       });
 
       this.dispatcher.on('activate', this.#onActivate);
@@ -232,6 +232,13 @@
     logger.log('spa', spa);
   }
 
+  /**
+   * These demos are written assuming they are running against the following:
+   *
+   * `python3 -m http.server 8000`
+   *
+   * with the starting directory containing the git repo.
+   */
   const demos = [
     {enabled: false, demo: demoGrid},
     {enabled: false, demo: demoSpa},
