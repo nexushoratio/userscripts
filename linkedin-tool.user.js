@@ -10616,12 +10616,8 @@
         'urn', {
           uidCallback: this.#uniqueEntriesIdTbd,
           selectors: [
-
-            /**
-             * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
-             * Placeholder during development.
-             */
-            ':scope > *',
+            ':scope .comments-sort-order-toggle',
+            ':scope article',
           ],
         }
       );
