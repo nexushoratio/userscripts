@@ -190,7 +190,7 @@
       '2026-09-06'
     ),
     ish('303', 'Keys are captured while editing text', '2026-09-21'),
-    ish('360', 'Support **Search Results All** page', '2026-08-03'),
+    ish('360', 'Support **Search Results All** page', '2026-10-03'),
     ish(
       '372',
       '`Scroller`: New item cache fails on at least one page',
@@ -210,24 +210,37 @@
       '2026-09-29'
     ),
     ish('386', 'Support **Games** pages', '2026-09-29'),
-    ish(
-      '387', '`PagesToDo`: The generated `pathname` has issues', '2026-09-03'
-    ),
-    ish('260', 'Support **Job tracker** page', '2026-09-03'),
+    ish('260', 'Support **Job tracker** page', '2026-10-03'),
     ish('388', '**Profile**: *Topcard* scroller is failing', '2026-09-03'),
     ish(
       '396',
       '**Profile**: *Suggested for You* scroller is failing',
-      '2026-09-03'
+      '2026-10-03'
     ),
     ish('408', 'Support **Connections** pages', '2026-09-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
     ish('389', '**Profile**: *About* scroller is failing', '2026-09-30'),
+    ish('412', '**Feed**: Many interactions are broken', '2026-10-03'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-03',
+      issues: ['412'],
+      subject: 'Stop the `focusin` event from propagating to `#root`',
+    },
+    {
+      date: '2026-10-03',
+      issues: ['412'],
+      subject: 'Factor out a CSS selector for subsequent reuse',
+    },
+    {
+      date: '2026-09-30',
+      issues: ['293'],
+      subject: 'Update to latest `lib/nav`',
+    },
     {
       date: '2026-09-30',
       issues: ['389'],
@@ -351,31 +364,6 @@
       issues: ['237'],
       subject: 'Initial support for the *Networking* (a.k.a., cohorts)' +
         ' sections',
-    },
-    {
-      date: '2026-09-03',
-      issues: ['360'],
-      subject: 'Update issue note to match source title',
-    },
-    {
-      date: '2026-09-03',
-      issues: ['387'],
-      subject: 'Fix the `RegExp()` and update affected URLs',
-    },
-    {
-      date: '2026-09-03',
-      issues: ['260'],
-      subject: 'Update URL and name for **Job tracker**',
-    },
-    {
-      date: '2026-09-03',
-      issues: ['388'],
-      subject: 'Partial update for section *Topcard*',
-    },
-    {
-      date: '2026-09-03',
-      issues: ['396'],
-      subject: 'Partial update for section *Suggested for you*',
     },
   ];
 
