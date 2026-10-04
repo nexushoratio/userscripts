@@ -6945,30 +6945,6 @@
       this.logger.leaving(me);
     }
 
-    /**
-     * Recover scroll position after elements were recreated.
-     *
-     * @method
-     * @param {number} topScroll - Where to scroll to.
-     */
-    #resetScroll = (topScroll) => {
-      const me = this.#resetScroll.name;
-      this.logger.entered(me, topScroll);
-
-      // Explicitly setting jobs.item below will cause it to scroll to that
-      // item.  We do not want to do that if the user is manually scrolling.
-      const savedJob = this.jobs?.item;
-      this.sections.shine();
-      // Section was probably rebuilt, assume jobs scroller is invalid.
-      this.#resetJobs();
-      if (savedJob) {
-        this.jobs.item = savedJob;
-      }
-      document.documentElement.scrollTop = topScroll;
-
-      this.logger.leaving(me);
-    }
-
   }
 
   /**
