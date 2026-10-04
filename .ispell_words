@@ -419,6 +419,7 @@ firstNotification
 fka
 flexGrow
 focusBrowser
+focusin
 focusOnAside
 focusOnElement
 focusOnSidebar
@@ -1110,6 +1111,7 @@ StatusBar
 statusText
 stopContainers
 stopMutationObserverUrlMonitor
+stopPropagation
 stopTest
 stopUrlMonitor
 stopUserscriptManagerUrlMonitor

@@ -5819,9 +5819,21 @@
       return NH.web.otmot(what, how);
     }
 
-    #onPostActivate = () => {
+    #onPostActivate = () => {  // eslint-disable-line max-lines-per-function
       const me = this.#onPostActivate.name;
       this.logger.entered(me);
+
+      // Defeat LinkedIn's `focusin` listener on `#root`.
+      //
+      // It does annoying things like popping up menus.  They probably only
+      // want it to happen when someone tabs onto elements, but it also
+      // happens when mouse moves in/out of the browser and when LIT itself
+      // navigates around, changing focus.  This particular element seems to
+      // get replaced, so no current need to remove it.
+      const el = document.querySelector(this.#postScrollerContainerSelector);
+      el?.addEventListener('focusin', (evt) => {
+        evt.stopPropagation();
+      });
 
       /**
        * Wait for the post to be reloaded.
