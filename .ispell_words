@@ -634,7 +634,6 @@ lastScroller
 latestNewsRead
 LayoutTestCase
 len
-libby
 libraryName
 licenseData
 LicenseData
@@ -914,6 +913,7 @@ portalSelector
 postInfoAboutElement
 postProcessItems
 postScroller
+postScrollerContainerSelector
 prefixMagic
 prefixUrl
 preprocessKnownIssues

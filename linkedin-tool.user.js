@@ -5413,6 +5413,7 @@
     #commentScroller
     #lastScroller
     #postScroller
+    #postScrollerContainerSelector = 'main [data-testid="mainFeed"]';
     #uidCommentRE =
     /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
 
@@ -5437,7 +5438,7 @@
         name: `${this.name} posts`,
         containerItems: [
           {
-            container: 'main [data-testid="mainFeed"]',
+            container: this.#postScrollerContainerSelector,
             items: [
               // Regular items
               '[role="listitem"]',
