@@ -1021,7 +1021,6 @@ safeId
 SafeIdTestCase
 SalesInsightsOrHighlights
 savedConfigs
-savedJob
 savedOptions
 savedScrollTop
 saveOptions
@@ -1040,6 +1039,7 @@ scrollerSecondaryClassName
 ScrollerService
 ScrollerTestCase
 scrollIntoView
+scrollTo
 scrollToCurrentItem
 scrollTop
 sdui
@@ -1402,7 +1402,6 @@ topCard
 Topcard
 topleftmainrightbottom
 toPojo
-topScroll
 toString
 toUpperCase
 tpe

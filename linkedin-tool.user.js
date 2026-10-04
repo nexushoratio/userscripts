@@ -5202,6 +5202,8 @@
       'Show comments',
       () => {
         const el = this.posts.item;
+        const main = document.querySelector('main');
+        const scrollTop = main?.scrollTop;
         // Check for the "Load more" button first, otherwise we just keep
         // clicking on the first comment button which does nothing useful
         // after the first batch of comments is loaded.
@@ -5211,6 +5213,7 @@
           // Inside post body
           '[role="button"]',
         ]);
+        main.scrollTo({top: scrollTop});
       }
     );
 
