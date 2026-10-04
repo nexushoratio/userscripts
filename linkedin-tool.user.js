@@ -8965,7 +8965,7 @@
 
     #entriesSelectorExperience = [
       // Simple layout
-      `:scope > ${this.#div4}`,
+      `:scope > ${this.#divSectionDiv3} > div > div`,
     ].join(',');
 
     #entriesSelectorFeatured = [
