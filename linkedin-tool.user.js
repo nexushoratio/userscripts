@@ -4627,7 +4627,7 @@
       const className = ['lit'].concat(split)
         .concat(extras)
         .join('-')
-        .replace(/[^\w .]/gu, c => `x${c.codePointAt(0)
+        .replace(/[^\w .-]/gu, c => `x${c.codePointAt(0)
           .toString(hex)}`)
         .replaceAll(' ', '-')
         .replaceAll('.', '_');
@@ -4744,6 +4744,13 @@
         ),
         'lit-test-page-multiple-items-here',
         'multiple items'
+      );
+      this.assertEqual(
+        page.cssClassName(
+          ['one two', 'three_four']
+        ),
+        'lit-test-page-one-two-three_four',
+        'spaces and underscores'
       );
     }
 
