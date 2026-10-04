@@ -227,6 +227,32 @@
 
   const globalNewsContent = [
     {
+      date: '2026-10-04',
+      issues: ['412'],
+      subject: 'Reposition after clicking on the post',
+    },
+    {
+      date: '2026-10-04',
+      issues: [''],
+      subject: 'Remove unused method',
+    },
+    {
+      date: '2026-10-04',
+      issues: ['237'],
+      subject: 'Implement a `c`omment shortcut similar to that on **Feed**',
+    },
+    {
+      date: '2026-10-04',
+      issues: ['237'],
+      subject: 'Support navigating through *Comments*',
+    },
+    {
+      date: '2026-10-04',
+      issues: ['237'],
+      subject: 'Let the `m`ore shortcut also match buttons in the' +
+        ' post and comments',
+    },
+    {
       date: '2026-10-03',
       issues: ['412'],
       subject: 'Stop the `focusin` event from propagating to `#root`',
