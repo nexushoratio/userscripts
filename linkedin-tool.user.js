@@ -10509,10 +10509,13 @@
 
     showMore = new Shortcut(
       'm',
-      'Toggle showing more of current item',
+      'Show more of current item, perhaps with toggling' +
+        ' (not Networking lists)',
       () => {
         const el = this.#lastScroller.item;
-        NH.web.clickElement(el, ['a[class*="lt-line-clamp"]']);
+        NH.web.clickElement(
+          el, ['a[class*="lt-line-clamp"]', 'button.see-more']
+        );
       }
     );
 
