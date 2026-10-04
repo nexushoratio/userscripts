@@ -10507,6 +10507,17 @@
       }
     );
 
+    showComments = new Shortcut(
+      'c',
+      'Show more comments (pre-load them)',
+      () => {
+        const el = this.sections.item;
+        NH.web.clickElement(
+          el, ['.comments-comment-list__load-more-container > button']
+        );
+      }
+    );
+
     showMore = new Shortcut(
       'm',
       'Show more of current item, perhaps with toggling' +
