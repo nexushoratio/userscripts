@@ -223,9 +223,34 @@
     ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
     ish('389', '**Profile**: *About* scroller is failing', '2026-09-30'),
     ish('412', '**Feed**: Many interactions are broken', '2026-10-03'),
+    ish(
+      '390',
+      '**Profile**: *ExperienceTopLevelSection* scroller is failing',
+      '2026-10-05'
+    ),
+    ish(
+      '391',
+      '**Profile**: *EducationTopLevelSection* scroller is failing',
+      '2026-10-05'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-04',
+      issues: ['391'],
+      subject: 'Update the selectors for the *Education* section',
+    },
+    {
+      date: '2026-10-04',
+      issues: ['390'],
+      subject: 'Update the selectors for the *Experience* section',
+    },
+    {
+      date: '2026-10-04',
+      issues: ['411'],
+      subject: 'Fix a missed failing test and add another',
+    },
     {
       date: '2026-10-04',
       issues: ['412'],
