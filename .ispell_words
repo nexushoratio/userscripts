@@ -380,6 +380,7 @@ errorText
 errorTextHandler
 eslint
 eslintrc
+EventData
 eventScroller
 EventsSpecific
 eventType
@@ -999,7 +1000,6 @@ resetIndividuals
 resetJobs
 resetLoggerConfigs
 resetMessages
-resetScroll
 resetScrollers
 ResizeAction
 resizeObserver
