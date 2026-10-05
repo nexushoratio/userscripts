@@ -8959,8 +8959,8 @@
 
     #entriesSelectorEducation = [
       // Sections with footers are one div deeper.
-      `:scope > ${this.#div4}:not(:has(> svg)) > div[${CKEY}]`,
-      `:scope > ${this.#div5} > div[${CKEY}]`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}[${CKEY}]`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div4}[${CKEY}]`,
     ].join(',');
 
     #entriesSelectorExperience = [
