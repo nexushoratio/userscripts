@@ -3,7 +3,7 @@
 // @namespace   https://github.com/nexushoratio/userscripts
 // @match       http://localhost:8000/*
 // @noframes
-// @version     1
+// @version     2
 // @author      Mike Castle
 // @description Demos and testing.
 // @license     GPL-3.0-or-later; https://www.gnu.org/licenses/gpl-3.0-standalone.html
@@ -25,7 +25,7 @@
  * @file This exists to run library tests and serve as a demonstration
  * infrastructure.
  * @module demos
- * @version 1
+ * @version 2
  * @license [GPL-3.0-or-later]{@link https://www.gnu.org/licenses/gpl-3.0-standalone.html}
  */
 
