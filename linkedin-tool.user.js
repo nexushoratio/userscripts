@@ -187,7 +187,7 @@
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
-      '2026-09-06'
+      '2026-10-06'
     ),
     ish('303', 'Keys are captured while editing text', '2026-09-21'),
     ish('360', 'Support **Search Results All** page', '2026-10-03'),
@@ -233,9 +233,24 @@
       '**Profile**: *EducationTopLevelSection* scroller is failing',
       '2026-10-05'
     ),
+    ish(
+      '413',
+      '**Profile**: layout changed again breaking minor things',
+      '2026-10-06'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-06',
+      issues: ['413'],
+      subject: 'Update some special section selectors',
+    },
+    {
+      date: '2026-10-06',
+      issues: ['413'],
+      subject: 'Update **Profile**\'s `readySelector`',
+    },
     {
       date: '2026-10-04',
       issues: ['391'],
@@ -394,27 +409,6 @@
       date: '2026-09-08',
       issues: [''],
       subject: 'More partial ordering pairs for **Profile**',
-    },
-    {
-      date: '2026-09-06',
-      issues: [''],
-      subject: 'More partial ordering pairs for **Profile**',
-    },
-    {
-      date: '2026-09-06',
-      issues: ['237'],
-      subject: 'Introduce a temporary variable for `itemUid`',
-    },
-    {
-      date: '2026-09-06',
-      issues: ['209', '237'],
-      subject: 'Annotate that some pages are works-in-progress',
-    },
-    {
-      date: '2026-09-06',
-      issues: ['237'],
-      subject: 'Initial support for the *Networking* (a.k.a., cohorts)' +
-        ' sections',
     },
   ];
 
