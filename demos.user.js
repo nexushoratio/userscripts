@@ -144,8 +144,43 @@
     document.body.append(w.container);
   }
 
-  /** Boring details for a boring demo. */
-  class DemoDetails extends NH.spa.Details {}
+  /**
+   * Demo specific configuration.
+   *
+   * @extends NexusHoratio.spa.Details
+   */
+  class DemoDetails extends NH.spa.Details {
+
+    /** @hideconstructor */
+    constructor() {
+      super();
+      this.#addDemoStyle();
+    }
+
+    /**
+     * CSS class name common for scrollers.
+     *
+     * @type {string}
+     */
+    static get scrollerClassName() {
+      return this.#scrollerClassName;
+    }
+
+    static #scrollerClassName = 'demo-scroller';
+
+    #addDemoStyle = () => {
+      const style = document.createElement('style');
+      style.textContent = [
+        `.${DemoDetails.scrollerClassName} {` +
+          ' border-color: RebeccaPurple !important;' +
+          ' border-style: solid !important;' +
+          ' border-width: medium !important;' +
+          '}',
+      ].join('\n');
+      document.head.append(style);
+    }
+
+  }
 
   /** Class for the whole test site. */
   class Global extends NH.spa.Page {
@@ -216,18 +251,124 @@
         pathname: '/userscripts/lib/',
       });
 
-      this.dispatcher.on('activate', this.#onActivate);
+      this.#initScrollers();
+      this.dispatcher.on('activate', this.#onActivate)
+        .on('deactivate', this.#onDeactivate);
     }
+
+    #intervalId
+    #scroller
 
     #onActivate = () => {
       const me = this.#onActivate.name;
       this.logger.entered(me);
 
+      const delay = 5000;
+
       this.logger.log(
         'Libby\'s, Libby\'s, Libby\'s on the label, label, label'
       );
 
+      this.#intervalId = setInterval(() => {
+        this.#move();
+      }, delay);
+
       this.logger.leaving(me);
+    }
+
+    #onDeactivate = () => {
+      const me = this.#onDeactivate.name;
+      this.logger.entered(me);
+
+      this.logger.leaving(me);
+    }
+
+    #initScrollers = () => {
+      const what = {
+        name: `${this.name}`,
+        containerItems: [
+          {
+            container: 'body > ul',
+            items: 'li',
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueIdentifier,
+        classes: [DemoDetails.scrollerClassName],
+        snapToTop: false,
+      };
+
+      this.#scroller = new NH.nav.Scroller(what, how);
+      this.#scroller.dispatcher
+        .on('activate', this.#onScrollerHandler)
+        .on('activated', this.#onScrollerHandler)
+        .on('deactivate', this.#onScrollerHandler)
+        .on('deactivated', this.#onScrollerHandler)
+        .on('change', this.#onScrollerHandler)
+        .on('changed', this.#onScrollerHandler)
+        .on('focus', this.#onScrollerHandler)
+        .on('focused', this.#onScrollerHandler)
+        .on('out-of-range', this.#onScrollerHandler);
+      this.addService(NH.nav.ScrollerService)
+        .setScroller(this.#scroller);
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueIdentifier = (scroller, element) => {
+      const me = this.#uniqueIdentifier.name;
+      this.logger.entered(me, element);
+
+      const content = scroller.defaultUid(element);
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {NexusHoratio.nav.Scroller~Event} evt - Data sent along with
+     * event.
+     */
+    #onScrollerHandler = (type, evt) => {
+      const me = this.#onScrollerHandler.name;
+      this.logger.entered(me, type);
+
+      this.logger.log('evt', evt);
+
+      this.logger.leaving(me);
+    }
+
+    // No native key handlers, so just randomly move around.
+    #move = () => {
+      const me = this.#move.name;
+      this.logger.entered(me, this.#scroller.item);
+
+      const cutoff = 0.7;
+
+      const cmd = `${Math.random() < cutoff}-${Boolean(this.#scroller.item)}`;
+
+      if (cmd === 'true-true') {
+        this.#scroller.next();
+      } else if (cmd === 'true-false') {
+        this.#scroller.first();
+      } else if (cmd === 'false-true') {
+        this.#scroller.prev();
+      } else {
+        this.#scroller.last();
+      }
+
+      this.logger.leaving(me, cmd, this.#scroller.item);
     }
 
   }

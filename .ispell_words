@@ -13,6 +13,7 @@ activePages
 addClassCleanup
 addCleanup
 addData
+addDemoStyle
 addedNodes
 addEqualFunc
 addError
@@ -580,6 +581,7 @@ installStyle
 instanceCalls
 instanceName
 instanceof
+intervalId
 InvitationManager
 inviteScroller
 ipsum
@@ -864,6 +866,7 @@ onPaginationChange
 onPostActivate
 onPostChange
 onResultChange
+onScrollerHandler
 onSectionChange
 onShow
 onSpaActivated
@@ -1066,6 +1069,7 @@ ServiceTestCase
 setAttribute
 setAutoManageLoggerConfigs
 setContext
+setInterval
 setKeyboardContext
 setPanel
 setScroller
@@ -1440,6 +1444,7 @@ uniqueEntriesIdTbd
 uniqueEntriesIdTopcard
 uniqueEntryIdentifier
 uniqueEventIdentifier
+uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueInvitationIdentifier
 uniqueJobIdentifier
