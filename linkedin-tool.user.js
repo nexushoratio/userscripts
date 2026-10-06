@@ -8755,7 +8755,8 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/in/.*', 'u'),
-        readySelector: '[data-sdui-component]',
+        // This is the down arrow in the footer "Select language" dropdown.
+        readySelector: '#caret-medium',
         readySelectorTimeout: 5000,
       });
 
