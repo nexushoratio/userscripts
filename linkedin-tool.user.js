@@ -238,9 +238,40 @@
       '**Profile**: layout changed again breaking minor things',
       '2026-10-06'
     ),
+    ish(
+      '393',
+      '**Profile**: *CertificationTopLevel* scroller is failing',
+      '2026-10-07'
+    ),
+    ish(
+      '392',
+      '**Profile**: *ConnectedAccountsTopLevel* scroller is failing',
+      '2026-10-07'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-07',
+      issues: ['393'],
+      subject: 'Update the selectors for the *Licenses & certifications*' +
+        ' section',
+    },
+    {
+      date: '2026-10-07',
+      issues: ['392'],
+      subject: 'Update the selectors for the *Connected apps* section',
+    },
+    {
+      date: '2026-10-07',
+      issues: [''],
+      subject: 'More partial ordering pairs for **Profile**',
+    },
+    {
+      date: '2026-10-07',
+      issues: ['410'],
+      subject: 'Make `cssClassName()` more robust',
+    },
     {
       date: '2026-10-06',
       issues: ['413'],
