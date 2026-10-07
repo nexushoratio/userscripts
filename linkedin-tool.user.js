@@ -8948,13 +8948,16 @@
       `:scope > ${this.#div6}`,
     ].join(',');
 
+    /**
+     * @todo [(#392)](https://github.com/nexushoratio/userscripts/issues/392)
+     * The self promotion offering is rare, so unable to fix it until it shows
+     * up again.
+     */
     #entriesSelectorConnectedAccounts = [
       // Two layouts discovered so far:
       // * End users
       // * Self promotion
-      `:scope > ${this.#div3} > a`,
-      `:scope > ${this.#div7}`,
-      `:scope > ${this.#div5} > a`,
+      `:scope > ${this.#divSectionDiv3} > a`,
     ].join(',');
 
     #entriesSelectorCourses = [
