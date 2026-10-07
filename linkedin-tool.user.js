@@ -13,7 +13,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://cdn.jsdelivr.net/npm/commonmark@0.31.2
 // @require     https://update.greasyfork.org/scripts/478188/1884975/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1885316/NH_base.js
+// @require     https://update.greasyfork.org/scripts/477290/1953668/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1884974/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1904784/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1890585/NH_widget.js
@@ -41,7 +41,7 @@
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 63},
-    {name: 'base', minVersion: 74},
+    {name: 'base', minVersion: 76},
     {name: 'userscript', minVersion: 18},
     {name: 'web', minVersion: 17},
     {name: 'widget', minVersion: 52},
@@ -4634,22 +4634,12 @@
      * @returns {string} A CSS className.
      */
     cssClassName = (extras = []) => {
-      const hex = 16;
       const split = NH.base.simpleParseWords(this.name)
         .map(x => x.toLowerCase());
-
-      /**
-       * @todo
-       * [(#411)](https://github.com/nexushoratio/userscripts/issues/411)
-       * Testing a potential enhancement.
-       */
-      const className = ['lit'].concat(split)
+      const className = NH.base.safeId(['lit'].concat(split)
         .concat(extras)
-        .join('-')
-        .replace(/[^\w .-]/gu, c => `x${c.codePointAt(0)
-          .toString(hex)}`)
-        .replaceAll(' ', '-')
-        .replaceAll('.', '_');
+        .join('-'));
+
       return className;
     }
 
