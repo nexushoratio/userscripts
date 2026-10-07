@@ -8945,7 +8945,7 @@
 
     #entriesSelectorCertification = [
       // Simple layout
-      `:scope > ${this.#div6}`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',');
 
     /**
