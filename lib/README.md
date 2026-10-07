@@ -25,9 +25,9 @@ The function `NexusHoratio.base.ensure()` can be used to make sure appropriate l
 |               | FF (Release) | FF (Debian ESR 140.14) |
 |---------------|:------------:|:----------------------:|
 | Violentmonkey |      Yes     |          TBD           |
-| Greasemonkey  |      TBD     |          TBD           |
-| FireMonkey    |      TBD     |          TBD           |
-| ScriptCat     |      TBD     |          TBD           |
-| Tampermonkey  |      TBD     |          TBD           |
+| Greasemonkey  |      Yes     |          TBD           |
+| FireMonkey    |      Yes     |          TBD           |
+| ScriptCat     |      Yes     |          TBD           |
+| Tampermonkey  |      Yes     |          TBD           |
 
 Mobile is unlikely to be supported anytime soon as this is mostly about adding hotkey support.
