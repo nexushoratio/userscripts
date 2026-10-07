@@ -2,7 +2,7 @@
 
 Support for adding navigation to existing web content.
 
-## Exported properties (as of version 0)
+## Exported properties (as of version 1)
 * version - Bumped per release.
 * Scroller - An ordered collection of HTMLElements for a user to continuously scroll through.
 * ScrollerService - Manage a Scroller as a Service.
