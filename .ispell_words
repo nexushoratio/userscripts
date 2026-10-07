@@ -85,6 +85,7 @@ attrElements
 attributeFilter
 attributeName
 attributesHandler
+attrs
 attrText
 autoActivate
 badCmp
@@ -580,6 +581,7 @@ innerText
 inotifywait
 inputChecked
 inputFocus
+inputSkipTypes
 installControls
 installStyle
 instanceCalls
@@ -594,6 +596,7 @@ isContentEditable
 IShortcutKey
 IShortcutOptions
 isInput
+IsInputTestCase
 isItemViewable
 isSameNode
 issuecomment
@@ -605,7 +608,6 @@ issuesForLinkedIn
 issuesLink
 itemCache
 itemUid
-iu
 javascript
 jk
 jobCardSelector
@@ -1249,6 +1251,7 @@ testDoInstanceCleanupsWithSkip
 testDoubleSnakeCase
 testDummy
 testElement
+testElements
 testEmpty
 testEmptyBuild
 testEnabled
