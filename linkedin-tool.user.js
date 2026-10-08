@@ -10683,7 +10683,7 @@
       );
       this.#entriesScrollerConfigs.set(
         'urn', {
-          uidCallback: this.#uniqueEntriesIdTbd,
+          uidCallback: this.#uniqueEntriesIdUrn,
           selectors: [
             ':scope .comments-sort-order-toggle',
             ':scope article.comments-comment-entity',
@@ -10898,12 +10898,16 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueEntriesIdTbd = (scroller, element) => {
-      const me = this.#uniqueEntriesIdTbd.name;
+    #uniqueEntriesIdUrn = (scroller, element) => {
+      const me = this.#uniqueEntriesIdUrn.name;
       this.logger.entered(me, element);
 
       let content = '';
+      const dataId = element.dataset.id;
 
+      if (dataId) {
+        content = dataId;
+      }
       if (!content) {
         content = scroller.defaultUid(element);
       }
