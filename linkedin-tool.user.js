@@ -211,13 +211,12 @@
     ),
     ish('386', 'Support **Games** pages', '2026-09-29'),
     ish('260', 'Support **Job tracker** page', '2026-10-03'),
-    ish('388', '**Profile**: *Topcard* scroller is failing', '2026-09-03'),
     ish(
       '396',
       '**Profile**: *Suggested for You* scroller is failing',
       '2026-10-03'
     ),
-    ish('408', 'Support **Connections** pages', '2026-09-08'),
+    ish('408', 'Support **Connections** pages', '2026-10-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
@@ -251,6 +250,31 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-08',
+      issues: ['413'],
+      subject: 'Update to the latest `lib/web` to grab `isInput()` fix',
+    },
+    {
+      date: '2026-10-08',
+      issues: ['293'],
+      subject: 'Migrate the last user of the internal `ScrollerService`',
+    },
+    {
+      date: '2026-10-08',
+      issues: ['293'],
+      subject: 'Depend on the released version of `lib/nav`',
+    },
+    {
+      date: '2026-10-08',
+      issues: ['237'],
+      subject: 'Rename and enhance the `uidCallback` for comments',
+    },
+    {
+      date: '2026-10-08',
+      issues: ['237'],
+      subject: 'Make the comments article selector more precise',
+    },
     {
       date: '2026-10-07',
       issues: ['393'],
@@ -405,41 +429,6 @@
       date: '2026-09-10',
       issues: ['237'],
       subject: 'Treat all *cohorts* sections equivalently',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['408'],
-      subject: 'Acknowledge **Connections** page',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['388'],
-      subject: 'Update the `UidMode`\'s post layout update',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['388'],
-      subject: 'Capture external links again',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['388'],
-      subject: 'Fine tune the premium footer "ad" selector',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['388'],
-      subject: 'Handle the private edit footer carousel again',
-    },
-    {
-      date: '2026-09-08',
-      issues: ['388'],
-      subject: 'Fine tune the common *Topcard* selector',
-    },
-    {
-      date: '2026-09-08',
-      issues: [''],
-      subject: 'More partial ordering pairs for **Profile**',
     },
   ];
 
