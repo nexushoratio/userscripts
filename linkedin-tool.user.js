@@ -2263,49 +2263,6 @@
   /* eslint-enable */
 
   /**
-   * Manage a {Scroller} as a {@link NexusHoratio.base.Service}.
-   *
-   * @extends NexusHoratio.base.Service
-   */
-  class ScrollerService extends NH.base.Service {
-
-    /**
-     * @param {string} instanceName - Custom portion of this instance.
-     */
-    constructor(instanceName) {
-      super(instanceName);
-      this.on('activate', this.#onActivate)
-        .on('deactivate', this.#onDeactivate)
-        .allowReactivation(false)
-        .setScroller();
-    }
-
-    /**
-     * Sets the {@link Scroller} to manage with this service.
-     *
-     * If not value is passed, any existing instance will be removed.
-     *
-     * @param {Scroller} [scroller] - The instance to manage.
-     * @returns {ScrollerService} This instance, for chaining.
-     */
-    setScroller(scroller = null) {
-      this.#scroller = scroller;
-      return this;
-    }
-
-    #scroller
-
-    #onActivate = () => {
-      this.#scroller?.activate();
-    }
-
-    #onDeactivate = () => {
-      this.#scroller?.deactivate();
-    }
-
-  }
-
-  /**
    * A table with collapsible sections.
    *
    * @extends NexusHoratio.widget.Widget
@@ -5523,7 +5480,7 @@
       };
 
       this.#postScroller = new Scroller(what, how);
-      this.addService(ScrollerService)
+      this.addService(NH.nav.ScrollerService)
         .setScroller(this.#postScroller);
       this.#postScroller.dispatcher
         .on('activate', this.#onPostActivate)
