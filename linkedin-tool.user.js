@@ -10686,7 +10686,7 @@
           uidCallback: this.#uniqueEntriesIdTbd,
           selectors: [
             ':scope .comments-sort-order-toggle',
-            ':scope article',
+            ':scope article.comments-comment-entity',
           ],
         }
       );
