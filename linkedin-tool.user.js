@@ -15,7 +15,7 @@
 // @require     https://update.greasyfork.org/scripts/478188/1884975/NH_xunit.js
 // @require     https://update.greasyfork.org/scripts/477290/1953668/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1884974/NH_userscript.js
-// @require     https://update.greasyfork.org/scripts/478440/1904784/NH_web.js
+// @require     https://update.greasyfork.org/scripts/478440/1954533/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1890585/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1900843/NH_spa.js
 // @require     https://update.greasyfork.org/scripts/597326/1954535/NH_nav.js
@@ -43,7 +43,7 @@
     {name: 'xunit', minVersion: 63},
     {name: 'base', minVersion: 76},
     {name: 'userscript', minVersion: 18},
-    {name: 'web', minVersion: 17},
+    {name: 'web', minVersion: 18},
     {name: 'widget', minVersion: 52},
     {name: 'spa', minVersion: 15},
     {name: 'nav', minVersion: 1},
