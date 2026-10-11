@@ -3277,11 +3277,16 @@
       const hint = element.closest('[id]').id;
       let pageStyle = null;
 
+      /**
+       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+       * Retire `primaryNavLinksComponentRef`
+       */
       switch (hint) {
         case 'global-nav':
           pageStyle = LinkedIn.Style.ONE;
           break;
         case 'primaryNavLinksComponentRef':
+        case 'root':
           pageStyle = LinkedIn.Style.TWO;
           break;
         default:
