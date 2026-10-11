@@ -485,6 +485,7 @@ gotoLearning
 gotoMessaging
 gotoMyNetwork
 gotoNavButton
+gotoNavIcon
 gotoNavLabel
 gotoNavLink
 gotoNotifications

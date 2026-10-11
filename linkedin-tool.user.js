@@ -4924,7 +4924,7 @@
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('feed');
         } else {
-          this.#gotoNavLabel('Home');
+          this.#gotoNavIcon('home');
         }
       }
     );
@@ -5055,6 +5055,26 @@
         .parentElement.parentElement.querySelectorAll('button')
         .values()
         .find(el => el.textContent.includes(item))
+        ?.click();
+
+      this.logger.leaving(me);
+    }
+
+    /**
+     * Click on the requested button in the global nav bar.
+     *
+     * This uses the `svg.id` for selection.
+     *
+     * @method
+     * @param {string} item - Text on the button to look for.
+     */
+    #gotoNavIcon = (item) => {
+      const me = this.#gotoNavIcon.name;
+      this.logger.entered(me, item);
+
+      const svg = `svg[id^="${item}-"]`;
+      this.spa.details.navbar.closest(`:has(${svg})`)
+        ?.querySelector(`button:has(${svg})`)
         ?.click();
 
       this.logger.leaving(me);
