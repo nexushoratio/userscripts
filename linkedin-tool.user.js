@@ -5040,6 +5040,10 @@
     /**
      * Click on the requested button in the global nav bar.
      *
+     * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+     * Retire this old Style-2 approach.  There are only two users, Profile
+     * and Business, and both could be translated, so not great anyway.
+     *
      * @method
      * @param {string} item - Text on the button to look for.
      */
@@ -5047,9 +5051,9 @@
       const me = this.#gotoNavButton.name;
       this.logger.entered(me, item);
 
-      Array.from(
-        this.spa.details.navbar.querySelectorAll('button')
-      )
+      this.spa.details.navbar
+        .parentElement.parentElement.querySelectorAll('button')
+        .values()
         .find(el => el.textContent.includes(item))
         ?.click();
 
