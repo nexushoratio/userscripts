@@ -4961,6 +4961,18 @@
       }
     );
 
+    gotoMenu = new Shortcut(
+      'g =',
+      'Go to More menu',
+      () => {
+        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
+          this.#gotoNavButton('More');
+        } else {
+          this.#gotoNavIcon('menu');
+        }
+      }
+    );
+
     gotoProfile = new Shortcut(
       'g p',
       'Go to Profile (aka, Me)',
