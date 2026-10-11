@@ -700,6 +700,7 @@ maxCountLength
 maxFieldLength
 maxUidLength
 memberof
+meMenuV
 menuItem
 messageBox
 messageBoxSelector
@@ -1514,6 +1515,7 @@ wasSuccessful
 watchForClicks
 WatchPage
 WeakRef
+WideComponentRef
 WidgetTestCase
 wikipedia
 willError

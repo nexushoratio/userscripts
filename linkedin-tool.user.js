@@ -4979,8 +4979,16 @@
       () => {
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('Me');
-        } else {
-          // Nothing easy to identify, so assume always after Notification
+        } else if (!NH.web.clickElement(
+          document, ['#meMenuV2WideComponentRef > div']
+        )) {
+
+          /**
+             * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+             *
+             * Retire this old Style-2 approach.
+             * Nothing easy to identify, so assume always after Notification.
+             */
           this.spa.details
             .navbar
             .querySelector('[aria-label^="Notifications"]')
