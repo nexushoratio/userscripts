@@ -4933,11 +4933,7 @@
       'g w',
       'Go to My Network',
       () => {
-        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
-          this.#gotoNavLink('mynetwork');
-        } else {
-          this.#gotoNavLabel('My Network');
-        }
+        this.#gotoNavLink('mynetwork');
       }
     );
 
@@ -4945,11 +4941,7 @@
       'g j',
       'Go to Jobs',
       () => {
-        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
-          this.#gotoNavLink('jobs');
-        } else {
-          this.#gotoNavLabel('Jobs');
-        }
+        this.#gotoNavLink('jobs');
       }
     );
 
@@ -4957,11 +4949,7 @@
       'g m',
       'Go to Messaging',
       () => {
-        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
-          this.#gotoNavLink('messaging');
-        } else {
-          this.#gotoNavLabel('Messaging');
-        }
+        this.#gotoNavLink('messaging');
       }
     );
 
@@ -4969,11 +4957,7 @@
       'g n',
       'Go to Notifications',
       () => {
-        if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
-          this.#gotoNavLink('notifications');
-        } else {
-          this.#gotoNavLabel('Notifications');
-        }
+        this.#gotoNavLink('notifications');
       }
     );
 
