@@ -3130,6 +3130,7 @@
       '#global-nav .global-nav__primary-items',
       // Style 2
       `[${CKEY}="primaryNavLinksComponentRef"] nav > ul`,
+      '#root nav > ul:has(#home-medium, #people-medium)',
     ].join(', ');
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
