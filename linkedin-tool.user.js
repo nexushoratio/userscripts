@@ -247,9 +247,50 @@
       '**Profile**: *ConnectedAccountsTopLevel* scroller is failing',
       '2026-10-07'
     ),
+    ish(
+      '414',
+      'The stock navbar was redesigned, breaking many things',
+      '2026-10-11'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Update `#guessPageStyle()` to detect Style-2/Nav2',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Update `gotoProfile()` to support the Style-2/Nav2 navbar',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Implement a new shortcut for the new navbar *Menu* item',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Implement `#gotoNavIcon()` as a way of identifying navbar' +
+        ' targets',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Update `#gotoNavButton()` for the Nav2 navbar',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Update many `Go to` shortcuts to the new Style-2 navbar',
+    },
+    {
+      date: '2026-10-11',
+      issues: ['414'],
+      subject: 'Add selector for the Style-2/Nav2 navbar',
+    },
     {
       date: '2026-10-08',
       issues: ['413'],
@@ -424,11 +465,6 @@
       date: '2026-09-16',
       issues: ['209'],
       subject: 'Make trailing slash optional',
-    },
-    {
-      date: '2026-09-10',
-      issues: ['237'],
-      subject: 'Treat all *cohorts* sections equivalently',
     },
   ];
 
