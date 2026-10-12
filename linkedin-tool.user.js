@@ -9094,8 +9094,8 @@
     ].join(',');
 
     #entriesSelectorSkills = [
-      // We want div5 because not all div6 have a ckey
-      `:scope > ${this.#div5}:not(:has(> hr))`,
+      // Filter out the divider, which also has a CKEY.
+      `:scope > ${this.#divSectionDiv3} > div > div:not(:has(> hr))`,
     ].join(',')
 
     #entriesSelectorSuggestedForYou = [
