@@ -10479,9 +10479,6 @@
   /**
    * Class for handling the Specific Event pages.
    *
-   * @todo [(#237)](https://github.com/nexushoratio/userscripts/issues/237)
-   * WIP
-   *
    * @extends module:linkedin-tool~Page
    */
   class EventsSpecific extends Page {
@@ -10493,7 +10490,7 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Specific Event (WIP)',
+        name: 'Specific Event',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/events/[^/]*/', 'u'),
         readySelector: 'footer.global-footer-compact',
