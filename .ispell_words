@@ -851,7 +851,7 @@ onClick
 onClickElements
 onCloseInfo
 onCollectionChange
-onCommentChange
+onCommentChanged
 onConfig
 onConvoCardActivate
 onConvoCardChange
@@ -873,8 +873,8 @@ onMessageChange
 onOpenInfo
 onPaginationActivate
 onPaginationChange
-onPostActivate
-onPostChange
+onPostActivated
+onPostChanged
 onResultChange
 onScrollerHandler
 onSectionChange

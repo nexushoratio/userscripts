@@ -5538,12 +5538,12 @@
         snapToTop: true,
       };
 
-      this.#postScroller = new Scroller(what, how);
+      this.#postScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#postScroller);
       this.#postScroller.dispatcher
-        .on('activate', this.#onPostActivate)
-        .on('change', this.#onPostChange)
+        .on('activated', this.#onPostActivated)
+        .on('changed', this.#onPostChanged)
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#postScroller;
@@ -5571,9 +5571,9 @@
         snapToTop: false,
       };
 
-      this.#commentScroller = new Scroller(what, how);
+      this.#commentScroller = new NH.nav.Scroller(what, how);
       this.#commentScroller.dispatcher
-        .on('change', this.#onCommentChange)
+        .on('changed', this.#onCommentChanged)
         .on('out-of-range', this.#returnToPost);
     }
 
@@ -5899,8 +5899,8 @@
       return NH.web.otmot(what, how);
     }
 
-    #onPostActivate = () => {  // eslint-disable-line max-lines-per-function
-      const me = this.#onPostActivate.name;
+    #onPostActivated = () => {  // eslint-disable-line max-lines-per-function
+      const me = this.#onPostActivated.name;
       this.logger.entered(me);
 
       // Defeat LinkedIn's `focusin` listener on `#root`.
@@ -5952,6 +5952,19 @@
     }
 
     /**
+     * Resets the comments {@link NexusHoratio.nav.Scroller Scroller}.
+     */
+    #onPostChanged = () => {
+      const me = this.#onPostChanged.name;
+      this.logger.entered(me, this.posts.item);
+
+      this.#resetComments();
+      this.#lastScroller = this.posts;
+
+      this.logger.leaving(me);
+    }
+
+    /**
      * Reset the comment scroller.
      *
      * @method
@@ -5964,7 +5977,7 @@
       this.comments;
     }
 
-    #onCommentChange = () => {
+    #onCommentChanged = () => {
       this.#lastScroller = this.comments;
     }
 
@@ -5975,21 +5988,6 @@
      */
     #returnToPost = () => {
       this.posts.item = this.posts.item;
-    }
-
-    /**
-     * Resets the comments {@link Scroller}.
-     *
-     * @method
-     */
-    #onPostChange = () => {
-      const me = this.#onPostChange.name;
-      this.logger.entered(me, this.posts.item);
-
-      this.#resetComments();
-      this.#lastScroller = this.posts;
-
-      this.logger.leaving(me);
     }
 
   }
