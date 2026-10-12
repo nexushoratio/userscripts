@@ -252,9 +252,36 @@
       'The stock navbar was redesigned, breaking many things',
       '2026-10-11'
     ),
+    ish('394', '**Profile**: *Projects* scroller is failing', '2026-10-12'),
+    ish('395', '**Profile**: *Skills* scroller is failing', '2026-10-12'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-12',
+      issues: ['395'],
+      subject: 'Update the selector for the *Skills* section',
+    },
+    {
+      date: '2026-10-12',
+      issues: ['394'],
+      subject: 'Update the selector for the *Projects* section',
+    },
+    {
+      date: '2026-10-12',
+      issues: [''],
+      subject: 'More partial ordering pairs for **Profile**',
+    },
+    {
+      date: '2026-10-12',
+      issues: ['237'],
+      subject: 'Remove WIP items',
+    },
+    {
+      date: '2026-10-12',
+      issues: ['293'],
+      subject: 'Migrate `Feed` to `nav.Scroller`',
+    },
     {
       date: '2026-10-11',
       issues: ['414'],
