@@ -9070,7 +9070,7 @@
 
     #entriesSelectorProjects = [
       // Simple layout
-      `:scope > ${this.#div5}`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorPublications = [
