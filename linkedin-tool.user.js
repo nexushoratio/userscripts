@@ -9101,11 +9101,8 @@
     ].join(',')
 
     #entriesSelectorPublications = [
-      // Users with more than two publications have a different depth.  And
-      // publications with more than one author also have tricky depths.  This
-      // likely does not yet capture everything.
-      `:scope > ${this.#div5}:has(> div > p)`,
-      `:scope > ${this.#div5}:has(> hr) > div:has(> div > p)`,
+      // Simply layout (was not always this way)
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorRecommendations = [
