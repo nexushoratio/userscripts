@@ -11136,6 +11136,17 @@
       }
     );
 
+    engageIndividual = new Shortcut(
+      'E',
+      'Engage with an individual in the Networking view' +
+        ' (Message, Follow, Connect)',
+      () => {
+        // This could be an actual button or a button shaped link.
+        NH.web.clickElement(this.results.item,
+          [`[${CKEY}^="SearchResults"] [aria-label][${CKEY}]`]);
+      }
+    );
+
     gotoFilter = new Shortcut(
       'F',
       'Move focus to the search filters',
