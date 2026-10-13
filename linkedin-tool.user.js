@@ -254,9 +254,55 @@
     ),
     ish('394', '**Profile**: *Projects* scroller is failing', '2026-10-12'),
     ish('395', '**Profile**: *Skills* scroller is failing', '2026-10-12'),
+    ish(
+      '416',
+      '**Global**: Sometimes triggers *unsupported style*',
+      '2026-10-13'
+    ),
+    ish(
+      '398',
+      '**Profile**: *SalesInsightsOrHighlights* scroller is failing',
+      '2026-10-13'
+    ),
+    ish(
+      '397',
+      '**Profile**: *PublicationTopLevelSection* scroller is failing',
+      '2026-10-13'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-13',
+      issues: ['209'],
+      subject: 'Implement `E`ngage as a way to interact with the current' +
+        ' individual',
+    },
+    {
+      date: '2026-10-13',
+      issues: ['237'],
+      subject: 'Change result selector from `a` to `[role="listitem"]`',
+    },
+    {
+      date: '2026-10-13',
+      issues: ['293'],
+      subject: 'Migrate `MyNetwork` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-13',
+      issues: ['416'],
+      subject: 'Log the page style hint for debugging',
+    },
+    {
+      date: '2026-10-13',
+      issues: ['398'],
+      subject: 'Update the selector for the *Highlights* section',
+    },
+    {
+      date: '2026-10-13',
+      issues: ['397'],
+      subject: 'Update the selector for the *Publications* section',
+    },
     {
       date: '2026-10-12',
       issues: ['395'],
