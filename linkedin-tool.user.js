@@ -3338,6 +3338,7 @@
       this.logger.entered(me, element);
 
       const hint = element.closest('[id]').id;
+      this.logger.log('hint', hint);
       let pageStyle = null;
 
       /**
