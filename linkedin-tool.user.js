@@ -6243,11 +6243,11 @@
         snapToTop: true,
       };
 
-      this.#collectionScroller = new Scroller(what, how);
+      this.#collectionScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#collectionScroller);
       this.#collectionScroller.dispatcher
-        .on('change', this.#onCollectionChange)
+        .on('changed', this.#onCollectionChanged)
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#collectionScroller;
@@ -6282,10 +6282,10 @@
         },
       };
 
-      this.#individualScroller = new Scroller(what, how);
+      this.#individualScroller = new NH.nav.Scroller(what, how);
       this.#individualScroller.dispatcher
-        .on('change', this.#onIndividualChange)
-        .on('focus', this.#onIndividualFocus)
+        .on('changed', this.#onIndividualChanged)
+        .on('focused', this.#onIndividualFocused)
         .on('out-of-range', this.#returnToCollection);
     }
 
@@ -6368,6 +6368,16 @@
       return elements;
     }
 
+    #onCollectionChanged = () => {
+      const me = this.#onCollectionChanged.name;
+      this.logger.entered(me);
+
+      this.#resetIndividuals();
+      this.#lastScroller = this.collections;
+
+      this.logger.leaving(me, this.collections.item);
+    }
+
     #resetIndividuals = () => {
       if (this.#individualScroller) {
         this.#individualScroller.destroy();
@@ -6376,22 +6386,12 @@
       this.individuals;
     }
 
-    #onIndividualChange = () => {
+    #onIndividualChanged = () => {
       this.#lastScroller = this.individuals;
     }
 
-    #onIndividualFocus = () => {
+    #onIndividualFocused = () => {
       this.collections.show();
-    }
-
-    #onCollectionChange = () => {
-      const me = this.#onCollectionChange.name;
-      this.logger.entered(me);
-
-      this.#resetIndividuals();
-      this.#lastScroller = this.collections;
-
-      this.logger.leaving(me, this.collections.item);
     }
 
     #returnToCollection = () => {

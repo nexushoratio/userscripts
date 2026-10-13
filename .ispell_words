@@ -851,6 +851,7 @@ onClick
 onClickElements
 onCloseInfo
 onCollectionChange
+onCollectionChanged
 onCommentChanged
 onConfig
 onConvoCardActivate
@@ -864,8 +865,8 @@ onEventChange
 onFocus
 onHide
 onHybridActivate
-onIndividualChange
-onIndividualFocus
+onIndividualChanged
+onIndividualFocused
 onInit
 onJobChange
 onLoggerConfig
