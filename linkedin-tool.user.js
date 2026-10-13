@@ -9064,8 +9064,8 @@
     ].join(',');
 
     #entriesSelectorHighlights = [
-      // Simple layout
-      `:scope > ${this.#div7}`,
+      // Simple layout (but does need to be div4 for the few with a footer)
+      `:scope > ${this.#divSectionDiv3} > ${this.#div4}`,
     ].join(',');
 
     #entriesSelectorHonors = [
