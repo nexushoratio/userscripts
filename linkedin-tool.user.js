@@ -11199,7 +11199,7 @@
         containerItems: [
           {
             container: '[data-testid="lazy-column"]',
-            items: `a[${CKEY}]:not([aria-label])`,
+            items: '[role="listitem"]',
           },
         ],
       };
@@ -11305,10 +11305,10 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const href = element.href;
+      const anchor = element.querySelector('a')?.href;
 
-      if (href) {
-        content = new URL(href).pathname;
+      if (anchor) {
+        content = new URL(anchor).pathname;
       }
       if (!content) {
         content = scroller.defaultUid(element);
