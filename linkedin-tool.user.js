@@ -11088,9 +11088,6 @@
   /**
    * Class for handling the SearchResultsPeople page.
    *
-   * @todo [(#209)](https://github.com/nexushoratio/userscripts/issues/209)
-   * WIP
-   *
    * @extends module:linkedin-tool~Page
    */
   class SearchResultsPeople extends Page {
@@ -11102,7 +11099,7 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Search Results People (WIP)',
+        name: 'Search Results People',
         pathname: '/search/results/people/?',
         readySelector: '#linkedin-logo-xxsmall',
       });
