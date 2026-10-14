@@ -9136,10 +9136,8 @@
     ].join(',')
 
     #entriesSelectorPatents = [
-      // Users with more than two patents have a different depth.  This likely
-      // does not yet capture everything.
-      `:scope > ${this.#div5}:has(> div > p)`,
-      `:scope > ${this.#div6}:has(> div > p)`,
+      // Simply layout (was not always this way)
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorProjects = [
