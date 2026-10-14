@@ -9153,8 +9153,10 @@
     ].join(',')
 
     #entriesSelectorRecommendations = [
-      // Skip the selection filter
-      `:scope > ${this.#div6}:not(:has(> div > input))`,
+      // Separate selector for the tablist.
+      `:scope > ${this.#divSectionDiv3} > div:has(input)`,
+      `:scope > ${this.#divSectionDiv3}` +
+        ` > ${this.#div3}:not(:has(> div > input))`,
     ].join(',')
 
     #entriesSelectorServices = [
