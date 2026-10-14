@@ -9069,13 +9069,15 @@
 
     /**
      * @todo [(#392)](https://github.com/nexushoratio/userscripts/issues/392)
-     * The self promotion offering is rare, so unable to fix it until it shows
-     * up again.
+     * The rare self promotion offering showed up and was able to tune, but
+     * will likely need tuning for the "End users" variant.
      */
     #entriesSelectorConnectedAccounts = [
       // Two layouts discovered so far:
-      // * End users
       // * Self promotion
+      `:scope > ${this.#divSectionDiv3} > ${this.#div4}`,
+      `:scope > ${this.#divSectionDiv3} > div > div > a`,
+      // * End users
       `:scope > ${this.#divSectionDiv3} > a`,
     ].join(',');
 
