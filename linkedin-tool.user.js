@@ -9187,9 +9187,9 @@
     ].join(',')
 
     #entriesSelectorServices = [
-      `:scope > ${this.#div5}` +
-        ':not([data-testid="carousel-viewport-container"])' +
-        ' > *',
+      // Some users have a carousel.
+      `:scope > ${this.#divSectionDiv3} > div` +
+        ' > div:not([data-testid="carousel-viewport-container"]) > *',
       ':scope [data-testid="carousel-child-container"] > *',
     ].join(',');
 
