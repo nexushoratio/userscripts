@@ -269,9 +269,36 @@
       '**Profile**: *PublicationTopLevelSection* scroller is failing',
       '2026-10-13'
     ),
+    ish('400', '**Profile**: *Patents* scroller is failing', '2026-10-14'),
+    ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
+    ish(
+      '399',
+      '**Profile**: *RecommendationsTopLevel* scroller is failing',
+      '2026-10-14'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-14',
+      issues: ['392'],
+      subject: 'Update selector for the *Self promotion* variant',
+    },
+    {
+      date: '2026-10-14',
+      issues: ['209'],
+      subject: 'Remove WIP items',
+    },
+    {
+      date: '2026-10-14',
+      issues: ['400'],
+      subject: 'Update the selector for the *Patents* section',
+    },
+    {
+      date: '2026-10-14',
+      issues: ['380', '399'],
+      subject: 'Update the selector for the *Recommendations* section',
+    },
     {
       date: '2026-10-13',
       issues: ['209'],
