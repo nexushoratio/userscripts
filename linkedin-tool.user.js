@@ -6758,6 +6758,30 @@
   }
 
   /**
+   * Class for handling Manage Events.
+   * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
+   * WIP
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class ManageEvents extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        name: 'Manage Events (WIP)',
+        pathname: '/mynetwork/network-manager/events/',
+        readySelector: 'footer.global-footer-compact',
+      });
+    }
+
+  }
+
+  /**
    * Class for handling the base Jobs page.
    *
    * This particular page requires a lot of careful monitoring.  Unlike other
@@ -11456,12 +11480,6 @@
       const URLs = [
 
         /**
-         * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
-         * Support **Manage Events** page
-         */
-        '/mynetwork/network-manager/events/',
-
-        /**
          * @todo [(#255)](https://github.com/nexushoratio/userscripts/issues/255)
          * Support **Search appearances** page
          */
@@ -11563,6 +11581,7 @@
   spa.register(Feed);
   spa.register(MyNetwork);
   spa.register(InvitationManager);
+  spa.register(ManageEvents);
   spa.register(Jobs);
   spa.register(JobsCollections);
   spa.register(JobsView);
