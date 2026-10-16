@@ -276,9 +276,30 @@
       '**Profile**: *RecommendationsTopLevel* scroller is failing',
       '2026-10-14'
     ),
+    ish(
+      '401',
+      '**Profile**: *HonorsTopLevel* scroller is failing',
+      '2026-10-16'
+    ),
+    ish('402', '**Profile**: *Services* scroller is failing', '2026-10-16'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-16',
+      issues: ['253'],
+      subject: 'Initial support for **Manage Events** pages',
+    },
+    {
+      date: '2026-10-15',
+      issues: ['402'],
+      subject: 'Update the selectors for the *Services* section',
+    },
+    {
+      date: '2026-10-15',
+      issues: ['401'],
+      subject: 'Update the selector for the *Honors & awards* section',
+    },
     {
       date: '2026-10-14',
       issues: ['392'],
@@ -549,22 +570,6 @@
       date: '2026-09-17',
       issues: ['372'],
       subject: 'Rip out the `#itemCache` and associated monitoring',
-    },
-    {
-      date: '2026-09-16',
-      issues: ['237'],
-      subject: 'Navigation support for *Networking* sections',
-    },
-    {
-      date: '2026-09-16',
-      issues: ['237'],
-      subject: 'Rename `*IdSpeaker` to `*IdPeople` as it will work else' +
-        ' where',
-    },
-    {
-      date: '2026-09-16',
-      issues: ['209'],
-      subject: 'Make trailing slash optional',
     },
   ];
 
