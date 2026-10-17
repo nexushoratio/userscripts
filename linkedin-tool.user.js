@@ -3268,10 +3268,14 @@
 
     static #primaryNavSelector = [
       // Style 1
-      '#global-nav .global-nav__primary-items',
+      '#global-nav',
       // Style 2
+      /**
+       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+       * Retire `primaryNavLinksComponentRef`
+       */
       `[${CKEY}="primaryNavLinksComponentRef"] nav > ul`,
-      '#root nav > ul:has(#home-medium, #people-medium)',
+      '#root header',
     ].join(', ');
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
@@ -4219,8 +4223,7 @@
         if (!menuItem.isConnected) {
           this.logger.log('Will connect menu item to', this.#navbar);
 
-          const navMe = this.#navbar.querySelector(selector)
-            ?.closest('li');
+          const navMe = this.#navbar.querySelector(selector);
           this.logger.log('navMe', navMe);
 
           if (navMe) {
