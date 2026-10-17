@@ -9235,7 +9235,7 @@
 
     #entriesSelectorTestScores = [
       // Simple layout
-      `:scope > ${this.#div5}`,
+      `:scope > ${this.#divSectionDiv3} > div > div`,
     ].join(',')
 
     #entriesSelectorTopcard = [
