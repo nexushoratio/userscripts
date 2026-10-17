@@ -191,11 +191,6 @@
     ),
     ish('303', 'Keys are captured while editing text', '2026-09-21'),
     ish('360', 'Support **Search Results All** page', '2026-10-03'),
-    ish(
-      '372',
-      '`Scroller`: New item cache fails on at least one page',
-      '2026-07-19'
-    ),
     ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
@@ -282,9 +277,54 @@
       '2026-10-16'
     ),
     ish('402', '**Profile**: *Services* scroller is failing', '2026-10-16'),
+    ish(
+      '403',
+      '**Profile**: *CourseTopLevelSection* scroller is failing',
+      '2026-10-17'
+    ),
+    ish(
+      '404',
+      '**Profile**: *TestScoresTopLevel* scroller is failing',
+      '2026-10-17'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-17',
+      issues: ['293'],
+      subject: 'Migrate `InvitationManager` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['253'],
+      subject: 'Implement various shortcuts',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['414'],
+      subject: 'For Nav-V2 menus, use the *Profile* entry as the template',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['414'],
+      subject: 'Attempt to support Nav-V1 and Nav-V2 menus during transition',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['414'],
+      subject: 'Use the whole navbar, not just the list of items',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['404'],
+      subject: 'Update the selector for the *Test scores* section',
+    },
+    {
+      date: '2026-10-17',
+      issues: ['403'],
+      subject: 'Update the selector and modes for the *Courses* section',
+    },
     {
       date: '2026-10-16',
       issues: ['253'],
@@ -565,11 +605,6 @@
       date: '2026-09-23',
       issues: ['293'],
       subject: 'Initial refactoring of `Scroller` and friends',
-    },
-    {
-      date: '2026-09-17',
-      issues: ['372'],
-      subject: 'Rip out the `#itemCache` and associated monitoring',
     },
   ];
 
