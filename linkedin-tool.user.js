@@ -9139,7 +9139,7 @@
 
     #entriesSelectorCourses = [
       // Simple layout
-      `:scope > ${this.#div5}`,
+      `:scope > ${this.#divSectionDiv3} > div > div`,
     ].join(',')
 
     #entriesSelectorDefault = [
@@ -9705,7 +9705,7 @@
           this.#entriesSelectorFooter,
         ],
         modes: [
-          this.UidMode.MULTI_IMG,
+          // MULTI_IMG has caused duplicates
           this.UidMode.FOOTER,
         ],
       });
