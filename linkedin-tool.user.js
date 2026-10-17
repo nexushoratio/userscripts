@@ -4254,7 +4254,9 @@
           this.#createMenuItemStyle1();
         }
         if (this.#ourMenuItemStyle1) {
-          this.#connectMenuItem(this.#ourMenuItemStyle1, '.global-nav__me');
+          this.#connectMenuItem(
+            this.#ourMenuItemStyle1, '.global-nav__me, .global-nav__me-v2'
+          );
         }
       }
 
@@ -4389,6 +4391,14 @@
           this.#createMenuItemStyle2();
         }
         if (this.#ourMenuItemStyle2) {
+          this.#connectMenuItem(
+            this.#ourMenuItemStyle2, '#meMenuV2WideComponentRef'
+          );
+
+          /**
+           * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+           * Retire, as this is now the transition backup.
+           */
           this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
         }
         this.#compareBadgesStyle2();
