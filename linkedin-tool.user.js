@@ -6806,6 +6806,156 @@
         pathname: '/mynetwork/network-manager/events/',
         readySelector: 'footer.global-footer-compact',
       });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.ONE);
+
+      this.addService(VMKeyboardService)
+        .addInstance(this);
+
+      this.#initScrollers();
+    }
+
+    /** @type {NexusHoratio.nav.Scroller} */
+    get cards() {
+      return this.#cardsScroller;
+    }
+
+    nextCard = new Shortcut(
+      'j',
+      'Next card',
+      () => {
+        this.cards.next();
+      }
+    );
+
+    prevCard = new Shortcut(
+      'k',
+      'Previous card',
+      () => {
+        this.cards.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to first card',
+      () => {
+        this.cards.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to last card',
+      () => {
+        this.cards.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        this.cards.focus();
+      }
+    );
+
+    #cardsScroller
+
+    #initScrollers = () => {
+      this.#initScrollerStyleService();
+      this.#initCardsScroller();
+    }
+
+    #initScrollerStyleService = () => {
+      const styleConfig = {
+        className: this.scrollerClassName,
+        finder: this.#scrollerFinder,
+        elementsProcessor: this.elementsHeightProcessor,
+      };
+      this.addService(NH.web.StyleService, styleConfig);
+    }
+
+    /**
+     * @method
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
+     */
+    #scrollerFinder = () => {
+      const me = this.#scrollerFinder.name;
+      this.logger.entered(me);
+
+      const elements = new Map();
+      elements.set('aside', document.querySelector(LinkedIn.asideSelector));
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    #initCardsScroller = () => {
+      const what = {
+        name: `${this.name} cards`,
+        containerItems: [
+          {
+            container: 'main',
+            items: [
+              // Create
+              'div:has(> h1)',
+              // Events
+              'ul > li',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueCardsIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#cardsScroller = new NH.nav.Scroller(what, how);
+      this.addService(NH.nav.ScrollerService)
+        .setScroller(this.#cardsScroller);
+      this.#cardsScroller.dispatcher
+        .on('out-of-range', this.spa.details.focusOnAside);
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueCardsIdentifier = (scroller, element) => {
+      const me = this.#uniqueCardsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const label = element
+        .querySelector('[aria-label]')
+        ?.getAttribute('aria-label');
+      const urn = element.querySelector('[data-chameleon-result-urn]')
+        ?.dataset.chameleonResultUrn;
+
+      if (label) {
+        content = label;
+      }
+      if (urn) {
+        content = urn;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
   }

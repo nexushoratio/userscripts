@@ -137,6 +137,7 @@ ccc
 cdn
 centerOfElement
 CertificationTopLevel
+chameleonResultUrn
 checkAssertionCounts
 checkForNews
 checkingPartialOrder
@@ -531,9 +532,7 @@ HtmlRenderer
 HTMLStyleElement
 HTMLUnknownElement
 idName
-IdPeople
 idSelector
-IdSpeaker
 idx
 iframe
 iframeDoc
@@ -1450,6 +1449,7 @@ undef
 unicode
 uninit
 uniqueCardIdentifier
+uniqueCardsIdentifier
 uniqueCollectionIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
