@@ -4172,13 +4172,24 @@
       element.append(this.#badgeErrorStyle2, this.#badgeNewsStyle2);
     }
 
-    #createMenuItemStyle2 = () => {
+    #createMenuItemStyle2 = () => {  // eslint-disable-line max-statements
       const me = this.#createMenuItemStyle2.name;
       this.logger.entered(me, this.#navbar);
 
-      const item = this.#navbar
+      let item = this.#navbar
         .querySelector('li')
         .cloneNode(true);
+
+      /**
+       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+       * This should become the default and the selector factored out.
+       */
+      const nav2 = document.querySelector('#meMenuV2WideComponentRef')
+        ?.cloneNode(true);
+      if (nav2) {
+        nav2.innerHTML = item.innerHTML;
+        item = nav2;
+      }
 
       // The page may not have settled down yet, so check each bit carefully.
       const button = item.querySelector('button');
