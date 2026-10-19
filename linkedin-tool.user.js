@@ -7236,10 +7236,12 @@
         base: this.sections.item,
         selectors: [
           [
-          // Match your profile - Show all button
+            // Match your profile - Show all button
             ':scope > * > a',
             // Most job entries
             ':scope > * > * > a',
+            // Random "See who's hiring" section
+            `:scope div[${CKEY}]:has(> h2) > div`,
             // Carousels
             '[data-testid="carousel-child-container"] a',
             // Job collections tabs
