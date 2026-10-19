@@ -9506,6 +9506,7 @@
       'CourseTopLevelSection, Interests',
       'CourseTopLevelSection, LanguageTopLevel',
       'CourseTopLevelSection, Organizations',
+      'EducationTopLevelSection, Causes',
       'EducationTopLevelSection, CertificationTopLevel',
       'EducationTopLevelSection, ConnectedAccountsTopLevel',
       'EducationTopLevelSection, CourseTopLevelSection',
