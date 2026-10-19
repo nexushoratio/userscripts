@@ -22,12 +22,12 @@ The function `NexusHoratio.base.ensure()` can be used to make sure appropriate l
 * [nav](nav.md) - Support for adding navigation to existing web content.
 
 ## Test matrix
-|               | FF (Release) | FF (Debian ESR 140.14) |
-|---------------|:------------:|:----------------------:|
-| Violentmonkey |      Yes     |          TBD           |
-| Greasemonkey  |      Yes     |          TBD           |
-| FireMonkey    |      Yes     |          TBD           |
-| ScriptCat     |      Yes     |          TBD           |
-| Tampermonkey  |      Yes     |          TBD           |
+|               | FF (Release) | FF (Debian ESR 153) |
+|---------------|:------------:|:-------------------:|
+| Violentmonkey |      Yes     |         Yes         |
+| Greasemonkey  |      Yes     |         Yes         |
+| FireMonkey    |      Yes     |         Yes         |
+| ScriptCat     |      Yes     |         Yes         |
+| Tampermonkey  |      Yes     |         Yes         |
 
 Mobile is unlikely to be supported anytime soon as this is mostly about adding hotkey support.
