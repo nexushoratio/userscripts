@@ -298,9 +298,40 @@
       '2026-10-18'
     ),
     ish('418', 'Support **Manage Event** pages', '2026-10-18'),
+    ish('407', '**Profile**: *Causes* scroller is failing', '2026-10-19'),
+    ish(
+      '417',
+      '**Jobs**: There are sections not being matched',
+      '2026-10-19'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-19',
+      issues: ['417'],
+      subject: 'Add entry selector for a new section',
+    },
+    {
+      date: '2026-10-19',
+      issues: ['417'],
+      subject: 'Update sections selector',
+    },
+    {
+      date: '2026-10-19',
+      issues: [''],
+      subject: 'Update **Jobs View**\'s `readySelector`',
+    },
+    {
+      date: '2026-10-19',
+      issues: ['293'],
+      subject: 'Migrate `JobsView` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-19',
+      issues: ['407'],
+      subject: 'Update the selector for the *Causes* section',
+    },
     {
       date: '2026-10-18',
       issues: ['253'],
