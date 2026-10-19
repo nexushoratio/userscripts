@@ -9394,7 +9394,7 @@
 
     #entriesSelectorLanguages = [
       // Simple layout
-      `:scope > ${this.#div6}`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorOrganizations = [
@@ -9947,7 +9947,10 @@
           this.#entriesSelectorLanguages,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.FOOTER],
+        modes: [
+          this.UidMode.FOOTER,
+          this.UidMode.DEFAULT,
+        ],
       });
       this.#entriesScrollerConfigs.set('Organizations', {
         uidCallback: this.#entriesUidFromModes,
