@@ -7202,8 +7202,8 @@
           {
             container: this.#sectionsContainer,
             items: [
-              // Premium "top applicant"
-              `:scope > [${CKEY}^="Jobs"] > * > [${CKEY}^="Jobs"]`,
+              // First few sections
+              `:scope > [${CKEY}^="JobsHomeATFModule"] > div > div`,
               // Everything else
               `:scope > div > div[${CKEY}]`,
             ].join(','),

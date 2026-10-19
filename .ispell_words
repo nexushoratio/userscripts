@@ -616,6 +616,7 @@ JobDetailsSimilarJobsSlot
 jobId
 JobsCollections
 jobScroller
+JobsHomeATFModule
 JobsHomeFeedModuleListCollection
 JobsHomeModuleTabbed
 JobsView
@@ -869,7 +870,6 @@ onHybridActivate
 onIndividualChanged
 onIndividualFocused
 onInit
-onJobChange
 onJobChanged
 onLoggerConfig
 onMessageChange
