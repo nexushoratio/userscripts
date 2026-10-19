@@ -9363,7 +9363,7 @@
 
     #entriesSelectorCauses = [
       // Skip the header.
-      ':scope > div > div:not(:has(> h2))',
+      ':scope > div > section > div > div:not(:has(> h2))',
     ].join(',')
 
     #entriesSelectorCertification = [
