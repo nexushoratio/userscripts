@@ -9399,7 +9399,7 @@
 
     #entriesSelectorOrganizations = [
       // Simple layout
-      `:scope > ${this.#div6}`,
+      `:scope > ${this.#divSectionDiv3} > ${this.#div3}`,
     ].join(',')
 
     #entriesSelectorPatents = [
@@ -9958,7 +9958,10 @@
           this.#entriesSelectorOrganizations,
           this.#entriesSelectorFooter,
         ],
-        modes: [this.UidMode.FOOTER],
+        modes: [
+          this.UidMode.FOOTER,
+          this.UidMode.DEFAULT,
+        ],
       });
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
