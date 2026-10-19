@@ -11778,6 +11778,12 @@
          * Support **Connections** page
          */
         '/mynetwork/invite-connect/connections/?',
+
+        /**
+         * @todo [(#418)](https://github.com/nexushoratio/userscripts/issues/418)
+         * Support **Manage Event** page
+         */
+        '/event/manage/[^/]*/',
       ].map(x => `(${x})`)
         .join('|');
       super({
