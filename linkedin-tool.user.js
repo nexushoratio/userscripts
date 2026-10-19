@@ -7997,7 +7997,7 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/jobs/view/\\d+.*', 'u'),
-        readySelector: '[data-sdui-component]',
+        readySelector: '#add-small',
       });
 
       this.addService(LinkedInStyleService)
