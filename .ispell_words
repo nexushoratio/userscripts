@@ -869,6 +869,7 @@ onIndividualChanged
 onIndividualFocused
 onInit
 onJobChange
+onJobChanged
 onLoggerConfig
 onMessageChange
 onOpenInfo
@@ -879,6 +880,7 @@ onPostChanged
 onResultChange
 onScrollerHandler
 onSectionChange
+onSectionChanged
 onShow
 onSpaActivated
 onurlchange

@@ -7181,11 +7181,11 @@
         snapToTop: true,
       };
 
-      this.#sectionScroller = new Scroller(what, how);
+      this.#sectionScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
-        .on('change', this.#onSectionChange)
+        .on('changed', this.#onSectionChanged)
         .on('out-of-range', this.spa.details.focusOnSidebar);
 
       this.#lastScroller = this.#sectionScroller;
@@ -7226,9 +7226,9 @@
         },
       };
 
-      this.#jobScroller = new Scroller(what, how);
+      this.#jobScroller = new NH.nav.Scroller(what, how);
       this.#jobScroller.dispatcher
-        .on('change', this.#onJobChange)
+        .on('changed', this.#onJobChanged)
         .on('out-of-range', this.#returnToSection);
     }
 
@@ -7345,6 +7345,22 @@
     }
 
     /**
+     * Updates {@link Jobs} specific watcher data and removes the jobs
+     * {@link Scroller}.
+     *
+     * @method
+     */
+    #onSectionChanged = () => {
+      const me = this.#onSectionChanged.name;
+      this.logger.entered(me);
+
+      this.#resetJobs();
+      this.#lastScroller = this.sections;
+
+      this.logger.leaving(me);
+    }
+
+    /**
      * Reselects current section, triggering some actions as initial
      * selection.
      *
@@ -7354,24 +7370,8 @@
       this.sections.item = this.sections.item;
     }
 
-    #onJobChange = () => {
+    #onJobChanged = () => {
       this.#lastScroller = this.jobs;
-    }
-
-    /**
-     * Updates {@link Jobs} specific watcher data and removes the jobs
-     * {@link Scroller}.
-     *
-     * @method
-     */
-    #onSectionChange = () => {
-      const me = this.#onSectionChange.name;
-      this.logger.entered(me);
-
-      this.#resetJobs();
-      this.#lastScroller = this.sections;
-
-      this.logger.leaving(me);
     }
 
   }
