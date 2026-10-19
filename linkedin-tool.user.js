@@ -287,9 +287,51 @@
       '**Profile**: *TestScoresTopLevel* scroller is failing',
       '2026-10-17'
     ),
+    ish(
+      '405',
+      '**Profile**: *LanguageTopLevel* scroller is failing',
+      '2026-10-18'
+    ),
+    ish(
+      '406',
+      '**Profile**: *Organizations* scroller is failing',
+      '2026-10-18'
+    ),
+    ish('418', 'Support **Manage Event** pages', '2026-10-18'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-18',
+      issues: ['253'],
+      subject: 'Remove WIP items',
+    },
+    {
+      date: '2026-10-18',
+      issues: ['418'],
+      subject: 'Acknowledge the **Manage Event** pages',
+    },
+    {
+      date: '2026-10-18',
+      issues: ['293'],
+      subject: 'Migrate `Jobs` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-18',
+      issues: [''],
+      subject: 'Another **Profile** partial ordering pair',
+    },
+    {
+      date: '2026-10-18',
+      issues: ['406'],
+      subject: 'Update the selector and modes for the *Organizations*' +
+        ' section',
+    },
+    {
+      date: '2026-10-18',
+      issues: ['405'],
+      subject: 'Update the selector and modes for the *Languages* section',
+    },
     {
       date: '2026-10-17',
       issues: ['293'],
