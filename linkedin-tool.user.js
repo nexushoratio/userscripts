@@ -6823,8 +6823,6 @@
 
   /**
    * Class for handling Manage Events.
-   * @todo [(#253)](https://github.com/nexushoratio/userscripts/issues/253)
-   * WIP
    *
    * @extends module:linkedin-tool~Page
    */
@@ -6837,7 +6835,6 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Manage Events (WIP)',
         pathname: '/mynetwork/network-manager/events/',
         readySelector: 'footer.global-footer-compact',
       });
