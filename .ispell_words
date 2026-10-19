@@ -608,7 +608,6 @@ issueListener
 issueLogger
 issuesForLinkedIn
 issuesLink
-itemCache
 itemUid
 javascript
 jk
@@ -846,6 +845,7 @@ onActivateWatch
 onBuild
 onCardActivate
 onCardChange
+onCardChanged
 onChange
 onClick
 onClickElements
@@ -860,6 +860,7 @@ onDeactivate
 onDestroy
 onDetailsChange
 onEntryChange
+onEntryChanged
 onEvent
 onEventChange
 onFocus

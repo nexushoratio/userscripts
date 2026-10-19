@@ -8179,11 +8179,11 @@
         snapToTop: true,
       };
 
-      this.#cardScroller = new Scroller(what, how);
+      this.#cardScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#cardScroller);
       this.#cardScroller.dispatcher
-        .on('change', this.#onCardChange);
+        .on('changed', this.#onCardChanged);
 
       this.#lastScroller = this.#cardScroller;
     }
@@ -8208,9 +8208,9 @@
         snapToTop: false,
       };
 
-      this.#entryScroller = new Scroller(what, how);
+      this.#entryScroller = new NH.nav.Scroller(what, how);
       this.#entryScroller.dispatcher
-        .on('change', this.#onEntryChange)
+        .on('changed', this.#onEntryChanged)
         .on('out-of-range', this.#returnToCard);
     }
 
@@ -8291,7 +8291,7 @@
       return content;
     }
 
-    #onCardChange = () => {
+    #onCardChanged = () => {
       this.#resetEntries();
       this.#lastScroller = this.cards;
     }
@@ -8304,7 +8304,7 @@
       this.entries;
     }
 
-    #onEntryChange = () => {
+    #onEntryChanged = () => {
       this.#lastScroller = this.entries;
     }
 
