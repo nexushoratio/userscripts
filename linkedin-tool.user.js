@@ -11856,6 +11856,12 @@
          * Support **Manage Event** page
          */
         '/event/manage/[^/]*/',
+
+        /**
+         * @todo [(#422)](https://github.com/nexushoratio/userscripts/issues/422)
+         * Support **Jobs Search Results** page
+         */
+        '/jobs/search-results/?[^/]*',
       ].map(x => `(${x})`)
         .join('|');
       super({
