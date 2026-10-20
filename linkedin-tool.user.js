@@ -8613,12 +8613,12 @@
         snapToTop: true,
       };
 
-      this.#convoCardScroller = new Scroller(what, how);
+      this.#convoCardScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#convoCardScroller);
       this.#convoCardScroller.dispatcher
-        .on('activate', this.#onConvoCardActivate)
-        .on('change', this.#onConvoCardChange);
+        .on('activated', this.#onConvoCardActivated)
+        .on('changed', this.#onConvoCardChanged);
     }
 
     #initMessageScroller = () => {
@@ -8640,9 +8640,9 @@
         snapToTop: false,
       };
 
-      this.#messageScroller = new Scroller(what, how);
+      this.#messageScroller = new NH.nav.Scroller(what, how);
       this.#messageScroller.dispatcher
-        .on('change', this.#onMessageChange);
+        .on('changed', this.#onMessageChanged);
     }
 
     /**
@@ -8781,8 +8781,8 @@
       return distance;
     }
 
-    #onConvoCardActivate = async () => {
-      const me = this.#onConvoCardActivate.name;
+    #onConvoCardActivated = async () => {
+      const me = this.#onConvoCardActivated.name;
       this.logger.entered(me);
 
       await this.#findActiveConvo();
@@ -8790,8 +8790,8 @@
       this.logger.leaving(me);
     }
 
-    #onConvoCardChange = () => {
-      const me = this.#onConvoCardChange.name;
+    #onConvoCardChanged = () => {
+      const me = this.#onConvoCardChanged.name;
       this.logger.entered(me);
 
       const el = this.convoCards?.item;
@@ -8811,7 +8811,7 @@
       this.messages;
     }
 
-    #onMessageChange = () => {
+    #onMessageChanged = () => {
       this.#lastScroller = this.messages;
     }
 

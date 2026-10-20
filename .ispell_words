@@ -857,7 +857,9 @@ onCollectionChanged
 onCommentChanged
 onConfig
 onConvoCardActivate
+onConvoCardActivated
 onConvoCardChange
+onConvoCardChanged
 onDeactivate
 onDestroy
 onDetailsChange
@@ -874,6 +876,7 @@ onInit
 onJobChanged
 onLoggerConfig
 onMessageChange
+onMessageChanged
 onOpenInfo
 onPaginationActivate
 onPaginationChange
