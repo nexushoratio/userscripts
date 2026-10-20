@@ -10565,6 +10565,36 @@
   }
 
   /**
+   * Class for handling the Search Appearances page.
+   *
+   * @todo [(#255)](https://github.com/nexushoratio/userscripts/issues/255)
+   * WIP
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class AnalyticsSearchAppearances extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        pathname: '/analytics/search-appearances/',
+        readySelector: 'footer.global-footer-compact',
+      });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.ONE);
+
+      this.addService(VMKeyboardService)
+        .addInstance(this);
+    }
+
+  }
+
+  /**
    * Class for handling the Events page.
    *
    * @extends module:linkedin-tool~Page
@@ -11778,12 +11808,6 @@
       const URLs = [
 
         /**
-         * @todo [(#255)](https://github.com/nexushoratio/userscripts/issues/255)
-         * Support **Search appearances** page
-         */
-        '/analytics/search-appearances/',
-
-        /**
          * @todo [(#256)](https://github.com/nexushoratio/userscripts/issues/256)
          * Support **Verify** page
          */
@@ -11898,6 +11922,7 @@
   spa.register(Messaging);
   spa.register(Notifications);
   spa.register(Profile);
+  spa.register(AnalyticsSearchAppearances);
   spa.register(Events);
   spa.register(EventsSpecific);
   spa.register(SearchResultsPeople);
