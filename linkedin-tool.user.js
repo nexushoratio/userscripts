@@ -9543,6 +9543,21 @@
       ':scope [role="listitem"]',
     ].join(',')
 
+    #entriesUidModeSelector = [
+      'a',
+      ':not([href$="#"])',
+      ':not([href*="/company/"])',
+      ':not([href*="/feed/"])',
+      ':not([href*="/groups/"])',
+      ':not([href*="/in/"])',
+      ':not([href*="/learning/"])',
+      ':not([href*="/newsletters/"])',
+      ':not([href*="/pulse/"])',
+      ':not([href*="/safety/"])',
+      ':not([href*="/school/"])',
+      ':not([href*="/showcase/"])',
+    ].join('');
+
     #entryScroller
     #lastScroller
     #modeUidSelectorId
@@ -10127,20 +10142,7 @@
         href = null;
         switch (mode) {
           case this.UidMode.ANCHOR:
-            href = element.querySelector(
-              'a' +
-                ':not([href*="/company/"])' +
-                ':not([href*="/feed/"])' +
-                ':not([href*="/groups/"])' +
-                ':not([href*="/in/"])' +
-                ':not([href$="#"])' +
-                ':not([href*="/learning/"])' +
-                ':not([href*="/newsletters/"])' +
-                ':not([href*="/pulse/"])' +
-                ':not([href*="/safety/"])' +
-                ':not([href*="/school/"])' +
-                ':not([href*="/showcase/"])'
-            )?.href;
+            href = element.querySelector(this.#entriesUidModeSelector)?.href;
             break;
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;
