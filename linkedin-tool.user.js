@@ -7711,6 +7711,7 @@
         snapToTop: true,
       };
 
+      // Do not migrate until #421 resolved.
       this.#cardsScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#cardsScroller);
@@ -7741,6 +7742,7 @@
         observeAttributes: true,
       };
 
+      // Do not migrate until #421 resolved.
       this.#paginationScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#paginationScroller);
@@ -7766,6 +7768,7 @@
         snapToTop: true,
       };
 
+      // Do not migrate until #421 resolved.
       this.#detailsScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#detailsScroller);
