@@ -8891,7 +8891,7 @@
       super({
         spa: spa,
         pathname: '/notifications/',
-        readySelector: 'footer.global-footer-compact',
+        readySelector: '#linkedin-logo-xxsmall',
       });
 
       this.addService(LinkedInStyleService)
