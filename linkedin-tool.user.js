@@ -9013,17 +9013,6 @@
       }
     );
 
-    gotoFilter = new Shortcut(
-      'F',
-      'Move focus to the notification filters',
-      () => {
-        this.notifications.item = null;
-        NH.web.focusOnElement(
-          document.querySelector('#notification-nt-pill .nt-pill--selected')
-        );
-      }
-    );
-
     deleteNotification = new Shortcut(
       'X',
       'Toggle current notification deletion',
@@ -9077,8 +9066,13 @@
         name: `${this.name} cards`,
         containerItems: [
           {
-            container: 'main section div.nt-card-list',
-            items: 'article',
+            container: `main section > div > div:not([${CKEY}])`,
+            items: [
+              // Filter tablist
+              ':scope > div:not([data-sdui-screen])',
+              // Most items
+              ':scope [data-testid="lazy-column"] > div',
+            ].join(','),
           },
         ],
       };
