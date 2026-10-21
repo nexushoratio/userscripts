@@ -189,7 +189,7 @@
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
       '2026-10-06'
     ),
-    ish('303', 'Keys are captured while editing text', '2026-09-21'),
+    ish('303', 'Keys are captured while editing text', '2026-10-21'),
     ish('360', 'Support **Search Results All** page', '2026-10-03'),
     ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
@@ -304,9 +304,46 @@
       '**Jobs**: There are sections not being matched',
       '2026-10-19'
     ),
+    ish('255', 'Support **Analytics Search Appearances** page', '2026-10-20'),
+    ish(
+      '421',
+      '**Jobs Collections**: Navigating between pages causes problems',
+      '2026-10-20'
+    ),
+    ish('422', 'Support **Jobs Search Results** page', '2026-10-20'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-20',
+      issues: ['380'],
+      subject: 'Include the tablists when navigating various sections',
+    },
+    {
+      date: '2026-10-20',
+      issues: ['255'],
+      subject: 'Initial support for **Analytics Search Appearances** page',
+    },
+    {
+      date: '2026-10-20',
+      issues: ['293'],
+      subject: 'Migrate `Messaging` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-20',
+      issues: ['293', '421'],
+      subject: 'Document skipping migration `JobsCollections` for the moment',
+    },
+    {
+      date: '2026-10-20',
+      issues: ['381'],
+      subject: 'Factor out a query selector for later automated creation',
+    },
+    {
+      date: '2026-10-20',
+      issues: ['422'],
+      subject: 'Acknowledge the **Jobs Search Results** page',
+    },
     {
       date: '2026-10-19',
       issues: ['417'],
