@@ -440,6 +440,7 @@ focusOnTree
 focusOption
 foodoc
 FooTestCase
+forceEntriesFocus
 forceFocusEvent
 fourFive
 fromPojo
@@ -867,6 +868,7 @@ onDestroy
 onDetailsChange
 onEntryChange
 onEntryChanged
+onEntryFocused
 onEvent
 onEventChange
 onFocus
@@ -889,6 +891,7 @@ onSectionChange
 onSectionChanged
 onShow
 onSpaActivated
+onTablistChange
 onurlchange
 onUrlChange
 onVerify

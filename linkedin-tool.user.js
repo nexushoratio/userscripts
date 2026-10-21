@@ -10176,6 +10176,7 @@
       this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
+        .on('focused', this.#onEntryFocused)
         .on('out-of-range', this.#returnToSection);
 
       this.logger.leaving(me);
@@ -10614,6 +10615,37 @@
 
     #onEntryChange = () => {
       this.#lastScroller = this.entries;
+    }
+
+    /**
+     * Selecting a different tab triggers the Scroller `watchForClicks`
+     * feature, which eventually calls `focus()`.  Since we have a Scroller
+     * based `focused` handler to ensure the correct tablist button has
+     * browser focus, we end up focusing on the old button.
+     *
+     * We handle this by calling `focus()` again on the next JS event loop.
+     */
+    #onTablistChange = () => {
+      setTimeout(this.#forceEntriesFocus, 0);
+    }
+
+    #forceEntriesFocus = () => {
+      this.entries.focus();
+    }
+
+    #onEntryFocused = () => {
+      if (this.entries.itemUid?.startsWith(
+        this.UidMode.TABLIST.description
+      )) {
+
+        /**
+         * @todo [(#423)](https://github.com/nexushoratio/userscripts/issues/423)
+         * It might be possible to replace this with a scroller event.
+         */
+        this.entries.item.addEventListener('click', this.#onTablistChange);
+        this.entries.item.querySelector('input:checked')
+          .focus();
+      }
     }
 
     #onSectionChange = () => {
