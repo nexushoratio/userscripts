@@ -9157,14 +9157,14 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const hotKey = element.parentElement.dataset.finiteScrollHotkeyItem;
-      const cardIndex = element.dataset.ntCardIndex;
+      const paths = new Set(element.querySelectorAll('a')
+        .values()
+        .map(x => new URL(x))
+        .map(x => `${x.pathname}${x.search}`));
 
-      if (hotKey) {
-        content = hotKey;
-      }
-      if (cardIndex) {
-        content = cardIndex;
+      if (paths.size) {
+        content = paths.values()
+          .join();
       }
       if (!content) {
         content = scroller.defaultUid(element);
