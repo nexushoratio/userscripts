@@ -9593,21 +9593,7 @@
       ':scope [role="listitem"]',
     ].join(',')
 
-    #entriesUidModeSelector = [
-      'a',
-      ':not([href$="#"])',
-      ':not([href*="/company/"])',
-      ':not([href*="/feed/"])',
-      ':not([href*="/groups/"])',
-      ':not([href*="/in/"])',
-      ':not([href*="/learning/"])',
-      ':not([href*="/newsletters/"])',
-      ':not([href*="/pulse/"])',
-      ':not([href*="/safety/"])',
-      ':not([href*="/school/"])',
-      ':not([href*="/showcase/"])',
-    ].join('');
-
+    #entriesUidModeSelector
     #entryScroller
     #lastScroller
     #modeUidSelectorId
@@ -9735,6 +9721,8 @@
 
     ]);
 
+    #uidModeAnchors
+
     #initScrollers = () => {
       this.#initModeToUidHelpers();
       this.#initEntryScrollerConfigs();
@@ -9774,6 +9762,26 @@
           'expandable-text-button',
         ]
       );
+      this.#uidModeAnchors = new Map([
+        [this.UidMode.ANCHOR_FEED, 'feed'],
+        [this.UidMode.ANCHOR_GROUPS, 'groups'],
+        [this.UidMode.ANCHOR_LEARNING, 'learning'],
+        [this.UidMode.ANCHOR_NEWSLETTERS, 'newsletters'],
+        [this.UidMode.ANCHOR_PROFILE, 'in'],
+        [this.UidMode.ANCHOR_PULSE, 'pulse'],
+        [this.UidMode.ANCHOR_SHOWCASE, 'showcase'],
+        [this.UidMode.COMPANY, 'company'],
+        [this.UidMode.SAFETY, 'safety'],
+        [this.UidMode.SCHOOL, 'school'],
+      ].map(x => [x[0], {href: `[href*="/${x[1]}/"]`}]));
+
+      this.#entriesUidModeSelector = [
+        'a',
+        ':not([href$="#"])',
+      ].concat(this.#uidModeAnchors.values()
+        .map(x => `:not(${x.href})`)
+        .toArray())
+        .join('');
     }
 
     #initScrollerStyleService = () => {

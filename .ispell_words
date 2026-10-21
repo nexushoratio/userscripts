@@ -859,7 +859,6 @@ onCollectionChange
 onCollectionChanged
 onCommentChanged
 onConfig
-onConvoCardActivate
 onConvoCardActivated
 onConvoCardChange
 onConvoCardChanged
@@ -878,7 +877,6 @@ onIndividualFocused
 onInit
 onJobChanged
 onLoggerConfig
-onMessageChange
 onMessageChanged
 onOpenInfo
 onPaginationActivate
@@ -1450,6 +1448,7 @@ UidCallbackNotFunction
 uidCommentRE
 uidDetailsClassRE
 UidMode
+uidModeAnchors
 uidPostRE
 uids
 UIDs
