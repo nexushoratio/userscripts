@@ -8910,7 +8910,7 @@
 
     nextNotification = new Shortcut(
       'j',
-      'Next notification',
+      'Next item',
       () => {
         this.notifications.next();
       }
@@ -8918,7 +8918,7 @@
 
     prevNotification = new Shortcut(
       'k',
-      'Previous notification',
+      'Previous item',
       () => {
         this.notifications.prev();
       }
@@ -8926,21 +8926,23 @@
 
     firstNotification = new Shortcut(
       '<',
-      'Go to first notification',
+      'Go to first item',
       () => {
         this.notifications.first();
       }
     );
 
     lastNotification = new Shortcut(
-      '>', 'Go to last notification', () => {
+      '>',
+      'Go to last item',
+      () => {
         this.notifications.last();
       }
     );
 
     focusBrowser = new Shortcut(
       'f',
-      'Change browser focus to current notification',
+      'Change browser focus to current item',
       () => {
         this.notifications.focus();
       }
