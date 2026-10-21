@@ -9106,8 +9106,7 @@
       this.logger.entered(me);
 
       const elements = new Map();
-      elements.set('aside', document.querySelector('aside > div'));
-      elements.set('pill', document.querySelector('#notification-nt-pill'));
+      elements.set('div', document.querySelector('main > div'));
 
       this.logger.leaving(me, elements);
       return elements;
@@ -9125,20 +9124,14 @@
       const me = this.#scrollerElementsProcessor.name;
       this.logger.entered(me, elements);
 
-      let marginTop = 0;
       const properties = new Map();
 
       for (const [key, value] of elements.entries()) {
         switch (key) {
-          case 'aside':
+          case 'div':
             if (value) {
-              const rect = value.getBoundingClientRect();
-              marginTop += rect.top;
-            }
-            break;
-          case 'pill':
-            if (value) {
-              marginTop += value.offsetHeight;
+              const style = getComputedStyle(value);
+              properties.set('scroll-margin-top', style.marginTop);
             }
             break;
           default:
@@ -9147,8 +9140,6 @@
             );
         }
       }
-
-      properties.set('scroll-margin-top', `${marginTop}px`);
 
       this.logger.leaving(me, properties);
       return properties;
