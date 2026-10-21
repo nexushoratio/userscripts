@@ -284,7 +284,6 @@ displayIssueMessage
 displayIssueSeparator
 distanceBetweenPoints
 divAnchorNoArrowRight
-divCheckbox
 DIVs
 divSectionDiv
 doClassCleanups
@@ -356,7 +355,6 @@ entriesSelectorRecommendations
 entriesSelectorServices
 entriesSelectorSkills
 entriesSelectorSuggestedForYou
-entriesSelectorTablist
 entriesSelectorTestScores
 entriesSelectorTopcard
 entriesSelectorVolunteering
@@ -442,6 +440,7 @@ foodoc
 FooTestCase
 forceEntriesFocus
 forceFocusEvent
+forceSectionsFocus
 fourFive
 fromPojo
 func
@@ -519,6 +518,7 @@ handleDuck
 handleDucked
 handleEvent
 handleRunJump
+hasDivCheckbox
 hasOwn
 helpTabDefinition
 hideconstructor
@@ -861,14 +861,12 @@ onCollectionChanged
 onCommentChanged
 onConfig
 onConvoCardActivated
-onConvoCardChange
 onConvoCardChanged
 onDeactivate
 onDestroy
 onDetailsChange
 onEntryChange
 onEntryChanged
-onEntryFocused
 onEvent
 onEventChange
 onFocus
@@ -889,6 +887,7 @@ onResultChange
 onScrollerHandler
 onSectionChange
 onSectionChanged
+onSectionFocused
 onShow
 onSpaActivated
 onTablistChange

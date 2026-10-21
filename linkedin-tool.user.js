@@ -9278,7 +9278,6 @@
       MULTI_IMG: Symbol.for('multiImg'),
       SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
-      TABLIST: Symbol.for('tablist'),
       TEST_ID: Symbol.for('testId'),
     };
 
@@ -9397,7 +9396,6 @@
     /* eslint-enable */
 
     #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
-    #divCheckbox = 'div > div > input[type="checkbox"]';
     #divSectionDiv3 = `div > section > ${this.#div3}`;
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9554,16 +9552,6 @@
         ':not(:has(> h2)) > div',
     ].join(',');
 
-    #entriesSelectorTablist2Div = [
-      // Tab "buttons"
-      `:has(> ${this.#divCheckbox})`,
-    ].join(',');
-
-    #entriesSelectorTablist3Div = [
-      // Tab "buttons"
-      `:has(> div > ${this.#divCheckbox})`,
-    ].join(',');
-
     #entriesSelectorTestScores = [
       // Simple layout
       `:scope > ${this.#divSectionDiv3} > div > div`,
@@ -9595,6 +9583,7 @@
 
     #entriesUidModeSelector
     #entryScroller
+    #hasDivCheckbox = ':has(> div > div > input[type="checkbox"])';
     #lastScroller
     #modeUidSelectorId
     #modeUidSelectorTestId
@@ -9827,7 +9816,8 @@
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
-        .on('change', this.#onSectionChange);
+        .on('change', this.#onSectionChange)
+        .on('focused', this.#onSectionFocused);
 
       this.#lastScroller = this.#sectionScroller;
     }
@@ -9920,7 +9910,6 @@
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorTablist2Div,
           this.#entriesSelectorActivity,
           this.#entriesSelectorFooter,
         ],
@@ -9931,7 +9920,6 @@
           this.UidMode.ANCHOR_PULSE,
           this.UidMode.ANCHOR_NEWSLETTERS,
           this.UidMode.FOOTER,
-          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
@@ -10023,14 +10011,12 @@
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorTablist3Div,
           this.#entriesSelectorRecommendations,
           this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.FOOTER,
-          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
@@ -10116,7 +10102,6 @@
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
-          this.#entriesSelectorTablist2Div,
           this.#entriesSelectorInterests,
           this.#entriesSelectorFooter,
         ],
@@ -10128,7 +10113,6 @@
           this.UidMode.ANCHOR_GROUPS,
           this.UidMode.SCHOOL,
           this.UidMode.FOOTER,
-          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
@@ -10176,7 +10160,6 @@
       this.#entryScroller = new Scroller(what, how);
       this.#entryScroller.dispatcher
         .on('change', this.#onEntryChange)
-        .on('focused', this.#onEntryFocused)
         .on('out-of-range', this.#returnToSection);
 
       this.logger.leaving(me);
@@ -10322,11 +10305,6 @@
               // The same school may be referenced more than once.
               content = new URL(scratch).pathname +
                 scroller.defaultUid(element);
-            }
-            break;
-          case this.UidMode.TABLIST:
-            if (element.matches(`:has(${this.#divCheckbox})`)) {
-              content = scroller.defaultUid(element);
             }
             break;
           case this.UidMode.TEST_ID:
@@ -10626,26 +10604,11 @@
      * We handle this by calling `focus()` again on the next JS event loop.
      */
     #onTablistChange = () => {
-      setTimeout(this.#forceEntriesFocus, 0);
+      setTimeout(this.#forceSectionsFocus, 0);
     }
 
-    #forceEntriesFocus = () => {
-      this.entries.focus();
-    }
-
-    #onEntryFocused = () => {
-      if (this.entries.itemUid?.startsWith(
-        this.UidMode.TABLIST.description
-      )) {
-
-        /**
-         * @todo [(#423)](https://github.com/nexushoratio/userscripts/issues/423)
-         * It might be possible to replace this with a scroller event.
-         */
-        this.entries.item.addEventListener('click', this.#onTablistChange);
-        this.entries.item.querySelector('input:checked')
-          .focus();
-      }
+    #forceSectionsFocus = () => {
+      this.sections.focus();
     }
 
     #onSectionChange = () => {
@@ -10653,6 +10616,21 @@
       this.#lastScroller = this.sections;
       if (litOptions.enableAlertUnknownProfileSections) {
         this.#checkPartialOrder();
+      }
+    }
+
+    #onSectionFocused = () => {
+      let el = this.sections.item?.querySelector(
+        this.#hasDivCheckbox
+      );
+      if (el) {
+        // Shipping the org chart.
+        if (this.sections.itemUid === 'RecommendationsTopLevel') {
+          el = el.parentElement;
+        }
+        el.addEventListener('click', this.#onTablistChange);
+        el.querySelector('input:checked')
+          .focus();
       }
     }
 
