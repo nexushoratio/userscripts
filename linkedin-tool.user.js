@@ -9003,7 +9003,7 @@
       'Open the <button>⋯</button> menu',
       () => {
         NH.web.clickElement(this.notifications.item,
-          ['button:has(> svg[data-test-icon^="overflow"]']);
+          ['button:has(> * > svg[id^="overflow"]']);
       }
     );
 
