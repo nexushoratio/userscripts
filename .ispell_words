@@ -284,6 +284,7 @@ displayIssueMessage
 displayIssueSeparator
 distanceBetweenPoints
 divAnchorNoArrowRight
+divCheckbox
 DIVs
 divSectionDiv
 doClassCleanups
@@ -355,6 +356,7 @@ entriesSelectorRecommendations
 entriesSelectorServices
 entriesSelectorSkills
 entriesSelectorSuggestedForYou
+entriesSelectorTablist
 entriesSelectorTestScores
 entriesSelectorTopcard
 entriesSelectorVolunteering

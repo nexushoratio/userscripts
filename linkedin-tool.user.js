@@ -9241,6 +9241,7 @@
       MULTI_IMG: Symbol.for('multiImg'),
       SAFETY: Symbol.for('safety'),
       SCHOOL: Symbol.for('school'),
+      TABLIST: Symbol.for('tablist'),
       TEST_ID: Symbol.for('testId'),
     };
 
@@ -9359,6 +9360,7 @@
     /* eslint-enable */
 
     #divAnchorNoArrowRight = `div > a${this.#arrowRightNot}`;
+    #divCheckbox = 'div > div > input[type="checkbox"]';
     #divSectionDiv3 = `div > section > ${this.#div3}`;
     #entriesCurrentModes
     #entriesCurrentUid
@@ -9493,8 +9495,6 @@
     ].join(',')
 
     #entriesSelectorRecommendations = [
-      // Separate selector for the tablist.
-      `:scope > ${this.#divSectionDiv3} > div:has(input)`,
       `:scope > ${this.#divSectionDiv3}` +
         ` > ${this.#div3}:not(:has(> div > input))`,
     ].join(',')
@@ -9515,6 +9515,16 @@
       // May or may not be a list/carousel
       `:scope > ${this.#divSectionDiv3}` +
         ':not(:has(> h2)) > div',
+    ].join(',');
+
+    #entriesSelectorTablist2Div = [
+      // Tab "buttons"
+      `:has(> ${this.#divCheckbox})`,
+    ].join(',');
+
+    #entriesSelectorTablist3Div = [
+      // Tab "buttons"
+      `:has(> div > ${this.#divCheckbox})`,
     ].join(',');
 
     #entriesSelectorTestScores = [
@@ -9865,6 +9875,7 @@
       this.#entriesScrollerConfigs.set('Activity', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
+          this.#entriesSelectorTablist2Div,
           this.#entriesSelectorActivity,
           this.#entriesSelectorFooter,
         ],
@@ -9875,6 +9886,7 @@
           this.UidMode.ANCHOR_PULSE,
           this.UidMode.ANCHOR_NEWSLETTERS,
           this.UidMode.FOOTER,
+          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('ExperienceTopLevelSection', {
@@ -9966,12 +9978,14 @@
       this.#entriesScrollerConfigs.set('RecommendationsTopLevel', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
+          this.#entriesSelectorTablist3Div,
           this.#entriesSelectorRecommendations,
           this.#entriesSelectorFooter,
         ],
         modes: [
           this.UidMode.ANCHOR_PROFILE,
           this.UidMode.FOOTER,
+          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('PublicationTopLevelSection', {
@@ -10057,6 +10071,7 @@
       this.#entriesScrollerConfigs.set('Interests', {
         uidCallback: this.#entriesUidFromModes,
         selectors: [
+          this.#entriesSelectorTablist2Div,
           this.#entriesSelectorInterests,
           this.#entriesSelectorFooter,
         ],
@@ -10068,6 +10083,7 @@
           this.UidMode.ANCHOR_GROUPS,
           this.UidMode.SCHOOL,
           this.UidMode.FOOTER,
+          this.UidMode.TABLIST,
         ],
       });
       this.#entriesScrollerConfigs.set('Causes', {
@@ -10260,6 +10276,11 @@
               // The same school may be referenced more than once.
               content = new URL(scratch).pathname +
                 scroller.defaultUid(element);
+            }
+            break;
+          case this.UidMode.TABLIST:
+            if (element.matches(`:has(${this.#divCheckbox})`)) {
+              content = scroller.defaultUid(element);
             }
             break;
           case this.UidMode.TEST_ID:
