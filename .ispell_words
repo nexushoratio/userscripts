@@ -128,7 +128,6 @@ byName
 callCount
 cardId
 cardIndex
-cardItemToClick
 cardsContainer
 cardScroller
 cardsScroller
@@ -438,8 +437,8 @@ focusOnTree
 focusOption
 foodoc
 FooTestCase
-forceEntriesFocus
 forceFocusEvent
+forceNotificationsFocus
 forceSectionsFocus
 fourFive
 fromPojo
@@ -527,7 +526,6 @@ hN
 homepageURL
 HonorsTopLevel
 hooksPath
-hotKey
 href
 HTMLDialogElement
 HTMLElement
@@ -878,6 +876,7 @@ onInit
 onJobChanged
 onLoggerConfig
 onMessageChanged
+onNotificationsFocused
 onOpenInfo
 onPaginationActivate
 onPaginationChange

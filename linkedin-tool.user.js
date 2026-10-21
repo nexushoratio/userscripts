@@ -8946,14 +8946,6 @@
       }
     );
 
-    activateNotification = new Shortcut(
-      'Enter',
-      'Activate the current notification (click on it)',
-      () => {
-        this.notifications.click();
-      }
-    );
-
     loadMoreNotifications = new Shortcut(
       'l',
       'Load more notifications',
@@ -9084,15 +9076,13 @@
           this.scrollerClassName,
         ],
         snapToTop: true,
-        clickConfig: {
-          finder: this.#cardItemToClick,
-        },
       };
 
       this.#notificationScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
+        .on('focused', this.#onNotificationsFocused)
         .on('out-of-range', this.spa.details.focusOnSidebar);
     }
 
@@ -9174,32 +9164,27 @@
       return content;
     }
 
-    /**
-     * Given a notification card, find the correct item inside of it to click.
-     *
-     * @method
-     * @implements {Scroller~ElementFinder}
-     * @param {external:Element} element - Element to examine.
-     * @returns {external:Element} Found element.
-     */
-    #cardItemToClick = (element) => {
-      let found = null;
+    #onTablistChange = () => {
+      setTimeout(this.#forceNotificationsFocus, 0);
+    }
 
-      if (element) {
-        const elements = element.querySelectorAll(
-          '.nt-card__headline'
-        );
-        if (elements.length === NH.base.ONE_ITEM) {
-          found = elements[0];
+    #forceNotificationsFocus = () => {
+      this.notifications.focus();
+    }
+
+    #onNotificationsFocused = () => {
+      const item = this.notifications.item;
+      if (item) {
+        const el = item.querySelector('input:checked');
+        if (el) {
+          item.addEventListener('click', this.#onTablistChange);
+          el.focus();
         } else {
-          const ba = element.querySelectorAll('button,a');
-          if (ba.length === NH.base.ONE_ITEM) {
-            found = ba[0];
-          }
+          [...item.querySelectorAll('a')]
+            .at(NH.base.LAST_ITEM)
+            .focus();
         }
       }
-
-      return found;
     }
 
   }
