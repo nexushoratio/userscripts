@@ -197,7 +197,7 @@
     static #details = {
       name: 'Globular cluster',
       // Bogus selector to trigger page load timeout.
-      readySelector: 'footer',
+      readySelector: 'bogus-element',
     }
 
     #onActivate = () => {
