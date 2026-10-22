@@ -311,9 +311,73 @@
       '2026-10-20'
     ),
     ish('422', 'Support **Jobs Search Results** page', '2026-10-20'),
+    ish(
+      '313',
+      'Consistent way to navigate to filters / tablists',
+      '2026-10-22'
+    ),
+    ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-22',
+      issues: ['424'],
+      subject: 'Update the selector for the hamburger menu',
+    },
+    {
+      date: '2026-10-22',
+      issues: ['424'],
+      subject: 'Update some shortcut descriptions from "notification"' +
+        ' to "item"',
+    },
+    {
+      date: '2026-10-22',
+      issues: ['313', '385', '424'],
+      subject: 'Replace `ENTER` shortcut with native browser handling',
+    },
+    {
+      date: '2026-10-22',
+      issues: ['424'],
+      subject: 'Update **Notifications**\' `readySelector`',
+    },
+    {
+      date: '2026-10-22',
+      issues: ['424'],
+      subject: 'Update **Notifications**\' `uidCallback`',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['424'],
+      subject: 'Update **Notifications**\' default scroller placement',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['313', '424'],
+      subject: 'Update **Notifications**\' selectors and retire' +
+        ' tablist shortcut',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['424'],
+      subject: 'Mark **Notifications** as a Style-2',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['380'],
+      subject: 'Move tablist handling from secondary to primary `Scroller`',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['380'],
+      subject: 'Focus on the current tab when tablist changes',
+    },
+    {
+      date: '2026-10-21',
+      issues: ['381'],
+      subject: 'Create `#uidModeAnchors` and populate' +
+        ' `#entriesUidModeSelector`',
+    },
     {
       date: '2026-10-20',
       issues: ['380'],
