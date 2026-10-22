@@ -5592,8 +5592,9 @@
 
     loadMorePosts = new Shortcut(
       'l',
-      'Load more posts (if the <button>New Posts</button> button ' +
-        'is available)', () => {
+      'Load more posts (if the <button>New Posts</button> button' +
+        ' is available)',
+      () => {
         const me = this.loadMorePosts.name;
         this.logger.entered(me);
 
