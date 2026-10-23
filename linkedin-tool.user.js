@@ -10222,6 +10222,7 @@
       let href = null;
 
       for (const mode of modes) {
+        const hrefSelector = `a${this.#uidModeHrefs.get(mode)?.href}`;
         let scratch = null;
         content = null;
         href = null;
@@ -10231,19 +10232,27 @@
               ?.href;
             break;
           case this.UidMode.ANCHOR_FEED:
-            href = element.querySelector('a[href*="/feed/"]')?.href;
+          case this.UidMode.ANCHOR_LEARNING:
+          case this.UidMode.ANCHOR_NEWSLETTERS:
+          case this.UidMode.ANCHOR_PROFILE:
+            href = element.querySelector(hrefSelector)?.href;
             break;
           case this.UidMode.ANCHOR_GROUPS:
-            scratch = element.matches('a[href *= "/groups/"]')
+          case this.UidMode.ANCHOR_PULSE:
+          case this.UidMode.ANCHOR_SHOWCASE:
+            scratch = element.matches(hrefSelector)
               ? element
-              : element.querySelector('a[href *= "/groups/"]');
+              : element.querySelector(hrefSelector);
             href = scratch?.href;
             break;
-          case this.UidMode.ANCHOR_LEARNING:
-            href = element.querySelector('a[href*="/learning/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_NEWSLETTERS:
-            href = element.querySelector('a[href*="/newsletters/"]')?.href;
+          case this.UidMode.COMPANY:
+          case this.UidMode.SCHOOL:
+            scratch = element.querySelector(hrefSelector)?.href;
+            if (scratch) {
+              // The same target may be referenced more than once.
+              content = new URL(scratch).pathname +
+                scroller.defaultUid(element);
+            }
             break;
           case this.UidMode.ANCHOR_OVERLAY:
             scratch = element.querySelector('a[href*="/in/"]')?.href;
@@ -10262,21 +10271,6 @@
               }
             }
             break;
-          case this.UidMode.ANCHOR_PROFILE:
-            href = element.querySelector('a[href*="/in/"]')?.href;
-            break;
-          case this.UidMode.ANCHOR_PULSE:
-            scratch = element.matches('a[href *= "/pulse/"]')
-              ? element
-              : element.querySelector('a[href *= "/pulse/"]');
-            href = scratch?.href;
-            break;
-          case this.UidMode.ANCHOR_SHOWCASE:
-            scratch = element.matches('a[href *= "/showcase/"]')
-              ? element
-              : element.querySelector('a[href *= "/showcase/"]');
-            href = scratch?.href;
-            break;
           case this.UidMode.ARIA_LABEL:
             content = element.ariaLabel ||
               element.querySelector('[aria-label]')
@@ -10292,15 +10286,6 @@
               .searchParams;
             content = scratch.get('dashReplyUrn') ??
               scratch.get('dashCommentUrn');
-            break;
-          case this.UidMode.COMPANY:
-            scratch = element.querySelector('a[href*="/company/"]')
-              ?.href;
-            if (scratch) {
-              // The same company may be referenced more than once.
-              content = new URL(scratch).pathname +
-                scroller.defaultUid(element);
-            }
             break;
           case this.UidMode.DEFAULT:
             content = scroller.defaultUid(element);
@@ -10328,21 +10313,11 @@
             content = scratch.join('|');
             break;
           case this.UidMode.SAFETY:
-            scratch = element.querySelector('a[href*="/safety/"]')
-              ?.href;
+            scratch = element.querySelector(hrefSelector).href;
             if (scratch) {
               content = new URL(scratch).searchParams.get('urlhash');
               this.logger.log('safety details',
                 new URL(scratch).searchParams);
-            }
-            break;
-          case this.UidMode.SCHOOL:
-            scratch = element.querySelector('a[href*="/school/"]')
-              ?.href;
-            if (scratch) {
-              // The same school may be referenced more than once.
-              content = new URL(scratch).pathname +
-                scroller.defaultUid(element);
             }
             break;
           case this.UidMode.TEST_ID:
