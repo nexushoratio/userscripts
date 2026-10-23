@@ -9618,7 +9618,7 @@
       ':scope [role="listitem"]',
     ].join(',')
 
-    #entriesUidModeSelector
+    #entriesUidModeAnchorSelector
     #entryScroller
     #hasDivCheckbox = ':has(> div > div > input[type="checkbox"])';
     #lastScroller
@@ -9747,7 +9747,7 @@
 
     ]);
 
-    #uidModeAnchors
+    #uidModeHrefs
 
     #initScrollers = () => {
       this.#initModeToUidHelpers();
@@ -9788,7 +9788,7 @@
           'expandable-text-button',
         ]
       );
-      this.#uidModeAnchors = new Map([
+      this.#uidModeHrefs = new Map([
         [this.UidMode.ANCHOR_FEED, 'feed'],
         [this.UidMode.ANCHOR_GROUPS, 'groups'],
         [this.UidMode.ANCHOR_LEARNING, 'learning'],
@@ -9801,10 +9801,10 @@
         [this.UidMode.SCHOOL, 'school'],
       ].map(x => [x[0], {href: `[href*="/${x[1]}/"]`}]));
 
-      this.#entriesUidModeSelector = [
+      this.#entriesUidModeAnchorSelector = [
         'a',
         ':not([href$="#"])',
-      ].concat(this.#uidModeAnchors.values()
+      ].concat(this.#uidModeHrefs.values()
         .map(x => `:not(${x.href})`)
         .toArray())
         .join('');
@@ -10227,7 +10227,8 @@
         href = null;
         switch (mode) {
           case this.UidMode.ANCHOR:
-            href = element.querySelector(this.#entriesUidModeSelector)?.href;
+            href = element.querySelector(this.#entriesUidModeAnchorSelector)
+              ?.href;
             break;
           case this.UidMode.ANCHOR_FEED:
             href = element.querySelector('a[href*="/feed/"]')?.href;

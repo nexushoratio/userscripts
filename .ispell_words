@@ -359,6 +359,7 @@ entriesSelectorTopcard
 entriesSelectorVolunteering
 entriesSuggestUids
 entriesUidFromModes
+entriesUidModeAnchorSelector
 entriesUidModeSelector
 entriesUidSelectorId
 entriesUidShim
@@ -1450,6 +1451,7 @@ uidCommentRE
 uidDetailsClassRE
 UidMode
 uidModeAnchors
+uidModeHrefs
 uidPostRE
 uids
 UIDs
