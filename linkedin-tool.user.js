@@ -307,7 +307,8 @@
     ish('255', 'Support **Analytics Search Appearances** page', '2026-10-20'),
     ish(
       '421',
-      '**Jobs Collections**: Navigating between pages causes problems',
+      '`Scroller`: Refactored version seem prone to infinite recursion' +
+        ' issues',
       '2026-10-20'
     ),
     ish('422', 'Support **Jobs Search Results** page', '2026-10-20'),
@@ -320,6 +321,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-23',
+      issues: ['381'],
+      subject: 'Combine some processing strategies',
+    },
+    {
+      date: '2026-10-23',
+      issues: ['381'],
+      subject: 'Rename a couple of variables',
+    },
     {
       date: '2026-10-22',
       issues: ['424'],
@@ -774,11 +785,6 @@
       date: '2026-09-24',
       issues: ['237'],
       subject: 'Make selectors for `A`ttend and `S`hare more precise',
-    },
-    {
-      date: '2026-09-23',
-      issues: ['293'],
-      subject: 'Initial refactoring of `Scroller` and friends',
     },
   ];
 
