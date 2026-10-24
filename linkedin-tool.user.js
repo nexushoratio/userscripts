@@ -322,6 +322,11 @@
 
   const globalNewsContent = [
     {
+      date: '2026-10-24',
+      issues: ['381'],
+      subject: 'Replace optional chaining accidentally dropped with 5c32fe5',
+    },
+    {
       date: '2026-10-23',
       issues: ['381'],
       subject: 'Combine some processing strategies',
@@ -780,11 +785,6 @@
       date: '2026-09-25',
       issues: ['293'],
       subject: 'Add dependency to the new `lib/nav`',
-    },
-    {
-      date: '2026-09-24',
-      issues: ['237'],
-      subject: 'Make selectors for `A`ttend and `S`hare more precise',
     },
   ];
 
