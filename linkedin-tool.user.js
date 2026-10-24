@@ -10319,7 +10319,7 @@
             content = scratch.join('|');
             break;
           case this.UidMode.SAFETY:
-            scratch = element.querySelector(hrefSelector).href;
+            scratch = element.querySelector(hrefSelector)?.href;
             if (scratch) {
               content = new URL(scratch).searchParams.get('urlhash');
               this.logger.log('safety details',
