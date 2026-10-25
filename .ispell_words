@@ -126,7 +126,6 @@ byId
 byName
 callCount
 cardId
-cardIndex
 cardsContainer
 cardScroller
 cardsScroller
@@ -418,7 +417,6 @@ findNavbar
 findPages
 finishButtonStyle
 finishConstruction
-finiteScrollHotkeyItem
 fireConfigChange
 firefox
 FireMonkey
@@ -753,6 +751,8 @@ MyNetwork
 nameElement
 NaN
 navbar
+navbarAndFriendsElementsProcessor
+navbarAndFriendsFinder
 navbarHandler
 navbarMutationObserver
 navbarResizeObserver
@@ -1435,7 +1435,6 @@ toUpperCase
 tpe
 transitionend
 tsort
-ttend
 twoBack
 TypeError
 typeof

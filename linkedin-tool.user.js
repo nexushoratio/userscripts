@@ -5044,6 +5044,85 @@
     }
 
     /**
+     * A useful finder for many LIT pages.
+     *
+     * It finds the navbar and buffer for the content just below it.  This is
+     * intended for use with {@link
+     * module:linkedin-tool~Page.navbarAndFriendsElementsProcessor
+     * navbarAndFriendsElementsProcessor}.
+     *
+     * Currently only tested with Style.ONE pages.
+     *
+     * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
+     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
+     * monitor.
+     */
+    navbarAndFriendsFinder = () => {
+      const me = this.navbarAndFriendsFinder.name;
+
+      const elements = new Map();
+      elements.set(
+        'content',
+        document.querySelector(LinkedIn.primaryContentSelector)?.parentElement
+      );
+      elements.set('navbar', this.spa.details.navbar);
+
+      this.logger.leaving(me, elements);
+      return elements;
+    }
+
+    /**
+     * A useful processor for many LIT pages.
+     *
+     * It computes a top margin that works nicely for consistently positioning
+     * items.
+     *
+     * Currently only tested with Style.ONE pages.
+     *
+     * @method
+     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
+     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
+     * to examine.
+     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
+     * properties for to contribute.
+     */
+    navbarAndFriendsElementsProcessor = (elements) => {
+      const me = this.navbarAndFriendsElementsProcessor.name;
+      this.logger.entered(me, elements);
+
+      const tops = [];
+      const properties = new Map();
+
+      for (const [key, value] of elements.entries()) {
+        switch (key) {
+          case 'navbar':
+            if (value) {
+              tops.push(`${value.offsetHeight}px`);
+            }
+            break;
+          case 'content':
+            if (value) {
+              tops.push(getComputedStyle(value).marginTop);
+            }
+            break;
+          default:
+            NH.base.issues.post(
+              this.name, me, 'Unsupported element key:', key
+            );
+        }
+      }
+
+      if (tops.length) {
+        const plus = tops.join(' + ');
+        properties.set('scroll-margin-top', `calc(${plus})`);
+      }
+
+      this.logger.leaving(me, properties);
+      return properties;
+    }
+
+    /**
      * Wait for matching selector to disappear.
      *
      * This could possibly be rolled into {@link
