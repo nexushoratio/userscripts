@@ -5041,6 +5041,49 @@
       return properties;
     }
 
+    /**
+     * Wait for matching selector to disappear.
+     *
+     * This could possibly be rolled into {@link
+     * NexusHoratio.web.waitForSelector}.
+     *
+     * @method
+     * @param {string} selector - CSS selector.
+     * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
+     * @returns {Promise<NexusHoratio.web~Results>} Basically, something to
+     * await on.
+     */
+    waitForSelectorToBeGone = (selector, timeout = 0) => {
+
+      /**
+       * @implements {NexusHoratio.web~Monitor}
+       * @returns {NexusHoratio.web~Continuation} Indicate whether done
+       * monitoring.
+       */
+      const monitor = () => {
+        const element = document.querySelector(selector);
+        if (element) {
+          this.logger.log(`match for ${selector}`, element);
+          return {done: false};
+        }
+        this.logger.log('And gone');
+        return {done: true};
+      };
+
+      const what = {
+        name: this.waitForSelectorToBeGone.name,
+        base: document,
+      };
+
+      const how = {
+        observeOptions: {childList: true, subtree: true},
+        monitor: monitor,
+        timeout: timeout,
+      };
+
+      return NH.web.otmot(what, how);
+    }
+
     #klass
 
   }
@@ -6160,7 +6203,7 @@
           document.dispatchEvent(
             new KeyboardEvent('keydown', {key: 'Escape'})
           );
-          await this.#waitForSelectorToBeGone(portalSelector, timeout);
+          await this.waitForSelectorToBeGone(portalSelector, timeout);
         }
 
         // If the current item is a regular post, this will match.
@@ -6201,49 +6244,6 @@
 
       this.logger.leaving(me, el);
       return el;
-    }
-
-    /**
-     * Wait for matching selector to disappear.
-     *
-     * This could probably be rolled into {@link
-     * NexusHoratio.web.waitForSelector}.
-     *
-     * @method
-     * @param {string} selector - CSS selector.
-     * @param {number} [timeout=0] - Time to wait in milliseconds, 0 disables.
-     * @returns {Promise<NexusHoratio.web~Results>} Basically, something to
-     * await on.
-     */
-    #waitForSelectorToBeGone = (selector, timeout = 0) => {
-
-      /**
-       * @implements {NexusHoratio.web~Monitor}
-       * @returns {NexusHoratio.web~Continuation} Indicate whether done
-       * monitoring.
-       */
-      const monitor = () => {
-        const element = document.querySelector(selector);
-        if (element) {
-          this.logger.log(`match for ${selector}`, element);
-          return {done: false};
-        }
-        this.logger.log('And gone');
-        return {done: true};
-      };
-
-      const what = {
-        name: this.#waitForSelectorToBeGone.name,
-        base: document,
-      };
-
-      const how = {
-        observeOptions: {childList: true, subtree: true},
-        monitor: monitor,
-        timeout: timeout,
-      };
-
-      return NH.web.otmot(what, how);
     }
 
     #onPostActivated = () => {  // eslint-disable-line max-lines-per-function
