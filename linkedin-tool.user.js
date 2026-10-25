@@ -182,7 +182,7 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
-    ish('167', 'Refactor into libraries', '2026-09-25'),
+    ish('167', 'Refactor into libraries', '2026-10-25'),
     ish('209', 'Support **Search Results People** view', '2026-08-09'),
     ish(
       '295',
@@ -318,9 +318,41 @@
       '2026-10-22'
     ),
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
+    ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
+    ish('428', 'Support **Profile Viewers** page', '2026-10-25'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-25',
+      issues: ['255'],
+      subject: 'Implement primary navigation',
+    },
+    {
+      date: '2026-10-25',
+      issues: ['255', '425'],
+      subject: 'Implement reusable finder and processor',
+    },
+    {
+      date: '2026-10-25',
+      issues: ['425'],
+      subject: 'Add Style-1 support for `LinkedIn.primaryNavSelector`',
+    },
+    {
+      date: '2026-10-25',
+      issues: ['428'],
+      subject: 'Acknowledge the **Profile Viewers** page',
+    },
+    {
+      date: '2026-10-25',
+      issues: ['424'],
+      subject: 'Factor out `waitForSelectorToBeGone()` for reuse',
+    },
+    {
+      date: '2026-10-24',
+      issues: ['293'],
+      subject: 'Update to the latest `lib/nav` to grab the recursion fix',
+    },
     {
       date: '2026-10-24',
       issues: ['381'],
@@ -764,27 +796,6 @@
       issues: ['237'],
       subject: 'Add `E`ngage as a way to interact with the current' +
         ' individual',
-    },
-    {
-      date: '2026-09-25',
-      issues: ['410', '411'],
-      subject: 'Testing a potential improvement for `safeId()`',
-    },
-    {
-      date: '2026-09-25',
-      issues: ['237'],
-      subject: 'More precisely match the various `⋯` (menu) buttons',
-    },
-    {
-      date: '2026-09-25',
-      issues: ['293'],
-      subject: 'Migrate most users of `ScrollerService` to the refactored' +
-        ' version',
-    },
-    {
-      date: '2026-09-25',
-      issues: ['293'],
-      subject: 'Add dependency to the new `lib/nav`',
     },
   ];
 
