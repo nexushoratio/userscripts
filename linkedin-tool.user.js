@@ -3477,6 +3477,8 @@
       '</svg>';
 
     static #primaryContentSelector = [
+      // Style 1 (WIP?)
+      '.scaffold-layout main',
       // Style 2
       '#workspace > div > div > section',
     ].join(', ');
