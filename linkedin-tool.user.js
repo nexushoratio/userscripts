@@ -6218,8 +6218,9 @@
     #waitForSelectorToBeGone = (selector, timeout = 0) => {
 
       /**
-       * @implements {Monitor}
-       * @returns {Continuation} Indicate whether done monitoring.
+       * @implements {NexusHoratio.web~Monitor}
+       * @returns {NexusHoratio.web~Continuation} Indicate whether done
+       * monitoring.
        */
       const monitor = () => {
         const element = document.querySelector(selector);
@@ -6264,8 +6265,8 @@
       /**
        * Wait for the post to be reloaded.
        *
-       * @implements {NexusHoratio.web.Monitor}
-       * @returns {NexusHoratio.web.Continuation} Indicate whether done
+       * @implements {NexusHoratio.web~Monitor}
+       * @returns {NexusHoratio.web~Continuation} Indicate whether done
        * monitoring.
        */
       const monitor = () => {
