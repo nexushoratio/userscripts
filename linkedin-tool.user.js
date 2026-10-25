@@ -5970,6 +5970,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -6674,6 +6675,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -6963,6 +6965,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -7095,6 +7098,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -7417,6 +7421,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -7934,6 +7939,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -8363,6 +8369,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -9164,6 +9171,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -10441,6 +10449,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -10894,6 +10903,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -11305,6 +11315,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
@@ -11757,6 +11768,7 @@
 
     /**
      * @method
+     * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
