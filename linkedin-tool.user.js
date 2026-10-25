@@ -11987,6 +11987,12 @@
          * Support **Jobs Search Results** page
          */
         '/jobs/search-results/?[^/]*',
+
+        /**
+         * @todo [(#428)](https://github.com/nexushoratio/userscripts/issues/428)
+         * Support **Profile Viewers** page
+         */
+        '/analytics/profile-views/?',
       ].map(x => `(${x})`)
         .join('|');
       super({
