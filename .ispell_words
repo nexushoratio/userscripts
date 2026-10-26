@@ -319,6 +319,7 @@ enableDevMode
 enableWatchPage
 endsWith
 engageIndividual
+engageItem
 ensureConnections
 ensureMenuStyle
 EnsureTestCase

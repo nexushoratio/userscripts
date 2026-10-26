@@ -10854,6 +10854,14 @@
       }
     );
 
+    engageItem = new Shortcut(
+      'E',
+      'Engage the item (Message, View, Search, etc)',
+      () => {
+        NH.base.issues.post('Engage TBD');
+      }
+    );
+
     #sectionsScroller
 
     #initScrollers = () => {
