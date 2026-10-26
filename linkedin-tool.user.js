@@ -3117,6 +3117,15 @@
     }
 
     /**
+     * LinkedIn's common floating menu.
+     *
+     * @type {string}
+     */
+    static get floatingUiPortalSelector() {
+      return this.#floatingUiPortalSelector;
+    }
+
+    /**
      * LinkedIn's primary content for many layouts.
      *
      * @type {string}
@@ -3562,6 +3571,7 @@
     #badgeNewsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #errorText
+    #floatingUiPortalSelector = '[data-floating-ui-portal]';
     #globals
     #iframeDoc
     #infoKeyboard
@@ -5176,6 +5186,18 @@
       return NH.web.otmot(what, how);
     }
 
+    dismissFloatingUiPortal = async () => {
+      const timeout = 2000;
+      if (document.querySelector(LinkedIn.floatingUiPortalSelector)) {
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {key: 'Escape'})
+        );
+        await this.waitForSelectorToBeGone(
+          LinkedIn.floatingUiPortalSelector, timeout
+        );
+      }
+    }
+
     #klass
 
   }
@@ -6285,21 +6307,14 @@
      * @method
      * @returns {external:Element} The element to click.
      */
-    #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function, max-statements
+    #getDismissElement = async () => {
       const me = this.#getDismissElement.name;
       this.logger.entered(me, this.#lastScroller.item);
 
       let el = null;
 
       if (this.#lastScroller.item) {
-        const portalSelector = '[data-floating-ui-portal]';
-        const timeout = 2000;
-        if (document.querySelector(portalSelector)) {
-          document.dispatchEvent(
-            new KeyboardEvent('keydown', {key: 'Escape'})
-          );
-          await this.waitForSelectorToBeGone(portalSelector, timeout);
-        }
+        this.dismissFloatingUiPortal();
 
         // If the current item is a regular post, this will match.
         let selector = [
@@ -6314,6 +6329,7 @@
           // Some items need to trigger a popup menu.
           this.openMeatballMenu();
           try {
+            const timeout = 2000;
             // The menus take a while to populate.  Even though known types of
             // menus look to have the same "cancelled eye" icon, they are
             // currently brought in differently.  One menu type uses one named
@@ -6322,7 +6338,7 @@
             // name so, :not([id]) is used for finding it proper, while a
             // sibling named "signal" is used waiting for the menu to settle.
             header = await NH.web.waitForSelector([
-              portalSelector,
+              LinkedIn.floatingUiPortalSelector,
               ':has(svg[id^="visibility-off"], svg[id^="signal"])',
             ].join(''), timeout);
             selector = [

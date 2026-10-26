@@ -272,6 +272,7 @@ detailsPane
 detailsScroller
 DetailsTestCase
 differentMethod
+dismissFloatingUiPortal
 dismissId
 dismissIndividual
 dismissInvite
@@ -426,6 +427,7 @@ firstItem
 firstNotification
 fka
 flexGrow
+floatingUiPortalSelector
 focusBrowser
 focusin
 focusOnAside
@@ -935,7 +937,6 @@ pojo
 popstate
 populateBuilt
 populateTabItems
-portalSelector
 postInfoAboutElement
 postProcessItems
 postScroller
