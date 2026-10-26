@@ -320,9 +320,44 @@
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
     ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
     ish('428', 'Support **Profile Viewers** page', '2026-10-25'),
+    ish(
+      '426',
+      '**Feed**: `X` Toggle hiding post does not recover post',
+      '2026-10-26'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-26',
+      issues: ['293'],
+      subject: 'Migrate `JobsCollections` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-26',
+      issues: ['255'],
+      subject: 'Implement secondary navigation',
+    },
+    {
+      date: '2026-10-26',
+      issues: ['255'],
+      subject: 'Switch existing shortcuts to use `#lastScroller`',
+    },
+    {
+      date: '2026-10-26',
+      issues: ['255'],
+      subject: 'Add placeholder for an `E`ngage item shortcut',
+    },
+    {
+      date: '2026-10-26',
+      issues: ['424'],
+      subject: 'Factor out closing open menus for later reuse',
+    },
+    {
+      date: '2026-10-26',
+      issues: ['426'],
+      subject: 'Update `#uidPostRE`',
+    },
     {
       date: '2026-10-25',
       issues: ['255'],
