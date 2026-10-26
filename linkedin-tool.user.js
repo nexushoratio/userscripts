@@ -5978,7 +5978,9 @@
     #uidCommentRE =
     /^(?:replaceableComment_urn:li:comment:\()?(?<body>.*)\)/u;
 
-    #uidPostRE = /^(?:expanded|collapsed)?(?<body>.*)FeedType/u;
+    // The "expanded" bit may be outdated with #426.
+    #uidPostRE =
+    /^(?:expanded|collapsed|update-card-focus)?(?<body>.*)FeedType/u;
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
