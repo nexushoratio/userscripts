@@ -10832,17 +10832,17 @@
 
     firstItem = new Shortcut(
       '<',
-      'Go to first section',
+      'Go to first item',
       () => {
-        this.sections.first();
+        this.#lastScroller.first();
       }
     );
 
     lastItem = new Shortcut(
       '>',
-      'Go to last section',
+      'Go to last item',
       () => {
-        this.sections.last();
+        this.#lastScroller.last();
       }
     );
 
@@ -10850,7 +10850,7 @@
       'f',
       'Change browser focus to current item',
       () => {
-        this.sections.focus();
+        this.#lastScroller.focus();
       }
     );
 
@@ -10862,6 +10862,7 @@
       }
     );
 
+    #lastScroller
     #sectionsScroller
 
     #initScrollers = () => {
@@ -10904,6 +10905,8 @@
         .setScroller(this.#sectionsScroller);
       this.#sectionsScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnAside);
+
+      this.#lastScroller = this.#sectionsScroller;
     }
 
     /**
@@ -10930,6 +10933,10 @@
 
       this.logger.leaving(me, content);
       return content;
+    }
+
+    #onSectionsChanged = () => {
+      this.#lastScroller = this.sections;
     }
 
   }
