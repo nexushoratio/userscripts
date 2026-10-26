@@ -866,6 +866,7 @@ onConvoCardChanged
 onDeactivate
 onDestroy
 onDetailsChange
+onEntriesChanged
 onEntryChange
 onEntryChanged
 onEvent
@@ -1467,6 +1468,7 @@ uniqueCollectionIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
+uniqueEntriesIdentifier
 uniqueEntriesIdPeople
 uniqueEntriesIdTopcard
 uniqueEntriesIdUrn

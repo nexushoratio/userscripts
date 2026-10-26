@@ -10810,6 +10810,15 @@
     }
 
     /** @type {NexusHoratio.nav.Scroller} */
+    get entries() {
+      if (!this.#entriesScroller && this.sections.item) {
+        this.#initEntriesScroller();
+      }
+
+      return this.#entriesScroller;
+    }
+
+    /** @type {NexusHoratio.nav.Scroller} */
     get sections() {
       return this.#sectionsScroller;
     }
@@ -10827,6 +10836,22 @@
       'Previous section',
       () => {
         this.sections.prev();
+      }
+    );
+
+    nextEntry = new Shortcut(
+      'n',
+      'Next entry in a section',
+      () => {
+        this.entries?.next();
+      }
+    );
+
+    prevEntry = new Shortcut(
+      'p',
+      'Previous entry in a section',
+      () => {
+        this.entries?.prev();
       }
     );
 
@@ -10862,6 +10887,9 @@
       }
     );
 
+    static #addon = 'member-analytics-addon'
+
+    #entriesScroller
     #lastScroller
     #sectionsScroller
 
@@ -10904,9 +10932,45 @@
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionsScroller);
       this.#sectionsScroller.dispatcher
+        .on('changed', this.#onSectionsChanged)
         .on('out-of-range', this.spa.details.focusOnAside);
 
       this.#lastScroller = this.#sectionsScroller;
+    }
+
+    #initEntriesScroller = () => {
+      const what = {
+        name: `${this.name} entries`,
+        base: this.sections.item,
+        selectors: [
+          [
+            // Most entries
+            'ul[class*="is-card"] > li',
+            // Random bits
+            '[class*="--vertical"]' +
+              ` > *[class*="${this.ctor.#addon}"]:not([class*="is-card"])`,
+            '[class*="--vertical"]' +
+              ` > * > div[class*="${this.ctor.#addon}"]`,
+            // Footer
+            'div[class*="footer-action"]',
+          ].join(','),
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueEntriesIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#entriesScroller = new NH.nav.Scroller(what, how);
+      this.#entriesScroller.dispatcher
+        .on('changed', this.#onEntriesChanged)
+        .on('out-of-range', this.#returnToSections);
     }
 
     /**
@@ -10935,8 +10999,63 @@
       return content;
     }
 
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueEntriesIdentifier = (scroller, element) => {
+      const me = this.#uniqueEntriesIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const href = element.querySelector('a')?.href;
+      const classes = element.classList
+        .values()
+        .filter(x => x.startsWith(this.ctor.#addon))
+        .filter(x => !x.endsWith('__item'))
+        .toArray()
+        .join(',');
+
+      if (classes) {
+        content = classes;
+      }
+      if (href) {
+        const url = new URL(href);
+        if (url.search) {
+          this.logger.log('href', url.search);
+        } else {
+          content = url.pathname;
+        }
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     #onSectionsChanged = () => {
+      this.#resetEntries();
       this.#lastScroller = this.sections;
+    }
+
+    #resetEntries = () => {
+      this.#entriesScroller?.destroy();
+      this.#entriesScroller = null;
+      this.entries;
+    }
+
+    #onEntriesChanged = () => {
+      this.#lastScroller = this.entries;
+    }
+
+    #returnToSections = () => {
+      this.sections.item = this.sections.item;
     }
 
   }
