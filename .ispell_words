@@ -851,8 +851,9 @@ onActivateUnsupportedPageCheck
 onActivateWatch
 onBuild
 onCardActivate
-onCardChange
 onCardChanged
+onCardsActivated
+onCardsChanged
 onChange
 onClick
 onClickElements
@@ -865,7 +866,7 @@ onConvoCardActivated
 onConvoCardChanged
 onDeactivate
 onDestroy
-onDetailsChange
+onDetailsChanged
 onEntriesChanged
 onEntryChange
 onEntryChanged
@@ -883,7 +884,9 @@ onMessageChanged
 onNotificationsFocused
 onOpenInfo
 onPaginationActivate
+onPaginationActivated
 onPaginationChange
+onPaginationChanged
 onPostActivated
 onPostChanged
 onResultChange

@@ -7935,13 +7935,12 @@
         snapToTop: true,
       };
 
-      // Do not migrate until #421 resolved.
-      this.#cardsScroller = new Scroller(what, how);
+      this.#cardsScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#cardsScroller);
       this.#cardsScroller.dispatcher
-        .on('activate', this.#onCardActivate)
-        .on('change', this.#onCardChange);
+        .on('activated', this.#onCardsActivated)
+        .on('changed', this.#onCardsChanged);
 
       this.#lastScroller = this.#cardsScroller;
     }
@@ -7966,13 +7965,12 @@
         observeAttributes: true,
       };
 
-      // Do not migrate until #421 resolved.
-      this.#paginationScroller = new Scroller(what, how);
+      this.#paginationScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#paginationScroller);
       this.#paginationScroller.dispatcher
-        .on('activate', this.#onPaginationActivate)
-        .on('change', this.#onPaginationChange);
+        .on('activated', this.#onPaginationActivated)
+        .on('changed', this.#onPaginationChanged);
     }
 
     #initDetailsScroller = () => {
@@ -7992,12 +7990,11 @@
         snapToTop: true,
       };
 
-      // Do not migrate until #421 resolved.
-      this.#detailsScroller = new Scroller(what, how);
+      this.#detailsScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#detailsScroller);
       this.#detailsScroller.dispatcher
-        .on('change', this.#onDetailsChange);
+        .on('changed', this.#onDetailsChanged);
     }
 
     /**
@@ -8174,8 +8171,8 @@
       return content;
     }
 
-    #onCardActivate = async () => {
-      const me = this.#onCardActivate.name;
+    #onCardsActivated = async () => {
+      const me = this.#onCardsActivated.name;
       this.logger.entered(me);
 
       const params = new URL(document.location).searchParams;
@@ -8203,8 +8200,8 @@
       this.logger.leaving(me);
     }
 
-    #onCardChange = () => {
-      const me = this.#onCardChange.name;
+    #onCardsChanged = () => {
+      const me = this.#onCardsChanged.name;
       this.logger.entered(me, this.cards.item);
 
       NH.web.clickElement(this.cards.item, ['div[data-job-id]']);
@@ -8214,8 +8211,8 @@
       this.logger.leaving(me);
     }
 
-    #onPaginationActivate = async () => {
-      const me = this.#onPaginationActivate.name;
+    #onPaginationActivated = async () => {
+      const me = this.#onPaginationActivated.name;
       this.logger.entered(me);
 
       try {
@@ -8232,11 +8229,11 @@
       this.logger.leaving(me);
     }
 
-    #onPaginationChange = () => {
+    #onPaginationChanged = () => {
       this.#lastScroller = this.paginator;
     }
 
-    #onDetailsChange = () => {
+    #onDetailsChanged = () => {
       this.#lastScroller = this.details;
     }
 
