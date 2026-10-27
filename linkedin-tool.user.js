@@ -3510,6 +3510,7 @@
       '#workspace > div > div > section + aside',
     ].join(', ');
 
+    static #floatingUiPortalSelector = '[data-floating-ui-portal]';
     static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"' +
       ' fill="currentColor"' +
@@ -3606,7 +3607,6 @@
     #badgeNewsStyle2
     #dispatcher = new NH.base.Dispatcher('errors', 'news');
     #errorText
-    #floatingUiPortalSelector = '[data-floating-ui-portal]';
     #globals
     #iframeDoc
     #infoKeyboard
