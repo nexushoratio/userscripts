@@ -5502,7 +5502,13 @@
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavLink('feed');
         } else {
+
+          /**
+           * @todo [(#431)](https://github.com/nexushoratio/userscripts/issues/431)
+           * Retire this old target after a while.
+           */
           this.#gotoNavIcon('home');
+          this.#gotoNavIcon('house');
         }
       }
     );
@@ -5546,7 +5552,13 @@
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('More');
         } else {
+
+          /**
+           * @todo [(#431)](https://github.com/nexushoratio/userscripts/issues/431)
+           * Retire this old target after a while.
+           */
           this.#gotoNavIcon('menu');
+          this.#gotoNavIcon('bars');
         }
       }
     );
