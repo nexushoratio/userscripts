@@ -4287,8 +4287,12 @@
       title.innerText = APP_SHORT;
       title.setAttribute('title', APP_SHORT);
 
+      /**
+       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+       * Retire, as this is now the transition backup.
+       */
       button.querySelector('li-icon')
-        .setAttribute('type', APP_SHORT.toLowerCase());
+        ?.setAttribute('type', APP_SHORT.toLowerCase());
     }
 
     /**
