@@ -5934,7 +5934,15 @@
       'Open closest <button>⋯</button> menu',
       () => {
         const el = this.#getItemHeader();
-        NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
+        NH.web.clickElement(el, [
+
+          /**
+           * @todo [(#433)](https://github.com/nexushoratio/userscripts/issues/433)
+           * Retire `overflow` after a while.
+           */
+          ':has(> * > svg[id^="overflow"])',
+          ':has(> * > svg[id^="ellipses"])',
+        ]);
       }
     );
 
