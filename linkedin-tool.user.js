@@ -5756,7 +5756,6 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/feed/?', 'u'),
-        // Sort by: X button (yes, the svg)
         readySelector: '#linkedin-logo-xxsmall',
       });
 
