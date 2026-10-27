@@ -5845,6 +5845,7 @@
         const el = this.posts.item;
         const main = document.querySelector('main');
         const scrollTop = main?.scrollTop;
+
         // Check for the "Load more" button first, otherwise we just keep
         // clicking on the first comment button which does nothing useful
         // after the first batch of comments is loaded.
@@ -5861,6 +5862,9 @@
           '[role="button"]',
           'button:has(svg[id^="comment"])',
         ]);
+
+        // Move back after the post click handlers (triggered by the click
+        // above), moved things around.
         main.scrollTo({top: scrollTop});
       }
     );
