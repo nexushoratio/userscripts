@@ -6154,7 +6154,7 @@
 
       // We want the element with the listener, which happens to be the one
       // with the "aria-expanded".
-      elements.set('chevron', document.querySelector('#chevron-down-medium')
+      elements.set('chevron', document.querySelector('[id^="chevron-down"]')
         ?.closest('[aria-expanded]'));
 
       this.logger.leaving(me, elements);
