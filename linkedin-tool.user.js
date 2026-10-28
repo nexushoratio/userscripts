@@ -5930,15 +5930,6 @@
       }
     );
 
-    viewReposts = new Shortcut(
-      'v R',
-      'View reposts of current post',
-      () => {
-        const el = this.#getPostStatusBar();
-        NH.web.clickElement(el, ['a:not(:has([role]))']);
-      }
-    );
-
     openMeatballMenu = new Shortcut(
       '=',
       'Open closest <button>⋯</button> menu',
