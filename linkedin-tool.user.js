@@ -5975,7 +5975,15 @@
       'Repost current post',
       () => {
         const el = this.#getPostFooter();
-        NH.web.clickElement(el, [':has(> * > svg[id^="repost"])']);
+        NH.web.clickElement(el, [
+
+          /**
+           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * Retire `report` after a while.
+           */
+          ':has(> * > svg[id^="repost"])',
+          ':has(> * > svg[id^="arrows-swap"])',
+        ]);
       }
     );
 
@@ -5984,7 +5992,15 @@
       'Send current post privately',
       () => {
         const el = this.#getPostFooter();
-        NH.web.clickElement(el, [':has(> * > svg[id^="send"])']);
+        NH.web.clickElement(el, [
+
+          /**
+           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * Retire `send` after a while.
+           */
+          ':has(> * > svg[id^="send"])',
+          ':has(> * > svg[id^="paper-plane"])',
+        ]);
       }
     );
 
@@ -6367,7 +6383,7 @@
      * @method
      * @returns {external:Element} The element to click.
      */
-    #getDismissElement = async () => {
+    #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function
       const me = this.#getDismissElement.name;
       this.logger.entered(me, this.#lastScroller.item);
 
@@ -6379,7 +6395,12 @@
         // If the current item is a regular post, this will match.
         let selector = [
           // Visible
+          /**
+           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * Retire `close` after a while.
+           */
           ':has(> * > svg[id^="close"])',
+          ':has(> * > svg[id^="xmark"])',
           // Dismissed
           'button:has(> span > span)',
         ].join(',');
