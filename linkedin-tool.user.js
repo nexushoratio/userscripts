@@ -6010,7 +6010,7 @@
         'to the other creator options',
       () => {
         document
-          .querySelector(`main [data-testid="mainFeed"] a[${CKEY}]`)
+          .querySelector('#shareboxProfilePictureComponentRef ~ div > div')
           .focus();
       }
     );
