@@ -5926,7 +5926,7 @@
       'View reactions on current post or comment',
       () => {
         const el = this.#getItemStatusBar();
-        NH.web.clickElement(el, ['a:has([role])']);
+        NH.web.clickElement(el, ['a:has(> div > ul)']);
       }
     );
 
