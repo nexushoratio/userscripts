@@ -325,9 +325,67 @@
       '**Feed**: `X` Toggle hiding post does not recover post',
       '2026-10-26'
     ),
+    ish('431', '**Global**: Navbar icons updated', '2026-10-28'),
+    ish('433', '**Feed**: menu icons have changed', '2026-10-28'),
+    ish(
+      '432', '**Feed**: Top margin for scrolling is incorrect', '2026-10-28'
+    ),
+    ish('429', '**Feed**: `c`omment no longer works', '2026-10-28'),
+    ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-28',
+      issues: ['434'],
+      subject: 'Make the *view reactions* selector more precise',
+    },
+    {
+      date: '2026-10-28',
+      issues: ['434'],
+      subject: 'Update selector for the `P`ost feature',
+    },
+    {
+      date: '2026-10-28',
+      issues: ['434'],
+      subject: 'Update selectors for multiple controls',
+    },
+    {
+      date: '2026-10-28',
+      issues: ['434'],
+      subject: 'Retire *view reactions* as it no longer seems to be' +
+        ' a feature',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['429'],
+      subject: 'Update `c`omment selectors',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['432'],
+      subject: 'Update selector to handle old/new names',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['433'],
+      subject: 'Update menu selector',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['424'],
+      subject: 'Make a selector `static`, fixing breakage from 536c6f20',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['414'],
+      subject: 'Use an optional chaining',
+    },
+    {
+      date: '2026-10-27',
+      issues: ['431'],
+      subject: 'Update navbar icons to handle new names',
+    },
     {
       date: '2026-10-26',
       issues: ['293'],
