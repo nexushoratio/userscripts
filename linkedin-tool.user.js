@@ -317,7 +317,8 @@
     ish('428', 'Support **Profile Viewers** page', '2026-10-25'),
     ish(
       '426',
-      '**Feed**: `X` Toggle hiding post does not recover post',
+      '**Feed**: <kbd><kbd>X</kbd></kbd> Toggle hiding post does' +
+      ' not recover post',
       '2026-10-26'
     ),
     ish('431', '**Global**: Navbar icons updated', '2026-10-28'),
@@ -325,7 +326,11 @@
     ish(
       '432', '**Feed**: Top margin for scrolling is incorrect', '2026-10-28'
     ),
-    ish('429', '**Feed**: `c`omment no longer works', '2026-10-28'),
+    ish(
+      '429',
+      '**Feed**: <kbd><kbd>c</kbd></kbd>omment no longer works',
+      '2026-10-28'
+    ),
     ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
     ish('436', 'Many icons have changed names', '2026-10-29'),
   ];
@@ -375,7 +380,7 @@
     {
       date: '2026-10-28',
       issues: ['434'],
-      subject: 'Update selector for the `P`ost feature',
+      subject: 'Update selector for the <kbd><kbd>P</kbd></kbd>ost feature',
     },
     {
       date: '2026-10-28',
@@ -391,7 +396,7 @@
     {
       date: '2026-10-27',
       issues: ['429'],
-      subject: 'Update `c`omment selectors',
+      subject: 'Update <kbd><kbd>c</kbd></kbd>omment selectors',
     },
     {
       date: '2026-10-27',
@@ -436,7 +441,8 @@
     {
       date: '2026-10-26',
       issues: ['255'],
-      subject: 'Add placeholder for an `E`ngage item shortcut',
+      subject: 'Add placeholder for an <kbd><kbd>E</kbd></kbd>ngage item' +
+        ' shortcut',
     },
     {
       date: '2026-10-26',
@@ -710,13 +716,14 @@
     {
       date: '2026-10-13',
       issues: ['209'],
-      subject: 'Implement `E`ngage as a way to interact with the current' +
-        ' individual',
+      subject: 'Implement <kbd><kbd>E</kbd></kbd>ngage as a way to interact' +
+        ' with the current individual',
     },
     {
       date: '2026-10-13',
       issues: ['237'],
-      subject: 'Change result selector from `a` to `[role="listitem"]`',
+      subject: 'Change result selector from <kbd><kbd>a</kbd></kbd> to' +
+        ' `[role="listitem"]`',
     },
     {
       date: '2026-10-13',
@@ -883,7 +890,8 @@
     {
       date: '2026-10-04',
       issues: ['237'],
-      subject: 'Implement a `c`omment shortcut similar to that on **Feed**',
+      subject: 'Implement a <kbd><kbd>c</kbd></kbd>omment shortcut similar' +
+        ' to that on **Feed**',
     },
     {
       date: '2026-10-04',
@@ -893,8 +901,8 @@
     {
       date: '2026-10-04',
       issues: ['237'],
-      subject: 'Let the `m`ore shortcut also match buttons in the' +
-        ' post and comments',
+      subject: 'Let the <kbd><kbd>m</kbd></kbd>ore shortcut also match' +
+        ' buttons in the post and comments',
     },
     {
       date: '2026-10-03',
@@ -919,8 +927,8 @@
     {
       date: '2026-09-30',
       issues: ['237'],
-      subject: 'Add `E`ngage as a way to interact with the current' +
-        ' individual',
+      subject: 'Add <kbd><kbd>E</kbd></kbd>ngage as a way to interact with' +
+        ' the current individual',
     },
   ];
 
