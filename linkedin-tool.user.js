@@ -195,16 +195,11 @@
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish(
-      '384',
-      '**Profile**: Layout updated and navigation fails',
-      '2026-09-29'
-    ),
-    ish(
       '385',
       'Capturing the `Enter` key causes as much harm as good.',
       '2026-09-29'
     ),
-    ish('386', 'Support **Games** pages', '2026-09-29'),
+    ish('386', 'Support **Games** pages', '2026-10-29'),
     ish('260', 'Support **Job tracker** page', '2026-10-03'),
     ish(
       '396',
@@ -332,9 +327,46 @@
     ),
     ish('429', '**Feed**: `c`omment no longer works', '2026-10-28'),
     ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
+    ish('436', 'Many icons have changed names', '2026-10-29'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-29',
+      issues: ['436'],
+      subject: 'Update **Profile**\'s `readySelector`',
+    },
+    {
+      date: '2026-10-29',
+      issues: ['293'],
+      subject: 'Migrate `Profile` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-29',
+      issues: ['424', '425', '433'],
+      subject: 'Factor out a common selector for the menu button' +
+        ' and migrate others',
+    },
+    {
+      date: '2026-10-29',
+      issues: ['429'],
+      subject: 'Only proceed if comment counts exist and non-zero',
+    },
+    {
+      date: '2026-10-29',
+      issues: ['429'],
+      subject: 'Only process command when on a post',
+    },
+    {
+      date: '2026-10-29',
+      issues: [''],
+      subject: 'Include the "Start a post" URL as part of **Feed**',
+    },
+    {
+      date: '2026-10-29',
+      issues: ['429'],
+      subject: 'Defeat the new UI moving focus into the comment text box',
+    },
     {
       date: '2026-10-28',
       issues: ['434'],
