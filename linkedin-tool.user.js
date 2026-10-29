@@ -5931,9 +5931,9 @@
           NH.web.clickElement(el, [
 
             /**
-           * @todo [(#429)](https://github.com/nexushoratio/userscripts/issues/429)
-           * Retire transitional selectors after a while.
-           */
+             * @todo [(#429)](https://github.com/nexushoratio/userscripts/issues/429)
+             * Retire transitional selectors after a while.
+             */
             // Load more comments
             `[${CKEY}*="LoadMoreComments"] button`,
             `[${CKEY}*="LoadMoreComments"] [role="button"]`,
