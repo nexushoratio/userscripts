@@ -3219,6 +3219,15 @@
     }
 
     /**
+     * LinkedIn's common menu selectors.
+     *
+     * @type {string[]}
+     */
+    static get menuSelectorArray() {
+      return this.#menuSelectorArray;
+    }
+
+    /**
      * LinkedIn's primary content for many layouts.
      *
      * @type {string}
@@ -3589,6 +3598,17 @@
       '<circle cx="6" cy="18" r="5" mask="url(#a)"/>' +
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
+
+    static #menuSelectorArray = [
+
+      /**
+       * @todo [(#424)](https://github.com/nexushoratio/userscripts/issues/424)
+       * @todo [(#433)](https://github.com/nexushoratio/userscripts/issues/433)
+       * Retire `overflow` after a while.
+       */
+      ':has(> * > svg[id^="overflow"]',
+      ':has(> * > svg[id^="ellipses"]',
+    ];
 
     static #primaryContentSelector = [
       // Style 1 (WIP?)
@@ -6029,15 +6049,7 @@
       'Open closest <button>⋯</button> menu',
       () => {
         const el = this.#getItemHeader();
-        NH.web.clickElement(el, [
-
-          /**
-           * @todo [(#433)](https://github.com/nexushoratio/userscripts/issues/433)
-           * Retire `overflow` after a while.
-           */
-          ':has(> * > svg[id^="overflow"])',
-          ':has(> * > svg[id^="ellipses"])',
-        ]);
+        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
       }
     );
 
@@ -6733,10 +6745,7 @@
       'Open closest <button>⋯</button> menu',
       () => {
         const el = this.#lastScroller?.item;
-        NH.web.clickElement(el, [
-          // Catch up items
-          ':has(> * > svg[id^="overflow"])',
-        ]);
+        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
       }
     );
 
@@ -7578,7 +7587,7 @@
       'Open closest <button>⋯</button> menu',
       () => {
         const el = this.jobs?.item;
-        NH.web.clickElement(el, [':has(> * > svg[id^="overflow"])']);
+        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
       }
     );
 
@@ -9363,8 +9372,9 @@
       '=',
       'Open the <button>⋯</button> menu',
       () => {
-        NH.web.clickElement(this.notifications.item,
-          ['button:has(> * > svg[id^="overflow"]']);
+        NH.web.clickElement(
+          this.notifications.item, LinkedIn.menuSelectorArray
+        );
       }
     );
 

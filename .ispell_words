@@ -711,6 +711,7 @@ maxUidLength
 memberof
 meMenuV
 menuItem
+menuSelectorArray
 messageBox
 messageBoxSelector
 MessageChannel
