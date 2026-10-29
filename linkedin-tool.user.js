@@ -5813,7 +5813,7 @@
       super({
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
-        pathname: RegExp('^/feed/?', 'u'),
+        pathname: RegExp('^/(?:feed|sharing/compose)/?', 'u'),
         readySelector: '#linkedin-logo-xxsmall',
       });
 
