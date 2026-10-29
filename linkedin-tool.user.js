@@ -10156,12 +10156,12 @@
         snapToTop: true,
       };
 
-      this.#sectionScroller = new Scroller(what, how);
+      this.#sectionScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionScroller);
       this.#sectionScroller.dispatcher
-        .on('change', this.#onSectionChange)
-        .on('focused', this.#onSectionFocused);
+        .on('changed', this.#onSectionsChanged)
+        .on('focused', this.#onSectionsFocused);
 
       this.#lastScroller = this.#sectionScroller;
     }
@@ -10501,10 +10501,10 @@
       this.#entriesCurrentUid = config.uidCallback;
       this.#entriesCurrentModes = config.modes;
 
-      this.#entryScroller = new Scroller(what, how);
+      this.#entryScroller = new NH.nav.Scroller(what, how);
       this.#entryScroller.dispatcher
-        .on('change', this.#onEntryChange)
-        .on('out-of-range', this.#returnToSection);
+        .on('changed', this.#onEntriesChanged)
+        .on('out-of-range', this.#returnToSections);
 
       this.logger.leaving(me);
     }
@@ -10912,7 +10912,7 @@
       this.logger.leaving(me);
     }
 
-    #onEntryChange = () => {
+    #onEntriesChanged = () => {
       this.#lastScroller = this.entries;
     }
 
@@ -10932,7 +10932,7 @@
       this.sections.focus();
     }
 
-    #onSectionChange = () => {
+    #onSectionsChanged = () => {
       this.#resetEntries();
       this.#lastScroller = this.sections;
       if (litOptions.enableAlertUnknownProfileSections) {
@@ -10940,7 +10940,7 @@
       }
     }
 
-    #onSectionFocused = () => {
+    #onSectionsFocused = () => {
       let el = this.sections.item?.querySelector(
         this.#hasDivCheckbox
       );
@@ -10955,7 +10955,7 @@
       }
     }
 
-    #returnToSection = () => {
+    #returnToSections = () => {
       this.sections.item = this.sections.item;
     }
 

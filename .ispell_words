@@ -898,8 +898,8 @@ onResultChange
 onScrollerHandler
 onSectionChange
 onSectionChanged
-onSectionFocused
 onSectionsChanged
+onSectionsFocused
 onShow
 onSpaActivated
 onTablistChange
