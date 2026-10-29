@@ -9580,7 +9580,11 @@
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/in/.*', 'u'),
         // This is the down arrow in the footer "Select language" dropdown.
-        readySelector: '#caret-medium',
+        /**
+         * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
+         * Remove `#caret-medium` after some time.
+         */
+        readySelector: 'select ~ svg[id^="caret-down"], #caret-medium',
         readySelectorTimeout: 5000,
       });
 
