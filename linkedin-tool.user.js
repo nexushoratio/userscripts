@@ -5900,7 +5900,13 @@
       'c',
       'Show comments',
       () => {  // eslint-disable-line max-lines-per-function
-        const el = this.posts.item;
+        let el = this.posts.item;
+        // If current post style includes comment counts, bail if 0.
+        const count = el?.querySelector('svg[id^="comment"] ~ div');
+        if (count && !parseInt(count.innerText, 10)) {
+          el = null;
+        }
+
         if (el) {
           const main = document.querySelector('main');
           const scrollTop = main?.scrollTop;

@@ -940,6 +940,7 @@ paginator
 params
 parentElement
 parsedName
+parseInt
 parseSeq
 ParseSeqTestCase
 pathnameRE
