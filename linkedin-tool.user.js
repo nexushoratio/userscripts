@@ -3602,8 +3602,7 @@
     static #menuSelectorArray = [
 
       /**
-       * @todo [(#424)](https://github.com/nexushoratio/userscripts/issues/424)
-       * @todo [(#433)](https://github.com/nexushoratio/userscripts/issues/433)
+       * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
        * Retire `overflow` after a while.
        */
       ':has(> * > svg[id^="overflow"]',
@@ -5586,7 +5585,7 @@
         } else {
 
           /**
-           * @todo [(#431)](https://github.com/nexushoratio/userscripts/issues/431)
+           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
            * Retire this old target after a while.
            */
           this.#gotoNavIcon('home');
@@ -5636,7 +5635,7 @@
         } else {
 
           /**
-           * @todo [(#431)](https://github.com/nexushoratio/userscripts/issues/431)
+           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
            * Retire this old target after a while.
            */
           this.#gotoNavIcon('menu');
@@ -6084,7 +6083,7 @@
         NH.web.clickElement(el, [
 
           /**
-           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
            * Retire `report` after a while.
            */
           ':has(> * > svg[id^="repost"])',
@@ -6101,7 +6100,7 @@
         NH.web.clickElement(el, [
 
           /**
-           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
            * Retire `send` after a while.
            */
           ':has(> * > svg[id^="send"])',
@@ -6502,7 +6501,7 @@
         let selector = [
           // Visible
           /**
-           * @todo [(#434)](https://github.com/nexushoratio/userscripts/issues/434)
+           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
            * Retire `close` after a while.
            */
           ':has(> * > svg[id^="close"])',
