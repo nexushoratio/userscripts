@@ -109,6 +109,7 @@ bbx
 bigint
 BigInt
 bitness
+blurCommentBox
 bobInfo
 BothLabelledbyAndLabel
 bottomHalf
@@ -179,6 +180,8 @@ ColClassesNotFunction
 collectionsContainer
 collectionScroller
 ColumnClassesFunc
+CommentBox
+commentBoxSelector
 commentOnItem
 commentScroller
 commentUrn
@@ -258,6 +261,7 @@ defaultRenderFunc
 defaultRepr
 defaultUid
 defaultValue
+defeatCommentBox
 defineProperty
 deleteNotification
 DemoDetails
@@ -1412,6 +1416,7 @@ testWithIterable
 testWithNumbers
 testWithSpaces
 textarea
+textbox
 textContent
 textEncoder
 TextEncoder

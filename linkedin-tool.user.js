@@ -5899,10 +5899,24 @@
     showComments = new Shortcut(
       'c',
       'Show comments',
-      () => {
+      () => {  // eslint-disable-line max-lines-per-function
         const el = this.posts.item;
         const main = document.querySelector('main');
         const scrollTop = main?.scrollTop;
+
+        // The current UI (and it has changed), is that, the first time, it
+        // not only opens the comments, but the comment input box as well,
+        // moving focus to it.  This attempts to defeat that.
+        const commentBoxSelector = '[id*="CommentBox"] [role="textbox"]';
+        const defeatCommentBox = !el.querySelector(commentBoxSelector);
+
+        /** Move focus from comment box back to current item. */
+        const blurCommentBox = () => {
+          if (document.activeElement.matches(commentBoxSelector)) {
+            this.#lastScroller.focus();
+            main.scrollTo({top: scrollTop});
+          }
+        };
 
         // Check for the "Load more" button first, otherwise we just keep
         // clicking on the first comment button which does nothing useful
@@ -5920,6 +5934,19 @@
           '[role="button"]',
           'button:has(svg[id^="comment"])',
         ]);
+
+        if (defeatCommentBox) {
+          NH.web.waitForSelector(commentBoxSelector, 0, el)
+            .then((box) => {
+              const delay = 1000;
+              box.addEventListener('focus', blurCommentBox);
+              // Depending on the situation, focus could move multiple times,
+              // so rather than making it a one-shot, remove it after a bit.
+              setTimeout(() => {
+                box.removeEventListener('focus', blurCommentBox);
+              }, delay);
+            });
+        }
 
         // Move back after the post click handlers (triggered by the click
         // above), moved things around.
