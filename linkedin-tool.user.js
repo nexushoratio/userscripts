@@ -9361,49 +9361,14 @@
       'l',
       'Load more notifications',
       () => {
-        const me = this.loadMoreNotifications.name;
-        this.logger.entered(me);
-
-        const savedScrollTop = document.documentElement.scrollTop;
-        let first = false;
-        const notifications = this.notifications;
-
-        /** Trigger function for {@link NexusHoratio.web.otrot2}. */
-        function trigger() {
-          if (NH.web.clickElement(document,
-            ['main button:has(> svg[data-test-icon^="arrow-up"]'])) {
-            first = true;
-          } else {
-            NH.web.clickElement(document,
-              ['main button.scaffold-finite-scroll__load-button']);
-          }
-        }
-
-        /** Action function for {@link NexusHoratio.web.otrot2}. */
-        const action = () => {
-          if (first) {
-            if (notifications.item) {
-              notifications.first();
-            }
-          } else {
-            document.documentElement.scrollTop = savedScrollTop;
-            this.notifications.shine();
-          }
+        const msg = 'Needs to be reimplemented.';
+        const opts = {
+          cause: {
+            code: NH.base.Code.UNAVAILABLE,
+            reason: 'Issue #424',
+          },
         };
-
-        const what = {
-          name: `${this.id} ${me}`,
-          base: document.querySelector('div.scaffold-finite-scroll__content'),
-        };
-        const how = {
-          trigger: trigger,
-          action: action,
-          duration: 2000,
-        };
-
-        NH.web.otrot2(what, how);
-
-        this.logger.leaving(me);
+        throw new Error(msg, opts);
       }
     );
 
@@ -9420,32 +9385,15 @@
     deleteNotification = new Shortcut(
       'X',
       'Toggle current notification deletion',
-      async () => {
-        const me = this.deleteNotification.name;
-        this.logger.entered(me);
-
-        const el = this.notifications.item;
-
-        /** Trigger function for {@link NexusHoratio.web.otrot}. */
-        function trigger() {
-          NH.web.clickElement(el, [
-            'button:has(svg[data-test-icon^="trash"])',
-            'button:has(svg[data-test-icon^="undo"])',
-          ]);
-        }
-        if (el) {
-          const what = {
-            name: `${this.id} ${me}`,
-            base: el,
-          };
-          const how = {
-            trigger: trigger,
-            timeout: 3000,
-          };
-          await NH.web.otrot(what, how);
-        }
-
-        this.logger.leaving(me);
+      () => {
+        const msg = 'Needs to be reimplemented.';
+        const opts = {
+          cause: {
+            code: NH.base.Code.UNAVAILABLE,
+            reason: 'Issue #424',
+          },
+        };
+        throw new Error(msg, opts);
       }
     );
 
