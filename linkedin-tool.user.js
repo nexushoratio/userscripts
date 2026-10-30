@@ -9454,7 +9454,7 @@
         snapToTop: true,
       };
 
-      this.#notificationScroller = new Scroller(what, how);
+      this.#notificationScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#notificationScroller);
       this.#notificationScroller.dispatcher
