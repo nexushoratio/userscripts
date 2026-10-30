@@ -11852,9 +11852,9 @@
         snapToTop: false,
       };
 
-      this.#entriesScroller = new Scroller(what, how);
+      this.#entriesScroller = new NH.nav.Scroller(what, how);
       this.#entriesScroller.dispatcher
-        .on('change', this.#onEntryChange)
+        .on('changed', this.#onEntriesChanged)
         .on('out-of-range', this.#returnToSections);
 
       this.logger.leaving(me);
@@ -11953,11 +11953,11 @@
         snapToTop: true,
       };
 
-      this.#sectionsScroller = new Scroller(what, how);
+      this.#sectionsScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#sectionsScroller);
       this.#sectionsScroller.dispatcher
-        .on('change', this.#onSectionChange);
+        .on('changed', this.#onSectionsChanged);
 
       this.#lastScroller = this.sections;
     }
@@ -12097,7 +12097,7 @@
       return content;
     }
 
-    #onSectionChange = () => {
+    #onSectionsChanged = () => {
       this.#resetEntries();
       this.#lastScroller = this.sections;
     }
@@ -12108,7 +12108,7 @@
       this.entries;
     }
 
-    #onEntryChange = () => {
+    #onEntriesChanged = () => {
       this.#lastScroller = this.entries;
       if (this.entries?.itemUid === 'navigation-container') {
         this.entries.item.querySelector('[aria-selected="true"]')
