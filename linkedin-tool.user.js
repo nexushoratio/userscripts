@@ -210,7 +210,6 @@
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
-    ish('389', '**Profile**: *About* scroller is failing', '2026-09-30'),
     ish('412', '**Feed**: Many interactions are broken', '2026-10-03'),
     ish(
       '390',
@@ -333,9 +332,41 @@
     ),
     ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
     ish('436', 'Many icons have changed names', '2026-10-29'),
+    ish('427', '**Events**: Updated to a Style-2 page', '2026-10-30'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-30',
+      issues: ['293'],
+      subject: 'Migrate `EventsSpecific` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-30',
+      issues: ['293'],
+      subject: 'Migrate `Notifications` to `nav.Scroller`',
+    },
+    {
+      date: '2026-10-30',
+      issues: ['427'],
+      subject: 'Rename properties for consistency',
+    },
+    {
+      date: '2026-10-30',
+      issues: ['427'],
+      subject: 'Mark **Events** as a Style-2 page and remove' +
+        ' `readySelectorTimeout`',
+    },
+    {
+      date: '2026-10-30',
+      issues: ['425'],
+      subject: 'Migrate most `readySelector`s to a shared value',
+    },
+    {
+      date: '2026-10-30',
+      issues: ['424'],
+      subject: 'Document that a couple of features are going to take a bit',
+    },
     {
       date: '2026-10-29',
       issues: ['436'],
@@ -913,22 +944,6 @@
       date: '2026-10-03',
       issues: ['412'],
       subject: 'Factor out a CSS selector for subsequent reuse',
-    },
-    {
-      date: '2026-09-30',
-      issues: ['293'],
-      subject: 'Update to latest `lib/nav`',
-    },
-    {
-      date: '2026-09-30',
-      issues: ['389'],
-      subject: 'Update the entries selector for the *About* section',
-    },
-    {
-      date: '2026-09-30',
-      issues: ['237'],
-      subject: 'Add <kbd><kbd>E</kbd></kbd>ngage as a way to interact with' +
-        ' the current individual',
     },
   ];
 
