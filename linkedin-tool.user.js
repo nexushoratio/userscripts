@@ -3268,6 +3268,15 @@
     }
 
     /**
+     * LinkedIn's common page ready selector.
+     *
+     * @type {string}
+     */
+    static get pageReadySelector() {
+      return this.#pageReadySelector;
+    }
+
+    /**
      * LinkedIn's primary content for many layouts.
      *
      * @type {string}
@@ -3648,6 +3657,13 @@
       ':has(> * > svg[id^="overflow"]',
       ':has(> * > svg[id^="ellipses"]',
     ];
+
+    static #pageReadySelector = [
+      // Style 1
+      'footer.global-footer-compact',
+      // Style 2
+      '#linkedin-logo-xxsmall',
+    ].join(', ');
 
     static #primaryContentSelector = [
       // Style 1 (WIP?)
@@ -5873,7 +5889,7 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/(?:feed|sharing/compose)/?', 'u'),
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -6696,7 +6712,7 @@
         name: 'My Network (Grow, Catch up)',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/mynetwork(?:/(?:grow/|catch-up/.*)|$)', 'u'),
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -7075,7 +7091,7 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/mynetwork/invitation-manager/.*', 'u'),
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -7354,7 +7370,7 @@
       super({
         spa: spa,
         pathname: '/mynetwork/network-manager/events/',
-        readySelector: 'footer.global-footer-compact',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -7531,7 +7547,7 @@
       super({
         spa: spa,
         pathname: '/jobs/',
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -7912,7 +7928,7 @@
         name: 'Jobs Collections (various listings)',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
-        readySelector: 'footer.global-footer-compact',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -9300,7 +9316,7 @@
       super({
         spa: spa,
         pathname: '/notifications/',
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -10970,7 +10986,7 @@
       super({
         spa: spa,
         pathname: '/analytics/search-appearances/',
-        readySelector: 'footer.global-footer-compact',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -11248,7 +11264,7 @@
       super({
         spa: spa,
         pathname: '/events/',
-        readySelector: '#share-linkedin-small',
+        readySelector: LinkedIn.pageReadySelector,
         readySelectorTimeout: 4000,
       });
 
@@ -11590,7 +11606,7 @@
         name: 'Specific Event',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/events/[^/]*/', 'u'),
-        readySelector: 'footer.global-footer-compact',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
@@ -12123,7 +12139,7 @@
         spa: spa,
         name: 'Search Results People',
         pathname: '/search/results/people/?',
-        readySelector: '#linkedin-logo-xxsmall',
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)

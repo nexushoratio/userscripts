@@ -932,6 +932,7 @@ paddingTop
 padEnd
 padStart
 PageDetails
+pageReadySelector
 pageService
 PagesToDo
 pageStyle
