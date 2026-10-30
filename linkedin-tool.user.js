@@ -11278,16 +11278,16 @@
 
     /** @type {Scroller} */
     get collections() {
-      return this.#collectionScroller;
+      return this.#collectionsScroller;
     }
 
     /** @type {Scroller} */
     get events() {
-      if (!this.#eventScroller && this.collections.item) {
-        this.#initEventScroller();
+      if (!this.#eventsScroller && this.collections.item) {
+        this.#initEventsScroller();
       }
 
-      return this.#eventScroller;
+      return this.#eventsScroller;
     }
 
     nextEventsCollection = new Shortcut(
@@ -11363,14 +11363,14 @@
       }
     );
 
-    #collectionScroller
     #collectionsContainer = 'main:has(> section)'
-    #eventScroller
+    #collectionsScroller
+    #eventsScroller
     #lastScroller
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
-      this.#initCollectionScroller();
+      this.#initCollectionsScroller();
     }
 
     #initScrollerStyleService = () => {
@@ -11382,7 +11382,7 @@
       this.addService(NH.web.StyleService, styleConfig);
     }
 
-    #initCollectionScroller = () => {
+    #initCollectionsScroller = () => {
       const what = {
         name: `${this.name} collections`,
         containerItems: [
@@ -11397,7 +11397,7 @@
       };
 
       const how = {
-        uidCallback: this.#uniqueCollectionIdentifier,
+        uidCallback: this.#uniqueCollectionsIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
           this.scrollerClassName,
@@ -11405,17 +11405,17 @@
         snapToTop: true,
       };
 
-      this.#collectionScroller = new Scroller(what, how);
+      this.#collectionsScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
-        .setScroller(this.#collectionScroller);
+        .setScroller(this.#collectionsScroller);
 
-      this.#collectionScroller.dispatcher
-        .on('change', this.#onCollectionChange);
+      this.#collectionsScroller.dispatcher
+        .on('change', this.#onCollectionsChanged);
 
-      this.#lastScroller = this.#collectionScroller;
+      this.#lastScroller = this.#collectionsScroller;
     }
 
-    #initEventScroller = () => {
+    #initEventsScroller = () => {
       const what = {
         name: `${this.name} events`,
         base: this.collections.item,
@@ -11434,7 +11434,7 @@
       };
 
       const how = {
-        uidCallback: this.#uniqueEventIdentifier,
+        uidCallback: this.#uniqueEventsIdentifier,
         classes: [
           LinkedIn.scrollerSecondaryClassName,
           this.scrollerClassName,
@@ -11442,10 +11442,10 @@
         snapToTop: false,
       };
 
-      this.#eventScroller = new Scroller(what, how);
-      this.#eventScroller.dispatcher
-        .on('change', this.#onEventChange)
-        .on('out-of-range', this.#returnToCollection);
+      this.#eventsScroller = new Scroller(what, how);
+      this.#eventsScroller.dispatcher
+        .on('change', this.#onEventsChanged)
+        .on('out-of-range', this.#returnToCollections);
     }
 
     /**
@@ -11519,8 +11519,8 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueCollectionIdentifier = (scroller, element) => {
-      const me = this.#uniqueCollectionIdentifier.name;
+    #uniqueCollectionsIdentifier = (scroller, element) => {
+      const me = this.#uniqueCollectionsIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
@@ -11548,8 +11548,8 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueEventIdentifier = (scroller, element) => {
-      const me = this.#uniqueEventIdentifier.name;
+    #uniqueEventsIdentifier = (scroller, element) => {
+      const me = this.#uniqueEventsIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
@@ -11567,21 +11567,21 @@
     }
 
     #resetEvents = () => {
-      this.#eventScroller?.destroy();
-      this.#eventScroller = null;
+      this.#eventsScroller?.destroy();
+      this.#eventsScroller = null;
       this.events;
     }
 
-    #onEventChange = () => {
+    #onEventsChanged = () => {
       this.events?.item?.classList.remove('artdeco-card');
       this.#lastScroller = this.events;
     }
 
-    #returnToCollection = () => {
+    #returnToCollections = () => {
       this.collections.item = this.collections.item;
     }
 
-    #onCollectionChange = () => {
+    #onCollectionsChanged = () => {
       this.#resetEvents();
       this.#lastScroller = this.collections;
     }

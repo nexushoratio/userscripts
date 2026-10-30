@@ -179,6 +179,7 @@ colClassesFunc
 ColClassesNotFunction
 collectionsContainer
 collectionScroller
+collectionsScroller
 ColumnClassesFunc
 CommentBox
 commentBoxSelector
@@ -395,7 +396,7 @@ errorTextHandler
 eslint
 eslintrc
 EventData
-eventScroller
+eventsScroller
 EventsSpecific
 eventType
 EventType
@@ -563,13 +564,14 @@ infoWidget
 inheritdoc
 initCardsScroller
 initCollectionScroller
+initCollectionsScroller
 initCommentScroller
 initDetailsScroller
 initEntriesScroller
 initEntriesScrollerConfigs
 initEntryScroller
 initEntryScrollerConfigs
-initEventScroller
+initEventsScroller
 initialHeight
 initialWidth
 initIndividualScroller
@@ -863,8 +865,8 @@ onChange
 onClick
 onClickElements
 onCloseInfo
-onCollectionChange
 onCollectionChanged
+onCollectionsChanged
 onCommentChanged
 onConfig
 onConvoCardActivated
@@ -876,7 +878,7 @@ onEntriesChanged
 onEntryChange
 onEntryChanged
 onEvent
-onEventChange
+onEventsChanged
 onFocus
 onHide
 onHybridActivate
@@ -1048,6 +1050,7 @@ restoreConfigs
 resultScroller
 returnToCard
 returnToCollection
+returnToCollections
 returnToPost
 returnToSection
 returnToSections
@@ -1478,6 +1481,7 @@ uninit
 uniqueCardIdentifier
 uniqueCardsIdentifier
 uniqueCollectionIdentifier
+uniqueCollectionsIdentifier
 uniqueCommentIdentifier
 uniqueConvoCardsIdentifier
 uniqueDetailsIdentifier
@@ -1486,7 +1490,7 @@ uniqueEntriesIdPeople
 uniqueEntriesIdTopcard
 uniqueEntriesIdUrn
 uniqueEntryIdentifier
-uniqueEventIdentifier
+uniqueEventsIdentifier
 uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueInvitationIdentifier
