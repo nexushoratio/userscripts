@@ -11265,11 +11265,10 @@
         spa: spa,
         pathname: '/events/',
         readySelector: LinkedIn.pageReadySelector,
-        readySelectorTimeout: 4000,
       });
 
       this.addService(LinkedInStyleService)
-        .addStyles(LinkedIn.Style.ONE);
+        .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
         .addInstance(this);
