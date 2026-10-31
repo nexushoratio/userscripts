@@ -333,9 +333,78 @@
     ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
     ish('436', 'Many icons have changed names', '2026-10-29'),
     ish('427', '**Events**: Updated to a Style-2 page', '2026-10-30'),
+    ish('437', 'Support **Recruiter Views** page', '2026-10-31'),
+    ish(
+      '438',
+      'Support **Profile key skill suggestions** page',
+      '2026-10-31'
+    ),
+    ish('439', 'Support **Explorer Career Insights** page', '2026-10-31'),
+    ish('440', 'Support **Resumes and application data** page', '2026-10-31'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-10-31',
+      issues: ['427'],
+      subject: 'Update `uidCallback` for the primary scroller',
+    },
+    {
+      date: '2026-10-31',
+      issues: [''],
+      subject: 'Add missing `logger.entered()`;',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['427'],
+      subject: 'Switch to the new common finder and process',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['427'],
+      subject: 'Update primary scroller selectors',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['293'],
+      subject: 'Normalize property names to plural *results*',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['293'],
+      subject: 'Normalize property names to *paginator*',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['209'],
+      subject: 'Factor out a reused selector',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['425'],
+      subject: 'Factor out the selector for finding the profile menu item',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['424'],
+      subject: 'Reimplement <kbd><kbd>X</kbd></kbd> toggle deleting' +
+        ' notification',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['416'],
+      subject: 'Fine-tune the new Style-2 `#primaryNavSelector`',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['255'],
+      subject: 'Implement the <kbd><kbd>E</kbd></kbd>ngage shortcut',
+    },
+    {
+      date: '2026-10-31',
+      issues: ['437', '438', '439', '440'],
+      subject: 'Acknowledge a number of new pages to support',
+    },
     {
       date: '2026-10-30',
       issues: ['293'],
