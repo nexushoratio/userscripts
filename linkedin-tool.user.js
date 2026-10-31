@@ -5270,8 +5270,6 @@
      * module:linkedin-tool~Page.navbarAndFriendsElementsProcessor
      * navbarAndFriendsElementsProcessor}.
      *
-     * Currently only tested with Style.ONE pages.
-     *
      * @method
      * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
@@ -11414,8 +11412,8 @@
     #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.scrollerClassName,
-        finder: this.#scrollerFinder,
-        elementsProcessor: this.#scrollerElementsProcessor,
+        finder: this.navbarAndFriendsFinder,
+        elementsProcessor: this.navbarAndFriendsElementsProcessor,
       };
       this.addService(NH.web.StyleService, styleConfig);
     }
@@ -11486,70 +11484,6 @@
       this.#eventsScroller.dispatcher
         .on('change', this.#onEventsChanged)
         .on('out-of-range', this.#returnToCollections);
-    }
-
-    /**
-     * @method
-     * @implements {NexusHoratio.web.StyleService~Finder}
-     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
-     * monitor.
-     */
-    #scrollerFinder = () => {
-      const me = this.#scrollerFinder.name;
-      this.logger.entered(me);
-
-      const elements = new Map();
-      elements.set('navbar', document.querySelector('#global-nav'));
-      elements.set(
-        'main',
-        document.querySelector(this.#collectionsContainer)?.parentElement
-      );
-
-      this.logger.leaving(me, elements);
-      return elements;
-    }
-
-    /**
-     * @method
-     * @implements {NexusHoratio.web.StyleService~ElementsProcessor}
-     * @param {NexusHoratio.web.StyleService~ElementMap} elements - Elements
-     * to examine.
-     * @returns {NexusHoratio.web.StyleService~StyleProperties} Style
-     * properties for to contribute.
-     */
-    #scrollerElementsProcessor = (elements) => {
-      const me = this.#scrollerElementsProcessor.name;
-      this.logger.entered(me, elements);
-
-      const tops = [];
-      const properties = new Map();
-
-      for (const [key, value] of elements.entries()) {
-        switch (key) {
-          case 'navbar':
-            if (value) {
-              tops.push(`${value.offsetHeight}px`);
-            }
-            break;
-          case 'main':
-            if (value) {
-              tops.push(getComputedStyle(value).marginTop);
-            }
-            break;
-          default:
-            NH.base.issues.post(
-              this.name, me, 'Unsupported element key:', key
-            );
-        }
-      }
-
-      if (tops.length) {
-        const plus = tops.join(' + ');
-        properties.set('scroll-margin-top', `calc(${plus})`);
-      }
-
-      this.logger.leaving(me, properties);
-      return properties;
     }
 
     /**
