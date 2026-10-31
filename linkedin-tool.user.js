@@ -11401,7 +11401,7 @@
       }
     );
 
-    #collectionsContainer = 'main:has(> section)'
+    #collectionsContainer = 'main > div > div > section'
     #collectionsScroller
     #eventsScroller
     #lastScroller
@@ -11427,8 +11427,10 @@
           {
             container: this.#collectionsContainer,
             items: [
-              // Major collections
-              ':scope > section',
+              // Events card
+              ':scope > div > div > div > div:not([id])',
+              // Rest
+              ':scope > div > div > div > div[id] > div > div > div',
             ].join(','),
           },
         ],
