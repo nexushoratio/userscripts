@@ -9417,15 +9417,27 @@
     deleteNotification = new Shortcut(
       'X',
       'Toggle current notification deletion',
-      () => {
-        const msg = 'Needs to be reimplemented.';
-        const opts = {
-          cause: {
-            code: NH.base.Code.UNAVAILABLE,
-            reason: 'Issue #424',
-          },
-        };
-        throw new Error(msg, opts);
+      async () => {
+        const me = this.deleteNotification.name;
+        this.logger.entered(me);
+
+        const el = this.notifications.item;
+        // Both present and dismissed notifications have an anchor.
+        const undoSelector = 'p > a';
+        const undo = el?.querySelector(undoSelector);
+        if (undo) {
+          undo.click();
+        } else if (el) {
+          await this.dismissFloatingUiPortal();
+          NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+          const ui = await NH.web.waitForSelector(
+            LinkedIn.floatingUiPortalSelector, 0
+          );
+          ui.querySelector('[role="menuitem"]:has([id^="trash"])')
+            ?.click();
+        }
+
+        this.logger.leaving(me);
       }
     );
 

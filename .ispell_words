@@ -712,6 +712,7 @@ maxFieldLength
 maxUidLength
 memberof
 meMenuV
+menuitem
 menuItem
 menuSelectorArray
 messageBox
@@ -875,7 +876,6 @@ onDeactivate
 onDestroy
 onDetailsChanged
 onEntriesChanged
-onEntryChange
 onEntryChanged
 onEvent
 onEventsChanged
@@ -1065,7 +1065,6 @@ SafeIdTestCase
 SalesInsightsOrHighlights
 savedConfigs
 savedOptions
-savedScrollTop
 saveOptions
 ScriptCat
 scriptHandler
@@ -1476,6 +1475,7 @@ UIDs
 uint
 ul
 undef
+undoSelector
 unicode
 uninit
 uniqueCardIdentifier
