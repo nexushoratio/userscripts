@@ -11499,14 +11499,10 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const h1 = LinkedIn.h1(element);
-      const h2 = LinkedIn.h2(element);
+      const p = element.querySelector('div > div > p');
 
-      if (h2) {
-        content = h2;
-      }
-      if (h1) {
-        content = h1;
+      if (p) {
+        content = scroller.defaultUid(p);
       }
       if (!content) {
         content = scroller.defaultUid(element);
