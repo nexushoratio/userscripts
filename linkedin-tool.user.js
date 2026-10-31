@@ -5277,6 +5277,7 @@
      */
     navbarAndFriendsFinder = () => {
       const me = this.navbarAndFriendsFinder.name;
+      this.logger.entered(me);
 
       const elements = new Map();
       elements.set(
