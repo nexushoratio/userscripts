@@ -12190,7 +12190,7 @@
 
     /** @type {Scroller} */
     get paginator() {
-      return this.#paginationScroller;
+      return this.#paginatorScroller;
     }
 
     /** @type {Scroller} */
@@ -12277,15 +12277,15 @@
     );
 
     #lastScroller
-    #paginationScroller
-    #paginationScrollerContainerSelector =
+    #paginatorScroller
+    #paginatorScrollerContainerSelector =
       'main ul[data-testid="pagination-controls-list"]';
 
     #resultScroller
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
-      this.#initPaginationScroller();
+      this.#initPaginatorScroller();
       this.#initResultScroller();
     }
 
@@ -12298,30 +12298,30 @@
       this.addService(NH.web.StyleService, styleConfig);
     }
 
-    #initPaginationScroller = () => {
+    #initPaginatorScroller = () => {
       const what = {
-        name: `${this.name} pagination`,
+        name: `${this.name} paginator`,
         containerItems: [
           {
-            container: this.#paginationScrollerContainerSelector,
+            container: this.#paginatorScrollerContainerSelector,
             items: ':scope > li',
           },
         ],
       };
 
       const how = {
-        uidCallback: this.#uniquePaginationIdentifier,
+        uidCallback: this.#uniquePaginatorIdentifier,
         classes: [LinkedIn.scrollerSecondaryClassName],
         snapToTop: false,
         containerTimeout: 1000,
       };
 
-      this.#paginationScroller = new Scroller(what, how);
+      this.#paginatorScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
-        .setScroller(this.#paginationScroller);
-      this.#paginationScroller.dispatcher
-        .on('activate', this.#onPaginationActivate)
-        .on('change', this.#onPaginationChange);
+        .setScroller(this.#paginatorScroller);
+      this.#paginatorScroller.dispatcher
+        .on('activate', this.#onPaginatorActivated)
+        .on('change', this.#onPaginatorChanged);
     }
 
     #initResultScroller = () => {
@@ -12415,8 +12415,8 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniquePaginationIdentifier = (scroller, element) => {
-      const me = this.#uniquePaginationIdentifier.name;
+    #uniquePaginatorIdentifier = (scroller, element) => {
+      const me = this.#uniquePaginatorIdentifier.name;
       this.logger.entered(me, element);
 
       const content = scroller.defaultUid(element);
@@ -12450,14 +12450,14 @@
       return content;
     }
 
-    #onPaginationActivate = async () => {
-      const me = this.#onPaginationActivate.name;
+    #onPaginatorActivated = async () => {
+      const me = this.#onPaginatorActivated.name;
       this.logger.entered(me);
 
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
-          `${this.#paginationScrollerContainerSelector} > li` +
+          `${this.#paginatorScrollerContainerSelector} > li` +
             ' > [aria-current="true"]',
           timeout
         );
@@ -12480,7 +12480,7 @@
       this.logger.leaving(me);
     }
 
-    #onPaginationChange = () => {
+    #onPaginatorChanged = () => {
       this.#lastScroller = this.paginator;
     }
 

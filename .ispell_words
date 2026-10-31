@@ -582,6 +582,7 @@ initMessageScroller
 initModeToUidHelpers
 initNotificationScroller
 initPaginationScroller
+initPaginatorScroller
 initPostScroller
 initResultScroller
 initScrollers
@@ -895,6 +896,8 @@ onPaginationActivate
 onPaginationActivated
 onPaginationChange
 onPaginationChanged
+onPaginatorActivated
+onPaginatorChanged
 onPostActivated
 onPostChanged
 onResultChange
@@ -942,6 +945,8 @@ PageTestCase
 paginationScroller
 paginationScrollerContainerSelector
 paginator
+paginatorScroller
+paginatorScrollerContainerSelector
 params
 parentElement
 parsedName
@@ -1499,6 +1504,7 @@ uniqueJobIdentifier
 uniqueMessageIdentifier
 uniqueNotificationIdentifier
 uniquePaginationIdentifier
+uniquePaginatorIdentifier
 uniquePostIdentifier
 uniqueResultIdentifier
 uniqueSectionIdentifier
