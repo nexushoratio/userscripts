@@ -12195,7 +12195,7 @@
 
     /** @type {Scroller} */
     get results() {
-      return this.#resultScroller;
+      return this.#resultsScroller;
     }
 
     nextResult = new Shortcut(
@@ -12281,12 +12281,12 @@
     #paginatorScrollerContainerSelector =
       'main ul[data-testid="pagination-controls-list"]';
 
-    #resultScroller
+    #resultsScroller
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
       this.#initPaginatorScroller();
-      this.#initResultScroller();
+      this.#initResultsScroller();
     }
 
     #initScrollerStyleService = () => {
@@ -12324,7 +12324,7 @@
         .on('change', this.#onPaginatorChanged);
     }
 
-    #initResultScroller = () => {
+    #initResultsScroller = () => {
       const what = {
         name: `${this.name} cards`,
         containerItems: [
@@ -12336,7 +12336,7 @@
       };
 
       const how = {
-        uidCallback: this.#uniqueResultIdentifier,
+        uidCallback: this.#uniqueResultsIdentifier,
         classes: [
           LinkedIn.scrollerPrimaryClassName,
           this.scrollerClassName,
@@ -12344,13 +12344,13 @@
         snapToTop: true,
       };
 
-      this.#resultScroller = new Scroller(what, how);
+      this.#resultsScroller = new Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
-        .setScroller(this.#resultScroller);
-      this.#resultScroller.dispatcher
-        .on('change', this.#onResultChange);
+        .setScroller(this.#resultsScroller);
+      this.#resultsScroller.dispatcher
+        .on('change', this.#onResultsChanged);
 
-      this.#lastScroller = this.#resultScroller;
+      this.#lastScroller = this.#resultsScroller;
     }
 
     /**
@@ -12432,8 +12432,8 @@
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
-    #uniqueResultIdentifier = (scroller, element) => {
-      const me = this.#uniqueResultIdentifier.name;
+    #uniqueResultsIdentifier = (scroller, element) => {
+      const me = this.#uniqueResultsIdentifier.name;
       this.logger.entered(me, element);
 
       let content = '';
@@ -12484,7 +12484,7 @@
       this.#lastScroller = this.paginator;
     }
 
-    #onResultChange = () => {
+    #onResultsChanged = () => {
       this.#lastScroller = this.results;
     }
 
