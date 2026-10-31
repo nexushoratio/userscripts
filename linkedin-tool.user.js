@@ -11087,7 +11087,7 @@
       'E',
       'Engage the item (Message, View, Search, etc)',
       () => {
-        NH.base.issues.post('Engage TBD');
+        NH.web.clickElement(this.entries.item, ['a.artdeco-button']);
       }
     );
 
