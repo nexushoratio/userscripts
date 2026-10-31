@@ -940,6 +940,7 @@ PagesToDo
 pageStyle
 PageTestCase
 paginationScroller
+paginationScrollerContainerSelector
 paginator
 params
 parentElement

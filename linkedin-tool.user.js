@@ -12278,6 +12278,9 @@
 
     #lastScroller
     #paginationScroller
+    #paginationScrollerContainerSelector =
+      'main ul[data-testid="pagination-controls-list"]';
+
     #resultScroller
 
     #initScrollers = () => {
@@ -12300,8 +12303,7 @@
         name: `${this.name} pagination`,
         containerItems: [
           {
-            // This selector is also used in #onPaginationActivate.
-            container: 'main ul[data-testid="pagination-controls-list"]',
+            container: this.#paginationScrollerContainerSelector,
             items: ':scope > li',
           },
         ],
@@ -12455,7 +12457,7 @@
       try {
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
-          '[data-testid="pagination-controls-list"] > li' +
+          `${this.#paginationScrollerContainerSelector} > li` +
             ' > [aria-current="true"]',
           timeout
         );
