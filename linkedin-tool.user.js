@@ -3696,7 +3696,8 @@
        * Retire `primaryNavLinksComponentRef`
        */
       `[${CKEY}="primaryNavLinksComponentRef"] nav > ul`,
-      '#root header',
+      // #dialog-header is an ad container
+      '#root header:not(#dialog-header)',
     ].join(', ');
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
