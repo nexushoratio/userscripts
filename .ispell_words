@@ -766,6 +766,7 @@ navbarAndFriendsElementsProcessor
 navbarAndFriendsFinder
 navbarHandler
 navbarMutationObserver
+navbarProfileItemSelector
 navbarResizeObserver
 navMe
 navSpacer
@@ -898,7 +899,6 @@ onPostActivated
 onPostChanged
 onResultChange
 onScrollerHandler
-onSectionChange
 onSectionChanged
 onSectionsChanged
 onSectionsFocused

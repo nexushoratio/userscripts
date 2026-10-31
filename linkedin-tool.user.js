@@ -3283,6 +3283,15 @@
     }
 
     /**
+     * LinkedIn's profile in the navbar.
+     *
+     * @type {string}
+     */
+    static get navbarProfileItemSelector() {
+      return this.#navbarProfileItemSelector;
+    }
+
+    /**
      * LinkedIn's common page ready selector.
      *
      * @type {string}
@@ -3673,6 +3682,7 @@
       ':has(> * > svg[id^="ellipses"]',
     ];
 
+    static #navbarProfileItemSelector = '#meMenuV2WideComponentRef';
     static #pageReadySelector = [
       // Style 1
       'footer.global-footer-compact',
@@ -4608,9 +4618,9 @@
 
       /**
        * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-       * This should become the default and the selector factored out.
+       * This should become the default.
        */
-      const nav2 = document.querySelector('#meMenuV2WideComponentRef')
+      const nav2 = document.querySelector(LinkedIn.navbarProfileItemSelector)
         ?.cloneNode(true);
       if (nav2) {
         nav2.innerHTML = item.innerHTML;
@@ -4829,7 +4839,7 @@
         }
         if (this.#ourMenuItemStyle2) {
           this.#connectMenuItem(
-            this.#ourMenuItemStyle2, '#meMenuV2WideComponentRef'
+            this.#ourMenuItemStyle2, LinkedIn.navbarProfileItemSelector
           );
 
           /**
@@ -5723,7 +5733,7 @@
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('Me');
         } else if (!NH.web.clickElement(
-          document, ['#meMenuV2WideComponentRef > div']
+          document, [`${LinkedIn.navbarProfileItemSelector} > div`]
         )) {
 
           /**
