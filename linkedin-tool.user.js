@@ -12569,6 +12569,30 @@
          * Support **Profile Viewers** page
          */
         '/analytics/profile-views/?',
+
+        /**
+         * @todo [(#437)](https://github.com/nexushoratio/userscripts/issues/437)
+         * Support **Recruiter Views** page
+         */
+        '/analytics/recruiter-views/.*',
+
+        /**
+         * @todo [(#438)](https://github.com/nexushoratio/userscripts/issues/438)
+         * Support **Profile key skill suggestions** page
+         */
+        '/analytics/profile-key-skills/',
+
+        /**
+         * @todo [(#439)](https://github.com/nexushoratio/userscripts/issues/439)
+         * Support **Explorer Career Insights** page
+         */
+        '/explore-career-insights/',
+
+        /**
+         * @todo [(#440)](https://github.com/nexushoratio/userscripts/issues/440)
+         * Support **Resumes and application data** page
+         */
+        '/jobs/application-settings/',
       ].map(x => `(${x})`)
         .join('|');
       super({
