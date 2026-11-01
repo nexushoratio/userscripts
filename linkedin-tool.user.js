@@ -341,9 +341,40 @@
     ),
     ish('439', 'Support **Explorer Career Insights** page', '2026-10-31'),
     ish('440', 'Support **Resumes and application data** page', '2026-10-31'),
+    ish('443', 'Support **Manage events** page', '2026-11-01'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-01',
+      issues: ['427'],
+      subject: 'Update the <kbd><kbd>S</kbd></kbd>hare selector',
+    },
+    {
+      date: '2026-11-01',
+      issues: ['427'],
+      subject: 'Update selectors and friends for the secondary scroller',
+    },
+    {
+      date: '2026-11-01',
+      issues: ['443'],
+      subject: 'Acknowledge the **Manage events** page',
+    },
+    {
+      date: '2026-11-01',
+      issues: ['425'],
+      subject: 'Migrate `InvitationManager` to `navbarAndFriends*`',
+    },
+    {
+      date: '2026-11-01',
+      issues: ['293'],
+      subject: 'Migrate `SearchResultsPeople` to `nav.Scroller`',
+    },
+    {
+      date: '2026-11-01',
+      issues: ['255'],
+      subject: 'Remove WIP items',
+    },
     {
       date: '2026-10-31',
       issues: ['427'],
