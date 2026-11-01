@@ -12315,12 +12315,12 @@
         containerTimeout: 1000,
       };
 
-      this.#paginatorScroller = new Scroller(what, how);
+      this.#paginatorScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#paginatorScroller);
       this.#paginatorScroller.dispatcher
-        .on('activate', this.#onPaginatorActivated)
-        .on('change', this.#onPaginatorChanged);
+        .on('activated', this.#onPaginatorActivated)
+        .on('changed', this.#onPaginatorChanged);
     }
 
     #initResultsScroller = () => {
@@ -12343,11 +12343,11 @@
         snapToTop: true,
       };
 
-      this.#resultsScroller = new Scroller(what, how);
+      this.#resultsScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#resultsScroller);
       this.#resultsScroller.dispatcher
-        .on('change', this.#onResultsChanged);
+        .on('changed', this.#onResultsChanged);
 
       this.#lastScroller = this.#resultsScroller;
     }
