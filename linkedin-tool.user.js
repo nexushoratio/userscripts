@@ -7365,8 +7365,8 @@
     #initScrollerStyleService = () => {
       const styleConfig = {
         className: this.scrollerClassName,
-        finder: this.#scrollerFinder,
-        elementsProcessor: this.elementsHeightProcessor,
+        finder: this.navbarAndFriendsFinder,
+        elementsProcessor: this.navbarAndFriendsElementsProcessor,
       };
       this.addService(NH.web.StyleService, styleConfig);
     }
@@ -7402,24 +7402,6 @@
         .setScroller(this.#inviteScroller);
       this.#inviteScroller.dispatcher
         .on('out-of-range', this.spa.details.focusOnAside);
-    }
-
-    /**
-     * @method
-     * @implements {NexusHoratio.web.StyleService~Finder}
-     * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
-     * monitor.
-     */
-    #scrollerFinder = () => {
-      const me = this.#scrollerFinder.name;
-      this.logger.entered(me);
-
-      const elements = new Map();
-      elements.set('nav',
-        document.querySelector('#workspace [data-sdui-screen] nav'));
-
-      this.logger.leaving(me, elements);
-      return elements;
     }
 
     /**
