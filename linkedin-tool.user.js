@@ -11375,17 +11375,17 @@
       return this.#eventsScroller;
     }
 
-    nextEventsCollection = new Shortcut(
+    nextCollection = new Shortcut(
       'j',
-      'Next event collection',
+      'Next collection of entries',
       () => {
         this.collections.next();
       }
     );
 
-    prevEventsCollection = new Shortcut(
+    prevCollection = new Shortcut(
       'k',
-      'Previous event collection',
+      'Previous collection of entries',
       () => {
         this.collections.prev();
       }
@@ -11393,7 +11393,7 @@
 
     nextEvent = new Shortcut(
       'n',
-      'Next event in collection',
+      'Next entry in collection',
       () => {
         this.events?.next();
       }
@@ -11401,7 +11401,7 @@
 
     prevEvent = new Shortcut(
       'p',
-      'Previous event in collection',
+      'Previous entry in collection',
       () => {
         this.events?.prev();
       }
@@ -11507,16 +11507,18 @@
         name: `${this.name} events`,
         base: this.collections.item,
         selectors: [
-          // Your events collection
-          ':scope > section > div > a',
-          // Your events footer
-          ':scope > div > a',
-          // Most event collections
-          ':scope > main > div > section',
-          // Exclusive for Premium
-          ':scope > main > div > div > section',
-          // Show more (most of them)
-          ':scope > footer',
+          [
+            // Events buttons container
+            ':scope > div > div > p ~ div',
+            // Your events
+            ':scope > div > div > div > div > div > div > a:has(a)',
+            // Your events "Show all" footer
+            ':scope > div > div > div > a[href*="/mynetwork/"]',
+            // Actual events
+            ':scope > div > div > div > div > div > div',
+            // Common "Show more"/"Show less" footer
+            'button:has(> span > span)',
+          ].join(','),
         ],
       };
 
@@ -11572,10 +11574,14 @@
       this.logger.entered(me, element);
 
       let content = '';
-      const anchor = element.querySelector('a');
+      const eventHref = element.querySelector('a[href*="/events/"]')?.href;
+      const selfHref = element.href;
 
-      if (anchor?.href) {
-        content = new URL(anchor.href).pathname;
+      if (eventHref) {
+        content = new URL(eventHref).pathname;
+      }
+      if (selfHref) {
+        content = new URL(selfHref).pathname;
       }
       if (!content) {
         content = scroller.defaultUid(element);

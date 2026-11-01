@@ -396,6 +396,7 @@ errorTextHandler
 eslint
 eslintrc
 EventData
+eventHref
 eventsScroller
 EventsSpecific
 eventType
@@ -584,7 +585,6 @@ initNotificationScroller
 initPaginationScroller
 initPaginatorScroller
 initPostScroller
-initResultScroller
 initResultsScroller
 initScrollers
 initScrollerStyleService
@@ -1104,6 +1104,7 @@ sectionsScroller
 sectionUidPrefixes
 selectorArray
 SelectorsWithoutBase
+selfHref
 SemVer
 sendPost
 sendToggle
