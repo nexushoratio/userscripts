@@ -12599,6 +12599,12 @@
          * Support **Resumes and application data** page
          */
         '/jobs/application-settings/',
+
+        /**
+         * @todo [(#443)](https://github.com/nexushoratio/userscripts/issues/443)
+         * Support **Manage events** page
+         */
+        '/event-manager/.*',
       ].map(x => `(${x})`)
         .join('|');
       super({
