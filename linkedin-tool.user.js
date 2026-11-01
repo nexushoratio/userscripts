@@ -11439,12 +11439,13 @@
         const item = this.events?.item;
         this.logger.entered(me, item);
 
+        let rc = null;
+
         if (item) {
-          NH.web.clickElement(item,
-            ['button.events-components-shared-support-share__share-button']);
+          rc = NH.web.clickElement(item, ['button:has(svg[id^="share"])']);
         }
 
-        this.logger.leaving(me);
+        this.logger.leaving(me, rc);
       }
     );
 
