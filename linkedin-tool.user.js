@@ -11077,9 +11077,6 @@
   /**
    * Class for handling the Search Appearances page.
    *
-   * @todo [(#255)](https://github.com/nexushoratio/userscripts/issues/255)
-   * WIP
-   *
    * @extends module:linkedin-tool~Page
    */
   class AnalyticsSearchAppearances extends Page {
