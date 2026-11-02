@@ -7446,13 +7446,10 @@
       const me = this.#uniqueInvitationIdentifier.name;
       this.logger.entered(me, element);
 
+      const selector = 'a[href*="/in/"]';
       let content = '';
-      const key = LinkedIn.ckeyIdentifier(element);
-      const href = element.href;
+      const href = element.querySelector(selector)?.href;
 
-      if (key) {
-        content = key;
-      }
       if (href) {
         content = new URL(href).pathname;
       }
