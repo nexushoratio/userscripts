@@ -190,7 +190,7 @@
       '2026-10-06'
     ),
     ish('303', 'Keys are captured while editing text', '2026-10-21'),
-    ish('360', 'Support **Search Results All** page', '2026-10-03'),
+    ish('360', 'Support **Search Results All** page', '2026-11-03'),
     ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
@@ -200,11 +200,11 @@
       '2026-09-29'
     ),
     ish('386', 'Support **Games** pages', '2026-10-29'),
-    ish('260', 'Support **Job tracker** page', '2026-10-03'),
+    ish('260', 'Support **Job tracker** page', '2026-11-03'),
     ish(
       '396',
       '**Profile**: *Suggested for You* scroller is failing',
-      '2026-10-03'
+      '2026-11-03'
     ),
     ish('408', 'Support **Connections** pages', '2026-10-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
@@ -342,9 +342,36 @@
     ish('439', 'Support **Explorer Career Insights** page', '2026-10-31'),
     ish('440', 'Support **Resumes and application data** page', '2026-10-31'),
     ish('443', 'Support **Manage events** page', '2026-11-01'),
+    ish(
+      '307',
+      '`InvitationManager`: Improve stability of' +
+        ' `uniqueInvitationIdentifier()`',
+      '2026-11-02'
+    ),
+    ish('442', '**Invitation Manager**: Scrolling is broken', '2026-11-02'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-02',
+      issues: ['293'],
+      subject: 'Migrate `Events` to `nav.Scroller`',
+    },
+    {
+      date: '2026-11-02',
+      issues: ['307'],
+      subject: 'Use the profile link as the UID',
+    },
+    {
+      date: '2026-11-02',
+      issues: ['442'],
+      subject: 'Tune the *Suggestions for you* selector',
+    },
+    {
+      date: '2026-11-02',
+      issues: ['425'],
+      subject: 'Migrate `EventsSpecific` to `navbarAndFriends*`',
+    },
     {
       date: '2026-11-01',
       issues: ['427'],
@@ -1034,16 +1061,6 @@
       issues: ['237'],
       subject: 'Let the <kbd><kbd>m</kbd></kbd>ore shortcut also match' +
         ' buttons in the post and comments',
-    },
-    {
-      date: '2026-10-03',
-      issues: ['412'],
-      subject: 'Stop the `focusin` event from propagating to `#root`',
-    },
-    {
-      date: '2026-10-03',
-      issues: ['412'],
-      subject: 'Factor out a CSS selector for subsequent reuse',
     },
   ];
 
