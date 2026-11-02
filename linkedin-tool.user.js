@@ -11525,12 +11525,12 @@
         snapToTop: true,
       };
 
-      this.#collectionsScroller = new Scroller(what, how);
+      this.#collectionsScroller = new NH.nav.Scroller(what, how);
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#collectionsScroller);
 
       this.#collectionsScroller.dispatcher
-        .on('change', this.#onCollectionsChanged);
+        .on('changed', this.#onCollectionsChanged);
 
       this.#lastScroller = this.#collectionsScroller;
     }
@@ -11564,9 +11564,9 @@
         snapToTop: false,
       };
 
-      this.#eventsScroller = new Scroller(what, how);
+      this.#eventsScroller = new NH.nav.Scroller(what, how);
       this.#eventsScroller.dispatcher
-        .on('change', this.#onEventsChanged)
+        .on('changed', this.#onEventsChanged)
         .on('out-of-range', this.#returnToCollections);
     }
 
