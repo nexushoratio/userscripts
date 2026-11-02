@@ -7412,8 +7412,8 @@
             items: [
               // Standard invites
               `:scope > div[${CKEY}]`,
-              // Suggestions for you
-              'h3 ~ div > a',
+              // Suggestions for you (but not stuff on the Sent tab)
+              ':scope > div > div > div > a:not(:has(> span))',
             ].join(','),
           },
         ],
@@ -7448,9 +7448,13 @@
 
       let content = '';
       const key = LinkedIn.ckeyIdentifier(element);
+      const href = element.href;
 
       if (key) {
         content = key;
+      }
+      if (href) {
+        content = new URL(href).pathname;
       }
       if (!content) {
         content = scroller.defaultUid(element);
