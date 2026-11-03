@@ -3522,7 +3522,7 @@
     }
 
     /**
-     * @implements {Scroller~uidCallback}
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -6043,7 +6043,7 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get comments() {
       if (!this.#commentScroller && this.posts.item) {
         this.#initCommentScroller();
@@ -6052,7 +6052,7 @@
       return this.#commentScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get posts() {
       return this.#postScroller;
     }
@@ -6484,8 +6484,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -6513,8 +6514,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -6867,12 +6869,12 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get collections() {
       return this.#collectionScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get individuals() {
       if (!this.#individualScroller && this.collections.item) {
         this.#initIndividualScroller();
@@ -7098,8 +7100,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -7129,8 +7132,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -7241,7 +7245,7 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get invites() {
       return this.#inviteScroller;
     }
@@ -7450,8 +7454,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -7680,7 +7685,7 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get jobs() {
       if (!this.#jobScroller && this.sections.item) {
         this.#initJobScroller();
@@ -7689,7 +7694,7 @@
       return this.#jobScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get sections() {
       return this.#sectionScroller;
     }
@@ -7939,8 +7944,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -7964,8 +7970,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8002,7 +8009,7 @@
 
     /**
      * Updates {@link Jobs} specific watcher data and removes the jobs
-     * {@link Scroller}.
+     * {@link NexusHoratio.nav.Scroller Scroller}.
      *
      * @method
      */
@@ -8062,17 +8069,17 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get cards() {
       return this.#cardsScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get details() {
       return this.#detailsScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get paginator() {
       return this.#paginationScroller;
     }
@@ -8427,8 +8434,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8483,8 +8491,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8508,8 +8517,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8627,12 +8637,12 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get cards() {
       return this.#cardScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get entries() {
       if (!this.#entryScroller && this.cards.item) {
         this.#initEntryScroller();
@@ -8852,8 +8862,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8887,8 +8898,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -8961,12 +8973,12 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get convoCards() {
       return this.#convoCardScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get messages() {
       if (!this.#messageScroller && this.convoCards.item) {
         this.#initMessageScroller();
@@ -9230,8 +9242,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -9253,8 +9266,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -9449,7 +9463,7 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get notifications() {
       return this.#notificationScroller;
     }
@@ -9647,8 +9661,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -9765,7 +9780,7 @@
       TEST_ID: Symbol.for('testId'),
     };
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get entries() {
       if (!this.#entryScroller && this.sections.item) {
         this.#initEntryScroller();
@@ -9774,7 +9789,7 @@
       return this.#entryScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get sections() {
       return this.#sectionScroller;
     }
@@ -10653,7 +10668,7 @@
      * Compute all UIDs for the requested modes.
      *
      * @method
-     * @param {Scroller} scroller - Scroller instance.
+     * @param {NexusHoratio.nav.Scroller} scroller - Scroller instance.
      * @param {external:Element} element - Element to examine.
      * @param {UidMode[]} modes - Computation modes to consider.
      * @returns {Map<UidMode, string>} All computed values.
@@ -10810,7 +10825,7 @@
      * Suggest UID sources.
      *
      * @method
-     * @param {Scroller} scroller - Scroller instance.
+     * @param {NexusHoratio.nav.Scroller} scroller - Scroller instance.
      * @param {external:Element} element - Element to examine.
      */
     #entriesSuggestUids = (scroller, element) => {
@@ -10851,7 +10866,7 @@
      * Return the first UID computed from supported modes.
      *
      * @method
-     * @param {Scroller} scroller - Scroller instance.
+     * @param {NexusHoratio.nav.Scroller} scroller - Scroller instance.
      * @param {external:Element} element - Element to examine.
      * @returns {{0: UidMode, 1: string}} How the UID was computed, and
      * value.
@@ -10903,8 +10918,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -10964,8 +10980,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -11406,12 +11423,12 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get collections() {
       return this.#collectionsScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get events() {
       if (!this.#eventsScroller && this.collections.item) {
         this.#initEventsScroller();
@@ -11585,8 +11602,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -11610,8 +11628,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -11689,7 +11708,7 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get entries() {
       if (!this.#entriesScroller && this.sections.item) {
         this.#initEntriesScroller();
@@ -11698,7 +11717,7 @@
       return this.#entriesScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get sections() {
       return this.#sectionsScroller;
     }
@@ -11971,8 +11990,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -12024,8 +12044,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -12049,8 +12070,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -12081,8 +12103,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -12157,12 +12180,12 @@
       this.#initScrollers();
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get paginator() {
       return this.#paginatorScroller;
     }
 
-    /** @type {Scroller} */
+    /** @type {NexusHoratio.nav.Scroller} */
     get results() {
       return this.#resultsScroller;
     }
@@ -12379,8 +12402,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
@@ -12396,8 +12420,9 @@
 
     /**
      * @method
-     * @implements {Scroller~uidCallback}
-     * @param {Scroller} scroller - The calling {@link Scroller} instance.
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
      * @param {external:Element} element - Element to examine.
      * @returns {string} A value unique to this element.
      */
