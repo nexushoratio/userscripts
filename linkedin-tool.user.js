@@ -9533,11 +9533,11 @@
       }
     );
 
-    deleteNotification = new Shortcut(
+    toggleItem = new Shortcut(
       'X',
       'Toggle current notification deletion',
       async () => {
-        const me = this.deleteNotification.name;
+        const me = this.toggleItem.name;
         this.logger.entered(me);
 
         const el = this.notifications.item;
