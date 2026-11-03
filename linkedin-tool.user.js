@@ -209,8 +209,6 @@
     ish('408', 'Support **Connections** pages', '2026-10-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
-    ish('411', 'Make `safeId()` more robust.', '2026-09-25'),
-    ish('412', '**Feed**: Many interactions are broken', '2026-10-03'),
     ish(
       '390',
       '**Profile**: *ExperienceTopLevelSection* scroller is failing',
@@ -349,9 +347,39 @@
       '2026-11-02'
     ),
     ish('442', '**Invitation Manager**: Scrolling is broken', '2026-11-02'),
+    ish(
+      '312',
+      '`Notifications`: Support delete+navigate hotkeys',
+      '2026-11-03'
+    ),
+    ish(
+      '441',
+      '`Scroller`: Remove `click()` and associated config',
+      '2026-11-03'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-03',
+      issues: ['312'],
+      subject: 'Implement delete+navigate shortcuts',
+    },
+    {
+      date: '2026-11-03',
+      issues: ['312'],
+      subject: 'Rename a shortcut for consistency',
+    },
+    {
+      date: '2026-11-03',
+      issues: ['293'],
+      subject: 'JSDoc: Update types',
+    },
+    {
+      date: '2026-11-03',
+      issues: ['441'],
+      subject: 'Remove `clickConfig` from `MyNetwork`',
+    },
     {
       date: '2026-11-02',
       issues: ['293'],
@@ -1019,48 +1047,6 @@
       date: '2026-10-06',
       issues: ['413'],
       subject: 'Update **Profile**\'s `readySelector`',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['391'],
-      subject: 'Update the selectors for the *Education* section',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['390'],
-      subject: 'Update the selectors for the *Experience* section',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['411'],
-      subject: 'Fix a missed failing test and add another',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['412'],
-      subject: 'Reposition after clicking on the post',
-    },
-    {
-      date: '2026-10-04',
-      issues: [''],
-      subject: 'Remove unused method',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['237'],
-      subject: 'Implement a <kbd><kbd>c</kbd></kbd>omment shortcut similar' +
-        ' to that on **Feed**',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['237'],
-      subject: 'Support navigating through *Comments*',
-    },
-    {
-      date: '2026-10-04',
-      issues: ['237'],
-      subject: 'Let the <kbd><kbd>m</kbd></kbd>ore shortcut also match' +
-        ' buttons in the post and comments',
     },
   ];
 
