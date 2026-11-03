@@ -7087,10 +7087,6 @@
         ],
         autoActivate: true,
         snapToTop: false,
-        clickConfig: {
-          selectorArray: ['a', 'button'],
-          matchSelf: true,
-        },
       };
 
       this.#individualScroller = new NH.nav.Scroller(what, how);
