@@ -9560,6 +9560,24 @@
       }
     );
 
+    nextNotificationPlus = new Shortcut(
+      'J',
+      'Toggle current notification deletion, then next item',
+      async () => {
+        await this.toggleItem();
+        this.nextNotification();
+      }
+    );
+
+    prevNotificationPlus = new Shortcut(
+      'K',
+      'Toggle current notification deletion, then previous item',
+      async () => {
+        await this.toggleItem();
+        this.prevNotification();
+      }
+    );
+
     #notificationScroller
 
     #initScrollers = () => {

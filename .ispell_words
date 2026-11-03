@@ -264,7 +264,6 @@ defaultUid
 defaultValue
 defeatCommentBox
 defineProperty
-deleteNotification
 DemoDetails
 demoGrid
 demoSpa
@@ -805,7 +804,6 @@ nextConvo
 nextDetail
 nextEntry
 nextEvent
-nextEventsCollection
 nextIndividual
 nextInvite
 nextJob
@@ -814,6 +812,7 @@ nextLabel
 nextMessage
 nextNode
 nextNotification
+nextNotificationPlus
 nextPost
 nextPostPlus
 nextResult
@@ -975,7 +974,6 @@ prevConvo
 prevDetail
 prevEntry
 prevEvent
-prevEventsCollection
 prevIndividual
 prevInvite
 prevJob
@@ -983,6 +981,7 @@ prevJobPlus
 prevLabel
 prevMessage
 prevNotification
+prevNotificationPlus
 prevPost
 prevPostPlus
 prevResult
