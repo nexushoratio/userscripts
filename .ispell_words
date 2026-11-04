@@ -1053,6 +1053,7 @@ ResizeObserver
 ResizeObserverEntry
 restoreConfigs
 resultsScroller
+resultsScrollerContainerSelector
 returnToCard
 returnToCollection
 returnToCollections

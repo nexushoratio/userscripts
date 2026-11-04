@@ -12285,6 +12285,8 @@
       ' ul[data-testid="pagination-controls-list"]';
 
     #resultsScroller
+    #resultsScrollerContainerSelector = `${LinkedIn.primaryContentSelector}` +
+      ' [data-testid="lazy-column"]';
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -12332,7 +12334,7 @@
         name: `${this.name} cards`,
         containerItems: [
           {
-            container: '[data-testid="lazy-column"]',
+            container: this.#resultsScrollerContainerSelector,
             items: '[role="listitem"]',
           },
         ],
