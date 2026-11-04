@@ -210,16 +210,6 @@
     ish('293', '`Navigation` library', '2026-09-24'),
     ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish(
-      '390',
-      '**Profile**: *ExperienceTopLevelSection* scroller is failing',
-      '2026-10-05'
-    ),
-    ish(
-      '391',
-      '**Profile**: *EducationTopLevelSection* scroller is failing',
-      '2026-10-05'
-    ),
-    ish(
       '413',
       '**Profile**: layout changed again breaking minor things',
       '2026-10-06'
@@ -357,9 +347,51 @@
       '`Scroller`: Remove `click()` and associated config',
       '2026-11-03'
     ),
+    ish('445', '**Profile**: *Dashboard* section is skipped', '2026-11-04'),
+    ish('257', 'Support **Dashboard** page', '2026-11-04'),
+    ish(
+      '444',
+      '**Search Results People**: finder and aside do not work',
+      '2026-11-04'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-04',
+      issues: ['445'],
+      subject: 'Add a new selector for *Analytics* (aka, *Dashboard*)',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['257'],
+      subject: 'Acknowledge that a page now redirects and changed name',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['444'],
+      subject: 'Change how paginator handles scrolling during activation',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['444'],
+      subject: 'Update finder and processor for the `ScrollerService`',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['425', '444'],
+      subject: 'Factor out a selector for reuse (and migrate to "Style 2.1")',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['425'],
+      subject: 'Migrate a selector to the new "Style 2.1" variant',
+    },
+    {
+      date: '2026-11-04',
+      issues: ['444'],
+      subject: 'Add new "Style 2.1" content and aside selectors',
+    },
     {
       date: '2026-11-03',
       issues: ['312'],
