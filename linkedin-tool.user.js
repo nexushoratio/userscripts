@@ -12281,7 +12281,8 @@
     #lastScroller
     #paginatorScroller
     #paginatorScrollerContainerSelector =
-      'main ul[data-testid="pagination-controls-list"]';
+      `${LinkedIn.primaryContentSelector}` +
+      ' ul[data-testid="pagination-controls-list"]';
 
     #resultsScroller
 
