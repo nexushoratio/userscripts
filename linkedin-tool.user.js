@@ -10301,8 +10301,15 @@
             items: [
               // Most sections
               `:scope div[${CKEY}^="com.linkedin.sdui.profile.card."]`,
-              // Analytics
+              // Analytics (aka Dashboard)
+              /**
+               * @todo [(#445)](https://github.com/nexushoratio/userscripts/issues/445)
+               * Retire the first version after a while.
+               */
               ':scope > div[id^="profileCards"]' +
+                ` > div:not([${CKEY}^="com.linkedin.sdui.profile.card."])` +
+                ' > div > section',
+              ':scope > div > div[id^="profileCards"]' +
                 ` > div:not([${CKEY}^="com.linkedin.sdui.profile.card."])` +
                 ' > div > section',
               // Interests
