@@ -3751,6 +3751,9 @@
       'aside.scaffold-layout__aside',
       // Style 2
       '#workspace > div > div > section + aside',
+      // Style 2.1
+      '#workspace > div > div:not(:has(> section))' +
+        ' > div > div > div > div + div',
     ].join(', ');
 
     static #floatingUiPortalSelector = '[data-floating-ui-portal]';
@@ -3798,6 +3801,9 @@
       '.scaffold-layout main',
       // Style 2
       '#workspace > div > div > section',
+      // Style 2.1
+      '#workspace > div > div:not(:has(> section))' +
+        ' > div > div > div > div',
     ].join(', ');
 
     static #primaryNavSelector = [
