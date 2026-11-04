@@ -12364,16 +12364,14 @@
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
-    #scrollerFinder = () => {
+    #scrollerFinder = async () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
 
       const elements = new Map();
       elements.set(
-        'primary',
-        document.querySelector(LinkedIn.primaryContentSelector)
-          ?.parentElement
-          ?.parentElement
+        'results-container',
+        await NH.web.waitForSelector(this.#resultsScrollerContainerSelector)
       );
 
       this.logger.leaving(me, elements);
@@ -12392,14 +12390,17 @@
       const me = this.#scrollerElementsProcessor.name;
       this.logger.entered(me, elements);
 
+      const tops = [];
       const properties = new Map();
+
+      // XXX: No idea this this fudge factor is needed.
+      tops.push('1px');
 
       for (const [key, value] of elements.entries()) {
         switch (key) {
-          case 'primary':
+          case 'results-container':
             if (value) {
-              const style = getComputedStyle(value);
-              properties.set('scroll-margin-top', style.marginTop);
+              tops.push(getComputedStyle(value).paddingTop);
             }
             break;
           default:
@@ -12407,6 +12408,11 @@
               this.name, me, 'Unsupported element key:', key
             );
         }
+      }
+
+      if (tops.length) {
+        const plus = tops.join(' + ');
+        properties.set('scroll-margin-top', `calc(${plus})`);
       }
 
       this.logger.leaving(me, properties);
