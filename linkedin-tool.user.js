@@ -12521,9 +12521,10 @@
 
         /**
          * @todo [(#257)](https://github.com/nexushoratio/userscripts/issues/257)
-         * Support **Analytics & tools** page
+         * Support **Dashboard** page
          */
         '/dashboard/',
+        '/creator/grow/performance/',
 
         /**
          * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
