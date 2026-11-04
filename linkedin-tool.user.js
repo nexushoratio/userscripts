@@ -12468,6 +12468,10 @@
       this.logger.entered(me);
 
       try {
+        const container = document.querySelector(
+          this.#resultsScrollerContainerSelector
+        );
+        const scrollTop = container?.scrollTop;
         const timeout = 2000;
         const item = await NH.web.waitForSelector(
           `${this.#paginatorScrollerContainerSelector} > li` +
@@ -12476,16 +12480,8 @@
         );
         this.paginator.goto(item);
 
-        // The previous line popped the page to the bottom, so go to someplace
-        // reasonable.  On a similar page, JobsCollections, the URL changes to
-        // match the current card, so it watches that to avoid this same
-        // problem.
-        const result = this.results.item;
-        if (result) {
-          this.results.goto(result);
-        } else {
-          this.results.first();
-        }
+        // The goto() moved us, so go back.
+        container?.scrollTo({top: scrollTop});
       } catch (e) {
         this.logger.log('Results paginator not found, staying put');
       }
