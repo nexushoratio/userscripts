@@ -9685,6 +9685,45 @@
   }
 
   /**
+   * Class for handling the Creator Dashboard: Performance page.
+   *
+   * @todo [(#257)](https://github.com/nexushoratio/userscripts/issues/257)
+   * Support **Creator Dashboard: Performance** page
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class CreatorDashboardPerformance extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        name: 'Creator Dashboard: Performance',
+        // eslint-disable-next-line prefer-regex-literals
+        pathname: RegExp('^/(?:dashboard|creator/grow/performance)/', 'u'),
+        readySelector: LinkedIn.pageReadySelector,
+      });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.TWO);
+
+      this.addService(VMKeyboardService)
+        .setShortName(this.name)
+        .addInstance(this);
+
+      this.#initScrollers();
+    }
+
+    #initScrollers = () => {
+      this.logger.log('WIP');
+    }
+
+  }
+
+  /**
    * Class for handling the Search Appearances page.
    *
    * @extends module:linkedin-tool~Page
@@ -11076,13 +11115,6 @@
         '/verify/',
 
         /**
-         * @todo [(#257)](https://github.com/nexushoratio/userscripts/issues/257)
-         * Support **Dashboard** page
-         */
-        '/dashboard/',
-        '/creator/grow/performance/',
-
-        /**
          * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
          * Support **Job tracker** page
          */
@@ -11233,6 +11265,7 @@
   spa.register(Messaging);
   spa.register(Notifications);
   spa.register(Profile);
+  spa.register(CreatorDashboardPerformance);
   spa.register(AnalyticsSearchAppearances);
   spa.register(Events);
   spa.register(EventsSpecific);

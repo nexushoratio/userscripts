@@ -6,7 +6,6 @@ abxd
 aC
 acceptInvite
 AccordionTableWidget
-activateItem
 activeCenter
 activeElement
 activeFirst
@@ -208,7 +207,6 @@ consectetur
 contactTabDefinition
 containerItems
 ContainerItemsSelector
-ContainerItemsSelectors
 containersMutationHandler
 containersMutationObserver
 containerTimeout
@@ -228,6 +226,7 @@ createInput
 createLabel
 createMenuItemStyle
 createPanel
+CreatorDashboardPerformance
 css
 cssClass
 cssClassName
