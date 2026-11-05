@@ -6308,14 +6308,6 @@
       }
     );
 
-    activateItem = new Shortcut(
-      'Enter',
-      'Activate the current item (click on it)',
-      () => {
-        this.jobs?.click();
-      }
-    );
-
     openMeatballMenu = new Shortcut(
       '=',
       'Open closest <button>⋯</button> menu',
@@ -6433,10 +6425,6 @@
         ],
         autoActivate: true,
         snapToTop: false,
-        clickConfig: {
-          selectorArray: ['[role="button"]', 'a', 'button'],
-          matchSelf: true,
-        },
       };
 
       this.#jobScroller = new NH.nav.Scroller(what, how);
