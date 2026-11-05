@@ -11190,6 +11190,18 @@
          * Support **Manage events** page
          */
         '/event-manager/.*',
+
+        /**
+         * @todo [(#446)](https://github.com/nexushoratio/userscripts/issues/446)
+         * Support **Creator Dashboard: Content** page
+         */
+        '/creator/grow/content/',
+
+        /**
+         * @todo [(#447)](https://github.com/nexushoratio/userscripts/issues/447)
+         * Support **Creator: Monetization** page
+         */
+        '/creator/monetization/',
       ].map(x => `(${x})`)
         .join('|');
       super({
