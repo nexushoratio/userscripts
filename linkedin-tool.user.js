@@ -10758,7 +10758,7 @@
   }
 
   /**
-   * Class for handling the SearchResultsPeople page.
+   * Class for handling the Search Results: People page.
    *
    * @extends module:linkedin-tool~Page
    */
@@ -10771,7 +10771,7 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Search Results People',
+        name: 'Search Results: People',
         pathname: '/search/results/people/?',
         readySelector: LinkedIn.pageReadySelector,
       });
@@ -10780,6 +10780,7 @@
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
+        .setShortName(this.name)
         .addInstance(this);
 
       this.#initScrollers();
