@@ -5390,7 +5390,7 @@
   }
 
   /**
-   * Class for handling the MyNetwork page.
+   * Class for handling the My Network pages.
    *
    * This page takes 3-4 seconds to load every time.  Revisits are
    * likely to take a while.
@@ -5766,7 +5766,7 @@
   }
 
   /**
-   * Class for handling Invitation Manager.
+   * Class for handling the Invitation Manager page.
    *
    * While this page does have multiple sections (Manage Invitations and
    * Suggestions for you), the latter is enclosed by the former.  There is no
@@ -6035,7 +6035,7 @@
   }
 
   /**
-   * Class for handling Manage Events.
+   * Class for handling the Manage Events page.
    *
    * @extends module:linkedin-tool~Page
    */
@@ -6581,7 +6581,7 @@
   }
 
   /**
-   * Class for handling Jobs collections.
+   * Class for handling Jobs collections pages.
    *
    * @extends module:linkedin-tool~Page
    */
