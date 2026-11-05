@@ -187,7 +187,7 @@
     ish(
       '295',
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
-      '2026-10-06'
+      '2026-11-06'
     ),
     ish('303', 'Keys are captured while editing text', '2026-10-21'),
     ish('360', 'Support **Search Results All** page', '2026-11-03'),
@@ -348,15 +348,47 @@
       '2026-11-03'
     ),
     ish('445', '**Profile**: *Dashboard* section is skipped', '2026-11-04'),
-    ish('257', 'Support **Dashboard** page', '2026-11-04'),
+    ish(
+      '257',
+      'Support **Creator Dashboard: Performance** page',
+      '2026-11-04'
+    ),
     ish(
       '444',
       '**Search Results People**: finder and aside do not work',
       '2026-11-04'
     ),
+    ish('446', 'Support **Creator Dashboard: Content** page', '2026-11-05'),
+    ish('447', 'Support **Creator: Monetization** page', '2026-11-05'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-05',
+      issues: ['209'],
+      subject: 'Update `name:` (and use it) to **Search Results: People**',
+    },
+    {
+      date: '2026-11-05',
+      issues: ['257'],
+      subject: 'Initial support for the **Creator Dashboard: Performance**' +
+        ' page',
+    },
+    {
+      date: '2026-11-05',
+      issues: ['446', '447'],
+      subject: 'Acknowledge a couple of new pages to support',
+    },
+    {
+      date: '2026-11-05',
+      issues: ['385'],
+      subject: 'Retire explicit `Enter` key support from **Jobs**',
+    },
+    {
+      date: '2026-11-05',
+      issues: ['293'],
+      subject: 'Retire original `Scroller` code (in preference to `lib/nav`)',
+    },
     {
       date: '2026-11-04',
       issues: ['445'],
@@ -1069,16 +1101,6 @@
       date: '2026-10-07',
       issues: ['410'],
       subject: 'Make `cssClassName()` more robust',
-    },
-    {
-      date: '2026-10-06',
-      issues: ['413'],
-      subject: 'Update some special section selectors',
-    },
-    {
-      date: '2026-10-06',
-      issues: ['413'],
-      subject: 'Update **Profile**\'s `readySelector`',
     },
   ];
 
