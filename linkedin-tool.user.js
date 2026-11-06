@@ -9739,8 +9739,143 @@
       this.#initScrollers();
     }
 
+    /** @type {NexusHoratio.nav.Scroller} */
+    get sections() {
+      return this.#sectionsScroller;
+    }
+
+    nextSection = new Shortcut(
+      'j',
+      'Next section',
+      () => {
+        this.sections.next();
+      }
+    );
+
+    prevSection = new Shortcut(
+      'k',
+      'Previous section',
+      () => {
+        this.sections.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first section',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last section',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        this.#lastScroller.focus();
+      }
+    );
+
+    #lastScroller
+    #sectionsScroller
+
     #initScrollers = () => {
-      this.logger.log('WIP');
+      this.#initSectionsScroller();
+    }
+
+    #initSectionsScroller = () => {
+      const what = {
+        name: `${this.name} sections`,
+        containerItems: [
+          {
+            container: LinkedIn.primaryContentSelector,
+            items: [
+              // Simple sector
+              ':scope > div > div',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueSectionsIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#sectionsScroller = new NH.nav.Scroller(what, how);
+      this.addService(NH.nav.ScrollerService)
+        .setScroller(this.#sectionsScroller);
+      this.#sectionsScroller.dispatcher
+        .on('changed', this.#onSectionsChanged)
+        .on('out-of-range', this.#onSectionsOutOfRange);
+
+      this.#lastScroller = this.#sectionsScroller;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueSectionsIdentifier = (scroller, element) => {
+      const me = this.#uniqueSectionsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const h2 = LinkedIn.h2(element);
+      const p = element
+        .querySelectorAll(':scope div:has(> div > div > div > button) p')
+        .values()
+        .map(x => x.innerText.trim())
+        .toArray()
+        .join('; ');
+
+      if (p) {
+        content = p;
+      }
+      if (h2) {
+        content = h2;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    #onSectionsChanged = () => {
+      this.#lastScroller = this.sections;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {NexusHoratio.nav.Scroller~Event} evt - Data sent along with
+     * event.
+     */
+    #onSectionsOutOfRange = (type, evt) => {
+      if (evt.delta < 0) {
+        this.spa.details.focusOnSidebar();
+      } else {
+        this.spa.details.focusOnAside();
+      }
     }
 
   }

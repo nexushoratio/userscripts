@@ -165,9 +165,7 @@ clickClosestMenuButton
 clickConfig
 ClickConfig
 ClickConfigFinderNotFunction
-ClickConfigFinderWrongSignature
 ClickConfigSelectorArrayAndFinderFunction
-ClickConfigSelectorNotArray
 clickElement
 clickOptions
 clientHeight
@@ -904,6 +902,7 @@ onScrollerHandler
 onSectionChanged
 onSectionsChanged
 onSectionsFocused
+onSectionsOutOfRange
 onShow
 onSpaActivated
 onTablistChange
