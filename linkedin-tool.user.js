@@ -208,16 +208,10 @@
     ),
     ish('408', 'Support **Connections** pages', '2026-10-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
-    ish('410', 'Make `Page.cssClassName()` more robust', '2026-09-25'),
     ish(
       '413',
       '**Profile**: layout changed again breaking minor things',
       '2026-10-06'
-    ),
-    ish(
-      '393',
-      '**Profile**: *CertificationTopLevel* scroller is failing',
-      '2026-10-07'
     ),
     ish(
       '392',
@@ -363,6 +357,11 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-06',
+      issues: ['257'],
+      subject: 'Implement the primary scroller',
+    },
     {
       date: '2026-11-05',
       issues: ['209'],
@@ -1080,27 +1079,6 @@
       date: '2026-10-08',
       issues: ['237'],
       subject: 'Make the comments article selector more precise',
-    },
-    {
-      date: '2026-10-07',
-      issues: ['393'],
-      subject: 'Update the selectors for the *Licenses & certifications*' +
-        ' section',
-    },
-    {
-      date: '2026-10-07',
-      issues: ['392'],
-      subject: 'Update the selectors for the *Connected apps* section',
-    },
-    {
-      date: '2026-10-07',
-      issues: [''],
-      subject: 'More partial ordering pairs for **Profile**',
-    },
-    {
-      date: '2026-10-07',
-      issues: ['410'],
-      subject: 'Make `cssClassName()` more robust',
     },
   ];
 
