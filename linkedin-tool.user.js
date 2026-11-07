@@ -9718,6 +9718,15 @@
     }
 
     /** @type {NexusHoratio.nav.Scroller} */
+    get entries() {
+      if (!this.#entriesScroller && this.sections.item) {
+        this.#initEntriesScroller();
+      }
+
+      return this.#entriesScroller;
+    }
+
+    /** @type {NexusHoratio.nav.Scroller} */
     get sections() {
       return this.#sectionsScroller;
     }
@@ -9735,6 +9744,22 @@
       'Previous section',
       () => {
         this.sections.prev();
+      }
+    );
+
+    nextEntry = new Shortcut(
+      'n',
+      'Next entry',
+      () => {
+        this.entries?.next();
+      }
+    );
+
+    prevEntry = new Shortcut(
+      'p',
+      'Previous entry',
+      () => {
+        this.entries?.prev();
       }
     );
 
@@ -9762,6 +9787,7 @@
       }
     );
 
+    #entriesScroller
     #lastScroller
     #sectionsScroller
 
@@ -9802,6 +9828,39 @@
       this.#lastScroller = this.#sectionsScroller;
     }
 
+    #initEntriesScroller = () => {
+      this.logger.log('init entries');
+      const what = {
+        name: `${this.name} entries`,
+        base: this.sections.item,
+        selectors: [
+          [
+            // Carousel
+            '[data-testid="carousel-child-container"] > div > div',
+            // List headers
+            ':scope > div > div > div > div > div > div > div:has(> div)',
+            // List content
+            ':scope > div > div > div > div > div > div > div > a',
+          ].join(','),
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueEntriesIdentifier,
+        classes: [
+          LinkedIn.scrollerSecondaryClassName,
+          this.scrollerClassName,
+        ],
+        autoActivate: true,
+        snapToTop: false,
+      };
+
+      this.#entriesScroller = new NH.nav.Scroller(what, how);
+      this.#entriesScroller.dispatcher
+        .on('changed', this.#onEntriesChanged)
+        .on('out-of-range', this.#returnToSections);
+    }
+
     /**
      * @method
      * @implements {NexusHoratio.nav.Scroller~uidCallback}
@@ -9837,8 +9896,47 @@
       return content;
     }
 
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueEntriesIdentifier = (scroller, element) => {
+      const me = this.#uniqueEntriesIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const h2 = LinkedIn.h2(element);
+      const p = element.querySelector('p')?.innerText.trim();
+
+      if (p) {
+        content = p;
+      }
+      if (h2) {
+        content = h2;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
     #onSectionsChanged = () => {
+      this.#resetEntries();
       this.#lastScroller = this.sections;
+    }
+
+    #resetEntries = () => {
+      if (this.#entriesScroller) {
+        this.#entriesScroller.destroy();
+        this.#entriesScroller = null;
+      }
+      this.entries;
     }
 
     /**
@@ -9854,6 +9952,14 @@
       } else {
         this.spa.details.focusOnAside();
       }
+    }
+
+    #onEntriesChanged = () => {
+      this.#lastScroller = this.entries;
+    }
+
+    #returnToSections = () => {
+      this.sections.item = this.sections.item;
     }
 
   }
