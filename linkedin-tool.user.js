@@ -11476,6 +11476,12 @@
          * Support **Creator: Monetization** page
          */
         '/creator/monetization/',
+
+        /**
+         * @todo [(#448)](https://github.com/nexushoratio/userscripts/issues/448)
+         * Support **Analytics: Audience** page
+         */
+        '/analytics/creator/audience/',
       ].map(x => `(${x})`)
         .join('|');
       super({
