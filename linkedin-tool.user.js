@@ -1970,7 +1970,7 @@
      * @type {string}
      */
     static get primaryContentSelector() {
-      return this.#primaryContentSelector;
+      return this.#primaryContentSelectorString;
     }
 
     /**
@@ -2357,7 +2357,7 @@
       '#linkedin-logo-xxsmall',
     ].join(', ');
 
-    static #primaryContentSelector = [
+    static #primaryContentSelectorArray = [
       // Style 1 (WIP?)
       '.scaffold-layout main',
       // Style 2
@@ -2365,7 +2365,10 @@
       // Style 2.1
       '#workspace > div > div:not(:has(> section))' +
         ' > div > div > div > div',
-    ].join(', ');
+    ];
+
+    static #primaryContentSelectorString = this.#primaryContentSelectorArray
+      .join(', ');
 
     static #primaryNavSelector = [
       // Style 1

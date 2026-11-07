@@ -165,7 +165,6 @@ clickClosestMenuButton
 clickConfig
 ClickConfig
 ClickConfigFinderNotFunction
-ClickConfigSelectorArrayAndFinderFunction
 clickElement
 clickOptions
 clientHeight
@@ -987,6 +986,8 @@ prevResultsPage
 prevSection
 prevTab
 primaryContentSelector
+primaryContentSelectorArray
+primaryContentSelectorString
 primaryNavLinksComponentRef
 primaryNavSelector
 profileCards
@@ -1413,7 +1414,6 @@ testTwo
 testUid
 testUnknown
 testUpdateGroupByString
-testValidClickConfig
 testValidUidCallback
 testValueOf
 testVerify
