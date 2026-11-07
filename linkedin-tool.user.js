@@ -5625,7 +5625,7 @@
         base: this.collections.item,
         selectors: [
           [
-          // Carousel cards (different variations)
+            // Carousel cards (different variations)
             '[data-testid="carousel-child-container"] > div > a',
             '[data-testid="carousel-child-container"] > div:has(> div)',
             // Most cards with followable entities in them
