@@ -1974,6 +1974,15 @@
     }
 
     /**
+     * LinkedIn's primary content for many layouts (:is(...) variant).
+     *
+     * @type {string}
+     */
+    static get primaryContentSelectorIs() {
+      return `:is(${this.#primaryContentSelectorString})`;
+    }
+
+    /**
      * LinkedIn's common navigation bar.
      *
      * @type {string}
@@ -5566,7 +5575,7 @@
       }
     );
 
-    static #tablistSelector = `${LinkedIn.primaryContentSelector} nav`;
+    static #tablistSelector = `${LinkedIn.primaryContentSelectorIs} nav`;
 
     #collectionScroller
     #individualScroller

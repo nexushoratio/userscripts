@@ -163,8 +163,6 @@ clearConsole
 clearTimeout
 clickClosestMenuButton
 clickConfig
-ClickConfig
-ClickConfigFinderNotFunction
 clickElement
 clickOptions
 clientHeight
@@ -987,6 +985,7 @@ prevSection
 prevTab
 primaryContentSelector
 primaryContentSelectorArray
+primaryContentSelectorIs
 primaryContentSelectorString
 primaryNavLinksComponentRef
 primaryNavSelector
