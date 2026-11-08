@@ -206,13 +206,8 @@
       '**Profile**: *Suggested for You* scroller is failing',
       '2026-11-03'
     ),
-    ish('408', 'Support **Connections** pages', '2026-10-08'),
+    ish('408', 'Support **Connections** pages', '2026-11-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
-    ish(
-      '413',
-      '**Profile**: layout changed again breaking minor things',
-      '2026-10-06'
-    ),
     ish(
       '392',
       '**Profile**: *ConnectedAccountsTopLevel* scroller is failing',
@@ -354,9 +349,35 @@
     ),
     ish('446', 'Support **Creator Dashboard: Content** page', '2026-11-05'),
     ish('447', 'Support **Creator: Monetization** page', '2026-11-05'),
+    ish('448', 'Support **Analytics: Audience** page', '2026-11-08'),
+    ish(
+      '449',
+      '`LinkedIn.CONSTANTS`: Fix up and migrate users',
+      '2026-11-08'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-07',
+      issues: ['449'],
+      subject: 'Make an `:is(...)` variant of `primaryContentSelector`',
+    },
+    {
+      date: '2026-11-07',
+      issues: ['449'],
+      subject: 'Break up `#primaryContentSelector` into component parts',
+    },
+    {
+      date: '2026-11-07',
+      issues: ['448'],
+      subject: 'Acknowledge the **Analytics: Audience** page',
+    },
+    {
+      date: '2026-11-07',
+      issues: ['257'],
+      subject: 'Implement the secondary scroller',
+    },
     {
       date: '2026-11-06',
       issues: ['257'],
@@ -1054,31 +1075,6 @@
       date: '2026-10-11',
       issues: ['414'],
       subject: 'Add selector for the Style-2/Nav2 navbar',
-    },
-    {
-      date: '2026-10-08',
-      issues: ['413'],
-      subject: 'Update to the latest `lib/web` to grab `isInput()` fix',
-    },
-    {
-      date: '2026-10-08',
-      issues: ['293'],
-      subject: 'Migrate the last user of the internal `ScrollerService`',
-    },
-    {
-      date: '2026-10-08',
-      issues: ['293'],
-      subject: 'Depend on the released version of `lib/nav`',
-    },
-    {
-      date: '2026-10-08',
-      issues: ['237'],
-      subject: 'Rename and enhance the `uidCallback` for comments',
-    },
-    {
-      date: '2026-10-08',
-      issues: ['237'],
-      subject: 'Make the comments article selector more precise',
     },
   ];
 
