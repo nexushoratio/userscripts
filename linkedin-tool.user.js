@@ -9695,9 +9695,6 @@
   /**
    * Class for handling the Creator Dashboard: Performance page.
    *
-   * @todo [(#257)](https://github.com/nexushoratio/userscripts/issues/257)
-   * Support **Creator Dashboard: Performance** page
-   *
    * @extends module:linkedin-tool~Page
    */
   class CreatorDashboardPerformance extends Page {
