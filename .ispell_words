@@ -985,7 +985,6 @@ prevSection
 prevTab
 primaryContentSelector
 primaryContentSelectorArray
-primaryContentSelectorIs
 primaryContentSelectorString
 primaryNavLinksComponentRef
 primaryNavSelector
@@ -1102,6 +1101,7 @@ sectionsPartialOrder
 sectionsScroller
 sectionUidPrefixes
 selectorArray
+selectorIsPrimaryContent
 SelectorsWithoutBase
 selfHref
 SemVer

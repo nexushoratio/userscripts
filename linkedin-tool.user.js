@@ -1970,15 +1970,6 @@
     }
 
     /**
-     * LinkedIn's primary content for many layouts (:is(...) variant).
-     *
-     * @type {string}
-     */
-    static get primaryContentSelectorIs() {
-      return `:is(${this.#primaryContentSelectorString})`;
-    }
-
-    /**
      * LinkedIn's common navigation bar.
      *
      * @type {string}
@@ -2003,6 +1994,15 @@
      */
     static get scrollerSecondaryClassName() {
       return this.#scrollerSecondaryClassName;
+    }
+
+    /**
+     * LinkedIn's primary content for many layouts (:is(...) variant).
+     *
+     * @type {string}
+     */
+    static get selectorIsPrimaryContent() {
+      return `:is(${this.#primaryContentSelectorString})`;
     }
 
     /**
@@ -5571,7 +5571,7 @@
       }
     );
 
-    static #tablistSelector = `${LinkedIn.primaryContentSelectorIs} nav`;
+    static #tablistSelector = `${LinkedIn.selectorIsPrimaryContent} nav`;
 
     #collectionScroller
     #individualScroller
