@@ -359,6 +359,22 @@
 
   const globalNewsContent = [
     {
+      date: '2026-11-09',
+      issues: ['449'],
+      subject: 'Migrate **My Networks**\'s primary scroller to `:is(...)`' +
+        ' selector',
+    },
+    {
+      date: '2026-11-09',
+      issues: ['449'],
+      subject: 'Rename property so they start sorting together',
+    },
+    {
+      date: '2026-11-09',
+      issues: ['257'],
+      subject: 'Remove TODO',
+    },
+    {
       date: '2026-11-07',
       issues: ['449'],
       subject: 'Make an `:is(...)` variant of `primaryContentSelector`',
