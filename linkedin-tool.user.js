@@ -5596,7 +5596,7 @@
         name: `${this.name} cards`,
         containerItems: [
           {
-            container: LinkedIn.primaryContentSelector,
+            container: LinkedIn.selectorIsPrimaryContent,
             items: [
               // Most "Grow" cards
               ':scope > div > div > div > div > section',
