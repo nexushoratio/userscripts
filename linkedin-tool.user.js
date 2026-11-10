@@ -4723,16 +4723,9 @@
           // clicking on the first comment button which does nothing useful
           // after the first batch of comments is loaded.
           NH.web.clickElement(el, [
-
-            /**
-             * @todo [(#429)](https://github.com/nexushoratio/userscripts/issues/429)
-             * Retire transitional selectors after a while.
-             */
             // Load more comments
-            `[${CKEY}*="LoadMoreComments"] button`,
             `[${CKEY}*="LoadMoreComments"] [role="button"]`,
             // Inside post body
-            '[role="button"]',
             'button:has(svg[id^="comment"])',
           ]);
 
