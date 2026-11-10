@@ -4798,7 +4798,7 @@
 
         const what = {
           name: `${this.id} ${me}`,
-          base: document.querySelector('main [data-testid="mainFeed"]'),
+          base: document.querySelector(this.#postScrollerContainerSelector),
         };
         const how = {
           trigger: trigger,
