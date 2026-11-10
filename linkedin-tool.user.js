@@ -8079,14 +8079,41 @@
       'l',
       'Load more notifications',
       () => {
-        const msg = 'Needs to be reimplemented.';
-        const opts = {
-          cause: {
-            code: NH.base.Code.UNAVAILABLE,
-            reason: 'Issue #424',
-          },
+        const me = this.loadMoreNotifications.name;
+        const notifications = this.notifications;
+        let clicked = false;
+
+        /** Trigger function for {@link NexusHoratio.web.otrot2}. */
+        function trigger() {
+          // The topButton only shows up when the web app detects new posts.
+          const topButton = document.querySelector(
+            'button:has([id^="arrow-up"])'
+          );
+          if (topButton?.checkVisibility()) {
+            topButton.click();
+            clicked = true;
+          }
+        }
+
+        /** Action function for {@link NexusHoratio.web.otrot2}. */
+        function action() {
+          if (notifications.item && clicked) {
+            notifications.first();
+          }
+        }
+
+        const what = {
+          name: `${this.id} ${me}`,
+          base: document.querySelector(
+            this.#notificationsScrollerContainerSelector
+          ),
         };
-        throw new Error(msg, opts);
+        const how = {
+          trigger: trigger,
+          action: action,
+          duration: 2000,
+        };
+        NH.web.otrot2(what, how);
       }
     );
 
