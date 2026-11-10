@@ -355,9 +355,56 @@
       '`LinkedIn.CONSTANTS`: Fix up and migrate users',
       '2026-11-08'
     ),
+    ish(
+      '450',
+      '*Keyboard Shortcuts*: Implement a less invasive way to enhance title',
+      '2026-11-10'
+    ),
+    ish(
+      '451',
+      '**Feed**: <kbd><kbd>l</kbd></kbd>oad more pages always jumps to' +
+        ' first item',
+      '2026-11-10'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-10',
+      issues: ['450'],
+      subject: 'Implement a way to create a note for keyboard help',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['429'],
+      subject: 'Retire legacy comment selectors',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['424'],
+      subject: 'Reimplement <kbd><kbd>l</kbd></kbd>oad more notifications',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['424'],
+      subject: 'Factor out a selector for reuse',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['425'],
+      subject: 'Reuse an existing property version of a selector',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['451'],
+      subject: 'Only move to the first item if <kbd><kbd>l</kbd></kbd>oad' +
+        ' more actually clicked',
+    },
+    {
+      date: '2026-11-10',
+      issues: ['436'],
+      subject: 'Update selector for <kbd><kbd>l</kbd></kbd>oad more icon',
+    },
     {
       date: '2026-11-09',
       issues: ['449'],
@@ -1055,42 +1102,6 @@
       date: '2026-10-12',
       issues: ['293'],
       subject: 'Migrate `Feed` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Update `#guessPageStyle()` to detect Style-2/Nav2',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Update `gotoProfile()` to support the Style-2/Nav2 navbar',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Implement a new shortcut for the new navbar *Menu* item',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Implement `#gotoNavIcon()` as a way of identifying navbar' +
-        ' targets',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Update `#gotoNavButton()` for the Nav2 navbar',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Update many `Go to` shortcuts to the new Style-2 navbar',
-    },
-    {
-      date: '2026-10-11',
-      issues: ['414'],
-      subject: 'Add selector for the Style-2/Nav2 navbar',
     },
   ];
 
