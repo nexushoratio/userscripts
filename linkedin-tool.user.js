@@ -8146,6 +8146,8 @@
     );
 
     #notificationScroller
+    #notificationsScrollerContainerSelector = 'main section > div' +
+      ` > div:not([${CKEY}])`;
 
     #initScrollers = () => {
       this.#initScrollerStyleService();
@@ -8166,7 +8168,7 @@
         name: `${this.name} cards`,
         containerItems: [
           {
-            container: `main section > div > div:not([${CKEY}])`,
+            container: this.#notificationsScrollerContainerSelector,
             items: [
               // Filter tablist
               ':scope > div:not([data-sdui-screen])',
