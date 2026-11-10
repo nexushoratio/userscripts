@@ -4775,6 +4775,7 @@
         this.logger.entered(me);
 
         const posts = this.posts;
+        let clicked = false;
 
         /** Trigger function for {@link NexusHoratio.web.otrot2}. */
         function trigger() {
@@ -4784,12 +4785,13 @@
           );
           if (topButton?.checkVisibility()) {
             topButton.click();
+            clicked = true;
           }
         }
 
         /** Action function for {@link NexusHoratio.web.otrot2}. */
         function action() {
-          if (posts.item) {
+          if (posts.item && clicked) {
             posts.first();
           }
         }
