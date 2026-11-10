@@ -1116,6 +1116,7 @@ setAutoManageLoggerConfigs
 setContext
 setInterval
 setKeyboardContext
+setNote
 setPanel
 setScroller
 setShortName

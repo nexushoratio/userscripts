@@ -1701,9 +1701,25 @@
       return this.#active;
     }
 
+    /** @type {?string} */
+    get note() {
+      return this.#note;
+    }
+
     /** @type {module:linkedin-tool~Shortcut[]} */
     get shortcuts() {
       return this.#shortcuts;
+    }
+
+    /**
+     * @param {?string} note - A note to add to the keyboard help menu (falsy
+     * value will remove).
+     * @returns {module:linkedin-tool~VMKeyboardService} This instance, for
+     * chaining.
+     */
+    setNote(note) {
+      this.#note = note;
+      return this;
     }
 
     /**
@@ -1815,6 +1831,7 @@
 
     #active = false;
     #keyboards = new Map();
+    #note
     #shortcuts = [];
 
     #onActivate = () => {
@@ -3670,13 +3687,17 @@
         this.logger.log('service:', service.shortName, service.active);
         // Works in progress may not have any shortcuts yet.
         if (service.shortcuts.length) {
-          const parsedName = NH.base.simpleParseWords(service.shortName)
-            .join(' ');
+          const header = [];
+          header.push(NH.base.simpleParseWords(service.shortName)
+            .join(' '));
+          if (service.note) {
+            header.push(service.note);
+          }
           const section = this.#shortcutsWidget.addSection(service.shortName);
           if (service.active) {
             section.classList.add('lit-kbd-service-active');
           }
-          this.#shortcutsWidget.addHeader('', parsedName);
+          this.#shortcutsWidget.addHeader('', header.join(' '));
           for (const shortcut of service.shortcuts) {
             this.logger.log('shortcut:', shortcut);
             this.#shortcutsWidget.addData(
@@ -5425,7 +5446,6 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'My Network (Grow, Catch up)',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/mynetwork(?:/(?:grow/|catch-up/.*)|$)', 'u'),
         readySelector: LinkedIn.pageReadySelector,
@@ -5435,7 +5455,7 @@
         .addStyles(LinkedIn.Style.TWO);
 
       this.addService(VMKeyboardService)
-        .setShortName(this.name)
+        .setNote('(Grow, Catch up)')
         .addInstance(this);
 
       this.#initScrollers();
@@ -6613,7 +6633,6 @@
     constructor(spa) {
       super({
         spa: spa,
-        name: 'Jobs Collections (various listings)',
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/jobs/(?:collections|search)/.*', 'u'),
         readySelector: LinkedIn.pageReadySelector,
@@ -6623,7 +6642,7 @@
         .addStyles(LinkedIn.Style.ONE);
 
       this.addService(VMKeyboardService)
-        .setShortName(this.name)
+        .setNote('(various listings)')
         .addInstance(this);
 
       this.#initScrollers();
