@@ -644,7 +644,7 @@ labelledby
 labelledBy
 LanguageTopLevel
 lastFocusedElement
-lastGroup
+lastIndexOf
 lastInvite
 lastItem
 lastKlass
@@ -1264,6 +1264,7 @@ TestClass
 testClassIsFrozen
 testCollectTests
 testColumnsAreLive
+testComplexGroupOrder
 testComplicated
 testConstruction
 testConstructor
@@ -1303,7 +1304,7 @@ testEqualSet
 testEqualString
 testError
 TestExecution
-testExpectMismatchedGroup
+testExpectWrongGroup
 testExplicitTitle
 testFactoryWithArgs
 testFail
