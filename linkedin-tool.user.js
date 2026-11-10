@@ -4780,7 +4780,7 @@
         function trigger() {
           // The topButton only shows up when the web app detects new posts.
           const topButton = document.querySelector(
-            'button:has([id="arrow-up-small"])'
+            'button:has([id^="arrow-up"])'
           );
           if (topButton?.checkVisibility()) {
             topButton.click();
