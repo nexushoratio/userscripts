@@ -164,6 +164,7 @@ clearTimeout
 clickClosestMenuButton
 clickConfig
 clickElement
+clickEvent
 clickOptions
 clientHeight
 clientWidth
