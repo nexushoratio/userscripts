@@ -308,6 +308,8 @@
         .on('deactivated', this.#onScrollerHandler)
         .on('change', this.#onScrollerHandler)
         .on('changed', this.#onScrollerHandler)
+        .on('click', this.#onScrollerHandler)
+        .on('clicked', this.#onScrollerHandler)
         .on('focus', this.#onScrollerHandler)
         .on('focused', this.#onScrollerHandler)
         .on('out-of-range', this.#onScrollerHandler);
