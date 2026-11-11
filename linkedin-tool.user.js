@@ -2740,6 +2740,9 @@
     }
 
     #createInfoWidget = () => {
+      const me = this.#createInfoWidget.name;
+      this.logger.entered(me);
+
       this.#infoWidget = new NH.widget.Info(APP_LONG);
       const widget = this.#infoWidget.container;
       widget.classList.add('lit-info');
@@ -2759,6 +2762,8 @@
       this.#infoKeyboard = new VM.shortcut.KeyboardService();
       widget.addEventListener('open', this.#onOpenInfo);
       widget.addEventListener('close', this.#onCloseInfo);
+
+      this.logger.leaving(me);
     }
 
     /**
