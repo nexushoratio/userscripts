@@ -257,6 +257,7 @@ defaultRenderFunc
 defaultRepr
 defaultUid
 defaultValue
+defaultWeight
 defeatCommentBox
 defineProperty
 DemoDetails
@@ -699,12 +700,14 @@ lowerCamelCase
 lowerUpper
 mainFeed
 ManageEvents
+managerInfo
 marginTop
 maskContentUnits
 matchItem
 matchSelf
 maxCountLength
 maxFieldLength
+maxLength
 maxUidLength
 memberof
 meMenuV
