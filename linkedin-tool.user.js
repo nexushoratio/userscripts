@@ -13,7 +13,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/shortcut@1
 // @require     https://cdn.jsdelivr.net/npm/commonmark@0.31.2
 // @require     https://update.greasyfork.org/scripts/478188/1884975/NH_xunit.js
-// @require     https://update.greasyfork.org/scripts/477290/1972828/NH_base.js
+// @require     https://update.greasyfork.org/scripts/477290/1992965/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1936849/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1978810/NH_web.js
 // @require     https://update.greasyfork.org/scripts/478676/1931836/NH_widget.js
@@ -41,7 +41,7 @@
 
   const NH = window.NexusHoratio.base.ensure([
     {name: 'xunit', minVersion: 63},
-    {name: 'base', minVersion: 77},
+    {name: 'base', minVersion: 78},
     {name: 'userscript', minVersion: 20},
     {name: 'web', minVersion: 20},
     {name: 'widget', minVersion: 53},
