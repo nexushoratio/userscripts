@@ -4013,7 +4013,8 @@
       const elements = new Map();
       elements.set(
         'content',
-        document.querySelector(LinkedIn.primaryContentSelector)?.parentElement
+        document.querySelector(LinkedIn.selectorIsPrimaryContent)
+          ?.parentElement
       );
       elements.set('navbar', this.spa.details.navbar);
 
