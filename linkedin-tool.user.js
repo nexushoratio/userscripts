@@ -192,7 +192,6 @@
     ish('303', 'Keys are captured while editing text', '2026-10-21'),
     ish('360', 'Support **Search Results All** page', '2026-11-03'),
     ish('253', 'Support **Manage Events** page', '2026-09-21'),
-    ish('237', 'Support **Specific Event** pages', '2026-08-23'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish(
       '385',
@@ -218,21 +217,9 @@
       'The stock navbar was redesigned, breaking many things',
       '2026-10-11'
     ),
-    ish('394', '**Profile**: *Projects* scroller is failing', '2026-10-12'),
-    ish('395', '**Profile**: *Skills* scroller is failing', '2026-10-12'),
     ish(
       '416',
       '**Global**: Sometimes triggers *unsupported style*',
-      '2026-10-13'
-    ),
-    ish(
-      '398',
-      '**Profile**: *SalesInsightsOrHighlights* scroller is failing',
-      '2026-10-13'
-    ),
-    ish(
-      '397',
-      '**Profile**: *PublicationTopLevelSection* scroller is failing',
       '2026-10-13'
     ),
     ish('400', '**Profile**: *Patents* scroller is failing', '2026-10-14'),
@@ -366,9 +353,62 @@
         ' first item',
       '2026-11-10'
     ),
+    ish(
+      '453',
+      '**Feed**: The scroller `StyleService` does not work well after' +
+        ' navigating to page',
+      '2026-11-12'
+    ),
+    ish('456', '*Tampermonkey*: Does not work well', '2026-11-12'),
+    ish(
+      '452',
+      '**Profile**: Try out the `click`/`clicked` scroller events',
+      '2026-11-12'
+    ),
+    ish(
+      '420',
+      '`Logger`: Change "group mismatch" error detection',
+      '2026-11-12'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-12',
+      issues: ['425'],
+      subject: 'Update opinion on `navbarAndFriends*` and Style-2 pages',
+    },
+    {
+      date: '2026-11-12',
+      issues: ['453'],
+      subject: 'Have `#scrollerFinder()` wait for the selector',
+    },
+    {
+      date: '2026-11-12',
+      issues: ['449'],
+      subject: 'Migrate `navbarAndFriendsFinder()` to' +
+        ' `selectorIsPrimaryContent`',
+    },
+    {
+      date: '2026-11-12',
+      issues: ['260'],
+      subject: 'Initial support for the **Job tracker** page',
+    },
+    {
+      date: '2026-11-11',
+      issues: ['456'],
+      subject: 'Additional logging',
+    },
+    {
+      date: '2026-11-11',
+      issues: ['452'],
+      subject: 'Pick up latest `lib/nav`',
+    },
+    {
+      date: '2026-11-11',
+      issues: ['420'],
+      subject: 'Update to latest `lib/base` to pick up `Logger` fix',
+    },
     {
       date: '2026-11-10',
       issues: ['450'],
@@ -1045,63 +1085,6 @@
       date: '2026-10-14',
       issues: ['380', '399'],
       subject: 'Update the selector for the *Recommendations* section',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['209'],
-      subject: 'Implement <kbd><kbd>E</kbd></kbd>ngage as a way to interact' +
-        ' with the current individual',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['237'],
-      subject: 'Change result selector from <kbd><kbd>a</kbd></kbd> to' +
-        ' `[role="listitem"]`',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['293'],
-      subject: 'Migrate `MyNetwork` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['416'],
-      subject: 'Log the page style hint for debugging',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['398'],
-      subject: 'Update the selector for the *Highlights* section',
-    },
-    {
-      date: '2026-10-13',
-      issues: ['397'],
-      subject: 'Update the selector for the *Publications* section',
-    },
-    {
-      date: '2026-10-12',
-      issues: ['395'],
-      subject: 'Update the selector for the *Skills* section',
-    },
-    {
-      date: '2026-10-12',
-      issues: ['394'],
-      subject: 'Update the selector for the *Projects* section',
-    },
-    {
-      date: '2026-10-12',
-      issues: [''],
-      subject: 'More partial ordering pairs for **Profile**',
-    },
-    {
-      date: '2026-10-12',
-      issues: ['237'],
-      subject: 'Remove WIP items',
-    },
-    {
-      date: '2026-10-12',
-      issues: ['293'],
-      subject: 'Migrate `Feed` to `nav.Scroller`',
     },
   ];
 
