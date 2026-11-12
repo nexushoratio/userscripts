@@ -4001,6 +4001,10 @@
      * module:linkedin-tool~Page.navbarAndFriendsElementsProcessor
      * navbarAndFriendsElementsProcessor}.
      *
+     * The current Style-2 pages seem to be working by accident, not design.
+     * Specifically, the content?.parentElement does not work on something
+     * like **Feed**.
+     *
      * @method
      * @implements {NexusHoratio.web.StyleService~Finder}
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
