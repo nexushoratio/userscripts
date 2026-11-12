@@ -7541,6 +7541,45 @@
   }
 
   /**
+   * Class for handling the Job tracker page.
+   *
+   * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
+   * Support **Job tracker** page
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class JobTracker extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        name: 'Job tracker',
+        pathname: '/jobs-tracker/',
+        readySelector: 'button svg[id^="arrow-left"]',
+      });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.TWO);
+
+      this.addService(VMKeyboardService)
+        .setShortName(this.name)
+        .setNote('(WIP)')
+        .addInstance(this);
+
+      this.#initScrollers();
+    }
+
+    #initScrollers = () => {
+      this.logger.log('WIP');
+    }
+
+  }
+
+  /**
    * Class for handling the Messaging page.
    *
    * @extends module:linkedin-tool~Page
@@ -11437,12 +11476,6 @@
         '/verify/',
 
         /**
-         * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
-         * Support **Job tracker** page
-         */
-        '/jobs-tracker/',
-
-        /**
          * @todo [(#261)](https://github.com/nexushoratio/userscripts/issues/261)
          * Support **Follow Page** Page
          */
@@ -11590,6 +11623,7 @@
   spa.register(Jobs);
   spa.register(JobsCollections);
   spa.register(JobsView);
+  spa.register(JobTracker);
   spa.register(Messaging);
   spa.register(Notifications);
   spa.register(Profile);

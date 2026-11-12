@@ -628,6 +628,7 @@ JobsHomeATFModule
 JobsHomeFeedModuleListCollection
 JobsHomeModuleTabbed
 JobsView
+JobTracker
 jsdelivr
 jsdoc
 JSDoc
