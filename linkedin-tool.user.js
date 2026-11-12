@@ -5077,16 +5077,22 @@
      * @returns {NexusHoratio.web.StyleService~ElementMap} Elements to
      * monitor.
      */
-    #scrollerFinder = () => {
+    #scrollerFinder = async () => {
       const me = this.#scrollerFinder.name;
       this.logger.entered(me);
 
+      const timeout = 4000;
       const elements = new Map();
 
-      // We want the element with the listener, which happens to be the one
-      // with the "aria-expanded".
-      elements.set('chevron', document.querySelector('[id^="chevron-down"]')
-        ?.closest('[aria-expanded]'));
+      try {
+        // We want the element with the listener, which happens to be the one
+        // with the "aria-expanded".
+        elements.set('chevron', await NH.web.waitForSelector(
+          '[aria-expanded]:has([id^="chevron-down"])', timeout
+        ));
+      } catch (e) {
+        NH.base.issues.post(`${this.name}.${me}: "Sort by:" chevron`, e);
+      }
 
       this.logger.leaving(me, elements);
       return elements;
