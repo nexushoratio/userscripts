@@ -6027,7 +6027,7 @@
         name: `${this.name} cards`,
         containerItems: [
           {
-            container: `${LinkedIn.primaryContentSelector}` +
+            container: `${LinkedIn.selectorIsPrimaryContent}` +
             ' [data-testid="lazy-column"]',
             items: [
               // Standard invites
