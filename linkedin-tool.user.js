@@ -2946,6 +2946,7 @@
           ' inset-block-start: -0.2rem;' +
           ' inset-inline-start: 100%;' +
           ' justify-content: center;' +
+          ' line-height: 15px;' +
           ' margin-inline-start: -0.8rem;' +
           ' min-width: 1.6rem;' +
           ' padding-inline-end: 0.4rem;' +
