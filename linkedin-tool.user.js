@@ -7568,8 +7568,126 @@
       this.#initScrollers();
     }
 
+    /** @type {NexusHoratio.nav.Scroller} */
+    get jobs() {
+      return this.#jobsScroller;
+    }
+
+    nextCollection = new Shortcut(
+      'j',
+      'Next job',
+      () => {
+        this.jobs.next();
+      }
+    );
+
+    prevCollection = new Shortcut(
+      'k',
+      'Previous job',
+      () => {
+        this.jobs.prev();
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to the first job',
+      () => {
+        this.#lastScroller.first();
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to the last job',
+      () => {
+        this.#lastScroller.last();
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        this.#lastScroller.focus();
+      }
+    );
+
+    #jobsScroller
+    #lastScroller
+
     #initScrollers = () => {
-      this.logger.log('WIP');
+      this.#initJobsScroller();
+    }
+
+    #initJobsScroller = () => {
+      const what = {
+        name: `${this.name} jobs`,
+        containerItems: [
+          {
+            container: `${LinkedIn.selectorIsPrimaryContent} [${CKEY}]`,
+            items: [
+              // Tablist
+              ':scope > div > div > div > div > div:has([role="button"])',
+              // Table entries
+              ':scope > div > div > div > div > div > div' +
+                ':has(> div > div > div > div > input[type="checkbox"])',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueJobsIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#jobsScroller = new NH.nav.Scroller(what, how);
+      this.addService(NH.nav.ScrollerService)
+        .setScroller(this.#jobsScroller);
+      this.#jobsScroller.dispatcher
+        .on('changed', this.#onJobsChanged);
+
+      this.#lastScroller = this.#jobsScroller;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueJobsIdentifier = (scroller, element) => {
+      const me = this.#uniqueJobsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+
+      const inputs = element.querySelectorAll('input').length;
+      const href = element.querySelector('a[href*="/jobs/view"]')?.href;
+
+      if (inputs > 1) {
+        content = 'tablist';
+      }
+      if (href) {
+        content = new URL(href).pathname;
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
+    }
+
+    #onJobsChanged = () => {
+      this.#lastScroller = this.jobs;
     }
 
   }

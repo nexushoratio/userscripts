@@ -573,6 +573,7 @@ initialWidth
 initIndividualScroller
 initInviteScroller
 initJobScroller
+initJobsScroller
 initMain
 initMessageScroller
 initModeToUidHelpers
@@ -626,6 +627,7 @@ jobScroller
 JobsHomeATFModule
 JobsHomeFeedModuleListCollection
 JobsHomeModuleTabbed
+jobsScroller
 JobsView
 JobTracker
 jsdelivr
@@ -888,6 +890,7 @@ onIndividualChanged
 onIndividualFocused
 onInit
 onJobChanged
+onJobsChanged
 onLoggerConfig
 onMessageChanged
 onNotificationsFocused
@@ -1506,6 +1509,7 @@ uniqueIdentifier
 uniqueIndividualsIdentifier
 uniqueInvitationIdentifier
 uniqueJobIdentifier
+uniqueJobsIdentifier
 uniqueMessageIdentifier
 uniqueNotificationIdentifier
 uniquePaginationIdentifier
