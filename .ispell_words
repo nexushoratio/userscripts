@@ -585,7 +585,6 @@ initScrollers
 initScrollerStyleService
 initSectionScroller
 initSectionsScroller
-injectInto
 innerHTML
 innerText
 inotifywait
@@ -949,7 +948,6 @@ paginatorScroller
 paginatorScrollerContainerSelector
 params
 parentElement
-parsedName
 parseInt
 parseSeq
 ParseSeqTestCase
@@ -1425,6 +1423,7 @@ testValidUidCallback
 testValueOf
 testVerify
 testVerifyFails
+testVerifyLabelledbyOrLabel
 testWasSuccessful
 testWidget
 testWithContentBuilds
@@ -1542,6 +1541,7 @@ validateWhat
 valueChangeListener
 valueOf
 vclId
+verifyLabelledbyOrLabel
 VERYComplicated
 viewBox
 viewInviter
