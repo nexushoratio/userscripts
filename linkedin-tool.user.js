@@ -208,11 +208,6 @@
     ish('408', 'Support **Connections** pages', '2026-11-08'),
     ish('293', '`Navigation` library', '2026-09-24'),
     ish(
-      '392',
-      '**Profile**: *ConnectedAccountsTopLevel* scroller is failing',
-      '2026-10-07'
-    ),
-    ish(
       '414',
       'The stock navbar was redesigned, breaking many things',
       '2026-10-11'
@@ -222,13 +217,7 @@
       '**Global**: Sometimes triggers *unsupported style*',
       '2026-10-13'
     ),
-    ish('400', '**Profile**: *Patents* scroller is failing', '2026-10-14'),
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
-    ish(
-      '399',
-      '**Profile**: *RecommendationsTopLevel* scroller is failing',
-      '2026-10-14'
-    ),
     ish(
       '401',
       '**Profile**: *HonorsTopLevel* scroller is failing',
@@ -370,9 +359,29 @@
       '`Logger`: Change "group mismatch" error detection',
       '2026-11-12'
     ),
+    ish(
+      '457',
+      '**Invitation Manager**: Navigation is not working',
+      '2026-11-13'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-13',
+      issues: ['260'],
+      subject: 'Implement primary scroller',
+    },
+    {
+      date: '2026-11-13',
+      issues: ['449', '457'],
+      subject: 'Update the `container` selector',
+    },
+    {
+      date: '2026-11-13',
+      issues: [''],
+      subject: 'Sync error badge CSS to site',
+    },
     {
       date: '2026-11-12',
       issues: ['425'],
@@ -1065,26 +1074,6 @@
       date: '2026-10-15',
       issues: ['401'],
       subject: 'Update the selector for the *Honors & awards* section',
-    },
-    {
-      date: '2026-10-14',
-      issues: ['392'],
-      subject: 'Update selector for the *Self promotion* variant',
-    },
-    {
-      date: '2026-10-14',
-      issues: ['209'],
-      subject: 'Remove WIP items',
-    },
-    {
-      date: '2026-10-14',
-      issues: ['400'],
-      subject: 'Update the selector for the *Patents* section',
-    },
-    {
-      date: '2026-10-14',
-      issues: ['380', '399'],
-      subject: 'Update the selector for the *Recommendations* section',
     },
   ];
 
