@@ -7639,7 +7639,8 @@
       this.addService(NH.nav.ScrollerService)
         .setScroller(this.#jobsScroller);
       this.#jobsScroller.dispatcher
-        .on('changed', this.#onJobsChanged);
+        .on('changed', this.#onJobsChanged)
+        .on('focused', this.#onJobsFocused);
 
       this.#lastScroller = this.#jobsScroller;
     }
@@ -7677,6 +7678,13 @@
 
     #onJobsChanged = () => {
       this.#lastScroller = this.jobs;
+    }
+
+    #onJobsFocused = () => {
+      if (this.jobs.itemUid === 'tablist') {
+        this.jobs.item.querySelector('input:checked')
+          .focus();
+      }
     }
 
   }

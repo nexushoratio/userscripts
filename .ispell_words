@@ -891,6 +891,7 @@ onIndividualFocused
 onInit
 onJobChanged
 onJobsChanged
+onJobsFocused
 onLoggerConfig
 onMessageChanged
 onNotificationsFocused
