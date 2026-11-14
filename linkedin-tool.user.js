@@ -364,9 +364,29 @@
       '**Invitation Manager**: Navigation is not working',
       '2026-11-13'
     ),
+    ish(
+      '455',
+      '`Widget`: Event order does not always make sense',
+      '2026-11-14'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-14',
+      issues: ['260'],
+      subject: 'When navigating to the tablist, focus on selected item',
+    },
+    {
+      date: '2026-11-14',
+      issues: ['455', '456'],
+      subject: 'Update to latest `nav/userscript` and `nav/widget`',
+    },
+    {
+      date: '2026-11-14',
+      issues: ['449'],
+      subject: 'Migrate a couple of pages to `selectorIsPrimaryContent`',
+    },
     {
       date: '2026-11-13',
       issues: ['260'],
@@ -1064,16 +1084,6 @@
       date: '2026-10-16',
       issues: ['253'],
       subject: 'Initial support for **Manage Events** pages',
-    },
-    {
-      date: '2026-10-15',
-      issues: ['402'],
-      subject: 'Update the selectors for the *Services* section',
-    },
-    {
-      date: '2026-10-15',
-      issues: ['401'],
-      subject: 'Update the selector for the *Honors & awards* section',
     },
   ];
 
