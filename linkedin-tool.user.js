@@ -10021,7 +10021,7 @@
         name: `${this.name} sections`,
         containerItems: [
           {
-            container: LinkedIn.primaryContentSelector,
+            container: LinkedIn.selectorIsPrimaryContent,
             items: [
               // Simple sector
               ':scope > div > div',
@@ -10315,7 +10315,7 @@
         name: `${this.name} sections`,
         containerItems: [
           {
-            container: `${LinkedIn.primaryContentSelector}` +
+            container: `${LinkedIn.selectorIsPrimaryContent}` +
               ' > div > div > div > div',
             items: 'section',
           },
