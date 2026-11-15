@@ -7610,6 +7610,38 @@
       }
     );
 
+    openConnections = new Shortcut(
+      'c',
+      'Open the connection overlay (if available) (TBD)',
+      () => {
+        NH.base.issues.post(`${this.name}: work in progress`);
+      }
+    );
+
+    openNote = new Shortcut(
+      'n',
+      'Add/edit item note (TBD)',
+      () => {
+        NH.base.issues.post(`${this.name}: work in progress`);
+      }
+    );
+
+    clickYes = new Shortcut(
+      'Y',
+      'Click <button>Yes</button> (if available) (TBD)',
+      () => {
+        NH.base.issues.post(`${this.name}: work in progress`);
+      }
+    );
+
+    clickNo = new Shortcut(
+      'N',
+      'Click <button>No</button> (if available) (TBD)',
+      () => {
+        NH.base.issues.post(`${this.name}: work in progress`);
+      }
+    );
+
     #jobsScroller
     #lastScroller
 

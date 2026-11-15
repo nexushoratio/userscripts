@@ -165,7 +165,9 @@ clickClosestMenuButton
 clickConfig
 clickElement
 clickEvent
+clickNo
 clickOptions
+clickYes
 clientHeight
 clientWidth
 cloneNode
@@ -916,7 +918,9 @@ onurlchange
 onUrlChange
 onVerify
 oopsie
+openConnections
 openMeatballMenu
+openNote
 openShareMenu
 optionsCenter
 origCallback
