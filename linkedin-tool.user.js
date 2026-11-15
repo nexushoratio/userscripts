@@ -7601,6 +7601,15 @@
       }
     );
 
+    openMeatballMenu = new Shortcut(
+      '=',
+      'Open closest <button>⋯</button> menu',
+      () => {
+        const el = this.#lastScroller?.item;
+        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+      }
+    );
+
     #jobsScroller
     #lastScroller
 
