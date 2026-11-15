@@ -11355,11 +11355,12 @@
     #lastScroller
     #paginatorScroller
     #paginatorScrollerContainerSelector =
-      `${LinkedIn.primaryContentSelector}` +
+      `${LinkedIn.selectorIsPrimaryContent}` +
       ' ul[data-testid="pagination-controls-list"]';
 
     #resultsScroller
-    #resultsScrollerContainerSelector = `${LinkedIn.primaryContentSelector}` +
+    #resultsScrollerContainerSelector =
+      `${LinkedIn.selectorIsPrimaryContent}` +
       ' [data-testid="lazy-column"]';
 
     #initScrollers = () => {
