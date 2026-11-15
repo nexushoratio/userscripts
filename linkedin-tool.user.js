@@ -1987,15 +1987,6 @@
     }
 
     /**
-     * LinkedIn's primary content for many layouts.
-     *
-     * @type {string}
-     */
-    static get primaryContentSelector() {
-      return this.#primaryContentSelectorString;
-    }
-
-    /**
      * LinkedIn's common navigation bar.
      *
      * @type {string}
@@ -2028,7 +2019,7 @@
      * @type {string}
      */
     static get selectorIsPrimaryContent() {
-      return `:is(${this.#primaryContentSelectorString})`;
+      return `:is(${this.#selectorPrimaryContentSelectorString})`;
     }
 
     /**
@@ -2387,18 +2378,6 @@
       '#linkedin-logo-xxsmall',
     ].join(', ');
 
-    static #primaryContentSelectorArray = [
-      // Style 1 (WIP?)
-      '.scaffold-layout main',
-      // Style 2
-      '#workspace > div > div > section',
-      // Style 2.1
-      '#workspace > div > div > div > div > div > section',
-    ];
-
-    static #primaryContentSelectorString = this.#primaryContentSelectorArray
-      .join(', ');
-
     static #primaryNavSelector = [
       // Style 1
       '#global-nav',
@@ -2414,6 +2393,18 @@
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
     static #scrollerSecondaryClassName = 'lit-scroller-secondary';
+
+    static #selectorPrimaryContent = [
+      // Style 1 (WIP?)
+      '.scaffold-layout main',
+      // Style 2
+      '#workspace > div > div > section',
+      // Style 2.1
+      '#workspace > div > div > div > div > div > section',
+    ];
+
+    static #selectorPrimaryContentSelectorString =
+      this.#selectorPrimaryContent.join(', ');
 
     static #sidebarSelector = [
       // Style 1

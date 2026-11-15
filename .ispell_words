@@ -992,8 +992,6 @@ prevResultsPage
 prevSection
 prevTab
 primaryContentSelector
-primaryContentSelectorArray
-primaryContentSelectorString
 primaryNavLinksComponentRef
 primaryNavSelector
 profileCards
@@ -1110,6 +1108,8 @@ sectionsScroller
 sectionUidPrefixes
 selectorArray
 selectorIsPrimaryContent
+selectorPrimaryContent
+selectorPrimaryContentSelectorString
 SelectorsWithoutBase
 selfHref
 SemVer
