@@ -2344,8 +2344,7 @@
       // Style 2
       '#workspace > div > div > section + aside',
       // Style 2.1
-      '#workspace > div > div:not(:has(> section))' +
-        ' > div > div > div > div + div',
+      '#workspace > div > div > div > div > div > section + aside',
     ].join(', ');
 
     static #floatingUiPortalSelector = '[data-floating-ui-portal]';
@@ -2394,8 +2393,7 @@
       // Style 2
       '#workspace > div > div > section',
       // Style 2.1
-      '#workspace > div > div:not(:has(> section))' +
-        ' > div > div > div > div',
+      '#workspace > div > div > div > div > div > section',
     ];
 
     static #primaryContentSelectorString = this.#primaryContentSelectorArray
