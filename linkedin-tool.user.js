@@ -219,12 +219,6 @@
     ),
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
     ish(
-      '401',
-      '**Profile**: *HonorsTopLevel* scroller is failing',
-      '2026-10-16'
-    ),
-    ish('402', '**Profile**: *Services* scroller is failing', '2026-10-16'),
-    ish(
       '403',
       '**Profile**: *CourseTopLevelSection* scroller is failing',
       '2026-10-17'
@@ -372,6 +366,32 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-15',
+      issues: ['260'],
+      subject: 'Add placeholder shortcuts for upcoming features',
+    },
+    {
+      date: '2026-11-15',
+      issues: ['260'],
+      subject: 'Support `=` shortcut to open the item menu',
+    },
+    {
+      date: '2026-11-15',
+      issues: ['449'],
+      subject: 'Retire `primaryContentSelector` and rename intermediates',
+    },
+    {
+      date: '2026-11-15',
+      issues: ['449'],
+      subject: 'Migrate **Search Results: People** to' +
+        ' `selectorIsPrimaryContent`',
+    },
+    {
+      date: '2026-11-15',
+      issues: ['444'],
+      subject: 'Update Style-2.1 selectors',
+    },
     {
       date: '2026-11-14',
       issues: ['260'],
@@ -1079,11 +1099,6 @@
       date: '2026-10-17',
       issues: ['403'],
       subject: 'Update the selector and modes for the *Courses* section',
-    },
-    {
-      date: '2026-10-16',
-      issues: ['253'],
-      subject: 'Initial support for **Manage Events** pages',
     },
   ];
 
