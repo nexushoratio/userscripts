@@ -219,16 +219,6 @@
     ),
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
     ish(
-      '403',
-      '**Profile**: *CourseTopLevelSection* scroller is failing',
-      '2026-10-17'
-    ),
-    ish(
-      '404',
-      '**Profile**: *TestScoresTopLevel* scroller is failing',
-      '2026-10-17'
-    ),
-    ish(
       '405',
       '**Profile**: *LanguageTopLevel* scroller is failing',
       '2026-10-18'
@@ -367,6 +357,27 @@
 
   const globalNewsContent = [
     {
+      date: '2026-11-16',
+      issues: ['455'],
+      subject: 'Update to latest `lib/widget`',
+    },
+    {
+      date: '2026-11-16',
+      issues: ['260'],
+      subject: 'Implement *View connections*',
+    },
+    {
+      date: '2026-11-16',
+      issues: ['449'],
+      subject: 'Create `:is(...)` variant for the common aside' +
+        ' (right hand column)',
+    },
+    {
+      date: '2026-11-16',
+      issues: ['449'],
+      subject: 'Normalize spelling of some properties',
+    },
+    {
       date: '2026-11-15',
       issues: ['260'],
       subject: 'Add placeholder shortcuts for upcoming features',
@@ -374,7 +385,8 @@
     {
       date: '2026-11-15',
       issues: ['260'],
-      subject: 'Support `=` shortcut to open the item menu',
+      subject: 'Support <kbd><kbd>=</kbd></kbd> shortcut to open the' +
+        ' item menu',
     },
     {
       date: '2026-11-15',
@@ -1064,41 +1076,6 @@
       date: '2026-10-18',
       issues: ['405'],
       subject: 'Update the selector and modes for the *Languages* section',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['293'],
-      subject: 'Migrate `InvitationManager` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['253'],
-      subject: 'Implement various shortcuts',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['414'],
-      subject: 'For Nav-V2 menus, use the *Profile* entry as the template',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['414'],
-      subject: 'Attempt to support Nav-V1 and Nav-V2 menus during transition',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['414'],
-      subject: 'Use the whole navbar, not just the list of items',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['404'],
-      subject: 'Update the selector for the *Test scores* section',
-    },
-    {
-      date: '2026-10-17',
-      issues: ['403'],
-      subject: 'Update the selector and modes for the *Courses* section',
     },
   ];
 
