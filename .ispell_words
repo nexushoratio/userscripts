@@ -1112,8 +1112,8 @@ sectionsScroller
 sectionUidPrefixes
 selectorArray
 selectorIsPrimaryContent
-selectorPrimaryContent
-selectorPrimaryContentSelectorString
+selectorPrimaryContentArray
+selectorPrimaryContentString
 SelectorsWithoutBase
 selfHref
 SemVer

@@ -2034,7 +2034,7 @@
      * @type {string}
      */
     static get selectorIsPrimaryContent() {
-      return `:is(${this.#selectorPrimaryContentSelectorString})`;
+      return `:is(${this.#selectorPrimaryContentString})`;
     }
 
     /**
@@ -2409,7 +2409,7 @@
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
     static #scrollerSecondaryClassName = 'lit-scroller-secondary';
 
-    static #selectorPrimaryContent = [
+    static #selectorPrimaryContentArray = [
       // Style 1 (WIP?)
       '.scaffold-layout main',
       // Style 2
@@ -2418,8 +2418,8 @@
       '#workspace > div > div > div > div > div > section',
     ];
 
-    static #selectorPrimaryContentSelectorString =
-      this.#selectorPrimaryContent.join(', ');
+    static #selectorPrimaryContentString = this.#selectorPrimaryContentArray
+      .join(', ');
 
     static #sidebarSelector = [
       // Style 1
