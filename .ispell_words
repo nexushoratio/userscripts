@@ -1111,6 +1111,9 @@ sectionsPartialOrder
 sectionsScroller
 sectionUidPrefixes
 selectorArray
+selectorAsideArray
+selectorAsideString
+selectorIsAside
 selectorIsPrimaryContent
 selectorPrimaryContentArray
 selectorPrimaryContentString

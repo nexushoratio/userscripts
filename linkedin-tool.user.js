@@ -1962,7 +1962,7 @@
      * @type {string}
      */
     static get asideSelector() {
-      return this.#asideSelector;
+      return this.#selectorAsideString;
     }
 
     /**
@@ -2026,6 +2026,15 @@
      */
     static get scrollerSecondaryClassName() {
       return this.#scrollerSecondaryClassName;
+    }
+
+    /**
+     * LinkedIn's common aside used in many layouts.
+     *
+     * @type {string}
+     */
+    static get selectorIsAside() {
+      return `:is(${this.#selectorAsideString})`;
     }
 
     /**
@@ -2344,15 +2353,6 @@
       Object.freeze(LinkedIn.#FetchState);
     }
 
-    static #asideSelector = [
-      // Style 1
-      'aside.scaffold-layout__aside',
-      // Style 2
-      '#workspace > div > div > section + aside',
-      // Style 2.1
-      '#workspace > div > div > div > div > div > section + aside',
-    ].join(', ');
-
     static #floatingUiPortalSelector = '[data-floating-ui-portal]';
     static #icon =
       '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"' +
@@ -2408,6 +2408,17 @@
 
     static #scrollerPrimaryClassName = 'lit-scroller-primary';
     static #scrollerSecondaryClassName = 'lit-scroller-secondary';
+
+    static #selectorAsideArray = [
+      // Style 1
+      'aside.scaffold-layout__aside',
+      // Style 2
+      '#workspace > div > div > section + aside',
+      // Style 2.1
+      '#workspace > div > div > div > div > div > section + aside',
+    ];
+
+    static #selectorAsideString = this.#selectorAsideArray.join(', ');
 
     static #selectorPrimaryContentArray = [
       // Style 1 (WIP?)
