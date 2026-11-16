@@ -7638,9 +7638,11 @@
 
     openConnections = new Shortcut(
       'c',
-      'Open the connection overlay (if available) (TBD)',
+      'View connections (if available)',
       () => {
-        NH.base.issues.post(`${this.name}: work in progress`);
+        NH.web.clickElement(
+          this.jobs.item, [':scope > div > div > div > div > a']
+        );
       }
     );
 
