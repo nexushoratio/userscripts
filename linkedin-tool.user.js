@@ -2373,13 +2373,7 @@
     static #primaryNavSelector = [
       // Style 1
       '#global-nav',
-      // Style 2
-      /**
-       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-       * Retire `primaryNavLinksComponentRef`
-       */
-      `[${CKEY}="primaryNavLinksComponentRef"] nav > ul`,
-      // #dialog-header is an ad container
+      // Style 2 (#dialog-header is an ad container)
       '#root header:not(#dialog-header)',
     ].join(', ');
 
@@ -2551,15 +2545,10 @@
       this.logger.log('hint', hint);
       let pageStyle = null;
 
-      /**
-       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-       * Retire `primaryNavLinksComponentRef`
-       */
       switch (hint) {
         case 'global-nav':
           pageStyle = LinkedIn.Style.ONE;
           break;
-        case 'primaryNavLinksComponentRef':
         case 'root':
           pageStyle = LinkedIn.Style.TWO;
           break;
@@ -3147,13 +3136,6 @@
       const title = button.querySelector('.global-nav__primary-link-text');
       title.innerText = APP_SHORT;
       title.setAttribute('title', APP_SHORT);
-
-      /**
-       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-       * Retire, as this is now the transition backup.
-       */
-      button.querySelector('li-icon')
-        ?.setAttribute('type', APP_SHORT.toLowerCase());
     }
 
     /**
@@ -3310,23 +3292,14 @@
       element.append(this.#badgeErrorStyle2, this.#badgeNewsStyle2);
     }
 
-    #createMenuItemStyle2 = () => {  // eslint-disable-line max-statements
+    #createMenuItemStyle2 = () => {
       const me = this.#createMenuItemStyle2.name;
       this.logger.entered(me, this.#navbar);
 
-      let item = this.#navbar
-        .querySelector('li')
-        .cloneNode(true);
-
-      /**
-       * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-       * This should become the default.
-       */
-      const nav2 = document.querySelector(LinkedIn.navbarProfileItemSelector)
+      const item = document.querySelector(LinkedIn.navbarProfileItemSelector)
         ?.cloneNode(true);
-      if (nav2) {
-        nav2.innerHTML = item.innerHTML;
-        item = nav2;
+      if (item) {
+        item.innerHTML = this.#navbar?.querySelector('li')?.innerHTML;
       }
 
       // The page may not have settled down yet, so check each bit carefully.
@@ -3543,12 +3516,6 @@
           this.#connectMenuItem(
             this.#ourMenuItemStyle2, LinkedIn.navbarProfileItemSelector
           );
-
-          /**
-           * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-           * Retire, as this is now the transition backup.
-           */
-          this.#connectMenuItem(this.#ourMenuItemStyle2, 'li:last-child');
         }
         this.#compareBadgesStyle2();
       }
@@ -4442,23 +4409,10 @@
       () => {
         if (this.spa.details.pageStyle === LinkedIn.Style.ONE) {
           this.#gotoNavButton('Me');
-        } else if (!NH.web.clickElement(
-          document, [`${LinkedIn.navbarProfileItemSelector} > div`]
-        )) {
-
-          /**
-           * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-           *
-           * Retire this old Style-2 approach.
-           * Nothing easy to identify, so assume always after Notification.
-           */
-          this.spa.details
-            .navbar
-            .querySelector('[aria-label^="Notifications"]')
-            .closest('li')
-            .nextSibling
-            .querySelector('button')
-            .click();
+        } else {
+          NH.web.clickElement(
+            document, [`${LinkedIn.navbarProfileItemSelector} > div`]
+          );
         }
       }
     );
@@ -4524,6 +4478,7 @@
      * Click on the requested button in the global nav bar.
      *
      * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
+     * This comment is wrong.  It is a Style-1 approach.  Revisit.
      * Retire this old Style-2 approach.  There are only two users, Profile
      * and Business, and both could be translated, so not great anyway.
      *
