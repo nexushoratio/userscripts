@@ -2235,7 +2235,7 @@
      * @method
      */
     focusOnAside = () => {
-      const aside = document.querySelector(LinkedIn.asideSelector);
+      const aside = document.querySelector(LinkedIn.selectorIsAside);
       if (aside) {
         NH.web.focusOnTree(aside);
       }
