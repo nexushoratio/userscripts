@@ -7750,7 +7750,7 @@
         spa: spa,
         // eslint-disable-next-line prefer-regex-literals
         pathname: RegExp('^/messaging/.*', 'u'),
-        readySelector: LinkedIn.asideSelector,
+        readySelector: LinkedIn.pageReadySelector,
       });
 
       this.addService(LinkedInStyleService)
