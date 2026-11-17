@@ -7580,9 +7580,19 @@
 
     openNote = new Shortcut(
       'n',
-      'Add/edit item note (TBD)',
-      () => {
-        NH.base.issues.post(`${this.name}: work in progress`);
+      'Add/edit item note',
+      async () => {
+        const el = this.jobs.item;
+        const rc = NH.web.clickElement(el, ['a:has(svg[id^="plus-"]']);
+        if (!rc) {
+          await this.dismissFloatingUiPortal();
+          if (NH.web.clickElement(el, LinkedIn.menuSelectorArray)) {
+            const ui = await NH.web.waitForSelector(
+              LinkedIn.floatingUiPortalSelector, 0
+            );
+            NH.web.clickElement(ui, [':has(>svg[id^="pencil-"])']);
+          }
+        }
       }
     );
 
