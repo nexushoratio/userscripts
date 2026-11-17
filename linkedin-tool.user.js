@@ -6174,7 +6174,7 @@
       this.logger.entered(me);
 
       const elements = new Map();
-      elements.set('aside', document.querySelector(LinkedIn.asideSelector));
+      elements.set('aside', document.querySelector(LinkedIn.selectorIsAside));
 
       this.logger.leaving(me, elements);
       return elements;
