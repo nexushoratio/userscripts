@@ -191,7 +191,6 @@
     ),
     ish('303', 'Keys are captured while editing text', '2026-10-21'),
     ish('360', 'Support **Search Results All** page', '2026-11-03'),
-    ish('253', 'Support **Manage Events** page', '2026-09-21'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish(
       '385',
@@ -218,17 +217,7 @@
       '2026-10-13'
     ),
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
-    ish(
-      '405',
-      '**Profile**: *LanguageTopLevel* scroller is failing',
-      '2026-10-18'
-    ),
-    ish(
-      '406',
-      '**Profile**: *Organizations* scroller is failing',
-      '2026-10-18'
-    ),
-    ish('418', 'Support **Manage Event** pages', '2026-10-18'),
+    ish('418', 'Support **Manage Event** pages', '2026-11-18'),
     ish('407', '**Profile**: *Causes* scroller is failing', '2026-10-19'),
     ish(
       '417',
@@ -356,6 +345,31 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-17',
+      issues: ['260'],
+      subject: 'Support add/edit of notes on jobs',
+    },
+    {
+      date: '2026-11-17',
+      issues: ['414'],
+      subject: 'Remove most TODOs',
+    },
+    {
+      date: '2026-11-17',
+      issues: ['449'],
+      subject: 'Migrate **Messaging** to `pageReadySelector`',
+    },
+    {
+      date: '2026-11-17',
+      issues: ['449'],
+      subject: 'Migrate **Manage Events** to `selectorIsAside`',
+    },
+    {
+      date: '2026-11-17',
+      issues: ['449'],
+      subject: 'Migrate `focusOnAside()` to `LinkedIn.selectorIsAside`',
+    },
     {
       date: '2026-11-16',
       issues: ['455'],
@@ -1045,37 +1059,6 @@
       date: '2026-10-19',
       issues: ['407'],
       subject: 'Update the selector for the *Causes* section',
-    },
-    {
-      date: '2026-10-18',
-      issues: ['253'],
-      subject: 'Remove WIP items',
-    },
-    {
-      date: '2026-10-18',
-      issues: ['418'],
-      subject: 'Acknowledge the **Manage Event** pages',
-    },
-    {
-      date: '2026-10-18',
-      issues: ['293'],
-      subject: 'Migrate `Jobs` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-18',
-      issues: [''],
-      subject: 'Another **Profile** partial ordering pair',
-    },
-    {
-      date: '2026-10-18',
-      issues: ['406'],
-      subject: 'Update the selector and modes for the *Organizations*' +
-        ' section',
-    },
-    {
-      date: '2026-10-18',
-      issues: ['405'],
-      subject: 'Update the selector and modes for the *Languages* section',
     },
   ];
 

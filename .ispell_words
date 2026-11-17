@@ -820,7 +820,6 @@ nextPostPlus
 nextResult
 nextResultsPage
 nextSection
-nextSibling
 nextTab
 nexushoratio
 NexusHoratio
@@ -996,7 +995,6 @@ prevResultsPage
 prevSection
 prevTab
 primaryContentSelector
-primaryNavLinksComponentRef
 primaryNavSelector
 profileCards
 ProfilePostConnectDrawer
@@ -1456,6 +1454,7 @@ timeoutID
 toArray
 toCallback
 todo
+TODOs
 toggleAlert
 toggleCenter
 toggleDismissJob
