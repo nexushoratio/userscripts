@@ -1110,6 +1110,7 @@ sectionScroller
 sectionsPartialOrder
 sectionsScroller
 sectionUidPrefixes
+selectedTrue
 selectorArray
 selectorAsideArray
 selectorAsideString
@@ -1422,7 +1423,8 @@ testStringManipulation
 testStringObject
 testSummary
 testTab
-testTabItems
+testTabItemsBuild
+testTabItemsOnlyOneSelected
 testTemplateLiteral
 testTooManyOutros
 testToString
