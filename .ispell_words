@@ -324,6 +324,7 @@ engageIndividual
 engageItem
 ensureConnections
 ensureMenuStyle
+ensureSingleSelected
 EnsureTestCase
 ent
 entriesCurrentModes
