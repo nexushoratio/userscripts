@@ -11698,6 +11698,12 @@
          * Support **Analytics: Audience** page
          */
         '/analytics/creator/audience/',
+
+        /**
+         * @todo [(#460)](https://github.com/nexushoratio/userscripts/issues/460)
+         * Support **Events Admin** page
+         */
+        '/events-admin/',
       ].map(x => `(${x})`)
         .join('|');
       super({
