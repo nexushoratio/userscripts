@@ -1917,15 +1917,6 @@
     static errorMarker = '---';
 
     /**
-     * LinkedIn's common aside used in many layouts.
-     *
-     * @type {string}
-     */
-    static get asideSelector() {
-      return this.#selectorAsideString;
-    }
-
-    /**
      * LinkedIn's common floating menu.
      *
      * @type {string}
