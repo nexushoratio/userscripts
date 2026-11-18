@@ -218,12 +218,6 @@
     ),
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
     ish('418', 'Support **Manage Event** pages', '2026-11-18'),
-    ish('407', '**Profile**: *Causes* scroller is failing', '2026-10-19'),
-    ish(
-      '417',
-      '**Jobs**: There are sections not being matched',
-      '2026-10-19'
-    ),
     ish('255', 'Support **Analytics Search Appearances** page', '2026-10-20'),
     ish(
       '421',
@@ -342,9 +336,41 @@
       '`Widget`: Event order does not always make sense',
       '2026-11-14'
     ),
+    ish('460', 'Support **Events Admin** page', '2026-11-18'),
+    ish(
+      '458',
+      'Create common method for clicking a floating portal menu item',
+      '2026-11-18'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-18',
+      issues: ['460'],
+      subject: 'Acknowledge the **Events Admin** page',
+    },
+    {
+      date: '2026-11-18',
+      issues: ['414'],
+      subject: 'Retire erroneous TODO',
+    },
+    {
+      date: '2026-11-18',
+      issues: ['260'],
+      subject: 'Implement the' +
+        ' <kbd><kbd>Y</kbd></kbd>es/<kbd><kbd>N</kbd></kbd>o shortcuts',
+    },
+    {
+      date: '2026-11-18',
+      issues: ['449'],
+      subject: 'Retire `asideSelector`',
+    },
+    {
+      date: '2026-11-18',
+      issues: ['458'],
+      subject: 'Factor out code for opening the menu item',
+    },
     {
       date: '2026-11-17',
       issues: ['260'],
@@ -1034,31 +1060,6 @@
       date: '2026-10-20',
       issues: ['422'],
       subject: 'Acknowledge the **Jobs Search Results** page',
-    },
-    {
-      date: '2026-10-19',
-      issues: ['417'],
-      subject: 'Add entry selector for a new section',
-    },
-    {
-      date: '2026-10-19',
-      issues: ['417'],
-      subject: 'Update sections selector',
-    },
-    {
-      date: '2026-10-19',
-      issues: [''],
-      subject: 'Update **Jobs View**\'s `readySelector`',
-    },
-    {
-      date: '2026-10-19',
-      issues: ['293'],
-      subject: 'Migrate `JobsView` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-19',
-      issues: ['407'],
-      subject: 'Update the selector for the *Causes* section',
     },
   ];
 
