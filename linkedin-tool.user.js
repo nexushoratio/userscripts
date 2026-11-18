@@ -4056,6 +4056,18 @@
       }
     }
 
+    /**
+     * Open the common menu item.
+     *
+     * @param {external:Element} el - The container element for the menu
+     * button.
+     * @returns {boolean} Whether the menu was found and clicked.
+     */
+    openCommonMenu = (el) => {
+      const rc = NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+      return rc;
+    }
+
     #klass
 
   }
@@ -4772,8 +4784,7 @@
       '=',
       'Open closest <button>⋯</button> menu',
       () => {
-        const el = this.#getItemHeader();
-        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+        this.openCommonMenu(this.#getItemHeader());
       }
     );
 
@@ -5475,8 +5486,7 @@
       '=',
       'Open closest <button>⋯</button> menu',
       () => {
-        const el = this.#lastScroller?.item;
-        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+        this.openCommonMenu(this.#lastScroller?.item);
       }
     );
 
@@ -6291,8 +6301,7 @@
       '=',
       'Open closest <button>⋯</button> menu',
       () => {
-        const el = this.jobs?.item;
-        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+        this.openCommonMenu(this.jobs?.item);
       }
     );
 
@@ -7546,8 +7555,7 @@
       '=',
       'Open closest <button>⋯</button> menu',
       () => {
-        const el = this.#lastScroller?.item;
-        NH.web.clickElement(el, LinkedIn.menuSelectorArray);
+        this.openCommonMenu(this.#lastScroller?.item);
       }
     );
 
@@ -8291,9 +8299,7 @@
       '=',
       'Open the <button>⋯</button> menu',
       () => {
-        NH.web.clickElement(
-          this.notifications.item, LinkedIn.menuSelectorArray
-        );
+        this.openCommonMenu(this.notifications.item);
       }
     );
 
