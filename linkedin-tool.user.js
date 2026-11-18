@@ -4449,8 +4449,9 @@
       const me = this.#gotoNavLink.name;
       this.logger.entered(me, item);
 
-      // The navbar elements may be split across two containers.  So we start
-      // at the navbar, move up to find a container that has the link.
+      // The navbar elements may be split across multiple containers.  So we
+      // start at the navbar, then move up to find a container that has the
+      // link.
       const target = `a[href*="/${item}"]`;
       this.spa.details.navbar
         .closest(`:has(${target})`)
@@ -4462,11 +4463,6 @@
 
     /**
      * Click on the requested button in the global nav bar.
-     *
-     * @todo [(#414)](https://github.com/nexushoratio/userscripts/issues/414)
-     * This comment is wrong.  It is a Style-1 approach.  Revisit.
-     * Retire this old Style-2 approach.  There are only two users, Profile
-     * and Business, and both could be translated, so not great anyway.
      *
      * @method
      * @param {string} item - Text on the button to look for.
