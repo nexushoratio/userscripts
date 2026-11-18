@@ -7580,17 +7580,23 @@
 
     clickYes = new Shortcut(
       'Y',
-      'Click <button>Yes</button> (if available) (TBD)',
+      'Click <button>Yes</button> (if available)',
       () => {
-        NH.base.issues.post(`${this.name}: work in progress`);
+        // Y/N have similar selectors.
+        NH.web.clickElement(
+          this.jobs.item, [':has(> button + button) > button']
+        );
       }
     );
 
     clickNo = new Shortcut(
       'N',
-      'Click <button>No</button> (if available) (TBD)',
+      'Click <button>No</button> (if available)',
       () => {
-        NH.base.issues.post(`${this.name}: work in progress`);
+        // Y/N have similar selectors.
+        NH.web.clickElement(
+          this.jobs.item, [':has(> button + button) > button + button']
+        );
       }
     );
 
