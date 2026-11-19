@@ -174,7 +174,6 @@ cloneNode
 codePointAt
 colClassesFunc
 ColClassesNotFunction
-collectionsContainer
 collectionScroller
 collectionsScroller
 ColumnClassesFunc
@@ -1212,6 +1211,8 @@ tabItems
 TabItemTestCase
 tablist
 tabList
+tablistHandler
+tablistObserver
 tablists
 tablistSelector
 tabSnippet
