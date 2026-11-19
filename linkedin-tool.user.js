@@ -10607,7 +10607,7 @@
               // Events card
               ':scope > div > div > div > div:not([id])',
               // Rest
-              ':scope > div > div > div > div[id] > div > div > div',
+              ':scope > div > div > div > div[id] > div > div > div > div',
             ].join(','),
           },
         ],
