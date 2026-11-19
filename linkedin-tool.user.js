@@ -219,13 +219,7 @@
     ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
     ish('418', 'Support **Manage Event** pages', '2026-11-18'),
     ish('255', 'Support **Analytics Search Appearances** page', '2026-10-20'),
-    ish(
-      '421',
-      '`Scroller`: Refactored version seem prone to infinite recursion' +
-        ' issues',
-      '2026-10-20'
-    ),
-    ish('422', 'Support **Jobs Search Results** page', '2026-10-20'),
+    ish('422', 'Support **Jobs Search Results** page', '2026-11-20'),
     ish(
       '313',
       'Consistent way to navigate to filters / tablists',
@@ -342,9 +336,36 @@
       'Create common method for clicking a floating portal menu item',
       '2026-11-18'
     ),
+    ish('459', '**Events**: Unable to navigate to *Show all*', '2026-11-19'),
+    ish('461', 'Support **All events** page', '2026-11-19'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-19',
+      issues: ['459', '461'],
+      subject: 'Tune the `pathname` for **Specific Event**',
+    },
+    {
+      date: '2026-11-19',
+      issues: ['461'],
+      subject: 'Acknowledge the **All events** page',
+    },
+    {
+      date: '2026-11-19',
+      issues: ['459'],
+      subject: 'Update footer selector to point to new target page',
+    },
+    {
+      date: '2026-11-19',
+      issues: ['459'],
+      subject: 'Update selector for most collections card',
+    },
+    {
+      date: '2026-11-19',
+      issues: ['449'],
+      subject: 'The improved common selector now works on **Events**',
+    },
     {
       date: '2026-11-18',
       issues: ['460'],
@@ -1030,36 +1051,6 @@
       issues: ['381'],
       subject: 'Create `#uidModeAnchors` and populate' +
         ' `#entriesUidModeSelector`',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['380'],
-      subject: 'Include the tablists when navigating various sections',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['255'],
-      subject: 'Initial support for **Analytics Search Appearances** page',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['293'],
-      subject: 'Migrate `Messaging` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['293', '421'],
-      subject: 'Document skipping migration `JobsCollections` for the moment',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['381'],
-      subject: 'Factor out a query selector for later automated creation',
-    },
-    {
-      date: '2026-10-20',
-      issues: ['422'],
-      subject: 'Acknowledge the **Jobs Search Results** page',
     },
   ];
 
