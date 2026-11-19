@@ -10643,7 +10643,12 @@
             // Your events
             ':scope > div > div > div > div > div > div > a:has(a)',
             // Your events "Show all" footer
+            /**
+             * @todo [(#459)](https://github.com/nexushoratio/userscripts/issues/459)
+             * Retire old `/mynetwork/` selector after 2026-11-26.
+             */
             ':scope > div > div > div > a[href*="/mynetwork/"]',
+            ':scope > div > div > div > a[href*="/all-events/"]',
             // Actual events
             ':scope > div > div > div > div > div > div',
             // Common "Show more"/"Show less" footer
