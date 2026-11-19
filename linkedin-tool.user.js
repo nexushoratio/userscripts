@@ -11709,6 +11709,12 @@
          * Support **Events Admin** page
          */
         '/events-admin/',
+
+        /**
+         * @todo [(#461)](https://github.com/nexushoratio/userscripts/issues/461)
+         * Support **All events** page
+         */
+        '/events/all-events/',
       ].map(x => `(${x})`)
         .join('|');
       super({
