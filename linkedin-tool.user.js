@@ -10579,7 +10579,6 @@
       }
     );
 
-    #collectionsContainer = 'main > div > div > section'
     #collectionsScroller
     #eventsScroller
     #lastScroller
@@ -10603,7 +10602,7 @@
         name: `${this.name} collections`,
         containerItems: [
           {
-            container: this.#collectionsContainer,
+            container: LinkedIn.selectorIsPrimaryContent,
             items: [
               // Events card
               ':scope > div > div > div > div:not([id])',
