@@ -10766,7 +10766,7 @@
         spa: spa,
         name: 'Specific Event',
         // eslint-disable-next-line prefer-regex-literals
-        pathname: RegExp('^/events/[^/]*/', 'u'),
+        pathname: RegExp('^/events/\\d*/', 'u'),
         readySelector: LinkedIn.pageReadySelector,
       });
 
