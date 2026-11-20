@@ -61,6 +61,7 @@ api
 applyToJob
 args
 ariaLabel
+ariaOrientation
 arrowRight
 arrowRightNot
 artdeco
