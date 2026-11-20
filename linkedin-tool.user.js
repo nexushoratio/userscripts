@@ -1990,12 +1990,21 @@
     }
 
     /**
+     * LinkedIn's common sidebar used in many layouts (:is(...) variant).
+     *
+     * @type {string}
+     */
+    static get selectorIsSidebar() {
+      return `:is(${this.#selectorSidebarString})`;
+    }
+
+    /**
      * LinkedIn's common sidebar used in many layouts.
      *
      * @type {string}
      */
     static get sidebarSelector() {
-      return this.#sidebarSelector;
+      return this.#selectorSidebarString;
     }
 
     /**
@@ -2369,12 +2378,14 @@
     static #selectorPrimaryContentString = this.#selectorPrimaryContentArray
       .join(', ');
 
-    static #sidebarSelector = [
+    static #selectorSidebarArray = [
       // Style 1
       'aside.scaffold-layout__sidebar',
       // Style 2
       '#workspace > div > div > aside:has(+ section)',
-    ].join(', ');
+    ];
+
+    static #selectorSidebarString = this.#selectorSidebarArray.join(', ');
 
     /**
      * Create a Greasy Fork project URL.
