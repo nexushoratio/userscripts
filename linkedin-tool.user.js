@@ -189,7 +189,7 @@
       'Navigating from *Style-2* page to *Style-1* page breaks LIT',
       '2026-11-06'
     ),
-    ish('303', 'Keys are captured while editing text', '2026-10-21'),
+    ish('303', 'Keys are captured while editing text', '2026-11-21'),
     ish('360', 'Support **Search Results All** page', '2026-11-03'),
     ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish(
@@ -216,7 +216,6 @@
       '**Global**: Sometimes triggers *unsupported style*',
       '2026-10-13'
     ),
-    ish('380', '**Profile**: Handle tablists sensibly', '2026-10-14'),
     ish('418', 'Support **Manage Event** pages', '2026-11-18'),
     ish('255', 'Support **Analytics Search Appearances** page', '2026-10-20'),
     ish('422', 'Support **Jobs Search Results** page', '2026-11-20'),
@@ -341,6 +340,23 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-20',
+      issues: ['449'],
+      subject: 'Create `:is(...)` variant for the common sidebar' +
+        ' (left hand column)',
+    },
+    {
+      date: '2026-11-20',
+      issues: ['445'],
+      subject: 'Retire old selector for *Dashboard*',
+    },
+    {
+      date: '2026-11-20',
+      issues: ['458'],
+      subject: 'Factor out common menu item activation and migrate some' +
+        ' users',
+    },
     {
       date: '2026-11-19',
       issues: ['459', '461'],
@@ -1019,38 +1035,6 @@
       date: '2026-10-22',
       issues: ['424'],
       subject: 'Update **Notifications**\' `uidCallback`',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['424'],
-      subject: 'Update **Notifications**\' default scroller placement',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['313', '424'],
-      subject: 'Update **Notifications**\' selectors and retire' +
-        ' tablist shortcut',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['424'],
-      subject: 'Mark **Notifications** as a Style-2',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['380'],
-      subject: 'Move tablist handling from secondary to primary `Scroller`',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['380'],
-      subject: 'Focus on the current tab when tablist changes',
-    },
-    {
-      date: '2026-10-21',
-      issues: ['381'],
-      subject: 'Create `#uidModeAnchors` and populate' +
-        ' `#entriesUidModeSelector`',
     },
   ];
 
