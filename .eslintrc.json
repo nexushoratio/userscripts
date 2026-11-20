@@ -77,7 +77,6 @@
           1
         ],
         "detectObjects": false,
-        "enforceConst": false,
         "ignoreArrayIndexes": false
       }
     ],
