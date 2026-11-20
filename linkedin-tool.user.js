@@ -4040,7 +4040,7 @@
     }
 
     /**
-     * Open the common menu item.
+     * Open the common menu.
      *
      * @param {external:Element} el - The container element for the menu
      * button.
@@ -4049,6 +4049,35 @@
     openCommonMenu = (el) => {
       const rc = NH.web.clickElement(el, LinkedIn.menuSelectorArray);
       return rc;
+    }
+
+    /**
+     * Open the common menu and click the requested item.
+     *
+     * @param {external:Element} el - The container element for the menu
+     * button.
+     * @param {string[]} selectors - CSS selectors used to find the correct
+     * item in the menu.
+     */
+    activateMenuItem = async (el, selectors) => {
+      const me = this.activateMenuItem.name;
+      this.logger.entered(me, el, selectors);
+
+      if (el) {
+        await this.dismissFloatingUiPortal();
+        if (this.openCommonMenu(el)) {
+          try {
+            const timeout = 2000;
+            const ui = await NH.web.waitForSelector(
+              LinkedIn.floatingUiPortalSelector, timeout
+            );
+            NH.web.clickElement(ui, selectors);
+          } catch (e) {
+            this.logger.log('caught', e);
+          }
+        }
+      }
+      this.logger.leaving(me);
     }
 
     #klass
@@ -7551,17 +7580,10 @@
     openNote = new Shortcut(
       'n',
       'Add/edit item note',
-      async () => {
+      () => {
         const el = this.jobs.item;
-        const rc = NH.web.clickElement(el, ['a:has(svg[id^="plus-"]']);
-        if (!rc) {
-          await this.dismissFloatingUiPortal();
-          if (NH.web.clickElement(el, LinkedIn.menuSelectorArray)) {
-            const ui = await NH.web.waitForSelector(
-              LinkedIn.floatingUiPortalSelector, 0
-            );
-            NH.web.clickElement(ui, [':has(>svg[id^="pencil-"])']);
-          }
+        if (!NH.web.clickElement(el, ['a:has(svg[id^="plus-"]'])) {
+          this.activateMenuItem(el, [':has(>svg[id^="pencil-"])']);
         }
       }
     );
@@ -8291,24 +8313,14 @@
     toggleItem = new Shortcut(
       'X',
       'Toggle current notification deletion',
-      async () => {
+      () => {
         const me = this.toggleItem.name;
         this.logger.entered(me);
 
         const el = this.notifications.item;
         // Both present and dismissed notifications have an anchor.
-        const undoSelector = 'p > a';
-        const undo = el?.querySelector(undoSelector);
-        if (undo) {
-          undo.click();
-        } else if (el) {
-          await this.dismissFloatingUiPortal();
-          NH.web.clickElement(el, LinkedIn.menuSelectorArray);
-          const ui = await NH.web.waitForSelector(
-            LinkedIn.floatingUiPortalSelector, 0
-          );
-          ui.querySelector('[role="menuitem"]:has([id^="trash"])')
-            ?.click();
+        if (!NH.web.clickElement(el, ['p > a'])) {
+          this.activateMenuItem(el, ['[role="menuitem"]:has([id^="trash"])']);
         }
 
         this.logger.leaving(me);

@@ -6,6 +6,7 @@ abxd
 aC
 acceptInvite
 AccordionTableWidget
+activateMenuItem
 activeCenter
 activeElement
 activeFirst
@@ -1501,7 +1502,6 @@ UIDs
 uint
 ul
 undef
-undoSelector
 unicode
 uninit
 uniqueCardIdentifier
