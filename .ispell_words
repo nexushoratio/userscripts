@@ -112,6 +112,8 @@ BigInt
 bitness
 blurCommentBox
 bobInfo
+bodyMutationHandler
+bodyMutationObserver
 BothLabelledbyAndLabel
 bottomHalf
 browserName
@@ -364,7 +366,6 @@ entriesSelectorVolunteering
 entriesSuggestUids
 entriesUidFromModes
 entriesUidModeAnchorSelector
-entriesUidModeSelector
 entriesUidSelectorId
 entriesUidShim
 entryScroller
@@ -1498,7 +1499,6 @@ UidCallbackNotFunction
 uidCommentRE
 uidDetailsClassRE
 UidMode
-uidModeAnchors
 uidModeHrefs
 uidPostRE
 uids
