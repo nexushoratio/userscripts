@@ -2181,7 +2181,7 @@
      * @method
      */
     focusOnSidebar = () => {
-      const sidebar = document.querySelector(LinkedIn.sidebarSelector);
+      const sidebar = document.querySelector(LinkedIn.selectorIsSidebar);
       if (sidebar) {
         NH.web.focusOnTree(sidebar);
       }
