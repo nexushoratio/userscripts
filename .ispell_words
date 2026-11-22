@@ -1221,6 +1221,7 @@ tablistHandler
 tablistObserver
 tablists
 tablistSelector
+tabpanel
 tabSnippet
 TabsTestCase
 tagName
