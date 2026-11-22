@@ -222,7 +222,7 @@
     ish(
       '313',
       'Consistent way to navigate to filters / tablists',
-      '2026-10-22'
+      '2026-11-22'
     ),
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
     ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
@@ -337,9 +337,24 @@
     ),
     ish('459', '**Events**: Unable to navigate to *Show all*', '2026-11-19'),
     ish('461', 'Support **All events** page', '2026-11-19'),
+    ish(
+      '430',
+      '**Feed**: <kbd><kbd>=</kbd></kbd> menu no longer works for comments',
+      '2026-11-22'
+    ),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-22',
+      issues: ['430'],
+      subject: 'Disable `watchForClicks` on the post scroller',
+    },
+    {
+      date: '2026-11-22',
+      issues: ['449'],
+      subject: 'Migrate `focusOnSidebar()` to `LinkedIn.selectorIsSidebar`',
+    },
     {
       date: '2026-11-20',
       issues: ['449'],
@@ -999,42 +1014,6 @@
       date: '2026-10-24',
       issues: ['381'],
       subject: 'Replace optional chaining accidentally dropped with 5c32fe5',
-    },
-    {
-      date: '2026-10-23',
-      issues: ['381'],
-      subject: 'Combine some processing strategies',
-    },
-    {
-      date: '2026-10-23',
-      issues: ['381'],
-      subject: 'Rename a couple of variables',
-    },
-    {
-      date: '2026-10-22',
-      issues: ['424'],
-      subject: 'Update the selector for the hamburger menu',
-    },
-    {
-      date: '2026-10-22',
-      issues: ['424'],
-      subject: 'Update some shortcut descriptions from "notification"' +
-        ' to "item"',
-    },
-    {
-      date: '2026-10-22',
-      issues: ['313', '385', '424'],
-      subject: 'Replace `ENTER` shortcut with native browser handling',
-    },
-    {
-      date: '2026-10-22',
-      issues: ['424'],
-      subject: 'Update **Notifications**\' `readySelector`',
-    },
-    {
-      date: '2026-10-22',
-      issues: ['424'],
-      subject: 'Update **Notifications**\' `uidCallback`',
     },
   ];
 
