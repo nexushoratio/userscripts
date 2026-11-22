@@ -4961,6 +4961,7 @@
           this.scrollerClassName,
         ],
         snapToTop: true,
+        watchForClicks: false,
       };
 
       this.#postScroller = new NH.nav.Scroller(what, how);
