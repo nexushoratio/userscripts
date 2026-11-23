@@ -1962,15 +1962,6 @@
     }
 
     /**
-     * LinkedIn's common sidebar used in many layouts.
-     *
-     * @type {string}
-     */
-    static get sidebarSelector() {
-      return this.#selectorSidebarString;
-    }
-
-    /**
      * @returns {TabbedUI~TabDefinition} Where to find documentation and
      * file bugs.
      */
