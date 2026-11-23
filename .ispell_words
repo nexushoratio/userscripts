@@ -504,6 +504,7 @@ gotoNotifications
 gotoProfile
 gotoSearch
 gotoShare
+gotoTab
 gotoUid
 gpl
 greasemonkey
@@ -915,6 +916,7 @@ onSectionsFocused
 onSectionsOutOfRange
 onShow
 onSpaActivated
+onTabClick
 onTablistChange
 onurlchange
 onUrlChange
