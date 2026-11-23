@@ -845,6 +845,7 @@ NotLoaded
 NotMinimumVersion
 NotPage
 NotService
+NoVersionDefined
 nowrap
 npm
 NumberOp
@@ -1330,6 +1331,7 @@ testEqualString
 testError
 TestExecution
 testExpectWrongGroup
+testExplicitNamespace
 testExplicitTitle
 testFactoryWithArgs
 testFail
