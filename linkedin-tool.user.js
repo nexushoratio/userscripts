@@ -191,7 +191,6 @@
     ),
     ish('303', 'Keys are captured while editing text', '2026-11-21'),
     ish('360', 'Support **Search Results All** page', '2026-11-03'),
-    ish('381', '**Profile**: Make use of `UidMode` consistent', '2026-09-24'),
     ish(
       '385',
       'Capturing the `Enter` key causes as much harm as good.',
@@ -345,6 +344,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-23',
+      issues: ['260'],
+      subject: 'Update to latest `lib/nav` to pick up container fix',
+    },
+    {
+      date: '2026-11-23',
+      issues: ['449'],
+      subject: 'Retire the now unused `sidebarSelector`',
+    },
     {
       date: '2026-11-22',
       issues: ['430'],
@@ -1004,16 +1013,6 @@
       date: '2026-10-25',
       issues: ['424'],
       subject: 'Factor out `waitForSelectorToBeGone()` for reuse',
-    },
-    {
-      date: '2026-10-24',
-      issues: ['293'],
-      subject: 'Update to the latest `lib/nav` to grab the recursion fix',
-    },
-    {
-      date: '2026-10-24',
-      issues: ['381'],
-      subject: 'Replace optional chaining accidentally dropped with 5c32fe5',
     },
   ];
 
