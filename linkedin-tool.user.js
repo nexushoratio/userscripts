@@ -7458,9 +7458,6 @@
   /**
    * Class for handling the Job tracker page.
    *
-   * @todo [(#260)](https://github.com/nexushoratio/userscripts/issues/260)
-   * Support **Job tracker** page
-   *
    * @extends module:linkedin-tool~Page
    */
   class JobTracker extends Page {
@@ -7482,7 +7479,6 @@
 
       this.addService(VMKeyboardService)
         .setShortName(this.name)
-        .setNote('(WIP)')
         .addInstance(this);
 
       this.#initScrollers();
