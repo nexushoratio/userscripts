@@ -1120,8 +1120,10 @@ selectorArray
 selectorAsideArray
 selectorAsideString
 selectorIsAside
+selectorIsNavbarProfileItem
 selectorIsPrimaryContent
 selectorIsSidebar
+selectorNavbarProfileItemString
 selectorPrimaryContentArray
 selectorPrimaryContentString
 selectorSidebarArray

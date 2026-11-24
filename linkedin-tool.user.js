@@ -1894,7 +1894,7 @@
      * @type {string}
      */
     static get navbarProfileItemSelector() {
-      return this.#navbarProfileItemSelector;
+      return this.#selectorNavbarProfileItemString;
     }
 
     /**
@@ -1940,6 +1940,15 @@
      */
     static get selectorIsAside() {
       return `:is(${this.#selectorAsideString})`;
+    }
+
+    /**
+     * LinkedIn's profile in the navbar (:is(...) variant).
+     *
+     * @type {string}
+     */
+    static get selectorIsNavbarProfileItem() {
+      return this.#selectorNavbarProfileItemString;
     }
 
     /**
@@ -2290,7 +2299,6 @@
       ':has(> * > svg[id^="ellipses"]',
     ];
 
-    static #navbarProfileItemSelector = '#meMenuV2WideComponentRef';
     static #pageReadySelector = [
       // Style 1
       'footer.global-footer-compact',
@@ -2318,6 +2326,7 @@
     ];
 
     static #selectorAsideString = this.#selectorAsideArray.join(', ');
+    static #selectorNavbarProfileItemString = '#meMenuV2WideComponentRef';
 
     static #selectorPrimaryContentArray = [
       // Style 1 (WIP?)
