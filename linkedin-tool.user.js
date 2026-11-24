@@ -182,7 +182,7 @@
 
   const globalIssues = [
     ish('', 'Minor internal improvements', '9999'),
-    ish('167', 'Refactor into libraries', '2026-10-25'),
+    ish('167', 'Refactor into libraries', '2026-11-25'),
     ish('209', 'Support **Search Results People** view', '2026-08-09'),
     ish(
       '295',
@@ -225,7 +225,7 @@
     ),
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
     ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
-    ish('428', 'Support **Profile Viewers** page', '2026-10-25'),
+    ish('428', 'Support **Profile Viewers** page', '2026-11-25'),
     ish(
       '426',
       '**Feed**: <kbd><kbd>X</kbd></kbd> Toggle hiding post does' +
@@ -341,9 +341,27 @@
       '**Feed**: <kbd><kbd>=</kbd></kbd> menu no longer works for comments',
       '2026-11-22'
     ),
+    ish('468', 'Break up into smaller pieces', '2026-11-24'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-24',
+      issues: ['468'],
+      subject: 'Update to latest `lib/base` to pick up new version of' +
+        ' `ensure()`',
+    },
+    {
+      date: '2026-11-24',
+      issues: ['260'],
+      subject: 'Mark as ready',
+    },
+    {
+      date: '2026-11-24',
+      issues: ['449'],
+      subject: 'Create `:is(...)` variant for the navbar profile item' +
+        ' selector',
+    },
     {
       date: '2026-11-23',
       issues: ['260'],
@@ -988,31 +1006,6 @@
       date: '2026-10-26',
       issues: ['426'],
       subject: 'Update `#uidPostRE`',
-    },
-    {
-      date: '2026-10-25',
-      issues: ['255'],
-      subject: 'Implement primary navigation',
-    },
-    {
-      date: '2026-10-25',
-      issues: ['255', '425'],
-      subject: 'Implement reusable finder and processor',
-    },
-    {
-      date: '2026-10-25',
-      issues: ['425'],
-      subject: 'Add Style-1 support for `LinkedIn.primaryNavSelector`',
-    },
-    {
-      date: '2026-10-25',
-      issues: ['428'],
-      subject: 'Acknowledge the **Profile Viewers** page',
-    },
-    {
-      date: '2026-10-25',
-      issues: ['424'],
-      subject: 'Factor out `waitForSelectorToBeGone()` for reuse',
     },
   ];
 
