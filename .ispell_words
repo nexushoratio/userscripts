@@ -1344,6 +1344,7 @@ testFire
 testGetEqualFunc
 testGetReprFunc
 testGoodRenderFunc
+testGotoTab
 testGroupDefaults
 testHideShow
 testid
