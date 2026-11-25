@@ -235,6 +235,7 @@ cta
 ctor
 CtorPage
 currentColor
+currentIndex
 currentItem
 currentItemId
 currentItemWatcher
@@ -1301,6 +1302,7 @@ testCounter
 testCountsCollected
 testCssClassName
 testCtor
+testCurrentIndex
 testDataIsLive
 TestDeets
 testDefaultBuilds
