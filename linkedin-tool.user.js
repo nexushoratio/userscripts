@@ -226,12 +226,6 @@
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
     ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
     ish('428', 'Support **Profile Viewers** page', '2026-11-25'),
-    ish(
-      '426',
-      '**Feed**: <kbd><kbd>X</kbd></kbd> Toggle hiding post does' +
-      ' not recover post',
-      '2026-10-26'
-    ),
     ish('431', '**Global**: Navbar icons updated', '2026-10-28'),
     ish('433', '**Feed**: menu icons have changed', '2026-10-28'),
     ish(
@@ -345,6 +339,16 @@
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-25',
+      issues: ['436'],
+      subject: 'Retire old selector for dismissing posts',
+    },
+    {
+      date: '2026-11-25',
+      issues: ['449'],
+      subject: 'Migrate the three users to `selectorIsNavbarProfileItem`',
+    },
     {
       date: '2026-11-24',
       issues: ['468'],
@@ -975,37 +979,6 @@
       date: '2026-10-27',
       issues: ['431'],
       subject: 'Update navbar icons to handle new names',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['293'],
-      subject: 'Migrate `JobsCollections` to `nav.Scroller`',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['255'],
-      subject: 'Implement secondary navigation',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['255'],
-      subject: 'Switch existing shortcuts to use `#lastScroller`',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['255'],
-      subject: 'Add placeholder for an <kbd><kbd>E</kbd></kbd>ngage item' +
-        ' shortcut',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['424'],
-      subject: 'Factor out closing open menus for later reuse',
-    },
-    {
-      date: '2026-10-26',
-      issues: ['426'],
-      subject: 'Update `#uidPostRE`',
     },
   ];
 
