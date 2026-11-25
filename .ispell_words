@@ -1271,6 +1271,7 @@ testBadRenderFunc
 testBadRowClasses
 testBaseIsElement
 testBaseNeedsSelector
+testBaseNeedsSelectors
 testBaseWithSelectorIsFine
 testBasic
 testBasicMath
@@ -1416,6 +1417,7 @@ testSaveRestoreConfigsTopLevel
 TestScoresTopLevel
 testScrollerClassName
 testSelectorNeedsBase
+testSelectorsNeedsBase
 testSeparatorsOnly
 testService
 TestService
