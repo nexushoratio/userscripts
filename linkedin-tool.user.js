@@ -5208,7 +5208,7 @@
      * @method
      * @returns {external:Element} The element to click.
      */
-    #getDismissElement = async () => {  // eslint-disable-line max-lines-per-function
+    #getDismissElement = async () => {
       const me = this.#getDismissElement.name;
       this.logger.entered(me, this.#lastScroller.item);
 
@@ -5220,11 +5220,6 @@
         // If the current item is a regular post, this will match.
         let selector = [
           // Visible
-          /**
-           * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
-           * Retire `close` after a while.
-           */
-          ':has(> * > svg[id^="close"])',
           ':has(> * > svg[id^="xmark"])',
           // Dismissed
           'button:has(> span > span)',
