@@ -1382,6 +1382,7 @@ testNotAService
 testNotBaseAndContainerItems
 testNotEqual
 testOne
+testOnlyContainerItemsIsFine
 testOnOff
 testOrTheOther
 testOverrideProperties
