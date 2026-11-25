@@ -3228,7 +3228,8 @@
       const me = this.#createMenuItemStyle2.name;
       this.logger.entered(me, this.#navbar);
 
-      const item = document.querySelector(LinkedIn.navbarProfileItemSelector)
+      const item = document
+        .querySelector(LinkedIn.selectorIsNavbarProfileItem)
         ?.cloneNode(true);
       if (item) {
         item.innerHTML = this.#navbar?.querySelector('li')?.innerHTML;
@@ -3446,7 +3447,7 @@
         }
         if (this.#ourMenuItemStyle2) {
           this.#connectMenuItem(
-            this.#ourMenuItemStyle2, LinkedIn.navbarProfileItemSelector
+            this.#ourMenuItemStyle2, LinkedIn.selectorIsNavbarProfileItem
           );
         }
         this.#compareBadgesStyle2();
@@ -4384,7 +4385,7 @@
           this.#gotoNavButton('Me');
         } else {
           NH.web.clickElement(
-            document, [`${LinkedIn.navbarProfileItemSelector} > div`]
+            document, [`${LinkedIn.selectorIsNavbarProfileItem} > div`]
           );
         }
       }
