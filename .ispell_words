@@ -101,6 +101,7 @@ BaseAndContainerItems
 BaseClassCleanupTestCase
 BaseNotAnElement
 BaseOrContainerItems
+BaseSelectorTypeInvalid
 baseService
 BaseService
 BaseWithoutSelectors
@@ -207,8 +208,10 @@ connectMenuItem
 connectSuggestion
 consectetur
 contactTabDefinition
+containerItem
 containerItems
 ContainerItemsSelector
+ContainerSelectorTypeInvalid
 containersMutationHandler
 containersMutationObserver
 containerTimeout
@@ -319,6 +322,8 @@ ElementMap
 elementsHeightProcessor
 elementsProcessor
 ElementsProcessor
+EmptyTest
+EmptyTestSelectorEmptyString
 enableAlertOldNews
 enableAlertUnknownProfileSections
 enableAlertUnsupportedPages
@@ -624,6 +629,7 @@ issueListener
 issueLogger
 issuesForLinkedIn
 issuesLink
+ItemsSelectorTypeInvalid
 itemUid
 javascript
 jk
@@ -851,6 +857,8 @@ NotService
 NoVersionDefined
 nowrap
 npm
+NullTest
+NullTestSelectorTypeInvalid
 NumberOp
 NumberOpTestCase
 nunya
@@ -1124,6 +1132,7 @@ selectedTrue
 selectorArray
 selectorAsideArray
 selectorAsideString
+SelectorEmptyString
 selectorIsAside
 selectorIsNavbarProfileItem
 selectorIsPrimaryContent
@@ -1134,6 +1143,7 @@ selectorPrimaryContentString
 selectorSidebarArray
 selectorSidebarString
 SelectorsWithoutBase
+SelectorTypeInvalid
 selfHref
 SemVer
 sendPost
@@ -1151,6 +1161,8 @@ setScroller
 setShortName
 setStyle
 setTab
+SetTest
+SetTestSelectorTypeInvalid
 setTimeout
 setTitle
 setUp
@@ -1202,6 +1214,8 @@ StrHashTestCase
 StringAdapter
 StringAdapterTestCase
 stringify
+StringTest
+StringTestSelectorEmptyString
 strKey
 strs
 strValue
@@ -1273,10 +1287,12 @@ testBadHandler
 testBadInputs
 testBadRenderFunc
 testBadRowClasses
+testBaseInvalidSelectors
 testBaseIsElement
 testBaseNeedsSelector
 testBaseNeedsSelectors
 testBaseWithSelectorIsFine
+testBaseWithSelectorsIsFine
 testBasic
 testBasicMath
 testBuildWithClasses
@@ -1302,6 +1318,7 @@ testComplexGroupOrder
 testComplicated
 testConstruction
 testConstructor
+testContainerItemsInvalidSelectors
 testCount
 testCounter
 testCountsCollected
@@ -1422,6 +1439,7 @@ testSaveRestoreConfigsGroups
 testSaveRestoreConfigsTopLevel
 TestScoresTopLevel
 testScrollerClassName
+TestSelectorEmptyString
 testSelectorNeedsBase
 testSelectorsNeedsBase
 testSeparatorsOnly
@@ -1457,6 +1475,7 @@ testTwo
 testUid
 testUnknown
 testUpdateGroupByString
+testValidateSelector
 testValidUidCallback
 testValueOf
 testVerify
@@ -1575,6 +1594,7 @@ userscripts
 uuId
 validateHow
 validateInstance
+validateSelector
 validateWhat
 valueChangeListener
 valueOf
