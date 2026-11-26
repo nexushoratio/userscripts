@@ -227,22 +227,31 @@ spa.register(NH.spa.WatchPage);
 
 Skeleton for a new `Page` class:
 ```javascript
-  /** Class for handling the Foo page. */
+  /**
+   * Class for handling the Foo page.
+   *
+   * @todo [(#issue)](https://github.com/nexushoratio/userscripts/issues/issue)
+   * Support **Foo** page
+   *
+   * @extends NexusHoratio.spa.Page
+   */
   class Foo extends NH.spa.Page {
 
     /** @param {SPA} spa - SPA instance that manages this Page. */
     constructor(spa) {
-      super({spa: spa, ...Foo.#details});
+      super({
+        spa: spa,
+        name: 'If Need to override',
+        pathname: '/foo/',
+        readySelector: '#last-element-loaded',
+      });
 
       // Register itself as an instance with a bunch of {@link Shortcut}s.
       this.addService(VMKeyboardService)
+        .setShortName(this.name)
+        .setNote('(WIP)')
         .addInstance(this);
     }
-
-    static #details = {
-      pathname: '/foo/',
-      readySelector: '#last-element-loaded',
-    };
 
   }
 ```
