@@ -4815,14 +4815,20 @@
         this.logger.entered(me);
 
         const el = this.#lastScroller.item;
-
-        const target = await this.#getDismissElement();
+        const postSelector = [
+          // Visible
+          ':has(> * > svg[id^="xmark"])',
+          // Dismissed
+          'button:has(> span > span)',
+        ].join(',');
 
         /** Trigger function for {@link NexusHoratio.web.otrot}. */
-        function trigger() {
-          target.click();
-        }
-        if (target) {
+        const trigger = () => {
+          if (!NH.web.clickElement(el, [postSelector])) {
+            this.activateMenuItem(el, [':has(>svg[id^="eye-slash-"])']);
+          }
+        };
+        if (el) {
           const what = {
             name: `${this.id} ${me}`,
             base: el,
@@ -4831,7 +4837,11 @@
             trigger: trigger,
             timeout: 3000,
           };
-          await NH.web.otrot(what, how);
+          try {
+            await NH.web.otrot(what, how);
+          } catch (e) {
+            this.logger.log('caught:', e);
+          }
           this.#lastScroller.item = el;
         }
 
@@ -5171,64 +5181,6 @@
       this.logger.entered(me);
 
       const el = this.#getCommentStatusBar() || this.#getPostStatusBar();
-
-      this.logger.leaving(me, el);
-      return el;
-    }
-
-    /**
-     * Find the correct element to dismiss the current item.
-     *
-     * Comments and ads require invoking a popup menu (portal).
-     *
-     * @method
-     * @returns {external:Element} The element to click.
-     */
-    #getDismissElement = async () => {
-      const me = this.#getDismissElement.name;
-      this.logger.entered(me, this.#lastScroller.item);
-
-      let el = null;
-
-      if (this.#lastScroller.item) {
-        this.dismissFloatingUiPortal();
-
-        // If the current item is a regular post, this will match.
-        let selector = [
-          // Visible
-          ':has(> * > svg[id^="xmark"])',
-          // Dismissed
-          'button:has(> span > span)',
-        ].join(',');
-        let header = this.#getItemHeader();
-        el = header?.querySelector(selector);
-        if (!el) {
-          // Some items need to trigger a popup menu.
-          this.openMeatballMenu();
-          try {
-            const timeout = 2000;
-            // The menus take a while to populate.  Even though known types of
-            // menus look to have the same "cancelled eye" icon, they are
-            // currently brought in differently.  One menu type uses one named
-            // "visibility-off-*" while another menu has no id.  Interestingly
-            // enough, the one without an id is the only svg icon without a
-            // name so, :not([id]) is used for finding it proper, while a
-            // sibling named "signal" is used waiting for the menu to settle.
-            header = await NH.web.waitForSelector([
-              LinkedIn.floatingUiPortalSelector,
-              ':has(svg[id^="visibility-off"], svg[id^="signal"])',
-            ].join(''), timeout);
-            selector = [
-              ':has(> * > svg[id^="visibility-off"])',
-              ':has(> * > svg:not([id])',
-            ].join(',');
-          } catch (e) {
-            // If the menu was slow, use a simpler selector.
-            selector = 'svg:not([id])';
-          }
-          el = header?.querySelector(selector);
-        }
-      }
 
       this.logger.leaving(me, el);
       return el;
