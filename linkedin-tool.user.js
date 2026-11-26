@@ -4011,6 +4011,9 @@
             const ui = await NH.web.waitForSelector(
               LinkedIn.floatingUiPortalSelector, timeout
             );
+            await NH.web.waitForSelector(
+              selectors, timeout, ui
+            );
             NH.web.clickElement(ui, selectors);
           } catch (e) {
             this.logger.log('caught', e);
