@@ -6717,13 +6717,17 @@
     );
 
     toggleFollowCompany = new Shortcut(
-      'F', 'Toggle following company', () => {
+      'F',
+      'Toggle following company',
+      () => {
         NH.web.clickElement(document, ['button.follow']);
       }
     );
 
     toggleAlert = new Shortcut(
-      'L', 'Toggle the job search aLert, if available', () => {
+      'L',
+      'Toggle the job search aLert, if available',
+      () => {
         NH.web.clickElement(document,
           ['main .jobs-search-create-alert__artdeco-toggle']);
       }
