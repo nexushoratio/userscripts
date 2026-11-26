@@ -1855,15 +1855,6 @@
     }
 
     /**
-     * LinkedIn's profile in the navbar.
-     *
-     * @type {string}
-     */
-    static get navbarProfileItemSelector() {
-      return this.#selectorNavbarProfileItemString;
-    }
-
-    /**
      * LinkedIn's common page ready selector.
      *
      * @type {string}
