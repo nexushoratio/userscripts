@@ -336,9 +336,36 @@
       '2026-11-22'
     ),
     ish('468', 'Break up into smaller pieces', '2026-11-24'),
+    ish('262', 'Support **Content analytics** Page', '2026-11-26'),
+    ish('469', '**Notifications**: Computing duplicate UIDs', '2026-11-26'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-26',
+      issues: ['449'],
+      subject: 'Retire now unused `navbarProfileItemSelector`',
+    },
+    {
+      date: '2026-11-26',
+      issues: ['458'],
+      subject: 'Migrate `Feed` to `activateMenuItem()`',
+    },
+    {
+      date: '2026-11-26',
+      issues: ['458'],
+      subject: 'Wait for the requested menu item to get populated',
+    },
+    {
+      date: '2026-11-26',
+      issues: ['262'],
+      subject: 'Initial support for the **Content analytics** page',
+    },
+    {
+      date: '2026-11-26',
+      issues: ['469'],
+      subject: 'Mix in some unique text when computing the UID',
+    },
     {
       date: '2026-11-25',
       issues: ['436'],
@@ -949,36 +976,6 @@
       issues: ['434'],
       subject: 'Retire *view reactions* as it no longer seems to be' +
         ' a feature',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['429'],
-      subject: 'Update <kbd><kbd>c</kbd></kbd>omment selectors',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['432'],
-      subject: 'Update selector to handle old/new names',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['433'],
-      subject: 'Update menu selector',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['424'],
-      subject: 'Make a selector `static`, fixing breakage from 536c6f20',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['414'],
-      subject: 'Use an optional chaining',
-    },
-    {
-      date: '2026-10-27',
-      issues: ['431'],
-      subject: 'Update navbar icons to handle new names',
     },
   ];
 
