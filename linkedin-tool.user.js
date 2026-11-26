@@ -8396,9 +8396,14 @@
         .map(x => new URL(x))
         .map(x => `${x.pathname}${x.search}`));
 
+      const labelled = element.querySelector('[aria-labelledby]');
+
       if (paths.size) {
+        if (labelled) {
+          paths.add(scroller.defaultUid(labelled));
+        }
         content = paths.values()
-          .join();
+          .join('-');
       }
       if (!content) {
         content = scroller.defaultUid(element);
