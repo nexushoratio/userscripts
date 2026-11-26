@@ -1376,6 +1376,7 @@ testMinVersion
 testMissing
 testMixed
 testNameOnly
+testNavigation
 testNeedsBaseOrContainerItems
 testNeedsName
 testNoArgument
