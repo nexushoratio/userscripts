@@ -45,6 +45,7 @@ allowReactivation
 AlreadySet
 alsoNotATest
 amet
+AnalyticsCreatorContent
 AnalyticsSearchAppearances
 anchorFeed
 anchorGroups
@@ -813,6 +814,7 @@ nextEntry
 nextEvent
 nextIndividual
 nextInvite
+nextItem
 nextJob
 nextJobPlus
 nextLabel
@@ -990,6 +992,7 @@ prevEntry
 prevEvent
 prevIndividual
 prevInvite
+prevItem
 prevJob
 prevJobPlus
 prevLabel

@@ -10398,6 +10398,85 @@
   }
 
   /**
+   * Class for handling the Search Appearances page.
+   *
+   * @todo [(#262)](https://github.com/nexushoratio/userscripts/issues/262)
+   * Support **Content analytics** Page
+   *
+   * @extends module:linkedin-tool~Page
+   */
+  class AnalyticsCreatorContent extends Page {
+
+    /**
+     * @param {NexusHoratio.spa.SPA} spa - SPA instance that manages this
+     * {@link module:linkedin-tool~Page Page}.
+     */
+    constructor(spa) {
+      super({
+        spa: spa,
+        name: 'Content analytics',
+        pathname: '/analytics/creator/content/',
+        readySelector: LinkedIn.pageReadySelector,
+      });
+
+      this.addService(LinkedInStyleService)
+        .addStyles(LinkedIn.Style.TWO);
+
+      this.addService(VMKeyboardService)
+        .setShortName(this.name)
+        .setNote('(WIP)')
+        .addInstance(this);
+
+      this.#initScrollers();
+    }
+
+    nextItem = new Shortcut(
+      'j',
+      'Next item',
+      () => {
+        NH.base.issues.post('WIP');
+      }
+    );
+
+    prevItem = new Shortcut(
+      'k',
+      'Prev item',
+      () => {
+        NH.base.issues.post('WIP');
+      }
+    );
+
+    firstItem = new Shortcut(
+      '<',
+      'Go to first item',
+      () => {
+        NH.base.issues.post('WIP');
+      }
+    );
+
+    lastItem = new Shortcut(
+      '>',
+      'Go to last item',
+      () => {
+        NH.base.issues.post('WIP');
+      }
+    );
+
+    focusBrowser = new Shortcut(
+      'f',
+      'Change browser focus to current item',
+      () => {
+        NH.base.issues.post('WIP');
+      }
+    );
+
+    #initScrollers = () => {
+      this.logger.log('WIP');
+    }
+
+  }
+
+  /**
    * Class for handling the Events page.
    *
    * @extends module:linkedin-tool~Page
@@ -11523,12 +11602,6 @@
         '/suggested-for-you/follow-page/',
 
         /**
-         * @todo [(#262)](https://github.com/nexushoratio/userscripts/issues/262)
-         * Support **Analytics Posts** Page
-         */
-        '/analytics/creator/content/',
-
-        /**
          * @todo [(#263)](https://github.com/nexushoratio/userscripts/issues/263)
          * Support **Feed update** Page
          */
@@ -11682,6 +11755,7 @@
   spa.register(Profile);
   spa.register(CreatorDashboardPerformance);
   spa.register(AnalyticsSearchAppearances);
+  spa.register(AnalyticsCreatorContent);
   spa.register(Events);
   spa.register(EventsSpecific);
   spa.register(SearchResultsPeople);
