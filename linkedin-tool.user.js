@@ -10377,35 +10377,40 @@
       this.#initScrollers();
     }
 
-    nextItem = new Shortcut(
+    /** @type {NexusHoratio.nav.Scroller} */
+    get sections() {
+      return this.#sectionsScroller;
+    }
+
+    nextSection = new Shortcut(
       'j',
-      'Next item',
+      'Next section',
       () => {
-        NH.base.issues.post('WIP');
+        this.sections.next();
       }
     );
 
-    prevItem = new Shortcut(
+    prevSection = new Shortcut(
       'k',
-      'Prev item',
+      'Prev section',
       () => {
-        NH.base.issues.post('WIP');
+        this.sections.prev();
       }
     );
 
     firstItem = new Shortcut(
       '<',
-      'Go to first item',
+      'Go to first section',
       () => {
-        NH.base.issues.post('WIP');
+        this.#lastScroller.first();
       }
     );
 
     lastItem = new Shortcut(
       '>',
-      'Go to last item',
+      'Go to last section',
       () => {
-        NH.base.issues.post('WIP');
+        this.#lastScroller.next();
       }
     );
 
@@ -10413,12 +10418,103 @@
       'f',
       'Change browser focus to current item',
       () => {
-        NH.base.issues.post('WIP');
+        this.#lastScroller.focus();
       }
     );
 
+    #lastScroller
+    #sectionsScroller
+
     #initScrollers = () => {
-      this.logger.log('WIP');
+      this.#initScrollerStyleService();
+      this.#initSectionsScroller();
+    }
+
+    #initScrollerStyleService = () => {
+      const styleConfig = {
+        className: this.scrollerClassName,
+        finder: this.navbarAndFriendsFinder,
+        elementsProcessor: this.navbarAndFriendsElementsProcessor,
+      };
+      this.addService(NH.web.StyleService, styleConfig);
+    }
+
+    #initSectionsScroller = () => {
+      const what = {
+        name: `${this.name} sections`,
+        containerItems: [
+          {
+            container: LinkedIn.selectorIsPrimaryContent,
+            items: [
+              // Simple sector
+              '[data-testid="lazy-column"] > div > div',
+            ].join(','),
+          },
+        ],
+      };
+
+      const how = {
+        uidCallback: this.#uniqueSectionsIdentifier,
+        classes: [
+          LinkedIn.scrollerPrimaryClassName,
+          this.scrollerClassName,
+        ],
+        snapToTop: true,
+      };
+
+      this.#sectionsScroller = new NH.nav.Scroller(what, how);
+      this.addService(NH.nav.ScrollerService)
+        .setScroller(this.#sectionsScroller);
+      this.#sectionsScroller.dispatcher
+        .on('changed', this.#onSectionsChanged)
+        .on('out-of-range', this.#onSectionsOutOfRange);
+
+      this.#lastScroller = this.#sectionsScroller;
+    }
+
+    #onSectionsChanged = () => {
+      this.#lastScroller = this.sections;
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.base.Dispatcher~Handler}
+     * @param {string} type - Event type.
+     * @param {NexusHoratio.nav.Scroller~Event} evt - Data sent along with
+     * event.
+     */
+    #onSectionsOutOfRange = (type, evt) => {
+      if (evt.delta < 0) {
+        this.spa.details.focusOnSidebar();
+      } else {
+        this.spa.details.focusOnAside();
+      }
+    }
+
+    /**
+     * @method
+     * @implements {NexusHoratio.nav.Scroller~uidCallback}
+     * @param {NexusHoratio.nav.Scroller} scroller - The calling {@link
+     * NexusHoratio.nav.Scroller Scroller} instance.
+     * @param {external:Element} element - Element to examine.
+     * @returns {string} A value unique to this element.
+     */
+    #uniqueSectionsIdentifier = (scroller, element) => {
+      const me = this.#uniqueSectionsIdentifier.name;
+      this.logger.entered(me, element);
+
+      let content = '';
+      const p = element.querySelector('p');
+
+      if (p) {
+        content = scroller.defaultUid(p);
+      }
+      if (!content) {
+        content = scroller.defaultUid(element);
+      }
+
+      this.logger.leaving(me, content);
+      return content;
     }
 
   }
