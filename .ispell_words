@@ -820,7 +820,6 @@ nextEntry
 nextEvent
 nextIndividual
 nextInvite
-nextItem
 nextJob
 nextJobPlus
 nextLabel
@@ -898,6 +897,8 @@ onDestroy
 onDetailsChanged
 onEntriesChanged
 onEntryChanged
+onePanel
+oneTab
 onEvent
 onEventsChanged
 onFocus
@@ -1001,7 +1002,6 @@ prevEntry
 prevEvent
 prevIndividual
 prevInvite
-prevItem
 prevJob
 prevJobPlus
 prevLabel
@@ -1524,6 +1524,8 @@ tpe
 transitionend
 tsort
 twoBack
+twoPanel
+twoTab
 TypeError
 typeof
 typeTool
