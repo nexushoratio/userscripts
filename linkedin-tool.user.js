@@ -16,9 +16,9 @@
 // @require     https://update.greasyfork.org/scripts/477290/2008349/NH_base.js
 // @require     https://update.greasyfork.org/scripts/478349/1995259/NH_userscript.js
 // @require     https://update.greasyfork.org/scripts/478440/1978810/NH_web.js
-// @require     https://update.greasyfork.org/scripts/478676/1998885/NH_widget.js
+// @require     https://update.greasyfork.org/scripts/478676/2012172/NH_widget.js
 // @require     https://update.greasyfork.org/scripts/570146/1900843/NH_spa.js
-// @require     https://update.greasyfork.org/scripts/597326/2007120/NH_nav.js
+// @require     https://update.greasyfork.org/scripts/597326/2012173/NH_nav.js
 // @grant       GM.addValueChangeListener
 // @grant       GM.removeValueChangeListener
 // @grant       GM.getValue
@@ -44,9 +44,9 @@
     {name: 'base', minVersion: 79},
     {name: 'userscript', minVersion: 21},
     {name: 'web', minVersion: 20},
-    {name: 'widget', minVersion: 55},
+    {name: 'widget', minVersion: 56},
     {name: 'spa', minVersion: 15},
-    {name: 'nav', minVersion: 6},
+    {name: 'nav', minVersion: 8},
   ]);
 
   const APP_LONG = GM.info.script.name;
