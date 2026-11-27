@@ -226,17 +226,12 @@
     ish('424', '**Notifications**: Updated to a Style-2 page', '2026-10-22'),
     ish('425', 'Make more use of `LinkedIn` selectors', '2026-10-25'),
     ish('428', 'Support **Profile Viewers** page', '2026-11-25'),
-    ish('431', '**Global**: Navbar icons updated', '2026-10-28'),
     ish('433', '**Feed**: menu icons have changed', '2026-10-28'),
-    ish(
-      '432', '**Feed**: Top margin for scrolling is incorrect', '2026-10-28'
-    ),
     ish(
       '429',
       '**Feed**: <kbd><kbd>c</kbd></kbd>omment no longer works',
       '2026-10-28'
     ),
-    ish('434', '**Feed**: Many controls had icons renamed', '2026-10-28'),
     ish('436', 'Many icons have changed names', '2026-10-29'),
     ish('427', '**Events**: Updated to a Style-2 page', '2026-10-30'),
     ish('437', 'Support **Recruiter Views** page', '2026-10-31'),
@@ -338,9 +333,25 @@
     ish('468', 'Break up into smaller pieces', '2026-11-24'),
     ish('262', 'Support **Content analytics** Page', '2026-11-26'),
     ish('469', '**Notifications**: Computing duplicate UIDs', '2026-11-26'),
+    ish('464', '`Scroller`: Move selectors into `#containers`', '2026-11-27'),
   ];
 
   const globalNewsContent = [
+    {
+      date: '2026-11-27',
+      issues: ['436'],
+      subject: 'Retire old selector for finding the common menu',
+    },
+    {
+      date: '2026-11-27',
+      issues: ['262'],
+      subject: 'Implement the primary scroller',
+    },
+    {
+      date: '2026-11-27',
+      issues: ['464'],
+      subject: 'Update to latest `lib/widget` and `lib/nav`',
+    },
     {
       date: '2026-11-26',
       issues: ['449'],
@@ -955,27 +966,6 @@
       date: '2026-10-29',
       issues: ['429'],
       subject: 'Defeat the new UI moving focus into the comment text box',
-    },
-    {
-      date: '2026-10-28',
-      issues: ['434'],
-      subject: 'Make the *view reactions* selector more precise',
-    },
-    {
-      date: '2026-10-28',
-      issues: ['434'],
-      subject: 'Update selector for the <kbd><kbd>P</kbd></kbd>ost feature',
-    },
-    {
-      date: '2026-10-28',
-      issues: ['434'],
-      subject: 'Update selectors for multiple controls',
-    },
-    {
-      date: '2026-10-28',
-      issues: ['434'],
-      subject: 'Retire *view reactions* as it no longer seems to be' +
-        ' a feature',
     },
   ];
 
