@@ -2243,15 +2243,7 @@
       '<circle cx="18" cy="6" r="5" mask="url(#b)"/>' +
       '</svg>';
 
-    static #menuSelectorArray = [
-
-      /**
-       * @todo [(#436)](https://github.com/nexushoratio/userscripts/issues/436)
-       * Retire `overflow` after a while.
-       */
-      ':has(> * > svg[id^="overflow"]',
-      ':has(> * > svg[id^="ellipses"]',
-    ];
+    static #menuSelectorArray = [':has(> * > svg[id^="ellipses"]'];
 
     static #pageReadySelector = [
       // Style 1
